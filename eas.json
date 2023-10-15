@@ -1,0 +1,25 @@
+{
+    "build": {
+        "production": {},
+        "preview": {
+            "developmentClient": true,
+            "distribution": "internal",
+            "env": {
+                "APP_ENV": "local",
+                "EAS_PROJECT_ID": "e255bf13-199c-43a0-b165-0ae0e470ecc2"
+            } 
+        },
+        "sim-preview": {
+            "developmentClient": true,
+            "ios": {
+                "simulator": true
+              },
+            "distribution": "internal",
+            "channel": "local",
+            "env": {
+                "APP_ENV": "local",
+                "EAS_PROJECT_ID": "e255bf13-199c-43a0-b165-0ae0e470ecc2"
+            } 
+        }
+    }
+}

@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Lyf",
+    "slug": "Lyf",
+    "version": "1.0.0",
+    "runtimeVersion": "1.0.0",
+    "orientation": "portrait",
+    "icon": "/assets/images/icon.png",
+    "userInterfaceStyle": "light",
+    "plugins": [],
+    "splash": {
+      "image": "./assets/images/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "bouldermate",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "bouldermate",
+      "versionCode": 100,
+      "softwareKeyboardLayoutMode": "pan"
+    },
+    "web": {
+      "favicon": "./assets/images/icon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e255bf13-199c-43a0-b165-0ae0e470ecc2"
+      }
+    }
+  }
+}
