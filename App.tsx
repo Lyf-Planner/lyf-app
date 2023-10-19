@@ -1,8 +1,9 @@
 import "expo-dev-client";
 import { View, StatusBar, Text } from "react-native";
 import { useFonts } from "expo-font";
-import { AuthGateway } from "./src/auth/AuthProvider";
+import { AuthGateway } from "./src/authorisation/AuthGateway";
 import { Background } from "./src/components/Background";
+import { WidgetContainer } from "./src/widgets/WidgetContainer";
 
 export default function App() {
   let [loaded] = useFonts({});
@@ -14,9 +15,7 @@ export default function App() {
   return (
     <Background>
       <AuthGateway>
-        <View className="w-full h-full">
-          <Text className="text-xl">Hello World!</Text>
-        </View>
+        <WidgetContainer />
       </AuthGateway>
     </Background>
   );

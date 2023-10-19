@@ -7,8 +7,6 @@ Env variables should be updated + considered in the following locations before c
   - app.config.ts - this injects the contents of .env to the app
   - eas.json
 
-** Note issues may emerge when running the app if you have the wrong IP address for the GraphQL server! (or the server is not running). This should be *your* IP address.
-
 ## Development
 
 #### Prereqs
@@ -20,9 +18,9 @@ Env variables should be updated + considered in the following locations before c
 #### Running the App
 
 - Open a simulator
-- Run ```npm run {build-android/build-ios}```
+- Run ```npm run <build-android/build-ios>```
   - This will take a while
-  - Needs to be redone whenever we change images or env vars
+  - Needs to be redone whenever we change assets or env vars
 - Run ```npm run use-build``` and select the latest build
   - This should install the build onto the simulator and open an expo interface
 - Then finally do ```npm run start```

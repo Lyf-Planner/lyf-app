@@ -9,7 +9,6 @@ export const Horizontal = ({ style = {} }) => {
           borderBottomColor: "black",
           borderBottomWidth: 0.5,
         },
-        style,
       ]}
     />
   );
@@ -18,10 +17,14 @@ export const Horizontal = ({ style = {} }) => {
 export const LoadingScreen = ({ text }) => {
   return (
     <View style={styles.loadingContainer}>
-      <Progress.Circle color={"black"} size={50} indeterminate />
       <Text>{text}</Text>
+      <Loader />
     </View>
   );
+};
+
+export const Loader = ({ size = 50 }) => {
+  return <Progress.Circle color={"black"} size={size} indeterminate />;
 };
 
 const styles = StyleSheet.create({

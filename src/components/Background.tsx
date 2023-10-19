@@ -6,7 +6,7 @@ const BRANCH = require("../../assets/images/branch.png");
 
 export const Background = ({ children }: any) => {
   return (
-    <View className="bg-green-700 z-0 flex-auto">
+    <View style={styles.page}>
       <Image
         source={TREE}
         alt="tree"
@@ -25,42 +25,47 @@ export const Background = ({ children }: any) => {
         style={styles.smallTree}
         resizeMode="contain"
       />
-      <Image
+      {/* <Image
         source={ROUND_TREE}
         alt="round-tree"
         style={styles.roundTree}
         resizeMode="contain"
         resizeMethod={"resize"}
-      />
+      /> */}
+      {children}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  page: {
+    backgroundColor: "rgb(21, 128, 61)",
+    zIndex: 0,
+    flex: 1,
+  },
   roundTree: {
     position: "absolute",
     height: "35%",
     bottom: 0,
     right: -30,
-
   },
   bigTree: {
     position: "absolute",
     height: "30%",
     bottom: -10,
-    right: -20,
+    right: 0,
   },
   smallTree: {
     position: "absolute",
     bottom: 0,
-    right: 80,
+    right: 100,
     height: "15%",
   },
   branch: {
     position: "absolute",
-    top: 125,
-    right: -110, 
+    top: 110,
+    left: -130,
     width: "80%",
-    transform: [{ rotate: "70deg" }, { scaleY: -1 }],
+    transform: [{ rotate: "105deg" }],
   },
 });

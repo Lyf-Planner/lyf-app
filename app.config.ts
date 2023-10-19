@@ -59,7 +59,8 @@ export default {
     plugins: [],
     extra: {
       backendUrl: process.env.BACKEND_URL,
-      nodeEnv: process.env.APP_ENV,
+      localBackendPort: process.env.LOCAL_BACKEND_PORT,
+      appEnv: process.env.APP_ENV,
       eas: {
         projectId: process.env.EAS_PROJECT_ID,
       },

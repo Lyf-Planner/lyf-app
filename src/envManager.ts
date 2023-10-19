@@ -13,15 +13,15 @@ function envVar(varName: string) {
   throw new Error(`Constant ${varName} not found in expo manifest.`);
 }
 
-function parseGqlHostname() {
+function parseBackendUrl() {
   // Adaptable function to use debugger and IP as hostname in a local environment,
   // Otherwise use full URL
-  if (envVar("nodeEnv") !== "local") {
-    console.log("Deriving GraphQL hostname from supplied variable");
-    return envVar("gqlHostname");
+  if (envVar("appEnv") !== "local") {
+    console.log("Deriving Backend hostname from supplied variable");
+    return envVar("backendUrl");
   }
 
-  console.log("Deriving GraphQL hostname locally");
+  console.log("Deriving Backend hostname locally");
   const extractIPfromURL = (url: string) => {
     const x = url.split("/");
     // Skip the / in the http prefix to extract the hostname of the debugger
@@ -40,15 +40,14 @@ function parseGqlHostname() {
 
   // Retrieve IP from URL
   var ip = extractIPfromURL(debuggerUrl);
-  return ip.concat(":8000");
-}
 
-const parseHttpPrefix = () =>
-  envVar("nodeEnv") === "local" ? "http" : "https";
+  // Must be http if local
+  return 'http://' + ip.concat(`:${envVar("localBackendPort")}`);
+}
+  
 
 enum env {
-  GQL_HOSTNAME = parseGqlHostname() as any,
-  HTTP_PREFIX = parseHttpPrefix() as any,
+  BACKEND_URL = parseBackendUrl() as any,
 }
 
 export default env;
