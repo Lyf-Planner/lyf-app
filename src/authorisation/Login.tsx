@@ -24,11 +24,13 @@ export const Login = ({ updateUser }) => {
     >
       <View style={styles.page}>
         <View style={styles.container}>
-          {loading ? (
-            <Loader size={20} />
-          ) : (
-            <Text style={styles.loginText}>Login</Text>
-          )}
+          <View style={styles.headerTextContainer}>
+            {loading ? (
+              <Loader size={20} />
+            ) : (
+              <Text style={styles.loginText}>Login</Text>
+            )}
+          </View>
           <View style={styles.fieldContainer}>
             <TextInput
               style={styles.fields}
@@ -84,9 +86,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 10,
   },
+  headerTextContainer: {
+    marginBottom: 14,
+  },
   loginText: {
     fontSize: 25,
-    marginBottom: 14,
   },
   fieldContainer: {
     flexDirection: "column",

@@ -15,14 +15,6 @@
 // }: any) => {
 //   const [newItem, updateNewItem] = useState<any>("");
 
-//   const [, drop] = useDrop(() => ({
-//     accept: isEvents ? "EventItem" : "TaskItem",
-//     drop: (item: any, monitor) => {
-//       console.log("dropping item", item);
-//       addNewItem(item.text, item.finished);
-//     },
-//   }));
-
 //   const addNewItem = (item: string, finished = false) => {
 //     var curList = list;
 //     curList.push({

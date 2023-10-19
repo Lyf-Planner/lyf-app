@@ -25,13 +25,13 @@ export const Background = ({ children }: any) => {
         style={styles.smallTree}
         resizeMode="contain"
       />
-      {/* <Image
+      <Image
         source={ROUND_TREE}
         alt="round-tree"
         style={styles.roundTree}
         resizeMode="contain"
         resizeMethod={"resize"}
-      /> */}
+      />
       {children}
     </View>
   );
@@ -53,12 +53,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     height: "30%",
     bottom: -10,
-    right: 0,
+    right: -40,
   },
   smallTree: {
     position: "absolute",
     bottom: 0,
-    right: 100,
+    right: 50,
     height: "15%",
   },
   branch: {

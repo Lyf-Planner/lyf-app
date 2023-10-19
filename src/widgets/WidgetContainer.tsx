@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
 import { SaveTooltip } from "../components/Tooltip";
 import { Timetable } from "./TimetableWidget";
 import { useAuth } from "../authorisation/AuthProvider";
+import { Horizontal } from "../components/MiscComponents";
 
 export enum Widgets {
   Timetable = "Timetable",
@@ -24,43 +25,83 @@ export const WidgetContainer = () => {
   };
 
   return (
-    <View style={styles.container}></View>
-    // <div className="max-widget-width bg-white p-4 border-2 border-gray-700 rounded-lg mx-auto flex flex-col">
-    //   <div className="flex flex-row gap-2">
-    //     {Object.keys(Widgets).map((x) => (
-    //       <button
-    //         className={`font-bold text-2xl rounded-xl py-2 px-4 ${
-    //           selected === x ? "bg-black text-white" : "hover:underline"
-    //         }`}
-    //         onClick={() => updateSelected(x)}
-    //       >
-    //         {x}
-    //       </button>
-    //     ))}
-
-    //     <button
-    //       className="text-black ml-auto my-auto mr-4"
-    //       onClick={() => logout()}
-    //     >
-    //       {saving ? (
-    //         <div className="my-auto font-bold">Saving...</div>
-    //       ) : (
-    //         <SaveTooltip lastSave={lastSave} id="save-info" />
-    //       )}
-    //     </button>
-    //   </div>
-    //   <hr className="my-3 rounded-3xl border-2 border-black" />
-    //   {WIDGETS[selected as Widgets]}
-    // </div>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.widgetSelect}>
+          {Object.keys(Widgets).map((x) => (
+            <TouchableHighlight
+              style={[
+                styles.headerTextContainer,
+                selected === x && styles.highlightedHeaderTextContainer,
+              ]}
+              onPress={() => updateSelected(x)}
+            >
+              <Text
+                style={[
+                  styles.headerText,
+                  selected === x && styles.highlightedHeaderText,
+                ]}
+              >
+                {x}
+              </Text>
+            </TouchableHighlight>
+          ))}
+        </View>
+        <SaveTooltip style={styles.saveTooltip} size={40} />
+      </View>
+      <Horizontal
+        style={{ marginVertical: 10, borderWidth: 4, borderRadius: 20 }}
+      />
+      <Text>HELLLO WORLD</Text>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     maxWidth: 800,
-    width: "100%",
-    padding: 8,
+    marginTop: 50,
+    marginHorizontal: 25,
+    borderRadius: 20,
     flex: 1,
-    backgroundColor: "white",
+    padding: 15,
+    backgroundColor: "rgb(241 245 249)",
+    flexDirection: "column",
+  },
+  header: {
+    flexDirection: "row",
+    height: 50,
+  },
+  widgetSelect: {
+    flexDirection: "row",
+    gap: 4,
+    justifyContent: "flex-start",
+  },
+  headerTextContainer: {
+    borderRadius: 10,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 125,
+    height: 50,
+    borderColor: "rgba(50,50,50,0.25)",
+    borderWidth: 1,
+  },
+  highlightedHeaderTextContainer: {
+    backgroundColor: "black",
+  },
+  highlightedHeaderText: {
+    color: "white",
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  saveTooltip: {
+    alignItems: "center",
+    marginTop: 4,
+    marginLeft: 25,
   },
 });

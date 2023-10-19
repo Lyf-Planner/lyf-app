@@ -1,6 +1,6 @@
 import { View, Image, StyleSheet } from "react-native";
 
-const LOGO = require("../../src/assets/icon.png");
+const LOGO = require("../../assets/images/icon.png");
 
 // export const Tooltip = ({ id, className, children, color = "gray" }: any) => {
 //   return (
@@ -11,15 +11,12 @@ const LOGO = require("../../src/assets/icon.png");
 //   );
 // };
 
-export const SaveTooltip = ({ lastSave, id, className }: any) => {
+export const SaveTooltip = ({ id, style, size, onPress }: any) => {
   return (
-    <View data-tooltip-id={id}>
-      <Image source={LOGO} alt="logo" />
+    <View data-tooltip-id={id} style={style}>
+      <Image source={LOGO} alt="logo" style={{ width: size, height: size }} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-
-})
-
+const styles = StyleSheet.create({});

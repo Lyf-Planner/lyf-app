@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { getAsyncData, storeAsyncData } from "../utils/asyncStorage";
+import {
+  getAsyncData,
+  storeAsyncData,
+  deleteAsyncData,
+} from "../utils/asyncStorage";
 import { autologin } from "../utils/auth";
 import { LoadingScreen } from "../components/MiscComponents";
 import { Login } from "./Login";
@@ -10,7 +14,7 @@ export const AuthGateway = ({ children }) => {
   const [loggingIn, updateLoggingIn] = useState(false);
 
   const logout = () => {
-    storeAsyncData("token", null);
+    deleteAsyncData("token");
     updateUser(null);
   };
 

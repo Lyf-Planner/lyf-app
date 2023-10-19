@@ -1,6 +1,8 @@
 import { Upcoming } from "./Upcoming";
+import { View, Text, StyleSheet } from "react-native";
 import { Planner } from "./Planner";
-import { ToDo } from "./ToDo";
+import { Horizontal } from "../components/MiscComponents";
+// import { ToDo } from "./ToDo";
 
 export const Timetable = ({ timetable, updateTimetable }: any) => {
   const updateUpcoming = (upcoming: any) =>
@@ -11,21 +13,29 @@ export const Timetable = ({ timetable, updateTimetable }: any) => {
     updateTimetable({ ...timetable, templates });
 
   return (
-    <div className="flex flex-col">
+    <View style={styles.widgetContainer}>
       <Upcoming
         upcoming={timetable.upcoming || []}
         updateUpcoming={updateUpcoming}
       />
-      <hr className="mt-3 mb-3 border-dashed" />
-      <ToDo todo={timetable.todo || []} updateTodo={updateTodo} />
+      <Horizontal style={styles.miscListBreaker} />
+      {/* <ToDo todo={timetable.todo || []} updateTodo={updateTodo} /> */}
 
-      <hr className="my-3 rounded-3xl border-2 border-gray-700" />
-      <Planner
+      {/* <hr className="my-3 rounded-3xl border-2 border-gray-700" /> */}
+      {/* <Planner
         weeks={timetable.weeks}
         updateWeeks={updateWeeks}
         templates={timetable.templates}
         updateTemplates={updateTemplates}
-      />
-    </div>
+      /> */}
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  widgetContainer: {
+    flexDirection: "column",
+    flex: 1,
+  },
+  miscListBreaker: {},
+});

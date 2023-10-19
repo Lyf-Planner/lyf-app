@@ -31,7 +31,7 @@
     "moment": "^2.29.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.71.13",
+    "react-native": "0.71.14",
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-progress": "^5.0.0",
