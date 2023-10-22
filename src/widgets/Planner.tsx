@@ -1,8 +1,7 @@
 import { useState } from "react";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import { WeekDisplay } from "./WeekDisplay";
-import { Tooltip } from "./components/Tooltip";
-import { FaChevronDown } from "react-icons/fa";
-import { mapDatesToWeek, parseDateString } from "./utils/dates";
+import { mapDatesToWeek, parseDateString } from "../utils/dates";
 import moment from "moment";
 
 export const Planner = ({
@@ -40,27 +39,22 @@ export const Planner = ({
   };
 
   return (
-    <div className="w-full mt-2 flex flex-col gap-2">
-      <div className="flex flex-row w-full gap-2">
+    <View>
+      <View style={styles.menuButtonRow}>
         <MenuButton
           selected={!updatingTemplate}
           onPress={() => setUpdatingTemplate(false)}
         >
-          <p className="my-auto">My Week</p>
+          <Text style={styles.menuButtonText}>My Week</Text>
         </MenuButton>
         <MenuButton
           selected={updatingTemplate}
           onPress={() => setUpdatingTemplate(true)}
         >
-          <div className="flex flex-row my-auto">
-            <p>Routine</p>
-            <Tooltip id="template-info" className="my-auto ml-2" color="white">
-              Items in your routine are automatically included in each week.
-            </Tooltip>
-          </div>
+          <Text style={styles.menuButtonText}>Routine</Text>
         </MenuButton>
-      </div>
-      <hr className="mt-2" />
+      </View>
+
       {updatingTemplate ? (
         <WeekDisplay
           week={templates[0]}
@@ -78,7 +72,7 @@ export const Planner = ({
         </div>
       )}
 
-      {!updatingTemplate && (
+      {/* {!updatingTemplate && (
         <button
           className="mt-2 font-semibold p-2 border-2 hover:border-black w-fit mx-auto rounded-lg flex flex-row justify-center gap-2 items-center"
           onClick={() => addWeek()}
@@ -86,20 +80,40 @@ export const Planner = ({
           <FaChevronDown className="my-auto" />
           <p>Load another week</p> <FaChevronDown className="my-auto" />
         </button>
-      )}
-    </div>
+      )} */}
+    </View>
   );
 };
 
 const MenuButton = ({ children, onPress, selected = false }: any) => {
   return (
-    <button
-      className={`p-2 bg-green-700 w-1/2 text-white rounded-xl justify-center flex flex-row ${
-        selected && "border-black border-2"
-      }`}
-      onClick={() => onPress()}
+    <Pressable
+      style={[
+        styles.menuButton,
+        { borderColor: "black", borderWidth: selected ? 2 : 0 },
+      ]}
+      onPress={onPress}
     >
       {children}
-    </button>
+    </Pressable>
   );
 };
+
+const styles = StyleSheet.create({
+  menuButtonRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 2,
+  },
+  menuButton: {
+    backgroundColor: "rgb(21 128 61)",
+    flex: 1,
+    padding: 10,
+    margin: 2,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    borderRadius: 10,
+  },
+  menuButtonText: { color: "white", fontSize: 17 },
+});

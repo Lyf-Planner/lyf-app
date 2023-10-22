@@ -2,6 +2,7 @@ import { Upcoming } from "./Upcoming";
 import { View, Text, StyleSheet } from "react-native";
 import { Planner } from "./Planner";
 import { Horizontal } from "../components/MiscComponents";
+import { ToDo } from "./ToDo";
 // import { ToDo } from "./ToDo";
 
 export const Timetable = ({ timetable, updateTimetable }: any) => {
@@ -18,16 +19,16 @@ export const Timetable = ({ timetable, updateTimetable }: any) => {
         upcoming={timetable.upcoming || []}
         updateUpcoming={updateUpcoming}
       />
-      <Horizontal style={styles.miscListBreaker} />
-      {/* <ToDo todo={timetable.todo || []} updateTodo={updateTodo} /> */}
+      <Horizontal style={{ borderColor: "rgba(0,0,0,0.2)" }} />
+      <ToDo todo={timetable.todo || []} updateTodo={updateTodo} />
+      <Horizontal style={{ borderWidth: 4, borderRadius: 20 }} />
 
-      {/* <hr className="my-3 rounded-3xl border-2 border-gray-700" /> */}
-      {/* <Planner
+      <Planner
         weeks={timetable.weeks}
         updateWeeks={updateWeeks}
         templates={timetable.templates}
         updateTemplates={updateTemplates}
-      /> */}
+      />
     </View>
   );
 };
@@ -36,6 +37,6 @@ const styles = StyleSheet.create({
   widgetContainer: {
     flexDirection: "column",
     flex: 1,
+    gap: 8,
   },
-  miscListBreaker: {},
 });

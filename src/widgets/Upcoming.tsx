@@ -1,34 +1,46 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, View, Text } from "react-native";
+import { ListInput } from "../components/List";
+import Entypo from "react-native-vector-icons/Entypo";
 
 export const Upcoming = ({ upcoming, updateUpcoming }: any) => {
   const [hide, updateHide] = useState(true);
 
   return (
-    <View style={{}}>
+    <View style={styles.upcomingContainer}>
       <Pressable
         style={styles.upcomingTextContainer}
         onPress={() => updateHide(!hide)}
       >
         <Text style={styles.upcomingText}>Upcoming Events</Text>
-        {/* {hide ? (
-          <FaChevronCircleRight className="my-auto ml-auto mr-4" />
+        {hide ? (
+          <Entypo
+            name="chevron-right"
+            size={25}
+            style={styles.icon}
+            color={"black"}
+          />
         ) : (
-          <FaChevronCircleDown className="my-auto ml-auto mr-4" />
-        )} */}
+          <Entypo
+            name="chevron-down"
+            size={25}
+            style={styles.icon}
+            color={"black"}
+          />
+        )}
       </Pressable>
-      {/* {!hide && (
-        <div className="flex flex-col gap-2">
+      {!hide && (
+        <View style={styles.listWrapper}>
           <ListInput
             list={upcoming}
             updateList={updateUpcoming}
-            badgeColor="bg-slate-900"
-            badgeTextColor="text-slate-300"
+            badgeColor="rgb(30 41 59)"
+            badgeTextColor="rgb(203 213 225)"
             placeholder="Add Event +"
             isEvents
           />
-        </div>
-      )} */}
+        </View>
+      )}
     </View>
   );
 };
@@ -36,13 +48,22 @@ export const Upcoming = ({ upcoming, updateUpcoming }: any) => {
 const styles = StyleSheet.create({
   upcomingContainer: {
     flexDirection: "column",
-    gap: 4,
+    paddingBottom: 2,
   },
   upcomingTextContainer: {
     flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
   },
   upcomingText: {
     fontWeight: "bold",
     fontSize: 18,
+  },
+  icon: {
+    marginLeft: "auto",
+    marginRight: 4,
+  },
+  listWrapper: {
+    flexDirection: "column",
   },
 });

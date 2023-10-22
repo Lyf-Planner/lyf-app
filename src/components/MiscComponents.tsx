@@ -6,7 +6,6 @@ export const Horizontal = ({ style = {} }) => {
     <View
       style={[
         {
-          borderBottomColor: "black",
           borderBottomWidth: 0.5,
         },
         style,

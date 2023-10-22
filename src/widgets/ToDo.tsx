@@ -1,36 +1,69 @@
-// import { useState } from "react";
-// import { ListInput } from "./components/List";
-// import { FaChevronCircleRight, FaChevronCircleDown } from "react-icons/fa";
-// import { useMediaQuery } from "react-responsive";
+import { useState } from "react";
+import { Pressable, StyleSheet, View, Text } from "react-native";
+import { ListInput } from "../components/List";
+import Entypo from "react-native-vector-icons/Entypo";
 
-// export const ToDo = ({ todo, updateTodo }: any) => {
-//   const startHidden = useMediaQuery({ query: "(max-width: 450px)" });
-//   const [hide, updateHide] = useState(startHidden);
+export const ToDo = ({ todo, updateTodo }: any) => {
+  const [hide, updateHide] = useState(true);
 
-//   return (
-//     <div className="flex flex-col gap-2">
-//       <button
-//         className="font-bold text-lg flex flex-row gap-2"
-//         onClick={() => updateHide(!hide)}
-//       >
-//         <p className="hover:underline ml-1">To Do List</p>{" "}
-//         {hide ? (
-//           <FaChevronCircleRight className="my-auto ml-auto mr-4" />
-//         ) : (
-//           <FaChevronCircleDown className="my-auto ml-auto mr-4" />
-//         )}
-//       </button>
-//       {!hide && (
-//         <div className="flex flex-col gap-2">
-//           <ListInput
-//             list={todo}
-//             updateList={updateTodo}
-//             badgeColor="bg-slate-900"
-//             badgeTextColor="text-slate-300"
-//             placeholder="Add Task +"
-//           />
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
+  return (
+    <View style={styles.todoContainer}>
+      <Pressable
+        style={styles.todoTextContainer}
+        onPress={() => updateHide(!hide)}
+      >
+        <Text style={styles.todoText}>To Do List</Text>
+        {hide ? (
+          <Entypo
+            name="chevron-right"
+            size={25}
+            style={styles.icon}
+            color={"black"}
+          />
+        ) : (
+          <Entypo
+            name="chevron-down"
+            size={25}
+            style={styles.icon}
+            color={"black"}
+          />
+        )}
+      </Pressable>
+      {!hide && (
+        <View style={styles.listWrapper}>
+          <ListInput
+            list={todo}
+            updateList={updateTodo}
+            badgeColor="rgb(30 41 59)"
+            badgeTextColor="rgb(203 213 225)"
+            placeholder="Add Task +"
+            isEvents
+          />
+        </View>
+      )}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  todoContainer: {
+    flexDirection: "column",
+    paddingBottom: 2,
+  },
+  todoTextContainer: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+  },
+  todoText: {
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  icon: {
+    marginLeft: "auto",
+    marginRight: 4,
+  },
+  listWrapper: {
+    flexDirection: "column",
+  },
+});

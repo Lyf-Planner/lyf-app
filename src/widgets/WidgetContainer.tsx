@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { SaveTooltip } from "../components/Tooltip";
 import { Timetable } from "./TimetableWidget";
 import { useAuth } from "../authorisation/AuthProvider";
@@ -25,35 +32,37 @@ export const WidgetContainer = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.widgetSelect}>
-          {Object.keys(Widgets).map((x) => (
-            <TouchableHighlight
-              style={[
-                styles.headerTextContainer,
-                selected === x && styles.highlightedHeaderTextContainer,
-              ]}
-              onPress={() => updateSelected(x)}
-            >
-              <Text
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.widgetSelect}>
+            {Object.keys(Widgets).map((x) => (
+              <TouchableHighlight
                 style={[
-                  styles.headerText,
-                  selected === x && styles.highlightedHeaderText,
+                  styles.headerTextContainer,
+                  selected === x && styles.highlightedHeaderTextContainer,
                 ]}
+                onPress={() => updateSelected(x)}
               >
-                {x}
-              </Text>
-            </TouchableHighlight>
-          ))}
+                <Text
+                  style={[
+                    styles.headerText,
+                    selected === x && styles.highlightedHeaderText,
+                  ]}
+                >
+                  {x}
+                </Text>
+              </TouchableHighlight>
+            ))}
+          </View>
+          <SaveTooltip style={styles.saveTooltip} size={40} />
         </View>
-        <SaveTooltip style={styles.saveTooltip} size={40} />
+        <Horizontal
+          style={{ marginVertical: 10, borderWidth: 4, borderRadius: 20 }}
+        />
+        {WIDGETS[selected]}
       </View>
-      <Horizontal
-        style={{ marginVertical: 10, borderWidth: 4, borderRadius: 20 }}
-      />
-      <Text>HELLLO WORLD</Text>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -61,8 +70,12 @@ const styles = StyleSheet.create({
   container: {
     maxWidth: 800,
     marginTop: 50,
-    marginHorizontal: 25,
-    borderRadius: 20,
+    marginHorizontal: 15,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.5,
     flex: 1,
     padding: 15,
     backgroundColor: "rgb(241 245 249)",
@@ -102,6 +115,7 @@ const styles = StyleSheet.create({
   saveTooltip: {
     alignItems: "center",
     marginTop: 4,
-    marginLeft: 25,
+    marginLeft: "auto",
+    marginRight: 10,
   },
 });
