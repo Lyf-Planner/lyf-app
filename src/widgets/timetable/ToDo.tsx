@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, View, Text } from "react-native";
-import { ListInput } from "../components/List";
+import { ListInput } from "../../components/List";
 import Entypo from "react-native-vector-icons/Entypo";
 
-export const Upcoming = ({ upcoming, updateUpcoming }: any) => {
+export const ToDo = ({ todo, updateTodo }: any) => {
   const [hide, updateHide] = useState(true);
 
   return (
-    <View style={styles.upcomingContainer}>
+    <View style={styles.todoContainer}>
       <Pressable
-        style={styles.upcomingTextContainer}
+        style={styles.todoTextContainer}
         onPress={() => updateHide(!hide)}
       >
-        <Text style={styles.upcomingText}>Upcoming Events</Text>
+        <Text style={styles.todoText}>To Do List</Text>
         {hide ? (
           <Entypo
             name="chevron-right"
@@ -32,11 +32,11 @@ export const Upcoming = ({ upcoming, updateUpcoming }: any) => {
       {!hide && (
         <View style={styles.listWrapper}>
           <ListInput
-            list={upcoming}
-            updateList={updateUpcoming}
+            list={todo}
+            updateList={updateTodo}
             badgeColor="rgb(30 41 59)"
             badgeTextColor="rgb(203 213 225)"
-            placeholder="Add Event +"
+            placeholder="Add Task +"
             isEvents
           />
         </View>
@@ -46,17 +46,17 @@ export const Upcoming = ({ upcoming, updateUpcoming }: any) => {
 };
 
 const styles = StyleSheet.create({
-  upcomingContainer: {
+  todoContainer: {
     flexDirection: "column",
     paddingBottom: 2,
   },
-  upcomingTextContainer: {
+  todoTextContainer: {
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
   },
-  upcomingText: {
-    fontWeight: "bold",
+  todoText: {
+    fontWeight: "500",
     fontSize: 18,
   },
   icon: {

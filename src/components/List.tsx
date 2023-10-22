@@ -93,6 +93,7 @@ const ListItem = ({
           styles.listItem,
           {
             backgroundColor: finished ? "rgb(21, 128, 61)" : badgeColor,
+            borderRadius: isEvent ? 8 : 15
           },
         ]}
       >
@@ -106,9 +107,9 @@ const ListItem = ({
           {text}
         </Text>
         {finished ? (
-          <AntDesign name="checkcircle" style={{ color: badgeTextColor }} />
+          <AntDesign name="checkcircle" style={{ color: badgeTextColor }} size={16}/>
         ) : (
-          <AntDesign name="checkcircleo" style={{ color: badgeTextColor }} />
+          <AntDesign name="checkcircleo" style={{ color: badgeTextColor }} size={16} />
         )}
       </View>
     </Pressable>
@@ -130,18 +131,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     height: 40,
     fontSize: 15,
-    borderRadius: 10,
     gap: 4,
-    borderColor: "black",
-    borderWidth: 1,
     alignItems: "center",
   },
   listNewItem: {
     height: 40,
     backgroundColor: "rgb(17 24 39)",
     borderRadius: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 8,
     minWidth: 110,
     borderColor: "rgb(156 163 175)",
     borderWidth: 1,

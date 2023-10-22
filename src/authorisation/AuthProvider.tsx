@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { saveUserData } from "../utils/saveUserData";
+import { deleteMe } from "../utils/deleteMe";
 
 export const AuthProvider = ({ children, user, updateUser, logout }) => {
   const [lastUpdate, setLastUpdate] = useState<any>(new Date());
@@ -40,6 +41,7 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
   const EXPOSED = {
     data: user,
     updateData,
+    deleteMe,
     logout,
     isSaving: save.loading,
     lastSave: save.latest,

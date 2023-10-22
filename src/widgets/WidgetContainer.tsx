@@ -4,22 +4,24 @@ import {
   Text,
   StyleSheet,
   TouchableHighlight,
+  Pressable,
   TouchableWithoutFeedback,
   Keyboard,
+  ScrollView,
 } from "react-native";
 import { SaveTooltip } from "../components/Tooltip";
-import { Timetable } from "./TimetableWidget";
+import { Timetable } from "./timetable/TimetableWidget";
 import { useAuth } from "../authorisation/AuthProvider";
 import { Horizontal } from "../components/MiscComponents";
+import { AccountWidget } from "./account/AccountWidget";
 
 export enum Widgets {
   Timetable = "Timetable",
-  Notes = "Notes",
 }
 
 export const WidgetContainer = () => {
   const [selected, updateSelected] = useState<any>(Widgets.Timetable);
-  const { updateData, data } = useAuth();
+  const { updateData, data, logout, deleteMe, lastSave, isSaving } = useAuth();
 
   const updateTimetable = (timetable: any) =>
     updateData({ ...data, timetable });
@@ -29,39 +31,57 @@ export const WidgetContainer = () => {
     Timetable: (
       <Timetable timetable={data.timetable} updateTimetable={updateTimetable} />
     ),
+    Account: (
+      <AccountWidget
+        logout={logout}
+        deleteMe={deleteMe}
+        lastSave={lastSave}
+        isSaving={isSaving}
+      />
+    ),
   };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.widgetSelect}>
-            {Object.keys(Widgets).map((x) => (
-              <TouchableHighlight
-                style={[
-                  styles.headerTextContainer,
-                  selected === x && styles.highlightedHeaderTextContainer,
-                ]}
-                onPress={() => updateSelected(x)}
-              >
-                <Text
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <View style={styles.widgetSelect}>
+              {Object.keys(Widgets).map((x) => (
+                <TouchableHighlight
                   style={[
-                    styles.headerText,
-                    selected === x && styles.highlightedHeaderText,
+                    styles.headerTextContainer,
+                    selected === x && styles.highlightedHeaderTextContainer,
                   ]}
+                  onPress={() => updateSelected(x)}
                 >
-                  {x}
-                </Text>
-              </TouchableHighlight>
-            ))}
+                  <Text
+                    style={[
+                      styles.headerText,
+                      selected === x && styles.highlightedHeaderText,
+                    ]}
+                  >
+                    {x}
+                  </Text>
+                </TouchableHighlight>
+              ))}
+            </View>
+            <Pressable
+              style={[
+                styles.saveTooltip,
+                { borderBottomWidth: selected === "Account" ? 0.5 : 0 },
+              ]}
+              onPress={() => updateSelected("Account")}
+            >
+              <SaveTooltip size={40} />
+            </Pressable>
           </View>
-          <SaveTooltip style={styles.saveTooltip} size={40} />
+          <Horizontal
+            style={{ marginVertical: 10, borderWidth: 4, borderRadius: 20 }}
+          />
+          {WIDGETS[selected]}
         </View>
-        <Horizontal
-          style={{ marginVertical: 10, borderWidth: 4, borderRadius: 20 }}
-        />
-        {WIDGETS[selected]}
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 };
@@ -69,15 +89,14 @@ export const WidgetContainer = () => {
 const styles = StyleSheet.create({
   container: {
     maxWidth: 800,
-    marginTop: 50,
+    marginVertical: 50,
     marginHorizontal: 15,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderRadius: 10,
     shadowColor: "black",
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.5,
     flex: 1,
-    padding: 15,
+    padding: 12,
     backgroundColor: "rgb(241 245 249)",
     flexDirection: "column",
   },

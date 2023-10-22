@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { WeekDisplay } from "./WeekDisplay";
-import { mapDatesToWeek, parseDateString } from "../utils/dates";
+import { mapDatesToWeek, parseDateString } from "../../utils/dates";
 import moment from "moment";
 
 export const Planner = ({
@@ -61,7 +61,7 @@ export const Planner = ({
           updateWeek={(template: any) => updateTemplates([template])}
         />
       ) : (
-        <div className="flex flex-col gap-4 mt-2">
+        <View>
           {displayedWeeks.map((x: any, i: any) => (
             <WeekDisplay
               week={x}
@@ -69,7 +69,7 @@ export const Planner = ({
               hasDates
             />
           ))}
-        </div>
+        </View>
       )}
 
       {/* {!updatingTemplate && (

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Horizontal, Loader } from "../components/MiscComponents";
 import { useRef, useState } from "react";
-import { login } from "../utils/auth";
+import { login } from "../utils/login";
 
 export const Login = ({ updateUser }) => {
   const [uid, updateUid] = useState("");

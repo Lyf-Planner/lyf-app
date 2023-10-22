@@ -1,7 +1,7 @@
 import { Upcoming } from "./Upcoming";
 import { View, Text, StyleSheet } from "react-native";
 import { Planner } from "./Planner";
-import { Horizontal } from "../components/MiscComponents";
+import { Horizontal } from "../../components/MiscComponents";
 import { ToDo } from "./ToDo";
 // import { ToDo } from "./ToDo";
 

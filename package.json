@@ -14,6 +14,7 @@
     "@types/react": "17.0.43"
   },
   "dependencies": {
+    "@expo/webpack-config": "^18.0.1",
     "@react-native-async-storage/async-storage": "1.17.11",
     "@react-navigation/native": "^6.1.8",
     "@types/react": "~18.0.27",
@@ -32,6 +33,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.71.14",
+    "react-native-draggable-flatlist": "^4.0.1",
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-progress": "^5.0.0",
