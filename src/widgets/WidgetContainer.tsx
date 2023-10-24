@@ -14,6 +14,7 @@ import { Timetable } from "./timetable/TimetableWidget";
 import { useAuth } from "../authorisation/AuthProvider";
 import { Horizontal } from "../components/MiscComponents";
 import { AccountWidget } from "./account/AccountWidget";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export enum Widgets {
   Timetable = "Timetable",
@@ -43,7 +44,7 @@ export const WidgetContainer = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <ScrollView>
+      <KeyboardAwareScrollView enableResetScrollToCoords={false}>
         <View style={styles.container}>
           <View style={styles.header}>
             <View style={styles.widgetSelect}>
@@ -81,7 +82,7 @@ export const WidgetContainer = () => {
           />
           {WIDGETS[selected]}
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </TouchableWithoutFeedback>
   );
 };
