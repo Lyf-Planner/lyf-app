@@ -5,11 +5,11 @@
     "version": "1.0.0",
     "runtimeVersion": "1.0.0",
     "orientation": "portrait",
-    "icon": "/assets/images/icon.png",
+    "icon": "/assets/images/bg-icon.png",
     "userInterfaceStyle": "light",
     "plugins": [],
     "splash": {
-      "image": "./assets/images/icon.png",
+      "image": "./assets/images/bg-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.png",
+        "foregroundImage": "./assets/images/bg-icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "bouldermate",
@@ -35,7 +35,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "e255bf13-199c-43a0-b165-0ae0e470ecc2"
+        "projectId": "2c533ba0-983e-4ef8-abc4-e938b5768a79"
       }
     }
   }

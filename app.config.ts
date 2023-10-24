@@ -11,7 +11,7 @@ export default {
     currentFullName: "@user/lyf",
     originalFullName: "@user/lyf",
     version: "1.0.0",
-    icon: "./assets/images/icon.png",
+    icon: "./assets/images/bg-icon.png",
     orientation: "portrait",
     userInterfaceStyle: "light",
     runtimeVersion: {
@@ -19,7 +19,7 @@ export default {
     },
     jsEngine: "hermes",
     splash: {
-      image: "./assets/images/icon.png",
+      image: "./assets/images/bg-icon.png",
       resizeMode: "contain",
       backgroundColor: "#fff",
     },
@@ -35,11 +35,11 @@ export default {
     },
     assetBundlePatterns: ["**/*"],
     web: {
-      favicon: "./assets/favicon.png",
+      favicon: "./assets/images/icon.png",
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: "./assets/images/icon.png",
+        foregroundImage: "./assets/images/bg-icon.png",
         backgroundColor: "#ffffff",
       },
       package: "com.bouldermate",

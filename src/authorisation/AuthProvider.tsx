@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { saveUserData } from "../utils/saveUserData";
 import { deleteMe } from "../utils/deleteMe";
+import { getAsyncData } from "../utils/asyncStorage";
 
 export const AuthProvider = ({ children, user, updateUser, logout }) => {
   const [lastUpdate, setLastUpdate] = useState<any>(new Date());
@@ -9,6 +10,12 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
     loading: false,
     latest: new Date(),
   });
+
+  const saveAndLogout = async () => {
+    var token = await getAsyncData("token")
+    saveUserData(user, token);
+    logout();
+  };
 
   const updateData = (data: any) => {
     updateUser(data);
@@ -42,7 +49,7 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
     data: user,
     updateData,
     deleteMe,
-    logout,
+    logout: saveAndLogout,
     isSaving: save.loading,
     lastSave: save.latest,
   };

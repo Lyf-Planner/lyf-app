@@ -1,6 +1,11 @@
 {
     "build": {
-        "production": {},
+        "production": {
+            "env": {
+                "APP_ENV": "prod",
+                "BACKEND_URL": "https://lyf-api-production.up.railway.app"
+            }
+        },
         "preview": {
             "developmentClient": true,
             "distribution": "internal",

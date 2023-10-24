@@ -4,7 +4,7 @@ import {
   storeAsyncData,
   deleteAsyncData,
 } from "../utils/asyncStorage";
-import { autologin } from "../utils/auth";
+import { autologin } from "../utils/login";
 import { LoadingScreen } from "../components/MiscComponents";
 import { Login } from "./Login";
 import { AuthProvider } from "./AuthProvider";

@@ -6,6 +6,7 @@
     "build:android-sim": "eas build --platform android --profile sim-preview",
     "build:ios-sim": "eas build --platform ios --profile sim-preview",
     "build:ios": "eas build --platform ios --profile preview",
+    "prodbuild:ios": "eas build --platform ios --profile production",
     "use-build": "eas build:run",
     "android": "expo run:android",
     "ios": "expo run:ios"

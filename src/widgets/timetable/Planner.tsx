@@ -1,8 +1,15 @@
 import { useState } from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  TouchableHighlight,
+} from "react-native";
 import { WeekDisplay } from "./WeekDisplay";
 import { mapDatesToWeek, parseDateString } from "../../utils/dates";
 import moment from "moment";
+import Entypo from "react-native-vector-icons/Entypo";
 
 export const Planner = ({
   weeks,
@@ -31,7 +38,7 @@ export const Planner = ({
 
       var next = moment(last).add(1, "week");
 
-      var newTemplate = structuredClone(templates[0]);
+      var newTemplate = JSON.parse(JSON.stringify(templates[0]));
       var untouchedWeek = mapDatesToWeek(newTemplate, next.toDate());
 
       setDisplayedWeeks(displayedWeeks.concat(untouchedWeek));
@@ -72,15 +79,21 @@ export const Planner = ({
         </View>
       )}
 
-      {/* {!updatingTemplate && (
-        <button
-          className="mt-2 font-semibold p-2 border-2 hover:border-black w-fit mx-auto rounded-lg flex flex-row justify-center gap-2 items-center"
-          onClick={() => addWeek()}
-        >
-          <FaChevronDown className="my-auto" />
-          <p>Load another week</p> <FaChevronDown className="my-auto" />
-        </button>
-      )} */}
+      {!updatingTemplate && (
+        <View style={styles.addWeekButton}>
+          <TouchableHighlight
+            onPress={() => addWeek()}
+            underlayColor={"rgba(0,0,0,0.5)"}
+            style={styles.addWeekTouchable}
+          >
+            <View style={styles.addWeekView}>
+              <Entypo name="chevron-down" size={20} />
+              <Text style={{ fontSize: 15 }}>Load another week</Text>
+              <Entypo name="chevron-down" size={20} />
+            </View>
+          </TouchableHighlight>
+        </View>
+      )}
     </View>
   );
 };
@@ -116,4 +129,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   menuButtonText: { color: "white", fontSize: 17 },
+  addWeekView: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 0.5,
+    gap: 5,
+    padding: 15,
+    width: 200,
+    borderRadius: 10,
+  },
+  addWeekTouchable: {
+    borderRadius: 10,
+  },
+  addWeekButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 8,
+  },
 });

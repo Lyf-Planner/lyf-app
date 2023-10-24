@@ -93,7 +93,7 @@ const ListItem = ({
           styles.listItem,
           {
             backgroundColor: finished ? "rgb(21, 128, 61)" : badgeColor,
-            borderRadius: isEvent ? 8 : 15
+            borderRadius: isEvent ? 5 : 15
           },
         ]}
       >
@@ -101,7 +101,8 @@ const ListItem = ({
           style={{
             color: badgeTextColor,
             opacity: finished ? 0.8 : 1,
-            fontWeight: isEvent ? "700" : "normal",
+            fontWeight: isEvent ? "600" : "normal",
+            fontSize: 15,
           }}
         >
           {text}
@@ -130,8 +131,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 10,
     height: 40,
-    fontSize: 15,
-    gap: 4,
+    gap: 5,
     alignItems: "center",
   },
   listNewItem: {

@@ -118,7 +118,7 @@ export const Day = ({ dayData, updateDay }: any) => {
           isEvents
         />
       </View>
-      <Horizontal style={{ borderColor: "rgb(55 65 81)", marginTop: 8 }} />
+      <Horizontal style={{ borderColor: "rgb(80 80 80)", marginTop: 8 }} />
       <View style={styles.listWrapperView}>
         <ListInput
           list={dayData.tasks || []}
@@ -134,7 +134,7 @@ export const Day = ({ dayData, updateDay }: any) => {
 const styles = StyleSheet.create({
   weekDateDisplayContainer: {
     flexDirection: "row",
-    paddingVertical: 4,
+    paddingVertical: 8,
     alignItems: "center",
   },
   weekDatePressable: {
@@ -154,7 +154,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 0.5,
   },
-  showAllText: {},
+  showAllText: {
+    color: "white"
+  },
   weekDaysWrapperView: {
     flexDirection: "column",
     gap: 8,
@@ -177,10 +179,11 @@ const styles = StyleSheet.create({
   },
   dayDateText: {
     marginLeft: "auto",
-    paddingHorizontal: 2,
+    paddingHorizontal: 2, 
   },
   dayOfWeekText: {
     fontWeight: "700",
+    fontSize: 16,
   },
   dayOfWeekPressable: {
     borderRadius: 10,
@@ -189,7 +192,7 @@ const styles = StyleSheet.create({
   },
   listWrapperView: {
     flexDirection: "column",
-    paddingHorizontal: 4,
+    paddingHorizontal: 2,
   },
   listTopicText: {
     color: "white",

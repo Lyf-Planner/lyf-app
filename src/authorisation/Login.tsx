@@ -26,7 +26,7 @@ export const Login = ({ updateUser }) => {
         <View style={styles.container}>
           <View style={styles.headerTextContainer}>
             {loading ? (
-              <Loader size={20} />
+              <Loader size={25} />
             ) : (
               <Text style={styles.loginText}>Login</Text>
             )}
@@ -88,6 +88,10 @@ const styles = StyleSheet.create({
   },
   headerTextContainer: {
     marginBottom: 14,
+    height: 30,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
   },
   loginText: {
     fontSize: 25,

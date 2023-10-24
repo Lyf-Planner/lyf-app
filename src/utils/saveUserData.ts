@@ -2,11 +2,11 @@ import { post } from "./axios";
 import { getAsyncData } from "./asyncStorage";
 import env from "../envManager";
 
-export async function saveUserData(user: any) {
+export async function saveUserData(user: any, token?: string) {
   console.log("Calling update endpoint");
   var url = `${env.BACKEND_URL}/updateUser`;
 
-  var token = await getAsyncData("token");
+  var token = token || await getAsyncData("token");
   // Update will only be successful if token matches user being updated!
 
   var result = await post(url, { user, token });
