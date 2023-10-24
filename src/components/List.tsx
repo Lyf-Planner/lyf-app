@@ -1,6 +1,14 @@
-import { useState } from "react";
-import { StyleSheet, Pressable, View, Text, TextInput } from "react-native";
+import { useRef, useState } from "react";
+import {
+  StyleSheet,
+  Pressable,
+  View,
+  Text,
+  TextInput,
+  Animated,
+} from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import * as Haptics from "expo-haptics";
 
 type Badge = {
   name: string;
@@ -34,6 +42,7 @@ export const ListInput = ({
   };
 
   const removeItem = (item: Badge) => {
+    console.log("removing item", item.name);
     var curList = list;
     var i = curList.indexOf(item);
     curList.splice(i, 1);
@@ -81,19 +90,48 @@ const ListItem = ({
   updateFinished,
   isEvent = false,
 }: any) => {
-  const handlePress = () => {
-    if (finished) onRemove();
-    else updateFinished(true);
+  const scale = useRef(new Animated.Value(1)).current;
+
+  var timer = null;
+  var animation = Animated.timing(scale, {
+    toValue: 0.5,
+    duration: 500,
+    useNativeDriver: true,
+  });
+
+  const handlePressIn = () => {
+    // Start animating the shrinking of the item while user holds it down
+    animation.start();
+    // After the n seconds pressing, remove the item
+    timer = setInterval(() => {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      onRemove();
+      clearTimeout(timer);
+    }, 400);
+  };
+
+  const handlePressOut = () => {
+    updateFinished(!finished);
+    !finished && Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
+    animation.stop();
+    clearTimeout(timer);
+    scale.setValue(1);
   };
 
   return (
-    <Pressable onPress={handlePress}>
-      <View
+    <Pressable
+      onLongPress={handlePressIn}
+      delayLongPress={250}
+      onPressOut={handlePressOut}
+    >
+      <Animated.View
         style={[
           styles.listItem,
           {
             backgroundColor: finished ? "rgb(21, 128, 61)" : badgeColor,
-            borderRadius: isEvent ? 5 : 15
+            borderRadius: isEvent ? 5 : 15,
+            transform: [{ scale }],
           },
         ]}
       >
@@ -108,11 +146,19 @@ const ListItem = ({
           {text}
         </Text>
         {finished ? (
-          <AntDesign name="checkcircle" style={{ color: badgeTextColor }} size={16}/>
+          <AntDesign
+            name="checkcircle"
+            style={{ color: badgeTextColor }}
+            size={16}
+          />
         ) : (
-          <AntDesign name="checkcircleo" style={{ color: badgeTextColor }} size={16} />
+          <AntDesign
+            name="checkcircleo"
+            style={{ color: badgeTextColor }}
+            size={16}
+          />
         )}
-      </View>
+      </Animated.View>
     </Pressable>
   );
 };
@@ -132,6 +178,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     height: 40,
     gap: 5,
+    zIndex: 20,
     alignItems: "center",
   },
   listNewItem: {
@@ -141,6 +188,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 8,
     minWidth: 110,
+    zIndex: 10,
     borderColor: "rgb(156 163 175)",
     borderWidth: 1,
     color: "rgb(203 213 225)",
