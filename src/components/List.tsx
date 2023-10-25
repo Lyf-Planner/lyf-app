@@ -19,7 +19,7 @@ export const ListInput = ({
   list,
   updateList,
   badgeColor,
-  badgeTextColor = "text-black",
+  badgeTextColor = "black",
   placeholder,
   isEvents = false,
 }: any) => {

@@ -30,7 +30,10 @@ export const WidgetContainer = () => {
 
   const WIDGETS = {
     Timetable: (
-      <Timetable timetable={data.timetable} updateTimetable={updateTimetable} />
+      <Timetable
+        timetable={data.timetable}
+        updateTimetable={updateTimetable}
+      />
     ),
     Account: (
       <AccountWidget
@@ -55,6 +58,7 @@ export const WidgetContainer = () => {
                     selected === x && styles.highlightedHeaderTextContainer,
                   ]}
                   onPress={() => updateSelected(x)}
+                  key={x}
                 >
                   <Text
                     style={[

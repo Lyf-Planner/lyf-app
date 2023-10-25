@@ -1086,7 +1086,7 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/preset-typescript@^7.13.0", "@babel/preset-typescript@^7.16.7", "@babel/preset-typescript@^7.17.12":
+"@babel/preset-typescript@^7.13.0", "@babel/preset-typescript@^7.16.7":
   version "7.23.2"
   resolved "https://registry.yarnpkg.com/@babel/preset-typescript/-/preset-typescript-7.23.2.tgz#c8de488130b7081f7e1482936ad3de5b018beef4"
   integrity sha512-u4UJc1XsS1GhIGteM8rnGiIvf9rJpiVgMEeCnwlLA7WJPC+jcXWJAGxYmeqs5hOZD8BbAfnV5ezBOxQbb4OUxA==
@@ -2097,6 +2097,11 @@
   version "7.0.14"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.14.tgz#74a97a5573980802f32c8e47b663530ab3b6b7d1"
   integrity sha512-U3PUjAudAdJBeC2pgN8uTIKgxrb4nlDF3SF0++EldXQvQBGkpFZMSnwQiIoDU77tv45VgNkl/L4ouD+rEomujw==
+
+"@types/lodash@^4.14.200":
+  version "4.14.200"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.200.tgz#435b6035c7eba9cdf1e039af8212c9e9281e7149"
+  integrity sha512-YI/M/4HRImtNf3pJgbF+W6FrXovqj+T+/HpENLTooK9PnkacBsDpeP3IpHab40CClUfhNmdM2WTNP2sa2dni5Q==
 
 "@types/mime@*":
   version "3.0.3"
@@ -4086,6 +4091,13 @@ expo-asset@~8.9.1:
     path-browserify "^1.0.0"
     url-parse "^1.5.9"
 
+expo-background-fetch@~11.1.1:
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/expo-background-fetch/-/expo-background-fetch-11.1.1.tgz#7cf88d7cd3d9dca9be4262f3489d79e370e9f970"
+  integrity sha512-5X63ogpCqEqdqXYk4Sl4J8Lt/ZWcQCboS1pq3uprqD1KUi4ICl1P3gwPo+il3rYPV6xYb74Wv1KyyEEYj2vklg==
+  dependencies:
+    expo-task-manager "~11.1.0"
+
 expo-constants@~14.2.1:
   version "14.2.1"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-14.2.1.tgz#b5b6b8079d2082c31ccf2cbc7cf97a0e83c229c3"
@@ -4234,6 +4246,13 @@ expo-structured-headers@~3.1.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/expo-structured-headers/-/expo-structured-headers-3.1.2.tgz#ac2ec100349a398f5d4fcc450d9b963b9a6efcff"
   integrity sha512-UjVKwKeq6Ya4FWweDyfeaB2a2FY6BzrgF/c2uRMUDRVbUZIkhmc6BNYHKmfS2bnYWOc3bqp/REX5YFLSQfqvOg==
+
+expo-task-manager@~11.1.0, expo-task-manager@~11.1.1:
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/expo-task-manager/-/expo-task-manager-11.1.1.tgz#1a9adcf5439afafcd1a5beb5cfa427708a016c64"
+  integrity sha512-Ot4wq0fVd8+I1W7MsJz0rNdX0ma/zdnBvAppxDX1Oo0o0exo4qs1FmgrTnh3OBnn18aB4cX3wBJoXIatIgNMZQ==
+  dependencies:
+    unimodules-app-loader "~4.1.0"
 
 expo-updates-interface@~0.9.0:
   version "0.9.3"
@@ -7231,18 +7250,6 @@ react-native-codegen@^0.71.6:
     jscodeshift "^0.14.0"
     nullthrows "^1.1.1"
 
-react-native-draggable-flatlist@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-draggable-flatlist/-/react-native-draggable-flatlist-4.0.1.tgz#2f027d387ba4b8f3eb0907340e32cb85e6460df2"
-  integrity sha512-ZO1QUTNx64KZfXGXeXcBfql67l38X7kBcJ3rxUVZzPHt5r035GnGzIC0F8rqSXp6zgnwgUYMfB6zQc5PKmPL9Q==
-  dependencies:
-    "@babel/preset-typescript" "^7.17.12"
-
-react-native-dropdown-picker@^5.4.6:
-  version "5.4.6"
-  resolved "https://registry.yarnpkg.com/react-native-dropdown-picker/-/react-native-dropdown-picker-5.4.6.tgz#3736fc468de4a295e4df8d1f65ed2eadaf9b445f"
-  integrity sha512-T1XBHbE++M6aRU3wFYw3MvcOuabhWZ29RK/Ivdls2r1ZkZ62iEBZknLUPeVLMX3x6iUxj4Zgr3X2DGlEGXeHsA==
-
 react-native-gesture-handler@~2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.9.0.tgz#2f63812e523c646f25b9ad660fc6f75948e51241"
@@ -8517,6 +8524,11 @@ unicode-property-aliases-ecmascript@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/unicode-property-aliases-ecmascript/-/unicode-property-aliases-ecmascript-2.1.0.tgz#43d41e3be698bd493ef911077c9b131f827e8ccd"
   integrity sha512-6t3foTQI9qne+OZoVQB/8x8rk2k1eVy1gRXhV3oFQ5T6R1dqQ1xtin3XqSlx3+ATBkliTaR/hHyJBm+LVPNM8w==
+
+unimodules-app-loader@~4.1.0:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/unimodules-app-loader/-/unimodules-app-loader-4.1.2.tgz#e53e1dce78e4a51c46f9972d0a76a6bb3c6dca75"
+  integrity sha512-DLYUCjNpguFhNpxNsBf47NWZi2OjIfWCVQY4f+r4/bwIqFfR7qQd6lXwCFA8EhHS1ti87CBzjMSbIC5bB0J/0Q==
 
 unique-filename@^1.1.1:
   version "1.1.1"

@@ -74,6 +74,7 @@ export const Planner = ({
               week={x}
               updateWeek={(week: any) => updateWeekAtIndex(i, week)}
               hasDates
+              key={i}
             />
           ))}
         </View>

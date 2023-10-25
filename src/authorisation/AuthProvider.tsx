@@ -1,9 +1,17 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { saveUserData } from "../utils/saveUserData";
 import { deleteMe } from "../utils/deleteMe";
 import { getAsyncData } from "../utils/asyncStorage";
+import { AppState } from "react-native";
 
 export const AuthProvider = ({ children, user, updateUser, logout }) => {
+  const [state, updateState] = useState(AppState.currentState);
   const [lastUpdate, setLastUpdate] = useState<any>(new Date());
   const [save, setSave] = useState({
     error: "",
@@ -12,7 +20,7 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
   });
 
   const saveAndLogout = async () => {
-    var token = await getAsyncData("token")
+    var token = await getAsyncData("token");
     saveUserData(user, token);
     logout();
   };
@@ -22,28 +30,50 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
     setLastUpdate(new Date());
   };
 
+  const autoSave = useCallback(() => {
+    console.log("Checking for changes to save");
+    // Check for changes
+    if (lastUpdate > save.latest) {
+      console.log("Autosaving...");
+      saveUserData(user)
+        .then(() => setSave({ ...save, loading: false, latest: new Date() }))
+        .catch((error) => {
+          alert(`Error saving: ${error}`);
+          setSave({
+            ...save,
+            loading: false,
+            error,
+          });
+        });
+      console.log("Data saved.");
+    } else {
+      setSave({ ...save, loading: false });
+    }
+  }, [lastUpdate, save, setSave, user]);
+
   // Autosave (every 10s)
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      // Check for changes
-      if (lastUpdate > save.latest) {
-        saveUserData(user)
-          .then(() => setSave({ ...save, loading: false, latest: new Date() }))
-          .catch((error) => {
-            alert(`Error saving: ${error}`);
-            setSave({
-              ...save,
-              loading: false,
-              error,
-            });
-          });
-      } else {
-        setSave({ ...save, loading: false });
-      }
-    }, 10000);
+    const intervalId = setInterval(() => autoSave(), 10000);
 
-    return () => clearInterval(intervalId); //This is important
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [lastUpdate, save, setSave, user]);
+
+  // Autosave when app closes!
+  useEffect(() => {
+    var listener = AppState.addEventListener("change", (nextAppState) => {
+      if (
+        (nextAppState === "inactive" && state !== "inactive") ||
+        (nextAppState === "background" && state !== "background")
+      ) {
+        // This gets throttled by the backend when multiple requests come through
+        saveUserData(user);
+        setSave({ ...save, latest: new Date() });
+      }
+    });
+    return () => listener.remove();
+  }, [save, setSave, user]);
 
   const EXPOSED = {
     data: user,
