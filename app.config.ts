@@ -19,7 +19,7 @@ export default {
     },
     jsEngine: "hermes",
     splash: {
-      image: "./assets/images/bg-icon.png",
+      image: "./assets/images/splash.png",
       resizeMode: "contain",
       backgroundColor: "#fff",
     },

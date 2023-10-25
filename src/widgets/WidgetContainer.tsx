@@ -7,7 +7,6 @@ import {
   Pressable,
   TouchableWithoutFeedback,
   Keyboard,
-  ScrollView,
 } from "react-native";
 import { SaveTooltip } from "../components/Tooltip";
 import { Timetable } from "./timetable/TimetableWidget";
@@ -30,10 +29,7 @@ export const WidgetContainer = () => {
 
   const WIDGETS = {
     Timetable: (
-      <Timetable
-        timetable={data.timetable}
-        updateTimetable={updateTimetable}
-      />
+      <Timetable timetable={data.timetable} updateTimetable={updateTimetable} />
     ),
     Account: (
       <AccountWidget
@@ -48,44 +44,44 @@ export const WidgetContainer = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAwareScrollView enableResetScrollToCoords={false}>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <View style={styles.widgetSelect}>
-              {Object.keys(Widgets).map((x) => (
-                <TouchableHighlight
-                  style={[
-                    styles.headerTextContainer,
-                    selected === x && styles.highlightedHeaderTextContainer,
-                  ]}
-                  onPress={() => updateSelected(x)}
-                  key={x}
-                >
-                  <Text
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <View style={styles.widgetSelect}>
+                {Object.keys(Widgets).map((x) => (
+                  <TouchableHighlight
                     style={[
-                      styles.headerText,
-                      selected === x && styles.highlightedHeaderText,
+                      styles.headerTextContainer,
+                      selected === x && styles.highlightedHeaderTextContainer,
                     ]}
+                    onPress={() => updateSelected(x)}
+                    key={x}
                   >
-                    {x}
-                  </Text>
-                </TouchableHighlight>
-              ))}
+                    <Text
+                      style={[
+                        styles.headerText,
+                        selected === x && styles.highlightedHeaderText,
+                      ]}
+                    >
+                      {x}
+                    </Text>
+                  </TouchableHighlight>
+                ))}
+              </View>
+              <Pressable
+                style={[
+                  styles.saveTooltip,
+                  { borderBottomWidth: selected === "Account" ? 0.5 : 0 },
+                ]}
+                onPress={() => updateSelected("Account")}
+              >
+                <SaveTooltip size={40} />
+              </Pressable>
             </View>
-            <Pressable
-              style={[
-                styles.saveTooltip,
-                { borderBottomWidth: selected === "Account" ? 0.5 : 0 },
-              ]}
-              onPress={() => updateSelected("Account")}
-            >
-              <SaveTooltip size={40} />
-            </Pressable>
-          </View>
-          <Horizontal
-            style={{ marginVertical: 10, borderWidth: 4, borderRadius: 20 }}
-          />
-          {WIDGETS[selected]}
-        </View>
+            <Horizontal
+              style={{ marginVertical: 10, borderWidth: 4, borderRadius: 20 }}
+            />
+            {WIDGETS[selected]}
+          </View>      
       </KeyboardAwareScrollView>
     </TouchableWithoutFeedback>
   );

@@ -9,7 +9,7 @@
     "userInterfaceStyle": "light",
     "plugins": [],
     "splash": {
-      "image": "./assets/images/bg-icon.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

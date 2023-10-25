@@ -4,6 +4,7 @@ import { useFonts } from "expo-font";
 import { AuthGateway } from "./src/authorisation/AuthGateway";
 import { Background } from "./src/components/Background";
 import { WidgetContainer } from "./src/widgets/WidgetContainer";
+import { ToolbarProvider } from "./src/components/ToolBar";
 
 export default function App() {
   let [loaded] = useFonts({});
@@ -14,9 +15,11 @@ export default function App() {
 
   return (
     <Background>
-      <AuthGateway>
-        <WidgetContainer />
-      </AuthGateway>
+      <ToolbarProvider>
+        <AuthGateway>
+          <WidgetContainer />
+        </AuthGateway>
+      </ToolbarProvider>
     </Background>
   );
 }

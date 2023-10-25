@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   StyleSheet,
   Pressable,
@@ -6,9 +6,11 @@ import {
   Text,
   TextInput,
   Animated,
+  Easing,
 } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import * as Haptics from "expo-haptics";
+import { useEditing } from "../widgets/timetable/TimetableEditor";
 
 type Badge = {
   name: string;
@@ -81,42 +83,51 @@ export const ListInput = ({
   );
 };
 
-const ListItem = ({
-  badgeColor,
-  badgeTextColor,
-  text,
-  onRemove,
-  finished,
-  updateFinished,
-  isEvent = false,
-}: any) => {
-  const scale = useRef(new Animated.Value(1)).current;
+const ListItem = (props: any) => {
+  const {
+    badgeColor,
+    badgeTextColor,
+    text,
+    onRemove,
+    finished,
+    updateFinished,
+    isEvent = false,
+  } = props;
+  const { editMode, updateEditMode, updateSelectedItem, selectedItem } =
+    useEditing();
 
+  const sizeScale = new Animated.Value(1);
   var timer = null;
-  var animation = Animated.timing(scale, {
-    toValue: 0.5,
-    duration: 500,
+  var minifyAnimation = Animated.timing(sizeScale, {
+    toValue: 0.7,
+    duration: 600,
     useNativeDriver: true,
   });
 
   const handlePressIn = () => {
     // Start animating the shrinking of the item while user holds it down
-    animation.start();
+    minifyAnimation.start();
     // After the n seconds pressing, remove the item
     timer = setInterval(() => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-      onRemove();
+      updateEditMode(true);
       clearTimeout(timer);
-    }, 400);
+    }, 500);
   };
 
   const handlePressOut = () => {
-    updateFinished(!finished);
-    !finished && Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-
-    animation.stop();
+    if (editMode) {
+      selectedItem?.text === text
+        ? updateSelectedItem(null)
+        : updateSelectedItem(props);
+    } else {
+      updateFinished(!finished);
+    }
+    (!finished || editMode) &&
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    minifyAnimation.stop();
     clearTimeout(timer);
-    scale.setValue(1);
+    sizeScale.setValue(1);
   };
 
   return (
@@ -131,7 +142,10 @@ const ListItem = ({
           {
             backgroundColor: finished ? "rgb(21, 128, 61)" : badgeColor,
             borderRadius: isEvent ? 5 : 15,
-            transform: [{ scale }],
+            transform: [{ scale: sizeScale }],
+          },
+          selectedItem?.text === text && {
+            borderColor: "red",
           },
         ]}
       >
@@ -177,6 +191,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 10,
     height: 40,
+    borderWidth: 1,
     gap: 5,
     zIndex: 20,
     alignItems: "center",
