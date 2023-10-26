@@ -29,8 +29,6 @@ export const AuthGateway = ({ children }) => {
     );
   }, []);
 
-  console.log("User is", user?.user_id);
-
   if (loggingIn) return <LoadingScreen text={"Remembering who you are..."} />;
   else if (!user) return <Login updateUser={updateUser} />;
 

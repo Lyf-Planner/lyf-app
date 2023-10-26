@@ -11,7 +11,6 @@ import { getAsyncData } from "../utils/asyncStorage";
 import { AppState } from "react-native";
 
 export const AuthProvider = ({ children, user, updateUser, logout }) => {
-  const [state, updateState] = useState(AppState.currentState);
   const [lastUpdate, setLastUpdate] = useState<any>(new Date());
   const [save, setSave] = useState({
     error: "",
@@ -63,10 +62,8 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
   // Autosave when app closes!
   useEffect(() => {
     var listener = AppState.addEventListener("change", (nextAppState) => {
-      if (
-        (nextAppState === "inactive" && state !== "inactive") ||
-        (nextAppState === "background" && state !== "background")
-      ) {
+      console.log("App state change detected", nextAppState);
+      if (nextAppState === "inactive" || nextAppState === "background") {
         // This gets throttled by the backend when multiple requests come through
         saveUserData(user);
       }

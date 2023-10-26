@@ -7,7 +7,6 @@ import {
   Pressable,
   TouchableWithoutFeedback,
   Keyboard,
-  ScrollView,
 } from "react-native";
 import { SaveTooltip } from "../components/Tooltip";
 import { Timetable } from "./timetable/TimetableWidget";
@@ -43,15 +42,9 @@ export const WidgetContainer = () => {
     ),
   };
 
-  const scrollRef = useRef(null);
-
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <KeyboardAwareScrollView
-        enableResetScrollToCoords={false}
-        ref={scrollRef}
-      >
-        <ScrollRefProvider scrollRef={scrollRef}>
+      <KeyboardAwareScrollView enableResetScrollToCoords={false}>
           <View style={styles.container}>
             <View style={styles.header}>
               <View style={styles.widgetSelect}>
@@ -89,25 +82,10 @@ export const WidgetContainer = () => {
               style={{ marginVertical: 10, borderWidth: 4, borderRadius: 20 }}
             />
             {WIDGETS[selected]}
-          </View>
-        </ScrollRefProvider>
+          </View>      
       </KeyboardAwareScrollView>
     </TouchableWithoutFeedback>
   );
-};
-
-const ScrollRefProvider = ({ scrollRef, children }) => {
-  return (
-    <ScrollContext.Provider value={{ scrollRef }}>
-      {children}
-    </ScrollContext.Provider>
-  );
-};
-
-const ScrollContext = createContext(null);
-
-export const useScrollRef = () => {
-  return useContext(ScrollContext);
 };
 
 const styles = StyleSheet.create({

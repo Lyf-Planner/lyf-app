@@ -1,12 +1,5 @@
-import { useRef, useState } from "react";
-import {
-  StyleSheet,
-  Pressable,
-  View,
-  Text,
-  TextInput,
-  Dimensions,
-} from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { StyleSheet, Pressable, View, Text, TextInput } from "react-native";
 import Animated, {
   useSharedValue,
   withTiming,
@@ -20,15 +13,13 @@ import {
 } from "react-native-gesture-handler";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import * as Haptics from "expo-haptics";
-import { useScrollRef } from "../widgets/WidgetContainer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { useEditing } from "../widgets/timetable/TimetableEditor";
 
 type Badge = {
   name: string;
   finished: boolean;
 };
-
-const SCREEN_HEIGHT = Dimensions.get("screen").height;
 
 export const ListInput = ({
   list,
@@ -96,16 +87,16 @@ export const ListInput = ({
   );
 };
 
-const ListItem = ({
-  badgeColor,
-  badgeTextColor,
-  text,
-  onRemove,
-  finished,
-  updateFinished,
-  isEvent = false,
-}: any) => {
-  const { scrollRef } = useScrollRef();
+const ListItem = (props: any) => {
+  const {
+    badgeColor,
+    badgeTextColor,
+    text,
+    onRemove,
+    finished,
+    updateFinished,
+    isEvent = false,
+  } = props;
 
   const tap = Gesture.Tap()
     .runOnJS(true)
@@ -114,20 +105,25 @@ const ListItem = ({
     .runOnJS(true)
     .onStart(() => handleLongPressIn())
     .onEnd(() => handlePressOut());
-  const fling = Gesture.Pan()
+  const pan = Gesture.Pan()
     .runOnJS(true)
     .onUpdate((e) => handlePan(e))
     .onEnd(() => {
       (offsetX.value = 0), (offsetY.value = 0);
     });
 
-  const composed = Gesture.Race(tap, longPress, fling);
+  const composed = Gesture.Race(tap, longPress, pan);
 
   const scale = useSharedValue(1);
   const offsetX = useSharedValue(0);
   const offsetY = useSharedValue(0);
 
+  const { editMode, updateEditMode, updateSelectedItem, selectedItem } =
+    useEditing();
+
+  const sizeScale = new Animated.Value(1);
   var timer = null;
+
   const scaleAnimation = useAnimatedStyle(() => {
     return {
       transform: [
@@ -139,6 +135,7 @@ const ListItem = ({
       ],
     } as any;
   });
+
   const translateAnimation = useAnimatedStyle(
     () =>
       ({
@@ -155,16 +152,24 @@ const ListItem = ({
   const handleLongPressIn = () => {
     // Start animating the shrinking of the item while user holds it down
     scale.value = 0.5;
+
     // After the n seconds pressing, remove the item
     timer = setInterval(() => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-      onRemove();
+      updateEditMode(true);
       clearTimeout(timer);
-    }, 400);
+    }, 500);
   };
   const handlePressOut = () => {
-    updateFinished(!finished);
-    !finished && Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (editMode) {
+      selectedItem?.text === text
+        ? updateSelectedItem(null)
+        : updateSelectedItem(props);
+    } else {
+      updateFinished(!finished);
+    }
+    (!finished || editMode) &&
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
     clearTimeout(timer);
     scale.value = 1;
@@ -172,7 +177,6 @@ const ListItem = ({
   const handlePan = (e: any) => {
     offsetX.value = e.translationX;
     offsetY.value = e.translationY;
-    if (e.y < 20) scrollRef.current.scrollToPosition(0, e.y - 20);
   };
 
   return (
@@ -184,6 +188,7 @@ const ListItem = ({
             {
               backgroundColor: finished ? "rgb(21, 128, 61)" : badgeColor,
               borderRadius: isEvent ? 5 : 15,
+              borderColor: selectedItem?.text === text ? "red" : "black",
             },
             scaleAnimation,
             translateAnimation,
@@ -233,6 +238,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 10,
     height: 40,
+    borderWidth: 1,
     gap: 5,
     alignItems: "center",
   },
