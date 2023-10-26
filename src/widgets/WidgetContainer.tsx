@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -22,7 +22,8 @@ export enum Widgets {
 
 export const WidgetContainer = () => {
   const [selected, updateSelected] = useState<any>(Widgets.Timetable);
-  const { updateData, data, logout, deleteMe, lastSave, isSaving } = useAuth();
+  const { updateData, data, logout, deleteMe, lastSave, lastUpdate } =
+    useAuth();
 
   const updateTimetable = (timetable: any) =>
     updateData({ ...data, timetable });
@@ -30,65 +31,83 @@ export const WidgetContainer = () => {
 
   const WIDGETS = {
     Timetable: (
-      <Timetable
-        timetable={data.timetable}
-        updateTimetable={updateTimetable}
-      />
+      <Timetable timetable={data.timetable} updateTimetable={updateTimetable} />
     ),
     Account: (
       <AccountWidget
         logout={logout}
         deleteMe={deleteMe}
         lastSave={lastSave}
-        isSaving={isSaving}
+        lastUpdate={lastUpdate}
       />
     ),
   };
 
+  const scrollRef = useRef(null);
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <KeyboardAwareScrollView enableResetScrollToCoords={false}>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <View style={styles.widgetSelect}>
-              {Object.keys(Widgets).map((x) => (
-                <TouchableHighlight
-                  style={[
-                    styles.headerTextContainer,
-                    selected === x && styles.highlightedHeaderTextContainer,
-                  ]}
-                  onPress={() => updateSelected(x)}
-                  key={x}
-                >
-                  <Text
+      <KeyboardAwareScrollView
+        enableResetScrollToCoords={false}
+        ref={scrollRef}
+      >
+        <ScrollRefProvider scrollRef={scrollRef}>
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <View style={styles.widgetSelect}>
+                {Object.keys(Widgets).map((x) => (
+                  <TouchableHighlight
                     style={[
-                      styles.headerText,
-                      selected === x && styles.highlightedHeaderText,
+                      styles.headerTextContainer,
+                      selected === x && styles.highlightedHeaderTextContainer,
                     ]}
+                    onPress={() => updateSelected(x)}
+                    key={x}
                   >
-                    {x}
-                  </Text>
-                </TouchableHighlight>
-              ))}
+                    <Text
+                      style={[
+                        styles.headerText,
+                        selected === x && styles.highlightedHeaderText,
+                      ]}
+                    >
+                      {x}
+                    </Text>
+                  </TouchableHighlight>
+                ))}
+              </View>
+              <Pressable
+                style={[
+                  styles.saveTooltip,
+                  { borderBottomWidth: selected === "Account" ? 0.5 : 0 },
+                ]}
+                onPress={() => updateSelected("Account")}
+              >
+                <SaveTooltip size={40} />
+              </Pressable>
             </View>
-            <Pressable
-              style={[
-                styles.saveTooltip,
-                { borderBottomWidth: selected === "Account" ? 0.5 : 0 },
-              ]}
-              onPress={() => updateSelected("Account")}
-            >
-              <SaveTooltip size={40} />
-            </Pressable>
+            <Horizontal
+              style={{ marginVertical: 10, borderWidth: 4, borderRadius: 20 }}
+            />
+            {WIDGETS[selected]}
           </View>
-          <Horizontal
-            style={{ marginVertical: 10, borderWidth: 4, borderRadius: 20 }}
-          />
-          {WIDGETS[selected]}
-        </View>
+        </ScrollRefProvider>
       </KeyboardAwareScrollView>
     </TouchableWithoutFeedback>
   );
+};
+
+const ScrollRefProvider = ({ scrollRef, children }) => {
+  return (
+    <ScrollContext.Provider value={{ scrollRef }}>
+      {children}
+    </ScrollContext.Provider>
+  );
+};
+
+const ScrollContext = createContext(null);
+
+export const useScrollRef = () => {
+  return useContext(ScrollContext);
 };
 
 const styles = StyleSheet.create({
@@ -103,6 +122,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 12,
     backgroundColor: "white",
+
     flexDirection: "column",
   },
   header: {

@@ -69,7 +69,6 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
       ) {
         // This gets throttled by the backend when multiple requests come through
         saveUserData(user);
-        setSave({ ...save, latest: new Date() });
       }
     });
     return () => listener.remove();
@@ -82,6 +81,7 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
     logout: saveAndLogout,
     isSaving: save.loading,
     lastSave: save.latest,
+    lastUpdate,
   };
 
   return (

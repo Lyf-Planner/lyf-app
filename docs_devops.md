@@ -17,6 +17,10 @@ Env variables should be updated + considered in the following locations before c
 
 #### Running the App
 
+Quick Method:
+- Use Expo Go after `npx expo start`
+
+Other Method:
 - Open a simulator
 - Run ```npm run <build-android/build-ios>```
   - This will take a while

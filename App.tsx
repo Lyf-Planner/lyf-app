@@ -1,9 +1,10 @@
 import "expo-dev-client";
-import { View, StatusBar, Text } from "react-native";
+import { StatusBar } from "react-native";
 import { useFonts } from "expo-font";
 import { AuthGateway } from "./src/authorisation/AuthGateway";
 import { Background } from "./src/components/Background";
 import { WidgetContainer } from "./src/widgets/WidgetContainer";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function App() {
   let [loaded] = useFonts({});
@@ -14,9 +15,11 @@ export default function App() {
 
   return (
     <Background>
-      <AuthGateway>
-        <WidgetContainer />
-      </AuthGateway>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <AuthGateway>
+          <WidgetContainer />
+        </AuthGateway>
+      </GestureHandlerRootView>
     </Background>
   );
 }

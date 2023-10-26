@@ -66,7 +66,7 @@ export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
               </Pressable>
             )}
           </View>
-          <Horizontal />
+          <Horizontal style={{ marginBottom: 2 }} />
         </View>
       )}
       {!hide && (
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
   },
   showAllText: {
-    color: "white"
+    color: "white",
   },
   weekDaysWrapperView: {
     flexDirection: "column",
@@ -167,6 +167,8 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 10,
     padding: 10,
+    elavation: 1,
+    zIndex: 10,
     flexDirection: "column",
   },
   dayHeaderView: {
@@ -179,7 +181,7 @@ const styles = StyleSheet.create({
   },
   dayDateText: {
     marginLeft: "auto",
-    paddingHorizontal: 2, 
+    paddingHorizontal: 2,
   },
   dayOfWeekText: {
     fontWeight: "700",
