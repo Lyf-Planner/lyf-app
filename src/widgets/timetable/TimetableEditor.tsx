@@ -8,31 +8,38 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 export const TimetableEditProvider = ({ children }) => {
   const [editMode, updateEditMode] = useState(false);
   const [selectedItem, updateSelectedItem] = useState(null);
-  const [selectedRegion, updateSelectedRegion] = useState(null);
+  const [selectedList, updateSelectedList] = useState(null);
   const [clipboard, updateClipboard] = useState(null);
 
   const { updateToolbar } = useToolbar();
-  
+
   const EXPOSED = {
     editMode,
     selectedItem,
+    selectedList,
     updateSelectedItem,
     updateEditMode,
+    updateSelectedList,
   };
 
   useEffect(() => {
     if (editMode)
       updateToolbar(
         <EditToolbar
-          itemProps={selectedItem}
+          selectedItem={selectedItem}
+          selectedList={selectedList}
           clipboard={clipboard}
           updateEditMode={updateEditMode}
           updateSelectedItem={updateSelectedItem}
           updateClipboard={updateClipboard}
         />
       );
-    else updateToolbar(null);
-  }, [editMode, selectedItem, updateSelectedItem]);
+    else {
+      updateToolbar(null);
+      updateSelectedItem(null);
+      updateSelectedList(null);
+    }
+  }, [editMode, selectedItem, selectedList, clipboard]);
 
   return (
     <EditContext.Provider value={EXPOSED}>{children}</EditContext.Provider>
@@ -40,7 +47,8 @@ export const TimetableEditProvider = ({ children }) => {
 };
 
 const EditToolbar = ({
-  itemProps,
+  selectedItem,
+  selectedList,
   clipboard,
   updateEditMode,
   updateSelectedItem,
@@ -51,8 +59,10 @@ const EditToolbar = ({
       <Text style={styles.editModeText}>Edit Mode</Text>
       <View style={styles.tools}>
         <TouchableHighlight
-          onPress={() => itemProps.editTextAndFocus()}
-          disabled={!itemProps}
+          onPress={() => {
+            selectedItem.updateEditText(true);
+          }}
+          disabled={!selectedItem}
           style={styles.toolTouchableHighlight}
           underlayColor="rgba(255,255,255,0.5)"
         >
@@ -60,18 +70,20 @@ const EditToolbar = ({
             <MaterialIcons
               name="edit"
               size={20}
-              color={!!itemProps ? "white" : "black"}
+              color={!!selectedItem ? "white" : "black"}
             />
-            <Text style={{ color: !!itemProps ? "white" : "black" }}>Edit</Text>
+            <Text style={{ color: !!selectedItem ? "white" : "black" }}>
+              Edit
+            </Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight
           onPress={() => {
-            updateClipboard(itemProps);
-            itemProps?.onRemove();
+            updateClipboard(selectedItem.item);
+            selectedItem?.onRemove();
             updateSelectedItem(null);
           }}
-          disabled={!itemProps}
+          disabled={!selectedItem}
           style={styles.toolTouchableHighlight}
           underlayColor="rgba(255,255,255,0.5)"
         >
@@ -79,18 +91,16 @@ const EditToolbar = ({
             <MaterialIcons
               name="content-cut"
               size={20}
-              color={!!itemProps ? "white" : "black"}
+              color={!!selectedItem ? "white" : "black"}
             />
-            <Text style={{ color: !!itemProps ? "white" : "black" }}>Cut</Text>
+            <Text style={{ color: !!selectedItem ? "white" : "black" }}>
+              Cut
+            </Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight
           onPress={() => {
-            itemProps?.updateFinished(!itemProps?.finished);
-            updateSelectedItem({
-              ...itemProps,
-              finished: !itemProps?.finished,
-            });
+            selectedList.addNewItem(clipboard);
           }}
           style={styles.toolTouchableHighlight}
           underlayColor="rgba(255,255,255,0.5)"
@@ -99,9 +109,13 @@ const EditToolbar = ({
             <MaterialIcons
               name="content-paste"
               size={20}
-              color={!!itemProps ? "white" : "black"}
+              color={!!clipboard && !!selectedList ? "white" : "black"}
             />
-            <Text style={{ color: !!itemProps ? "white" : "black" }}>
+            <Text
+              style={{
+                color: !!clipboard && !!selectedList ? "white" : "black",
+              }}
+            >
               Paste
             </Text>
           </View>

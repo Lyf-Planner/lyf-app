@@ -4,8 +4,6 @@ import Animated, {
   useSharedValue,
   withTiming,
   useAnimatedStyle,
-  runOnJS,
-  processColor,
 } from "react-native-reanimated";
 import {
   GestureDetector,
@@ -19,7 +17,7 @@ import { useEditing } from "../widgets/timetable/TimetableEditor";
 import Math from "math";
 
 type Item = {
-  text: string;
+  name: string;
   finished: boolean;
 };
 
@@ -53,34 +51,61 @@ export const ListInput = ({
     updateList(curList);
   };
 
-  return (
-    <View style={styles.listContainer}>
-      {list.map((x: Item) => (
-        <ListItem
-          key={x.text}
-          badgeColor={badgeColor}
-          badgeTextColor={badgeTextColor}
-          item={x}
-          onRemove={() => removeItem(x)}
-          updateItem={(newItem: Item) => updateItem(x, newItem)}
-          isEvent={isEvents}
-        />
-      ))}
+  const exposedEditorProps = {
+    addNewItem,
+    list,
+  };
 
-      <TextInput
-        returnKeyType="done"
-        inputMode="text"
-        placeholder={placeholder}
-        placeholderTextColor="grey"
-        value={newItem}
-        style={styles.listNewItem}
-        onSubmitEditing={() => {
-          newItem && addNewItem(newItem);
-          updateNewItem("");
-        }}
-        onChangeText={(text) => updateNewItem(text)}
-      />
-    </View>
+  // Editor access
+  const { editMode, updateSelectedList, selectedList } = useEditing();
+
+  return (
+    <Pressable
+      disabled={!editMode}
+      onPress={() => {
+        console.log("pressed");
+        selectedList?.list !== list
+          ? updateSelectedList(exposedEditorProps)
+          : updateSelectedList(null);
+      }}
+    >
+      <View
+        style={[
+          styles.listContainer,
+          selectedList?.list === list && {
+            borderColor: "red",
+            borderWidth: 1,
+            borderRadius: 5,
+          },
+        ]}
+      >
+        {list.map((x: Item) => (
+          <ListItem
+            key={x.name}
+            badgeColor={badgeColor}
+            badgeTextColor={badgeTextColor}
+            item={x}
+            onRemove={() => removeItem(x)}
+            updateItem={(newItem: Item) => updateItem(x, newItem)}
+            isEvent={isEvents}
+          />
+        ))}
+
+        <TextInput
+          returnKeyType="done"
+          inputMode="text"
+          placeholder={placeholder}
+          placeholderTextColor="grey"
+          value={newItem}
+          style={styles.listNewItem}
+          onSubmitEditing={() => {
+            newItem && addNewItem({ name: newItem, finished: false });
+            updateNewItem("");
+          }}
+          onChangeText={(text) => updateNewItem(text)}
+        />
+      </View>
+    </Pressable>
   );
 };
 
@@ -94,7 +119,7 @@ const ListItem = (props: any) => {
     isEvent = false,
   } = props;
   const [editText, updateEditText] = useState(null);
-  const [newText, updateNewText] = useState(null);
+  const [newText, updateNewText] = useState(item.name);
 
   // Edit access
   const { editMode, updateEditMode, updateSelectedItem, selectedItem } =
@@ -103,26 +128,24 @@ const ListItem = (props: any) => {
   // Actions
   const tap = Gesture.Tap()
     .runOnJS(true)
-    .onEnd(() => handlePressOut());
+    .onEnd(() => handleTap());
   const longPress = Gesture.LongPress()
     .runOnJS(true)
     .onStart(() => handleLongPressIn())
-    .onEnd(() => handlePressOut());
-  const pan = Gesture.Pan()
+    .onEnd(() => handleLongPressOut());
+  const fling = Gesture.Fling()
+    .direction(Directions.LEFT)
     .runOnJS(true)
-    .onUpdate((e) => handlePan(e))
-    .onEnd(() => handlePanRelease());
+    .onEnd(() => handleFling());
 
-  const composed = Gesture.Exclusive(tap, longPress, pan);
+  const composed = Gesture.Exclusive(tap, longPress, fling);
 
   // Animations
   const scale = useSharedValue(1);
   const offsetX = useSharedValue(0);
-  const offsetY = useSharedValue(0);
   const willRemove = useSharedValue(false);
 
   var timer = null;
-  var hitMinusThirty = false;
   const scaleAnimation = useAnimatedStyle(() => {
     return {
       transform: [
@@ -138,22 +161,18 @@ const ListItem = (props: any) => {
     () =>
       ({
         transform: [
-          { translateX: offsetX.value },
-          { translateY: offsetY.value },
+          {
+            translateX: withTiming(offsetX.value, {
+              duration: 200,
+            }),
+          },
         ],
         zIndex: 50,
-      } as any)
-  );
-  const backgroundAnimation = useAnimatedStyle(
-    () =>
-      ({
-        backgroundColor: offsetX.value === -30 ? "red" : "gray",
       } as any)
   );
 
   // Action handlers
   const handleLongPressIn = () => {
-    console.log("handling long press");
     // Start animating the shrinking of the item while user holds it down
     scale.value = 1.1;
 
@@ -164,43 +183,46 @@ const ListItem = (props: any) => {
       clearTimeout(timer);
     }, 500);
   };
-  const handlePressOut = () => {
-    if (editMode) {
-      selectedItem?.text === item.text
-        ? updateSelectedItem(null)
-        : updateSelectedItem({ ...props, editTextAndFocus });
-    } else if (willRemove.value && !editMode) {
+  const handleLongPressOut = () => {
+    if (willRemove.value) {
       onRemove();
-    } else {
-      updateItem({ ...item, finished: !item.finished });
     }
-
-    (!item.finished || editMode) &&
-      !willRemove &&
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
     clearTimeout(timer);
     scale.value = 1;
   };
-  const handlePan = (e: any) => {
-    offsetX.value = Math.max(Math.min(0, e.translationX), -30);
-    if (offsetX.value > -30) hitMinusThirty = false;
-    if (offsetX.value <= -30 && !hitMinusThirty) {
-      hitMinusThirty = true;
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+  const handleTap = () => {
+    if (editMode) {
+      selectedItem?.item?.name === item.name
+        ? updateSelectedItem(null)
+        : updateSelectedItem({ ...props, updateEditText });
+    } else {
+      updateItem({ ...item, finished: !item.finished });
+      !item.finished && Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
   };
-  const handlePanRelease = () => {
-    if (offsetX.value === -30) updateEditMode(true);
-    offsetX.value = 0;
+
+  const handleFling = () => {
+    offsetX.value = -30;
+
+    var activate = setInterval(() => {
+      console.log("running interval");
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      updateEditMode(true);
+      var closeAnimation = setInterval(() => {
+        offsetX.value = 0;
+        clearTimeout(closeAnimation);
+      }, 200);
+      clearTimeout(activate);
+    }, 200);
   };
 
   // Edit text operation
-  const textRef = useRef(null);
-  const editTextAndFocus = () => {
-    updateEditMode(true);
-    textRef.current.focus();
-  };
+  const textRef = useRef<any>();
+  useEffect(() => {
+    if (editText) selectedItem.item !== item && updateEditText(false);
+    if (editText) textRef.current.focus();
+  }, [selectedItem, editText]);
 
   return (
     <GestureDetector gesture={composed}>
@@ -211,42 +233,35 @@ const ListItem = (props: any) => {
             {
               backgroundColor: item.finished ? "rgb(21, 128, 61)" : badgeColor,
               borderRadius: isEvent ? 5 : 15,
-              borderColor: selectedItem?.text === item.text ? "red" : "black",
+              borderColor:
+                selectedItem?.item?.name === item.name ? "red" : "black",
             },
             scaleAnimation,
             flickAnimation,
           ]}
         >
-          {editText ? (
-            <TextInput
-              ref={textRef}
-              style={{
-                color: badgeTextColor,
-                opacity: item.finished ? 0.8 : 1,
-                fontWeight: isEvent ? "600" : "normal",
-                fontSize: 15,
-                paddingBottom: 1,
-              }}
-              value={newText}
-              onSubmitEditing={() => {
-                // Stop editing - push the change
-                updateItem({ ...item, text: newText });
-                updateNewText("");
-              }}
-              onChangeText={(text) => updateNewText(text)}
-            />
-          ) : (
-            <Text
-              style={{
-                color: badgeTextColor,
-                opacity: item.finished ? 0.8 : 1,
-                fontWeight: isEvent ? "600" : "normal",
-                fontSize: 15,
-              }}
-            >
-              {item.text}
-            </Text>
-          )}
+          <TextInput
+            ref={textRef}
+            style={{
+              color: badgeTextColor,
+              opacity: item.finished ? 0.8 : 1,
+              fontWeight: isEvent ? "600" : "normal",
+              fontSize: 15,
+              paddingBottom: 1,
+            }}
+            value={newText}
+            returnKeyType="done"
+            editable={!!editText}
+            selectTextOnFocus={!!editText}
+            onSubmitEditing={() => {
+              // Stop editing - push the change
+              updateItem({ ...item, name: newText });
+              updateEditText(false);
+              updateNewText("");
+            }}
+            onChangeText={(text) => updateNewText(text)}
+          />
+
           {item.finished ? (
             <AntDesign
               name="checkcircle"
@@ -261,7 +276,7 @@ const ListItem = (props: any) => {
             />
           )}
         </Animated.View>
-        <Animated.View
+        <View
           style={[
             {
               position: "absolute",
@@ -270,8 +285,8 @@ const ListItem = (props: any) => {
               height: 40,
               flexDirection: "row",
               alignItems: "center",
+              backgroundColor: editMode ? "red" : "gray",
             },
-            backgroundAnimation,
           ]}
         >
           <MaterialIcons
@@ -279,7 +294,7 @@ const ListItem = (props: any) => {
             style={{ marginLeft: "auto", marginRight: 7 }}
             size={20}
           />
-        </Animated.View>
+        </View>
       </View>
     </GestureDetector>
   );
