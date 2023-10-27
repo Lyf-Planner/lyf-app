@@ -8,7 +8,11 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 export const TimetableEditProvider = ({ children }) => {
   const [editMode, updateEditMode] = useState(false);
   const [selectedItem, updateSelectedItem] = useState(null);
+  const [selectedRegion, updateSelectedRegion] = useState(null);
+  const [clipboard, updateClipboard] = useState(null);
+
   const { updateToolbar } = useToolbar();
+  
   const EXPOSED = {
     editMode,
     selectedItem,
@@ -21,8 +25,10 @@ export const TimetableEditProvider = ({ children }) => {
       updateToolbar(
         <EditToolbar
           itemProps={selectedItem}
+          clipboard={clipboard}
           updateEditMode={updateEditMode}
           updateSelectedItem={updateSelectedItem}
+          updateClipboard={updateClipboard}
         />
       );
     else updateToolbar(null);
@@ -33,13 +39,20 @@ export const TimetableEditProvider = ({ children }) => {
   );
 };
 
-const EditToolbar = ({ itemProps, updateEditMode, updateSelectedItem }) => {
+const EditToolbar = ({
+  itemProps,
+  clipboard,
+  updateEditMode,
+  updateSelectedItem,
+  updateClipboard,
+}) => {
   return (
     <View style={styles.editingToolbar}>
       <Text style={styles.editModeText}>Edit Mode</Text>
       <View style={styles.tools}>
         <TouchableHighlight
-          onPress={() => null}
+          onPress={() => itemProps.editTextAndFocus()}
+          disabled={!itemProps}
           style={styles.toolTouchableHighlight}
           underlayColor="rgba(255,255,255,0.5)"
         >
@@ -54,21 +67,21 @@ const EditToolbar = ({ itemProps, updateEditMode, updateSelectedItem }) => {
         </TouchableHighlight>
         <TouchableHighlight
           onPress={() => {
+            updateClipboard(itemProps);
             itemProps?.onRemove();
             updateSelectedItem(null);
           }}
+          disabled={!itemProps}
           style={styles.toolTouchableHighlight}
           underlayColor="rgba(255,255,255,0.5)"
         >
           <View style={styles.tool}>
             <MaterialIcons
-              name="delete"
+              name="content-cut"
               size={20}
               color={!!itemProps ? "white" : "black"}
             />
-            <Text style={{ color: !!itemProps ? "white" : "black" }}>
-              Delete
-            </Text>
+            <Text style={{ color: !!itemProps ? "white" : "black" }}>Cut</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight
@@ -83,21 +96,13 @@ const EditToolbar = ({ itemProps, updateEditMode, updateSelectedItem }) => {
           underlayColor="rgba(255,255,255,0.5)"
         >
           <View style={styles.tool}>
-            {itemProps?.finished ? (
-              <AntDesign
-                name="checkcircleo"
-                size={20}
-                color={!!itemProps ? "white" : "black"}
-              />
-            ) : (
-              <AntDesign
-                name="checkcircle"
-                size={20}
-                color={!!itemProps ? "white" : "black"}
-              />
-            )}
+            <MaterialIcons
+              name="content-paste"
+              size={20}
+              color={!!itemProps ? "white" : "black"}
+            />
             <Text style={{ color: !!itemProps ? "white" : "black" }}>
-              {itemProps?.finished ? "To-Do" : "Finish"}
+              Paste
             </Text>
           </View>
         </TouchableHighlight>
