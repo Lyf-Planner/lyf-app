@@ -24,8 +24,9 @@ function parseBackendUrl() {
   console.log("Deriving Backend hostname locally");
   const extractIPfromURL = (url: string) => {
     const x = url.split("/");
+    console.log(x);
     // Skip the / in the http prefix to extract the hostname of the debugger
-    const y = x[2];
+    const y = x[0];
     // Seperate the IP and port
     const ip_host = y.split(":");
     // Return just the IP
@@ -42,9 +43,8 @@ function parseBackendUrl() {
   var ip = extractIPfromURL(debuggerUrl);
 
   // Must be http if local
-  return 'http://' + ip.concat(`:${envVar("localBackendPort")}`);
+  return "http://" + ip.concat(`:${envVar("localBackendPort")}`);
 }
-  
 
 enum env {
   BACKEND_URL = parseBackendUrl() as any,

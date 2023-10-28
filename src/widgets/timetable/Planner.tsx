@@ -5,6 +5,7 @@ import {
   Pressable,
   StyleSheet,
   TouchableHighlight,
+  Alert,
 } from "react-native";
 import { WeekDisplay } from "./WeekDisplay";
 import { mapDatesToWeek, parseDateString } from "../../utils/dates";
@@ -59,14 +60,31 @@ export const Planner = ({
           onPress={() => setUpdatingTemplate(true)}
         >
           <Text style={styles.menuButtonText}>Routine</Text>
+          <Pressable
+            style={{
+              marginLeft: 4,
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+            onPress={() => {
+              Alert.alert(
+                "Tip",
+                "Items in your routine will be automatically included in each new week!"
+              );
+            }}
+          >
+            <Entypo name="info-with-circle" color={"white"} size={16} />
+          </Pressable>
         </MenuButton>
       </View>
 
       {updatingTemplate ? (
-        <WeekDisplay
-          week={templates[0]}
-          updateWeek={(template: any) => updateTemplates([template])}
-        />
+        <View style={{ flexDirection: "column", justifyContent: "center" }}>
+          <WeekDisplay
+            week={templates[0]}
+            updateWeek={(template: any) => updateTemplates([template])}
+          />
+        </View>
       ) : (
         <View>
           {displayedWeeks.map((x: any, i: any) => (

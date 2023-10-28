@@ -3,7 +3,8 @@
         "production": {
             "env": {
                 "APP_ENV": "prod",
-                "BACKEND_URL": "https://lyf-api-production.up.railway.app"
+                "BACKEND_URL": "https://lyf-api-production.up.railway.app",
+                "EAS_PROJECT_ID": "2c533ba0-983e-4ef8-abc4-e938b5768a79"
             }
         },
         "preview": {
@@ -11,7 +12,8 @@
             "distribution": "internal",
             "env": {
                 "APP_ENV": "local",
-                "EAS_PROJECT_ID": "e255bf13-199c-43a0-b165-0ae0e470ecc2"
+                "BACKEND_URL": "https://lyf-api-production.up.railway.app",
+                "EAS_PROJECT_ID": "2c533ba0-983e-4ef8-abc4-e938b5768a79"
             } 
         },
         "sim-preview": {
@@ -23,6 +25,7 @@
             "channel": "local",
             "env": {
                 "APP_ENV": "local",
+                "LOCAL_BACKEND_PORT": "8000",
                 "EAS_PROJECT_ID": "e255bf13-199c-43a0-b165-0ae0e470ecc2"
             } 
         }

@@ -8,10 +8,10 @@ export default {
     name: "Lyf",
     slug: "lyf",
     scheme: "lyf",
-    currentFullName: "@user/lyf",
-    originalFullName: "@user/lyf",
+    currentFullName: "@ethanhusband/lyf",
+    originalFullName: "@ethanhusband/lyf",
     version: "1.0.0",
-    icon: "./assets/images/bg-icon.png",
+    icon: "./assets/images/inverted-icon.png",
     orientation: "portrait",
     userInterfaceStyle: "light",
     runtimeVersion: {
@@ -42,11 +42,11 @@ export default {
         foregroundImage: "./assets/images/bg-icon.png",
         backgroundColor: "#ffffff",
       },
-      package: "com.bouldermate",
+      package: "com.lyf",
       versionCode: 100,
     },
     ios: {
-      bundleIdentifier: "com.bouldermate",
+      bundleIdentifier: "com.lyfplanner",
       buildNumber: "1.0.0",
       infoPlist: {
         NSCameraUsageDescription:
@@ -62,8 +62,8 @@ export default {
       localBackendPort: process.env.LOCAL_BACKEND_PORT,
       appEnv: process.env.APP_ENV,
       eas: {
-        projectId: process.env.EAS_PROJECT_ID,
-      },
+        projectId: "2c533ba0-983e-4ef8-abc4-e938b5768a79"
+      }
     },
   },
 };

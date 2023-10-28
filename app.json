@@ -1,11 +1,12 @@
 {
   "expo": {
     "name": "Lyf",
-    "slug": "Lyf",
+    "slug": "lyf",
+    "owner": "ethanhusband",
     "version": "1.0.0",
     "runtimeVersion": "1.0.0",
     "orientation": "portrait",
-    "icon": "/assets/images/bg-icon.png",
+    "icon": "/assets/images/inverted-icon.png",
     "userInterfaceStyle": "light",
     "plugins": [],
     "splash": {
@@ -18,7 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "bouldermate",
+      "bundleIdentifier": "com.lyfplanner",
       "buildNumber": "1.0.0"
     },
     "android": {
@@ -26,7 +27,7 @@
         "foregroundImage": "./assets/images/bg-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "bouldermate",
+      "package": "lyf",
       "versionCode": 100,
       "softwareKeyboardLayoutMode": "pan"
     },

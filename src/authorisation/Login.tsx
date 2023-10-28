@@ -28,19 +28,34 @@ export const Login = ({ updateUser }) => {
             {loading ? (
               <Loader size={25} />
             ) : (
-              <Text style={styles.loginText}>Login</Text>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 3,
+                }}
+              >
+                <Text style={styles.loginText}>Login</Text>
+                <Text style={{ fontSize: 12, color: "rgba(0,0,0,0.3)" }}>
+                  Entering new details will create a new account!
+                </Text>
+              </View>
             )}
           </View>
+
           <View style={styles.fieldContainer}>
             <TextInput
               style={styles.fields}
               autoCapitalize="none"
+              autoCorrect={false}
               returnKeyType="next"
               inputMode="text"
               placeholder="Username"
               value={uid}
               onChangeText={(text) => updateUid(text)}
               onSubmitEditing={() => passRef.current.focus()}
+              blurOnSubmit={false}
             />
             <Horizontal />
             <TextInput
@@ -48,6 +63,7 @@ export const Login = ({ updateUser }) => {
               returnKeyType="done"
               ref={passRef}
               placeholder="Password"
+              autoCorrect={false}
               value={pass}
               secureTextEntry
               onChangeText={(text) => updatePass(text)}
@@ -88,10 +104,10 @@ const styles = StyleSheet.create({
   },
   headerTextContainer: {
     marginBottom: 14,
-    height: 30,
-    flexDirection: "row",
+    height: 40,
+    flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   loginText: {
     fontSize: 25,

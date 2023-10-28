@@ -6,11 +6,14 @@ import { Background } from "./src/components/Background";
 import { WidgetContainer } from "./src/widgets/WidgetContainer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ToolbarProvider } from "./src/components/ToolBar";
+import env from "./src/envManager";
 
 export default function App() {
   let [loaded] = useFonts({});
 
   if (!loaded) return null;
+
+  console.log(env.BACKEND_URL);
 
   StatusBar.setBarStyle("dark-content");
 

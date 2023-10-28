@@ -2,6 +2,7 @@ node_modules
 build
 
 node_modules/
+ios/
 .expo/
 dist/
 npm-debug.*
