@@ -52,6 +52,7 @@ export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
               underlayColor="rgba(0,0,0,0.5)"
               style={styles.weekDatePressable}
               onPress={() => updateHide(!hide)}
+              disabled={!hasDates}
             >
               <Text style={styles.weekDateText}>
                 {formatDate(week.Monday.date)} - {formatDate(week.Sunday.date)}

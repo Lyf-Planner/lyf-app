@@ -91,7 +91,7 @@ export const WidgetContainer = () => {
 const styles = StyleSheet.create({
   container: {
     maxWidth: 800,
-    marginVertical: 50,
+    marginVertical: 60,
     marginHorizontal: 15,
     borderRadius: 10,
     shadowColor: "black",

@@ -174,7 +174,7 @@ const ListItem = (props: any) => {
   // Action handlers
   const handleLongPressIn = () => {
     // Start animating the shrinking of the item while user holds it down
-    scale.value = 1.1;
+    scale.value = 0.75;
 
     // After the n seconds pressing, remove the item
     timer = setInterval(() => {
@@ -187,7 +187,6 @@ const ListItem = (props: any) => {
     if (willRemove.value) {
       onRemove();
     }
-
     clearTimeout(timer);
     scale.value = 1;
   };
@@ -226,7 +225,7 @@ const ListItem = (props: any) => {
 
   return (
     <GestureDetector gesture={composed}>
-      <View>
+      <Animated.View style={scaleAnimation}>
         <Animated.View
           style={[
             styles.listItem,
@@ -236,7 +235,7 @@ const ListItem = (props: any) => {
               borderColor:
                 selectedItem?.item?.name === item.name ? "red" : "black",
             },
-            scaleAnimation,
+
             flickAnimation,
           ]}
         >
@@ -257,7 +256,6 @@ const ListItem = (props: any) => {
               // Stop editing - push the change
               updateItem({ ...item, name: newText });
               updateEditText(false);
-              updateNewText("");
             }}
             onChangeText={(text) => updateNewText(text)}
           />
@@ -295,7 +293,7 @@ const ListItem = (props: any) => {
             size={20}
           />
         </View>
-      </View>
+      </Animated.View>
     </GestureDetector>
   );
 };

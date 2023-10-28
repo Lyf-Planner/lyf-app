@@ -60,7 +60,7 @@ const EditToolbar = ({
       <View style={styles.tools}>
         <TouchableHighlight
           onPress={() => {
-            selectedItem.updateEditText(true);
+            selectedItem?.updateEditText(true);
           }}
           disabled={!selectedItem}
           style={styles.toolTouchableHighlight}
@@ -79,7 +79,7 @@ const EditToolbar = ({
         </TouchableHighlight>
         <TouchableHighlight
           onPress={() => {
-            updateClipboard(selectedItem.item);
+            updateClipboard(selectedItem?.item);
             selectedItem?.onRemove();
             updateSelectedItem(null);
           }}
@@ -100,7 +100,7 @@ const EditToolbar = ({
         </TouchableHighlight>
         <TouchableHighlight
           onPress={() => {
-            selectedList.addNewItem(clipboard);
+            selectedList?.addNewItem(clipboard);
           }}
           style={styles.toolTouchableHighlight}
           underlayColor="rgba(255,255,255,0.5)"
