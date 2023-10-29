@@ -3,6 +3,7 @@ build
 
 node_modules/
 ios/
+android/
 .expo/
 dist/
 npm-debug.*

@@ -1,5 +1,5 @@
 import { DaysOfWeek } from "../../utils/constants";
-import { ListInput } from "../../components/List";
+import { ListInput } from "./list/ListInput";
 import { formatDate } from "../../utils/dates";
 import { useState } from "react";
 import {
@@ -7,7 +7,6 @@ import {
   StyleSheet,
   View,
   Text,
-  ScrollView,
   TouchableHighlight,
 } from "react-native";
 import { Horizontal } from "../../components/MiscComponents";
@@ -116,16 +115,22 @@ export const Day = ({ dayData, updateDay }: any) => {
           updateList={updateEvents}
           badgeColor="rgb(191 219 254)"
           placeholder="Add Event +"
+          listBackgroundColor="black"
           isEvents
         />
       </View>
-      <Horizontal style={{ borderColor: "rgb(80 80 80)", marginTop: 8 }} />
+
+      <Horizontal
+        style={{ borderColor: "rgba(255,255,255,0.5)", marginTop: 8 }}
+      />
+
       <View style={styles.listWrapperView}>
         <ListInput
           list={dayData.tasks || []}
           updateList={updateTasks}
           badgeColor="rgb(241 245 249)"
           placeholder="Add Task +"
+          listBackgroundColor="black"
         />
       </View>
     </View>

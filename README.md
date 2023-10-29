@@ -5,3 +5,7 @@ Feature Roadmap:
 - Cut and paste multiple items
 - Notes
 
+Bugs:
+- Editing item then scrolling results in pressing edit again not focussing
+  - Item still has selection border
+  - Item still can be edited when tapped

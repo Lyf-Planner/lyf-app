@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, View, Text } from "react-native";
-import { ListInput } from "../../components/List";
+import { ListInput } from "./list/ListInput";
 import Entypo from "react-native-vector-icons/Entypo";
 
 export const ToDo = ({ todo, updateTodo }: any) => {

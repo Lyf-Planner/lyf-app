@@ -6,7 +6,7 @@ export const ToolbarProvider = ({ children }) => {
 
   return (
     <ToolbarContext.Provider value={{ updateToolbar }}>
-      {children}
+      <View style={{ flex: 1, marginBottom: toolbar ? 80 : 0 }}>{children}</View>
       {toolbar && <View style={styles.fixToBottom}>{toolbar}</View>}
     </ToolbarContext.Provider>
   );

@@ -20,13 +20,13 @@ export const AuthGateway = ({ children }) => {
 
   useEffect(() => {
     // Check if we were logged in last time - ask backend if token is still valid
-    getAsyncData("token").then(
-      (token) =>
-        !!token &&
-        autologin(token)
-          .then((user) => user && updateUser(user))
-          .then(() => updateLoggingIn(false))
-    );
+    updateLoggingIn(true);
+    getAsyncData("token")
+      .then(
+        (token) =>
+          !!token && autologin(token).then((user) => user && updateUser(user))
+      )
+      .then(() => updateLoggingIn(false));
   }, []);
 
   if (loggingIn) return <LoadingScreen text={"Remembering who you are..."} />;

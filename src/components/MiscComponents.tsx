@@ -17,14 +17,14 @@ export const Horizontal = ({ style = {} }) => {
 export const LoadingScreen = ({ text }) => {
   return (
     <View style={styles.loadingContainer}>
-      <Text>{text}</Text>
-      <Loader />
+      <Text style={{ color: "white" }}>{text}</Text>
+      <Loader color="white" />
     </View>
   );
 };
 
-export const Loader = ({ size = 50 }) => {
-  return <Progress.Circle color={"black"} size={size} indeterminate />;
+export const Loader = ({ size = 50, color = "black" }) => {
+  return <Progress.Circle color={color} size={size} indeterminate />;
 };
 
 const styles = StyleSheet.create({

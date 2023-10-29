@@ -12,5 +12,10 @@ export async function get(url: string) {
 
 // Post request
 export async function post(url: string, body: any) {
-  return await Axios.post(url, body);
+  try {
+    return await Axios.post(url, body);
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
 }

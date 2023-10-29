@@ -13,6 +13,10 @@ export async function login(username: string, password: string) {
   if (result.status === 200) {
     storeAsyncData("token", result.data.token);
     return result.data.user;
+  } else if ((result.status = 429)) {
+    alert(
+      "New account was created from this IP too quickly. Please wait 30 seconds"
+    );
   } else {
     console.log(result);
     alert("Incorrect password");

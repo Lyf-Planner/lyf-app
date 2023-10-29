@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { Planner } from "./Planner";
 import { Horizontal } from "../../components/MiscComponents";
 import { ToDo } from "./ToDo";
-import { TimetableEditProvider } from "./TimetableEditor";
+import { TimetableEditProvider } from "./editor/EditorProvider"
 
 export const Timetable = ({ timetable, updateTimetable }: any) => {
   const updateUpcoming = (upcoming: any) =>
