@@ -13,6 +13,8 @@ export const AuthGateway = ({ children }) => {
   const [user, updateUser] = useState(null);
   const [loggingIn, updateLoggingIn] = useState(false);
 
+  console.log("user", user);
+
   const logout = () => {
     deleteAsyncData("token");
     updateUser(null);
