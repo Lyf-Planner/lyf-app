@@ -2,9 +2,10 @@ React Native Mobile Client for Lyf
 
 Feature Roadmap:
 - FAQS
-- Check for web changes when reloading
-- Cut and paste multiple items
+- Sync changes with web button
 - Notes
+- Cut and paste multiple items
+
 - UIDs on items and lists!
 - Modal for items
   - Times
