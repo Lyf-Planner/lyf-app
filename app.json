@@ -3,8 +3,8 @@
     "name": "Lyf",
     "slug": "lyf",
     "owner": "ethanhusband",
-    "version": "1.0.1",
-    "runtimeVersion": "1.0.1",
+    "version": "1.0.2",
+    "runtimeVersion": "1.0.2",
     "orientation": "portrait",
     "icon": "/assets/images/inverted-icon.png",
     "userInterfaceStyle": "light",
@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.lyfplanner",
-      "buildNumber": "1.0.1"
+      "buildNumber": "1.0.2"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,7 +28,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "lyf",
-      "versionCode": 101,
+      "versionCode": 102,
       "softwareKeyboardLayoutMode": "pan"
     },
     "web": {

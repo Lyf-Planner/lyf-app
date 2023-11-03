@@ -65,7 +65,7 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
       console.log("App state change detected", nextAppState);
       if (nextAppState === "inactive" || nextAppState === "background") {
         // This gets throttled by the backend when multiple requests come through
-        saveUserData(user);
+        if (lastUpdate > save.latest) saveUserData(user);
       }
     });
     return () => listener.remove();

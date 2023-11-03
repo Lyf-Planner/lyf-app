@@ -1,10 +1,11 @@
 React Native Mobile Client for Lyf
 
 Feature Roadmap:
+- FIX SYNCING
 - FAQS
-- Sync changes with web button
-- Notes
+- Support requests
 - Cut and paste multiple items
+- Notes
 
 - UIDs on items and lists!
 - Modal for items
