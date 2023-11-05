@@ -180,7 +180,6 @@ export const ListItem = ({
             ]}
             value={newText}
             returnKeyType="done"
-            selection={{ start: newText.length, end: newText.length }}
             selectionColor={item.finished ? "white" : "rgb(21, 128, 61)"}
             editable={!!editText}
             selectTextOnFocus={!!editText}

@@ -121,7 +121,7 @@ export const Day = ({ dayData, updateDay }: any) => {
       </View>
 
       <Horizontal
-        style={{ borderColor: "rgba(255,255,255,0.5)", marginTop: 8 }}
+        style={{ borderColor: "rgba(255,255,255,0.5)", marginTop: 6 }}
       />
 
       <View style={styles.listWrapperView}>
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   },
   listWrapperView: {
     flexDirection: "column",
-    paddingHorizontal: 2,
+    
   },
   listTopicText: {
     color: "white",

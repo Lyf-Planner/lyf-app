@@ -97,9 +97,10 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     width: "100%",
     gap: 4,
-    marginTop: 8,
+    marginTop: 6,
     borderWidth: 1,
     borderRadius: 5,
+    padding: 2
   },
   listNewItem: {
     height: 40,
