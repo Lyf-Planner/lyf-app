@@ -63,13 +63,16 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
   useEffect(() => {
     var listener = AppState.addEventListener("change", (nextAppState) => {
       console.log("App state change detected", nextAppState);
-      if (nextAppState === "inactive" || nextAppState === "background") {
+      if (nextAppState === "background") {
         // This gets throttled by the backend when multiple requests come through
-        if (lastUpdate > save.latest) saveUserData(user);
+        if (lastUpdate > save.latest) {
+          saveUserData(user);
+          setSave({ ...save, latest: new Date() });
+        }
       }
     });
     return () => listener.remove();
-  }, [save, setSave, user]);
+  }, [save, setSave, lastUpdate, user]);
 
   const EXPOSED = {
     data: user,

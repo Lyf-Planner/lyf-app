@@ -20,14 +20,14 @@ export const AuthGateway = ({ children }) => {
   };
 
   const refreshUser = () =>
-    getAsyncData("token").then(
-      (token) =>
-        !!token &&
-        autologin(token).then((freshUser) => {
-          if (!!freshUser) {
-            updateUser({ ...freshUser });
-          }
-        })
+    getAsyncData("token").then((token) =>
+      token
+        ? autologin(token).then((freshUser) => {
+            if (!!freshUser) {
+              updateUser({ ...freshUser });
+            }
+          })
+        : updateLoggingIn(false)
     );
 
   const appState = useRef(AppState.currentState);
@@ -44,10 +44,7 @@ export const AuthGateway = ({ children }) => {
     const refreshOnOpen = AppState.addEventListener(
       "change",
       (nextAppState) => {
-        if (
-          appState.current.match(/inactive|background/) &&
-          nextAppState === "active"
-        ) {
+        if (appState.current.match(/background/) && nextAppState === "active") {
           updateLoggingIn(true);
           refreshUser();
         }
