@@ -1,20 +1,28 @@
 React Native Mobile Client for Lyf
 
 Feature Roadmap:
-- FIX SYNCING
+
+  1.0.x
+
 - FAQS
-- Support requests
-- Cut and paste multiple items
+- Support requests page
+- Drag and drop
 - Notes
 
-- UIDs on items and lists!
+  1.1.x
+
+- Premium modal and settings
+- Collaborative items
 - Modal for items
-  - Times
-  - Push notifications
 
+  1.2.x
 
-Bugs:
-- Editing item then scrolling results in pressing edit again not focussing
-  - Item still has selection border
-  - Item still can be edited when tapped
-- Typing when editing item can be weird
+- Multiple templates (premium)
+
+  1.3.x
+
+- Push notifications
+
+  1.4.x
+
+- MFA
