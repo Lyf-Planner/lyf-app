@@ -10,7 +10,7 @@ export default {
     scheme: "lyf",
     currentFullName: "@ethanhusband/lyf",
     originalFullName: "@ethanhusband/lyf",
-    version: "1.0.2",
+    version: "1.0.3",
     icon: "./assets/images/inverted-icon.png",
     orientation: "portrait",
     userInterfaceStyle: "light",
@@ -43,18 +43,11 @@ export default {
         backgroundColor: "#ffffff",
       },
       package: "com.lyf",
-      versionCode: 102,
+      versionCode: 103,
     },
     ios: {
       bundleIdentifier: "com.lyfplanner",
-      buildNumber: "1.0.2",
-      infoPlist: {
-        NSCameraUsageDescription:
-          "This app uses the camera to record climbs and upload routes.",
-        NSPhotoLibraryUsageDescription:
-          "This app uses the photo library to upload climbs and route images.",
-      },
-      usesAppleSignIn: true,
+      buildNumber: "1.0.3",
     },
     plugins: [],
     extra: {
