@@ -1,28 +1,36 @@
 React Native Mobile Client for Lyf
 
-Feature Roadmap:
+Backlogged:
+- Drag and drop
 
-  1.0.x
+Feature Roadmap:
+  1.1.x
 
 - FAQS
+- Add emails
+- Account info display
 - Support requests page
-- Drag and drop
 - Notes
 
-  1.1.x
+  1.2.x
 
 - Premium modal and settings
 - Collaborative items
 - Modal for items
 
-  1.2.x
+  1.2.1
 
-- Multiple templates (premium)
+- Password resets
+- Email verification
 
   1.3.x
 
-- Push notifications
+- Multiple templates (premium)
 
   1.4.x
+
+- Push notifications
+
+  1.5.x
 
 - MFA

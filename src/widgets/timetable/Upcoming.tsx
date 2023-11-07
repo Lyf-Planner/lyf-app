@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
   upcomingContainer: {
     flexDirection: "column",
     paddingBottom: 2,
+    paddingLeft: 2,
   },
   upcomingTextContainer: {
     flexDirection: "row",

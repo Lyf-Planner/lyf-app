@@ -57,7 +57,7 @@ export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
                 {formatDate(week.Monday.date)} - {formatDate(week.Sunday.date)}
               </Text>
             </TouchableHighlight>
-            {hasHiddenDays() && (
+            {hasHiddenDays() && !hide && (
               <Pressable
                 style={styles.showAllPressable}
                 onPress={() => showAllDays()}
@@ -140,16 +140,18 @@ export const Day = ({ dayData, updateDay }: any) => {
 const styles = StyleSheet.create({
   weekDateDisplayContainer: {
     flexDirection: "row",
-    paddingVertical: 8,
+    paddingVertical: 7,
+    paddingHorizontal: 2,
     alignItems: "center",
+    justifyContent: "center",
   },
   weekDatePressable: {
     borderRadius: 10,
     marginVertical: 6,
   },
   weekDateText: {
-    fontWeight: "700",
-    fontSize: 16,
+    fontWeight: "600",
+    fontSize: 18,
     padding: 2,
   },
   showAllPressable: {
@@ -162,6 +164,7 @@ const styles = StyleSheet.create({
   },
   showAllText: {
     color: "white",
+    fontSize: 15,
   },
   weekDaysWrapperView: {
     flexDirection: "column",
@@ -200,7 +203,6 @@ const styles = StyleSheet.create({
   },
   listWrapperView: {
     flexDirection: "column",
-    
   },
   listTopicText: {
     color: "white",

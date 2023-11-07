@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
   todoContainer: {
     flexDirection: "column",
     paddingBottom: 2,
+    paddingLeft: 2,
   },
   todoTextContainer: {
     flexDirection: "row",

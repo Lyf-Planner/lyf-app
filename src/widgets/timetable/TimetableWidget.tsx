@@ -38,6 +38,7 @@ export const Timetable = ({ timetable, updateTimetable }: any) => {
 const styles = StyleSheet.create({
   widgetContainer: {
     flexDirection: "column",
+    marginTop: 10,
     flex: 1,
     gap: 8,
   },

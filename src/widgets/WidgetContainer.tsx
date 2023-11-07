@@ -14,7 +14,7 @@ import { useAuth } from "../authorisation/AuthProvider";
 import { Horizontal } from "../components/MiscComponents";
 import { AccountWidget } from "./account/AccountWidget";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Notes } from "./notes/NotesWidget";
 
 export enum Widgets {
   Timetable = "Timetable",
@@ -41,50 +41,51 @@ export const WidgetContainer = () => {
         lastUpdate={lastUpdate}
       />
     ),
+    Notes: <Notes notes={data.notes} updateNotes={updateNotes} />,
   };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <KeyboardAwareScrollView enableResetScrollToCoords={false}>
-          <View style={styles.container}>
-            <View style={styles.header}>
-              <View style={styles.widgetSelect}>
-                {Object.keys(Widgets).map((x) => (
-                  <TouchableHighlight
+      <KeyboardAwareScrollView enableResetScrollToCoords={false}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <View style={styles.widgetSelect}>
+              {Object.keys(Widgets).map((x) => (
+                <TouchableHighlight
+                  style={[
+                    styles.headerTextContainer,
+                    selected === x && styles.highlightedHeaderTextContainer,
+                  ]}
+                  onPress={() => updateSelected(x)}
+                  key={x}
+                >
+                  <Text
                     style={[
-                      styles.headerTextContainer,
-                      selected === x && styles.highlightedHeaderTextContainer,
+                      styles.headerText,
+                      selected === x && styles.highlightedHeaderText,
                     ]}
-                    onPress={() => updateSelected(x)}
-                    key={x}
                   >
-                    <Text
-                      style={[
-                        styles.headerText,
-                        selected === x && styles.highlightedHeaderText,
-                      ]}
-                    >
-                      {x}
-                    </Text>
-                  </TouchableHighlight>
-                ))}
-              </View>
-              <Pressable
-                style={[
-                  styles.saveTooltip,
-                  { borderBottomWidth: selected === "Account" ? 0.5 : 0 },
-                ]}
-                onPress={() => updateSelected("Account")}
-              >
-                <SaveTooltip size={40} />
-              </Pressable>
+                    {x}
+                  </Text>
+                </TouchableHighlight>
+              ))}
             </View>
-            <Horizontal
-              style={{ marginVertical: 10, borderWidth: 4, borderRadius: 20 }}
-            />
-            {WIDGETS[selected]}
+            <Pressable
+              style={[
+                styles.saveTooltip,
+                { borderBottomWidth: selected === "Account" ? 0.5 : 0 },
+              ]}
+              onPress={() => updateSelected("Account")}
+            >
+              <SaveTooltip size={40} />
+            </Pressable>
           </View>
-        </KeyboardAwareScrollView>
+          <Horizontal
+            style={{ marginTop: 10, borderWidth: 4, borderRadius: 20 }}
+          />
+          {WIDGETS[selected]}
+        </View>
+      </KeyboardAwareScrollView>
     </TouchableWithoutFeedback>
   );
 };

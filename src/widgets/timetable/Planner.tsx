@@ -120,10 +120,7 @@ export const Planner = ({
 const MenuButton = ({ children, onPress, selected = false }: any) => {
   return (
     <Pressable
-      style={[
-        styles.menuButton,
-        { borderColor: "black", borderWidth: selected ? 2 : 0 },
-      ]}
+      style={[styles.menuButton, { borderColor: selected ? "black" : "rgb(21 128 61)" }]}
       onPress={onPress}
     >
       {children}
@@ -146,6 +143,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     borderRadius: 10,
+    borderWidth: 2
   },
   menuButtonText: { color: "white", fontSize: 17 },
   addWeekView: {
