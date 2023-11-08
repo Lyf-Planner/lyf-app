@@ -13,7 +13,7 @@ import {
 import AntDesign from "react-native-vector-icons/AntDesign";
 import * as Haptics from "expo-haptics";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { useEditing } from "../editor/EditorProvider";
+import { useEditing } from "../../widgets/timetable/editor/EditorProvider";
 
 export type Item = {
   name: string;
@@ -125,7 +125,7 @@ export const ListItem = ({
 
     var activate = setInterval(() => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-      updateEditMode(true)
+      updateEditMode(true);
 
       // This makes the animation appear to pause for a second when slid back
       var closeAnimation = setInterval(() => {

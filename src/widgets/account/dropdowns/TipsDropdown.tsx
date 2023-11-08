@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { SettingDropdown } from "../../../components/SettingDropdown";
+import { SettingDropdown } from "../../../components/dropdowns/SettingDropdown";
 import { SettingsDropdowns } from "../AccountDropdowns";
 
 const TIPS = [

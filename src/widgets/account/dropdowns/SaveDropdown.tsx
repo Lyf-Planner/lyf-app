@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { SettingDropdown } from "../../../components/SettingDropdown";
+import { SettingDropdown } from "../../../components/dropdowns/SettingDropdown";
 import { useAuth } from "../../../authorisation/AuthProvider";
 import { SettingsDropdowns } from "../AccountDropdowns";
 

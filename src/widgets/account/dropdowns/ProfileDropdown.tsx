@@ -1,5 +1,5 @@
 import { View, Text, Alert, StyleSheet } from "react-native";
-import { SettingDropdown } from "../../../components/SettingDropdown";
+import { SettingDropdown } from "../../../components/dropdowns/SettingDropdown";
 import { useAuth } from "../../../authorisation/AuthProvider";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { primaryGreen } from "../../../utils/constants";

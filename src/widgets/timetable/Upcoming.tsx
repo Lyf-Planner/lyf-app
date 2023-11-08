@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, View, Text } from "react-native";
-import { ListInput } from "./list/ListInput";
+import { ListInput } from "../../components/list/ListInput";
 import Entypo from "react-native-vector-icons/Entypo";
 
 export const Upcoming = ({ upcoming, updateUpcoming }: any) => {
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
   upcomingContainer: {
     flexDirection: "column",
     paddingBottom: 2,
+    marginVertical: 2,
     paddingLeft: 2,
   },
   upcomingTextContainer: {
@@ -66,5 +67,6 @@ const styles = StyleSheet.create({
   },
   listWrapper: {
     flexDirection: "column",
+    marginTop: 2,
   },
 });

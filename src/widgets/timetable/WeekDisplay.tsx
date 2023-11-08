@@ -1,5 +1,5 @@
 import { DaysOfWeek } from "../../utils/constants";
-import { ListInput } from "./list/ListInput";
+import { ListInput } from "../../components/list/ListInput";
 import { formatDate } from "../../utils/dates";
 import { useState } from "react";
 import {
@@ -61,7 +61,6 @@ export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
               <TouchableHighlight
                 style={styles.showAllPressable}
                 onPress={() => showAllDays()}
-
               >
                 <Text style={styles.showAllText}>Show All</Text>
               </TouchableHighlight>
@@ -147,7 +146,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
     alignItems: "center",
     justifyContent: "center",
-  
   },
   weekDatePressable: {
     borderRadius: 10,

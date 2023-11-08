@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import Entypo from "react-native-vector-icons/Entypo";
-import { Horizontal } from "./MiscComponents";
+import { Horizontal } from "../MiscComponents";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,

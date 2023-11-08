@@ -1,7 +1,13 @@
 import { View, Pressable, StyleSheet, TextInput } from "react-native";
 import { useState } from "react";
 import { Item, ListItem } from "./ListItem";
-import { useEditing } from "../editor/EditorProvider";
+import { useEditing } from "../../widgets/timetable/editor/EditorProvider";
+
+export enum ListType {
+  Event = "Event",
+  Task = "Task",
+  Item = "Item",
+}
 
 export const ListInput = ({
   list,
