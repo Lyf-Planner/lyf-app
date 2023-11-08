@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   upcomingText: {
     fontWeight: "500",
-    fontSize: 18,
+    fontSize: 20,
   },
   icon: {
     marginLeft: "auto",

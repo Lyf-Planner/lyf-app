@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
-import { LogoutButton } from "./LogoutButton";
-import { DeleteButton } from "./DeleteMeButton";
+import { LogoutButton } from "./buttons/LogoutButton";
+import { DeleteButton } from "./buttons/DeleteMeButton";
 import { Horizontal } from "../../components/MiscComponents";
 import { TipsDropdown } from "./dropdowns/TipsDropdown";
 import { AccountDropdowns } from "./AccountDropdowns";

@@ -1,46 +1,74 @@
-import { useState } from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { useEffect } from "react";
+import { StyleSheet, View, Text } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import Entypo from "react-native-vector-icons/Entypo";
 import { Horizontal } from "./MiscComponents";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
-export const Dropdown = ({
+export const SettingDropdown = ({
   name,
   children,
+  onPress,
+  open = false,
   opacity = 1,
   boldTitle = false,
   extraStyles = {},
   touchableHightlightExtraStyles = {},
-  isBottom = false,
 }: any) => {
-  const [open, setOpen] = useState(false);
+  const chevronAngle = useSharedValue(0);
+  const rotationAnimation = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          rotateZ: withTiming(`${chevronAngle.value}deg`, {
+            duration: 200,
+          }),
+        },
+      ],
+    } as any;
+  });
+
+  useEffect(() => {
+    chevronAngle.value = open ? 90 : 0;
+  }, [open]);
+
   return (
     <View style={[styles.main, extraStyles]}>
       <TouchableHighlight
         style={[styles.touchableHighlight, touchableHightlightExtraStyles]}
         underlayColor={"rgba(0,0,0,0.3)"}
-        onPress={() => setOpen(!open)}
+        onPress={onPress}
       >
         <View style={[styles.pressableDropdown, { opacity }]}>
           <Text style={[styles.titleText, boldTitle && { fontWeight: "500" }]}>
             {name}
           </Text>
-          <Entypo
-            style={styles.dropdownOpenIndicator}
-            name={open ? "chevron-down" : "chevron-right"}
-            size={25}
-          />
+          <Animated.View style={[styles.animatedChevron, rotationAnimation]}>
+            <Entypo name={"chevron-right"} size={25} />
+          </Animated.View>
         </View>
       </TouchableHighlight>
       {open && (
         <View>
-          <Horizontal style={{ marginTop: 6, marginBottom: 4, opacity: 0.4 }} />
+          <Horizontal
+            style={{
+              marginTop: 6,
+              marginBottom: 4,
+              opacity: 0.4,
+              borderBottomWidth: open ? 2 : 0.5,
+            }}
+          />
           <View style={styles.dropdownContent}>{children}</View>
         </View>
       )}
       <Horizontal
         style={{
           opacity: open ? 0.4 : 0.1,
+          borderBottomWidth: open ? 2 : 0.5,
           marginTop: 6,
           marginBottom: 6,
         }}
@@ -67,7 +95,8 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 20,
   },
-  dropdownOpenIndicator: {
+
+  animatedChevron: {
     marginLeft: "auto",
   },
   dropdownContent: {

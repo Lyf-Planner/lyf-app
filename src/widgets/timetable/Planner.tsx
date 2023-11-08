@@ -11,6 +11,7 @@ import { WeekDisplay } from "./WeekDisplay";
 import { mapDatesToWeek, parseDateString } from "../../utils/dates";
 import moment from "moment";
 import Entypo from "react-native-vector-icons/Entypo";
+import { primaryGreen } from "../../utils/constants";
 
 export const Planner = ({
   weeks,
@@ -62,7 +63,7 @@ export const Planner = ({
           <Text style={styles.menuButtonText}>Routine</Text>
           <Pressable
             style={{
-              marginLeft: 4,
+              marginLeft: 5,
               flexDirection: "row",
               alignItems: "center",
             }}
@@ -120,7 +121,10 @@ export const Planner = ({
 const MenuButton = ({ children, onPress, selected = false }: any) => {
   return (
     <Pressable
-      style={[styles.menuButton, { borderColor: selected ? "black" : "rgb(21 128 61)" }]}
+      style={[
+        styles.menuButton,
+        { borderColor: selected ? "black" : primaryGreen },
+      ]}
       onPress={onPress}
     >
       {children}
@@ -135,7 +139,7 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   menuButton: {
-    backgroundColor: "rgb(21 128 61)",
+    backgroundColor: primaryGreen,
     flex: 1,
     padding: 10,
     margin: 2,
@@ -143,9 +147,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     borderRadius: 10,
-    borderWidth: 2
+    borderWidth: 2,
   },
-  menuButtonText: { color: "white", fontSize: 17 },
+  menuButtonText: { color: "white", fontSize: 18 },
   addWeekView: {
     flexDirection: "row",
     justifyContent: "center",

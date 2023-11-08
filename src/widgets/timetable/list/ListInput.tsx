@@ -100,10 +100,9 @@ const styles = StyleSheet.create({
     marginTop: 6,
     borderWidth: 1,
     borderRadius: 5,
-    padding: 2
   },
   listNewItem: {
-    height: 40,
+    height: 45,
     backgroundColor: "rgb(17 24 39)",
     borderRadius: 5,
     paddingVertical: 8,
@@ -113,6 +112,6 @@ const styles = StyleSheet.create({
     borderColor: "rgb(156 163 175)",
     borderWidth: 1,
     color: "rgb(203 213 225)",
-    fontSize: 15,
+    fontSize: 16,
   },
 });

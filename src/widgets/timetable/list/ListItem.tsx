@@ -125,7 +125,8 @@ export const ListItem = ({
 
     var activate = setInterval(() => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-      updateEditMode(true);
+      updateEditMode(true)
+
       // This makes the animation appear to pause for a second when slid back
       var closeAnimation = setInterval(() => {
         offsetX.value = 0;
@@ -215,13 +216,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     paddingVertical: 10,
     paddingHorizontal: 10,
-    height: 40,
+    height: 45,
     borderWidth: 1,
     gap: 5,
     alignItems: "center",
   },
   listItemText: {
-    fontSize: 15,
+    fontSize: 15.5,
     paddingBottom: 1,
   },
   listHiddenBackground: {

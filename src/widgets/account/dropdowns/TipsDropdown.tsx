@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
-import { Dropdown } from "../../../components/Dropdown";
+import { SettingDropdown } from "../../../components/SettingDropdown";
+import { SettingsDropdowns } from "../AccountDropdowns";
 
 const TIPS = [
   "Hold down any task or event to delete it",
@@ -10,14 +11,15 @@ const TIPS = [
   "Press the name of a day to hide it (e.g. Monday)",
 ];
 
-export const TipsDropdown = () => {
+export const TipsDropdown = ({ settingOpen, setOpen }) => {
   return (
-    <Dropdown
+    <SettingDropdown
       name="Tips"
       touchableHightlightExtraStyles={{ paddingLeft: 2 }}
-      extraStyles={{ paddingLeft: 2 }}
       boldTitle
       isBottom
+      open={settingOpen === SettingsDropdowns.Tips}
+      onPress={() => setOpen(SettingsDropdowns.Tips)}
     >
       <View style={styles.dropdownContent}>
         {TIPS.map((x) => (
@@ -26,7 +28,7 @@ export const TipsDropdown = () => {
           </BulletedText>
         ))}
       </View>
-    </Dropdown>
+    </SettingDropdown>
   );
 };
 

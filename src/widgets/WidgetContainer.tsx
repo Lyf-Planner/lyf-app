@@ -18,6 +18,7 @@ import { Notes } from "./notes/NotesWidget";
 
 export enum Widgets {
   Timetable = "Timetable",
+  Notes = "Notes",
 }
 
 export const WidgetContainer = () => {
@@ -48,45 +49,52 @@ export const WidgetContainer = () => {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAwareScrollView enableResetScrollToCoords={false}>
         <View style={styles.container}>
-          <View style={styles.header}>
-            <View style={styles.widgetSelect}>
-              {Object.keys(Widgets).map((x) => (
-                <TouchableHighlight
-                  style={[
-                    styles.headerTextContainer,
-                    selected === x && styles.highlightedHeaderTextContainer,
-                  ]}
-                  onPress={() => updateSelected(x)}
-                  key={x}
-                >
-                  <Text
-                    style={[
-                      styles.headerText,
-                      selected === x && styles.highlightedHeaderText,
-                    ]}
-                  >
-                    {x}
-                  </Text>
-                </TouchableHighlight>
-              ))}
-            </View>
-            <Pressable
-              style={[
-                styles.saveTooltip,
-                { borderBottomWidth: selected === "Account" ? 0.5 : 0 },
-              ]}
-              onPress={() => updateSelected("Account")}
-            >
-              <SaveTooltip size={40} />
-            </Pressable>
-          </View>
-          <Horizontal
-            style={{ marginTop: 10, borderWidth: 4, borderRadius: 20 }}
-          />
+          <AppHeader selected={selected} updateSelected={updateSelected} />
+          <Horizontal style={styles.headerSeperator} />
           {WIDGETS[selected]}
         </View>
       </KeyboardAwareScrollView>
     </TouchableWithoutFeedback>
+  );
+};
+
+const AppHeader = ({ selected, updateSelected }) => {
+  return (
+    <View style={styles.header}>
+      <View style={styles.widgetSelect}>
+        {Object.keys(Widgets).map((x) => (
+          <TouchableHighlight
+            style={[
+              styles.headerTextContainer,
+              selected === x && styles.highlightedHeaderTextContainer,
+            ]}
+            onPress={() => updateSelected(x)}
+            key={x}
+          >
+            <Text
+              style={[
+                styles.headerText,
+                selected === x && styles.highlightedHeaderText,
+              ]}
+            >
+              {x}
+            </Text>
+          </TouchableHighlight>
+        ))}
+      </View>
+      <Pressable
+        style={[
+          styles.saveTooltip,
+          {
+            borderBottomWidth: selected === "Account" ? 1 : 0.5,
+            borderColor: selected === "Account" ? "black" : "rgba(0,0,0,0.3)",
+          },
+        ]}
+        onPress={() => updateSelected("Account")}
+      >
+        <SaveTooltip size={40} />
+      </Pressable>
+    </View>
   );
 };
 
@@ -109,6 +117,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 50,
   },
+  headerSeperator: { marginTop: 10, borderWidth: 4, borderRadius: 20 },
   widgetSelect: {
     flexDirection: "row",
     gap: 4,
@@ -121,7 +130,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    width: 125,
+    width: 120,
     height: 50,
     borderColor: "rgba(50,50,50,0.25)",
     borderWidth: 1,
@@ -140,6 +149,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 4,
     marginLeft: "auto",
-    marginRight: 10,
+    marginRight: 8,
   },
 });

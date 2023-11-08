@@ -1,20 +1,22 @@
 import { View, Text, StyleSheet } from "react-native";
-import { Dropdown } from "../../../components/Dropdown";
+import { SettingDropdown } from "../../../components/SettingDropdown";
 import { useAuth } from "../../../authorisation/AuthProvider";
+import { SettingsDropdowns } from "../AccountDropdowns";
 
 import moment from "moment";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
-export const SaveDropdown = () => {
+export const SaveDropdown = ({ settingOpen, setOpen }) => {
   return (
-    <Dropdown
+    <SettingDropdown
       name="Save Info"
       touchableHightlightExtraStyles={{ paddingLeft: 2 }}
-      extraStyles={{ paddingLeft: 2 }}
       boldTitle
+      open={settingOpen === SettingsDropdowns.Save}
+      onPress={() => setOpen(SettingsDropdowns.Save)}
     >
       <SaveInfo />
-    </Dropdown>
+    </SettingDropdown>
   );
 };
 
