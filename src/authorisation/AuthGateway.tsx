@@ -34,25 +34,38 @@ export const AuthGateway = ({ children }) => {
 
   useEffect(() => {
     updateLoggingIn(false);
-  }, [user]);
-
-  useEffect(() => {
-    // Check if we were logged in last time - ask backend if token is still valid
-    updateLoggingIn(true);
-    refreshUser();
 
     const refreshOnOpen = AppState.addEventListener(
       "change",
       (nextAppState) => {
         if (appState.current.match(/background/) && nextAppState === "active") {
-          updateLoggingIn(true);
-          refreshUser();
+          getAsyncData("token").then((token) =>
+            autologin(token).then((cloudUser) => {
+              console.log("cloud user", cloudUser.last_updated);
+              console.log("local user", user.last_updated);
+              // If the cloud save is different to what we have locally, update local user!
+              if (
+                cloudUser.last_updated > user.last_updated ||
+                cloudUser.last_save > user.last_updated
+              ) {
+                updateLoggingIn(true);
+                updateUser(cloudUser);
+                updateLoggingIn(false);
+              }
+            })
+          );
         }
         appState.current = nextAppState;
       }
     );
 
     return () => refreshOnOpen.remove();
+  }, [user]);
+
+  useEffect(() => {
+    // Check if we were logged in last time - ask backend if token is still valid
+    updateLoggingIn(true);
+    refreshUser();
   }, []);
 
   if (loggingIn) return <LoadingScreen text={"Remembering your schedule..."} />;

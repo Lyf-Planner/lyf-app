@@ -5,7 +5,7 @@ import { Horizontal } from "../../components/MiscComponents";
 import { TipsDropdown } from "./dropdowns/TipsDropdown";
 import { AccountDropdowns } from "./AccountDropdowns";
 
-export const AccountWidget = ({ logout, deleteMe, lastSave, lastUpdate }) => {
+export const AccountWidget = ({ logout, deleteMe, lastSave }) => {
   return (
     <View style={styles.widgetContainer}>
       <AccountDropdowns />

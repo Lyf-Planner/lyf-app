@@ -21,7 +21,8 @@ export const SaveDropdown = ({ settingOpen, setOpen }) => {
 };
 
 export const SaveInfo = () => {
-  const { lastSave, lastUpdate } = useAuth();
+  const { lastSave, data } = useAuth();
+  const lastUpdate = data.last_updated;
 
   return (
     <View style={styles.saveSection}>

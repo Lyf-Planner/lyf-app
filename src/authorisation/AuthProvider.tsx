@@ -11,7 +11,6 @@ import { getAsyncData } from "../utils/asyncStorage";
 import { AppState } from "react-native";
 
 export const AuthProvider = ({ children, user, updateUser, logout }) => {
-  const [lastUpdate, setLastUpdate] = useState<any>(new Date());
   const [save, setSave] = useState({
     error: "",
     loading: false,
@@ -25,14 +24,13 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
   };
 
   const updateData = (data: any) => {
-    updateUser(data);
-    setLastUpdate(new Date());
+    updateUser({ ...data, last_updated: new Date() });
   };
 
   const autoSave = useCallback(() => {
     console.log("Checking for changes to save");
     // Check for changes
-    if (lastUpdate > save.latest) {
+    if (user.last_updated > save.latest) {
       console.log("Autosaving...");
       saveUserData(user)
         .then(() => setSave({ ...save, loading: false, latest: new Date() }))
@@ -48,7 +46,7 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
     } else {
       setSave({ ...save, loading: false });
     }
-  }, [lastUpdate, save, setSave, user]);
+  }, [save, setSave, user]);
 
   // Autosave (every 10s)
   useEffect(() => {
@@ -57,7 +55,7 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [lastUpdate, save, setSave, user]);
+  }, [save, setSave, user]);
 
   // Autosave when app closes!
   useEffect(() => {
@@ -65,14 +63,14 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
       console.log("App state change detected", nextAppState);
       if (nextAppState === "background") {
         // This gets throttled by the backend when multiple requests come through
-        if (lastUpdate > save.latest) {
+        if (user.last_updated > save.latest) {
           saveUserData(user);
           setSave({ ...save, latest: new Date() });
         }
       }
     });
     return () => listener.remove();
-  }, [save, setSave, lastUpdate, user]);
+  }, [save, setSave, user]);
 
   const EXPOSED = {
     data: user,
@@ -81,7 +79,6 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
     logout: saveAndLogout,
     isSaving: save.loading,
     lastSave: save.latest,
-    lastUpdate,
   };
 
   return (

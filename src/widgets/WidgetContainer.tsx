@@ -23,7 +23,7 @@ export enum Widgets {
 
 export const WidgetContainer = () => {
   const [selected, updateSelected] = useState<any>(Widgets.Timetable);
-  const { updateData, data, logout, deleteMe, lastSave, lastUpdate } =
+  const { updateData, data, logout, deleteMe, lastSave } =
     useAuth();
 
   const updateTimetable = (timetable: any) =>
@@ -39,7 +39,6 @@ export const WidgetContainer = () => {
         logout={logout}
         deleteMe={deleteMe}
         lastSave={lastSave}
-        lastUpdate={lastUpdate}
       />
     ),
     Notes: <Notes notes={data.notes} updateNotes={updateNotes} />,
@@ -49,7 +48,7 @@ export const WidgetContainer = () => {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAwareScrollView enableResetScrollToCoords={false}>
         <View style={styles.container}>
-          <AppHeader selected={selected} updateSelected={updateSelected} />
+          <AppHeaderMenu selected={selected} updateSelected={updateSelected} />
           <Horizontal style={styles.headerSeperator} />
           {WIDGETS[selected]}
         </View>
@@ -58,7 +57,7 @@ export const WidgetContainer = () => {
   );
 };
 
-const AppHeader = ({ selected, updateSelected }) => {
+const AppHeaderMenu = ({ selected, updateSelected }) => {
   return (
     <View style={styles.header}>
       <View style={styles.widgetSelect}>
