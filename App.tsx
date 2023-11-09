@@ -6,6 +6,7 @@ import { Background } from "./src/components/Background";
 import { WidgetContainer } from "./src/widgets/WidgetContainer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ToolbarProvider } from "./src/components/ToolBar";
+import { MenuProvider } from "react-native-popup-menu";
 import env from "./src/envManager";
 
 export default function App() {
@@ -20,11 +21,13 @@ export default function App() {
   return (
     <Background>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <ToolbarProvider>
-          <AuthGateway>
-            <WidgetContainer />
-          </AuthGateway>
-        </ToolbarProvider>
+        <MenuProvider>
+          <ToolbarProvider>
+            <AuthGateway>
+              <WidgetContainer />
+            </AuthGateway>
+          </ToolbarProvider>
+        </MenuProvider>
       </GestureHandlerRootView>
     </Background>
   );
