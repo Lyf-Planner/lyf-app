@@ -11,3 +11,4 @@ export enum DaysOfWeek {
 export const DaysList = Object.values(DaysOfWeek);
 
 export const primaryGreen = "rgb(21, 128, 61)";
+export const eventsBadgeColor = "rgb(191 219 254)";

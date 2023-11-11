@@ -22,18 +22,18 @@ export const SaveDropdown = ({ settingOpen, setOpen }) => {
 
 export const SaveInfo = () => {
   const { lastSave, data } = useAuth();
-  const lastUpdate = data.last_updated;
+  const lastUpdate = data.last_updated as Date;
+
+  const saved = new Date(lastSave).getTime() > new Date(lastUpdate).getTime();
 
   return (
     <View style={styles.saveSection}>
       <View style={styles.savedRow}>
-        <Text style={styles.savedText}>
-          {lastSave >= lastUpdate ? "Saved" : "Saving.."}
-        </Text>
+        <Text style={styles.savedText}>{saved ? "Saved" : "Saving.."}</Text>
         <AntDesign
           name="checkcircle"
           style={{
-            color: lastSave >= lastUpdate ? "green" : "orange",
+            color: saved ? "green" : "orange",
             marginRight: 8,
           }}
           size={20}

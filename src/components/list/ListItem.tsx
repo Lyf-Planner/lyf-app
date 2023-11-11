@@ -13,9 +13,10 @@ import {
 import AntDesign from "react-native-vector-icons/AntDesign";
 import * as Haptics from "expo-haptics";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { useEditing } from "../../widgets/timetable/editor/EditorProvider";
+import { useEditing } from "../../editor/EditorProvider";
 
 export type Item = {
+  id: string;
   name: string;
   finished: boolean;
 };
@@ -226,7 +227,7 @@ const styles = StyleSheet.create({
     paddingBottom: 1,
   },
   listHiddenBackground: {
-    height: 40,
+    height: 45,
     flexDirection: "row",
     alignItems: "center",
     position: "absolute",

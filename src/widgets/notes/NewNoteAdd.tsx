@@ -10,16 +10,7 @@ import {
 } from "react-native-popup-menu";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Horizontal } from "../../components/MiscComponents";
-
-export enum NoteTypes {
-  List = "List",
-  Text = "Text",
-}
-
-export const NoteTypeInitialiser = {
-  List: [],
-  Text: "",
-};
+import { NoteTypes } from "./TypesAndHelpers";
 
 const NewNoteButton = () => {
   return (
@@ -28,8 +19,6 @@ const NewNoteButton = () => {
     </View>
   );
 };
-
-const ContextNewNoteButton = withMenuContext(NewNoteButton);
 
 export const NewNoteMenu = ({ addNote }) => {
   const onOptionSelect = (value: string) => {
@@ -74,7 +63,7 @@ export const NewNoteMenu = ({ addNote }) => {
             onSelect={() => addNote(NoteTypes.Text)}
           />
         </MenuOptions>
-        <MenuTrigger onPress={() => console.log("trigger pressed")}>
+        <MenuTrigger>
           <NewNoteButton />
         </MenuTrigger>
       </Menu>

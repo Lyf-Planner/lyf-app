@@ -15,6 +15,7 @@ import { Horizontal } from "../components/MiscComponents";
 import { AccountWidget } from "./account/AccountWidget";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Notes } from "./notes/NotesWidget";
+import { EditProvider } from "../editor/EditorProvider";
 
 export enum Widgets {
   Timetable = "Timetable",
@@ -23,8 +24,7 @@ export enum Widgets {
 
 export const WidgetContainer = () => {
   const [selected, updateSelected] = useState<any>(Widgets.Timetable);
-  const { updateData, data, logout, deleteMe, lastSave } =
-    useAuth();
+  const { updateData, data, logout, deleteMe, lastSave } = useAuth();
 
   const updateTimetable = (timetable: any) =>
     updateData({ ...data, timetable });
@@ -35,11 +35,7 @@ export const WidgetContainer = () => {
       <Timetable timetable={data.timetable} updateTimetable={updateTimetable} />
     ),
     Account: (
-      <AccountWidget
-        logout={logout}
-        deleteMe={deleteMe}
-        lastSave={lastSave}
-      />
+      <AccountWidget logout={logout} deleteMe={deleteMe} lastSave={lastSave} />
     ),
     Notes: <Notes notes={data.notes} updateNotes={updateNotes} />,
   };
@@ -47,11 +43,16 @@ export const WidgetContainer = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAwareScrollView enableResetScrollToCoords={false}>
-        <View style={styles.container}>
-          <AppHeaderMenu selected={selected} updateSelected={updateSelected} />
-          <Horizontal style={styles.headerSeperator} />
-          {WIDGETS[selected]}
-        </View>
+        <EditProvider>
+          <View style={styles.container}>
+            <AppHeaderMenu
+              selected={selected}
+              updateSelected={updateSelected}
+            />
+            <Horizontal style={styles.headerSeperator} />
+            {WIDGETS[selected]}
+          </View>
+        </EditProvider>
       </KeyboardAwareScrollView>
     </TouchableWithoutFeedback>
   );

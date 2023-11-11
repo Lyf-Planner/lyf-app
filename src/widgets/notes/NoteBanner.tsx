@@ -19,6 +19,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import Entypo from "react-native-vector-icons/Entypo";
+import { NoteTypeBadge } from "./NoteTypeBadge";
 
 export const NoteBanner = ({ title, noteType, onPress, onDelete }: any) => {
   const offsetX = useSharedValue(0);
@@ -65,6 +66,8 @@ export const NoteBanner = ({ title, noteType, onPress, onDelete }: any) => {
             <View style={styles.touchableHighlight}>
               <Text style={[styles.titleText]}>{title}</Text>
               <View style={[styles.animatedChevron]}>
+                <NoteTypeBadge type={noteType} />
+
                 <Entypo name={"chevron-right"} size={25} />
               </View>
             </View>
@@ -120,5 +123,6 @@ const styles = StyleSheet.create({
   editIcon: { marginLeft: "auto", marginRight: 17.5 },
   animatedChevron: {
     marginLeft: "auto",
+    flexDirection: "row",
   },
 });

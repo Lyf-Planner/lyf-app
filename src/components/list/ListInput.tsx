@@ -1,7 +1,10 @@
 import { View, Pressable, StyleSheet, TextInput } from "react-native";
 import { useState } from "react";
 import { Item, ListItem } from "./ListItem";
-import { useEditing } from "../../widgets/timetable/editor/EditorProvider";
+import { useEditing } from "../../editor/EditorProvider";
+
+import "react-native-get-random-values";
+import { v4 as uuid } from "uuid";
 
 export enum ListType {
   Event = "Event",
@@ -17,6 +20,8 @@ export const ListInput = ({
   placeholder,
   listBackgroundColor = "white",
   isEvents = false,
+  asColumn = false,
+  listWrapperStyles = {}
 }: any) => {
   const [newItem, updateNewItem] = useState<any>("");
 
@@ -62,9 +67,12 @@ export const ListInput = ({
         style={[
           styles.listContainer,
           {
+            flexDirection: asColumn ? "column" : "row",
+            backgroundColor: listBackgroundColor,
             borderColor:
               selectedList?.list === list ? "red" : listBackgroundColor,
           },
+          listWrapperStyles
         ]}
       >
         {list.map((x: Item) => (
@@ -87,7 +95,8 @@ export const ListInput = ({
           value={newItem}
           style={styles.listNewItem}
           onSubmitEditing={() => {
-            newItem && addNewItem({ name: newItem, finished: false });
+            newItem &&
+              addNewItem({ name: newItem, finished: false, id: uuid() });
             updateNewItem("");
           }}
           onChangeText={(text) => updateNewItem(text)}
@@ -99,7 +108,6 @@ export const ListInput = ({
 
 const styles = StyleSheet.create({
   listContainer: {
-    flexDirection: "row",
     flexWrap: "wrap",
     width: "100%",
     gap: 4,

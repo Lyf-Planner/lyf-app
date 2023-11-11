@@ -1,4 +1,4 @@
-import { DaysOfWeek } from "../../utils/constants";
+import { DaysOfWeek, eventsBadgeColor } from "../../utils/constants";
 import { ListInput } from "../../components/list/ListInput";
 import { formatDate } from "../../utils/dates";
 import { useState } from "react";
@@ -115,7 +115,7 @@ export const Day = ({ dayData, updateDay }: any) => {
         <ListInput
           list={dayData.events || []}
           updateList={updateEvents}
-          badgeColor="rgb(191 219 254)"
+          badgeColor={eventsBadgeColor}
           placeholder="Add Event +"
           listBackgroundColor="black"
           isEvents

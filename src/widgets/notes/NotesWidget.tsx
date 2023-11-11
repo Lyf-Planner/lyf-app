@@ -1,61 +1,45 @@
 import { View, Text, StyleSheet } from "react-native";
-import { TouchableHighlight } from "react-native-gesture-handler";
 import { Horizontal } from "../../components/MiscComponents";
 import { useState } from "react";
-import { NewNoteMenu, NoteTypeInitialiser, NoteTypes } from "./NewNoteAdd";
+import { NewNoteMenu } from "./NewNoteAdd";
+import {
+  TypeToDisplayName,
+  updateNote,
+  addNote,
+  removeNote,
+} from "./TypesAndHelpers";
 import { NoteView } from "./NoteView";
 import { NoteBanner } from "./NoteBanner";
 
 export const Notes = ({ notes, updateNotes }: any) => {
   const [focussedNote, setFocussedNote] = useState(null);
-  const [newNote, setNewNote] = useState(false);
 
-  const updateNote = (title: any, content: any) => {
-    var i = notes.items.findIndex((x: any) => x.title === title);
-    var newNotes = notes.items;
-    newNotes[i].content = content;
-    updateNotes({ items: newNotes });
+  const newNote = (noteType, newNoteName?) => {
+    var newNote = addNote(notes, updateNotes, noteType, newNoteName);
+    setFocussedNote(newNote);
   };
-  const addNote = (noteType: NoteTypes) => {
-    console.log("adding note", noteType);
-    var newNotes = notes.items;
-    newNotes.unshift({
-      title: `New ${noteType}`,
-      content: NoteTypeInitialiser[noteType],
-      type: noteType,
-    });
-    console.log("new notes are", newNotes);
-    updateNotes({ items: newNotes });
-    setNewNote(true);
-    setFocussedNote(notes[0]);
-  };
-  const removeNote = (title: any) => {
-    console.log("removing note", title);
-    var i = notes.items.findIndex((x: any) => x.title === title);
-    var newNotes = notes.items;
-    newNotes.splice(i, 1);
-    updateNotes({ items: newNotes });
-  };
+  const deleteNote = (id) => removeNote(notes, updateNotes, id);
+  const modifyNote = (updatedNote) =>
+    updateNote(notes, updateNotes, focussedNote.id, updatedNote);
 
   if (focussedNote)
     return (
       <NoteView
         note={focussedNote}
-        onBack={() => {
-          setFocussedNote(null);
-          setNewNote(false);
-        }}
-        initialising={newNote}
-        updateNote={updateNote}
+        onBack={() => setFocussedNote(null)}
+        initialising={
+          focussedNote.title === `New ${TypeToDisplayName[focussedNote.type]}`
+        }
+        updateNote={modifyNote}
       />
     );
   else
     return (
-      <View style={{}}>
+      <View>
         <View style={styles.myNotesHeader}>
           <Text style={styles.myNotesTitle}>My Notes</Text>
           <View style={{ marginLeft: "auto", marginRight: 5 }}>
-            <NewNoteMenu addNote={addNote} />
+            <NewNoteMenu addNote={newNote} />
           </View>
         </View>
         <Horizontal style={{ borderWidth: 2, opacity: 0.6 }} />
@@ -65,7 +49,7 @@ export const Notes = ({ notes, updateNotes }: any) => {
               title={x.title}
               onPress={() => setFocussedNote(x)}
               noteType={x.type}
-              onDelete={() => removeNote(x.title)}
+              onDelete={() => deleteNote(x.id)}
             />
           ))}
         </View>
