@@ -1,7 +1,7 @@
 import { DaysOfWeek, eventsBadgeColor } from "../../utils/constants";
 import { ListInput } from "../../components/list/ListInput";
 import { formatDate } from "../../utils/dates";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Pressable,
   StyleSheet,
@@ -10,6 +10,11 @@ import {
   TouchableHighlight,
 } from "react-native";
 import { Horizontal } from "../../components/MiscComponents";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
   const [hide, updateHide] = useState(false);
@@ -91,12 +96,31 @@ export const Day = ({ dayData, updateDay }: any) => {
   const updateTasks = (tasks: string[]) => updateDay({ ...dayData, tasks });
   const updateMetadata = (metadata: string) =>
     updateDay({ ...dayData, metadata });
-  const hideDay = () => updateDay({ ...dayData, hidden: true });
+
+  const opacity = useSharedValue(1);
+  const fadeAnimationStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(opacity.value, {
+        duration: 500,
+      }),
+    } as any;
+  });
+  const hideDay = () => {
+    opacity.value = 0;
+    var timer = setInterval(() => {
+      updateDay({ ...dayData, hidden: true });
+      clearInterval(timer);
+    }, 500);
+  };
+
+  useEffect(() => {
+    opacity.value = 1;
+  }, [dayData]);
 
   if (dayData.hidden) return null;
 
   return (
-    <View style={styles.dayRootView}>
+    <Animated.View style={[styles.dayRootView, fadeAnimationStyle]}>
       <View style={styles.dayHeaderView}>
         <TouchableHighlight
           onPress={hideDay}
@@ -135,7 +159,7 @@ export const Day = ({ dayData, updateDay }: any) => {
           listBackgroundColor="black"
         />
       </View>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -143,7 +167,7 @@ const styles = StyleSheet.create({
   weekDateDisplayContainer: {
     flexDirection: "row",
     paddingVertical: 7,
-    paddingHorizontal: 2,
+    paddingHorizontal: 10,
     alignItems: "center",
     justifyContent: "center",
   },
