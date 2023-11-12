@@ -24,20 +24,13 @@ export const Login = ({ updateUser }) => {
     >
       <View style={styles.page}>
         <View style={styles.container}>
-          <View style={styles.headerTextContainer}>
+          <View style={styles.headerContainer}>
             {loading ? (
               <Loader size={25} />
             ) : (
-              <View
-                style={{
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: 3,
-                }}
-              >
+              <View style={styles.headerTextContainer}>
                 <Text style={styles.loginText}>Login</Text>
-                <Text style={{ fontSize: 12, color: "rgba(0,0,0,0.3)" }}>
+                <Text style={styles.registerDisclaimer}>
                   Entering new details will create a new account!
                 </Text>
               </View>
@@ -102,7 +95,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 10,
   },
-  headerTextContainer: {
+  headerContainer: {
     marginBottom: 14,
     height: 40,
     flexDirection: "column",
@@ -112,6 +105,14 @@ const styles = StyleSheet.create({
   loginText: {
     fontSize: 25,
   },
+  headerTextContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 3,
+  },
+  registerDisclaimer: { fontSize: 12, color: "rgba(0,0,0,0.3)" },
+
   fieldContainer: {
     flexDirection: "column",
     backgroundColor: "rgb(203 213 225)",

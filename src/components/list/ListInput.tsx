@@ -57,7 +57,6 @@ export const ListInput = ({
     <Pressable
       disabled={!editMode}
       onPress={() => {
-        console.log("pressed");
         selectedList?.list !== list
           ? updateSelectedList(exposedEditorProps)
           : updateSelectedList(null);

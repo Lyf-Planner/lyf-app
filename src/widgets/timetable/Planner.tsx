@@ -62,11 +62,7 @@ export const Planner = ({
         >
           <Text style={styles.menuButtonText}>Routine</Text>
           <Pressable
-            style={{
-              marginLeft: 5,
-              flexDirection: "row",
-              alignItems: "center",
-            }}
+            style={styles.infoPressable}
             onPress={() => {
               Alert.alert(
                 "Tip",
@@ -148,6 +144,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 10,
     borderWidth: 2,
+  },
+  infoPressable: {
+    marginLeft: 5,
+    flexDirection: "row",
+    alignItems: "center",
   },
   menuButtonText: { color: "white", fontSize: 18 },
   addWeekView: {

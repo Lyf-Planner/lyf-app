@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { eventsBadgeColor, primaryGreen } from "../../utils/constants";
 import { NoteTypes, TypeToDisplayName } from "./TypesAndHelpers";
 
@@ -14,19 +14,20 @@ const TYPES_TO_TEXT = {
 
 export const NoteTypeBadge = ({ type }) => {
   return (
-    <View
-      style={{
-        backgroundColor: TYPES_TO_COLOR[type],
-        flexDirection: "row",
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderRadius: 20,
-        marginLeft: "auto",
-      }}
-    >
+    <View style={[styles.main, { backgroundColor: TYPES_TO_COLOR[type] }]}>
       <Text style={{ fontSize: 15, color: TYPES_TO_TEXT[type] }}>
         {TypeToDisplayName[type]}
       </Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  main: {
+    flexDirection: "row",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    marginLeft: "auto",
+  },
+});

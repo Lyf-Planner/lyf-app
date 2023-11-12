@@ -49,6 +49,7 @@ export const Notes = ({ notes, updateNotes }: any) => {
               title={x.title}
               onPress={() => setFocussedNote(x)}
               noteType={x.type}
+              key={x.id}
               onDelete={() => deleteNote(x.id)}
             />
           ))}

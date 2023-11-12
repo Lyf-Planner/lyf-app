@@ -4,16 +4,14 @@ Backlogged:
 - Drag and drop (don't know if possible)
 
 Feature Roadmap:
-  1.1.0
-
-- FAQS
-- Add emails
-- Account info display
-- Notes
-
   1.1.1
 
 - Animations for cutting and pasting
+- Email or username cuts off if too long
+- Make Text note border less rounded
+- Make naming a new note select the text automatically
+- Naming a note not applying immediately?
+- Deleting note leaves next note with the same UI (hmmm)
 
   1.2.x
 
@@ -22,7 +20,6 @@ Feature Roadmap:
 - Modal for items
 
   1.2.1
-
 
 - Password resets
 - Email verification
@@ -33,11 +30,13 @@ Feature Roadmap:
 
   1.3.x
 
-- Multiple templates (premium)
+- Push notifications
 
   1.4.x
 
-- Push notifications
+- Multiple templates (premium)
+
+
 
   1.5.x
 
