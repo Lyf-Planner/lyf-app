@@ -6,7 +6,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { NoteTypes } from "./TypesAndHelpers";
 import { ListInput } from "../../components/list/ListInput";
 import { useState } from "react";
-import { eventsBadgeColor, primaryGreen } from "../../utils/constants";
+import { eventsBadgeColor, offWhite, primaryGreen } from "../../utils/constants";
 
 export const NoteView = ({ note, onBack, initialising, updateNote }) => {
   const [editedNoteTitle, updateEditedNoteTitle] = useState(note.title);
@@ -55,7 +55,7 @@ export const NoteView = ({ note, onBack, initialising, updateNote }) => {
           placeholder="New item +"
           badgeColor={eventsBadgeColor}
           badgeTextColor="black"
-          listBackgroundColor="rgba(0,0,0,0.02)"
+          listBackgroundColor={offWhite}
           listWrapperStyles={{ padding: 5 }}
           isEvents
         />

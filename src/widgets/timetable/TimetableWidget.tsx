@@ -17,20 +17,22 @@ export const Timetable = ({ timetable, updateTimetable }: any) => {
 
   return (
     <View style={styles.widgetContainer}>
-      <ListDropdown
-        list={timetable.upcoming || []}
-        updateList={updateUpcoming}
-        name="Upcoming Events"
-        listType={ListType.Event}
-      />
-      <Horizontal style={{ borderColor: "rgba(0,0,0,0.2)" }} />
-      <ListDropdown
-        list={timetable.todo || []}
-        updateList={updateTodo}
-        name="To Do List"
-        listType={ListType.Task}
-      />
-      <Horizontal style={{ borderWidth: 4, borderRadius: 20 }} />
+      <View style={styles.miscListContainer}>
+        <ListDropdown
+          list={timetable.upcoming || []}
+          updateList={updateUpcoming}
+          name="Upcoming Events"
+          listType={ListType.Event}
+        />
+        <Horizontal style={{ borderColor: "rgba(0,0,0,0.2)" }} />
+        <ListDropdown
+          list={timetable.todo || []}
+          updateList={updateTodo}
+          name="To Do List"
+          listType={ListType.Task}
+        />
+        <Horizontal style={{ borderWidth: 4, borderRadius: 20 }} />
+      </View>
 
       <Planner
         weeks={timetable.weeks}
@@ -49,4 +51,9 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 8,
   },
+  miscListContainer: {
+    flexDirection: "column",
+    gap: 8,
+    paddingHorizontal: 12
+  }
 });

@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     gap: 2,
+    paddingHorizontal: 12,
   },
   menuButton: {
     backgroundColor: primaryGreen,

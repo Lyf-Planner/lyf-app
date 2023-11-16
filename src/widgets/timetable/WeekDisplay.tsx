@@ -1,20 +1,14 @@
-import { DaysOfWeek, eventsBadgeColor } from "../../utils/constants";
-import { ListInput } from "../../components/list/ListInput";
+import { DaysOfWeek, offWhite } from "../../utils/constants";
 import { formatDate } from "../../utils/dates";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
-  Pressable,
   StyleSheet,
   View,
   Text,
   TouchableHighlight,
+  TouchableOpacity,
 } from "react-native";
-import { Horizontal } from "../../components/MiscComponents";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+import { Day } from "./DayDisplay";
 
 export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
   const [hide, updateHide] = useState(false);
@@ -47,21 +41,20 @@ export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
   };
 
   return (
-    <View>
-      <Horizontal style={{ marginTop: 8, borderWidth: 2, opacity: 0.6 }} />
+    <View style={styles.weekWrapper}>
       {hasDates && (
-        <View>
+        <TouchableHighlight
+          style={styles.weekDateDisplayTouchable}
+          underlayColor={"rgba(0,0,0,0.2)"}
+          onPress={() => updateHide(!hide)}
+          disabled={!hasDates}
+        >
           <View style={styles.weekDateDisplayContainer}>
-            <TouchableHighlight
-              underlayColor="rgba(0,0,0,0.5)"
-              style={styles.weekDatePressable}
-              onPress={() => updateHide(!hide)}
-              disabled={!hasDates}
-            >
+            <View style={styles.weekDatePressable}>
               <Text style={styles.weekDateText}>
                 {formatDate(week.Monday.date)} - {formatDate(week.Sunday.date)}
               </Text>
-            </TouchableHighlight>
+            </View>
             {hasHiddenDays() && !hide && (
               <TouchableHighlight
                 style={styles.showAllPressable}
@@ -71,10 +64,7 @@ export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
               </TouchableHighlight>
             )}
           </View>
-          <Horizontal
-            style={{ marginBottom: 2, borderWidth: 2, opacity: 0.6 }}
-          />
-        </View>
+        </TouchableHighlight>
       )}
       {!hide && (
         <View style={styles.weekDaysWrapperView}>
@@ -91,85 +81,33 @@ export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
   );
 };
 
-export const Day = ({ dayData, updateDay }: any) => {
-  const updateEvents = (events: string[]) => updateDay({ ...dayData, events });
-  const updateTasks = (tasks: string[]) => updateDay({ ...dayData, tasks });
-  const updateMetadata = (metadata: string) =>
-    updateDay({ ...dayData, metadata });
-
-  const opacity = useSharedValue(1);
-  const fadeAnimationStyle = useAnimatedStyle(() => {
-    return {
-      opacity: withTiming(opacity.value, {
-        duration: 500,
-      }),
-    } as any;
-  });
-  const hideDay = () => {
-    opacity.value = 0;
-    var timer = setInterval(() => {
-      updateDay({ ...dayData, hidden: true });
-      clearInterval(timer);
-    }, 500);
-  };
-
-  useEffect(() => {
-    opacity.value = 1;
-  }, [dayData]);
-
-  if (dayData.hidden) return null;
-
-  return (
-    <Animated.View style={[styles.dayRootView, fadeAnimationStyle]}>
-      <View style={styles.dayHeaderView}>
-        <TouchableHighlight
-          onPress={hideDay}
-          style={styles.dayOfWeekPressable}
-          underlayColor="rgba(0,0,0,0.5)"
-        >
-          <Text style={styles.dayOfWeekText}>{dayData.day}</Text>
-        </TouchableHighlight>
-
-        <Text style={styles.dayDateText}>
-          {dayData.date && formatDate(dayData.date)}
-          {/* Should add a preferred format selection! */}
-        </Text>
-      </View>
-      <View style={styles.listWrapperView}>
-        <ListInput
-          list={dayData.events || []}
-          updateList={updateEvents}
-          badgeColor={eventsBadgeColor}
-          placeholder="Add Event +"
-          listBackgroundColor="black"
-          isEvents
-        />
-      </View>
-
-      <Horizontal
-        style={{ borderColor: "rgba(255,255,255,0.5)", marginTop: 6 }}
-      />
-
-      <View style={styles.listWrapperView}>
-        <ListInput
-          list={dayData.tasks || []}
-          updateList={updateTasks}
-          badgeColor="rgb(241 245 249)"
-          placeholder="Add Task +"
-          listBackgroundColor="black"
-        />
-      </View>
-    </Animated.View>
-  );
-};
-
 const styles = StyleSheet.create({
+  weekWrapper: {
+    padding: 8,
+    marginHorizontal: 8,
+    borderRadius: 10,
+  },
   weekDateDisplayContainer: {
     flexDirection: "row",
     paddingVertical: 7,
     paddingHorizontal: 10,
+    borderRadius: 10,
+    
     alignItems: "center",
     justifyContent: "center",
+
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.2)",
+
+    
+  },
+  weekDateDisplayTouchable: {
+    borderRadius: 10,
+    backgroundColor: "white",
+    shadowColor: "#171717",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
   weekDatePressable: {
     borderRadius: 10,
@@ -194,46 +132,12 @@ const styles = StyleSheet.create({
   },
   weekDaysWrapperView: {
     flexDirection: "column",
-    gap: 8,
+    gap: 10,
     marginTop: 8,
-  },
-  dayRootView: {
-    backgroundColor: "black",
-    width: "100%",
-    borderRadius: 10,
-    padding: 10,
-    elavation: 1,
-    zIndex: 10,
-    flexDirection: "column",
-  },
-  dayHeaderView: {
-    backgroundColor: "rgb(34 197 94)",
-    borderRadius: 10,
-    flexDirection: "row",
-    paddingVertical: 4,
-    paddingHorizontal: 6,
-    alignItems: "center",
-  },
-  dayDateText: {
-    marginLeft: "auto",
-    paddingHorizontal: 2,
-    fontSize: 16,
-  },
-  dayOfWeekText: {
-    fontWeight: "600",
-    fontSize: 18,
-  },
-  dayOfWeekPressable: {
-    borderRadius: 10,
-    paddingHorizontal: 2,
-    paddingVertical: 6,
-  },
-  listWrapperView: {
-    flexDirection: "column",
-  },
-  listTopicText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "500",
+
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.7,
+    shadowRadius: 4.5,
   },
 });

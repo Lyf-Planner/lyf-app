@@ -42,7 +42,7 @@ export const Notes = ({ notes, updateNotes }: any) => {
             <NewNoteMenu addNote={newNote} />
           </View>
         </View>
-        <Horizontal style={{ borderWidth: 2, opacity: 0.6 }} />
+        <Horizontal style={{ borderWidth: 2, opacity: 0.6, marginHorizontal: 12 }} />
         <View style={styles.noteBannersContainer}>
           {notes.items.map((x: any) => (
             <NoteBanner
@@ -63,10 +63,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 40,
     alignItems: "center",
-    paddingHorizontal: 4,
+    paddingHorizontal: 16,
     marginTop: 8,
     marginBottom: 8,
   },
   myNotesTitle: { fontSize: 22, fontWeight: "700" },
-  noteBannersContainer: {},
+  noteBannersContainer: {
+    paddingHorizontal: 12,
+  },
 });

@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.5,
     flex: 1,
-    padding: 12,
+    paddingVertical: 12,
     backgroundColor: "white",
 
     flexDirection: "column",
@@ -116,8 +116,14 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     height: 50,
+    paddingHorizontal: 12,
   },
-  headerSeperator: { marginTop: 10, borderWidth: 4, borderRadius: 20 },
+  headerSeperator: {
+    marginTop: 10,
+    borderWidth: 4,
+    borderRadius: 20,
+    marginHorizontal: 12,
+  },
   widgetSelect: {
     flexDirection: "row",
     gap: 4,

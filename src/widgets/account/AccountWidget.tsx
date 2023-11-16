@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1,
     gap: 8,
-    paddingHorizontal: 4,
+    paddingHorizontal: 16,
     marginTop: 8
   },
 });
