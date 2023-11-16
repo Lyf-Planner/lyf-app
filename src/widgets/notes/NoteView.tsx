@@ -6,7 +6,12 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { NoteTypes } from "./TypesAndHelpers";
 import { ListInput } from "../../components/list/ListInput";
 import { useState } from "react";
-import { eventsBadgeColor, offWhite, primaryGreen } from "../../utils/constants";
+import {
+  eventsBadgeColor,
+  offWhite,
+  primaryGreen,
+} from "../../utils/constants";
+import { NoteTypeBadge } from "./NoteTypeBadge";
 
 export const NoteView = ({ note, onBack, initialising, updateNote }) => {
   const [editedNoteTitle, updateEditedNoteTitle] = useState(note.title);
@@ -19,7 +24,7 @@ export const NoteView = ({ note, onBack, initialising, updateNote }) => {
   };
 
   return (
-    <View>
+    <View style={styles.notePageWrapper}>
       <View style={styles.myNotesHeader}>
         <TouchableOpacity onPress={() => onBack()}>
           <Entypo name={"chevron-left"} size={30} />
@@ -31,21 +36,13 @@ export const NoteView = ({ note, onBack, initialising, updateNote }) => {
           defaultValue={note.title}
           returnKeyType="done"
         />
-        
+        <NoteTypeBadge type={note.type} />
       </View>
-      <Horizontal style={{ marginBottom: 8, borderWidth: 2, opacity: 0.6 }} />
       {note.type === NoteTypes.Text ? (
         <TextInput
           multiline={true}
           defaultValue={note.content}
-          style={{
-            borderWidth: 1,
-            borderColor: "black",
-            borderRadius: 10,
-            height: 400,
-            paddingHorizontal: 8,
-            paddingVertical: 10,
-          }}
+          style={styles.noteText}
           onChangeText={(text) => updateNoteContent(text)}
         />
       ) : (
@@ -65,12 +62,27 @@ export const NoteView = ({ note, onBack, initialising, updateNote }) => {
 };
 
 const styles = StyleSheet.create({
+  notePageWrapper: {
+    paddingHorizontal: 12,
+  },
   myNotesHeader: {
     flexDirection: "row",
+    paddingRight: 8,
     height: 40,
     alignItems: "center",
     marginTop: 8,
-    marginBottom: 8,
+    marginBottom: 2,
   },
   myNotesTitle: { fontSize: 22, fontWeight: "700", width: "80%" },
+  noteText: {
+    borderWidth: 0.5,
+    marginTop: 6,
+    borderColor: "rgba(0,0,0,0.3)",
+    backgroundColor: offWhite,
+    borderRadius: 5,
+    fontSize: 16,
+    height: 400,
+    padding: 8,
+    marginBottom: 8,
+  },
 });

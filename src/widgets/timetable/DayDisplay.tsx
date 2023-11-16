@@ -16,7 +16,7 @@ import {
 } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
 
-export const Day = ({ dayData, updateDay }: any) => {
+export const Day = ({ dayData, updateDay, showDate }: any) => {
   const updateEvents = (events: string[]) => updateDay({ ...dayData, events });
   const updateTasks = (tasks: string[]) => updateDay({ ...dayData, tasks });
   const updateMetadata = (metadata: string) =>
@@ -96,10 +96,12 @@ export const Day = ({ dayData, updateDay }: any) => {
             <Text style={styles.dayOfWeekText}>{dayData.day}</Text>
           </View>
 
-          <Text style={styles.dayDateText}>
-            {dayData.date && formatDate(dayData.date)}
-            {/* Should add a preferred format selection! */}
-          </Text>
+          {showDate && (
+            <Text style={styles.dayDateText}>
+              {dayData.date && formatDate(dayData.date)}
+              {/* Should add a preferred format selection! */}
+            </Text>
+          )}
         </Animated.View>
       </LongPressGestureHandler>
 

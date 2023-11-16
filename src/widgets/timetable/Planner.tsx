@@ -76,12 +76,10 @@ export const Planner = ({
       </View>
 
       {updatingTemplate ? (
-        <View style={{ flexDirection: "column", justifyContent: "center" }}>
-          <WeekDisplay
-            week={templates[0]}
-            updateWeek={(template: any) => updateTemplates([template])}
-          />
-        </View>
+        <WeekDisplay
+          week={templates[0]}
+          updateWeek={(template: any) => updateTemplates([template])}
+        />
       ) : (
         <View>
           {displayedWeeks.map((x: any, i: any) => (

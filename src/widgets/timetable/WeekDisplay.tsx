@@ -72,6 +72,7 @@ export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
             <Day
               key={x}
               dayData={week[x] || newDay(x)}
+              showDate={hasDates}
               updateDay={(dayData: any) => updateDay(x, dayData)}
             />
           ))}
@@ -83,7 +84,8 @@ export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
 
 const styles = StyleSheet.create({
   weekWrapper: {
-    padding: 8,
+    paddingHorizontal: 8,
+    paddingBottom: 8,
     marginHorizontal: 8,
     borderRadius: 10,
   },
@@ -92,18 +94,19 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     paddingHorizontal: 10,
     borderRadius: 10,
-    
+
     alignItems: "center",
     justifyContent: "center",
 
     borderWidth: 1,
     borderColor: "rgba(0,0,0,0.2)",
-
-    
   },
   weekDateDisplayTouchable: {
+    marginTop: 10,
+    marginBottom: 4,
     borderRadius: 10,
     backgroundColor: "white",
+
     shadowColor: "#171717",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.2,
@@ -137,7 +140,7 @@ const styles = StyleSheet.create({
 
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.7,
-    shadowRadius: 4.5,
+    shadowOpacity: 0.8,
+    shadowRadius: 3,
   },
 });
