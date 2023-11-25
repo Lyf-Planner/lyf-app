@@ -32,6 +32,6 @@ Tasks to contribute to Lyf Mobile are defined in the [Lyf Mobile Jira](https://l
 
 ## Deployments
 
-Deployments are handled via Expo Application Services, and are to be delegated to @ethanhusband.
+Deployments are handled via Expo Application Services, and can all be delegated to @ethanhusband.
 
 The live version of the app can be seen on the App Store (here)[https://apps.apple.com/au/app/lyf/id6470702288]. Currently the app is not available on Google Play store.
