@@ -1,43 +1,30 @@
-React Native Mobile Client for Lyf
+# Lyf Mobile App
 
-Backlogged:
-- Drag and drop (don't know if possible)
+> React Native Mobile Client for Lyf
 
-Feature Roadmap:
-  1.1.1
+![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
 
-- Animations for cutting and pasting
-- Email or username cuts off if too long
-- Make Text note border less rounded
-- Make naming a new note select the text automatically
-- Naming a note not applying immediately?
-- Deleting note leaves next note with the same UI (hmmm)
+## Installation
 
-  1.2.x
+To run the app locally, first you need to install Expo Go from the App Store (or Android Store).
+Then git clone, and run
 
-- Premium modal and settings
-- Collaborative items
-- Modal for items
+```
+yarn && npx expo start
+```
 
-  1.2.1
+Then scan the QR code provided and it will build the app on your device.
 
-- Password resets
-- Email verification
+**Note**: You will need the `lyf-api` service running for the local version to work properly! That can be [installed here](https://github.com/Lyf-Planner/lyf-api)
 
-  1.2.2
+## Contributions
 
-- Help (support ticket) settings
+Tasks to contribute to Lyf Mobile are defined in the [Lyf Mobile Jira](https://lyf-planner.atlassian.net/jira/software/projects/LM/boards/8/backlog?versions=visible). If you wish to make a contribution, you can
 
-  1.3.x
-
-- Push notifications
-
-  1.4.x
-
-- Multiple templates (premium)
-
-
-
-  1.5.x
-
-- MFA
+- Select a task from the version closest to the current one (found in `package.json`)
+- Set yourself as the Assignee
+- Checkout a branch from main, whose name should be that of the ticket (e.g. LM-13)
+- Consult @ethanhusband about the changes to be made / you intend to make
+- When the changes are complete and tested, make a PR and await review

@@ -14,8 +14,6 @@ import {
 import { NoteTypeBadge } from "./NoteTypeBadge";
 
 export const NoteView = ({ note, onBack, initialising, updateNote }) => {
-  const [editedNoteTitle, updateEditedNoteTitle] = useState(note.title);
-
   const updateNoteTitle = (title: string) => {
     updateNote({ ...note, title });
   };
@@ -32,8 +30,8 @@ export const NoteView = ({ note, onBack, initialising, updateNote }) => {
         <TextInput
           autoFocus={initialising}
           style={styles.myNotesTitle}
-          onChangeText={(text) => updateNoteTitle(text)}
-          defaultValue={note.title}
+          onChangeText={updateNoteTitle}
+          value={note.title}
           returnKeyType="done"
         />
         <NoteTypeBadge type={note.type} />
@@ -41,9 +39,9 @@ export const NoteView = ({ note, onBack, initialising, updateNote }) => {
       {note.type === NoteTypes.Text ? (
         <TextInput
           multiline={true}
-          defaultValue={note.content}
+          value={note.content}
           style={styles.noteText}
-          onChangeText={(text) => updateNoteContent(text)}
+          onChangeText={updateNoteContent}
         />
       ) : (
         <ListInput
