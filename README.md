@@ -25,6 +25,13 @@ Tasks to contribute to Lyf Mobile are defined in the [Lyf Mobile Jira](https://l
 
 - Select a task from the version closest to the current one (found in `package.json`)
 - Set yourself as the Assignee
-- Checkout a branch from main, whose name should be that of the ticket (e.g. LM-13)
+- Checkout a branch from main, whose name should be that of the ticket (e.g. `git checkout -b LM-13`)
 - Consult @ethanhusband about the changes to be made / you intend to make
+  - Request the .env file if you don't have it already
 - When the changes are complete and tested, make a PR and await review
+
+## Deployments
+
+Deployments are handled via Expo Application Services, and are to be delegated to @ethanhusband.
+
+The live version of the app can be seen on the App Store (here)[https://apps.apple.com/au/app/lyf/id6470702288]. Currently the app is not available on Google Play store.
