@@ -28,7 +28,7 @@ Tasks to contribute to Lyf Mobile are defined in the [Lyf Mobile Jira](https://l
 - Checkout a branch from main, whose name should be that of the ticket (e.g. `git checkout -b LM-13`)
 - Consult @ethanhusband about the changes to be made / you intend to make
   - Request the .env file if you don't have it already
-- When the changes are complete and tested, make a PR and await review
+- When the changes are complete and tested, make a PR to `main` branch and await review
 
 ## Deployments
 
