@@ -13,7 +13,7 @@ const LOGO = require("../../assets/images/icon.png");
 
 export const SaveTooltip = ({ id, style, size, onPress }: any) => {
   return (
-    <View data-tooltip-id={id} style={style}>
+    <View style={style}>
       <Image source={LOGO} alt="logo" style={{ width: size, height: size }} />
     </View>
   );

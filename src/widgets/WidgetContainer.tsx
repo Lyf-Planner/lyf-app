@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { SaveTooltip } from "../components/Tooltip";
+import { SaveTooltip } from "../components/Icons";
 import { Timetable } from "./timetable/TimetableWidget";
 import { useAuth } from "../authorisation/AuthProvider";
 import { Horizontal } from "../components/MiscComponents";
@@ -16,6 +16,7 @@ import { AccountWidget } from "./account/AccountWidget";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Notes } from "./notes/NotesWidget";
 import { EditProvider } from "../editor/EditorProvider";
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 
 export enum Widgets {
   Timetable = "Timetable",
@@ -48,6 +49,7 @@ export const WidgetContainer = () => {
             <AppHeaderMenu
               selected={selected}
               updateSelected={updateSelected}
+              premiumEnabled={data.premium?.enabled}
             />
             <Horizontal style={styles.headerSeperator} />
             {WIDGETS[selected]}
@@ -58,7 +60,7 @@ export const WidgetContainer = () => {
   );
 };
 
-const AppHeaderMenu = ({ selected, updateSelected }) => {
+const AppHeaderMenu = ({ selected, updateSelected, premiumEnabled }) => {
   return (
     <View style={styles.header}>
       <View style={styles.widgetSelect}>
@@ -82,6 +84,20 @@ const AppHeaderMenu = ({ selected, updateSelected }) => {
           </TouchableHighlight>
         ))}
       </View>
+      <TouchableHighlight
+        underlayColor={"rgba(0,0,0,0.4)"}
+        style={[
+          styles.premiumTooltip,
+          {
+            backgroundColor: !premiumEnabled
+              ? "rgb(31 41 55)"
+              : "rgba(0,0,0,0.01)",
+          },
+        ]}
+        onPress={() => updateSelected("Account")}
+      >
+        <SimpleLineIcons name="diamond" size={30} color={"#2fdce1"} />
+      </TouchableHighlight>
       <Pressable
         style={[
           styles.saveTooltip,
@@ -102,7 +118,7 @@ const styles = StyleSheet.create({
   container: {
     maxWidth: 800,
     marginVertical: 55,
-    marginHorizontal: 15,
+    marginHorizontal: 10,
     borderRadius: 10,
     shadowColor: "black",
     shadowOffset: { width: 0, height: -2 },
@@ -156,5 +172,16 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginLeft: "auto",
     marginRight: 8,
+  },
+  premiumTooltip: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    width: 50,
+    borderWidth: 0.5,
+    borderColor: "rgba(0,0,0,0.2)",
+    marginLeft: "auto",
+    padding: 5,
+    borderRadius: 100,
   },
 });
