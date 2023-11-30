@@ -5,8 +5,6 @@ import {
   StyleSheet,
   TouchableHighlight,
   Pressable,
-  TouchableWithoutFeedback,
-  Keyboard,
 } from "react-native";
 import { SaveTooltip } from "../components/Icons";
 import { Timetable } from "./timetable/TimetableWidget";
@@ -42,7 +40,6 @@ export const WidgetContainer = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAwareScrollView enableResetScrollToCoords={false}>
         <EditProvider>
           <View style={styles.container}>
@@ -55,22 +52,19 @@ export const WidgetContainer = () => {
           </View>
         </EditProvider>
       </KeyboardAwareScrollView>
-    </TouchableWithoutFeedback>
   );
 };
 
 const AppHeaderMenu = ({ selected, updateSelected }) => {
   return (
     <View style={styles.header}>
-      <View style={styles.widgetSelect}>
-        {Object.keys(Widgets).map((x) => (
-          <MenuWidgetButton
-            selected={selected}
-            onSelect={() => updateSelected(x)}
-            title={x}
-          />
-        ))}
-      </View>
+      {Object.keys(Widgets).map((x) => (
+        <MenuWidgetButton
+          selected={selected}
+          onSelect={() => updateSelected(x)}
+          title={x}
+        />
+      ))}
       <PremiumHeaderButton />
       <Pressable
         style={[
@@ -127,6 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 50,
     paddingHorizontal: 12,
+    gap: 8,
   },
   headerSeperator: {
     marginTop: 10,
@@ -134,11 +129,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginHorizontal: 12,
   },
-  widgetSelect: {
-    flexDirection: "row",
-    gap: 4,
-    justifyContent: "flex-start",
-  },
+  widgetSelect: {},
   headerTextContainer: {
     borderRadius: 10,
     paddingVertical: 4,
@@ -146,11 +137,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    width: 120,
     height: 50,
     borderColor: "rgba(50,50,50,0.25)",
     backgroundColor: "white",
     borderWidth: 1,
+    flex: 1,
   },
   highlightedHeaderTextContainer: {
     backgroundColor: "black",

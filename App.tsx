@@ -7,6 +7,7 @@ import { WidgetContainer } from "./src/widgets/WidgetContainer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ToolbarProvider } from "./src/components/ToolBar";
 import { MenuProvider } from "react-native-popup-menu";
+import { TouchableWithoutFeedback, Keyboard } from "react-native";
 import env from "./src/envManager";
 import { ModalProvider } from "./src/components/modal/ModalProvider";
 
@@ -21,17 +22,19 @@ export default function App() {
 
   return (
     <Background>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <MenuProvider>
-          <ToolbarProvider>
-            <AuthGateway>
-              <ModalProvider>
-                <WidgetContainer />
-              </ModalProvider>
-            </AuthGateway>
-          </ToolbarProvider>
-        </MenuProvider>
-      </GestureHandlerRootView>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <MenuProvider>
+            <ToolbarProvider>
+              <AuthGateway>
+                <ModalProvider>
+                  <WidgetContainer />
+                </ModalProvider>
+              </AuthGateway>
+            </ToolbarProvider>
+          </MenuProvider>
+        </GestureHandlerRootView>
+      </TouchableWithoutFeedback>
     </Background>
   );
 }

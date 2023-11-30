@@ -18,11 +18,14 @@ export const PremiumHeaderButton = () => {
         styles.premiumTooltip,
         {
           backgroundColor: premiumEnabled
-            ? "rgba(30, 50, 110,0.95)"
+            ? "rgba(0, 0, 0,0.95)"
             : "rgba(0,0,50,0.03)",
         },
       ]}
-      onPress={() => updateModal(<PremiumAdvertiseModal />)
+      onPress={() =>
+        premiumEnabled
+          ? updateModal(<PremiumSettingsModal />)
+          : updateModal(<PremiumAdvertiseModal />)
       }
     >
       <PremiumIcon />

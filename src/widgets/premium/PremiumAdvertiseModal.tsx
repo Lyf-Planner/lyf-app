@@ -14,7 +14,7 @@ const NOTIFICATION_IMAGE = require("../../../assets/images/notification.png");
 const ADVERTISED_FEATURES = [
   {
     title: "Enhanced Planning",
-    text: "Set times, status, descriptions and other details on events",
+    text: "Set times, descriptions, status and reminders on tasks and events",
     image: ENHANCE_IMAGE,
     image_size: 80,
     available: true,
@@ -63,8 +63,15 @@ export const PremiumAdvertiseModal = () => {
           Unlock more and optimise your schedule
         </Text>
       </View>
-      <Horizontal />
-      <View style={{ height: 165 }}>
+      <Horizontal
+        style={{
+          opacity: 0.25,
+          marginTop: 10,
+          marginBottom: 4,
+          borderWidth: 2,
+        }}
+      />
+      <View style={{ height: 170 }}>
         <AppIntroSlider
           renderItem={PremiumFeature}
           data={ADVERTISED_FEATURES}
@@ -72,9 +79,10 @@ export const PremiumAdvertiseModal = () => {
           dotStyle={styles.dotStyle}
         />
       </View>
+
       <View style={styles.footer}>
-        <Horizontal />
-        <Text style={[styles.subtitle, { marginTop: 8 }]}>
+        <Horizontal style={{ opacity: 0.2, marginTop: 8, borderWidth: 2 }} />
+        <Text style={[styles.subtitle, { marginTop: 12, marginBottom: 4 }]}>
           Premium is currently in development, and can be enabled for{" "}
           <Text style={styles.freeText}>free!</Text>
         </Text>
@@ -119,10 +127,11 @@ const PremiumFeature = ({ item, dimensions }: any) => {
         />
       </View>
       <View style={styles.featureSummary}>
-        <Text style={styles.featureTitle}>
-          {item.title} {!item.available && "(Soon)"}
+        <Text style={styles.featureTitle}>{item.title}</Text>
+        <Text style={styles.featureDesc}>
+          {!item.available && "(Coming Soon) "}
+          {item.text}
         </Text>
-        <Text style={styles.featureDesc}>{item.text}</Text>
       </View>
     </View>
   );
@@ -132,14 +141,12 @@ const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: "white",
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingTop: 25,
     marginHorizontal: 20,
-
     borderColor: "rgba(0,0,0,0.5)",
     borderWidth: 1,
     borderRadius: 10,
     gap: 10,
-
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
@@ -150,9 +157,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 4,
+    marginBottom: 4,
   },
-  premiumTitle: { fontSize: 20, fontWeight: "700" },
-  subtitle: { textAlign: "center", opacity: 0.6, fontWeight: "600" },
+  premiumTitle: { fontSize: 22, fontWeight: "700" },
+  subtitle: {
+    textAlign: "center",
+    opacity: 0.6,
+    fontWeight: "600",
+    fontSize: 15,
+  },
   featureContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -166,11 +179,12 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   featureTitle: {
-    fontWeight: "600",
+    fontWeight: "700",
     fontSize: 20,
   },
   featureDesc: {
     fontSize: 15,
+    opacity: 0.5,
   },
   activeDotStyle: { backgroundColor: "black", marginBottom: 10 },
   dotStyle: { backgroundColor: "rgba(0,0,0,0.3)", marginBottom: 10 },
@@ -178,7 +192,7 @@ const styles = StyleSheet.create({
   freeText: { fontWeight: "800", opacity: 1 },
   bottomButtonsContainer: { flexDirection: "row", gap: 5, marginTop: 8 },
   bottomButton: {
-    padding: 15,
+    padding: 12,
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",
@@ -188,6 +202,7 @@ const styles = StyleSheet.create({
   },
   bottomButtonText: {
     fontSize: 16,
+    textAlign: "center",
   },
   enablePremiumText: { fontWeight: "600", color: "white" },
 });
