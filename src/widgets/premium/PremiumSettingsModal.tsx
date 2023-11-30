@@ -11,7 +11,6 @@ import { PremiumIcon } from "../../components/Icons";
 import { Horizontal } from "../../components/MiscComponents";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useModal } from "../../components/modal/ModalProvider";
-import { eventsBadgeColor } from "../../utils/constants";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
@@ -175,7 +174,7 @@ const DailyNotificationDesc = ({
         gap: 2,
       }}
     >
-      <Text style={{ fontSize: 16 }}>Receive reminders each day at </Text>
+      <Text style={{ fontSize: 16, fontWeight: "300" }}>Receive reminders each day at </Text>
       <View style={{ borderRadius: 10, overflow: "hidden" }}>
         <DateTimePicker
           value={datePickerValue}
@@ -190,11 +189,12 @@ const DailyNotificationDesc = ({
           style={{
             width: 85,
             height: 30,
+            
           }}
         />
       </View>
 
-      <Text style={{ fontSize: 16 }}>about your schedule for today. Will </Text>
+      <Text style={{ fontSize: 16, fontWeight: "300"  }}>about your schedule for today. Will </Text>
       <TouchableHighlight
         onPress={() => updatePersistent(!persistent)}
         style={{
@@ -208,14 +208,14 @@ const DailyNotificationDesc = ({
       >
         <Text
           style={{
-            fontSize: 16,
+            fontSize: 15,
             textAlign: "center",
           }}
         >
           {persistent ? "always" : "not"}
         </Text>
       </TouchableHighlight>
-      <Text style={{ fontSize: 16, lineHeight: 30 }}>
+      <Text style={{ fontSize: 16, lineHeight: 30, fontWeight: "300"  }}>
         send a reminder if nothing is planned.
       </Text>
     </View>
@@ -227,7 +227,7 @@ const EventNotificationDesc = ({ updateTime, minutesBefore = 5 }: any) => {
     <View
       style={{ flexDirection: "row", flexWrap: "wrap", alignItems: "center" }}
     >
-      <Text style={{ fontSize: 16, lineHeight: 25 }}>
+      <Text style={{ fontSize: 16, lineHeight: 25, fontWeight: "300"  }}>
         Always receive reminders{" "}
       </Text>
       <TextInput
@@ -246,10 +246,10 @@ const EventNotificationDesc = ({ updateTime, minutesBefore = 5 }: any) => {
           width: 40,
           borderRadius: 8,
           textAlign: "center",
-          fontSize: 16,
+          fontSize: 15,
         }}
       />
-      <Text style={{ fontSize: 16, lineHeight: 27 }}>
+      <Text style={{ fontSize: 16, lineHeight: 27, fontWeight: "300"  }}>
         minutes before events with set times, as a default
       </Text>
     </View>
