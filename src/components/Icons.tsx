@@ -1,5 +1,5 @@
 import { View, Image, StyleSheet } from "react-native";
-
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 const LOGO = require("../../assets/images/icon.png");
 
 // export const Tooltip = ({ id, className, children, color = "gray" }: any) => {
@@ -17,6 +17,10 @@ export const SaveTooltip = ({ id, style, size, onPress }: any) => {
       <Image source={LOGO} alt="logo" style={{ width: size, height: size }} />
     </View>
   );
+};
+
+export const PremiumIcon = ({ size = 30 }) => {
+  return <SimpleLineIcons name="diamond" size={size} color={"#2fdce1"} />;
 };
 
 const styles = StyleSheet.create({});

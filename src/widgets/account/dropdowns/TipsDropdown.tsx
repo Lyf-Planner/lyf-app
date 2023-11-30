@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
   dropdownContent: {
     flexDirection: "column",
     gap: 8,
-    paddingRight: 6,
+    paddingRight: 12,
     marginVertical: 4,
   },
-  bullet: { width: 15, fontSize: 10 },
-  bulletTextWrapper: { flexDirection: "row", alignItems: "center" },
+  bullet: { width: 15, fontSize: 10, marginTop: 3 },
+  bulletTextWrapper: { flexDirection: "row", alignItems: "flex-start" },
 });

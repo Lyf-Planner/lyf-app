@@ -58,8 +58,7 @@ export const ToDo = ({ todo, updateTodo }: any) => {
 const styles = StyleSheet.create({
   todoContainer: {
     flexDirection: "column",
-    paddingBottom: 2,
-    marginVertical: 2,
+    alignItems: "center",
     paddingLeft: 2,
   },
   todoTextContainer: {

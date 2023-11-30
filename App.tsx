@@ -8,6 +8,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ToolbarProvider } from "./src/components/ToolBar";
 import { MenuProvider } from "react-native-popup-menu";
 import env from "./src/envManager";
+import { ModalProvider } from "./src/components/modal/ModalProvider";
 
 export default function App() {
   let [loaded] = useFonts({});
@@ -24,7 +25,9 @@ export default function App() {
         <MenuProvider>
           <ToolbarProvider>
             <AuthGateway>
-              <WidgetContainer />
+              <ModalProvider>
+                <WidgetContainer />
+              </ModalProvider>
             </AuthGateway>
           </ToolbarProvider>
         </MenuProvider>

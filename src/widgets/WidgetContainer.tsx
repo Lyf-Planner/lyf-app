@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useState } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -16,7 +16,7 @@ import { AccountWidget } from "./account/AccountWidget";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Notes } from "./notes/NotesWidget";
 import { EditProvider } from "../editor/EditorProvider";
-import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
+import { PremiumHeaderButton } from "./premium/PremiumHeaderButton";
 
 export enum Widgets {
   Timetable = "Timetable",
@@ -49,7 +49,6 @@ export const WidgetContainer = () => {
             <AppHeaderMenu
               selected={selected}
               updateSelected={updateSelected}
-              premiumEnabled={data.premium?.enabled}
             />
             <Horizontal style={styles.headerSeperator} />
             {WIDGETS[selected]}
@@ -60,50 +59,24 @@ export const WidgetContainer = () => {
   );
 };
 
-const AppHeaderMenu = ({ selected, updateSelected, premiumEnabled }) => {
+const AppHeaderMenu = ({ selected, updateSelected }) => {
   return (
     <View style={styles.header}>
       <View style={styles.widgetSelect}>
         {Object.keys(Widgets).map((x) => (
-          <TouchableHighlight
-            style={[
-              styles.headerTextContainer,
-              selected === x && styles.highlightedHeaderTextContainer,
-            ]}
-            onPress={() => updateSelected(x)}
-            key={x}
-          >
-            <Text
-              style={[
-                styles.headerText,
-                selected === x && styles.highlightedHeaderText,
-              ]}
-            >
-              {x}
-            </Text>
-          </TouchableHighlight>
+          <MenuWidgetButton
+            selected={selected}
+            onSelect={() => updateSelected(x)}
+            title={x}
+          />
         ))}
       </View>
-      <TouchableHighlight
-        underlayColor={"rgba(0,0,0,0.4)"}
-        style={[
-          styles.premiumTooltip,
-          {
-            backgroundColor: !premiumEnabled
-              ? "rgb(31 41 55)"
-              : "rgba(0,0,0,0.01)",
-          },
-        ]}
-        onPress={() => updateSelected("Account")}
-      >
-        <SimpleLineIcons name="diamond" size={30} color={"#2fdce1"} />
-      </TouchableHighlight>
+      <PremiumHeaderButton />
       <Pressable
         style={[
           styles.saveTooltip,
           {
-            borderBottomWidth: selected === "Account" ? 1 : 0.5,
-            borderColor: selected === "Account" ? "black" : "rgba(0,0,0,0.3)",
+            borderColor: selected === "Account" ? "black" : "rgba(0,0,0,0.15)",
           },
         ]}
         onPress={() => updateSelected("Account")}
@@ -111,6 +84,27 @@ const AppHeaderMenu = ({ selected, updateSelected, premiumEnabled }) => {
         <SaveTooltip size={40} />
       </Pressable>
     </View>
+  );
+};
+
+export const MenuWidgetButton = ({ selected, onSelect, title }) => {
+  return (
+    <TouchableHighlight
+      style={[
+        styles.headerTextContainer,
+        selected === title && styles.highlightedHeaderTextContainer,
+      ]}
+      onPress={onSelect}
+    >
+      <Text
+        style={[
+          styles.headerText,
+          selected === title && styles.highlightedHeaderText,
+        ]}
+      >
+        {title}
+      </Text>
+    </TouchableHighlight>
   );
 };
 
@@ -125,7 +119,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     flex: 1,
     paddingVertical: 12,
-    backgroundColor: "white",
+    backgroundColor: "rgba(255,255,255,1)",
 
     flexDirection: "column",
   },
@@ -155,6 +149,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 50,
     borderColor: "rgba(50,50,50,0.25)",
+    backgroundColor: "white",
     borderWidth: 1,
   },
   highlightedHeaderTextContainer: {
@@ -172,16 +167,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginLeft: "auto",
     marginRight: 8,
-  },
-  premiumTooltip: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "center",
-    width: 50,
-    borderWidth: 0.5,
-    borderColor: "rgba(0,0,0,0.2)",
-    marginLeft: "auto",
-    padding: 5,
-    borderRadius: 100,
+    borderBottomWidth: 1,
   },
 });
