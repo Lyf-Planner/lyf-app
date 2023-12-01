@@ -18,7 +18,6 @@ export async function login(username: string, password: string) {
       "New account was created from this IP too quickly. Please wait 30 seconds"
     );
   } else {
-    console.log(result);
     alert("Incorrect password");
   }
 }

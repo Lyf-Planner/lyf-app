@@ -10,8 +10,6 @@ export const ModalProvider = ({ children }) => {
     updateModal,
   };
 
-  console.log(modal);
-
   return (
     <ModalContext.Provider value={EXPOSED}>
       {children}
@@ -36,6 +34,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.4)"
+    backgroundColor: "rgba(0,0,0,0.4)",
   },
 });

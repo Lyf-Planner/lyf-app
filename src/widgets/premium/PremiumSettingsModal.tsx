@@ -12,8 +12,10 @@ import { Horizontal } from "../../components/MiscComponents";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useModal } from "../../components/modal/ModalProvider";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { useState } from "react";
+import {
+  DailyNotificationDesc,
+  EventNotificationDesc,
+} from "./PremiumSettingDescriptions";
 
 export const PremiumSettingsModal = ({ onClose }: any) => {
   const { data, updateData } = useAuth();
@@ -62,22 +64,8 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
         </View>
         <Text style={styles.subtitle}>Settings</Text>
       </View>
-      <Horizontal
-        style={{
-          opacity: 0.25,
-          marginTop: 10,
-          marginBottom: 4,
-          borderWidth: 2,
-        }}
-      />
-      <View
-        style={{
-          flexDirection: "column",
-          gap: 16,
-          marginTop: 14,
-          height: 220,
-        }}
-      >
+      <Horizontal style={styles.firstSeperator} />
+      <View style={styles.settingsContainer}>
         <Setting
           updateFunc={dailyNotifications}
           enabled={premium.settings?.daily_notifications}
@@ -97,28 +85,23 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
           name="Event Notifications"
           desc={
             <EventNotificationDesc
-              updateTime={eventNotificationMinutesBefore}
+              updateMinutes={eventNotificationMinutesBefore}
               minutesBefore={`${premium.settings?.event_notification_minutes_before}`}
             />
           }
         />
       </View>
-      <Horizontal style={{ opacity: 0.2, marginTop: 36, borderWidth: 2 }} />
+      <Horizontal style={styles.secondSeperator} />
       <View style={styles.bottomButtonsContainer}>
         <TouchableOpacity
           onPress={() => {
             updatePremium({ ...premium, enabled: false });
             closeModal();
           }}
-          style={[
-            styles.bottomButton,
-            { backgroundColor: "red", opacity: 0.8 },
-          ]}
+          style={[styles.bottomButton, styles.disablePremiumButton]}
           activeOpacity={1}
         >
-          <Text
-            style={[styles.bottomButtonText, { color: "white", fontSize: 15 }]}
-          >
+          <Text style={[styles.bottomButtonText, styles.disablePremiumText]}>
             Disable Premium
           </Text>
         </TouchableOpacity>
@@ -127,7 +110,7 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
           style={[styles.bottomButton]}
           underlayColor={"rgba(0,0,0,0.5)"}
         >
-          <Text style={[styles.bottomButtonText, { fontSize: 16 }]}>Done</Text>
+          <Text style={[styles.bottomButtonText, styles.doneText]}>Done</Text>
         </TouchableHighlight>
       </View>
     </View>
@@ -137,121 +120,14 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
 const Setting = ({ updateFunc, enabled, name, desc }: any) => {
   return (
     <View>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View style={styles.settingContainer}>
         <BouncyCheckbox
           isChecked={enabled}
-          onPress={(isChecked: boolean) => updateFunc(isChecked)}
-          textComponent={
-            <Text style={{ fontSize: 18, fontWeight: "600", marginLeft: 8 }}>
-              {name}
-            </Text>
-          }
+          onPress={updateFunc}
+          textComponent={<Text style={styles.settingTitle}>{name}</Text>}
         />
       </View>
-      <View style={{ marginTop: 4, marginLeft: 34 }}>{desc}</View>
-    </View>
-  );
-};
-
-const DailyNotificationDesc = ({
-  updateTime,
-  notificationTime,
-  updatePersistent,
-  persistent,
-}: any) => {
-  const [showTimePicker, updateShowTimePicker] = useState(false);
-  var today = new Date();
-  const datePickerValue = new Date(
-    `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${notificationTime}`
-  );
-
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        flexWrap: "wrap",
-        alignItems: "center",
-        gap: 2,
-      }}
-    >
-      <Text style={{ fontSize: 16, fontWeight: "300" }}>Receive reminders each day at </Text>
-      <View style={{ borderRadius: 10, overflow: "hidden" }}>
-        <DateTimePicker
-          value={datePickerValue}
-          minuteInterval={5}
-          mode={"time"}
-          is24Hour={true}
-          onChange={(time) => {
-            var dateTime = new Date(time.nativeEvent.timestamp);
-            console.log();
-            updateTime(`${dateTime.getHours()}:${dateTime.getMinutes()}`);
-          }}
-          style={{
-            width: 85,
-            height: 30,
-            
-          }}
-        />
-      </View>
-
-      <Text style={{ fontSize: 16, fontWeight: "300"  }}>about your schedule for today. Will </Text>
-      <TouchableHighlight
-        onPress={() => updatePersistent(!persistent)}
-        style={{
-          backgroundColor: "rgba(0,0,0,0.08)",
-          paddingVertical: 4,
-          paddingHorizontal: 4,
-          width: 60,
-          borderRadius: 8,
-        }}
-        underlayColor={"rgba(0,0,0,0.5)"}
-      >
-        <Text
-          style={{
-            fontSize: 15,
-            textAlign: "center",
-          }}
-        >
-          {persistent ? "always" : "not"}
-        </Text>
-      </TouchableHighlight>
-      <Text style={{ fontSize: 16, lineHeight: 30, fontWeight: "300"  }}>
-        send a reminder if nothing is planned.
-      </Text>
-    </View>
-  );
-};
-
-const EventNotificationDesc = ({ updateTime, minutesBefore = 5 }: any) => {
-  return (
-    <View
-      style={{ flexDirection: "row", flexWrap: "wrap", alignItems: "center" }}
-    >
-      <Text style={{ fontSize: 16, lineHeight: 25, fontWeight: "300"  }}>
-        Always receive reminders{" "}
-      </Text>
-      <TextInput
-        value={minutesBefore}
-        onEndEditing={() => !minutesBefore && updateTime("0")}
-        returnKeyType="done"
-        keyboardType="numeric"
-        onChangeText={(text) => {
-          text.replace(/[^0-9]/g, "");
-          let val = Number(text);
-          val < 1000 && updateTime(text);
-        }}
-        style={{
-          padding: 2,
-          backgroundColor: "rgba(0,0,0,0.08)",
-          width: 40,
-          borderRadius: 8,
-          textAlign: "center",
-          fontSize: 15,
-        }}
-      />
-      <Text style={{ fontSize: 16, lineHeight: 27, fontWeight: "300"  }}>
-        minutes before events with set times, as a default
-      </Text>
+      <View style={styles.settingDescWrapper}>{desc}</View>
     </View>
   );
 };
@@ -287,7 +163,25 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 
+  firstSeperator: {
+    opacity: 0.25,
+    marginTop: 10,
+    marginBottom: 4,
+    borderWidth: 2,
+  },
+  settingsContainer: {
+    flexDirection: "column",
+    gap: 16,
+    marginTop: 14,
+    height: 220,
+  },
+  settingContainer: { flexDirection: "row", alignItems: "center" },
+  settingTitle: { fontSize: 18, fontWeight: "600", marginLeft: 8 },
+  settingDescWrapper: { marginTop: 4, marginLeft: 34 },
+
+  secondSeperator: { opacity: 0.2, marginTop: 36, borderWidth: 2 },
   bottomButtonsContainer: { flexDirection: "row", gap: 5, marginTop: 8 },
+  disablePremiumButton: { backgroundColor: "red", opacity: 0.8 },
   bottomButton: {
     padding: 12,
     flex: 1,
@@ -297,6 +191,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderRadius: 10,
   },
+  disablePremiumText: { color: "white", fontSize: 15 },
+  doneText: { fontSize: 16 },
   bottomButtonText: {
     textAlign: "center",
   },

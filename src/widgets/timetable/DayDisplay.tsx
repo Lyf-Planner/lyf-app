@@ -60,7 +60,6 @@ export const Day = ({ dayData, updateDay, showDate }: any) => {
 
     // After the n seconds pressing, remove the item
     timer = setInterval(() => {
-      console.log("timer called!");
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       hideDay();
       clearTimeout(timer);
@@ -82,54 +81,56 @@ export const Day = ({ dayData, updateDay, showDate }: any) => {
   if (dayData.hidden) return null;
 
   return (
-    <Animated.View
-      style={[styles.dayRootView, fadeAnimationStyle, scaleAnimation]}
-    >
-      <LongPressGestureHandler
-        onBegan={handleLongPressIn}
-        onCancelled={handleLongPressOut}
-        onEnded={handleLongPressOut}
-        onFailed={handleLongPressOut}
+    <View>
+      <Animated.View
+        style={[styles.dayRootView, fadeAnimationStyle, scaleAnimation]}
       >
-        <Animated.View style={[styles.dayHeaderView]}>
-          <View style={styles.dayOfWeekPressable}>
-            <Text style={styles.dayOfWeekText}>{dayData.day}</Text>
-          </View>
+        <LongPressGestureHandler
+          onBegan={handleLongPressIn}
+          onCancelled={handleLongPressOut}
+          onEnded={handleLongPressOut}
+          onFailed={handleLongPressOut}
+        >
+          <Animated.View style={[styles.dayHeaderView]}>
+            <View style={styles.dayOfWeekPressable}>
+              <Text style={styles.dayOfWeekText}>{dayData.day}</Text>
+            </View>
 
-          {showDate && (
-            <Text style={styles.dayDateText}>
-              {dayData.date && formatDate(dayData.date)}
-              {/* Should add a preferred format selection! */}
-            </Text>
-          )}
-        </Animated.View>
-      </LongPressGestureHandler>
+            {showDate && (
+              <Text style={styles.dayDateText}>
+                {dayData.date && formatDate(dayData.date)}
+                {/* Should add a preferred format selection! */}
+              </Text>
+            )}
+          </Animated.View>
+        </LongPressGestureHandler>
 
-      <View style={styles.listWrapperView}>
-        <ListInput
-          list={dayData.events || []}
-          updateList={updateEvents}
-          badgeColor={eventsBadgeColor}
-          placeholder="Add Event +"
-          listBackgroundColor="black"
-          isEvents
+        <View style={styles.listWrapperView}>
+          <ListInput
+            list={dayData.events || []}
+            updateList={updateEvents}
+            badgeColor={eventsBadgeColor}
+            placeholder="Add Event +"
+            listBackgroundColor="black"
+            isEvents
+          />
+        </View>
+
+        <Horizontal
+          style={{ borderColor: "rgba(255,255,255,0.5)", marginTop: 6 }}
         />
-      </View>
 
-      <Horizontal
-        style={{ borderColor: "rgba(255,255,255,0.5)", marginTop: 6 }}
-      />
-
-      <View style={styles.listWrapperView}>
-        <ListInput
-          list={dayData.tasks || []}
-          updateList={updateTasks}
-          badgeColor="rgb(241 245 249)"
-          placeholder="Add Task +"
-          listBackgroundColor="black"
-        />
-      </View>
-    </Animated.View>
+        <View style={styles.listWrapperView}>
+          <ListInput
+            list={dayData.tasks || []}
+            updateList={updateTasks}
+            badgeColor="rgb(241 245 249)"
+            placeholder="Add Task +"
+            listBackgroundColor="black"
+          />
+        </View>
+      </Animated.View>
+    </View>
   );
 };
 

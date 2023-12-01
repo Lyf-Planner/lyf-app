@@ -5,6 +5,7 @@ import { Horizontal } from "../../components/MiscComponents";
 import { primaryGreen } from "../../utils/constants";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useModal } from "../../components/modal/ModalProvider";
+import { PremiumSettingsModal } from "./PremiumSettingsModal";
 
 const LOCK_IMAGE = require("../../../assets/images/lock.png");
 const ENHANCE_IMAGE = require("../../../assets/images/enhanced.png");
@@ -51,6 +52,7 @@ export const PremiumAdvertiseModal = () => {
   };
 
   const closeModal = () => updateModal(null);
+  const switchModal = () => updateModal(<PremiumSettingsModal />);
 
   return (
     <View style={styles.mainContainer}>
@@ -63,14 +65,7 @@ export const PremiumAdvertiseModal = () => {
           Unlock more and optimise your schedule
         </Text>
       </View>
-      <Horizontal
-        style={{
-          opacity: 0.25,
-          marginTop: 10,
-          marginBottom: 4,
-          borderWidth: 2,
-        }}
-      />
+      <Horizontal style={styles.firstSeperator} />
       <View style={{ height: 170 }}>
         <AppIntroSlider
           renderItem={PremiumFeature}
@@ -81,8 +76,8 @@ export const PremiumAdvertiseModal = () => {
       </View>
 
       <View style={styles.footer}>
-        <Horizontal style={{ opacity: 0.2, marginTop: 8, borderWidth: 2 }} />
-        <Text style={[styles.subtitle, { marginTop: 12, marginBottom: 4 }]}>
+        <Horizontal style={styles.secondSeperator} />
+        <Text style={[styles.subtitle, styles.developmentDisclaimer]}>
           Premium is currently in development, and can be enabled for{" "}
           <Text style={styles.freeText}>free!</Text>
         </Text>
@@ -97,7 +92,7 @@ export const PremiumAdvertiseModal = () => {
           <TouchableOpacity
             onPress={() => {
               enablePremium();
-              closeModal();
+              switchModal();
             }}
             style={[styles.bottomButton, { backgroundColor: primaryGreen }]}
             activeOpacity={0.7}
@@ -159,6 +154,12 @@ const styles = StyleSheet.create({
     gap: 4,
     marginBottom: 4,
   },
+  firstSeperator: {
+    opacity: 0.25,
+    marginTop: 10,
+    marginBottom: 4,
+    borderWidth: 2,
+  },
   premiumTitle: { fontSize: 22, fontWeight: "700" },
   subtitle: {
     textAlign: "center",
@@ -188,7 +189,9 @@ const styles = StyleSheet.create({
   },
   activeDotStyle: { backgroundColor: "black", marginBottom: 10 },
   dotStyle: { backgroundColor: "rgba(0,0,0,0.3)", marginBottom: 10 },
+  secondSeperator: { opacity: 0.2, marginTop: 8, borderWidth: 2 },
   footer: { gap: 10, position: "relative", bottom: 30 },
+  developmentDisclaimer: { marginTop: 12, marginBottom: 4 },
   freeText: { fontWeight: "800", opacity: 1 },
   bottomButtonsContainer: { flexDirection: "row", gap: 5, marginTop: 8 },
   bottomButton: {

@@ -22,8 +22,8 @@ export default function App() {
 
   return (
     <Background>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <MenuProvider>
             <ToolbarProvider>
               <AuthGateway>
@@ -33,8 +33,8 @@ export default function App() {
               </AuthGateway>
             </ToolbarProvider>
           </MenuProvider>
-        </GestureHandlerRootView>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </GestureHandlerRootView>
     </Background>
   );
 }
