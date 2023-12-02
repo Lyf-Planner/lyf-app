@@ -1,8 +1,6 @@
 import {
-  TextInput,
   View,
   Text,
-  Pressable,
   StyleSheet,
   TouchableOpacity,
   TouchableHighlight,
@@ -10,7 +8,7 @@ import {
 import { PremiumIcon } from "../../components/Icons";
 import { Horizontal } from "../../components/MiscComponents";
 import { useAuth } from "../../authorisation/AuthProvider";
-import { useModal } from "../../components/modal/ModalProvider";
+import { useModal } from "../../components/ModalProvider";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import {
   DailyNotificationDesc,
@@ -124,10 +122,16 @@ const Setting = ({ updateFunc, enabled, name, desc }: any) => {
         <BouncyCheckbox
           isChecked={enabled}
           onPress={updateFunc}
-          textComponent={<Text style={styles.settingTitle}>{name}</Text>}
+          textComponent={
+            <Text style={[styles.settingTitle, { opacity: enabled ? 1 : 0.5 }]}>
+              {name}
+            </Text>
+          }
         />
       </View>
-      <View style={styles.settingDescWrapper}>{desc}</View>
+      <View style={[styles.settingDescWrapper, { opacity: enabled ? 1 : 0.5 }]}>
+        {desc}
+      </View>
     </View>
   );
 };

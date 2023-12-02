@@ -9,7 +9,8 @@ import { ToolbarProvider } from "./src/components/ToolBar";
 import { MenuProvider } from "react-native-popup-menu";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";
 import env from "./src/envManager";
-import { ModalProvider } from "./src/components/modal/ModalProvider";
+import { ModalProvider } from "./src/components/ModalProvider";
+import { DrawerProvider } from "./src/components/DrawerProvider";
 
 export default function App() {
   let [loaded] = useFonts({});
@@ -28,7 +29,9 @@ export default function App() {
             <ToolbarProvider>
               <AuthGateway>
                 <ModalProvider>
-                  <WidgetContainer />
+                  <DrawerProvider>
+                    <WidgetContainer />
+                  </DrawerProvider>
                 </ModalProvider>
               </AuthGateway>
             </ToolbarProvider>

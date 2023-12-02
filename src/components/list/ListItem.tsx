@@ -14,6 +14,9 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import * as Haptics from "expo-haptics";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useEditing } from "../../editor/EditorProvider";
+import { useAuth } from "../../authorisation/AuthProvider";
+import { useModal } from "../ModalProvider";
+import { ListItemModal } from "./ListItemModal";
 
 export type Item = {
   id: string;
@@ -31,6 +34,8 @@ export const ListItem = ({
 }: any) => {
   const [editText, updateEditText] = useState(null);
   const [newText, updateNewText] = useState(item.name);
+  const { data } = useAuth();
+  const { updateModal } = useModal();
 
   // EDIT MODE ACCESS
 
@@ -102,14 +107,33 @@ export const ListItem = ({
 
   const handleLongPressIn = () => {
     // Start animating the shrinking of the item while user holds it down
-    scale.value = 0.75;
+    if (data.premium?.enabled) {
+      // Open the modal
+      scale.value = 1.1;
 
-    // After the n seconds pressing, remove the item
-    timer = setInterval(() => {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-      willRemove.value = true;
-      clearTimeout(timer);
-    }, 500);
+      // After the n seconds pressing, remove the item
+      timer = setInterval(() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+        updateModal(
+          <ListItemModal
+            item={item}
+            updateItem={updateItem}
+            isEvent={isEvent}
+            removeItem={onRemove}
+          />
+        );
+        clearTimeout(timer);
+      }, 400);
+    } else {
+      scale.value = 0.75;
+
+      // After the n seconds pressing, remove the item
+      timer = setInterval(() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+        willRemove.value = true;
+        clearTimeout(timer);
+      }, 500);
+    }
   };
 
   const handleLongPressOut = () => {

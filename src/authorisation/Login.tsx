@@ -50,7 +50,7 @@ export const Login = ({ updateUser }) => {
               onSubmitEditing={() => passRef.current.focus()}
               blurOnSubmit={false}
             />
-            <Horizontal />
+            <Horizontal style={styles.fieldSeperator} />
             <TextInput
               style={styles.fields}
               returnKeyType="done"
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexDirection: "column",
     width: "75%",
-    borderRadius: 20,
+    borderRadius: 15,
     padding: 15,
     alignItems: "center",
     zIndex: 10,
@@ -118,10 +118,13 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(203 213 225)",
     borderWidth: 1,
     borderColor: "black",
-    borderRadius: 15,
+    borderRadius: 10,
     paddingHorizontal: 8,
     paddingVertical: 2,
     width: "100%",
+  },
+  fieldSeperator: {
+    borderColor: "rgba(0,0,0,0.5)",
   },
   fields: {
     marginVertical: 8,

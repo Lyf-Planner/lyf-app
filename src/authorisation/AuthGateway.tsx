@@ -25,7 +25,7 @@ export const AuthGateway = ({ children }) => {
         ? autologin(token).then((freshUser) => {
             if (!!freshUser) {
               updateUser({ ...freshUser });
-            }
+            } else updateLoggingIn(false);
           })
         : updateLoggingIn(false)
     );

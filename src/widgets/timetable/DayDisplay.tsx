@@ -3,15 +3,13 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { View, TouchableHighlight, Text, StyleSheet } from "react-native";
-import { useEffect, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { useEffect } from "react";
 import { Horizontal } from "../../components/MiscComponents";
 import { ListInput } from "../../components/list/ListInput";
 import { formatDate } from "../../utils/dates";
 import { eventsBadgeColor, secondaryGreen } from "../../utils/constants";
 import {
-  Gesture,
-  GestureDetector,
   LongPressGestureHandler,
 } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
@@ -113,6 +111,7 @@ export const Day = ({ dayData, updateDay, showDate }: any) => {
             placeholder="Add Event +"
             listBackgroundColor="black"
             isEvents
+            date={dayData.date}
           />
         </View>
 

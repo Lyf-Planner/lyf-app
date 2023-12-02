@@ -40,18 +40,15 @@ export const WidgetContainer = () => {
   };
 
   return (
-      <KeyboardAwareScrollView enableResetScrollToCoords={false}>
-        <EditProvider>
-          <View style={styles.container}>
-            <AppHeaderMenu
-              selected={selected}
-              updateSelected={updateSelected}
-            />
-            <Horizontal style={styles.headerSeperator} />
-            {WIDGETS[selected]}
-          </View>
-        </EditProvider>
-      </KeyboardAwareScrollView>
+    <KeyboardAwareScrollView enableResetScrollToCoords={false}>
+      <EditProvider>
+        <View style={styles.container}>
+          <AppHeaderMenu selected={selected} updateSelected={updateSelected} />
+          <Horizontal style={styles.headerSeperator} />
+          {WIDGETS[selected]}
+        </View>
+      </EditProvider>
+    </KeyboardAwareScrollView>
   );
 };
 

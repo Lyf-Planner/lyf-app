@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 // Assisted state management via provision of hooks, pertinent to whether app is in edit mode
 export const ModalProvider = ({ children }) => {
-  const [modal, updateModal] = useState<any>();
+  const [modal, updateModal] = useState<any>(null);
 
   const EXPOSED = {
     modal,

@@ -5,6 +5,7 @@ import { useEditing } from "../../editor/EditorProvider";
 
 import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
+import { useAuth } from "../../authorisation/AuthProvider";
 
 export enum ListType {
   Event = "Event",
@@ -21,13 +22,34 @@ export const ListInput = ({
   listBackgroundColor = "white",
   isEvents = false,
   asColumn = false,
-  listWrapperStyles = {}
+  listWrapperStyles = {},
+  date = null,
 }: any) => {
   const [newItem, updateNewItem] = useState<any>("");
+  const { data } = useAuth();
 
-  const addNewItem = (item: Item) => {
+  const addNewItem = (name: string, item?: any) => {
     var curList = list;
-    curList.push(item);
+
+    if (!!item) curList.push(item);
+    else {
+      const addEventPrefs = isEvents && data.premium?.enabled;
+      const prefs = addEventPrefs
+        ? {
+            notify: data.premium.settings?.event_notifications,
+            minutesBefore:
+              data.premium.settings?.event_notification_minutes_before,
+          }
+        : {};
+
+      curList.push({
+        name,
+        finished: false,
+        id: uuid(), // Precursor to migrating lists out of nesting
+        date, // Precursor to migrating lists out of nesting
+        ...prefs,
+      });
+    }
     updateList(curList);
   };
 
@@ -71,7 +93,7 @@ export const ListInput = ({
             borderColor:
               selectedList?.list === list ? "red" : listBackgroundColor,
           },
-          listWrapperStyles
+          listWrapperStyles,
         ]}
       >
         {list.map((x: Item) => (
@@ -94,8 +116,7 @@ export const ListInput = ({
           value={newItem}
           style={styles.listNewItem}
           onSubmitEditing={() => {
-            newItem &&
-              addNewItem({ name: newItem, finished: false, id: uuid() });
+            newItem && addNewItem(newItem);
             updateNewItem("");
           }}
           onChangeText={(text) => updateNewItem(text)}
