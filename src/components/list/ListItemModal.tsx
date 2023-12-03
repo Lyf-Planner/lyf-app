@@ -72,7 +72,7 @@ export const ListItemModal = ({
           zIndex: 0,
         }}
       >
-        <Text style={{ fontSize: 18, fontWeight: "600" }}>Description</Text>
+        <Text style={{ fontSize: 18, fontWeight: "500" }}>Description</Text>
         <TextInput
           value={item.desc}
           onChangeText={updateDesc}
@@ -114,16 +114,8 @@ const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: "white",
     paddingHorizontal: 18,
-    paddingTop: 25,
-    marginHorizontal: 90,
     borderColor: "rgba(0,0,0,0.5)",
-    borderWidth: 1,
-    borderRadius: 10,
     gap: 10,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 10,
   },
   header: {
     flexDirection: "column",
@@ -140,7 +132,7 @@ const styles = StyleSheet.create({
   },
   itemName: {
     fontSize: 20,
-    backgroundColor: "rgba(0,0,0,0.95)",
+    backgroundColor: "black",
     padding: 10,
     height: 50,
     fontWeight: "600",

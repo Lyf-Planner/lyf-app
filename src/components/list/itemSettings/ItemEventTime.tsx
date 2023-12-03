@@ -6,7 +6,7 @@ export const ItemEventTime = ({ time, updateTime }) => {
     <View
       style={{ flexDirection: "row", alignItems: "center", paddingRight: 10 }}
     >
-      <Text style={{ fontSize: 18, fontWeight: "600" }}>Event Time</Text>
+      <Text style={{ fontSize: 18, fontWeight: "500" }}>Event Time</Text>
       <View style={{ marginLeft: "auto" }}>
         <NullableTimePicker time={time} updateTime={updateTime} />
       </View>

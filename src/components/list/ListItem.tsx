@@ -17,6 +17,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { TwentyFourHourToAMPM } from "../../utils/dates";
 import { ListItemModal } from "./ListItemModal";
 import { useModal } from "../../providers/ModalProvider";
+import { useDrawer } from "../../providers/DrawerProvider";
 
 export type Item = {
   id: string;
@@ -34,16 +35,16 @@ export const ListItem = ({
   isEvent = false,
 }) => {
   const { data } = useAuth();
-  const { updateModal } = useModal();
+  const { updateDrawer } = useDrawer();
 
   const openModal = () =>
-    updateModal(
+    updateDrawer(
       <ListItemModal
         initialItem={item}
         updateRootItem={updateItem}
         removeItem={removeItem}
         isEvent={isEvent}
-        closeModal={() => updateModal(null)}
+        closeModal={() => updateDrawer(null)}
       />
     );
 
