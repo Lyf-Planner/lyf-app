@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { SettingDropdown } from "../../../components/dropdowns/SettingDropdown";
 import { SettingsDropdowns } from "../AccountDropdowns";
+import { BulletedText } from "../../../components/Text";
 
 const TIPS = [
   "To delete any task or event, hold down on the item",
@@ -32,15 +33,6 @@ export const TipsDropdown = ({ settingOpen, setOpen }) => {
   );
 };
 
-const BulletedText = ({ children }) => {
-  return (
-    <View style={styles.bulletTextWrapper}>
-      <Text style={styles.bullet}>{`\u25CF`}</Text>
-      {children}
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   tipText: {
     fontSize: 15,
@@ -51,6 +43,4 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     marginVertical: 4,
   },
-  bullet: { width: 15, fontSize: 10, marginTop: 3 },
-  bulletTextWrapper: { flexDirection: "row", alignItems: "flex-start" },
 });

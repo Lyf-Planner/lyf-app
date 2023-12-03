@@ -1,11 +1,11 @@
-import { View, Pressable, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput } from "react-native";
 import { useState } from "react";
 import { Item, ListItem } from "./ListItem";
-import { useEditing } from "../../editor/EditorProvider";
 
 import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
 import { useAuth } from "../../authorisation/AuthProvider";
+import { ItemStatus } from "./constants";
 
 export enum ListType {
   Event = "Event",
@@ -45,6 +45,7 @@ export const ListInput = ({
       curList.push({
         name,
         finished: false,
+        status: ItemStatus.Upcoming,
         id: uuid(), // Precursor to migrating lists out of nesting
         date, // Precursor to migrating lists out of nesting
         ...prefs,
@@ -53,76 +54,55 @@ export const ListInput = ({
     updateList(curList);
   };
 
-  const updateItem = (oldItem: Item, newItem: Item) => {
+  const updateItem = (index: number, newItem: Item) => {
     var curList = list;
-    var i = curList.indexOf(oldItem);
-    curList[i] = newItem;
+    curList[index] = newItem;
     updateList(curList);
   };
 
-  const removeItem = (item: Item) => {
+  const removeItem = (index: number) => {
     var curList = list;
-    var i = curList.indexOf(item);
-    curList.splice(i, 1);
+    curList.splice(index, 1);
     updateList(curList);
   };
-
-  const exposedEditorProps = {
-    addNewItem,
-    list,
-  };
-
-  // Editor access
-  const { editMode, updateSelectedList, selectedList } = useEditing();
 
   return (
-    <Pressable
-      disabled={!editMode}
-      onPress={() => {
-        selectedList?.list !== list
-          ? updateSelectedList(exposedEditorProps)
-          : updateSelectedList(null);
-      }}
+    <View
+      style={[
+        styles.listContainer,
+        {
+          flexDirection: asColumn ? "column" : "row",
+          backgroundColor: listBackgroundColor,
+        },
+        listWrapperStyles,
+      ]}
     >
-      <View
-        style={[
-          styles.listContainer,
-          {
-            flexDirection: asColumn ? "column" : "row",
-            backgroundColor: listBackgroundColor,
-            borderColor:
-              selectedList?.list === list ? "red" : listBackgroundColor,
-          },
-          listWrapperStyles,
-        ]}
-      >
-        {list.map((x: Item) => (
-          <ListItem
-            key={x.name}
-            badgeColor={badgeColor}
-            badgeTextColor={badgeTextColor}
-            item={x}
-            onRemove={() => removeItem(x)}
-            updateItem={(newItem: Item) => updateItem(x, newItem)}
-            isEvent={isEvents}
-          />
-        ))}
-
-        <TextInput
-          returnKeyType="done"
-          inputMode="text"
-          placeholder={placeholder}
-          placeholderTextColor="grey"
-          value={newItem}
-          style={styles.listNewItem}
-          onSubmitEditing={() => {
-            newItem && addNewItem(newItem);
-            updateNewItem("");
-          }}
-          onChangeText={(text) => updateNewItem(text)}
+      {list.map((x: Item, i: number) => (
+        <ListItem
+          key={x.id}
+          badgeColor={badgeColor}
+          badgeTextColor={badgeTextColor}
+          item={x}
+          removeItem={() => removeItem(i)}
+          updateItem={(newItem: Item) => updateItem(i, newItem)}
+          isEvent={isEvents}
         />
-      </View>
-    </Pressable>
+      ))}
+
+      <TextInput
+        returnKeyType="done"
+        inputMode="text"
+        placeholder={placeholder}
+        placeholderTextColor="grey"
+        value={newItem}
+        style={styles.listNewItem}
+        onSubmitEditing={() => {
+          newItem && addNewItem(newItem);
+          updateNewItem("");
+        }}
+        onChangeText={(text) => updateNewItem(text)}
+      />
+    </View>
   );
 };
 

@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { StyleSheet, View, TextInput } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import Animated, {
   useSharedValue,
   withTiming,
@@ -10,39 +9,43 @@ import {
   Gesture,
   Directions,
 } from "react-native-gesture-handler";
+import { ITEM_STATUS_TO_COLOR, ItemStatus } from "./constants";
+import { useAuth } from "../../authorisation/AuthProvider";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import * as Haptics from "expo-haptics";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { useEditing } from "../../editor/EditorProvider";
-import { useAuth } from "../../authorisation/AuthProvider";
-import { useModal } from "../ModalProvider";
+import { TwentyFourHourToAMPM } from "../../utils/dates";
 import { ListItemModal } from "./ListItemModal";
+import { useModal } from "../../providers/ModalProvider";
 
 export type Item = {
   id: string;
   name: string;
   finished: boolean;
+  status?: string;
 };
 
 export const ListItem = ({
+  updateItem,
+  item,
+  removeItem,
   badgeColor,
   badgeTextColor,
-  item,
-  onRemove,
-  updateItem,
   isEvent = false,
-}: any) => {
-  const [editText, updateEditText] = useState(null);
-  const [newText, updateNewText] = useState(item.name);
+}) => {
   const { data } = useAuth();
   const { updateModal } = useModal();
 
-  // EDIT MODE ACCESS
-
-  const { editMode, updateEditMode, updateSelectedItem, selectedItem } =
-    useEditing();
-
-  const exposedEditorProps = { item, onRemove, updateEditText };
+  const openModal = () =>
+    updateModal(
+      <ListItemModal
+        initialItem={item}
+        updateRootItem={updateItem}
+        removeItem={removeItem}
+        isEvent={isEvent}
+        closeModal={() => updateModal(null)}
+      />
+    );
 
   // GESTURE DEFINITIONS
 
@@ -58,7 +61,7 @@ export const ListItem = ({
     .runOnJS(true)
     .onEnd(() => handleFling());
 
-  const composed = Gesture.Exclusive(tap, longPress, fling);
+  const composed = Gesture.Simultaneous(tap, longPress, fling);
 
   // ANIMATION DEFINITIONS
 
@@ -72,7 +75,7 @@ export const ListItem = ({
       transform: [
         {
           scale: withTiming(scale.value, {
-            duration: 500,
+            duration: 400,
           }),
         },
       ],
@@ -95,14 +98,12 @@ export const ListItem = ({
   // GESTURE HANDLERS
 
   const handleTap = () => {
-    if (editMode) {
-      selectedItem?.item?.name === item.name
-        ? updateSelectedItem(null)
-        : updateSelectedItem(exposedEditorProps);
-    } else {
-      updateItem({ ...item, finished: !item.finished });
-      !item.finished && Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    }
+    updateItem({
+      ...item,
+      finished: !item.finished,
+      status: !item.finished ? ItemStatus.Done : ItemStatus.Upcoming,
+    });
+    !item.finished && Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
   const handleLongPressIn = () => {
@@ -114,14 +115,7 @@ export const ListItem = ({
       // After the n seconds pressing, remove the item
       timer = setInterval(() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-        updateModal(
-          <ListItemModal
-            item={item}
-            updateItem={updateItem}
-            isEvent={isEvent}
-            removeItem={onRemove}
-          />
-        );
+        openModal();
         clearTimeout(timer);
       }, 400);
     } else {
@@ -138,7 +132,7 @@ export const ListItem = ({
 
   const handleLongPressOut = () => {
     if (willRemove.value) {
-      onRemove();
+      removeItem();
     }
 
     clearTimeout(timer);
@@ -150,7 +144,6 @@ export const ListItem = ({
 
     var activate = setInterval(() => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-      updateEditMode(true);
 
       // This makes the animation appear to pause for a second when slid back
       var closeAnimation = setInterval(() => {
@@ -162,21 +155,18 @@ export const ListItem = ({
     }, 200);
   };
 
-  // EDIT TEXT HELPERS
+  // STYLING
 
-  const textRef = useRef<any>();
-  useEffect(() => {
-    if (editText) {
-      selectedItem?.item !== item && updateEditText(false);
-      textRef.current.focus();
-    }
-  }, [selectedItem, editText]);
+  const determineBadgeColor = () => {
+    if (item.status === ItemStatus.Upcoming || !item.status) return badgeColor;
+    else if (item.status === ItemStatus.Done)
+      return `${ITEM_STATUS_TO_COLOR[item.status]}`;
+    else return ITEM_STATUS_TO_COLOR[item.status];
+  };
 
-  const submitTextEdit = () => {
-    // Stop editing - push the change
-    updateItem({ ...item, name: newText });
-    updateSelectedItem(null);
-    updateEditText(false);
+  const determineOpacity = () => {
+    if (item.status === ItemStatus.Cancelled) return 0.6;
+    else return 1;
   };
 
   return (
@@ -186,16 +176,14 @@ export const ListItem = ({
           style={[
             styles.listItem,
             {
-              backgroundColor: item.finished ? "rgb(21, 128, 61)" : badgeColor,
+              backgroundColor: determineBadgeColor(),
               borderRadius: isEvent ? 5 : 15,
-              borderColor:
-                selectedItem?.item?.name === item.name ? "red" : "black",
+              opacity: determineOpacity(),
             },
             flickAnimation,
           ]}
         >
-          <TextInput
-            ref={textRef}
+          <Text
             style={[
               styles.listItemText,
               {
@@ -204,14 +192,9 @@ export const ListItem = ({
                 fontWeight: isEvent ? "600" : "normal",
               },
             ]}
-            value={newText}
-            returnKeyType="done"
-            selectionColor={item.finished ? "white" : "rgb(21, 128, 61)"}
-            editable={!!editText}
-            selectTextOnFocus={!!editText}
-            onSubmitEditing={submitTextEdit}
-            onChangeText={updateNewText}
-          />
+          >
+            {item.name} {item.time && `(${TwentyFourHourToAMPM(item.time)})`}
+          </Text>
 
           <AntDesign
             name={item.finished ? "checkcircle" : "checkcircleo"}
@@ -223,7 +206,6 @@ export const ListItem = ({
           style={[
             {
               borderRadius: isEvent ? 5 : 15,
-              backgroundColor: editMode ? "red" : "gray",
             },
             styles.listHiddenBackground,
           ]}

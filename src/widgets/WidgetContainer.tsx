@@ -13,7 +13,6 @@ import { Horizontal } from "../components/MiscComponents";
 import { AccountWidget } from "./account/AccountWidget";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Notes } from "./notes/NotesWidget";
-import { EditProvider } from "../editor/EditorProvider";
 import { PremiumHeaderButton } from "./premium/PremiumHeaderButton";
 
 export enum Widgets {
@@ -41,13 +40,11 @@ export const WidgetContainer = () => {
 
   return (
     <KeyboardAwareScrollView enableResetScrollToCoords={false}>
-      <EditProvider>
-        <View style={styles.container}>
-          <AppHeaderMenu selected={selected} updateSelected={updateSelected} />
-          <Horizontal style={styles.headerSeperator} />
-          {WIDGETS[selected]}
-        </View>
-      </EditProvider>
+      <View style={styles.container}>
+        <AppHeaderMenu selected={selected} updateSelected={updateSelected} />
+        <Horizontal style={styles.headerSeperator} />
+        {WIDGETS[selected]}
+      </View>
     </KeyboardAwareScrollView>
   );
 };

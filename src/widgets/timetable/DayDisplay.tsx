@@ -8,10 +8,12 @@ import { useEffect } from "react";
 import { Horizontal } from "../../components/MiscComponents";
 import { ListInput } from "../../components/list/ListInput";
 import { formatDate } from "../../utils/dates";
-import { eventsBadgeColor, secondaryGreen } from "../../utils/constants";
 import {
-  LongPressGestureHandler,
-} from "react-native-gesture-handler";
+  DaysOfWeek,
+  eventsBadgeColor,
+  secondaryGreen,
+} from "../../utils/constants";
+import { LongPressGestureHandler } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
 
 export const Day = ({ dayData, updateDay, showDate }: any) => {

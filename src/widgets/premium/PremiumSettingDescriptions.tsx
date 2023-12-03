@@ -15,7 +15,6 @@ export const DailyNotificationDesc = ({
   updatePersistent,
   persistent,
 }: any) => {
-  const [showTimePicker, updateShowTimePicker] = useState(false);
   var today = new Date();
   // Component needs a JS date, even though we only use time (just take any date)
   const datePickerValue = new Date(
@@ -51,7 +50,7 @@ export const DailyNotificationDesc = ({
         underlayColor={"rgba(0,0,0,0.5)"}
       >
         <Text style={dailyStyles.persistentText}>
-          {persistent ? "always" : "not"}
+          {persistent ? "still" : "not"}
         </Text>
       </TouchableHighlight>
       <Text style={dailyStyles.thirdText}>
@@ -107,16 +106,16 @@ const dailyStyles = StyleSheet.create({
   secondText: { fontSize: 16, fontWeight: "300" },
   persistentTouchable: {
     backgroundColor: "rgba(0,0,0,0.08)",
-    paddingVertical: 4,
-    paddingHorizontal: 4,
+    paddingVertical: 5,
+    paddingHorizontal: 6,
     width: 60,
     borderRadius: 8,
   },
   persistentText: {
-    fontSize: 15,
+    fontSize: 14,
     textAlign: "center",
   },
-  thirdText: { fontSize: 16, lineHeight: 30, fontWeight: "300" },
+  thirdText: { fontSize: 16, lineHeight: 28, fontWeight: "300" },
 });
 
 const eventStyles = StyleSheet.create({
@@ -125,14 +124,15 @@ const eventStyles = StyleSheet.create({
     flexWrap: "wrap",
     alignItems: "center",
   },
-  firstText: { fontSize: 16, lineHeight: 25, fontWeight: "300" },
+  firstText: { fontSize: 16, lineHeight: 30, fontWeight: "300" },
   minutesInput: {
-    padding: 2,
     backgroundColor: "rgba(0,0,0,0.08)",
+    paddingVertical: 4,
+    paddingHorizontal: 6,
     width: 40,
     borderRadius: 8,
-    textAlign: "center",
     fontSize: 15,
+    textAlign: "center",
   },
-  secondText: { fontSize: 16, lineHeight: 27, fontWeight: "300" },
+  secondText: { fontSize: 16, lineHeight: 30, fontWeight: "300" },
 });

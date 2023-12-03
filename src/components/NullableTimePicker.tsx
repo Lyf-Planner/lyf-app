@@ -1,0 +1,93 @@
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
+
+import DateTimePicker from "@react-native-community/datetimepicker";
+import Entypo from "react-native-vector-icons/Entypo";
+import moment from "moment";
+
+export const NullableTimePicker = ({ updateTime, time }) => {
+  const [showPicker, updateShowPicker] = useState(!!time);
+
+  return (
+    <View>
+      {time ? (
+        <View style={styles.leftShiftTimePicker}>
+          <TimePicker time={time} updateTime={updateTime} />
+        </View>
+      ) : (
+        <TouchableHighlight
+          style={styles.addTimeContainer}
+          underlayColor={"rgba(0,0,0,0.5)"}
+          onPress={() => {
+            updateTime("09:00");
+            updateShowPicker(true);
+          }}
+        >
+          <Text style={styles.addTimeText}>Add Time +</Text>
+        </TouchableHighlight>
+      )}
+    </View>
+  );
+};
+
+export const TimePicker = ({ time, updateTime }: any) => {
+  const updateTimeFromPicker = (time) => {
+    // Picker gives us a timestamp, that we need to convert to 24 hr time
+    var dateTime = new Date(time.nativeEvent.timestamp);
+    console.log("updating time to", moment(dateTime).format("HH:mm"));
+    updateTime(moment(dateTime).format("HH:mm"));
+  };
+
+  useEffect(() => {
+    console.log("time update received!");
+  }, [time]);
+
+  console.log("time is", time);
+  var today = new Date();
+  const datePickerValue =
+    !!time &&
+    new Date(
+      `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${time}`
+    );
+  console.log("picker value", datePickerValue);
+
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+
+        justifyContent: "flex-start",
+      }}
+    >
+      <TouchableHighlight
+        onPress={() => updateTime(null)}
+        underlayColor={"rgba(0,0,0,0.5)"}
+        style={{ borderRadius: 5 }}
+      >
+        <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
+      </TouchableHighlight>
+      <DateTimePicker
+        value={datePickerValue}
+        minuteInterval={5}
+        mode={"time"}
+        is24Hour={true}
+        onChange={updateTimeFromPicker}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  addTimeContainer: {
+    backgroundColor: "rgba(0,0,0,0.08)",
+    padding: 8.75,
+    position: "relative",
+    left: 10,
+    borderRadius: 8,
+  },
+  addTimeText: {
+    fontSize: 16,
+  },
+  leftShiftTimePicker: { position: "relative", left: 10 },
+});

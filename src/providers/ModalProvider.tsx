@@ -10,10 +10,12 @@ export const ModalProvider = ({ children }) => {
     updateModal,
   };
 
+  const modalExists = !!modal;
+
   return (
     <ModalContext.Provider value={EXPOSED}>
       {children}
-      {!!modal && <View style={styles.modalPositioning}>{modal}</View>}
+      {modalExists && <View style={styles.modalPositioning}>{modal}</View>}
     </ModalContext.Provider>
   );
 };

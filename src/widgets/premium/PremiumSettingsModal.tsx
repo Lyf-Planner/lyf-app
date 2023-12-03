@@ -8,12 +8,13 @@ import {
 import { PremiumIcon } from "../../components/Icons";
 import { Horizontal } from "../../components/MiscComponents";
 import { useAuth } from "../../authorisation/AuthProvider";
-import { useModal } from "../../components/ModalProvider";
+import { useModal } from "../../providers/ModalProvider";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import {
   DailyNotificationDesc,
   EventNotificationDesc,
 } from "./PremiumSettingDescriptions";
+import { primaryGreen } from "../../utils/constants";
 
 export const PremiumSettingsModal = ({ onClose }: any) => {
   const { data, updateData } = useAuth();
@@ -91,21 +92,21 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
       </View>
       <Horizontal style={styles.secondSeperator} />
       <View style={styles.bottomButtonsContainer}>
-        <TouchableOpacity
+        <TouchableHighlight
           onPress={() => {
             updatePremium({ ...premium, enabled: false });
             closeModal();
           }}
           style={[styles.bottomButton, styles.disablePremiumButton]}
-          activeOpacity={1}
+          underlayColor={"rgba(0,0,0,0.5)"}
         >
           <Text style={[styles.bottomButtonText, styles.disablePremiumText]}>
             Disable Premium
           </Text>
-        </TouchableOpacity>
+        </TouchableHighlight>
         <TouchableHighlight
           onPress={closeModal}
-          style={[styles.bottomButton]}
+          style={[styles.bottomButton, styles.doneButton]}
           underlayColor={"rgba(0,0,0,0.5)"}
         >
           <Text style={[styles.bottomButtonText, styles.doneText]}>Done</Text>
@@ -139,10 +140,9 @@ const Setting = ({ updateFunc, enabled, name, desc }: any) => {
 const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: "white",
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingVertical: 25,
-    marginHorizontal: 10,
-    marginBottom: 70,
+    marginHorizontal: 16,
     borderColor: "rgba(0,0,0,0.5)",
     borderWidth: 1,
     borderRadius: 10,
@@ -183,9 +183,9 @@ const styles = StyleSheet.create({
   settingTitle: { fontSize: 18, fontWeight: "600", marginLeft: 8 },
   settingDescWrapper: { marginTop: 4, marginLeft: 34 },
 
-  secondSeperator: { opacity: 0.2, marginTop: 36, borderWidth: 2 },
+  secondSeperator: { opacity: 0.2, marginTop: 50, borderWidth: 2 },
   bottomButtonsContainer: { flexDirection: "row", gap: 5, marginTop: 8 },
-  disablePremiumButton: { backgroundColor: "red", opacity: 0.8 },
+  disablePremiumButton: { opacity: 0.8 },
   bottomButton: {
     padding: 12,
     flex: 1,
@@ -195,8 +195,9 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderRadius: 10,
   },
-  disablePremiumText: { color: "white", fontSize: 15 },
-  doneText: { fontSize: 16 },
+  doneButton: { backgroundColor: primaryGreen },
+  disablePremiumText: { fontSize: 15 },
+  doneText: { fontSize: 16, color: "white" },
   bottomButtonText: {
     textAlign: "center",
   },

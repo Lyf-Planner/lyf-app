@@ -7,53 +7,47 @@ import {
 } from "react-native";
 import { Horizontal } from "../../components/MiscComponents";
 import { eventsBadgeColor, offWhite } from "../../utils/constants";
-import { useModal } from "../../components/ModalProvider";
+import { ItemStatus } from "./constants";
+
+import { ItemStatusDropdown } from "./itemSettings/ItemStatusDropdown";
 import { useState } from "react";
-import {
-  EventStatusOptions,
-  ITEM_STATUS_TO_COLOR,
-  ItemStatus,
-  TaskStatusOptions,
-} from "./constants";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import DropDownPicker from "react-native-dropdown-picker";
-import moment from "moment";
+import { ItemEventTime } from "./itemSettings/ItemEventTime";
+import { ItemNotification } from "./itemSettings/ItemNotification";
 
-export const ListItemModal = ({ item, updateItem, isEvent, removeItem }) => {
-  const { updateModal } = useModal();
+export const ListItemModal = ({
+  initialItem,
+  updateRootItem,
+  isEvent,
+  removeItem,
+  closeModal,
+}) => {
+  // Due to state issues, we need a local copy of the item
+  // It is important this is eventually addressed when we introduce redux and decouple items
+  // This is a workaround !!
+  const [item, updateLocalItem] = useState(initialItem);
+  const updateItem = (x: any) => {
+    updateLocalItem(x);
+    updateRootItem(x);
+  };
 
-  const closeModal = () => updateModal(null);
-
-  const updateStatus = (status) => updateItem({ ...item, status });
+  const updateStatus = (status) =>
+    updateItem({ ...item, status, finished: status === ItemStatus.Done });
   const updateName = (name) => updateItem({ ...item, name });
   const updateDesc = (desc) => updateItem({ ...item, desc });
-  const updateTime = (time) => updateItem({ ...item, time });
-
-  var today = item.date ? new Date(item.date) : new Date();
-  const datePickerValue =
-    item.time &&
-    new Date(
-      `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${
-        item.time
-      }`
-    );
-
-  const updateTimeFromPicker = (time) => {
-    // Picker gives us a timestamp, that we need to convert to 24 hr time
-    var dateTime = new Date(time.nativeEvent.timestamp);
-    updateTime(moment(dateTime).format("HH:mm"));
+  const updateTime = (time) => {
+    updateItem({ ...item, time });
   };
 
   return (
     <View style={styles.mainContainer}>
-      <View style={{ gap: 8, zIndex: 10 }}>
+      <View style={{ gap: 10, zIndex: 10 }}>
         <TextInput
           value={item.name}
           onChangeText={updateName}
           style={styles.itemName}
           returnKeyType="done"
         />
-        <StatusSelector
+        <ItemStatusDropdown
           status={item.status}
           updateStatus={updateStatus}
           isEvent={isEvent}
@@ -61,30 +55,24 @@ export const ListItemModal = ({ item, updateItem, isEvent, removeItem }) => {
       </View>
       <Horizontal style={styles.firstSeperator} />
 
-      {isEvent && (
-        <View>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={{ fontSize: 16, fontWeight: "600" }}>Event Time</Text>
-            <DateTimePicker
-              value={datePickerValue}
-              
-              minuteInterval={5}
-              mode={"time"}
-              is24Hour={true}
-              onChange={updateTimeFromPicker}
-            />
-          </View>
-        </View>
-      )}
+      <View
+        style={{
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
+        <ItemEventTime time={item.time} updateTime={updateTime} />
+        <ItemNotification item={item} updateItem={updateItem} />
+      </View>
 
       <View
         style={{
           flexDirection: "column",
-          gap: 4,
+          gap: 8,
           zIndex: 0,
         }}
       >
-        <Text style={{ fontSize: 16, fontWeight: "600" }}>Description</Text>
+        <Text style={{ fontSize: 18, fontWeight: "600" }}>Description</Text>
         <TextInput
           value={item.desc}
           onChangeText={updateDesc}
@@ -98,9 +86,12 @@ export const ListItemModal = ({ item, updateItem, isEvent, removeItem }) => {
         <Horizontal style={styles.secondSeperator} />
         <View style={styles.bottomButtonsContainer}>
           <TouchableOpacity
-            onPress={removeItem}
+            onPress={() => {
+              removeItem();
+              closeModal();
+            }}
             style={[styles.bottomButton, { backgroundColor: "red" }]}
-            activeOpacity={1}
+            activeOpacity={0.7}
           >
             <Text style={[styles.bottomButtonText, styles.removeText]}>
               Remove
@@ -119,51 +110,10 @@ export const ListItemModal = ({ item, updateItem, isEvent, removeItem }) => {
   );
 };
 
-const StatusSelector = ({ status, updateStatus, isEvent = false }) => {
-  const [open, setOpen] = useState(false);
-  const [localValue, setLocalValue] = useState(status || ItemStatus.Upcoming);
-
-  const items = (isEvent ? EventStatusOptions : TaskStatusOptions).map(
-    (x: any) => {
-      return {
-        label: x,
-        value: x,
-        containerStyle: { backgroundColor: ITEM_STATUS_TO_COLOR[x] },
-        labelStyle: {
-          color: x === ItemStatus.Done ? "white" : "black",
-        },
-      };
-    }
-  );
-
-  return (
-    <DropDownPicker
-      open={open}
-      value={localValue}
-      items={items}
-      textStyle={{
-        fontSize: 18,
-        color: localValue === ItemStatus.Done ? "white" : "black",
-      }}
-      style={{
-        backgroundColor: ITEM_STATUS_TO_COLOR[localValue],
-        borderRadius: 10,
-        minHeight: 45,
-      }}
-      setOpen={setOpen}
-      setValue={setLocalValue} // This prop works in a dumb way - onSelectItem is used for state updates for ease of mind
-      listMode={"SCROLLVIEW"}
-      dropDownDirection="BOTTOM"
-      autoScroll
-      multiple={false}
-    />
-  );
-};
-
 const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: "white",
-    paddingHorizontal: 20,
+    paddingHorizontal: 18,
     paddingTop: 25,
     marginHorizontal: 90,
     borderColor: "rgba(0,0,0,0.5)",
@@ -184,7 +134,7 @@ const styles = StyleSheet.create({
   },
   firstSeperator: {
     opacity: 0.25,
-    marginTop: 4,
+    marginTop: 2,
     marginBottom: 2,
     borderWidth: 2,
   },
@@ -204,26 +154,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 15,
   },
-  featureContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 5,
-    marginTop: 12,
-    gap: 12,
-    width: "65%",
-  },
-  featureSummary: {
-    flexDirection: "column",
-    gap: 6,
-  },
-  featureTitle: {
-    fontWeight: "700",
-    fontSize: 20,
-  },
-  featureDesc: {
-    fontSize: 15,
-    opacity: 0.5,
-  },
 
   itemDesc: {
     height: 150,
@@ -232,6 +162,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     padding: 8,
+    fontSize: 16,
   },
 
   secondSeperator: { opacity: 0.2, marginTop: 16, borderWidth: 2 },
@@ -253,3 +184,6 @@ const styles = StyleSheet.create({
   doneText: { fontWeight: "600" },
   removeText: { color: "white" },
 });
+function updateModal(arg0: null) {
+  throw new Error("Function not implemented.");
+}
