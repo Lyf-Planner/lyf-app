@@ -100,12 +100,16 @@ export const ListItem = ({
 
   const handleTap = () => {
     if (item.status === ItemStatus.Upcoming) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       data.premium?.enabled
         ? updateItem({ ...item, status: ItemStatus.InProgress })
         : updateItem({ ...item, finished: true, status: ItemStatus.Done });
     } else if (item.finished)
       updateItem({ ...item, finished: false, status: ItemStatus.Upcoming });
-    else updateItem({ ...item, finished: true, status: ItemStatus.Done });
+    else {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      updateItem({ ...item, finished: true, status: ItemStatus.Done });
+    }
   };
 
   const handleLongPressIn = () => {
