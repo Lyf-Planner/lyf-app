@@ -3,7 +3,9 @@ import {
   EventStatusOptions,
   ITEM_STATUS_TO_COLOR,
   ItemStatus,
+  ListItemType,
   TaskStatusOptions,
+  statusTextDisplay,
 } from "../../list/constants";
 import DropDownPicker from "react-native-dropdown-picker";
 import Entypo from "react-native-vector-icons/Entypo";
@@ -19,7 +21,10 @@ export const ItemStatusDropdown = ({
   const items = (isEvent ? EventStatusOptions : TaskStatusOptions).map(
     (x: any) => {
       return {
-        label: x,
+        label: statusTextDisplay(
+          isEvent ? ListItemType.Event : ListItemType.Task,
+          x
+        ),
         value: x,
         containerStyle: { backgroundColor: ITEM_STATUS_TO_COLOR[x] },
         labelStyle: {

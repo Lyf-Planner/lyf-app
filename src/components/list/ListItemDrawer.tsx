@@ -80,7 +80,6 @@ export const ListItemDrawer = ({
             value={item.desc}
             onChangeText={updateDesc}
             style={styles.itemDesc}
-            returnKeyType="done"
             onFocus={() => updateDrawerIndex(2)}
             onBlur={() => updateDrawerIndex(1)}
             multiline

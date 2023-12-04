@@ -9,7 +9,7 @@ export enum ItemStatus {
 }
 
 export const EventStatusOptions = Object.values(ItemStatus);
-export const TaskStatusOptions = Object.values(ItemStatus).slice(1, -1);
+export const TaskStatusOptions = Object.values(ItemStatus).slice(2);
 
 export const ITEM_STATUS_TO_COLOR = {
   // Values taken from the corresponding bg's in tailwind
