@@ -112,8 +112,7 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 4,
     marginTop: 6,
-    borderWidth: 1,
-    borderRadius: 5,
+    padding: 1,
   },
   listNewItem: {
     height: 45,

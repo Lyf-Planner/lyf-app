@@ -62,7 +62,7 @@ export const ListItem = ({
     .runOnJS(true)
     .onEnd(() => handleFling());
 
-  const composed = Gesture.Simultaneous(tap, longPress, fling);
+  const composed = Gesture.Race(tap, longPress, fling);
 
   // ANIMATION DEFINITIONS
 
@@ -88,7 +88,7 @@ export const ListItem = ({
         transform: [
           {
             translateX: withTiming(offsetX.value, {
-              duration: 200,
+              duration: 150,
             }),
           },
         ],
@@ -99,60 +99,45 @@ export const ListItem = ({
   // GESTURE HANDLERS
 
   const handleTap = () => {
-    updateItem({
-      ...item,
-      finished: !item.finished,
-      status: !item.finished ? ItemStatus.Done : ItemStatus.Upcoming,
-    });
-    !item.finished && Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (item.status === ItemStatus.Upcoming) {
+      data.premium?.enabled
+        ? updateItem({ ...item, status: ItemStatus.InProgress })
+        : updateItem({ ...item, finished: true, status: ItemStatus.Done });
+    } else if (item.finished)
+      updateItem({ ...item, finished: false, status: ItemStatus.Upcoming });
+    else updateItem({ ...item, finished: true, status: ItemStatus.Done });
   };
 
   const handleLongPressIn = () => {
     // Start animating the shrinking of the item while user holds it down
-    if (data.premium?.enabled) {
-      // Open the modal
-      scale.value = 1.1;
 
-      // After the n seconds pressing, remove the item
-      timer = setInterval(() => {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-        openModal();
-        clearTimeout(timer);
-      }, 400);
-    } else {
-      scale.value = 0.75;
+    scale.value = 0.75;
 
-      // After the n seconds pressing, remove the item
-      timer = setInterval(() => {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-        willRemove.value = true;
-        clearTimeout(timer);
-      }, 500);
-    }
+    // After the n seconds pressing, remove the item
+    timer = setInterval(() => {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      willRemove.value = true;
+      clearTimeout(timer);
+    }, 400);
   };
 
   const handleLongPressOut = () => {
-    if (willRemove.value) {
-      removeItem();
-    }
+    if (willRemove.value) removeItem();
 
     clearTimeout(timer);
     scale.value = 1;
   };
 
   const handleFling = () => {
-    offsetX.value = -30;
+    offsetX.value = -40;
 
-    var activate = setInterval(() => {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    if (data.premium?.enabled) openModal();
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
-      // This makes the animation appear to pause for a second when slid back
-      var closeAnimation = setInterval(() => {
-        offsetX.value = 0;
-        clearTimeout(closeAnimation);
-      }, 200);
-
-      clearTimeout(activate);
+    // This makes the animation appear to pause for a second when slid back
+    var closeAnimation = setInterval(() => {
+      offsetX.value = 0;
+      clearTimeout(closeAnimation);
     }, 200);
   };
 
@@ -236,9 +221,10 @@ const styles = StyleSheet.create({
   listHiddenBackground: {
     height: 45,
     flexDirection: "row",
+    backgroundColor: "gray",
     alignItems: "center",
     position: "absolute",
     width: "100%",
   },
-  editIcon: { marginLeft: "auto", marginRight: 7 },
+  editIcon: { marginLeft: "auto", marginRight: 11, color: "white" },
 });
