@@ -23,8 +23,15 @@ export const Planner = ({
   const [displayedWeeks, setDisplayedWeeks] = useState(weeks.slice(0, 1));
 
   const updateWeekAtIndex = (index: any, week: any) => {
-    var modifiedWeeks = weeks;
+    var modifiedWeeks;
+    if (index > weeks.length) {
+      // Displayed weeks must be longer than weeks
+      modifiedWeeks = displayedWeeks.slice(0, index + 1);
+    } else {
+      modifiedWeeks = weeks;
+    }
     modifiedWeeks[index] = week;
+
     updateWeeks(modifiedWeeks);
   };
 
