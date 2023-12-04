@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableHighlight,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
 import { PremiumIcon } from "../../components/Icons";
 import { Horizontal } from "../../components/MiscComponents";
 import { useAuth } from "../../authorisation/AuthProvider";
@@ -85,7 +79,9 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
           desc={
             <EventNotificationDesc
               updateMinutes={eventNotificationMinutesBefore}
-              minutesBefore={`${premium.settings?.event_notification_minutes_before}`}
+              minutesBefore={
+                premium.settings?.event_notification_minutes_before
+              }
             />
           }
         />
