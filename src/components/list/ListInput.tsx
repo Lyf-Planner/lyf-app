@@ -21,6 +21,7 @@ export const ListInput = ({
   placeholder,
   listBackgroundColor = "white",
   isEvents = false,
+  isNote = false,
   asColumn = false,
   listWrapperStyles = {},
   date = null,
@@ -86,6 +87,7 @@ export const ListInput = ({
           removeItem={() => removeItem(i)}
           updateItem={(newItem: Item) => updateItem(i, newItem)}
           isEvent={isEvents}
+          isNote={isNote}
         />
       ))}
 

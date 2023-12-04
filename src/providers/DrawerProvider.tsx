@@ -19,20 +19,21 @@ export const DrawerProvider = ({ children }) => {
   const snapPoints = useMemo(() => ["50%", "60%", "87.5%"], []);
 
   // callbacks
-  const updateDrawerIndex = useCallback((index: number) => {
-    bottomSheetRef.current.snapToIndex(index);
-  }, [bottomSheetRef])
+  const updateDrawerIndex = useCallback(
+    (index: number) => {
+      bottomSheetRef.current.snapToIndex(index);
+    },
+    [bottomSheetRef]
+  );
   const handlePresentModalPress = useCallback(() => {
     bottomSheetRef.current?.present();
   }, [bottomSheetRef]);
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
+  const handleSheetChanges = useCallback((index: number) => {}, []);
 
   const EXPOSED = {
     drawer,
     updateDrawer,
-    updateDrawerIndex
+    updateDrawerIndex,
   };
 
   useEffect(() => {

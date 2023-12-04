@@ -32,6 +32,7 @@ export const ListItem = ({
   badgeColor,
   badgeTextColor,
   isEvent = false,
+  isNote = false,
 }) => {
   const { data } = useAuth();
   const { updateDrawer, updateDrawerIndex } = useDrawer();
@@ -167,7 +168,7 @@ export const ListItem = ({
             styles.listItem,
             {
               backgroundColor: determineBadgeColor(),
-              borderRadius: isEvent ? 5 : 15,
+              borderRadius: isNote || isEvent ? 5 : 15,
               opacity: determineOpacity(),
             },
             flickAnimation,
@@ -179,7 +180,7 @@ export const ListItem = ({
               {
                 color: badgeTextColor,
                 opacity: item.finished ? 0.8 : 1,
-                fontWeight: isEvent ? "600" : "normal",
+                fontWeight: isNote || isEvent ? "600" : "normal",
               },
             ]}
           >
@@ -195,7 +196,7 @@ export const ListItem = ({
         <View
           style={[
             {
-              borderRadius: isEvent ? 5 : 15,
+              borderRadius: isNote || isEvent ? 5 : 15,
             },
             styles.listHiddenBackground,
           ]}

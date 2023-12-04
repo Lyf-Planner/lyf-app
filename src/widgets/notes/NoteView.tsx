@@ -52,7 +52,7 @@ export const NoteView = ({ note, onBack, initialising, updateNote }) => {
           badgeTextColor="black"
           listBackgroundColor={offWhite}
           listWrapperStyles={{ padding: 5 }}
-          isEvents
+          isNote
         />
       )}
     </View>
