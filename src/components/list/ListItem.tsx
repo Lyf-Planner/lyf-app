@@ -15,8 +15,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import * as Haptics from "expo-haptics";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { TwentyFourHourToAMPM } from "../../utils/dates";
-import { ListItemModal } from "./ListItemModal";
-import { useModal } from "../../providers/ModalProvider";
+import { ListItemDrawer } from "./ListItemDrawer";
 import { useDrawer } from "../../providers/DrawerProvider";
 
 export type Item = {
@@ -35,16 +34,17 @@ export const ListItem = ({
   isEvent = false,
 }) => {
   const { data } = useAuth();
-  const { updateDrawer } = useDrawer();
+  const { updateDrawer, updateDrawerIndex } = useDrawer();
 
   const openModal = () =>
     updateDrawer(
-      <ListItemModal
+      <ListItemDrawer
         initialItem={item}
         updateRootItem={updateItem}
         removeItem={removeItem}
         isEvent={isEvent}
         closeModal={() => updateDrawer(null)}
+        updateDrawerIndex={updateDrawerIndex}
       />
     );
 

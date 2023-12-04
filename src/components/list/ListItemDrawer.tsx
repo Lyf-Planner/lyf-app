@@ -8,18 +8,20 @@ import {
 import { Horizontal } from "../../components/MiscComponents";
 import { eventsBadgeColor, offWhite } from "../../utils/constants";
 import { ItemStatus } from "./constants";
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
 
 import { ItemStatusDropdown } from "./itemSettings/ItemStatusDropdown";
 import { useState } from "react";
 import { ItemEventTime } from "./itemSettings/ItemEventTime";
 import { ItemNotification } from "./itemSettings/ItemNotification";
 
-export const ListItemModal = ({
+export const ListItemDrawer = ({
   initialItem,
   updateRootItem,
   isEvent,
   removeItem,
   closeModal,
+  updateDrawerIndex,
 }) => {
   // Due to state issues, we need a local copy of the item
   // It is important this is eventually addressed when we introduce redux and decouple items
@@ -39,74 +41,83 @@ export const ListItemModal = ({
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <View style={{ gap: 10, zIndex: 10 }}>
-        <TextInput
-          value={item.name}
-          onChangeText={updateName}
-          style={styles.itemName}
-          returnKeyType="done"
-        />
-        <ItemStatusDropdown
-          status={item.status}
-          updateStatus={updateStatus}
-          isEvent={isEvent}
-        />
-      </View>
-      <Horizontal style={styles.firstSeperator} />
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.mainContainer}>
+        <View style={{ gap: 10, zIndex: 10 }}>
+          <TextInput
+            value={item.name}
+            onChangeText={updateName}
+            style={styles.itemName}
+            returnKeyType="done"
+          />
+          <ItemStatusDropdown
+            status={item.status}
+            updateStatus={updateStatus}
+            isEvent={isEvent}
+          />
+        </View>
+        <Horizontal style={styles.firstSeperator} />
 
-      <View
-        style={{
-          flexDirection: "column",
-          gap: 2,
-        }}
-      >
-        <ItemEventTime time={item.time} updateTime={updateTime} />
-        <ItemNotification item={item} updateItem={updateItem} />
-      </View>
+        <View
+          style={{
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          <ItemEventTime time={item.time} updateTime={updateTime} />
+          <ItemNotification item={item} updateItem={updateItem} />
+        </View>
 
-      <View
-        style={{
-          flexDirection: "column",
-          gap: 8,
-          zIndex: 0,
-        }}
-      >
-        <Text style={{ fontSize: 18, fontWeight: "500" }}>Description</Text>
-        <TextInput
-          value={item.desc}
-          onChangeText={updateDesc}
-          style={styles.itemDesc}
-          returnKeyType="done"
-          multiline
-        />
-      </View>
+        <View
+          style={{
+            flexDirection: "column",
+            gap: 8,
+            zIndex: 0,
+          }}
+        >
+          <Text style={{ fontSize: 18, fontWeight: "500" }}>Description</Text>
+          <TextInput
+            value={item.desc}
+            onChangeText={updateDesc}
+            style={styles.itemDesc}
+            returnKeyType="done"
+            onFocus={() => updateDrawerIndex(2)}
+            onBlur={() => updateDrawerIndex(1)}
+            multiline
+          />
+        </View>
 
-      <View style={styles.footer}>
-        <Horizontal style={styles.secondSeperator} />
-        <View style={styles.bottomButtonsContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              removeItem();
-              closeModal();
-            }}
-            style={[styles.bottomButton, { backgroundColor: "red" }]}
-            activeOpacity={0.7}
-          >
-            <Text style={[styles.bottomButtonText, styles.removeText]}>
-              Remove
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={closeModal}
-            style={[styles.bottomButton, { backgroundColor: eventsBadgeColor }]}
-            activeOpacity={0.7}
-          >
-            <Text style={[styles.bottomButtonText, styles.doneText]}>Done</Text>
-          </TouchableOpacity>
+        <View style={styles.footer}>
+          <Horizontal style={styles.secondSeperator} />
+          <View style={styles.bottomButtonsContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                removeItem();
+                closeModal();
+              }}
+              style={[styles.bottomButton, { backgroundColor: "red" }]}
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.bottomButtonText, styles.removeText]}>
+                Remove
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={closeModal}
+              style={[
+                styles.bottomButton,
+                { backgroundColor: eventsBadgeColor },
+              ]}
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.bottomButtonText, styles.doneText]}>
+                Done
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

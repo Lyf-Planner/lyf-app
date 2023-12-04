@@ -16,12 +16,15 @@ export const DrawerProvider = ({ children }) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   // variables
-  const snapPoints = useMemo(() => ["10%", "50%", "60%"], []);
+  const snapPoints = useMemo(() => ["50%", "60%", "87.5%"], []);
 
   // callbacks
+  const updateDrawerIndex = useCallback((index: number) => {
+    bottomSheetRef.current.snapToIndex(index);
+  }, [bottomSheetRef])
   const handlePresentModalPress = useCallback(() => {
     bottomSheetRef.current?.present();
-  }, []);
+  }, [bottomSheetRef]);
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
   }, []);
@@ -29,6 +32,7 @@ export const DrawerProvider = ({ children }) => {
   const EXPOSED = {
     drawer,
     updateDrawer,
+    updateDrawerIndex
   };
 
   useEffect(() => {
@@ -41,7 +45,7 @@ export const DrawerProvider = ({ children }) => {
       {!!drawer && (
         <BottomSheetModal
           ref={bottomSheetRef}
-          index={2}
+          index={1}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           enablePanDownToClose
