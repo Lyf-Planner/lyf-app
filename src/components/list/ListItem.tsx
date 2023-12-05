@@ -37,7 +37,7 @@ export const ListItem = ({
   const { data } = useAuth();
   const { updateDrawer, updateDrawerIndex } = useDrawer();
 
-  const openModal = () =>
+  const openModal = () => {
     updateDrawer(
       <ListItemDrawer
         initialItem={item}
@@ -48,6 +48,7 @@ export const ListItem = ({
         updateDrawerIndex={updateDrawerIndex}
       />
     );
+  };
 
   // GESTURE DEFINITIONS
 

@@ -27,7 +27,7 @@ export const ItemNotification = ({ item, updateItem }) => {
         opacity: item.time ? 1 : 0.3,
         gap: 8,
         paddingRight: 10,
-        height: 40,
+        height: 35,
       }}
     >
       <Text style={{ fontSize: 18, fontWeight: item.time ? "500" : "400" }}>

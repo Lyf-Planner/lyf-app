@@ -14,6 +14,7 @@ import { ItemStatusDropdown } from "./itemSettings/ItemStatusDropdown";
 import { useState } from "react";
 import { ItemEventTime } from "./itemSettings/ItemEventTime";
 import { ItemNotification } from "./itemSettings/ItemNotification";
+import { ItemDescription } from "./itemSettings/ItemDescription";
 
 export const ListItemDrawer = ({
   initialItem,
@@ -35,7 +36,6 @@ export const ListItemDrawer = ({
   const updateStatus = (status) =>
     updateItem({ ...item, status, finished: status === ItemStatus.Done });
   const updateName = (name) => updateItem({ ...item, name });
-  const updateDesc = (desc) => updateItem({ ...item, desc });
   const updateTime = (time) => {
     updateItem({ ...item, time });
   };
@@ -61,28 +61,15 @@ export const ListItemDrawer = ({
         <View
           style={{
             flexDirection: "column",
-            gap: 2,
+            gap: 8,
           }}
         >
           <ItemEventTime time={item.time} updateTime={updateTime} />
           <ItemNotification item={item} updateItem={updateItem} />
-        </View>
-
-        <View
-          style={{
-            flexDirection: "column",
-            gap: 8,
-            zIndex: 0,
-          }}
-        >
-          <Text style={{ fontSize: 18, fontWeight: "500" }}>Description</Text>
-          <TextInput
-            value={item.desc}
-            onChangeText={updateDesc}
-            style={styles.itemDesc}
-            onFocus={() => updateDrawerIndex(2)}
-            onBlur={() => updateDrawerIndex(1)}
-            multiline
+          <ItemDescription
+            item={item}
+            updateItem={updateItem}
+            updateDrawerIndex={updateDrawerIndex}
           />
         </View>
 
@@ -155,16 +142,6 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     fontWeight: "600",
     fontSize: 15,
-  },
-
-  itemDesc: {
-    height: 150,
-    backgroundColor: offWhite,
-    borderColor: "rgba(0,0,0,0.1)",
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 8,
-    fontSize: 16,
   },
 
   secondSeperator: { opacity: 0.2, marginTop: 16, borderWidth: 2 },

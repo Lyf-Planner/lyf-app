@@ -16,7 +16,7 @@ export const DrawerProvider = ({ children }) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   // variables
-  const snapPoints = useMemo(() => ["50%", "60%", "87.5%"], []);
+  const snapPoints = useMemo(() => ["44%", "61%", "90%"], []);
 
   // callbacks
   const updateDrawerIndex = useCallback(
@@ -46,7 +46,7 @@ export const DrawerProvider = ({ children }) => {
       {!!drawer && (
         <BottomSheetModal
           ref={bottomSheetRef}
-          index={1}
+          index={!!drawer?.props?.initialItem?.desc ? 1 : 0}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           enablePanDownToClose
