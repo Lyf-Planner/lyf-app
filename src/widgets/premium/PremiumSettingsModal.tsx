@@ -17,36 +17,39 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
 
   const closeModal = () => updateModal(null);
   const updatePremium = (premium: any) => updateData({ ...data, premium });
-  const updateSettings = (settings: any) =>
-    updatePremium({ ...premium, settings });
+  const updateNotificationSettings = (notifications: any) =>
+    updatePremium({ ...premium, notifications });
 
   // DAILY NOTIFICATIONS
   const dailyNotifications = (enabled: boolean) =>
-    updateSettings({ ...premium.settings, daily_notifications: enabled });
+    updateNotificationSettings({ ...premium.settings, daily_notifications: enabled });
   const dailyNotificationTime = (time: string) =>
-    updateSettings({ ...premium.settings, daily_notification_time: time });
+    updateNotificationSettings({ ...premium.settings, daily_notification_time: time });
   const persistentDailyNotifications = (enabled: boolean) =>
-    updateSettings({
+    updateNotificationSettings({
       ...premium.settings,
       persistent_daily_notification: enabled,
     });
 
   // EVENT NOTIFICATIONS
   const eventNotifications = (enabled: boolean) =>
-    updateSettings({ ...premium.settings, event_notifications: enabled });
+    updateNotificationSettings({
+      ...premium.settings,
+      event_notifications_enabled: enabled,
+    });
   const eventNotificationMinutesBefore = (time: number) =>
-    updateSettings({
+    updateNotificationSettings({
       ...premium.settings,
       event_notification_minutes_before: time,
     });
 
   // MFA
   // const mfa = (enabled: boolean) =>
-  //   updateSettings({ ...premium.settings, mfa: enabled });
+  //   updateNotificationSettings({ ...premium.settings, mfa: enabled });
 
   // COLLABORATIVE
   // const collaborativeEvents = (enabled: boolean) =>
-  //   updateSettings({ ...premium.settings, collaborative_events: enabled });
+  //   updateNotificationSettings({ ...premium.settings, collaborative_events: enabled });
 
   return (
     <View style={styles.mainContainer}>
@@ -74,7 +77,7 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
         />
         <Setting
           updateFunc={eventNotifications}
-          enabled={premium.settings?.event_notifications}
+          enabled={premium.settings?.event_notifications_enabled}
           name="Event Notifications"
           desc={
             <EventNotificationDesc
@@ -87,6 +90,9 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
         />
       </View>
       <Horizontal style={styles.secondSeperator} />
+      <Text style={[styles.subtitle]}>
+        Swipe tasks left to use premium features!
+      </Text>
       <View style={styles.bottomButtonsContainer}>
         <TouchableHighlight
           onPress={() => {
@@ -179,7 +185,12 @@ const styles = StyleSheet.create({
   settingTitle: { fontSize: 18, fontWeight: "600", marginLeft: 8 },
   settingDescWrapper: { marginTop: 4, marginLeft: 34 },
 
-  secondSeperator: { opacity: 0.2, marginTop: 50, borderWidth: 2 },
+  secondSeperator: {
+    opacity: 0.2,
+    marginTop: 50,
+    borderWidth: 2,
+    marginBottom: 8,
+  },
   bottomButtonsContainer: { flexDirection: "row", gap: 5, marginTop: 8 },
   disablePremiumButton: { opacity: 0.8 },
   bottomButton: {

@@ -9,15 +9,15 @@ import Entypo from "react-native-vector-icons/Entypo";
 
 export const ItemNotification = ({ item, updateItem }) => {
   const updateNotify = (notify) => updateItem({ ...item, notify });
-  const updateMinutes = (minutesBefore) =>
-    updateItem({ ...item, minutesBefore });
+  const updateMinutes = (minutes_before) =>
+    updateItem({ ...item, minutes_before });
 
   const updateMinutesFromInput = (text) => {
     text.replace(/[^0-9]/g, "");
     let val = Number(text);
     val < 1000 && updateMinutes(text);
   };
-  const replaceEmptyWithZero = () => !item.minutesBefore && updateMinutes("0");
+  const replaceEmptyWithZero = () => !item.minutes_before && updateMinutes("0");
 
   return (
     <View
@@ -51,7 +51,7 @@ export const ItemNotification = ({ item, updateItem }) => {
             <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
           </TouchableHighlight>
           <TextInput
-            value={item.minutesBefore}
+            value={item.minutes_before}
             onEndEditing={replaceEmptyWithZero}
             returnKeyType="done"
             keyboardType="numeric"
@@ -66,7 +66,7 @@ export const ItemNotification = ({ item, updateItem }) => {
           underlayColor={"rgba(0,0,0,0.5)"}
           onPress={() => {
             updateNotify(true);
-            !item.minutesBefore && updateMinutes("5");
+            !item.minutes_before && updateMinutes("5");
           }}
         >
           <Text style={styles.addNotificationText}>Add Notification +</Text>

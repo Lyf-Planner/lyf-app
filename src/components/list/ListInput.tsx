@@ -37,8 +37,8 @@ export const ListInput = ({
       const addEventPrefs = isEvents && data.premium?.enabled;
       const prefs = addEventPrefs
         ? {
-            notify: data.premium.settings?.event_notifications,
-            minutesBefore:
+            notify: data.premium.settings?.event_notifications_enabled,
+            minutes_before:
               data.premium.settings?.event_notification_minutes_before,
           }
         : {};
