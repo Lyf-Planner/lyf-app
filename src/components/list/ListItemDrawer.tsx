@@ -48,6 +48,8 @@ export const ListItemDrawer = ({
             value={item.name}
             onChangeText={updateName}
             style={styles.itemName}
+            onFocus={() => updateDrawerIndex(1)}
+            onBlur={() => !item.desc && updateDrawerIndex(0)}
             returnKeyType="done"
           />
           <ItemStatusDropdown
