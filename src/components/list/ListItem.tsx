@@ -64,7 +64,9 @@ export const ListItem = ({
     .runOnJS(true)
     .onEnd(() => handleFling());
 
-  const composed = Gesture.Race(tap, longPress, fling);
+  const gestures = data.premium?.enhanced_planning_enabled
+    ? Gesture.Race(tap, longPress, fling)
+    : Gesture.Race(tap, longPress);
 
   // ANIMATION DEFINITIONS
 
@@ -162,7 +164,7 @@ export const ListItem = ({
   };
 
   return (
-    <GestureDetector gesture={composed}>
+    <GestureDetector gesture={gestures}>
       <Animated.View style={scaleAnimation}>
         <Animated.View
           style={[

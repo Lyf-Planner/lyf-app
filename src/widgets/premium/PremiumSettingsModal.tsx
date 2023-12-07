@@ -23,7 +23,7 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
   // ENHANCED PLANNING
   const enhancedPlanning = (enabled: boolean) =>
     updatePremium({
-      ...premium.notifications,
+      ...premium,
       enhanced_planning_enabled: enabled,
     });
 
@@ -109,7 +109,11 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
       <View style={styles.bottomButtonsContainer}>
         <TouchableHighlight
           onPress={() => {
-            updatePremium({ ...premium, enabled: false });
+            updatePremium({
+              ...premium,
+              enabled: false,
+              enhanced_planning_enabled: false,
+            });
             closeModal();
           }}
           style={[styles.bottomButton, styles.disablePremiumButton]}
