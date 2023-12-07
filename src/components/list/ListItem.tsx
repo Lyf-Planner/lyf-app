@@ -158,11 +158,6 @@ export const ListItem = ({
     else return ITEM_STATUS_TO_COLOR[item.status];
   };
 
-  const determineOpacity = () => {
-    if (item.status === ItemStatus.Cancelled) return 0.6;
-    else return 1;
-  };
-
   return (
     <GestureDetector gesture={gestures}>
       <Animated.View style={scaleAnimation}>
@@ -172,7 +167,6 @@ export const ListItem = ({
             {
               backgroundColor: determineBadgeColor(),
               borderRadius: isNote || isEvent ? 5 : 15,
-              opacity: determineOpacity(),
             },
             flickAnimation,
           ]}
