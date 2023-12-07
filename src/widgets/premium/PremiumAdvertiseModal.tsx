@@ -25,7 +25,7 @@ const ADVERTISED_FEATURES = [
     title: "Push Notifications",
     text: "Notifications for events and checking your timetable",
     image: NOTIFICATION_IMAGE,
-    available: true,
+    available: false,
     image_size: 80,
   },
   {
@@ -48,7 +48,14 @@ export const PremiumAdvertiseModal = () => {
   const { data, updateData } = useAuth();
   const { updateModal } = useModal();
   const enablePremium = () => {
-    updateData({ ...data, premium: { ...data.premium, enabled: true } });
+    updateData({
+      ...data,
+      premium: {
+        ...data.premium,
+        enabled: true,
+        enhanced_planning_enabled: true,
+      },
+    });
   };
 
   const closeModal = () => updateModal(null);
