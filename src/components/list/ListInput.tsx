@@ -5,7 +5,7 @@ import { Item, ListItem } from "./ListItem";
 import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
 import { useAuth } from "../../authorisation/AuthProvider";
-import { ItemStatus } from "./constants";
+import { ItemStatus, ListItemType } from "./constants";
 
 export enum ListType {
   Event = "Event",
@@ -46,6 +46,11 @@ export const ListInput = ({
       curList.push({
         name,
         finished: false,
+        type: isNote
+          ? ListItemType.Item
+          : isEvents
+          ? ListItemType.Event
+          : ListItemType.Task,
         status: ItemStatus.Upcoming,
         id: uuid(), // Precursor to migrating lists out of nesting
         date, // Precursor to migrating lists out of nesting
