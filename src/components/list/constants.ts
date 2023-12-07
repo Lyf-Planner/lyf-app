@@ -24,6 +24,7 @@ export const ITEM_STATUS_TO_COLOR = {
 export enum ListItemType {
   Event = "Event",
   Task = "Task",
+  Item = "Item",
 }
 
 export const statusTextDisplay = (type: ListItemType, status: ItemStatus) => {
