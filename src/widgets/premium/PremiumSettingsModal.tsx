@@ -73,7 +73,8 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
           name="Enhanced Planning"
           desc={
             <Text style={styles.settingDescText}>
-              Add times and descriptions to any tasks or events when swiped left
+              Add times, status and descriptions to any tasks or events when
+              swiped left
             </Text>
           }
         />

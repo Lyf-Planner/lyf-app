@@ -103,7 +103,7 @@ export const ListItem = ({
   const handleTap = () => {
     if (item.status === ItemStatus.Upcoming) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      data.premium?.enabled
+      data.premium?.enhanced
         ? updateItem({ ...item, status: ItemStatus.InProgress })
         : updateItem({ ...item, finished: true, status: ItemStatus.Done });
     } else if (item.finished)
@@ -137,7 +137,7 @@ export const ListItem = ({
   const handleFling = () => {
     offsetX.value = -40;
 
-    if (data.premium?.enabled) openModal();
+    if (data.premium?.enhanced_planning_enabled) openModal();
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
     // This makes the animation appear to pause for a second when slid back
