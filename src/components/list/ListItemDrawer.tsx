@@ -65,7 +65,7 @@ export const ListItemDrawer = ({
           }}
         >
           <ItemEventTime time={item.time} updateTime={updateTime} />
-          <ItemNotification item={item} updateItem={updateItem} />
+          {/* <ItemNotification item={item} updateItem={updateItem} /> */}
           <ItemDescription
             item={item}
             updateItem={updateItem}

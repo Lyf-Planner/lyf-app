@@ -62,7 +62,7 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
       </View>
       <Horizontal style={styles.firstSeperator} />
       <View style={styles.settingsContainer}>
-        <Setting
+        {/* <Setting
           updateFunc={dailyNotifications}
           enabled={premium.settings?.daily_notifications}
           name="Daily Notifications"
@@ -87,7 +87,7 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
               }
             />
           }
-        />
+        /> */}
       </View>
       <Horizontal style={styles.secondSeperator} />
       <Text style={[styles.subtitle]}>
@@ -142,6 +142,7 @@ const Setting = ({ updateFunc, enabled, name, desc }: any) => {
 const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: "white",
+    minWidth: "90%",
     paddingHorizontal: 15,
     paddingVertical: 25,
     marginHorizontal: 16,
