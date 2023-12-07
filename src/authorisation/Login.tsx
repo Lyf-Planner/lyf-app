@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexDirection: "column",
     width: "75%",
+    maxWidth: 400,
     borderRadius: 15,
     padding: 15,
     alignItems: "center",
