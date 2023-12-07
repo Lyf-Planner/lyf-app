@@ -185,7 +185,7 @@ export const ListItem = ({
               },
             ]}
           >
-            {item.name} {item.time && `(${TwentyFourHourToAMPM(item.time)})`}
+            {item.name} {item.time && `${TwentyFourHourToAMPM(item.time)}`}
           </Text>
 
           <AntDesign
