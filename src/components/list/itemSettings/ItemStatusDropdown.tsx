@@ -9,6 +9,7 @@ import {
 } from "../../list/constants";
 import DropDownPicker from "react-native-dropdown-picker";
 import Entypo from "react-native-vector-icons/Entypo";
+import { StyleSheet } from "react-native";
 
 export const ItemStatusDropdown = ({
   status,
@@ -45,21 +46,19 @@ export const ItemStatusDropdown = ({
       open={open}
       value={localValue}
       items={items}
-      textStyle={{
-        fontSize: 18,
-        color: textColor,
-      }}
-      style={{
-        backgroundColor: ITEM_STATUS_TO_COLOR[localValue],
-        borderRadius: 20,
-        minHeight: 45,
-      }}
+      textStyle={[styles.dropdownText, { color: textColor }]}
+      style={[
+        styles.dropdown,
+        {
+          backgroundColor: ITEM_STATUS_TO_COLOR[localValue],
+        },
+      ]}
       ArrowDownIconComponent={() => (
         <Entypo
           name="chevron-thin-down"
           size={18}
           color={textColor}
-          style={{ marginRight: 4 }}
+          style={styles.dropdownArrow}
         />
       )}
       ArrowUpIconComponent={() => (
@@ -67,7 +66,7 @@ export const ItemStatusDropdown = ({
           name="chevron-thin-up"
           size={18}
           color={textColor}
-          style={{ marginRight: 4 }}
+          style={styles.dropdownArrow}
         />
       )}
       setOpen={setOpen}
@@ -79,3 +78,11 @@ export const ItemStatusDropdown = ({
     />
   );
 };
+
+const styles = StyleSheet.create({
+  dropdownText: {
+    fontSize: 18,
+  },
+  dropdown: { borderRadius: 20, minHeight: 45 },
+  dropdownArrow: { marginRight: 4 },
+});

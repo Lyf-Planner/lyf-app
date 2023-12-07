@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { StyleSheet } from "react-native";
 
 // Assisted state management via provision of hooks, pertinent to whether app is in edit mode
 export const DrawerProvider = ({ children }) => {
@@ -50,12 +51,7 @@ export const DrawerProvider = ({ children }) => {
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           enablePanDownToClose
-          style={{
-            shadowColor: "black",
-            shadowOffset: { width: 0, height: -2 },
-            shadowOpacity: 0.8,
-            shadowRadius: 10,
-          }}
+          style={styles.bottomSheetWrapper}
         >
           {drawer}
         </BottomSheetModal>
@@ -69,3 +65,12 @@ const DrawerContext = createContext(null);
 export const useDrawer = () => {
   return useContext(DrawerContext);
 };
+
+const styles = StyleSheet.create({
+  bottomSheetWrapper: {
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+  },
+});

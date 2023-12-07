@@ -34,36 +34,22 @@ export const TimePicker = ({ time, updateTime }: any) => {
   const updateTimeFromPicker = (time) => {
     // Picker gives us a timestamp, that we need to convert to 24 hr time
     var dateTime = new Date(time.nativeEvent.timestamp);
-    console.log("updating time to", moment(dateTime).format("HH:mm"));
     updateTime(moment(dateTime).format("HH:mm"));
   };
 
-  useEffect(() => {
-    console.log("time update received!");
-  }, [time]);
-
-  console.log("time is", time);
   var today = new Date();
   const datePickerValue =
     !!time &&
     new Date(
       `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${time}`
     );
-  console.log("picker value", datePickerValue);
 
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-
-        justifyContent: "flex-start",
-      }}
-    >
+    <View style={styles.mainContainer}>
       <TouchableHighlight
         onPress={() => updateTime(null)}
         underlayColor={"rgba(0,0,0,0.5)"}
-        style={{ borderRadius: 5 }}
+        style={styles.pressable}
       >
         <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
       </TouchableHighlight>
@@ -79,6 +65,13 @@ export const TimePicker = ({ time, updateTime }: any) => {
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+
+    justifyContent: "flex-start",
+  },
+  pressable: { borderRadius: 5 },
   addTimeContainer: {
     backgroundColor: "rgba(0,0,0,0.08)",
     padding: 8.75,

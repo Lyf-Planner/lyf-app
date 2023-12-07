@@ -14,16 +14,10 @@ export const ItemDescription = ({ item, updateItem, updateDrawerIndex }) => {
   const updateDesc = (desc) => updateItem({ ...item, desc });
 
   return (
-    <View
-      style={{
-        flexDirection: "column",
-        gap: 8,
-        zIndex: 0,
-      }}
-    >
-      <View style={{ height: 35, flexDirection: "row", alignItems: "center" }}>
-        <Text style={{ fontSize: 18, fontWeight: "500" }}>Description</Text>
-        <View style={{ marginLeft: "auto", marginRight: 10 }}>
+    <View style={styles.mainContainer}>
+      <View style={styles.headingContainer}>
+        <Text style={styles.headingText}>Description</Text>
+        <View style={styles.headerCloseWrapper}>
           {textOpen ? (
             <TouchableHighlight
               onPress={() => {
@@ -66,6 +60,14 @@ export const ItemDescription = ({ item, updateItem, updateDrawerIndex }) => {
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flexDirection: "column",
+    gap: 8,
+    zIndex: 0,
+  },
+  headingContainer: { height: 35, flexDirection: "row", alignItems: "center" },
+  headingText: { fontSize: 18, fontWeight: "500" },
+  headerCloseWrapper: { marginLeft: "auto", marginRight: 10 },
   itemDesc: {
     height: 150,
     backgroundColor: offWhite,
