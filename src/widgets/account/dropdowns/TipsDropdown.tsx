@@ -4,12 +4,11 @@ import { SettingsDropdowns } from "../AccountDropdowns";
 import { BulletedText } from "../../../components/Text";
 
 const TIPS = [
-  "To delete any task or event, hold down on the item",
-  "To enter Edit Mode, swipe left on any task, event or list item",
-  "Use Edit Mode to move items between days or lists",
   "To automatically include tasks/events in each week, add them to your Routine",
+  "To delete any task or event, hold down on the item",
   "To hide the contents of the week, press the button where it's dates are shown",
   "To hide a day, hold down it's green header section",
+  "With Premium, swipe an event or task left to plan in greater detail"
 ];
 
 export const TipsDropdown = ({ settingOpen, setOpen }) => {
