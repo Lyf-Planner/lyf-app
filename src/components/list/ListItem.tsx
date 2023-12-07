@@ -103,7 +103,7 @@ export const ListItem = ({
   const handleTap = () => {
     if (item.status === ItemStatus.Upcoming) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      data.premium?.enhanced
+      data.premium?.enhanced_planning_enabled
         ? updateItem({ ...item, status: ItemStatus.InProgress })
         : updateItem({ ...item, finished: true, status: ItemStatus.Done });
     } else if (item.finished)
