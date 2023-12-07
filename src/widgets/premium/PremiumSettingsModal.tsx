@@ -20,36 +20,41 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
   const updateNotificationSettings = (notifications: any) =>
     updatePremium({ ...premium, notifications });
 
+  // ENHANCED PLANNING
+  const enhancedPlanning = (enabled: boolean) =>
+    updatePremium({
+      ...premium.notifications,
+      enhanced_planning_enabled: enabled,
+    });
+
   // DAILY NOTIFICATIONS
   const dailyNotifications = (enabled: boolean) =>
-    updateNotificationSettings({ ...premium.settings, daily_notifications: enabled });
+    updateNotificationSettings({
+      ...premium.notifications,
+      daily_notifications: enabled,
+    });
   const dailyNotificationTime = (time: string) =>
-    updateNotificationSettings({ ...premium.settings, daily_notification_time: time });
+    updateNotificationSettings({
+      ...premium.notifications,
+      daily_notification_time: time,
+    });
   const persistentDailyNotifications = (enabled: boolean) =>
     updateNotificationSettings({
-      ...premium.settings,
+      ...premium.notifications,
       persistent_daily_notification: enabled,
     });
 
   // EVENT NOTIFICATIONS
   const eventNotifications = (enabled: boolean) =>
     updateNotificationSettings({
-      ...premium.settings,
+      ...premium.notifications,
       event_notifications_enabled: enabled,
     });
   const eventNotificationMinutesBefore = (time: number) =>
     updateNotificationSettings({
-      ...premium.settings,
+      ...premium.notifications,
       event_notification_minutes_before: time,
     });
-
-  // MFA
-  // const mfa = (enabled: boolean) =>
-  //   updateNotificationSettings({ ...premium.settings, mfa: enabled });
-
-  // COLLABORATIVE
-  // const collaborativeEvents = (enabled: boolean) =>
-  //   updateNotificationSettings({ ...premium.settings, collaborative_events: enabled });
 
   return (
     <View style={styles.mainContainer}>
@@ -62,37 +67,44 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
       </View>
       <Horizontal style={styles.firstSeperator} />
       <View style={styles.settingsContainer}>
+        <Setting
+          updateFunc={enhancedPlanning}
+          enabled={premium.enhanced_planning_enabled}
+          name="Enhanced Planning"
+          desc={
+            <Text style={styles.settingDescText}>
+              Add times and descriptions to any tasks or events when swiped left
+            </Text>
+          }
+        />
         {/* <Setting
           updateFunc={dailyNotifications}
-          enabled={premium.settings?.daily_notifications}
+          enabled={premium.notifications?.daily_notifications}
           name="Daily Notifications"
           desc={
             <DailyNotificationDesc
               updateTime={dailyNotificationTime}
-              notificationTime={premium.settings?.daily_notification_time}
+              notificationTime={premium.notifications?.daily_notification_time}
               updatePersistent={persistentDailyNotifications}
-              persistent={premium.settings?.persistent_daily_notification}
+              persistent={premium.notifications?.persistent_daily_notification}
             />
           }
         />
         <Setting
           updateFunc={eventNotifications}
-          enabled={premium.settings?.event_notifications_enabled}
+          enabled={premium.notifications?.event_notifications_enabled}
           name="Event Notifications"
           desc={
             <EventNotificationDesc
               updateMinutes={eventNotificationMinutesBefore}
               minutesBefore={
-                premium.settings?.event_notification_minutes_before
+                premium.notifications?.event_notification_minutes_before
               }
             />
           }
         /> */}
       </View>
       <Horizontal style={styles.secondSeperator} />
-      <Text style={[styles.subtitle]}>
-        Swipe tasks left to use premium features!
-      </Text>
       <View style={styles.bottomButtonsContainer}>
         <TouchableHighlight
           onPress={() => {
@@ -180,15 +192,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 16,
     marginTop: 14,
-    height: 220,
   },
   settingContainer: { flexDirection: "row", alignItems: "center" },
+  settingDescText: { fontSize: 16, lineHeight: 30, fontWeight: "300" },
   settingTitle: { fontSize: 18, fontWeight: "600", marginLeft: 8 },
   settingDescWrapper: { marginTop: 4, marginLeft: 34 },
 
   secondSeperator: {
     opacity: 0.2,
-    marginTop: 50,
+    marginTop: 20,
     borderWidth: 2,
     marginBottom: 8,
   },
