@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Horizontal } from "../../components/MiscComponents";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NewNoteMenu } from "./NewNoteAdd";
 import {
   TypeToDisplayName,
@@ -19,8 +19,10 @@ export const Notes = ({ notes, updateNotes }: any) => {
     setFocussedNote(newNote);
   };
   const deleteNote = (id) => removeNote(notes, updateNotes, id);
-  const modifyNote = (updatedNote) =>
+  const modifyNote = (updatedNote) => {
     updateNote(notes, updateNotes, focussedNote.id, updatedNote);
+    setFocussedNote(updatedNote);
+  };
 
   if (focussedNote)
     return (
@@ -42,7 +44,9 @@ export const Notes = ({ notes, updateNotes }: any) => {
             <NewNoteMenu addNote={newNote} />
           </View>
         </View>
-        <Horizontal style={{ borderWidth: 2, opacity: 0.6, marginHorizontal: 12 }} />
+        <Horizontal
+          style={{ borderWidth: 2, opacity: 0.6, marginHorizontal: 12 }}
+        />
         <View style={styles.noteBannersContainer}>
           {notes.items.map((x: any) => (
             <NoteBanner
