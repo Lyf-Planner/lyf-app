@@ -10,7 +10,7 @@ export default {
     scheme: "lyf",
     currentFullName: "@ethanhusband/lyf",
     originalFullName: "@ethanhusband/lyf",
-    version: "1.2.0",
+    version: "1.2.1",
     icon: "./assets/images/inverted-icon.png",
     orientation: "portrait",
     userInterfaceStyle: "light",
@@ -47,7 +47,7 @@ export default {
     },
     ios: {
       bundleIdentifier: "com.lyfplanner",
-      buildNumber: "1.2.0",
+      buildNumber: "1.2.1",
     },
     plugins: [],
     extra: {
@@ -55,8 +55,8 @@ export default {
       localBackendPort: process.env.LOCAL_BACKEND_PORT,
       appEnv: process.env.APP_ENV,
       eas: {
-        projectId: "2c533ba0-983e-4ef8-abc4-e938b5768a79"
-      }
+        projectId: "2c533ba0-983e-4ef8-abc4-e938b5768a79",
+      },
     },
   },
 };
