@@ -62,14 +62,14 @@ const AppHeaderMenu = ({ selected, updateSelected }) => {
       <PremiumHeaderButton />
       <Pressable
         style={[
-          styles.saveTooltip,
+          styles.settingButton,
           {
-            borderColor: selected === "Account" ? "black" : "rgba(0,0,0,0.15)",
+            backgroundColor: selected === "Account" ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.1)",
           },
         ]}
         onPress={() => updateSelected("Account")}
       >
-        <SaveTooltip size={40} />
+        <SaveTooltip size={35} style={{ position: "relative", right: 3, }} />
       </Pressable>
     </View>
   );
@@ -147,11 +147,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-  saveTooltip: {
+  settingButton: {
     alignItems: "center",
-    marginTop: 4,
+    flexDirection: "row",
+    justifyContent: "center",
+    overflow: "hidden",
     marginLeft: "auto",
     marginRight: 8,
-    borderBottomWidth: 1,
+
+    width: 50,
+    borderRadius: 50,
   },
 });

@@ -1,4 +1,3 @@
-import { Upcoming } from "./Upcoming";
 import { View, Text, StyleSheet } from "react-native";
 import { Planner } from "./Planner";
 import { Horizontal } from "../../components/MiscComponents";
@@ -22,16 +21,15 @@ export const Timetable = ({ timetable, updateTimetable }: any) => {
           name="Upcoming Events"
           listType={ListType.Event}
         />
-        <Horizontal style={{ borderColor: "rgba(0,0,0,0.2)" }} />
         <ListDropdown
           list={timetable.todo || []}
           updateList={updateTodo}
           name="To Do List"
           listType={ListType.Task}
         />
-        <Horizontal style={{ borderWidth: 4, borderRadius: 20 }} />
+        
       </View>
-
+      <Horizontal style={{ borderWidth: 4, borderRadius: 20, marginHorizontal: 12, marginVertical: 4, }} />
       <Planner
         weeks={timetable.weeks}
         updateWeeks={updateWeeks}
@@ -51,7 +49,7 @@ const styles = StyleSheet.create({
   },
   miscListContainer: {
     flexDirection: "column",
-    gap: 8,
+    gap: 6,
     paddingHorizontal: 12
   }
 });

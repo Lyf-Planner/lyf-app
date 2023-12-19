@@ -109,7 +109,7 @@ export const Planner = ({
           >
             <View style={styles.addWeekView}>
               <Entypo name="chevron-down" size={20} />
-              <Text style={{ fontSize: 15 }}>Load another week</Text>
+              <Text style={{ fontSize: 18 }}>Next Week</Text>
               <Entypo name="chevron-down" size={20} />
             </View>
           </TouchableHighlight>
@@ -161,10 +161,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 0.5,
+    borderWidth: 1,
     gap: 5,
     padding: 15,
-    width: 200,
+    width: 250,
     borderRadius: 10,
   },
   addWeekTouchable: {
@@ -173,6 +173,12 @@ const styles = StyleSheet.create({
   addWeekButton: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 8,
+    marginTop: 10,
+    marginBottom: 10,
+
+    shadowColor: "#171717",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
 });

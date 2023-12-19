@@ -42,7 +42,7 @@ export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
 
   return (
     <View style={styles.weekWrapper}>
-      {hasDates && (
+      {false && (
         <TouchableHighlight
           style={styles.weekDateDisplayTouchable}
           underlayColor={"rgba(0,0,0,0.2)"}
@@ -135,8 +135,8 @@ const styles = StyleSheet.create({
   },
   weekDaysWrapperView: {
     flexDirection: "column",
-    gap: 10,
-    marginTop: 8,
+    gap: 12,
+    marginTop: 10,
 
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
