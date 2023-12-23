@@ -16,7 +16,7 @@ import * as Haptics from "expo-haptics";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { TwentyFourHourToAMPM } from "../../utils/dates";
 import { ListItemDrawer } from "./ListItemDrawer";
-import { useDrawer } from "../../providers/DrawerProvider";
+import { useDrawer } from "../../hooks/useDrawer";
 
 export type Item = {
   id: string;

@@ -9,7 +9,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";
 
 import env from "./src/envManager";
-import { AppProviders } from "./src/providers/AppProviders";
+import { AppProviders } from "./src/hooks/AppProviders";
 
 export default function App() {
   let [loaded] = useFonts({});

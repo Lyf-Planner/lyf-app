@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
 import { PremiumIcon } from "../../components/Icons";
 import { Horizontal } from "../../components/MiscComponents";
 import { useAuth } from "../../authorisation/AuthProvider";
-import { useModal } from "../../providers/ModalProvider";
+import { useModal } from "../../hooks/useModal";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import {
   DailyNotificationDesc,

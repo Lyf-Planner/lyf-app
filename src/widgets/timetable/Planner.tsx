@@ -55,7 +55,7 @@ export const Planner = ({
           selected={!updatingTemplate}
           onPress={() => setUpdatingTemplate(false)}
         >
-          <Text style={styles.menuButtonText}>My Week</Text>
+          <Text style={styles.menuButtonText}>My Planner</Text>
         </MenuButton>
         <MenuButton
           selected={updatingTemplate}

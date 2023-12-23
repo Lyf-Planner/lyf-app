@@ -4,7 +4,7 @@ import AppIntroSlider from "react-native-app-intro-slider";
 import { Horizontal } from "../../components/MiscComponents";
 import { primaryGreen } from "../../utils/constants";
 import { useAuth } from "../../authorisation/AuthProvider";
-import { useModal } from "../../providers/ModalProvider";
+import { useModal } from "../../hooks/useModal";
 import { PremiumSettingsModal } from "./PremiumSettingsModal";
 
 const LOCK_IMAGE = require("../../../assets/images/lock.png");

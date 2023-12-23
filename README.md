@@ -30,6 +30,11 @@ Tasks to contribute to Lyf Mobile are defined in the [Lyf Mobile Jira](https://l
   - Request the .env file if you don't have it already
 - When the changes are complete and tested, make a PR to `main` branch and await review
 
+#### Common Errors
+
+- `non-std c++ expression`
+  - Happens when the expo cache has a state error. Almost certainly not your fault, just run `npx expo start -c` to clear the cache
+
 ## Deployments
 
 Deployments are handled via Expo Application Services, and can all be delegated to @ethanhusband.
