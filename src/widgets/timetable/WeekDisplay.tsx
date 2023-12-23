@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Day } from "./DayDisplay";
+import { BouncyPressable } from "../../components/BouncyPressable";
 
 export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
   const [hide, updateHide] = useState(false);
@@ -42,12 +43,10 @@ export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
 
   return (
     <View style={styles.weekWrapper}>
-      {hasDates && (
-        <TouchableHighlight
+      {false && (
+        <BouncyPressable
           style={styles.weekDateDisplayTouchable}
-          underlayColor={"rgba(0,0,0,0.2)"}
           onPress={() => updateHide(!hide)}
-          disabled={!hasDates}
         >
           <View style={styles.weekDateDisplayContainer}>
             <View style={styles.weekDatePressable}>
@@ -56,15 +55,17 @@ export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
               </Text>
             </View>
             {hasHiddenDays() && !hide && (
-              <TouchableHighlight
+              <BouncyPressable
                 style={styles.showAllPressable}
                 onPress={() => showAllDays()}
+                containerStyle={{ marginLeft: "auto" }}
+                useTouchableHighlight
               >
                 <Text style={styles.showAllText}>Show All</Text>
-              </TouchableHighlight>
+              </BouncyPressable>
             )}
           </View>
-        </TouchableHighlight>
+        </BouncyPressable>
       )}
       {!hide && (
         <View style={styles.weekDaysWrapperView}>
@@ -84,37 +85,30 @@ export const WeekDisplay = ({ week, updateWeek, hasDates = false }: any) => {
 
 const styles = StyleSheet.create({
   weekWrapper: {
-    paddingHorizontal: 8,
-    paddingBottom: 8,
-    marginHorizontal: 8,
+    marginHorizontal: 16,
+    marginTop: 15,
+    marginBottom: 8,
     borderRadius: 10,
+    backgroundColor: "rgba(0,0,0,0.05)",
   },
   weekDateDisplayContainer: {
     flexDirection: "row",
-    paddingVertical: 7,
+    paddingVertical: 4,
     paddingHorizontal: 10,
     borderRadius: 10,
 
     alignItems: "center",
     justifyContent: "center",
-
-    borderWidth: 1,
-    borderColor: "rgba(0,0,0,0.2)",
   },
   weekDateDisplayTouchable: {
-    marginTop: 10,
-    marginBottom: 4,
-    borderRadius: 10,
-    backgroundColor: "white",
+    marginTop: 6,
 
-    shadowColor: "#171717",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
+    borderRadius: 10,
   },
   weekDatePressable: {
     borderRadius: 10,
     marginVertical: 6,
+    flexDirection: "column",
   },
   weekDateText: {
     fontWeight: "600",
@@ -135,8 +129,7 @@ const styles = StyleSheet.create({
   },
   weekDaysWrapperView: {
     flexDirection: "column",
-    gap: 10,
-    marginTop: 8,
+    gap: 16,
 
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },

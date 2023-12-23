@@ -5,13 +5,23 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
+  FadeIn,
+  Easing,
+  ZoomIn,
+  withSpring,
 } from "react-native-reanimated";
+import { eventsBadgeColor } from "../../utils/constants";
 import Entypo from "react-native-vector-icons/Entypo";
+import * as Haptics from "expo-haptics";
+import { BouncyPressable } from "../BouncyPressable";
+
+const HIDDEN_HEIGHT = 52.5;
 
 export const ListDropdown = ({ name, list, updateList, listType }: any) => {
   const [hide, updateHide] = useState(true);
 
   const chevronAngle = useSharedValue(0);
+
   const rotationAnimation = useAnimatedStyle(() => {
     return {
       transform: [
@@ -25,13 +35,13 @@ export const ListDropdown = ({ name, list, updateList, listType }: any) => {
   });
 
   useEffect(() => {
-    chevronAngle.value = !hide ? 90 : 0;
+    chevronAngle.value = hide ? 0 : 90;
   }, [hide]);
 
   return (
-    <Pressable
-      style={styles.dropdownContainer}
+    <BouncyPressable
       onPress={() => updateHide(!hide)}
+      style={styles.dropdownContainer}
     >
       <View style={styles.dropdownTextContainer}>
         <Text style={styles.listTitle}>{name}</Text>
@@ -40,27 +50,36 @@ export const ListDropdown = ({ name, list, updateList, listType }: any) => {
         </Animated.View>
       </View>
       {!hide && (
-        <View style={styles.listWrapper}>
+        <Animated.View
+          style={styles.listWrapper}
+          entering={FadeIn.duration(200)}
+        >
           <ListInput
             list={list}
             updateList={updateList}
             badgeColor="rgb(30 41 59)"
             badgeTextColor="rgb(203 213 225)"
+            listBackgroundColor={eventsBadgeColor}
             placeholder={`Add ${listType} +`}
             isEvents
           />
-        </View>
+        </Animated.View>
       )}
-    </Pressable>
+    </BouncyPressable>
   );
 };
 
 const styles = StyleSheet.create({
   dropdownContainer: {
     flexDirection: "column",
-    paddingBottom: 2,
-    marginVertical: 2,
-    paddingLeft: 2,
+    backgroundColor: eventsBadgeColor,
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    justifyContent: "flex-start",
+    marginVertical: 1,
+    borderWidth: 2,
+    borderColor: "rgba(0, 0, 0, 0.1)",
   },
   dropdownTextContainer: {
     flexDirection: "row",
@@ -77,6 +96,7 @@ const styles = StyleSheet.create({
   },
   listWrapper: {
     flexDirection: "column",
+    overflow: "hidden",
     marginTop: 2,
   },
 });
