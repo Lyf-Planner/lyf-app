@@ -1,17 +1,11 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  Pressable,
-  StyleSheet,
-  TouchableHighlight,
-  Alert,
-} from "react-native";
+import { View, Text, Pressable, StyleSheet, Alert } from "react-native";
 import { WeekDisplay } from "./WeekDisplay";
 import { mapDatesToWeek, parseDateString } from "../../utils/dates";
 import moment from "moment";
 import Entypo from "react-native-vector-icons/Entypo";
 import { primaryGreen } from "../../utils/constants";
+import { BouncyPressable } from "../../components/BouncyPressable";
 
 export const Planner = ({
   weeks,
@@ -102,17 +96,17 @@ export const Planner = ({
 
       {!updatingTemplate && (
         <View style={styles.addWeekButton}>
-          <TouchableHighlight
+          <BouncyPressable
             onPress={() => addWeek()}
-            underlayColor={"rgba(0,0,0,0.5)"}
             style={styles.addWeekTouchable}
+            useTouchableHighlight
           >
             <View style={styles.addWeekView}>
               <Entypo name="chevron-down" size={20} />
               <Text style={{ fontSize: 18 }}>Next Week</Text>
               <Entypo name="chevron-down" size={20} />
             </View>
-          </TouchableHighlight>
+          </BouncyPressable>
         </View>
       )}
     </View>
@@ -121,15 +115,14 @@ export const Planner = ({
 
 const MenuButton = ({ children, onPress, selected = false }: any) => {
   return (
-    <Pressable
-      style={[
-        styles.menuButton,
-        { borderColor: selected ? "black" : primaryGreen },
-      ]}
+    <BouncyPressable
+      style={styles.menuButton}
       onPress={onPress}
+      containerStyle={{ flex: 1 }}
+      conditionalStyles={{ borderColor: selected ? "black" : primaryGreen }}
     >
       {children}
-    </Pressable>
+    </BouncyPressable>
   );
 };
 
@@ -137,14 +130,16 @@ const styles = StyleSheet.create({
   menuButtonRow: {
     flexDirection: "row",
     justifyContent: "center",
-    gap: 2,
-    paddingHorizontal: 12,
+    gap: 8,
+    marginTop: 5,
+    marginHorizontal: 16,
+    backgroundColor: "rgba(0,0,0,0.05)",
+    borderRadius: 10,
   },
   menuButton: {
     backgroundColor: primaryGreen,
     flex: 1,
     padding: 10,
-    margin: 2,
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
@@ -156,7 +151,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  menuButtonText: { color: "white", fontSize: 18 },
+  menuButtonText: { color: "white", fontSize: 20 },
   addWeekView: {
     flexDirection: "row",
     justifyContent: "center",
@@ -176,9 +171,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
 
-    shadowColor: "#171717",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
+    
   },
 });

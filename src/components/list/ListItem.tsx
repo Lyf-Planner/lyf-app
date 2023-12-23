@@ -54,7 +54,8 @@ export const ListItem = ({
 
   const tap = Gesture.Tap()
     .runOnJS(true)
-    .onEnd(() => handleTap());
+    .onStart(() => handleTapIn())
+    .onEnd(() => handleTapOut());
   const longPress = Gesture.LongPress()
     .runOnJS(true)
     .onStart(() => handleLongPressIn())
@@ -102,16 +103,16 @@ export const ListItem = ({
 
   // GESTURE HANDLERS
 
-  const handleTap = () => {
-    if (item.status === ItemStatus.Upcoming) {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      data.premium?.enhanced_planning_enabled
-        ? updateItem({ ...item, status: ItemStatus.InProgress })
-        : updateItem({ ...item, finished: true, status: ItemStatus.Done });
-    } else if (item.finished)
+  const handleTapIn = () => {
+    scale.value = 0.95;
+  };
+
+  const handleTapOut = () => {
+    scale.value = 1;
+    if (item.finished)
       updateItem({ ...item, finished: false, status: ItemStatus.Upcoming });
     else {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       updateItem({ ...item, finished: true, status: ItemStatus.Done });
     }
   };
@@ -158,6 +159,11 @@ export const ListItem = ({
     else return ITEM_STATUS_TO_COLOR[item.status];
   };
 
+  const determineBadgeTextColor = () => {
+    if (item.status === ItemStatus.Done) return "white";
+    else return badgeTextColor;
+  };
+
   return (
     <GestureDetector gesture={gestures}>
       <Animated.View style={scaleAnimation}>
@@ -175,7 +181,7 @@ export const ListItem = ({
             style={[
               styles.listItemText,
               {
-                color: badgeTextColor,
+                color: determineBadgeTextColor(),
                 opacity: item.finished ? 0.8 : 1,
                 fontWeight: isNote || isEvent ? "600" : "normal",
               },
@@ -186,7 +192,7 @@ export const ListItem = ({
 
           <AntDesign
             name={item.finished ? "checkcircle" : "checkcircleo"}
-            style={{ color: badgeTextColor }}
+            style={{ color: determineBadgeTextColor() }}
             size={16}
           />
         </Animated.View>

@@ -8,7 +8,7 @@ import { PremiumIcon } from "../../components/Icons";
 
 export const PremiumHeaderButton = () => {
   const { data } = useAuth();
-  const { updateModal } = useModal();
+  const { modal, updateModal } = useModal();
   const premiumEnabled = data.premium?.enabled;
 
   return (
@@ -17,9 +17,7 @@ export const PremiumHeaderButton = () => {
       style={[
         styles.premiumTooltip,
         {
-          backgroundColor: premiumEnabled
-            ? "rgba(0, 0, 0,0.95)"
-            : "rgba(0,0,50,0.03)",
+          backgroundColor: !!modal ? "rgba(0, 0, 0,0.95)" : "white",
         },
       ]}
       onPress={() =>

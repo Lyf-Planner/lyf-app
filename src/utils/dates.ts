@@ -36,7 +36,7 @@ export function getStartOfCurrentWeek(date?: Date) {
 
 export function formatDate(date: string) {
   var time = parseDateString(date);
-  return moment(time).format("Do MMM");
+  return moment(time).format("DD MMM");
 }
 
 export function formatDateData(date: Date) {

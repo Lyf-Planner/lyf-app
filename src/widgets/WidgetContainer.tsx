@@ -14,6 +14,7 @@ import { AccountWidget } from "./account/AccountWidget";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Notes } from "./notes/NotesWidget";
 import { PremiumHeaderButton } from "./premium/PremiumHeaderButton";
+import { BouncyPressable } from "../components/BouncyPressable";
 
 export enum Widgets {
   Timetable = "Timetable",
@@ -64,12 +65,13 @@ const AppHeaderMenu = ({ selected, updateSelected }) => {
         style={[
           styles.settingButton,
           {
-            backgroundColor: selected === "Account" ? "rgba(0,0,0,0.2)" : "rgba(0,0,0,0.1)",
+            backgroundColor:
+              selected === "Account" ? "rgba(0, 0, 0,0.95)" : "white",
           },
         ]}
         onPress={() => updateSelected("Account")}
       >
-        <SaveTooltip size={35} style={{ position: "relative", right: 3, }} />
+        <SaveTooltip size={35} style={{ position: "relative", right: 3 }} />
       </Pressable>
     </View>
   );
@@ -77,11 +79,13 @@ const AppHeaderMenu = ({ selected, updateSelected }) => {
 
 export const MenuWidgetButton = ({ selected, onSelect, title }) => {
   return (
-    <TouchableHighlight
-      style={[
-        styles.headerTextContainer,
-        selected === title && styles.highlightedHeaderTextContainer,
-      ]}
+    <BouncyPressable
+      style={styles.headerTextContainer}
+      containerStyle={{ flex: 1 }}
+      useTouchableHighlight
+      conditionalStyles={
+        selected === title && styles.highlightedHeaderTextContainer
+      }
       onPress={onSelect}
     >
       <Text
@@ -92,7 +96,7 @@ export const MenuWidgetButton = ({ selected, onSelect, title }) => {
       >
         {title}
       </Text>
-    </TouchableHighlight>
+    </BouncyPressable>
   );
 };
 
@@ -156,6 +160,8 @@ const styles = StyleSheet.create({
     marginRight: 8,
 
     width: 50,
+    borderWidth: 0.5,
+    borderColor: "rgba(0,0,0,0.1)",
     borderRadius: 50,
   },
 });

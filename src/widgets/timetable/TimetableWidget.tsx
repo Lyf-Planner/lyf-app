@@ -27,9 +27,7 @@ export const Timetable = ({ timetable, updateTimetable }: any) => {
           name="To Do List"
           listType={ListType.Task}
         />
-        
       </View>
-      <Horizontal style={{ borderWidth: 4, borderRadius: 20, marginHorizontal: 12, marginVertical: 4, }} />
       <Planner
         weeks={timetable.weeks}
         updateWeeks={updateWeeks}
@@ -45,11 +43,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginTop: 10,
     flex: 1,
-    gap: 8,
+    gap: 2,
   },
   miscListContainer: {
     flexDirection: "column",
     gap: 6,
-    paddingHorizontal: 12
-  }
+    marginHorizontal: 14,
+    backgroundColor: "rgba(0,0,0,0.05)",
+    marginTop: 2,
+    marginBottom: 6,
+    borderRadius: 10,
+  },
 });
