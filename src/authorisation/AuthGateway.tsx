@@ -9,14 +9,17 @@ import { LoadingScreen } from "../components/MiscComponents";
 import { Login } from "./Login";
 import { AuthProvider } from "./AuthProvider";
 import { AppState } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../redux/slices/userSlice";
 
 export const AuthGateway = ({ children }) => {
-  const [user, updateUser] = useState(null);
   const [loggingIn, updateLoggingIn] = useState(false);
+  const user = useSelector((state: any) => state.user);
+  const dispatch = useDispatch();
 
   const logout = () => {
     deleteAsyncData("token");
-    updateUser(null);
+    dispatch(updateUser({}));
   };
 
   const refreshUser = () =>
@@ -24,7 +27,7 @@ export const AuthGateway = ({ children }) => {
       token
         ? autologin(token).then((freshUser) => {
             if (!!freshUser) {
-              updateUser({ ...freshUser });
+              updateUser(freshUser);
             } else updateLoggingIn(false);
           })
         : updateLoggingIn(false)
@@ -38,21 +41,23 @@ export const AuthGateway = ({ children }) => {
     const refreshOnOpen = AppState.addEventListener(
       "change",
       (nextAppState) => {
-        if (appState.current.match(/background/) && nextAppState === "active") {
-          getAsyncData("token").then((token) =>
-            autologin(token).then((cloudUser) => {
-              console.log("cloud user", cloudUser.last_updated);
-              console.log("local user", user.last_updated);
-              // If the cloud save is different to what we have locally, update local user!
-              if (
-                cloudUser.last_updated > user.last_updated ||
-                cloudUser.last_save > user.last_updated
-              ) {
-                updateLoggingIn(true);
-                updateUser(cloudUser);
-                updateLoggingIn(false);
-              }
-            })
+        if (
+          appState.current.match(/background|inactive/) &&
+          nextAppState === "active"
+        ) {
+          getAsyncData("token").then(
+            (token) =>
+              token &&
+              autologin(token).then((cloudUser) => {
+                console.log("cloud user", cloudUser.last_updated);
+                console.log("local user", user.last_updated);
+                // If the cloud save is different to what we have locally, update local user!
+                if (cloudUser.last_updated > user.last_updated) {
+                  updateLoggingIn(true);
+                  updateUser(cloudUser);
+                  updateLoggingIn(false);
+                }
+              })
           );
         }
         appState.current = nextAppState;
@@ -68,8 +73,10 @@ export const AuthGateway = ({ children }) => {
     refreshUser();
   }, []);
 
+  console.log("user is", user);
+
   if (loggingIn) return <LoadingScreen text={"Remembering your schedule..."} />;
-  else if (!user) return <Login updateUser={updateUser} />;
+  else if (!user.user_id) return <Login updateUser={updateUser} />;
 
   return (
     <AuthProvider user={user} updateUser={updateUser} logout={logout}>

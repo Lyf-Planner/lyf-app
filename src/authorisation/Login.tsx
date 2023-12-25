@@ -8,12 +8,13 @@ import {
 } from "react-native";
 import { Horizontal, Loader } from "../components/MiscComponents";
 import { useRef, useState } from "react";
-import { login } from "../utils/login";
+import { USER_NOT_FOUND, createUser, login } from "../utils/login";
 
 export const Login = ({ updateUser }) => {
   const [uid, updateUid] = useState("");
   const [pass, updatePass] = useState("");
-  const [loading, updateLoading] = useState(false);
+  const [loggingIn, updateLoggingIn] = useState(false);
+  const [creating, updateCreating] = useState(false);
 
   const passRef = useRef<any>();
 
@@ -25,8 +26,13 @@ export const Login = ({ updateUser }) => {
       <View style={styles.page}>
         <View style={styles.container}>
           <View style={styles.headerContainer}>
-            {loading ? (
-              <Loader size={25} />
+            {loggingIn || creating ? (
+              <View>
+                <Loader size={25} />
+                <Text style={styles.registerDisclaimer}>
+                  {loggingIn ? "Fetching your Lyf..." : "Creating your Lyf..."}
+                </Text>
+              </View>
             ) : (
               <View style={styles.headerTextContainer}>
                 <Text style={styles.loginText}>Login</Text>
@@ -61,9 +67,15 @@ export const Login = ({ updateUser }) => {
               secureTextEntry
               onChangeText={(text) => updatePass(text)}
               onSubmitEditing={async () => {
-                updateLoading(true);
+                updateLoggingIn(true);
                 var user = await login(uid, pass);
-                updateLoading(false);
+                if (user === USER_NOT_FOUND) {
+                  updateCreating(true);
+                  updateLoggingIn(false);
+                  user = await createUser(uid, pass);
+                  updateCreating(false);
+                }
+                updateLoggingIn(false);
                 user && updateUser(user);
               }}
             />
