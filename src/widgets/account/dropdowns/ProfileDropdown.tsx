@@ -8,9 +8,9 @@ import { SettingsDropdowns } from "../AccountDropdowns";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 export const ProfileDropdown = ({ settingOpen, setOpen }) => {
-  const { data, updateData } = useAuth();
+  const { user, updateUser } = useAuth();
   const updateEmail = (email: string) => {
-    updateData({ ...data, email });
+    updateUser({ ...user, email });
   };
 
   return (
@@ -24,21 +24,21 @@ export const ProfileDropdown = ({ settingOpen, setOpen }) => {
       <View style={styles.detailsColumn}>
         <DetailsField
           fieldName={"Username"}
-          fieldNull={!data.user_id}
-          fieldValue={data.user_id}
+          fieldNull={!user.id}
+          fieldValue={user.id}
         />
         <DetailsField
           fieldName={"Premium"}
-          fieldNull={!data.premium?.enabled}
-          fieldValue={data.premium?.enabled ? "Activated" : "Not activated"}
+          fieldNull={!user.premium?.enabled}
+          fieldValue={user.premium?.enabled ? "Activated" : "Not activated"}
         />
         <View style={styles.detailsFieldView}>
           <DetailsField
             fieldName={"Email"}
-            fieldNull={!data.email}
-            fieldValue={data.email || "N/A"}
+            fieldNull={!user.email}
+            fieldValue={user.email || "N/A"}
           />
-          {!data.email && <AddEmail func={updateEmail} />}
+          {!user.email && <AddEmail func={updateEmail} />}
         </View>
       </View>
     </SettingDropdown>

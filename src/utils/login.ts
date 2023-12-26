@@ -27,9 +27,11 @@ export async function createUser(username: string, password: string) {
 
   var result = await post(url, body);
   if (result.status === 200) {
+    console.log("User creation successful", result.data);
     storeAsyncData("token", result.data.token);
     return result.data.user;
   } else if (result.status === 400) {
+    // While login and creation come from the same function, this won't (shouldn't) happen
     alert("This username is already taken. Maybe try another?");
   } else if (result.status === 429) {
     alert("Account creation rate is limited to 30 seconds. Please wait");
@@ -37,10 +39,7 @@ export async function createUser(username: string, password: string) {
 }
 
 export async function autologin(token: string) {
-  var local = new Date();
-  var sent_time = formatDateData(local);
-
-  var url = `${env.BACKEND_URL}/autoLogin?token=${token}&local_date=${sent_time}`;
+  var url = `${env.BACKEND_URL}/autoLogin?token=${token}`;
 
   var result = (await get(url)) as any;
   if (result.status === 200) return result.data;

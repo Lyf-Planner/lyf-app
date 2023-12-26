@@ -27,9 +27,9 @@ export const Login = ({ updateUser }) => {
         <View style={styles.container}>
           <View style={styles.headerContainer}>
             {loggingIn || creating ? (
-              <View>
-                <Loader size={25} />
-                <Text style={styles.registerDisclaimer}>
+              <View style={styles.loader}>
+                <Loader size={30} />
+                <Text style={styles.loaderText}>
                   {loggingIn ? "Fetching your Lyf..." : "Creating your Lyf..."}
                 </Text>
               </View>
@@ -43,7 +43,12 @@ export const Login = ({ updateUser }) => {
             )}
           </View>
 
-          <View style={styles.fieldContainer}>
+          <View
+            style={[
+              styles.fieldContainer,
+              { opacity: loggingIn || creating ? 0.5 : 1 },
+            ]}
+          >
             <TextInput
               style={styles.fields}
               autoCapitalize="none"
@@ -70,13 +75,14 @@ export const Login = ({ updateUser }) => {
                 updateLoggingIn(true);
                 var user = await login(uid, pass);
                 if (user === USER_NOT_FOUND) {
+                  console.log("Creating new account!");
                   updateCreating(true);
                   updateLoggingIn(false);
                   user = await createUser(uid, pass);
                   updateCreating(false);
                 }
                 updateLoggingIn(false);
-                user && updateUser(user);
+                if (user) updateUser(user);
               }}
             />
           </View>
@@ -110,11 +116,18 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     marginBottom: 14,
-    height: 40,
+    height: 45,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
   },
+  loader: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 6,
+  },
+  loaderText: { fontSize: 14, color: "rgba(0,0,0,0.5)", fontWeight: "500" },
   loginText: {
     fontSize: 25,
   },
