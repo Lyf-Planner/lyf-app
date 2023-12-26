@@ -1,6 +1,5 @@
 import { get, post } from "./axios";
-import { formatDateData } from "./dates";
-import { storeAsyncData } from "./asyncStorage";
+import { storeAsyncData } from "../utils/asyncStorage";
 import env from "../envManager";
 
 export const USER_NOT_FOUND = "Not found";
@@ -18,23 +17,6 @@ export async function login(username: string, password: string) {
     alert("Please wait 3 seconds between login attempts");
   } else {
     alert("Incorrect password");
-  }
-}
-
-export async function createUser(username: string, password: string) {
-  var url = `${env.BACKEND_URL}/createUser`;
-  var body = { user_id: username, password };
-
-  var result = await post(url, body);
-  if (result.status === 200) {
-    console.log("User creation successful", result.data);
-    storeAsyncData("token", result.data.token);
-    return result.data.user;
-  } else if (result.status === 400) {
-    // While login and creation come from the same function, this won't (shouldn't) happen
-    alert("This username is already taken. Maybe try another?");
-  } else if (result.status === 429) {
-    alert("Account creation rate is limited to 30 seconds. Please wait");
   }
 }
 

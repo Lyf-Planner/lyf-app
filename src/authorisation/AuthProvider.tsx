@@ -5,8 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { saveUserData } from "../utils/saveUserData";
-import { deleteMe } from "../utils/deleteMe";
+import { saveUser, deleteMe } from "../rest/user";
 import { getAsyncData } from "../utils/asyncStorage";
 import { AppState } from "react-native";
 
@@ -19,7 +18,7 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
 
   const saveAndLogout = async () => {
     var token = await getAsyncData("token");
-    saveUserData(user, token);
+    saveUser(user, token);
     logout();
   };
 
@@ -28,7 +27,7 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
     // Check for changes
     if (user.last_updated > save.latest) {
       console.log("Autosaving...");
-      saveUserData(user)
+      saveUser(user)
         .then(() =>
           setSave({ ...save, loading: false, latest: new Date().toUTCString() })
         )
@@ -62,7 +61,7 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
       if (nextAppState === "background") {
         // This gets throttled by the backend when multiple requests come through
         if (user.last_updated > save.latest) {
-          saveUserData(user);
+          saveUser(user);
           setSave({ ...save, latest: new Date().toUTCString() });
         }
       }

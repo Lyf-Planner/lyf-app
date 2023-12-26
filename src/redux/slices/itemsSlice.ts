@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const INITIAL_STATE = {
-  userItems: {},
-};
+const INITIAL_STATE = {};
 
 export const itemsSlice = createSlice({
   name: "items",
@@ -11,23 +9,23 @@ export const itemsSlice = createSlice({
     initialiseUser: (state, action) => {
       var items = action.payload;
       items.forEach((x: any) => {
-        state.userItems[x.id] = x;
+        state[x.id] = x;
       });
     },
     addItem: (state, action) => {
       var item = action.payload;
-      state.userItems[item.id] = item;
+      state[item.id] = item;
     },
     updateItem: (state, action) => {
       var item = action.payload;
-      state.userItems[item.id] = item;
+      state[item.id] = item;
     },
     removeItem: (state, action) => {
       var id = action.payload;
-      delete state.userItems[id];
+      delete state[id];
     },
     clearAllItems: (state) => {
-      state.userItems = {};
+      return {};
     },
   },
 });
