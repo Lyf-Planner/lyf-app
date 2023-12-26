@@ -9,17 +9,23 @@ import { LoadingScreen } from "../components/MiscComponents";
 import { Login } from "./Login";
 import { AuthProvider } from "./AuthProvider";
 import { AppState } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../redux/slices/userSlice";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { updateUser as updateUserAction } from "../redux/slices/userSlice";
 
 export const AuthGateway = ({ children }) => {
   const [loggingIn, updateLoggingIn] = useState(false);
-  const user = useSelector((state: any) => state.user);
+  const user = useSelector((state: any) => state.user, shallowEqual);
   const dispatch = useDispatch();
+
+  const updateUser = (user: any) => {
+    dispatch(
+      updateUserAction({ ...user, last_updated: new Date().toUTCString() })
+    );
+  };
 
   const logout = () => {
     deleteAsyncData("token");
-    dispatch(updateUser({}));
+    updateUser(user);
   };
 
   const refreshUser = () =>
@@ -73,10 +79,8 @@ export const AuthGateway = ({ children }) => {
     refreshUser();
   }, []);
 
-  console.log("user is", user);
-
   if (loggingIn) return <LoadingScreen text={"Remembering your schedule..."} />;
-  else if (!user.user_id) return <Login updateUser={updateUser} />;
+  else if (!user.id) return <Login updateUser={updateUser} />;
 
   return (
     <AuthProvider user={user} updateUser={updateUser} logout={logout}>

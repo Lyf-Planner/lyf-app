@@ -14,7 +14,7 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
   const [save, setSave] = useState({
     error: "",
     loading: false,
-    latest: new Date(),
+    latest: new Date().toUTCString(),
   });
 
   const saveAndLogout = async () => {
@@ -23,17 +23,15 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
     logout();
   };
 
-  const updateData = (data: any) => {
-    updateUser({ ...data, last_updated: new Date() });
-  };
-
   const autoSave = useCallback(() => {
     console.log("Checking for changes to save");
     // Check for changes
     if (user.last_updated > save.latest) {
       console.log("Autosaving...");
       saveUserData(user)
-        .then(() => setSave({ ...save, loading: false, latest: new Date() }))
+        .then(() =>
+          setSave({ ...save, loading: false, latest: new Date().toUTCString() })
+        )
         .catch((error) => {
           alert(`Error saving: ${error}`);
           setSave({
@@ -65,7 +63,7 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
         // This gets throttled by the backend when multiple requests come through
         if (user.last_updated > save.latest) {
           saveUserData(user);
-          setSave({ ...save, latest: new Date() });
+          setSave({ ...save, latest: new Date().toUTCString() });
         }
       }
     });
@@ -73,8 +71,8 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
   }, [save, setSave, user]);
 
   const EXPOSED = {
-    data: user,
-    updateData,
+    user,
+    updateUser,
     deleteMe,
     logout: saveAndLogout,
     isSaving: save.loading,
