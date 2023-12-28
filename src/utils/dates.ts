@@ -65,11 +65,16 @@ const establishFirstDay = (first_day) => {
 
 export const extendByWeek = (weeks) => {
   var i = weeks.length - 1;
-  var last = parseDateString(weeks[i].slice(-1));
-  const endOfNextWeek = moment(last).add(1, "week").toDate();
+  var lastWeek = weeks[i];
+  var lastDay = lastWeek[lastWeek.length - 1];
+  const endOfNextWeek = moment(lastDay).add(1, "week").toDate();
+
+  var next = moment(lastDay).add(1, "day").toDate();
+
   weeks.push([]);
-  while (last.getTime() <= endOfNextWeek.getTime()) {
-    weeks[i + 1].push(last);
+  while (next.getTime() <= endOfNextWeek.getTime()) {
+    weeks[i + 1].push(formatDateData(next));
+    next = moment(next).add(1, "day").toDate();
   }
 
   return weeks;

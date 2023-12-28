@@ -23,7 +23,7 @@ export const Planner = ({ items }: any) => {
     setDisplayedWeeks(initialiseDays(user));
   }, [user.timetable.first_day]);
 
-  const addWeek = () => setDisplayedWeeks(extendByWeek(displayedWeeks));
+  const addWeek = () => setDisplayedWeeks(extendByWeek([...displayedWeeks]));
 
   console.log("Displaying days:", displayedWeeks);
 

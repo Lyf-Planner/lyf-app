@@ -25,10 +25,11 @@ export const WeekDisplay = ({ items, dates }: any) => {
     var prev = formatDateData(
       moment(parseDateString(user.timetable.first_day)).add(-1, "day").toDate()
     );
-    updateUser({
-      ...user,
-      timetable: { ...user.timetable, first_day: prev },
-    });
+    if (prev.localeCompare(start) >= 0)
+      updateUser({
+        ...user,
+        timetable: { ...user.timetable, first_day: prev },
+      });
   };
 
   return (

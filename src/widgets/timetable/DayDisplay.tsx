@@ -35,7 +35,6 @@ export const Day = ({
 }: any) => {
   const { user, updateUser } = useAuth();
   const canDelete = date === user.timetable.first_day;
-  console.log("date", date, "can delete", canDelete);
 
   const shiftFirst = async () => {
     if (canDelete) {
