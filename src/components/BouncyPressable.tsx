@@ -11,6 +11,7 @@ export const BouncyPressable = ({
   containerStyle = null,
   conditionalStyles = null,
   onPress,
+  onLongPress = null,
   useTouchableHighlight = false,
 }) => {
   const scale = useSharedValue(1);
@@ -35,6 +36,7 @@ export const BouncyPressable = ({
     <Animated.View style={[scaleAnimation, containerStyle]}>
       <WrappingPressable
         onPress={onPress}
+        onLongPress={onLongPress}
         onPressIn={() => {
           scale.value = 0.95;
         }}

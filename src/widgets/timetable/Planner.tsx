@@ -1,27 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, Pressable, StyleSheet, Alert } from "react-native";
 import { WeekDisplay } from "./WeekDisplay";
 import {
   extendByWeek,
+  formatDateData,
   getStartOfCurrentWeek,
   initialiseDays,
-  mapDatesToWeek,
-  parseDateString,
 } from "../../utils/dates";
-import moment from "moment";
 import Entypo from "react-native-vector-icons/Entypo";
 import { primaryGreen } from "../../utils/constants";
 import { BouncyPressable } from "../../components/BouncyPressable";
 import { Routine } from "./Routine";
-import { useSelector } from "react-redux";
 import { useAuth } from "../../authorisation/AuthProvider";
 
 export const Planner = ({ items }: any) => {
   const { user } = useAuth();
   const [updatingTemplate, setUpdatingTemplate] = useState(false);
-  const [displayedWeeks, setDisplayedWeeks] = useState(
-    initialiseDays(user.timetable.first_day)
-  );
+  const [displayedWeeks, setDisplayedWeeks] = useState(initialiseDays(user));
+
+  useEffect(() => {
+    // Keep remote first_day in sync with any!
+    setDisplayedWeeks(initialiseDays(user));
+  }, [user.timetable.first_day]);
 
   const addWeek = () => setDisplayedWeeks(extendByWeek(displayedWeeks));
 

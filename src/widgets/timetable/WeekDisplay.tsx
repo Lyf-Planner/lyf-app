@@ -6,20 +6,30 @@ import {
   getStartOfCurrentWeek,
   parseDateString,
 } from "../../utils/dates";
-import { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-} from "react-native";
+import { useEffect, useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
 import { Day } from "./DayDisplay";
 import { BouncyPressable } from "../../components/BouncyPressable";
+import moment from "moment";
+import { useAuth } from "../../authorisation/AuthProvider";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export const WeekDisplay = ({ items, dates }: any) => {
   const [hide, updateHide] = useState(false);
+  const { user, updateUser } = useAuth();
   const start = formatDateData(
     getStartOfCurrentWeek(parseDateString(dates[0]))
   );
+
+  const unshiftFirst = async () => {
+    var prev = formatDateData(
+      moment(parseDateString(user.timetable.first_day)).add(-1, "day").toDate()
+    );
+    updateUser({
+      ...user,
+      timetable: { ...user.timetable, first_day: prev },
+    });
+  };
 
   return (
     <View style={[styles.weekWrapper, { paddingBottom: hide && 12 }]}>
@@ -27,6 +37,7 @@ export const WeekDisplay = ({ items, dates }: any) => {
         <BouncyPressable
           style={styles.weekDateDisplayTouchable}
           onPress={() => updateHide(!hide)}
+          onLongPress={() => unshiftFirst()}
         >
           <View style={styles.weekDateDisplayContainer}>
             <View style={styles.weekDatePressable}>

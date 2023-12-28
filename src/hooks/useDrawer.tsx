@@ -10,7 +10,7 @@ import {
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { StyleSheet } from "react-native";
 
-// Assisted state management via provision of hooks, pertinent to whether app is in edit mode
+// Component provider
 export const DrawerProvider = ({ children }) => {
   const [drawer, updateDrawer] = useState<any>(null);
 

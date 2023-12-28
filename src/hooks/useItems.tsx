@@ -9,8 +9,9 @@ import {
 import { ItemStatus, ListItemType } from "../components/list/constants";
 import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
+import { formatDateData, getStartOfCurrentWeek } from "../utils/dates";
 
-// Assisted state management via provision of hooks, pertinent to whether app is in edit mode
+// Assisted state management via provider
 export const ItemsProvider = ({ children }) => {
   const [initialised, setInitialised] = useState(false);
   const [items, setItems] = useState([]);
@@ -20,18 +21,27 @@ export const ItemsProvider = ({ children }) => {
   useEffect(() => {
     if (!initialised) {
       getItems(user.timetable.items.map((x) => x.id)).then((results) => {
-        setItems(results);
+        // Filter out any old items
+        var start = formatDateData(getStartOfCurrentWeek());
+        var relevant = results.filter((x) => {
+          return !x.date || x.date.localeCompare(start) >= 0;
+        });
+        setItems(relevant);
         setInitialised(true);
 
-        // Remove items from user that no longer exist - appears as a background task
-        const result_ids = results.map((x) => x.id);
-        var tmp = user;
-        tmp.timetable.items = tmp.timetable.items.filter((x) =>
-          result_ids.includes(x.id)
-        );
-        if (tmp.timetable.items.length !== results.length) {
+        // Remove items from user that no longer exist or are old - appears as a background task        
+        if (user.timetable.items.length !== relevant.length) {
           console.warn("User lost some items!");
-          updateUser(tmp);
+          const relevant_ids = relevant.map((x) => x.id);
+          var fresh_items = user.timetable.items.filter((x) => {
+            relevant_ids.includes(x.id);
+          });
+
+          
+          updateUser({
+            ...user,
+            timetable: { ...user.timetable, items: fresh_items },
+          });
         }
       });
     }

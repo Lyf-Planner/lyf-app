@@ -1,24 +1,4 @@
 import moment from "moment";
-import { DaysList } from "./constants";
-
-export function mapDatesToWeek(week: any, weekStart?: Date) {
-  var date = weekStart ?? new Date();
-
-  // First day of week is Monday
-  moment.updateLocale("en", {
-    week: {
-      dow: 1,
-    },
-  });
-
-  for (var i in DaysList) {
-    var start = moment(getStartOfCurrentWeek(date));
-    var next = start.add(i, "days").toDate();
-
-    week[DaysList[i]].date = formatDateData(next);
-  }
-  return week;
-}
 
 export function getStartOfCurrentWeek(date?: Date) {
   var now = date ?? new Date();
@@ -48,17 +28,10 @@ export function getEndOfCurrentWeek(date?: Date) {
   return new Date(end);
 }
 
-export const initialiseDays = (first_day) => {
-  // Show days from first_day, unless it is behind the start of the current week
-  var today = new Date();
-  today.setHours(0, 0, 0, 0);
-  var start = first_day ? first_day : formatDateData(today);
-  const startOfWeek = formatDateData(getStartOfCurrentWeek(today));
-
-  // Always refresh to Monday at the start of each week
-  if (start.localeCompare(startOfWeek) === -1) start = startOfWeek;
-
+export const initialiseDays = (user) => {
   const endOfCurrentWeek = getEndOfCurrentWeek();
+  const start = establishFirstDay(user.timetable.first_day);
+
   var initial = [[start]];
   var week = 0;
   var next = moment(start).add(1, "day").toDate();
@@ -74,6 +47,20 @@ export const initialiseDays = (first_day) => {
   }
 
   return initial;
+};
+
+const establishFirstDay = (first_day) => {
+  // Show days from first_day onward, unless it is behind the start of the current week or ahead of current day
+  var today = new Date();
+  today.setHours(0, 0, 0, 0);
+  var start = first_day ? first_day : formatDateData(today);
+  const startOfWeek = formatDateData(getStartOfCurrentWeek(today));
+
+  if (start.localeCompare(startOfWeek) < 0)
+    // Always refresh to Monday at the start of each week
+    start = startOfWeek;
+
+  return start;
 };
 
 export const extendByWeek = (weeks) => {

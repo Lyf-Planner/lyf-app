@@ -17,6 +17,7 @@ import {
   DaysOfWeek,
   eventsBadgeColor,
   secondaryGreen,
+  sleep,
 } from "../../utils/constants";
 import { LongPressGestureHandler } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
@@ -33,14 +34,13 @@ export const Day = ({
   template = false,
 }: any) => {
   const { user, updateUser } = useAuth();
-  const { removeItem } = useItems();
   const canDelete = date === user.timetable.first_day;
-  const shiftFirst = () => {
-    if (canDelete) {
-      for (var item of items) {
-        removeItem(item.id);
-      }
+  console.log("date", date, "can delete", canDelete);
 
+  const shiftFirst = async () => {
+    if (canDelete) {
+      opacity.value = 0;
+      await sleep(500);
       var next = formatDateData(
         moment(parseDateString(user.timetable.first_day)).add(1, "day").toDate()
       );
@@ -57,7 +57,7 @@ export const Day = ({
   const fadeAnimationStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(opacity.value, {
-        duration: 400,
+        duration: 500,
       }),
     } as any;
   });

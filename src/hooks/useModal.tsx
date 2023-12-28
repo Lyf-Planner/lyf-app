@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-// Assisted state management via provision of hooks, pertinent to whether app is in edit mode
+// Component provider
 export const ModalProvider = ({ children }) => {
   const [modal, updateModal] = useState<any>(null);
 
