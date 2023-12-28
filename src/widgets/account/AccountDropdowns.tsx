@@ -3,12 +3,9 @@ import { TipsDropdown } from "./dropdowns/TipsDropdown";
 import { ProfileDropdown } from "./dropdowns/ProfileDropdown";
 import { SaveDropdown } from "./dropdowns/SaveDropdown";
 import { useState } from "react";
+import { SettingsDropdowns } from "./dropdowns/constants";
 
-export enum SettingsDropdowns {
-  "Profile",
-  "Save",
-  "Tips",
-}
+
 
 export const AccountDropdowns = () => {
   const [openSetting, updateOpenSetting] = useState<any>("");

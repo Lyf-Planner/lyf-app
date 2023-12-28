@@ -1,52 +1,31 @@
 import { useState } from "react";
 import { View, Text, Pressable, StyleSheet, Alert } from "react-native";
 import { WeekDisplay } from "./WeekDisplay";
-import { mapDatesToWeek, parseDateString } from "../../utils/dates";
+import {
+  extendByWeek,
+  getStartOfCurrentWeek,
+  initialiseDays,
+  mapDatesToWeek,
+  parseDateString,
+} from "../../utils/dates";
 import moment from "moment";
 import Entypo from "react-native-vector-icons/Entypo";
 import { primaryGreen } from "../../utils/constants";
 import { BouncyPressable } from "../../components/BouncyPressable";
+import { Routine } from "./Routine";
+import { useSelector } from "react-redux";
+import { useAuth } from "../../authorisation/AuthProvider";
 
-export const Planner = ({
-  weeks,
-  updateWeeks,
-  templates,
-  updateTemplates,
-}: any) => {
+export const Planner = ({ items }: any) => {
+  const { user } = useAuth();
   const [updatingTemplate, setUpdatingTemplate] = useState(false);
-  const [displayedWeeks, setDisplayedWeeks] = useState(weeks.slice(0, 1));
+  const [displayedWeeks, setDisplayedWeeks] = useState(
+    initialiseDays(user.timetable.first_day)
+  );
 
-  const updateWeekAtIndex = (index: any, week: any) => {
-    var modifiedWeeks;
-    if (index > weeks.length) {
-      // Displayed weeks must be longer than weeks
-      modifiedWeeks = displayedWeeks.slice(0, index + 1);
-    } else {
-      modifiedWeeks = weeks;
-    }
-    modifiedWeeks[index] = week;
+  const addWeek = () => setDisplayedWeeks(extendByWeek(displayedWeeks));
 
-    updateWeeks(modifiedWeeks);
-  };
-
-  const addWeek = () => {
-    // Add all the user's weeks and after that add templates
-    if (displayedWeeks.length < weeks.length)
-      setDisplayedWeeks(weeks.slice(0, displayedWeeks.length + 1));
-    else {
-      // Need to include dates as well
-      var last = parseDateString(
-        displayedWeeks[displayedWeeks.length - 1].Monday.date
-      );
-
-      var next = moment(last).add(1, "week");
-
-      var newTemplate = JSON.parse(JSON.stringify(templates[0]));
-      var untouchedWeek = mapDatesToWeek(newTemplate, next.toDate());
-
-      setDisplayedWeeks(displayedWeeks.concat(untouchedWeek));
-    }
-  };
+  console.log("Displaying days:", displayedWeeks);
 
   return (
     <View>
@@ -71,24 +50,20 @@ export const Planner = ({
               );
             }}
           >
-            <Entypo name="info-with-circle" color={"white"} size={16} />
+            <Entypo name="info-with-circle" color={"white"} size={18} />
           </Pressable>
         </MenuButton>
       </View>
 
       {updatingTemplate ? (
-        <WeekDisplay
-          week={templates[0]}
-          updateWeek={(template: any) => updateTemplates([template])}
-        />
+        <Routine items={items.filter((x) => x.day && !x.date)} />
       ) : (
         <View>
           {displayedWeeks.map((x: any, i: any) => (
             <WeekDisplay
-              week={x}
-              updateWeek={(week: any) => updateWeekAtIndex(i, week)}
-              hasDates
-              key={i}
+              key={x[0]}
+              dates={x}
+              items={items.filter((y) => x.includes(y.date) || y.day)}
             />
           ))}
         </View>
@@ -131,7 +106,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     gap: 8,
-    marginTop: 5,
+    marginTop: 4,
     marginHorizontal: 16,
     backgroundColor: "rgba(0,0,0,0.05)",
     borderRadius: 10,
@@ -147,7 +122,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   infoPressable: {
-    marginLeft: 5,
+    marginLeft: 6,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -170,7 +145,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 10,
     marginBottom: 10,
-
-    
   },
 });

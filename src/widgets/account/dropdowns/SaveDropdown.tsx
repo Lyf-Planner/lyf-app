@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { SettingDropdown } from "../../../components/dropdowns/SettingDropdown";
 import { useAuth } from "../../../authorisation/AuthProvider";
-import { SettingsDropdowns } from "../AccountDropdowns";
+import { SettingsDropdowns } from "./constants";
 
 import moment from "moment";
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -21,8 +21,8 @@ export const SaveDropdown = ({ settingOpen, setOpen }) => {
 };
 
 export const SaveInfo = () => {
-  const { lastSave, data } = useAuth();
-  const lastUpdate = data.last_updated as Date;
+  const { lastSave, user } = useAuth();
+  const lastUpdate = user.last_updated as Date;
 
   const saved = new Date(lastSave).getTime() > new Date(lastUpdate).getTime();
 

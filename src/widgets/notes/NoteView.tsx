@@ -12,6 +12,7 @@ import {
   primaryGreen,
 } from "../../utils/constants";
 import { NoteTypeBadge } from "./NoteTypeBadge";
+import { ListItemType } from "../../components/list/constants";
 
 export const NoteView = ({ note, onBack, initialising, updateNote }) => {
   const updateNoteTitle = (title: string) => {
@@ -46,13 +47,13 @@ export const NoteView = ({ note, onBack, initialising, updateNote }) => {
       ) : (
         <ListInput
           list={note.content || []}
+          type={ListItemType.Item}
           updateList={updateNoteContent}
           placeholder="New item +"
           badgeColor={eventsBadgeColor}
           badgeTextColor="black"
           listBackgroundColor={offWhite}
           listWrapperStyles={{ padding: 5 }}
-          isNote
         />
       )}
     </View>

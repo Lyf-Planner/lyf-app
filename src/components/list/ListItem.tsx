@@ -9,41 +9,26 @@ import {
   Gesture,
   Directions,
 } from "react-native-gesture-handler";
-import { ITEM_STATUS_TO_COLOR, ItemStatus } from "./constants";
-import { useAuth } from "../../authorisation/AuthProvider";
+import { ITEM_STATUS_TO_COLOR, ItemStatus, ListItemType } from "./constants";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import * as Haptics from "expo-haptics";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { TwentyFourHourToAMPM } from "../../utils/dates";
 import { ListItemDrawer } from "./ListItemDrawer";
 import { useDrawer } from "../../hooks/useDrawer";
+import { useItems } from "../../hooks/useItems";
 
-export type Item = {
-  id: string;
-  name: string;
-  finished: boolean;
-  status?: string;
-};
-
-export const ListItem = ({
-  updateItem,
-  item,
-  removeItem,
-  badgeColor,
-  badgeTextColor,
-  isEvent = false,
-  isNote = false,
-}) => {
-  const { data } = useAuth();
+export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
   const { updateDrawer, updateDrawerIndex } = useDrawer();
+  const { updateItem, removeItem } = useItems();
 
   const openModal = () => {
     updateDrawer(
       <ListItemDrawer
         initialItem={item}
         updateRootItem={updateItem}
-        removeItem={removeItem}
-        isEvent={isEvent}
+        removeItem={() => removeItem(item.id)}
+        type={type}
         closeModal={() => updateDrawer(null)}
         updateDrawerIndex={updateDrawerIndex}
       />
@@ -65,9 +50,7 @@ export const ListItem = ({
     .runOnJS(true)
     .onEnd(() => handleFling());
 
-  const gestures = data.premium?.enhanced_planning_enabled
-    ? Gesture.Race(tap, longPress, fling)
-    : Gesture.Race(tap, longPress);
+  const gestures = Gesture.Race(tap, longPress, fling);
 
   // ANIMATION DEFINITIONS
 
@@ -93,7 +76,7 @@ export const ListItem = ({
         transform: [
           {
             translateX: withTiming(offsetX.value, {
-              duration: 150,
+              duration: 200,
             }),
           },
         ],
@@ -104,17 +87,22 @@ export const ListItem = ({
   // GESTURE HANDLERS
 
   const handleTapIn = () => {
-    scale.value = 0.95;
+    if (item.status === ItemStatus.Upcoming) scale.value = 0.75;
+    else scale.value = 0.25;
   };
 
   const handleTapOut = () => {
-    scale.value = 1;
-    if (item.finished)
+    if (item.status === ItemStatus.Upcoming) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      updateItem({ ...item, status: ItemStatus.InProgress });
+    } else if (item.status === ItemStatus.Done)
       updateItem({ ...item, finished: false, status: ItemStatus.Upcoming });
     else {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       updateItem({ ...item, finished: true, status: ItemStatus.Done });
     }
+
+    scale.value = 1;
   };
 
   const handleLongPressIn = () => {
@@ -131,7 +119,7 @@ export const ListItem = ({
   };
 
   const handleLongPressOut = () => {
-    if (willRemove.value) removeItem();
+    if (willRemove.value) removeItem(item.id, true);
 
     clearTimeout(timer);
     scale.value = 1;
@@ -140,14 +128,15 @@ export const ListItem = ({
   const handleFling = () => {
     offsetX.value = -40;
 
-    if (data.premium?.enhanced_planning_enabled) openModal();
+    // Will soon make this a feature available to all
+    openModal();
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
     // This makes the animation appear to pause for a second when slid back
     var closeAnimation = setInterval(() => {
       offsetX.value = 0;
       clearTimeout(closeAnimation);
-    }, 200);
+    }, 400);
   };
 
   // STYLING
@@ -161,6 +150,7 @@ export const ListItem = ({
 
   const determineBadgeTextColor = () => {
     if (item.status === ItemStatus.Done) return "white";
+    if (item.status === ItemStatus.Tentative) return "black";
     else return badgeTextColor;
   };
 
@@ -172,7 +162,7 @@ export const ListItem = ({
             styles.listItem,
             {
               backgroundColor: determineBadgeColor(),
-              borderRadius: isNote || isEvent ? 5 : 15,
+              borderRadius: type !== ListItemType.Task ? 5 : 15,
             },
             flickAnimation,
           ]}
@@ -182,16 +172,17 @@ export const ListItem = ({
               styles.listItemText,
               {
                 color: determineBadgeTextColor(),
-                opacity: item.finished ? 0.8 : 1,
-                fontWeight: isNote || isEvent ? "600" : "normal",
+                fontWeight: type !== ListItemType.Task ? "600" : "normal",
               },
             ]}
           >
-            {item.name} {item.time && `${TwentyFourHourToAMPM(item.time)}`}
+            {item.title} {item.time && `${TwentyFourHourToAMPM(item.time)}`}
           </Text>
 
           <AntDesign
-            name={item.finished ? "checkcircle" : "checkcircleo"}
+            name={
+              item.status === ItemStatus.Done ? "checkcircle" : "checkcircleo"
+            }
             style={{ color: determineBadgeTextColor() }}
             size={16}
           />
@@ -199,7 +190,7 @@ export const ListItem = ({
         <View
           style={[
             {
-              borderRadius: isNote || isEvent ? 5 : 15,
+              borderRadius: type !== ListItemType.Task ? 5 : 15,
             },
             styles.listHiddenBackground,
           ]}
@@ -216,23 +207,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     paddingVertical: 10,
-    paddingHorizontal: 10,
-    height: 45,
+    paddingHorizontal: 12,
+    height: 50,
     borderWidth: 1,
-    gap: 5,
+    gap: 4,
     alignItems: "center",
   },
   listItemText: {
-    fontSize: 15.5,
+    fontSize: 16,
     paddingBottom: 1,
   },
   listHiddenBackground: {
-    height: 45,
+    height: 49,
+    borderWidth: 1,
     flexDirection: "row",
-    backgroundColor: "gray",
+    backgroundColor: "white",
     alignItems: "center",
     position: "absolute",
     width: "100%",
   },
-  editIcon: { marginLeft: "auto", marginRight: 11, color: "white" },
+  editIcon: { marginLeft: "auto", marginRight: 11, color: "black" },
 });

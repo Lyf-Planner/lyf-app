@@ -4,19 +4,15 @@ import { Horizontal } from "../../components/MiscComponents";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useModal } from "../../hooks/useModal";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import {
-  DailyNotificationDesc,
-  EventNotificationDesc,
-} from "./PremiumSettingDescriptions";
 import { primaryGreen } from "../../utils/constants";
 
 export const PremiumSettingsModal = ({ onClose }: any) => {
-  const { data, updateData } = useAuth();
+  const { user, updateUser } = useAuth();
   const { updateModal } = useModal();
-  const premium = data.premium;
+  const premium = user.premium;
 
   const closeModal = () => updateModal(null);
-  const updatePremium = (premium: any) => updateData({ ...data, premium });
+  const updatePremium = (premium: any) => updateUser({ ...user, premium });
   const updateNotificationSettings = (notifications: any) =>
     updatePremium({ ...premium, notifications });
 

@@ -1,34 +1,38 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = {
+  items: [],
+  initialised: false,
+};
 
 export const itemsSlice = createSlice({
   name: "items",
   initialState: INITIAL_STATE,
   reducers: {
-    initialiseUser: (state, action) => {
+    initialise: (state, action) => {
       var items = action.payload;
-      items.forEach((x: any) => {
-        state[x.id] = x;
-      });
+      state.items = items;
+      state.initialised = true;
     },
     addItem: (state, action) => {
+      console.log("Adding item", action.payload.id);
       var item = action.payload;
-      state[item.id] = item;
+      state.items.push(item);
     },
     updateItem: (state, action) => {
       var item = action.payload;
-      state[item.id] = item;
+      var index = state.items.find((x) => (x.id = item.id));
+      state.items[index] = item;
     },
     removeItem: (state, action) => {
-      var id = action.payload;
-      delete state[id];
+      var index = state.items.find((x) => (x.id = action.payload.id));
+      state.items = { ...state.items.splice(index, 1) };
     },
-    clearAllItems: (state) => {
-      return {};
+    cleanUpItems: (state) => {
+      return { items: [], initialised: false };
     },
   },
 });
 
-export const { initialiseUser, updateItem, removeItem, clearAllItems } =
+export const { initialise, updateItem, addItem, removeItem, cleanUpItems } =
   itemsSlice.actions;

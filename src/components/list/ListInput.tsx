@@ -1,11 +1,8 @@
 import { View, StyleSheet, TextInput } from "react-native";
-import { useState } from "react";
-import { Item, ListItem } from "./ListItem";
-
-import "react-native-get-random-values";
-import { v4 as uuid } from "uuid";
-import { useAuth } from "../../authorisation/AuthProvider";
-import { ItemStatus, ListItemType } from "./constants";
+import { useRef, useState } from "react";
+import { ListItem } from "./ListItem";
+import { Loader } from "../MiscComponents";
+import { useItems } from "../../hooks/useItems";
 
 export enum ListType {
   Event = "Event",
@@ -14,62 +11,34 @@ export enum ListType {
 }
 
 export const ListInput = ({
-  list,
-  updateList,
+  items,
+  type,
+  dateData,
   badgeColor,
   badgeTextColor = "black",
-  placeholder,
   listBackgroundColor = "white",
-  isEvents = false,
-  isNote = false,
-  asColumn = false,
   listWrapperStyles = {},
-  date = null,
+  template = false,
 }: any) => {
   const [newItem, updateNewItem] = useState<any>("");
-  const { data } = useAuth();
+  const [addingItem, updateAddingItem] = useState(false);
+  const { addItem } = useItems();
 
-  const addNewItem = (name: string, item?: any) => {
-    var curList = list;
+  const inputRef = useRef<TextInput>(null);
 
-    if (!!item) curList.push(item);
-    else {
-      const addEventPrefs = isEvents && data.premium?.enabled;
-      const prefs = addEventPrefs
-        ? {
-            notify: data.premium.settings?.event_notifications_enabled,
-            minutes_before:
-              data.premium.settings?.event_notification_minutes_before,
-          }
-        : {};
-
-      curList.push({
-        name,
-        finished: false,
-        type: isNote
-          ? ListItemType.Item
-          : isEvents
-          ? ListItemType.Event
-          : ListItemType.Task,
-        status: ItemStatus.Upcoming,
-        id: uuid(), // Precursor to migrating lists out of nesting
-        date, // Precursor to migrating lists out of nesting
-        ...prefs,
-      });
+  const addNewItem = (name: string) => {
+    // Create in items
+    updateAddingItem(true);
+    var dateArg, dayArg;
+    if (template) {
+      dateArg = null;
+      dayArg = dateData.day;
+    } else {
+      dateArg = dateData.date;
+      dayArg = dateData.day;
     }
-    updateList(curList);
-  };
 
-  const updateItem = (index: number, newItem: Item) => {
-    var curList = list;
-    curList[index] = newItem;
-    updateList(curList);
-  };
-
-  const removeItem = (index: number) => {
-    var curList = list;
-    curList.splice(index, 1);
-    updateList(curList);
+    addItem(name, type, dateArg, dayArg).then(() => updateAddingItem(false));
   };
 
   return (
@@ -77,38 +46,44 @@ export const ListInput = ({
       style={[
         styles.listContainer,
         {
-          flexDirection: asColumn ? "column" : "row",
+          flexDirection: "row",
           backgroundColor: listBackgroundColor,
         },
         listWrapperStyles,
       ]}
     >
-      {list.map((x: Item, i: number) => (
+      {items.map((x: any, i: number) => (
         <ListItem
           key={x.id}
+          type={type}
           badgeColor={badgeColor}
           badgeTextColor={badgeTextColor}
           item={x}
-          removeItem={() => removeItem(i)}
-          updateItem={(newItem: Item) => updateItem(i, newItem)}
-          isEvent={isEvents}
-          isNote={isNote}
         />
       ))}
 
-      <TextInput
-        returnKeyType="done"
-        inputMode="text"
-        placeholder={placeholder}
-        placeholderTextColor="grey"
-        value={newItem}
-        style={styles.listNewItem}
-        onSubmitEditing={() => {
-          newItem && addNewItem(newItem);
-          updateNewItem("");
-        }}
-        onChangeText={(text) => updateNewItem(text)}
-      />
+      {addingItem ? (
+        <View style={styles.loaderContainer}>
+          <Loader color={"white"} size={20} />
+        </View>
+      ) : (
+        <TextInput
+          returnKeyType="done"
+          ref={inputRef}
+          inputMode="text"
+          placeholder={`Add ${type} +`}
+          placeholderTextColor="grey"
+          value={newItem}
+          style={styles.listNewItem}
+          blurOnSubmit={false}
+          onSubmitEditing={() => {
+            newItem && addNewItem(newItem);
+            updateNewItem("");
+            inputRef.current.focus();
+          }}
+          onChangeText={(text) => updateNewItem(text)}
+        />
+      )}
     </View>
   );
 };
@@ -121,13 +96,24 @@ const styles = StyleSheet.create({
     marginTop: 6,
     padding: 1,
   },
+  loaderContainer: {
+    height: 50,
+    backgroundColor: "rgb(17 24 39)",
+    width: 120,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "rgb(156 163 175)",
+    borderWidth: 1,
+    borderRadius: 5,
+  },
   listNewItem: {
-    height: 45,
+    height: 50,
     backgroundColor: "rgb(17 24 39)",
     borderRadius: 5,
     paddingVertical: 8,
     paddingHorizontal: 8,
-    minWidth: 110,
+    width: 120,
     zIndex: 10,
     borderColor: "rgb(156 163 175)",
     borderWidth: 1,

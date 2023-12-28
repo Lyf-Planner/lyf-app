@@ -1,41 +1,51 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Planner } from "./Planner";
-import { Horizontal } from "../../components/MiscComponents";
 import { ListDropdown } from "../../components/dropdowns/ListDropdown";
 import { ListType } from "../../components/list/ListInput";
+import { ListItemType } from "../../components/list/constants";
+import { Loader } from "../../components/MiscComponents";
+import { useItems } from "../../hooks/useItems";
 
-export const Timetable = ({ timetable, updateTimetable }: any) => {
-  const updateUpcoming = (upcoming: any) =>
-    updateTimetable({ ...timetable, upcoming });
-  const updateTodo = (todo: any) => updateTimetable({ ...timetable, todo });
-  const updateWeeks = (weeks: any) => updateTimetable({ ...timetable, weeks });
-  const updateTemplates = (templates: any) =>
-    updateTimetable({ ...timetable, templates });
+export const Timetable = () => {
+  const { initialised, items } = useItems();
 
-  return (
-    <View style={styles.widgetContainer}>
-      <View style={styles.miscListContainer}>
-        <ListDropdown
-          list={timetable.upcoming || []}
-          updateList={updateUpcoming}
-          name="Upcoming Events"
-          listType={ListType.Event}
-        />
-        <ListDropdown
-          list={timetable.todo || []}
-          updateList={updateTodo}
-          name="To Do List"
-          listType={ListType.Task}
-        />
+  if (!initialised) {
+    return (
+      <View
+        style={{
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 20,
+          marginVertical: 30,
+        }}
+      >
+        <Loader size={60} />
+        <Text style={{ fontSize: 18 }}>Organising events & tasks...</Text>
       </View>
-      <Planner
-        weeks={timetable.weeks}
-        updateWeeks={updateWeeks}
-        templates={timetable.templates}
-        updateTemplates={updateTemplates}
-      />
-    </View>
-  );
+    );
+  } else
+    return (
+      <View style={styles.widgetContainer}>
+        <View style={styles.miscListContainer}>
+          <ListDropdown
+            items={items.filter(
+              (x) => x.type === ListItemType.Event && !x.date && !x.day
+            )}
+            name="Upcoming Events"
+            listType={ListType.Event}
+          />
+          <ListDropdown
+            items={items.filter(
+              (x) => x.type === ListItemType.Task && !x.date && !x.day
+            )}
+            name="To Do List"
+            listType={ListType.Task}
+          />
+        </View>
+        <Planner items={items.filter((x) => x.date || x.day)} />
+      </View>
+    );
 };
 
 const styles = StyleSheet.create({

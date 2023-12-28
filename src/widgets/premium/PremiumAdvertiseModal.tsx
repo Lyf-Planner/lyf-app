@@ -45,13 +45,13 @@ const ADVERTISED_FEATURES = [
 ];
 
 export const PremiumAdvertiseModal = () => {
-  const { data, updateData } = useAuth();
+  const { user, updateUser } = useAuth();
   const { updateModal } = useModal();
   const enablePremium = () => {
-    updateData({
-      ...data,
+    updateUser({
+      ...user,
       premium: {
-        ...data.premium,
+        ...user.premium,
         enabled: true,
         enhanced_planning_enabled: true,
       },

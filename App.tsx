@@ -27,7 +27,7 @@ export default function App() {
           <ReduxProvider store={store}>
             <AuthGateway>
               <AppProviders>
-                {/* <WidgetContainer /> */}
+                <WidgetContainer />
               </AppProviders>
             </AuthGateway>
           </ReduxProvider>

@@ -1,36 +1,38 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const INITIAL_STATE = {
-  userNotes: {},
+  notes: {},
+  initialised: false,
 };
 
 export const notesSlice = createSlice({
   name: "notes",
   initialState: INITIAL_STATE,
   reducers: {
-    initialiseUser: (state, action) => {
+    initialise: (state, action) => {
       var notess = action.payload;
       notess.forEach((x: any) => {
-        state.userNotes[x.id] = x;
+        state.notes[x.id] = x;
       });
+      state.initialised = true;
     },
     addNote: (state, action) => {
       var notes = action.payload;
-      state.userNotes[notes.id] = notes;
+      state.notes[notes.id] = notes;
     },
     updateNote: (state, action) => {
       var notes = action.payload;
-      state.userNotes[notes.id] = notes;
+      state.notes[notes.id] = notes;
     },
     removeNote: (state, action) => {
       var id = action.payload;
-      delete state.userNotes[id];
+      delete state.notes[id];
     },
-    clearAllNotes: (state) => {
-      state = { userNotes: {} };
+    cleanUpNotes: (state) => {
+      state = { notes: [], initialised: false };
     },
   },
 });
 
-export const { initialiseUser, updateNote, removeNote, clearAllNotes } =
+export const { initialise, updateNote, removeNote, cleanUpNotes } =
   notesSlice.actions;

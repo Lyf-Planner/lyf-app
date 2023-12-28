@@ -6,18 +6,12 @@ import Animated, {
   useSharedValue,
   withTiming,
   FadeIn,
-  Easing,
-  ZoomIn,
-  withSpring,
 } from "react-native-reanimated";
 import { eventsBadgeColor } from "../../utils/constants";
 import Entypo from "react-native-vector-icons/Entypo";
-import * as Haptics from "expo-haptics";
 import { BouncyPressable } from "../BouncyPressable";
 
-const HIDDEN_HEIGHT = 52.5;
-
-export const ListDropdown = ({ name, list, updateList, listType }: any) => {
+export const ListDropdown = ({ items, listType, name }: any) => {
   const [hide, updateHide] = useState(true);
 
   const chevronAngle = useSharedValue(0);
@@ -55,13 +49,12 @@ export const ListDropdown = ({ name, list, updateList, listType }: any) => {
           entering={FadeIn.duration(200)}
         >
           <ListInput
-            list={list}
-            updateList={updateList}
+            items={items}
+            type={listType}
+            dateData={{}}
             badgeColor="rgb(30 41 59)"
             badgeTextColor="rgb(203 213 225)"
             listBackgroundColor={eventsBadgeColor}
-            placeholder={`Add ${listType} +`}
-            isEvents
           />
         </Animated.View>
       )}
@@ -96,7 +89,6 @@ const styles = StyleSheet.create({
   },
   listWrapper: {
     flexDirection: "column",
-    overflow: "hidden",
     marginTop: 2,
   },
 });

@@ -7,7 +7,12 @@ import { View, Text, StyleSheet } from "react-native";
 import { useEffect } from "react";
 import { Horizontal } from "../../components/MiscComponents";
 import { ListInput } from "../../components/list/ListInput";
-import { formatDate } from "../../utils/dates";
+import {
+  dayFromDateString,
+  formatDate,
+  formatDateData,
+  parseDateString,
+} from "../../utils/dates";
 import {
   DaysOfWeek,
   eventsBadgeColor,
@@ -15,18 +20,40 @@ import {
 } from "../../utils/constants";
 import { LongPressGestureHandler } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
+import { ListItemType } from "../../components/list/constants";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import { useAuth } from "../../authorisation/AuthProvider";
+import { useItems } from "../../hooks/useItems";
 
-export const Day = ({ dayData, updateDay, showDate }: any) => {
-  const updateEvents = (events: string[]) => updateDay({ ...dayData, events });
-  const updateTasks = (tasks: string[]) => updateDay({ ...dayData, tasks });
-  const updateMetadata = (metadata: string) =>
-    updateDay({ ...dayData, metadata });
+export const Day = ({
+  items,
+  date = null,
+  day = null,
+  template = false,
+}: any) => {
+  const { user, updateUser } = useAuth();
+  const { removeItem } = useItems();
+  const canDelete = date === user.timetable.first_day;
+  const shiftFirst = () => {
+    if (canDelete) {
+      for (var item of items) {
+        removeItem(item.id);
+      }
 
+      var next = formatDateData(
+        moment(parseDateString(user.timetable.first_day)).add(1, "day").toDate()
+      );
+      updateUser({
+        ...user,
+        timetable: { ...user.timetable, first_day: next },
+      });
+    }
+  };
   // LONG PRESS HIDE GESTURE
 
   const opacity = useSharedValue(1);
   const scale = useSharedValue(1);
-  const willRemove = useSharedValue(false);
   const fadeAnimationStyle = useAnimatedStyle(() => {
     return {
       opacity: withTiming(opacity.value, {
@@ -46,39 +73,24 @@ export const Day = ({ dayData, updateDay, showDate }: any) => {
     } as any;
   });
 
-  const hideDay = () => {
-    opacity.value = 0;
-    var timer = setInterval(() => {
-      updateDay({ ...dayData, hidden: true });
-      clearInterval(timer);
-    }, 400);
-  };
-
   var timer;
   const handleLongPressIn = () => {
-    scale.value = 1.09;
+    if (canDelete) {
+      scale.value = 1.09;
 
-    // After the n seconds pressing, remove the item
-    timer = setInterval(() => {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-      hideDay();
-      clearTimeout(timer);
-    }, 400);
+      // After the n seconds pressing, remove the item
+      timer = setInterval(() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+        shiftFirst();
+        clearTimeout(timer);
+      }, 400);
+    }
   };
 
   const handleLongPressOut = () => {
     clearTimeout(timer);
     scale.value = 1;
   };
-
-  // When 'unhiding' a day we need to reinitialise these
-  useEffect(() => {
-    opacity.value = 1;
-    scale.value = 1;
-    willRemove.value = false;
-  }, [dayData]);
-
-  if (dayData.hidden) return null;
 
   return (
     <View>
@@ -93,27 +105,23 @@ export const Day = ({ dayData, updateDay, showDate }: any) => {
         >
           <Animated.View style={[styles.dayHeaderView]}>
             <View style={styles.dayOfWeekPressable}>
-              <Text style={styles.dayOfWeekText}>{dayData.day}</Text>
+              <Text style={styles.dayOfWeekText}>
+                {day || dayFromDateString(date)}
+              </Text>
             </View>
 
-            {showDate && (
-              <Text style={styles.dayDateText}>
-                {dayData.date && formatDate(dayData.date)}
-                {/* Should add a preferred format selection! */}
-              </Text>
-            )}
+            {date && <Text style={styles.dayDateText}>{formatDate(date)}</Text>}
           </Animated.View>
         </LongPressGestureHandler>
 
         <View style={styles.listWrapperView}>
           <ListInput
-            list={dayData.events || []}
-            updateList={updateEvents}
+            items={items.filter((x) => x.type === ListItemType.Event)}
+            dateData={{ date, day }}
+            type={ListItemType.Event}
             badgeColor={eventsBadgeColor}
-            placeholder="Add Event +"
             listBackgroundColor="black"
-            isEvents
-            date={dayData.date}
+            template={template}
           />
         </View>
 
@@ -123,11 +131,12 @@ export const Day = ({ dayData, updateDay, showDate }: any) => {
 
         <View style={styles.listWrapperView}>
           <ListInput
-            list={dayData.tasks || []}
-            updateList={updateTasks}
+            items={items.filter((x) => x.type === ListItemType.Task)}
+            dateData={{ date, day }}
+            type={ListItemType.Task}
             badgeColor="rgb(241 245 249)"
-            placeholder="Add Task +"
             listBackgroundColor="black"
+            template={template}
           />
         </View>
       </Animated.View>

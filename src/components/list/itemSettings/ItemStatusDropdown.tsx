@@ -14,31 +14,33 @@ import { StyleSheet } from "react-native";
 export const ItemStatusDropdown = ({
   status,
   updateStatus,
-  isEvent = false,
+  type,
 }) => {
   const [open, setOpen] = useState(false);
   const [localValue, setLocalValue] = useState(status || ItemStatus.Upcoming);
 
-  const items = (isEvent ? EventStatusOptions : TaskStatusOptions).map(
-    (x: any) => {
-      return {
-        label: statusTextDisplay(
-          isEvent ? ListItemType.Event : ListItemType.Task,
-          x
-        ),
-        value: x,
-        containerStyle: { backgroundColor: ITEM_STATUS_TO_COLOR[x] },
-        labelStyle: {
-          color: x === ItemStatus.Done ? "white" : "black",
-        },
-      };
-    }
-  );
+  const items = (
+    type === ListItemType.Event ? EventStatusOptions : TaskStatusOptions
+  ).map((x: any) => {
+    return {
+      label: statusTextDisplay(
+        type === ListItemType.Event ? ListItemType.Event : ListItemType.Task,
+        x
+      ),
+      value: x,
+      containerStyle: { backgroundColor: ITEM_STATUS_TO_COLOR[x] },
+      labelStyle: {
+        color: x === ItemStatus.Done ? "white" : "black",
+      },
+    };
+  });
 
   const textColor = localValue === ItemStatus.Done ? "white" : "black";
 
   useEffect(() => {
-    updateStatus(localValue);
+    if (localValue !== status) {
+      updateStatus(localValue);
+    }
   }, [localValue]);
 
   return (

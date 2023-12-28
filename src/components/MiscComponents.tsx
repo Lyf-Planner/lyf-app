@@ -17,8 +17,8 @@ export const Horizontal = ({ style = {} }) => {
 export const LoadingScreen = ({ text }) => {
   return (
     <View style={styles.loadingContainer}>
-      <Text style={{ color: "white" }}>{text}</Text>
-      <Loader color="white" />
+      <Text style={{ color: "white", fontSize: 16 }}>{text}</Text>
+      <Loader color="white" size={60}/>
     </View>
   );
 };

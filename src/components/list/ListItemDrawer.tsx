@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { Horizontal } from "../../components/MiscComponents";
+import { Horizontal, Loader } from "../../components/MiscComponents";
 import { eventsBadgeColor, offWhite } from "../../utils/constants";
 import { ItemStatus } from "./constants";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
@@ -19,43 +19,48 @@ import { ItemDescription } from "./itemSettings/ItemDescription";
 export const ListItemDrawer = ({
   initialItem,
   updateRootItem,
-  isEvent,
+  type,
   removeItem,
   closeModal,
   updateDrawerIndex,
 }) => {
-  // Due to state issues, we need a local copy of the item
-  // It is important this is eventually addressed when we introduce redux and decouple items
-  // This is a workaround !!
+  // We setup a local copy of the item so that certain fields can be published when needed
   const [item, updateLocalItem] = useState(initialItem);
-  const updateItem = (x: any) => {
-    updateLocalItem(x);
-    updateRootItem(x);
+  const publishUpdate = () => {
+    updateRootItem({ ...item });
   };
 
-  const updateStatus = (status) =>
-    updateItem({ ...item, status, finished: status === ItemStatus.Done });
-  const updateName = (name) => updateItem({ ...item, name });
-  const updateTime = (time) => {
-    updateItem({ ...item, time });
+  const updateStatus = (status) => {
+    updateLocalItem({ ...item, status });
+    updateRootItem({ ...item, status });
   };
+  const updateTitle = (title) => updateLocalItem({ ...item, title });
+  const updateTime = (time) => {
+    updateLocalItem({ ...item, time });
+    updateRootItem({ ...item, time });
+  };
+  const updateDesc = (desc) => updateLocalItem({ ...item, desc });
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.mainContainer}>
         <View style={{ gap: 10, zIndex: 10 }}>
           <TextInput
-            value={item.name}
-            onChangeText={updateName}
+            value={item.title}
+            onChangeText={updateTitle}
             style={styles.itemName}
             onFocus={() => updateDrawerIndex(1)}
-            onBlur={() => !item.desc && updateDrawerIndex(0)}
+            onBlur={() => {
+              !item.desc && updateDrawerIndex(0);
+
+              publishUpdate();
+            }}
             returnKeyType="done"
           />
           <ItemStatusDropdown
             status={item.status}
             updateStatus={updateStatus}
-            isEvent={isEvent}
+            type={type}
           />
         </View>
         <Horizontal style={styles.firstSeperator} />
@@ -70,7 +75,8 @@ export const ListItemDrawer = ({
           {/* <ItemNotification item={item} updateItem={updateItem} /> */}
           <ItemDescription
             item={item}
-            updateItem={updateItem}
+            updateDesc={updateDesc}
+            publishUpdate={publishUpdate}
             updateDrawerIndex={updateDrawerIndex}
           />
         </View>
@@ -87,7 +93,7 @@ export const ListItemDrawer = ({
               activeOpacity={0.7}
             >
               <Text style={[styles.bottomButtonText, styles.removeText]}>
-                Remove
+                Delete
               </Text>
             </TouchableOpacity>
             <TouchableOpacity

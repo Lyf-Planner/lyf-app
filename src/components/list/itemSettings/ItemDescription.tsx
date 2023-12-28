@@ -9,9 +9,13 @@ import { offWhite } from "../../../utils/constants";
 import { useState } from "react";
 import Entypo from "react-native-vector-icons/Entypo";
 
-export const ItemDescription = ({ item, updateItem, updateDrawerIndex }) => {
+export const ItemDescription = ({
+  item,
+  updateDesc,
+  publishUpdate,
+  updateDrawerIndex,
+}) => {
   const [textOpen, setTextOpen] = useState(!!item.desc);
-  const updateDesc = (desc) => updateItem({ ...item, desc });
 
   return (
     <View style={styles.mainContainer}>
@@ -24,6 +28,7 @@ export const ItemDescription = ({ item, updateItem, updateDrawerIndex }) => {
                 setTextOpen(false);
                 updateDesc(null);
                 updateDrawerIndex(0);
+                publishUpdate();
               }}
               underlayColor={"rgba(0,0,0,0.5)"}
               style={{ borderRadius: 5 }}
@@ -50,7 +55,10 @@ export const ItemDescription = ({ item, updateItem, updateDrawerIndex }) => {
           value={item.desc}
           onChangeText={updateDesc}
           onFocus={() => updateDrawerIndex(2)}
-          onBlur={() => updateDrawerIndex(1)}
+          onBlur={() => {
+            updateDrawerIndex(1);
+            publishUpdate();
+          }}
           style={styles.itemDesc}
           multiline
         />

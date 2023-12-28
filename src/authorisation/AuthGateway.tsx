@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   getAsyncData,
   storeAsyncData,
@@ -9,23 +9,26 @@ import { LoadingScreen } from "../components/MiscComponents";
 import { Login } from "./Login";
 import { AuthProvider } from "./AuthProvider";
 import { AppState } from "react-native";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { updateUser as updateUserAction } from "../redux/slices/userSlice";
 
 export const AuthGateway = ({ children }) => {
   const [loggingIn, updateLoggingIn] = useState(false);
-  const user = useSelector((state: any) => state.user, shallowEqual);
-  const dispatch = useDispatch();
+  const [user, setUser] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState(new Date());
+  const [save, setSave] = useState({
+    latest: new Date(),
+  });
 
-  const updateUser = (user: any) => {
-    dispatch(
-      updateUserAction({ ...user, last_updated: new Date().toUTCString() })
-    );
-  };
+  const updateUser = useCallback(
+    (user: any) => {
+      setUser({ ...user });
+      setLastUpdated(new Date());
+    },
+    [setUser, setLastUpdated]
+  );
 
   const logout = () => {
     deleteAsyncData("token");
-    updateUser(user);
+    updateUser(null);
   };
 
   const refreshUser = () =>
@@ -41,6 +44,7 @@ export const AuthGateway = ({ children }) => {
 
   const appState = useRef(AppState.currentState);
 
+  // Sync!
   useEffect(() => {
     updateLoggingIn(false);
 
@@ -56,9 +60,9 @@ export const AuthGateway = ({ children }) => {
               token &&
               autologin(token).then((cloudUser) => {
                 console.log("cloud user", cloudUser.last_updated);
-                console.log("local user", user.last_updated);
+                console.log("local user", lastUpdated);
                 // If the cloud save is different to what we have locally, update local user!
-                if (cloudUser.last_updated > user.last_updated) {
+                if (new Date(cloudUser.last_updated) > new Date(lastUpdated)) {
                   updateLoggingIn(true);
                   updateUser(cloudUser);
                   updateLoggingIn(false);
@@ -80,10 +84,17 @@ export const AuthGateway = ({ children }) => {
   }, []);
 
   if (loggingIn) return <LoadingScreen text={"Remembering your schedule..."} />;
-  else if (!user.id) return <Login updateUser={updateUser} />;
+  else if (!user) return <Login updateUser={updateUser} />;
 
   return (
-    <AuthProvider user={user} updateUser={updateUser} logout={logout}>
+    <AuthProvider
+      user={user}
+      updateUser={updateUser}
+      lastUpdated={lastUpdated}
+      logout={logout}
+      save={save}
+      setSave={setSave}
+    >
       {children}
     </AuthProvider>
   );

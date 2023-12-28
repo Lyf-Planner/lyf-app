@@ -7,9 +7,9 @@ import { PremiumAdvertiseModal } from "./PremiumAdvertiseModal";
 import { PremiumIcon } from "../../components/Icons";
 
 export const PremiumHeaderButton = () => {
-  const { data } = useAuth();
+  const { user } = useAuth();
   const { modal, updateModal } = useModal();
-  const premiumEnabled = data.premium?.enabled;
+  const premiumEnabled = user.premium?.enabled;
 
   return (
     <TouchableHighlight

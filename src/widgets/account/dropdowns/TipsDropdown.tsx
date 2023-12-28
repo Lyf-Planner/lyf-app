@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { SettingDropdown } from "../../../components/dropdowns/SettingDropdown";
-import { SettingsDropdowns } from "../AccountDropdowns";
+import { SettingsDropdowns } from "./constants";
 import { BulletedText } from "../../../components/Text";
 
 const TIPS = [
@@ -8,7 +8,7 @@ const TIPS = [
   "To delete any task or event, hold down on the item",
   "To hide the contents of the week, press the button where it's dates are shown",
   "To hide a day, hold down it's green header section",
-  "With Premium, swipe an event or task left to plan in greater detail"
+  "With Premium, swipe an event or task left to plan in greater detail",
 ];
 
 export const TipsDropdown = ({ settingOpen, setOpen }) => {

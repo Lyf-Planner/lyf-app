@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableHighlight,
-  Pressable,
-} from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { SaveTooltip } from "../components/Icons";
 import { Timetable } from "./timetable/TimetableWidget";
 import { useAuth } from "../authorisation/AuthProvider";
@@ -18,25 +12,21 @@ import { BouncyPressable } from "../components/BouncyPressable";
 
 export enum Widgets {
   Timetable = "Timetable",
-  Notes = "Notes",
+  // Notes = "Notes",
 }
 
 export const WidgetContainer = () => {
   const [selected, updateSelected] = useState<any>(Widgets.Timetable);
-  const { updateData, data, logout, deleteMe, lastSave } = useAuth();
+  const { user, logout, deleteMe, lastSave } = useAuth();
 
-  const updateTimetable = (timetable: any) =>
-    updateData({ ...data, timetable });
-  const updateNotes = (notes: any) => updateData({ ...data, notes });
+  console.log("user items", user.timetable.items);
 
   const WIDGETS = {
-    Timetable: (
-      <Timetable timetable={data.timetable} updateTimetable={updateTimetable} />
-    ),
+    Timetable: <Timetable />,
     Account: (
       <AccountWidget logout={logout} deleteMe={deleteMe} lastSave={lastSave} />
     ),
-    Notes: <Notes notes={data.notes} updateNotes={updateNotes} />,
+    // Notes: <Notes notes={user.notes} updateNotes={updateUserNotes} />,
   };
 
   return (
@@ -55,6 +45,7 @@ const AppHeaderMenu = ({ selected, updateSelected }) => {
     <View style={styles.header}>
       {Object.keys(Widgets).map((x) => (
         <MenuWidgetButton
+          key={x}
           selected={selected}
           onSelect={() => updateSelected(x)}
           title={x}

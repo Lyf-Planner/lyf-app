@@ -9,12 +9,16 @@ import { saveUser, deleteMe } from "../rest/user";
 import { getAsyncData } from "../utils/asyncStorage";
 import { AppState } from "react-native";
 
-export const AuthProvider = ({ children, user, updateUser, logout }) => {
-  const [save, setSave] = useState({
-    error: "",
-    loading: false,
-    latest: new Date().toUTCString(),
-  });
+export const AuthProvider = ({
+  children,
+  user,
+  updateUser,
+  lastUpdated,
+  logout,
+  save,
+  setSave,
+}) => {
+  console.log("user.last_updated", lastUpdated);
 
   const saveAndLogout = async () => {
     var token = await getAsyncData("token");
@@ -25,25 +29,24 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
   const autoSave = useCallback(() => {
     console.log("Checking for changes to save");
     // Check for changes
-    if (user.last_updated > save.latest) {
+    console.log(
+      "last updated",
+      new Date(lastUpdated),
+      "latest",
+      new Date(save.latest),
+      "should save",
+      new Date(lastUpdated) > new Date(save.latest)
+    );
+    if (new Date(lastUpdated) > new Date(save.latest)) {
       console.log("Autosaving...");
       saveUser(user)
-        .then(() =>
-          setSave({ ...save, loading: false, latest: new Date().toUTCString() })
-        )
+        .then(() => setSave({ latest: new Date() }))
         .catch((error) => {
           alert(`Error saving: ${error}`);
-          setSave({
-            ...save,
-            loading: false,
-            error,
-          });
         });
       console.log("Data saved.");
-    } else {
-      setSave({ ...save, loading: false });
     }
-  }, [save, setSave, user]);
+  }, [user, save, setSave]);
 
   // Autosave (every 10s)
   useEffect(() => {
@@ -60,22 +63,22 @@ export const AuthProvider = ({ children, user, updateUser, logout }) => {
       console.log("App state change detected", nextAppState);
       if (nextAppState === "background") {
         // This gets throttled by the backend when multiple requests come through
-        if (user.last_updated > save.latest) {
+        if (lastUpdated > save.latest) {
           saveUser(user);
-          setSave({ ...save, latest: new Date().toUTCString() });
+          setSave({ latest: new Date() });
         }
       }
     });
     return () => listener.remove();
-  }, [save, setSave, user]);
+  }, [user, save, setSave]);
 
   const EXPOSED = {
     user,
     updateUser,
     deleteMe,
     logout: saveAndLogout,
-    isSaving: save.loading,
     lastSave: save.latest,
+    lastUpdated: lastUpdated,
   };
 
   return (

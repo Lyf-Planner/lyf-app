@@ -8,7 +8,8 @@ export async function saveUser(user: any, token?: string) {
   var token = token || (await getAsyncData("token"));
   // Update will only be successful if token matches user being updated!
 
-  var result = await post(url, { user, token });
+  var { last_updated, created, ...body } = user;
+  var result = await post(url, { user: body, token });
   if (result.status === 200) return true;
   else {
     // These posts may be unsuccessful often, as when the app closes this gets called frequently,
