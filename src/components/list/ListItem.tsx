@@ -22,12 +22,14 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
   const { updateDrawer, updateDrawerIndex } = useDrawer();
   const { updateItem, removeItem } = useItems();
 
+  console.log("displaying", item.id, "localised?", item.localised);
+
   const openModal = () => {
     updateDrawer(
       <ListItemDrawer
         initialItem={item}
         updateRootItem={updateItem}
-        removeItem={() => removeItem(item.id)}
+        removeItem={() => removeItem(item)}
         type={type}
         closeModal={() => updateDrawer(null)}
         updateDrawerIndex={updateDrawerIndex}
@@ -87,8 +89,8 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
   // GESTURE HANDLERS
 
   const handleTapIn = () => {
-    if (item.status === ItemStatus.Upcoming) scale.value = 0.75;
-    else scale.value = 0.25;
+    if (item.status === ItemStatus.InProgress) scale.value = 0.25;
+    else scale.value = 0.75;
   };
 
   const handleTapOut = () => {
@@ -96,10 +98,10 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       updateItem({ ...item, status: ItemStatus.InProgress });
     } else if (item.status === ItemStatus.Done)
-      updateItem({ ...item, finished: false, status: ItemStatus.Upcoming });
+      updateItem({ ...item, status: ItemStatus.Upcoming });
     else {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-      updateItem({ ...item, finished: true, status: ItemStatus.Done });
+      updateItem({ ...item, status: ItemStatus.Done });
     }
 
     scale.value = 1;
@@ -119,7 +121,7 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
   };
 
   const handleLongPressOut = () => {
-    if (willRemove.value) removeItem(item.id, true);
+    if (willRemove.value) removeItem(item, true);
 
     clearTimeout(timer);
     scale.value = 1;
@@ -143,8 +145,6 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
 
   const determineBadgeColor = () => {
     if (item.status === ItemStatus.Upcoming || !item.status) return badgeColor;
-    else if (item.status === ItemStatus.Done)
-      return `${ITEM_STATUS_TO_COLOR[item.status]}`;
     else return ITEM_STATUS_TO_COLOR[item.status];
   };
 
@@ -156,12 +156,18 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
 
   return (
     <GestureDetector gesture={gestures}>
-      <Animated.View style={scaleAnimation}>
+      <Animated.View
+        style={[
+          scaleAnimation,
+          { opacity: item.status === ItemStatus.Cancelled ? 0.7 : 1 },
+        ]}
+      >
         <Animated.View
           style={[
             styles.listItem,
             {
               backgroundColor: determineBadgeColor(),
+
               borderRadius: type !== ListItemType.Task ? 5 : 15,
             },
             flickAnimation,

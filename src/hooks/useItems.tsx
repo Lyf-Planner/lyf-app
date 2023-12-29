@@ -29,15 +29,14 @@ export const ItemsProvider = ({ children }) => {
         setItems(relevant);
         setInitialised(true);
 
-        // Remove items from user that no longer exist or are old - appears as a background task        
+        // Remove items from user that no longer exist or are old - appears as a background task
         if (user.timetable.items.length !== relevant.length) {
           console.warn("User lost some items!");
           const relevant_ids = relevant.map((x) => x.id);
-          var fresh_items = user.timetable.items.filter((x) => {
-            relevant_ids.includes(x.id);
-          });
+          var fresh_items = user.timetable.items.filter((x) =>
+            relevant_ids.includes(x.id)
+          );
 
-          
           updateUser({
             ...user,
             timetable: { ...user.timetable, items: fresh_items },
@@ -48,7 +47,16 @@ export const ItemsProvider = ({ children }) => {
   }, []);
 
   const updateItem = (item: any, updateRemote = true) => {
-    console.log("Updating item", item.id, "to", item);
+    // We create localised instances of templates in the planner - if this is one of those then create it
+    if (item.localised) {
+      console.log("Local item will be created instead of updated");
+      addItem(item.title, item.type, item.date, null, item.status, {
+        id: item.id,
+        template_id: item.template_id,
+      });
+      return;
+    }
+
     // Update store
     var tmp = [...items];
     var i = tmp.findIndex((x) => x.id === item.id);
@@ -67,17 +75,21 @@ export const ItemsProvider = ({ children }) => {
     title: string,
     type: ListItemType,
     date: string,
-    day: string
+    day: string,
+    status = ItemStatus.Upcoming,
+    template_instance?: TemplateInstance
   ) => {
-    const newItem = {
-      id: uuid(),
+    var newItem = {
+      id: template_instance ? template_instance.id : uuid(),
       title,
       type,
       date,
       day,
       permitted_users: [{ user_id: user.id, permissions: "Owner" }],
-      status: ItemStatus.Upcoming,
-    };
+      status,
+    } as any;
+
+    if (template_instance) newItem.template_id = template_instance.template_id;
 
     // Add to store
     var tmp = [...items];
@@ -95,7 +107,13 @@ export const ItemsProvider = ({ children }) => {
     createItem(newItem);
   };
 
-  const removeItem = (id: string, deleteRemote = true) => {
+  const removeItem = (item: any, deleteRemote = true) => {
+    if (item.template_id) {
+      updateItem({ ...item, status: ItemStatus.Cancelled });
+      return;
+    }
+
+    var id = item.id;
     // Remove from this store
     var tmp = [...items] as any;
     var i = tmp.findIndex((x) => x.id === id);
@@ -127,6 +145,11 @@ export const ItemsProvider = ({ children }) => {
 };
 
 const ItemsContext = createContext(null);
+
+type TemplateInstance = {
+  id: string;
+  template_id: string;
+};
 
 export const useItems = () => {
   return useContext(ItemsContext);

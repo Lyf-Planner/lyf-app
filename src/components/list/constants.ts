@@ -35,3 +35,7 @@ export const statusTextDisplay = (type: ListItemType, status: ItemStatus) => {
       return status;
   }
 };
+
+export const isTemplate = (item) => {
+  return item.day && !item.date;
+};

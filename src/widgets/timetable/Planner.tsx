@@ -25,8 +25,6 @@ export const Planner = ({ items }: any) => {
 
   const addWeek = () => setDisplayedWeeks(extendByWeek([...displayedWeeks]));
 
-  console.log("Displaying days:", displayedWeeks);
-
   return (
     <View>
       <View style={styles.menuButtonRow}>

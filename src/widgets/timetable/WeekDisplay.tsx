@@ -1,5 +1,6 @@
 import { DaysOfWeek, offWhite } from "../../utils/constants";
 import {
+  dateFromDay,
   dayFromDateString,
   formatDate,
   formatDateData,
@@ -12,10 +13,12 @@ import { Day } from "./DayDisplay";
 import { BouncyPressable } from "../../components/BouncyPressable";
 import moment from "moment";
 import { useAuth } from "../../authorisation/AuthProvider";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { isTemplate } from "../../components/list/constants";
+import { v4 as uuid } from "uuid";
 
 export const WeekDisplay = ({ items, dates }: any) => {
   const [hide, updateHide] = useState(false);
+  const [exposed, setExposed] = useState(null);
   const { user, updateUser } = useAuth();
   const start = formatDateData(
     getStartOfCurrentWeek(parseDateString(dates[0]))
@@ -31,6 +34,38 @@ export const WeekDisplay = ({ items, dates }: any) => {
         timetable: { ...user.timetable, first_day: prev },
       });
   };
+
+  const exposedItems = () => {
+    const instantiated_routines = items
+      .filter((x) => x.template_id)
+      .map((x) => x.template_id);
+    if (instantiated_routines.length === 0) return items;
+
+    var exposedItems = items
+      .filter(
+        // Filter out template instantiations
+        (x) => !(isTemplate(x) && instantiated_routines.includes(x.id))
+      )
+      .map((x) => {
+        // Instantiate all the templates as their own item
+        // Will only be pushed to db if user edits them
+        if (isTemplate(x)) {
+          return {
+            ...x,
+            id: uuid(),
+            date: dateFromDay(x.day, dates),
+            day: null,
+            template_id: x.id,
+            localised: true,
+          };
+        } else return x;
+      });
+    return exposedItems;
+  };
+
+  useEffect(() => {
+    setExposed(exposedItems());
+  }, [items]);
 
   return (
     <View style={[styles.weekWrapper, { paddingBottom: hide && 12 }]}>
@@ -49,7 +84,7 @@ export const WeekDisplay = ({ items, dates }: any) => {
           </View>
         </BouncyPressable>
       )}
-      {!hide && (
+      {!hide && exposed && (
         <View style={styles.weekDaysWrapperView}>
           {dates.map((x) => {
             const day = dayFromDateString(x);
@@ -57,7 +92,7 @@ export const WeekDisplay = ({ items, dates }: any) => {
               <Day
                 key={x}
                 date={x}
-                items={items.filter((y) => y.date === x || y.day === day)}
+                items={exposed.filter((y) => y.date === x || y.day === day)}
               />
             );
           })}

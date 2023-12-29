@@ -1,4 +1,5 @@
 import moment from "moment";
+import { DaysOfWeek } from "./constants";
 
 export function getStartOfCurrentWeek(date?: Date) {
   var now = date ?? new Date();
@@ -83,6 +84,12 @@ export const extendByWeek = (weeks) => {
 export function formatDate(date: string) {
   var time = parseDateString(date);
   return moment(time).format("DD MMM");
+}
+
+export function dateFromDay(day: DaysOfWeek, dates) {
+  for (var date of dates) {
+    if (moment(date).format("dddd") === day) return date;
+  }
 }
 
 export function dayFromDateString(date: string) {
