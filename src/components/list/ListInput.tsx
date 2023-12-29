@@ -21,14 +21,12 @@ export const ListInput = ({
   template = false,
 }: any) => {
   const [newItem, updateNewItem] = useState<any>("");
-  const [addingItem, updateAddingItem] = useState(false);
   const { addItem } = useItems();
 
-  const inputRef = useRef<TextInput>(null);
+  const inputRef = useRef<any>();
 
   const addNewItem = (name: string) => {
     // Create in items
-    updateAddingItem(true);
     var dateArg, dayArg;
     if (template) {
       dateArg = null;
@@ -38,7 +36,7 @@ export const ListInput = ({
       dayArg = dateData.day;
     }
 
-    addItem(name, type, dateArg, dayArg).then(() => updateAddingItem(false));
+    addItem(name, type, dateArg, dayArg);
   };
 
   return (
@@ -62,28 +60,21 @@ export const ListInput = ({
         />
       ))}
 
-      {addingItem ? (
-        <View style={styles.loaderContainer}>
-          <Loader color={"white"} size={20} />
-        </View>
-      ) : (
-        <TextInput
-          returnKeyType="done"
-          ref={inputRef}
-          inputMode="text"
-          placeholder={`Add ${type} +`}
-          placeholderTextColor="grey"
-          value={newItem}
-          style={styles.listNewItem}
-          blurOnSubmit={false}
-          onSubmitEditing={() => {
-            newItem && addNewItem(newItem);
-            updateNewItem("");
-            inputRef.current.focus();
-          }}
-          onChangeText={(text) => updateNewItem(text)}
-        />
-      )}
+      <TextInput
+        ref={inputRef}
+        returnKeyType="done"
+        placeholder={`Add ${type} +`}
+        placeholderTextColor="grey"
+        value={newItem}
+        style={styles.listNewItem}
+        blurOnSubmit={false}
+        onSubmitEditing={() => {
+          newItem && addNewItem(newItem);
+          updateNewItem("");
+          inputRef.current.focus();
+        }}
+        onChangeText={(text) => updateNewItem(text)}
+      />
     </View>
   );
 };
