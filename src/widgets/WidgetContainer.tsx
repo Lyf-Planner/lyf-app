@@ -17,9 +17,7 @@ export enum Widgets {
 
 export const WidgetContainer = () => {
   const [selected, updateSelected] = useState<any>(Widgets.Timetable);
-  const { user, logout, deleteMe, lastSave } = useAuth();
-
-  console.log("user items", user.timetable.items);
+  const { logout, deleteMe, lastSave } = useAuth();
 
   const WIDGETS = {
     Timetable: <Timetable />,

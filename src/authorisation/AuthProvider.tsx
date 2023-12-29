@@ -18,8 +18,6 @@ export const AuthProvider = ({
   save,
   setSave,
 }) => {
-  console.log("user.last_updated", lastUpdated);
-
   const saveAndLogout = async () => {
     var token = await getAsyncData("token");
     saveUser(user, token);

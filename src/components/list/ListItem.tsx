@@ -17,12 +17,11 @@ import { TwentyFourHourToAMPM } from "../../utils/dates";
 import { ListItemDrawer } from "./ListItemDrawer";
 import { useDrawer } from "../../hooks/useDrawer";
 import { useItems } from "../../hooks/useItems";
+import { useState } from "react";
 
 export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
   const { updateDrawer, updateDrawerIndex } = useDrawer();
   const { updateItem, removeItem } = useItems();
-
-  console.log("displaying", item.id, "localised?", item.localised);
 
   const openModal = () => {
     updateDrawer(
@@ -58,7 +57,6 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
 
   const scale = useSharedValue(1);
   const offsetX = useSharedValue(0);
-  const willRemove = useSharedValue(false);
 
   var timer = null;
   const scaleAnimation = useAnimatedStyle(() => {
@@ -66,7 +64,7 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
       transform: [
         {
           scale: withTiming(scale.value, {
-            duration: 400,
+            duration: 300,
           }),
         },
       ],
@@ -89,19 +87,19 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
   // GESTURE HANDLERS
 
   const handleTapIn = () => {
-    if (item.status === ItemStatus.InProgress) scale.value = 0.25;
-    else scale.value = 0.75;
+    if (item.status === ItemStatus.InProgress) scale.value = 0.65;
+    else scale.value = 0.8;
   };
 
   const handleTapOut = () => {
     if (item.status === ItemStatus.Upcoming) {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       updateItem({ ...item, status: ItemStatus.InProgress });
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     } else if (item.status === ItemStatus.Done)
       updateItem({ ...item, status: ItemStatus.Upcoming });
     else {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       updateItem({ ...item, status: ItemStatus.Done });
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     }
 
     scale.value = 1;
@@ -115,14 +113,12 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
     // After the n seconds pressing, remove the item
     timer = setInterval(() => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-      willRemove.value = true;
+      removeItem(item, true);
       clearTimeout(timer);
-    }, 400);
+    }, 250);
   };
 
   const handleLongPressOut = () => {
-    if (willRemove.value) removeItem(item, true);
-
     clearTimeout(timer);
     scale.value = 1;
   };

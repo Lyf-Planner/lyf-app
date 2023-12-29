@@ -21,7 +21,7 @@ export const Timetable = () => {
         }}
       >
         <Loader size={60} />
-        <Text style={{ fontSize: 18 }}>Organising events & tasks...</Text>
+        <Text style={{ fontSize: 18 }}>Organising your timetable...</Text>
       </View>
     );
   } else

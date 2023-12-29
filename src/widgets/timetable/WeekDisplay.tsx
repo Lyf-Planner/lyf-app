@@ -1,4 +1,3 @@
-import { DaysOfWeek, offWhite } from "../../utils/constants";
 import {
   dateFromDay,
   dayFromDateString,
@@ -7,7 +6,7 @@ import {
   getStartOfCurrentWeek,
   parseDateString,
 } from "../../utils/dates";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Day } from "./DayDisplay";
 import { BouncyPressable } from "../../components/BouncyPressable";
@@ -18,7 +17,6 @@ import { v4 as uuid } from "uuid";
 
 export const WeekDisplay = ({ items, dates }: any) => {
   const [hide, updateHide] = useState(false);
-  const [exposed, setExposed] = useState(null);
   const { user, updateUser } = useAuth();
   const start = formatDateData(
     getStartOfCurrentWeek(parseDateString(dates[0]))
@@ -35,13 +33,13 @@ export const WeekDisplay = ({ items, dates }: any) => {
       });
   };
 
-  const exposedItems = () => {
-    const instantiated_routines = items
+  const exposedItems = (x) => {
+    const instantiated_routines = x
       .filter((x) => x.template_id)
       .map((x) => x.template_id);
-    if (instantiated_routines.length === 0) return items;
+    if (instantiated_routines.length === 0) return x;
 
-    var exposedItems = items
+    return x
       .filter(
         // Filter out template instantiations
         (x) => !(isTemplate(x) && instantiated_routines.includes(x.id))
@@ -60,12 +58,9 @@ export const WeekDisplay = ({ items, dates }: any) => {
           };
         } else return x;
       });
-    return exposedItems;
   };
 
-  useEffect(() => {
-    setExposed(exposedItems());
-  }, [items]);
+  const exposed = useMemo<any>(() => exposedItems(items), [items]);
 
   return (
     <View style={[styles.weekWrapper, { paddingBottom: hide && 12 }]}>

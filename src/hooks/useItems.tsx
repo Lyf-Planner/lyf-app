@@ -66,7 +66,7 @@ export const ItemsProvider = ({ children }) => {
     if (updateRemote)
       updateRemoteItem(item).catch(() => {
         // Revert to original if update failed (user will get an Alert)
-        console.log("Reverting item to original");
+        console.log("Reverting item to original on failure");
         updateItem(item, false);
       });
   };
@@ -95,13 +95,11 @@ export const ItemsProvider = ({ children }) => {
     var tmp = [...items];
     tmp.push(newItem);
     setItems(tmp);
-    console.log("updated items from addItem");
 
     // Add ref to user
     tmp = user;
     user.timetable.items.push({ id: newItem.id });
     updateUser(user);
-    console.log("updated user from addItem");
 
     // Upload in background
     createItem(newItem);
@@ -115,17 +113,12 @@ export const ItemsProvider = ({ children }) => {
 
     var id = item.id;
     // Remove from this store
-    var tmp = [...items] as any;
-    var i = tmp.findIndex((x) => x.id === id);
-    tmp.splice(i, 1);
+    var tmp = items.filter(x => x.id !== id) as any
     setItems(tmp);
 
     // Remove ref from user
     tmp = user;
-    console.log("user items before removal", tmp.timetable.items);
-    i = tmp.timetable.items.findIndex((x) => x.id === id);
-    console.log("found item to remove", id, "at index", i);
-    tmp.timetable.items.splice(i, 1);
+    tmp.timetable.items = tmp.timetable.items.filter((x) => x.id !== id);
     updateUser(tmp);
 
     if (deleteRemote) deleteItem(id);
