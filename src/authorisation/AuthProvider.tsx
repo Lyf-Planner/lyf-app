@@ -11,6 +11,7 @@ import { AppState } from "react-native";
 
 export const AuthProvider = ({
   children,
+  loggingIn,
   user,
   updateUser,
   lastUpdated,
@@ -71,6 +72,7 @@ export const AuthProvider = ({
   }, [user, save, setSave]);
 
   const EXPOSED = {
+    loggingIn,
     user,
     updateUser,
     deleteMe,

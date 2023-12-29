@@ -9,7 +9,7 @@ export enum ItemStatus {
 }
 
 export const EventStatusOptions = Object.values(ItemStatus);
-export const TaskStatusOptions = Object.values(ItemStatus).slice(2);
+export const TaskStatusOptions = Object.values(ItemStatus);
 
 export const ITEM_STATUS_TO_COLOR = {
   // Values taken from the corresponding bg's in tailwind
@@ -31,6 +31,10 @@ export const statusTextDisplay = (type: ListItemType, status: ItemStatus) => {
   switch (status) {
     case ItemStatus.Upcoming:
       return type === ListItemType.Event ? "Confirmed" : "To Do";
+    case ItemStatus.Tentative:
+      return type === ListItemType.Event ? "Tenative" : "Maybe";
+    case ItemStatus.Cancelled:
+      return type === ListItemType.Event ? "Tenative" : "Won't Do";
     default:
       return status;
   }

@@ -46,6 +46,7 @@ function parseBackendUrl() {
 }
 
 enum env {
+  APP_ENV = envVar("appEnv"),
   BACKEND_URL = parseBackendUrl() as any,
 }
 

@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { ListItem } from "./ListItem";
 import { Loader } from "../MiscComponents";
 import { useItems } from "../../hooks/useItems";
+import { useDrawer } from "../../hooks/useDrawer";
 
 export enum ListType {
   Event = "Event",

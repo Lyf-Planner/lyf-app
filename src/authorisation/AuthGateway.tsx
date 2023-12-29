@@ -84,10 +84,11 @@ export const AuthGateway = ({ children }) => {
   }, []);
 
   if (loggingIn) return <LoadingScreen text={"Remembering your schedule..."} />;
-  else if (!user) return <Login updateUser={updateUser} />;
+  else if (!user?.id) return <Login updateUser={updateUser} />;
 
   return (
     <AuthProvider
+      loggingIn={loggingIn}
       user={user}
       updateUser={updateUser}
       lastUpdated={lastUpdated}

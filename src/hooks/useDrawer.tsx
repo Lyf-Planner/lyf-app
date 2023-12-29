@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { StyleSheet } from "react-native";
+import { Keyboard, StyleSheet } from "react-native";
 
 // Component provider
 export const DrawerProvider = ({ children }) => {
@@ -39,6 +39,7 @@ export const DrawerProvider = ({ children }) => {
 
   useEffect(() => {
     if (drawer) handlePresentModalPress();
+    Keyboard.dismiss();
   }, [drawer]);
 
   return (

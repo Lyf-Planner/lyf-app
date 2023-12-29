@@ -3,6 +3,7 @@ import { ModalProvider } from "./useModal";
 import { DrawerProvider } from "./useDrawer";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { ItemsProvider } from "./useItems";
+import { InitialisedProvider } from "./initialisedGateway";
 
 export const AppProviders = ({ children }) => {
   return (
@@ -10,7 +11,9 @@ export const AppProviders = ({ children }) => {
       <MenuProvider>
         <ModalProvider>
           <BottomSheetModalProvider>
-            <DrawerProvider>{children}</DrawerProvider>
+            <DrawerProvider>
+              <InitialisedProvider>{children}</InitialisedProvider>
+            </DrawerProvider>
           </BottomSheetModalProvider>
         </ModalProvider>
       </MenuProvider>

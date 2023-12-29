@@ -87,19 +87,16 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
   // GESTURE HANDLERS
 
   const handleTapIn = () => {
-    if (item.status === ItemStatus.InProgress) scale.value = 0.65;
-    else scale.value = 0.8;
+    if (item.status === ItemStatus.InProgress) scale.value = 0.8;
+    else scale.value = 0.9;
   };
 
   const handleTapOut = () => {
-    if (item.status === ItemStatus.Upcoming) {
-      updateItem({ ...item, status: ItemStatus.InProgress });
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } else if (item.status === ItemStatus.Done)
+    if (item.status === ItemStatus.Done)
       updateItem({ ...item, status: ItemStatus.Upcoming });
     else {
       updateItem({ ...item, status: ItemStatus.Done });
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
 
     scale.value = 1;

@@ -83,7 +83,7 @@ export const Login = ({ updateUser }) => {
                   updateCreating(false);
                 }
                 updateLoggingIn(false);
-                if (user) updateUser(user);
+                updateUser(user);
               }}
             />
           </View>

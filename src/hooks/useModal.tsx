@@ -1,5 +1,5 @@
-import { createContext, useContext, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { createContext, useContext, useEffect, useState } from "react";
+import { Keyboard, StyleSheet, View } from "react-native";
 
 // Component provider
 export const ModalProvider = ({ children }) => {
@@ -9,6 +9,7 @@ export const ModalProvider = ({ children }) => {
     modal,
     updateModal,
   };
+
 
   const modalExists = !!modal;
 
