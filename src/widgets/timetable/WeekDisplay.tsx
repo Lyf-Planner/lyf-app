@@ -23,8 +23,9 @@ export const WeekDisplay = ({ items, dates }: any) => {
   );
 
   const unshiftFirst = async () => {
+    var first = user.timetable.first_day || formatDateData(new Date());
     var prev = formatDateData(
-      moment(parseDateString(user.timetable.first_day)).add(-1, "day").toDate()
+      moment(parseDateString(first)).add(-1, "day").toDate()
     );
     if (prev.localeCompare(start) >= 0)
       updateUser({
@@ -37,11 +38,10 @@ export const WeekDisplay = ({ items, dates }: any) => {
     const instantiated_routines = x
       .filter((x) => x.template_id)
       .map((x) => x.template_id);
-    if (instantiated_routines.length === 0) return x;
 
     return x
       .filter(
-        // Filter out template instantiations
+        // Filter out template who already have instantiations
         (x) => !(isTemplate(x) && instantiated_routines.includes(x.id))
       )
       .map((x) => {
