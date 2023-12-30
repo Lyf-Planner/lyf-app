@@ -22,7 +22,6 @@ import {
 import { LongPressGestureHandler } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
 import { ListItemType } from "../../components/list/constants";
-import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useItems } from "../../hooks/useItems";
@@ -34,6 +33,7 @@ export const Day = ({
   template = false,
 }: any) => {
   const { user, updateUser } = useAuth();
+  const { addItem, updateItem, removeItem } = useItems();
   const canDelete = date === user.timetable.first_day;
 
   const shiftFirst = async () => {
@@ -116,7 +116,16 @@ export const Day = ({
         <View style={styles.listWrapperView}>
           <ListInput
             items={items.filter((x) => x.type === ListItemType.Event)}
-            dateData={{ date, day }}
+            addItem={(name) =>
+              addItem(
+                name,
+                ListItemType.Event,
+                template ? null : date,
+                template ? day : null
+              )
+            }
+            updateItem={updateItem}
+            removeItem={removeItem}
             type={ListItemType.Event}
             badgeColor={eventsBadgeColor}
             listBackgroundColor="black"
@@ -131,7 +140,16 @@ export const Day = ({
         <View style={styles.listWrapperView}>
           <ListInput
             items={items.filter((x) => x.type === ListItemType.Task)}
-            dateData={{ date, day }}
+            addItem={(name) =>
+              addItem(
+                name,
+                ListItemType.Task,
+                template ? null : date,
+                template ? day : null
+              )
+            }
+            updateItem={updateItem}
+            removeItem={removeItem}
             type={ListItemType.Task}
             badgeColor="rgb(241 245 249)"
             listBackgroundColor="black"

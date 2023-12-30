@@ -20,8 +20,10 @@ import Animated, {
 
 import Entypo from "react-native-vector-icons/Entypo";
 import { NoteTypeBadge } from "./NoteTypeBadge";
+import { useNotes } from "../../hooks/useNotes";
 
-export const NoteBanner = ({ title, noteType, onPress, onDelete }: any) => {
+export const NoteBanner = ({ id, title, noteType, onPress }: any) => {
+  const { removeNote } = useNotes();
   const offsetX = useSharedValue(0);
 
   const flingLeft = Gesture.Fling()
@@ -52,7 +54,7 @@ export const NoteBanner = ({ title, noteType, onPress, onDelete }: any) => {
     <View style={[styles.main]}>
       <TouchableOpacity
         style={[styles.bannerHiddenBackground]}
-        onPress={() => onDelete()}
+        onPress={() => removeNote(id)}
       >
         <Entypo name="trash" style={styles.editIcon} size={20} color="white" />
       </TouchableOpacity>

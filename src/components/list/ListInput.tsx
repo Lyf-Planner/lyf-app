@@ -13,32 +13,18 @@ export enum ListType {
 
 export const ListInput = ({
   items,
+  addItem,
+  updateItem,
+  removeItem,
   type,
-  dateData,
   badgeColor,
   badgeTextColor = "black",
   listBackgroundColor = "white",
   listWrapperStyles = {},
-  template = false,
 }: any) => {
   const [newItem, updateNewItem] = useState<any>("");
-  const { addItem } = useItems();
 
   const inputRef = useRef<any>();
-
-  const addNewItem = (name: string) => {
-    // Create in items
-    var dateArg, dayArg;
-    if (template) {
-      dateArg = null;
-      dayArg = dateData.day;
-    } else {
-      dateArg = dateData.date;
-      dayArg = dateData.day;
-    }
-
-    addItem(name, type, dateArg, dayArg);
-  };
 
   return (
     <View
@@ -54,7 +40,8 @@ export const ListInput = ({
       {items.map((x: any, i: number) => (
         <ListItem
           key={x.id}
-          type={type}
+          updateItem={updateItem}
+          removeItem={removeItem}
           badgeColor={badgeColor}
           badgeTextColor={badgeTextColor}
           item={x}
@@ -70,7 +57,7 @@ export const ListInput = ({
         style={styles.listNewItem}
         blurOnSubmit={false}
         onSubmitEditing={() => {
-          newItem && addNewItem(newItem);
+          newItem && addItem(newItem);
           updateNewItem("");
           inputRef.current.focus();
         }}

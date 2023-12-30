@@ -19,9 +19,14 @@ import { useDrawer } from "../../hooks/useDrawer";
 import { useItems } from "../../hooks/useItems";
 import { useState } from "react";
 
-export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
+export const ListItem = ({
+  item,
+  updateItem,
+  removeItem,
+  badgeColor,
+  badgeTextColor,
+}) => {
   const { updateDrawer, updateDrawerIndex } = useDrawer();
-  const { updateItem, removeItem } = useItems();
 
   const openModal = () => {
     updateDrawer(
@@ -29,7 +34,7 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
         initialItem={item}
         updateRootItem={updateItem}
         removeItem={() => removeItem(item)}
-        type={type}
+        type={item.type}
         closeModal={() => updateDrawer(null)}
         updateDrawerIndex={updateDrawerIndex}
       />
@@ -161,7 +166,7 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
             {
               backgroundColor: determineBadgeColor(),
 
-              borderRadius: type !== ListItemType.Task ? 5 : 15,
+              borderRadius: item.type !== ListItemType.Task ? 5 : 15,
             },
             flickAnimation,
           ]}
@@ -171,7 +176,7 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
               styles.listItemText,
               {
                 color: determineBadgeTextColor(),
-                fontWeight: type !== ListItemType.Task ? "600" : "normal",
+                fontWeight: item.type !== ListItemType.Task ? "600" : "normal",
               },
             ]}
           >
@@ -189,7 +194,7 @@ export const ListItem = ({ item, type, badgeColor, badgeTextColor }) => {
         <View
           style={[
             {
-              borderRadius: type !== ListItemType.Task ? 5 : 15,
+              borderRadius: item.type !== ListItemType.Task ? 5 : 15,
             },
             styles.listHiddenBackground,
           ]}

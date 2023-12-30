@@ -10,16 +10,54 @@ import {
   eventsBadgeColor,
   offWhite,
   primaryGreen,
+  sleep,
 } from "../../utils/constants";
 import { NoteTypeBadge } from "./NoteTypeBadge";
 import { ListItemType } from "../../components/list/constants";
+import { useAuth } from "../../authorisation/AuthProvider";
+import { v4 as uuid } from "uuid";
 
-export const NoteView = ({ note, onBack, initialising, updateNote }) => {
+export const NoteView = ({
+  note,
+  onBack,
+  justCreated,
+  updateNote,
+  publishUpdate,
+}) => {
+  const { user } = useAuth();
   const updateNoteTitle = (title: string) => {
     updateNote({ ...note, title });
   };
-  const updateNoteContent = (content: string) => {
+  const updateNoteContent = (content: any) => {
     updateNote({ ...note, content });
+  };
+
+  // We need to pass different item ops to the ListInput
+  // Since the list items are stored on note.content
+  const addItem = (title: string) => {
+    const newItem = {
+      id: uuid(),
+      title,
+      type: ListItemType.Task,
+      permitted_users: [{ user_id: user.id, permissions: "Owner" }],
+    };
+    updateNoteContent([...note.content, newItem]);
+    sleep(100);
+    publishUpdate();
+  };
+  const updateItem = (item: any) => {
+    var tmp = [...note.content];
+    var i = tmp.findIndex((x) => x.id === item.id);
+    tmp[i] = item;
+    updateNoteContent(tmp);
+    sleep(100);
+    publishUpdate();
+  };
+  const removeItem = (item: any) => {
+    var tmp = note.content.filter((x) => x.id !== item.id);
+    updateNoteContent(tmp);
+    sleep(100);
+    publishUpdate();
   };
 
   return (
@@ -29,10 +67,11 @@ export const NoteView = ({ note, onBack, initialising, updateNote }) => {
           <Entypo name={"chevron-left"} size={30} />
         </TouchableOpacity>
         <TextInput
-          autoFocus={initialising}
+          autoFocus={justCreated}
           style={styles.myNotesTitle}
           onChangeText={updateNoteTitle}
           value={note.title}
+          onEndEditing={() => publishUpdate()}
           returnKeyType="done"
         />
         <NoteTypeBadge type={note.type} />
@@ -43,13 +82,15 @@ export const NoteView = ({ note, onBack, initialising, updateNote }) => {
           value={note.content}
           style={styles.noteText}
           onChangeText={updateNoteContent}
+          onEndEditing={() => publishUpdate()}
         />
       ) : (
         <ListInput
-          list={note.content || []}
+          items={note.content || []}
           type={ListItemType.Item}
-          updateList={updateNoteContent}
-          placeholder="New item +"
+          addItem={addItem}
+          updateItem={updateItem}
+          removeItem={removeItem}
           badgeColor={eventsBadgeColor}
           badgeTextColor="black"
           listBackgroundColor={offWhite}

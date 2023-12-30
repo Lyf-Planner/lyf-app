@@ -1,27 +1,23 @@
 import { View, Text, StyleSheet } from "react-native";
-import { Horizontal } from "../../components/MiscComponents";
+import { Horizontal, Loader } from "../../components/MiscComponents";
 import { useEffect, useState } from "react";
 import { NewNoteMenu } from "./NewNoteAdd";
-import {
-  TypeToDisplayName,
-  updateNote,
-  addNote,
-  removeNote,
-} from "./TypesAndHelpers";
+import { NoteTypes, TypeToDisplayName } from "./TypesAndHelpers";
 import { NoteView } from "./NoteView";
 import { NoteBanner } from "./NoteBanner";
+import { useNotes } from "../../hooks/useNotes";
 
-export const Notes = ({ notes, updateNotes }: any) => {
+export const Notes = () => {
   const [focussedNote, setFocussedNote] = useState(null);
+  const { notes, initialised, initialise, updateNote, addNote } = useNotes();
 
-  const newNote = (noteType, newNoteName?) => {
-    var newNote = addNote(notes, updateNotes, noteType, newNoteName);
-    setFocussedNote(newNote);
-  };
-  const deleteNote = (id) => removeNote(notes, updateNotes, id);
-  const modifyNote = (updatedNote) => {
-    updateNote(notes, updateNotes, focussedNote.id, updatedNote);
-    setFocussedNote(updatedNote);
+  useEffect(() => {
+    initialise();
+  }, []);
+
+  const newNote = (type: NoteTypes) => {
+    let title = `New ${type === NoteTypes.Text ? "Note" : "List"}`;
+    addNote(title, type).then((newNote) => setFocussedNote(newNote));
   };
 
   if (focussedNote)
@@ -29,10 +25,11 @@ export const Notes = ({ notes, updateNotes }: any) => {
       <NoteView
         note={focussedNote}
         onBack={() => setFocussedNote(null)}
-        initialising={
+        justCreated={
           focussedNote.title === `New ${TypeToDisplayName[focussedNote.type]}`
         }
-        updateNote={modifyNote}
+        updateNote={setFocussedNote}
+        publishUpdate={() => updateNote(focussedNote)}
       />
     );
   else
@@ -48,15 +45,34 @@ export const Notes = ({ notes, updateNotes }: any) => {
           style={{ borderWidth: 2, opacity: 0.6, marginHorizontal: 12 }}
         />
         <View style={styles.noteBannersContainer}>
-          {notes.items.map((x: any) => (
-            <NoteBanner
-              title={x.title}
-              onPress={() => setFocussedNote(x)}
-              noteType={x.type}
-              key={x.id}
-              onDelete={() => deleteNote(x.id)}
-            />
-          ))}
+          {initialised ? (
+            <View>
+              {notes.length ? (
+                notes.map((x: any) => (
+                  <NoteBanner
+                    id={x.id}
+                    title={x.title}
+                    onPress={() => setFocussedNote(x)}
+                    noteType={x.type}
+                    key={x.id}
+                  />
+                ))
+              ) : (
+                <Text style={styles.noNotesText}>No notes created yet :)</Text>
+              )}
+            </View>
+          ) : (
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                flex: 1,
+              }}
+            >
+              <Loader size={50} />
+            </View>
+          )}
         </View>
       </View>
     );
@@ -74,5 +90,14 @@ const styles = StyleSheet.create({
   myNotesTitle: { fontSize: 22, fontWeight: "700" },
   noteBannersContainer: {
     paddingHorizontal: 12,
+    minHeight: 100,
+  },
+  noNotesText: {
+    paddingTop: 45,
+    paddingHorizontal: 12,
+    textAlign: "center",
+    opacity: 0.4,
+    fontWeight: "600",
+    fontSize: 16,
   },
 });

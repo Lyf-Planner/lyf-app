@@ -12,7 +12,7 @@ import { BouncyPressable } from "../components/BouncyPressable";
 
 export enum Widgets {
   Timetable = "Timetable",
-  // Notes = "Notes",
+  Notes = "Notes",
 }
 
 export const WidgetContainer = () => {
@@ -24,7 +24,7 @@ export const WidgetContainer = () => {
     Account: (
       <AccountWidget logout={logout} deleteMe={deleteMe} lastSave={lastSave} />
     ),
-    // Notes: <Notes notes={user.notes} updateNotes={updateUserNotes} />,
+    Notes: <Notes />,
   };
 
   return (

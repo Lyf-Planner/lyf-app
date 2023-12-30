@@ -32,7 +32,7 @@ export const Planner = ({ items }: any) => {
           selected={!updatingTemplate}
           onPress={() => setUpdatingTemplate(false)}
         >
-          <Text style={styles.menuButtonText}>My Planner</Text>
+          <Text style={styles.menuButtonText}>Timetable</Text>
         </MenuButton>
         <MenuButton
           selected={updatingTemplate}
@@ -44,7 +44,7 @@ export const Planner = ({ items }: any) => {
             onPress={() => {
               Alert.alert(
                 "Tip",
-                "Items in your routine will be automatically included in each new week!"
+                "Items in your routine are automatically included in each week!"
               );
             }}
           >

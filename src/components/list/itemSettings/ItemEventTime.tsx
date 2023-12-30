@@ -4,7 +4,7 @@ import { NullableTimePicker } from "../../NullableTimePicker";
 export const ItemEventTime = ({ time, updateTime }) => {
   return (
     <View style={styles.mainContainer}>
-      <Text style={styles.eventText}>Event Time</Text>
+      <Text style={styles.eventText}>Time</Text>
       <View style={styles.pickerContainer}>
         <NullableTimePicker time={time} updateTime={updateTime} />
       </View>

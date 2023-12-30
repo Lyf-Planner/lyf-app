@@ -21,8 +21,8 @@ const NewNoteButton = () => {
 };
 
 export const NewNoteMenu = ({ addNote }) => {
-  const onOptionSelect = (value: string) => {
-    addNote(value);
+  const onOptionSelect = (type: NoteTypes) => {
+    addNote(`New ${type}`, type);
     return false;
   };
 

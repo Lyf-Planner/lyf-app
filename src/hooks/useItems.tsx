@@ -64,11 +64,7 @@ export const ItemsProvider = ({ children }) => {
     setItems(tmp);
 
     if (updateRemote)
-      updateRemoteItem(item).catch(() => {
-        // Revert to original if update failed (user will get an Alert)
-        console.log("Reverting item to original on failure");
-        updateItem(item, false);
-      });
+      updateRemoteItem(item)
   };
 
   const addItem = async (
