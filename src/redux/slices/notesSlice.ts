@@ -11,7 +11,7 @@ export const notesSlice = createSlice({
   reducers: {
     initialise: (state, action) => {
       var notess = action.payload;
-      notess.forEach((x: any) => {
+      notess.forEach((x) => {
         state.notes[x.id] = x;
       });
       state.initialised = true;

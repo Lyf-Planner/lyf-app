@@ -15,7 +15,7 @@ import { useAuth } from "../../authorisation/AuthProvider";
 import { isTemplate } from "../../components/list/constants";
 import { v4 as uuid } from "uuid";
 
-export const WeekDisplay = ({ items, dates }: any) => {
+export const WeekDisplay = ({ items, dates }) => {
   const [hide, updateHide] = useState(false);
   const { user, updateUser } = useAuth();
   const start = formatDateData(

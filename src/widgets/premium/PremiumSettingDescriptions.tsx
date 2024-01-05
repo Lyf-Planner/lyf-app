@@ -14,7 +14,7 @@ export const DailyNotificationDesc = ({
   notificationTime = "08:00",
   updatePersistent,
   persistent = false,
-}: any) => {
+}) => {
   var today = new Date();
   // Component needs a JS date, even though we only use time (just take any date)
   const datePickerValue = new Date(
@@ -63,7 +63,7 @@ export const DailyNotificationDesc = ({
 export const EventNotificationDesc = ({
   updateMinutes,
   minutesBefore = "5",
-}: any) => {
+}) => {
   const updateMinutesFromInput = (text) => {
     text.replace(/[^0-9]/g, "");
     let val = Number(text);

@@ -2,7 +2,7 @@ import { post } from "./axios";
 import { getAsyncData, storeAsyncData } from "../utils/asyncStorage";
 import env from "../envManager";
 
-export async function saveUser(user: any, token?: string) {
+export async function saveUser(user, token?: string) {
   var url = `${env.BACKEND_URL}/updateUser`;
 
   var token = token || (await getAsyncData("token"));

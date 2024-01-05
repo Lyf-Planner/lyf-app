@@ -114,7 +114,7 @@ export const PremiumAdvertiseModal = () => {
   );
 };
 
-const PremiumFeature = ({ item, dimensions }: any) => {
+const PremiumFeature = ({ item, dimensions }) => {
   return (
     <View
       style={[styles.featureContainer, { opacity: item.available ? 1 : 0.5 }]}

@@ -48,7 +48,7 @@ export const Notes = () => {
           {initialised ? (
             <View>
               {notes.length ? (
-                notes.map((x: any) => (
+                notes.map((x) => (
                   <NoteBanner
                     id={x.id}
                     title={x.title}

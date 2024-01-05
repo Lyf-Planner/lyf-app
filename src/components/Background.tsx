@@ -4,7 +4,7 @@ const TREE = require("../../assets/images/tree.png");
 const ROUND_TREE = require("../../assets/images/roundtree.png");
 const BRANCH = require("../../assets/images/branch.png");
 
-export const Background = ({ children }: any) => {
+export const Background = ({ children }) => {
   return (
     <View style={styles.page}>
       <Image

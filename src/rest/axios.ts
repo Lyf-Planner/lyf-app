@@ -15,7 +15,7 @@ export async function get(url: string) {
 }
 
 // Post request
-export async function post(url: string, body: any) {
+export async function post(url: string, body) {
   try {
     var token = await getAsyncData("token");
     return await Axios.post(url, body, {

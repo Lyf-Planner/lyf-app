@@ -21,7 +21,7 @@ export const ListInput = ({
   badgeTextColor = "black",
   listBackgroundColor = "white",
   listWrapperStyles = {},
-}: any) => {
+}) => {
   const [newItem, updateNewItem] = useState<any>("");
 
   const inputRef = useRef<any>();
@@ -37,7 +37,7 @@ export const ListInput = ({
         listWrapperStyles,
       ]}
     >
-      {items.map((x: any, i: number) => (
+      {items.map((x, i: number) => (
         <ListItem
           key={x.id}
           updateItem={updateItem}

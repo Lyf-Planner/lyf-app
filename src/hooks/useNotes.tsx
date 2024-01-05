@@ -40,7 +40,7 @@ export const NotesProvider = ({ children }) => {
     }
   };
 
-  const updateNote = (note: any, updateRemote = true) => {
+  const updateNote = (note, updateRemote = true) => {
     // Update store
     var tmp = [...notes];
     var i = tmp.findIndex((x) => x.id === note.id);
@@ -74,7 +74,7 @@ export const NotesProvider = ({ children }) => {
     return newNote;
   };
 
-  const removeNote = (id: any, deleteRemote = true) => {
+  const removeNote = (id, deleteRemote = true) => {
     // Remove from this store
     var tmp = notes.filter((x) => x.id !== id) as any;
     setNotes(tmp);

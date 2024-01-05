@@ -19,7 +19,7 @@ export const AuthGateway = ({ children }) => {
   });
 
   const updateUser = useCallback(
-    (user: any) => {
+    (user) => {
       setUser({ ...user });
       setLastUpdated(new Date());
     },

@@ -22,7 +22,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import { NoteTypeBadge } from "./NoteTypeBadge";
 import { useNotes } from "../../hooks/useNotes";
 
-export const NoteBanner = ({ id, title, noteType, onPress }: any) => {
+export const NoteBanner = ({ id, title, noteType, onPress }) => {
   const { removeNote } = useNotes();
   const offsetX = useSharedValue(0);
 

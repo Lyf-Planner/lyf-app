@@ -12,7 +12,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import { BouncyPressable } from "../BouncyPressable";
 import { useItems } from "../../hooks/useItems";
 
-export const ListDropdown = ({ items, listType, name }: any) => {
+export const ListDropdown = ({ items, listType, name }) => {
   const [hide, updateHide] = useState(true);
   const { addItem, updateItem, removeItem } = useItems();
 
@@ -55,6 +55,7 @@ export const ListDropdown = ({ items, listType, name }: any) => {
             addItem={(name) => addItem(name, listType, null, null)}
             updateItem={updateItem}
             removeItem={removeItem}
+            type={listType}
             badgeColor="rgb(30 41 59)"
             badgeTextColor="rgb(203 213 225)"
             listBackgroundColor={eventsBadgeColor}

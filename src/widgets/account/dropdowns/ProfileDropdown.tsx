@@ -58,7 +58,7 @@ const DetailsField = ({ fieldName, fieldValue, fieldNull }) => {
   );
 };
 
-const AddEmail = ({ func }: any) => {
+const AddEmail = ({ func }) => {
   return (
     <TouchableHighlight
       style={styles.addEmailTouchable}

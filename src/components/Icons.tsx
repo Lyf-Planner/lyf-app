@@ -2,7 +2,7 @@ import { View, Image, StyleSheet } from "react-native";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 const LOGO = require("../../assets/images/icon.png");
 
-// export const Tooltip = ({ id, className, children, color = "gray" }: any) => {
+// export const Tooltip = ({ id, className, children, color = "gray" }  ) => {
 //   return (
 //     <div className={className} data-tooltip-id={id}>
 //       <FaInfoCircle color={color} />
@@ -11,7 +11,7 @@ const LOGO = require("../../assets/images/icon.png");
 //   );
 // };
 
-export const SaveTooltip = ({ id, style, size, onPress }: any) => {
+export const SaveTooltip = ({ id, style, size, onPress }) => {
   return (
     <View style={style}>
       <Image source={LOGO} alt="logo" style={{ width: size, height: size }} />

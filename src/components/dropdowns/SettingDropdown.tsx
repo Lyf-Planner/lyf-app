@@ -18,7 +18,7 @@ export const SettingDropdown = ({
   boldTitle = false,
   extraStyles = {},
   touchableHightlightExtraStyles = {},
-}: any) => {
+}) => {
   const chevronAngle = useSharedValue(0);
   const rotationAnimation = useAnimatedStyle(() => {
     return {

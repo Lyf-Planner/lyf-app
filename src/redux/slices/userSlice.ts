@@ -9,10 +9,10 @@ export const userSlice = createSlice({
     updateUser: (state, action) => {
       return { ...action.payload };
     },
-    savedUser: (state: any, action) => {
+    savedUser: (state, action) => {
       return { ...state, save: new Date().getTime() };
     },
-    addTimetableItem: (state: any, action) => {
+    addTimetableItem: (state, action) => {
       console.log("Adding item to timetable:", action.payload);
       return {
         ...state,
@@ -23,12 +23,12 @@ export const userSlice = createSlice({
         last_updated: new Date().toUTCString(),
       };
     },
-    removeTimetableItem: (state: any, action) => {
+    removeTimetableItem: (state, action) => {
       var i = state.timetable.items.find((x) => x.id === action.payload);
       state.timetable.items.splice(i, 1);
       state.last_updated = new Date().toUTCString();
     },
-    updateTimetableItem: (state: any, action) => {
+    updateTimetableItem: (state, action) => {
       var i = state.timetable.items.find((x) => x.id === action.payload.id);
       state.timetable.items[i] = {
         id: action.payload.id,
@@ -36,7 +36,7 @@ export const userSlice = createSlice({
       };
       state.last_updated = new Date().toUTCString();
     },
-    updateTimetableStart: (state: any, action) => {
+    updateTimetableStart: (state, action) => {
       state.timetable.first_day = action.payload;
       state.last_updated = new Date().toUTCString();
     },

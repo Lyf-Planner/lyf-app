@@ -26,12 +26,7 @@ import moment from "moment";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useItems } from "../../hooks/useItems";
 
-export const Day = ({
-  items,
-  date = null,
-  day = null,
-  template = false,
-}: any) => {
+export const Day = ({ items, date = null, day = null, template = false }) => {
   const { user, updateUser } = useAuth();
   const { addItem, updateItem, removeItem } = useItems();
   const canDelete = date === user.timetable.first_day;

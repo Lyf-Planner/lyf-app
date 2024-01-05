@@ -46,7 +46,7 @@ export const ItemsProvider = ({ children }) => {
     }
   }, []);
 
-  const updateItem = (item: any, updateRemote = true) => {
+  const updateItem = (item, updateRemote = true) => {
     // We create localised instances of templates in the planner - if this is one of those then create it
     if (item.localised) {
       console.log("Local item will be created instead of updated");
@@ -63,8 +63,7 @@ export const ItemsProvider = ({ children }) => {
     tmp[i] = item;
     setItems(tmp);
 
-    if (updateRemote)
-      updateRemoteItem(item)
+    if (updateRemote) updateRemoteItem(item);
   };
 
   const addItem = async (
@@ -101,7 +100,7 @@ export const ItemsProvider = ({ children }) => {
     createItem(newItem);
   };
 
-  const removeItem = (item: any, deleteRemote = true) => {
+  const removeItem = (item, deleteRemote = true) => {
     if (item.template_id) {
       updateItem({ ...item, status: ItemStatus.Cancelled });
       return;
@@ -109,7 +108,7 @@ export const ItemsProvider = ({ children }) => {
 
     var id = item.id;
     // Remove from this store
-    var tmp = items.filter(x => x.id !== id) as any
+    var tmp = items.filter((x) => x.id !== id) as any;
     setItems(tmp);
 
     // Remove ref from user

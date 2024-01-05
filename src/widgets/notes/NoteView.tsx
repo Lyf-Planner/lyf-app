@@ -28,7 +28,7 @@ export const NoteView = ({
   const updateNoteTitle = (title: string) => {
     updateNote({ ...note, title });
   };
-  const updateNoteContent = (content: any) => {
+  const updateNoteContent = (content) => {
     updateNote({ ...note, content });
   };
 
@@ -45,7 +45,7 @@ export const NoteView = ({
     sleep(100);
     publishUpdate();
   };
-  const updateItem = (item: any) => {
+  const updateItem = (item) => {
     var tmp = [...note.content];
     var i = tmp.findIndex((x) => x.id === item.id);
     tmp[i] = item;
@@ -53,7 +53,7 @@ export const NoteView = ({
     sleep(100);
     publishUpdate();
   };
-  const removeItem = (item: any) => {
+  const removeItem = (item) => {
     var tmp = note.content.filter((x) => x.id !== item.id);
     updateNoteContent(tmp);
     sleep(100);

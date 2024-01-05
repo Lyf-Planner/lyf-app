@@ -6,14 +6,14 @@ import { useModal } from "../../hooks/useModal";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { primaryGreen } from "../../utils/constants";
 
-export const PremiumSettingsModal = ({ onClose }: any) => {
+export const PremiumSettingsModal = ({ onClose }) => {
   const { user, updateUser } = useAuth();
   const { updateModal } = useModal();
   const premium = user.premium;
 
   const closeModal = () => updateModal(null);
-  const updatePremium = (premium: any) => updateUser({ ...user, premium });
-  const updateNotificationSettings = (notifications: any) =>
+  const updatePremium = (premium) => updateUser({ ...user, premium });
+  const updateNotificationSettings = (notifications) =>
     updatePremium({ ...premium, notifications });
 
   // ENHANCED PLANNING
@@ -131,7 +131,7 @@ export const PremiumSettingsModal = ({ onClose }: any) => {
   );
 };
 
-const Setting = ({ updateFunc, enabled, name, desc }: any) => {
+const Setting = ({ updateFunc, enabled, name, desc }) => {
   return (
     <View>
       <View style={styles.settingContainer}>

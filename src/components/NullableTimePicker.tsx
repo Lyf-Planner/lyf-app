@@ -27,7 +27,7 @@ export const NullableTimePicker = ({ updateTime, time }) => {
   );
 };
 
-export const TimePicker = ({ time, updateTime }: any) => {
+export const TimePicker = ({ time, updateTime }) => {
   const updateTimeFromPicker = (time) => {
     // Picker gives us a timestamp, that we need to convert to 24 hr time
     var dateTime = new Date(time.nativeEvent.timestamp);

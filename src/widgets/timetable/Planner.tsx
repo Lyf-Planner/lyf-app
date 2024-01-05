@@ -13,7 +13,7 @@ import { BouncyPressable } from "../../components/BouncyPressable";
 import { Routine } from "./Routine";
 import { useAuth } from "../../authorisation/AuthProvider";
 
-export const Planner = ({ items }: any) => {
+export const Planner = ({ items }) => {
   const { user } = useAuth();
   const [updatingTemplate, setUpdatingTemplate] = useState(false);
   const [displayedWeeks, setDisplayedWeeks] = useState(initialiseDays(user));
@@ -57,7 +57,7 @@ export const Planner = ({ items }: any) => {
         <Routine items={items.filter((x) => x.day && !x.date)} />
       ) : (
         <View>
-          {displayedWeeks.map((x: any, i: any) => (
+          {displayedWeeks.map((x, i) => (
             <WeekDisplay
               key={x[0]}
               dates={x}
@@ -86,7 +86,7 @@ export const Planner = ({ items }: any) => {
   );
 };
 
-const MenuButton = ({ children, onPress, selected = false }: any) => {
+const MenuButton = ({ children, onPress, selected = false }) => {
   return (
     <BouncyPressable
       style={styles.menuButton}

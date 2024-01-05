@@ -28,7 +28,7 @@ export const NullableDatePicker = ({ updateDate, date }) => {
   );
 };
 
-export const DatePicker = ({ date, updateDate }: any) => {
+export const DatePicker = ({ date, updateDate }) => {
   const updateDateFromPicker = (date) => {
     // Picker gives us a datestamp, that we need to convert to 24 hr date
     var dateTime = new Date(date.nativeEvent.timestamp);
