@@ -20,8 +20,8 @@ export async function login(username: string, password: string) {
   }
 }
 
-export async function autologin(token: string) {
-  var url = `${env.BACKEND_URL}/autoLogin?token=${token}`;
+export async function autologin() {
+  var url = `${env.BACKEND_URL}/autoLogin`;
 
   var result = (await get(url)) as any;
   if (result.status === 200) return result.data;

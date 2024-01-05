@@ -34,7 +34,7 @@ export const AuthGateway = ({ children }) => {
   const refreshUser = () =>
     getAsyncData("token").then((token) =>
       token
-        ? autologin(token).then((freshUser) => {
+        ? autologin().then((freshUser) => {
             if (!!freshUser) {
               updateUser(freshUser);
             } else updateLoggingIn(false);
@@ -58,7 +58,7 @@ export const AuthGateway = ({ children }) => {
           getAsyncData("token").then(
             (token) =>
               token &&
-              autologin(token).then((cloudUser) => {
+              autologin().then((cloudUser) => {
                 console.log("cloud user", cloudUser.last_updated);
                 console.log("local user", lastUpdated);
                 // If the cloud save is different to what we have locally, update local user!
