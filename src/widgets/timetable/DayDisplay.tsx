@@ -124,7 +124,6 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
             type={ListItemType.Event}
             badgeColor={eventsBadgeColor}
             listBackgroundColor="black"
-            template={template}
           />
         </View>
 
@@ -148,7 +147,6 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
             type={ListItemType.Task}
             badgeColor="rgb(241 245 249)"
             listBackgroundColor="black"
-            template={template}
           />
         </View>
       </Animated.View>

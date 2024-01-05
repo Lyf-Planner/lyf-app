@@ -6,7 +6,7 @@ import { useModal } from "../../hooks/useModal";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { primaryGreen } from "../../utils/constants";
 
-export const PremiumSettingsModal = ({ onClose }) => {
+export const PremiumSettingsModal = () => {
   const { user, updateUser } = useAuth();
   const { updateModal } = useModal();
   const premium = user.premium;

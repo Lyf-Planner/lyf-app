@@ -11,7 +11,7 @@ const LOGO = require("../../assets/images/icon.png");
 //   );
 // };
 
-export const SaveTooltip = ({ id, style, size, onPress }) => {
+export const SaveTooltip = ({ style, size }) => {
   return (
     <View style={style}>
       <Image source={LOGO} alt="logo" style={{ width: size, height: size }} />
