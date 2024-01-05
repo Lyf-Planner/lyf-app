@@ -101,7 +101,7 @@ export const ListItem = ({
       updateItem({ ...item, status: ItemStatus.Upcoming });
     else {
       updateItem({ ...item, status: ItemStatus.Done });
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     }
 
     scale.value = 1;

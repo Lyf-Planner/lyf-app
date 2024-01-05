@@ -17,7 +17,7 @@ export const DrawerProvider = ({ children }) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   // variables
-  const snapPoints = useMemo(() => ["40%", "57%", "85%"], []);
+  const snapPoints = useMemo(() => ["43%", "61%", "88%"], []);
 
   // callbacks
   const updateDrawerIndex = useCallback(

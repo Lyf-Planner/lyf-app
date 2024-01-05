@@ -15,6 +15,7 @@ import { useState } from "react";
 import { ItemEventTime } from "./itemSettings/ItemEventTime";
 import { ItemNotification } from "./itemSettings/ItemNotification";
 import { ItemDescription } from "./itemSettings/ItemDescription";
+import { ItemDate } from "./itemSettings/ItemDate";
 
 export const ListItemDrawer = ({
   initialItem,
@@ -38,6 +39,10 @@ export const ListItemDrawer = ({
   const updateTime = (time) => {
     updateLocalItem({ ...item, time });
     updateRootItem({ ...item, time });
+  };
+  const updateDate = (date) => {
+    updateLocalItem({ ...item, date });
+    updateRootItem({ ...item, date });
   };
   const updateDesc = (desc) => updateLocalItem({ ...item, desc });
 
@@ -71,6 +76,7 @@ export const ListItemDrawer = ({
             gap: 8,
           }}
         >
+          <ItemDate date={item.date} updateDate={updateDate} />
           <ItemEventTime time={item.time} updateTime={updateTime} />
           {/* <ItemNotification item={item} updateItem={updateItem} /> */}
           <ItemDescription
