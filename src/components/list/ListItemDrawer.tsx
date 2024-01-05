@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { Horizontal, Loader } from "../../components/MiscComponents";
 import { eventsBadgeColor, offWhite } from "../../utils/constants";
-import { ItemStatus } from "./constants";
+import { ItemStatus, ListItemType } from "./constants";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
 
 import { ItemStatusDropdown } from "./itemSettings/ItemStatusDropdown";
@@ -16,11 +16,11 @@ import { ItemEventTime } from "./itemSettings/ItemEventTime";
 import { ItemNotification } from "./itemSettings/ItemNotification";
 import { ItemDescription } from "./itemSettings/ItemDescription";
 import { ItemDate } from "./itemSettings/ItemDate";
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 export const ListItemDrawer = ({
   initialItem,
   updateRootItem,
-  type,
   removeItem,
   closeModal,
   updateDrawerIndex,
@@ -40,6 +40,17 @@ export const ListItemDrawer = ({
     updateLocalItem({ ...item, time });
     updateRootItem({ ...item, time });
   };
+  const switchType = () => {
+    var newItem = { ...item };
+    if (item.type === ListItemType.Task) {
+      newItem.type = ListItemType.Event;
+    } else {
+      newItem.type = ListItemType.Task;
+    }
+
+    updateLocalItem(newItem);
+    updateRootItem(newItem);
+  };
   const updateDate = (date) => {
     updateLocalItem({ ...item, date });
     updateRootItem({ ...item, date });
@@ -50,22 +61,32 @@ export const ListItemDrawer = ({
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.mainContainer}>
         <View style={{ gap: 10, zIndex: 10 }}>
-          <TextInput
-            value={item.title}
-            onChangeText={updateTitle}
-            style={styles.itemName}
-            onFocus={() => updateDrawerIndex(1)}
-            onBlur={() => {
-              !item.desc && updateDrawerIndex(0);
-
-              publishUpdate();
-            }}
-            returnKeyType="done"
-          />
+          <View style={styles.headerBackground}>
+            <TextInput
+              value={item.title}
+              onChangeText={updateTitle}
+              style={styles.itemName}
+              onFocus={() => updateDrawerIndex(1)}
+              onBlur={() => {
+                !item.desc && updateDrawerIndex(0);
+                publishUpdate();
+              }}
+              returnKeyType="done"
+            />
+            <View style={{ marginLeft: "auto" }}>
+              <TouchableHighlight
+                style={styles.typeBadge}
+                onPress={switchType}
+                underlayColor={"rgba(0,0,0,0.5)"}
+              >
+                <Text style={styles.typeText}>{item.type}</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
           <ItemStatusDropdown
             status={item.status}
             updateStatus={updateStatus}
-            type={type}
+            type={item.type}
           />
         </View>
         <Horizontal style={styles.firstSeperator} />
@@ -77,7 +98,9 @@ export const ListItemDrawer = ({
           }}
         >
           <ItemDate date={item.date} updateDate={updateDate} />
+
           <ItemEventTime time={item.time} updateTime={updateTime} />
+
           {/* <ItemNotification item={item} updateItem={updateItem} /> */}
           <ItemDescription
             item={item}
@@ -141,15 +164,29 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     borderWidth: 2,
   },
-  itemName: {
-    fontSize: 20,
+  headerBackground: {
     backgroundColor: "black",
     padding: 10,
     height: 50,
-    fontWeight: "600",
+    flexDirection: "row",
+    alignItems: "center",
     width: "100%",
     borderRadius: 5,
+  },
+  itemName: {
+    fontSize: 20,
+    fontWeight: "600",
     color: "white",
+  },
+  typeBadge: {
+    backgroundColor: eventsBadgeColor,
+    marginLeft: "auto",
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 10,
+  },
+  typeText: {
+    fontSize: 16,
   },
   subtitle: {
     textAlign: "center",

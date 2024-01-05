@@ -34,7 +34,6 @@ export const ListItem = ({
         initialItem={item}
         updateRootItem={updateItem}
         removeItem={() => removeItem(item)}
-        type={item.type}
         closeModal={() => updateDrawer(null)}
         updateDrawerIndex={updateDrawerIndex}
       />
