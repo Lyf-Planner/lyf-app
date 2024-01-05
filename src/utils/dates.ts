@@ -97,7 +97,7 @@ export function dayFromDateString(date: string) {
 }
 
 export function formatDateData(date: Date) {
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  return moment(date).format("YYYY-MM-DD");
 }
 
 export function parseDateString(date: String) {

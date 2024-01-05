@@ -64,21 +64,20 @@ export const WeekDisplay = ({ items, dates }: any) => {
 
   return (
     <View style={[styles.weekWrapper, { paddingBottom: hide && 12 }]}>
-      {true && (
-        <BouncyPressable
-          style={styles.weekDateDisplayTouchable}
-          onPress={() => updateHide(!hide)}
-          onLongPress={() => unshiftFirst()}
-        >
-          <View style={styles.weekDateDisplayContainer}>
-            <View style={styles.weekDatePressable}>
-              <Text style={styles.weekDateText}>
-                {formatDate(start)} - {formatDate(dates[dates.length - 1])}
-              </Text>
-            </View>
+      <BouncyPressable
+        style={styles.weekDateDisplayTouchable}
+        onPress={() => updateHide(!hide)}
+        onLongPress={() => unshiftFirst()}
+      >
+        <View style={styles.weekDateDisplayContainer}>
+          <View style={styles.weekDatePressable}>
+            <Text style={styles.weekDateText}>
+              {formatDate(start)} - {formatDate(dates[dates.length - 1])}
+            </Text>
           </View>
-        </BouncyPressable>
-      )}
+        </View>
+      </BouncyPressable>
+
       {!hide && exposed && (
         <View style={styles.weekDaysWrapperView}>
           {dates.map((x) => {
