@@ -91,19 +91,26 @@ export const ListItem = ({
   // GESTURE HANDLERS
 
   const handleTapIn = () => {
-    if (item.status === ItemStatus.InProgress) scale.value = 0.8;
+    if (item.status === ItemStatus.Upcoming) scale.value = 0.9;
+    else if (item.status === ItemStatus.InProgress) scale.value = 0.7;
     else scale.value = 0.9;
+    timer = setInterval(() => {
+      scale.value = 1;
+
+      clearTimeout(timer);
+    }, 100);
   };
 
   const handleTapOut = () => {
     if (item.status === ItemStatus.Done)
       updateItem({ ...item, status: ItemStatus.Upcoming });
-    else {
+    else if (item.status === ItemStatus.Upcoming) {
+      updateItem({ ...item, status: ItemStatus.InProgress });
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    } else {
       updateItem({ ...item, status: ItemStatus.Done });
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     }
-
-    scale.value = 1;
   };
 
   const handleLongPressIn = () => {
