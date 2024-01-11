@@ -53,20 +53,21 @@ export const AuthGateway = ({ children }) => {
       (nextAppState) => {
         if (
           appState.current.match(/background|inactive/) &&
-          nextAppState === "active"
+          nextAppState === "active" &&
+          new Date().getTime() - lastUpdated.getTime() > 60 * 1000
         ) {
+          console.log(
+            `Refreshing user, last local update was ${
+              (new Date().getTime() - lastUpdated.getTime()) / (60 * 1000)
+            } mins ago`
+          );
           getAsyncData("token").then(
             (token) =>
               token &&
               autologin().then((cloudUser) => {
-                console.log("cloud user", cloudUser.last_updated);
-                console.log("local user", lastUpdated);
-                // If the cloud save is different to what we have locally, update local user!
-                if (new Date(cloudUser.last_updated) > new Date(lastUpdated)) {
-                  updateLoggingIn(true);
-                  updateUser(cloudUser);
-                  updateLoggingIn(false);
-                }
+                updateLoggingIn(true);
+                updateUser(cloudUser);
+                updateLoggingIn(false);
               })
           );
         }
