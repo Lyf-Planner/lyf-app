@@ -43,8 +43,8 @@ export const Planner = ({ items }) => {
             style={styles.infoPressable}
             onPress={() => {
               Alert.alert(
-                "Tip",
-                "Items in your routine are automatically included in each week!"
+                "Routine?",
+                "Your routine is automatically copied into your timetable each week"
               );
             }}
           >
