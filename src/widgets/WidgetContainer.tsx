@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 50,
     paddingHorizontal: 12,
-    gap: 8,
+    gap: 6,
   },
   headerSeperator: {
     marginTop: 10,
