@@ -60,6 +60,8 @@ export const NoteView = ({
     publishUpdate();
   };
 
+  console.log({ justCreated });
+
   return (
     <View style={styles.notePageWrapper}>
       <View style={styles.myNotesHeader}>
@@ -68,9 +70,16 @@ export const NoteView = ({
         </TouchableOpacity>
         <TextInput
           autoFocus={justCreated}
+          onFocus={(e: any) =>
+            // Workaround for selectTextOnFocus={true} not working
+            e.currentTarget.setNativeProps({
+              selection: { start: 0, end: note.title.length },
+            })
+          }
           style={styles.myNotesTitle}
           onChangeText={updateNoteTitle}
           value={note.title}
+          onSubmitEditing={() => publishUpdate()}
           onEndEditing={() => publishUpdate()}
           returnKeyType="done"
         />
