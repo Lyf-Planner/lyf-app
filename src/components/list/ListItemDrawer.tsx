@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { Horizontal, Loader } from "../../components/MiscComponents";
 import { eventsBadgeColor, offWhite } from "../../utils/constants";
-import { ItemStatus, ListItemType } from "./constants";
+import { ItemStatus, ListItemType, isTemplate } from "./constants";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
 
 import { ItemStatusDropdown } from "./itemSettings/ItemStatusDropdown";
@@ -97,7 +97,11 @@ export const ListItemDrawer = ({
             gap: 8,
           }}
         >
-          <ItemDate date={item.date} updateDate={updateDate} />
+          <ItemDate
+            date={item.date}
+            updateDate={updateDate}
+            routineDay={isTemplate(item) ? item.day : null}
+          />
 
           <ItemEventTime time={item.time} updateTime={updateTime} />
 
