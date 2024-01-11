@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   View,
   Text,
@@ -7,7 +6,7 @@ import {
   StyleSheet,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import moment from "moment";
+import { localisedMoment } from "../../utils/dates";
 
 export const DailyNotificationDesc = ({
   updateTime,
@@ -24,7 +23,7 @@ export const DailyNotificationDesc = ({
   const updateTimeFromPicker = (time) => {
     // Picker gives us a timestamp, that we need to convert to 24 hr time
     var dateTime = new Date(time.nativeEvent.timestamp);
-    updateTime(moment(dateTime).format("HH:mm"));
+    updateTime(localisedMoment(dateTime).format("HH:mm"));
   };
 
   return (

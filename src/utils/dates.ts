@@ -1,31 +1,33 @@
 import moment from "moment";
 import { DaysOfWeek } from "./constants";
 
-export function getStartOfCurrentWeek(date?: Date) {
-  var now = date ?? new Date();
-
+// Wrapper to configure moment function
+export const localisedMoment = (args: any) => {
   // This sets the first day of the week to Monday. For some reason not a default
   moment.updateLocale("en", {
     week: {
       dow: 1,
     },
   });
+  return moment(args);
+};
 
-  var start = moment(now).startOf("week").toDate().setHours(0, 0, 0, 0);
+export function getStartOfCurrentWeek(date?: Date) {
+  var now = date ?? new Date();
+
+  // This sets the first day of the week to Monday. For some reason not a default
+
+  var start = localisedMoment(now)
+    .startOf("week")
+    .toDate()
+    .setHours(0, 0, 0, 0);
   return new Date(start);
 }
 
 export function getEndOfCurrentWeek(date?: Date) {
   var now = date ?? new Date();
 
-  // This sets the first day of the week to Monday. For some reason not a default
-  moment.updateLocale("en", {
-    week: {
-      dow: 1,
-    },
-  });
-
-  var end = moment(now).endOf("week").toDate().setHours(0, 0, 0, 0);
+  var end = localisedMoment(now).endOf("week").toDate().setHours(0, 0, 0, 0);
   return new Date(end);
 }
 
@@ -35,7 +37,7 @@ export const initialiseDays = (user) => {
 
   var initial = [[start]];
   var week = 0;
-  var next = moment(start).add(1, "day").toDate();
+  var next = localisedMoment(start).add(1, "day").toDate();
   while (next.getTime() <= endOfCurrentWeek.getTime()) {
     if (next.getDay() === 1) {
       initial.push([formatDateData(next)]);
@@ -44,7 +46,7 @@ export const initialiseDays = (user) => {
       initial[week].push(formatDateData(next));
     }
 
-    next = moment(next).add(1, "day").toDate();
+    next = localisedMoment(next).add(1, "day").toDate();
   }
 
   return initial;
@@ -68,14 +70,14 @@ export const extendByWeek = (weeks) => {
   var i = weeks.length - 1;
   var lastWeek = weeks[i];
   var lastDay = lastWeek[lastWeek.length - 1];
-  const endOfNextWeek = moment(lastDay).add(1, "week").toDate();
+  const endOfNextWeek = localisedMoment(lastDay).add(1, "week").toDate();
 
-  var next = moment(lastDay).add(1, "day").toDate();
+  var next = localisedMoment(lastDay).add(1, "day").toDate();
 
   weeks.push([]);
   while (next.getTime() <= endOfNextWeek.getTime()) {
     weeks[i + 1].push(formatDateData(next));
-    next = moment(next).add(1, "day").toDate();
+    next = localisedMoment(next).add(1, "day").toDate();
   }
 
   return weeks;
@@ -83,21 +85,21 @@ export const extendByWeek = (weeks) => {
 
 export function formatDate(date: string) {
   var time = parseDateString(date);
-  return moment(time).format("DD MMM");
+  return localisedMoment(time).format("DD MMM");
 }
 
 export function dateFromDay(day: DaysOfWeek, dates) {
   for (var date of dates) {
-    if (moment(date).format("dddd") === day) return date;
+    if (localisedMoment(date).format("dddd") === day) return date;
   }
 }
 
 export function dayFromDateString(date: string) {
-  return moment(parseDateString(date)).format("dddd");
+  return localisedMoment(parseDateString(date)).format("dddd");
 }
 
 export function formatDateData(date: Date) {
-  return moment(date).format("YYYY-MM-DD");
+  return localisedMoment(date).format("YYYY-MM-DD");
 }
 
 export function parseDateString(date: String) {

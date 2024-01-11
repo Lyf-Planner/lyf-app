@@ -3,7 +3,6 @@ import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Entypo from "react-native-vector-icons/Entypo";
-import moment from "moment";
 import { formatDateData } from "../utils/dates";
 
 export const NullableDatePicker = ({ updateDate, date }) => {

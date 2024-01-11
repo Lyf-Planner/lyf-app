@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { Horizontal } from "../../components/MiscComponents";
 import { ListInput } from "../../components/list/ListInput";
 import {
+  localisedMoment,
   dayFromDateString,
   formatDate,
   formatDateData,
@@ -22,7 +23,6 @@ import {
 import { LongPressGestureHandler } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
 import { ListItemType } from "../../components/list/constants";
-import moment from "moment";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useItems } from "../../hooks/useItems";
 
@@ -36,7 +36,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
       opacity.value = 0;
       await sleep(500);
       var next = formatDateData(
-        moment(parseDateString(user.timetable.first_day)).add(1, "day").toDate()
+        localisedMoment(parseDateString(user.timetable.first_day)).add(1, "day").toDate()
       );
       updateUser({
         ...user,

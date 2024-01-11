@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Entypo from "react-native-vector-icons/Entypo";
-import moment from "moment";
+import { localisedMoment } from "../utils/dates";
 
 export const NullableTimePicker = ({ updateTime, time }) => {
   return (
@@ -31,7 +31,7 @@ export const TimePicker = ({ time, updateTime }) => {
   const updateTimeFromPicker = (time) => {
     // Picker gives us a timestamp, that we need to convert to 24 hr time
     var dateTime = new Date(time.nativeEvent.timestamp);
-    updateTime(moment(dateTime).format("HH:mm"));
+    updateTime(localisedMoment(dateTime).format("HH:mm"));
   };
 
   var today = new Date();

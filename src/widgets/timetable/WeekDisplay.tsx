@@ -10,7 +10,7 @@ import { useMemo, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Day } from "./DayDisplay";
 import { BouncyPressable } from "../../components/BouncyPressable";
-import moment from "moment";
+import { localisedMoment } from "../../utils/dates";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { isTemplate } from "../../components/list/constants";
 import { v4 as uuid } from "uuid";
@@ -25,7 +25,7 @@ export const WeekDisplay = ({ items, dates }) => {
   const unshiftFirst = async () => {
     var first = user.timetable.first_day || formatDateData(new Date());
     var prev = formatDateData(
-      moment(parseDateString(first)).add(-1, "day").toDate()
+      localisedMoment(parseDateString(first)).add(-1, "day").toDate()
     );
     if (prev.localeCompare(start) >= 0)
       updateUser({

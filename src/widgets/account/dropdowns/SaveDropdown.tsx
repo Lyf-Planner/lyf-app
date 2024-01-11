@@ -2,8 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { SettingDropdown } from "../../../components/dropdowns/SettingDropdown";
 import { useAuth } from "../../../authorisation/AuthProvider";
 import { SettingsDropdowns } from "./constants";
-
-import moment from "moment";
+import { localisedMoment } from "../../../utils/dates";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 export const SaveDropdown = ({ settingOpen, setOpen }) => {
@@ -47,10 +46,10 @@ export const SaveInfo = () => {
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
           <View style={styles.lastSaveTimeColumn}>
             <Text style={styles.lastSaveTime}>
-              {moment(lastSave).format("hh:mm:ss A")}
+              {localisedMoment(lastSave).format("hh:mm:ss A")}
             </Text>
             <Text style={styles.lastSaveTime}>
-              {moment(lastUpdate).format("hh:mm:ss A")}
+              {localisedMoment(lastUpdate).format("hh:mm:ss A")}
             </Text>
           </View>
         </View>
