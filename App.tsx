@@ -10,12 +10,9 @@ import { TouchableWithoutFeedback, Keyboard } from "react-native";
 import { AppProviders } from "./src/hooks/hookProviders";
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./src/redux/store";
+import { NotificationsLayer } from "./src/authorisation/NotificationsLayer";
 
 export default function App() {
-  let [loaded] = useFonts({});
-
-  if (!loaded) return null;
-
   console.log(env.BACKEND_URL);
 
   StatusBar.setBarStyle("dark-content");
@@ -26,9 +23,11 @@ export default function App() {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <ReduxProvider store={store}>
             <AuthGateway>
-              <AppProviders>
-                <WidgetContainer />
-              </AppProviders>
+              <NotificationsLayer>
+                <AppProviders>
+                  <WidgetContainer />
+                </AppProviders>
+              </NotificationsLayer>
             </AuthGateway>
           </ReduxProvider>
         </TouchableWithoutFeedback>

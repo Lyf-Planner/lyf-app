@@ -18,6 +18,7 @@ import { ItemDescription } from "./itemSettings/ItemDescription";
 import { ItemDate } from "./itemSettings/ItemDate";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { useAuth } from "../../authorisation/AuthProvider";
+import { useNotifications } from "../../authorisation/NotificationsLayer";
 
 export const ListItemDrawer = ({
   initialItem,
@@ -29,6 +30,7 @@ export const ListItemDrawer = ({
   // We setup a local copy of the item so that certain fields can be published when needed
   const [item, updateLocalItem] = useState(initialItem);
   const { user } = useAuth();
+  const { enabled } = useNotifications();
   const publishUpdate = () => {
     updateRootItem({ ...item });
   };
@@ -46,7 +48,6 @@ export const ListItemDrawer = ({
       user.premium?.enabled &&
       user.premium?.event_notifications
     ) {
-      
     }
     updateLocalItem({ ...item, time });
     updateRootItem({ ...item, time });
@@ -146,7 +147,8 @@ export const ListItemDrawer = ({
 
           {user.premium?.enabled && (
             <ItemNotification
-              disabled={!item.time}
+              enabled={enabled}
+              time={item.time}
               notification={
                 item.notifications &&
                 item.notifications.find((x) => x.user_id === user.id)

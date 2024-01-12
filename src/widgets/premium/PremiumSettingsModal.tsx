@@ -9,9 +9,11 @@ import {
   DailyNotificationDesc,
   EventNotificationDesc,
 } from "./PremiumSettingDescriptions";
+import { useNotifications } from "../../authorisation/NotificationsLayer";
 
 export const PremiumSettingsModal = () => {
   const { user, updateUser } = useAuth();
+  const { enabled } = useNotifications();
   const { updateModal } = useModal();
   const premium = user.premium;
 
@@ -19,13 +21,6 @@ export const PremiumSettingsModal = () => {
   const updatePremium = (premium) => updateUser({ ...user, premium });
   const updateNotificationSettings = (notifications) =>
     updatePremium({ ...premium, notifications });
-
-  // ENHANCED PLANNING
-  const enhancedPlanning = (enabled: boolean) =>
-    updatePremium({
-      ...premium,
-      enhanced_planning_enabled: enabled,
-    });
 
   // DAILY NOTIFICATIONS
   const dailyNotifications = (enabled: boolean) =>
@@ -95,6 +90,11 @@ export const PremiumSettingsModal = () => {
         />
       </View>
       <Horizontal style={styles.secondSeperator} />
+      {!enabled && (
+        <Text style={[styles.subtitle]}>
+          Warning: Your device has Notifications disabled for Lyf
+        </Text>
+      )}
       <View style={styles.bottomButtonsContainer}>
         <TouchableHighlight
           onPress={() => {

@@ -4,10 +4,15 @@ const { manifest, manifest2 } = Constants;
 // With expo constants, once Constants.manifest is null, Constants.manifest2 contains the env vars
 // Which of these contains data depends on environments
 // This unifies them into one function call so we don't have to worry about distinguishing elsewhere
-function envVar(varName: string) {
+function envVar(varName: string, subvar_name: string = null) {
   // Slower but more robust method of finding env var
   for (const extra of [manifest?.extra, manifest2?.extra]) {
-    const c = extra?.[varName] ?? extra?.expoClient?.extra?.[varName];
+    let c;
+    if (subvar_name)
+      c =
+        extra?.[varName][subvar_name] ??
+        extra?.expoClient?.extra?.[varName][subvar_name];
+    else c = extra?.[varName] ?? extra?.expoClient?.extra?.[varName];
     if (c) return c;
   }
   throw new Error(`Constant ${varName} not found in expo manifest.`);
@@ -48,6 +53,7 @@ function parseBackendUrl() {
 enum env {
   APP_ENV = envVar("appEnv"),
   BACKEND_URL = parseBackendUrl() as any,
+  PROJECT_ID = envVar("eas", "projectId") as any,
 }
 
 export default env;

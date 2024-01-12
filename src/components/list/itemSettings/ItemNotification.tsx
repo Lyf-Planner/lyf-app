@@ -11,7 +11,8 @@ import Entypo from "react-native-vector-icons/Entypo";
 import { useDrawer } from "../../../hooks/useDrawer";
 
 export const ItemNotification = ({
-  disabled,
+  enabled,
+  time,
   notification,
   updateNotification,
   updateDrawerIndex,
@@ -30,14 +31,19 @@ export const ItemNotification = ({
   };
 
   return (
-    <View style={[styles.mainContainer, { opacity: !disabled ? 1 : 0.3 }]}>
+    <View
+      style={[styles.mainContainer, { opacity: enabled && time ? 1 : 0.3 }]}
+    >
       <Text
-        style={[styles.notifyText, { fontWeight: !disabled ? "500" : "400" }]}
+        style={[
+          styles.notifyText,
+          { fontWeight: enabled && time ? "500" : "400" },
+        ]}
       >
         Notify Me
       </Text>
 
-      {!!notification && !disabled ? (
+      {!!notification && enabled && time ? (
         <View style={styles.minutesInputWrapper}>
           <TouchableHighlight
             onPress={() => updateNotify(false)}
@@ -62,12 +68,17 @@ export const ItemNotification = ({
           style={styles.addNotificationContainer}
           underlayColor={"rgba(0,0,0,0.5)"}
           onPress={() => {
-            disabled
-              ? Alert.alert(
-                  "Tip",
-                  "You need to add a time before setting a reminder :)"
-                )
-              : updateNotify(true);
+            if (!time)
+              Alert.alert(
+                "Tip",
+                "You need to add a time before setting a reminder :)"
+              );
+            else if (!enabled) {
+              Alert.alert(
+                "Whoops",
+                "You need to enable Notifications for Lyf in your device settings"
+              );
+            } else updateNotify(true);
           }}
         >
           <Text style={styles.addNotificationText}>Add Reminder +</Text>
