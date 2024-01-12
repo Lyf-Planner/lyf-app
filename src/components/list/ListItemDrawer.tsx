@@ -17,6 +17,7 @@ import { ItemNotification } from "./itemSettings/ItemNotification";
 import { ItemDescription } from "./itemSettings/ItemDescription";
 import { ItemDate } from "./itemSettings/ItemDate";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import { useAuth } from "../../authorisation/AuthProvider";
 
 export const ListItemDrawer = ({
   initialItem,
@@ -27,6 +28,7 @@ export const ListItemDrawer = ({
 }) => {
   // We setup a local copy of the item so that certain fields can be published when needed
   const [item, updateLocalItem] = useState(initialItem);
+  const { user } = useAuth();
   const publishUpdate = () => {
     updateRootItem({ ...item });
   };
@@ -35,11 +37,21 @@ export const ListItemDrawer = ({
     updateLocalItem({ ...item, status });
     updateRootItem({ ...item, status });
   };
+
   const updateTitle = (title) => updateLocalItem({ ...item, title });
+
   const updateTime = (time) => {
+    if (
+      !item.time &&
+      user.premium?.enabled &&
+      user.premium?.event_notifications
+    ) {
+      
+    }
     updateLocalItem({ ...item, time });
     updateRootItem({ ...item, time });
   };
+
   const switchType = () => {
     var newItem = { ...item };
     if (item.type === ListItemType.Task) {
@@ -51,11 +63,38 @@ export const ListItemDrawer = ({
     updateLocalItem(newItem);
     updateRootItem(newItem);
   };
+
   const updateDate = (date) => {
     updateLocalItem({ ...item, date });
     updateRootItem({ ...item, date });
   };
+
+  const updateNotification = (enabled, minutes_before) => {
+    var tmp = item.notifications || [];
+    var userIndex = tmp.findIndex((x) => x.user_id === user.id);
+    if (userIndex === -1) {
+      if (!enabled) return;
+      else
+        tmp.push({
+          user_id: user.id,
+          minutes_before:
+            user.premium?.notifications?.event_notification_minutes_before || 5,
+        });
+    } else {
+      if (!enabled) tmp.splice(userIndex, 1);
+      else tmp[userIndex].minutes_before = minutes_before;
+    }
+    updateLocalItem({ ...item, notifications: tmp });
+    updateRootItem({ ...item, notifications: tmp });
+  };
+
   const updateDesc = (desc) => updateLocalItem({ ...item, desc });
+
+  console.log(
+    "notification searched as",
+    item,
+    item.notifications && item.notifications.find((x) => x.user_id === user.id)
+  );
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -105,13 +144,25 @@ export const ListItemDrawer = ({
 
           <ItemEventTime time={item.time} updateTime={updateTime} />
 
-          {/* <ItemNotification item={item} updateItem={updateItem} /> */}
-          <ItemDescription
-            item={item}
-            updateDesc={updateDesc}
-            publishUpdate={publishUpdate}
-            updateDrawerIndex={updateDrawerIndex}
-          />
+          {user.premium?.enabled && (
+            <ItemNotification
+              disabled={!item.time}
+              notification={
+                item.notifications &&
+                item.notifications.find((x) => x.user_id === user.id)
+              }
+              updateNotification={updateNotification}
+              updateDrawerIndex={updateDrawerIndex}
+            />
+          )}
+          {user.premium?.enabled && (
+            <ItemDescription
+              item={item}
+              updateDesc={updateDesc}
+              publishUpdate={publishUpdate}
+              updateDrawerIndex={updateDrawerIndex}
+            />
+          )}
         </View>
 
         <View style={styles.footer}>

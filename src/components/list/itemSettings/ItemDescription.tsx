@@ -45,7 +45,7 @@ export const ItemDescription = ({
                 updateDrawerIndex(1);
               }}
             >
-              <Text style={styles.addDescriptionText}>Add Description +</Text>
+              <Text style={styles.addDescriptionText}>Add Desc +</Text>
             </TouchableHighlight>
           )}
         </View>
@@ -54,7 +54,7 @@ export const ItemDescription = ({
         <TextInput
           value={item.desc}
           onChangeText={updateDesc}
-          onFocus={() => updateDrawerIndex(2)}
+          onFocus={() => updateDrawerIndex(3)}
           onBlur={() => {
             updateDrawerIndex(1);
             publishUpdate();

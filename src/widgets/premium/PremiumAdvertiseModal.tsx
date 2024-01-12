@@ -15,7 +15,7 @@ const NOTIFICATION_IMAGE = require("../../../assets/images/notification.png");
 const ADVERTISED_FEATURES = [
   {
     title: "Enhanced Planning",
-    text: "Set times, descriptions, status and reminders on tasks and events",
+    text: "Add details, descriptions and reminders to tasks and events",
     image: ENHANCE_IMAGE,
     image_size: 80,
     available: true,
@@ -25,7 +25,7 @@ const ADVERTISED_FEATURES = [
     title: "Push Notifications",
     text: "Notifications for events and checking your timetable",
     image: NOTIFICATION_IMAGE,
-    available: false,
+    available: true,
     image_size: 80,
   },
   {
@@ -73,7 +73,7 @@ export const PremiumAdvertiseModal = () => {
         </Text>
       </View>
       <Horizontal style={styles.firstSeperator} />
-      <View style={{ height: 170 }}>
+      <View style={{ height: 165 }}>
         <AppIntroSlider
           renderItem={PremiumFeature}
           data={ADVERTISED_FEATURES}

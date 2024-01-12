@@ -1,33 +1,43 @@
+import { useState } from "react";
 import {
   View,
   Text,
   TextInput,
   StyleSheet,
   TouchableHighlight,
+  Alert,
 } from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
+import { useDrawer } from "../../../hooks/useDrawer";
 
-export const ItemNotification = ({ item, updateItem }) => {
-  const updateNotify = (notify) => updateItem({ ...item, notify });
+export const ItemNotification = ({
+  disabled,
+  notification,
+  updateNotification,
+  updateDrawerIndex,
+}) => {
+  const [localText, setText] = useState(`${notification?.minutes_before || 5}`);
+  const updateNotify = (notify) => updateNotification(!!notify, null);
   const updateMinutes = (minutes_before) =>
-    updateItem({ ...item, minutes_before });
+    updateNotification(true, minutes_before);
 
-  const updateMinutesFromInput = (text) => {
-    text.replace(/[^0-9]/g, "");
-    let val = Number(text);
-    val < 1000 && updateMinutes(text);
+  const updateMinutesFromInput = () => {
+    updateDrawerIndex(0);
+    var text = localText.replace(/[^0-9]/g, "");
+    if (!text) text = "0";
+    setText(text);
+    updateMinutes(text);
   };
-  const replaceEmptyWithZero = () => !item.minutes_before && updateMinutes("0");
 
   return (
-    <View style={[styles.mainContainer, { opacity: item.time ? 1 : 0.3 }]}>
+    <View style={[styles.mainContainer, { opacity: !disabled ? 1 : 0.3 }]}>
       <Text
-        style={[styles.notifyText, { fontWeight: item.time ? "500" : "400" }]}
+        style={[styles.notifyText, { fontWeight: !disabled ? "500" : "400" }]}
       >
         Notify Me
       </Text>
 
-      {item.notify && item.time ? (
+      {!!notification && !disabled ? (
         <View style={styles.minutesInputWrapper}>
           <TouchableHighlight
             onPress={() => updateNotify(false)}
@@ -37,11 +47,12 @@ export const ItemNotification = ({ item, updateItem }) => {
             <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
           </TouchableHighlight>
           <TextInput
-            value={item.minutes_before}
-            onEndEditing={replaceEmptyWithZero}
+            value={localText}
+            onEndEditing={updateMinutesFromInput}
+            onFocus={() => updateDrawerIndex(2)}
             returnKeyType="done"
             keyboardType="numeric"
-            onChangeText={updateMinutesFromInput}
+            onChangeText={setText}
             style={styles.minutesInput}
           />
           <Text style={styles.minsBeforeText}>mins before</Text>
@@ -51,11 +62,15 @@ export const ItemNotification = ({ item, updateItem }) => {
           style={styles.addNotificationContainer}
           underlayColor={"rgba(0,0,0,0.5)"}
           onPress={() => {
-            updateNotify(true);
-            !item.minutes_before && updateMinutes("5");
+            disabled
+              ? Alert.alert(
+                  "Tip",
+                  "You need to add a time before setting a reminder :)"
+                )
+              : updateNotify(true);
           }}
         >
-          <Text style={styles.addNotificationText}>Add Notification +</Text>
+          <Text style={styles.addNotificationText}>Add Reminder +</Text>
         </TouchableHighlight>
       )}
     </View>
@@ -81,7 +96,7 @@ const styles = StyleSheet.create({
   minutesInput: {
     backgroundColor: "rgba(0,0,0,0.08)",
     padding: 6,
-    width: 40,
+    width: 45,
     borderRadius: 8,
     fontSize: 16,
     textAlign: "center",

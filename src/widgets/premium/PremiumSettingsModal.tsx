@@ -5,6 +5,10 @@ import { useAuth } from "../../authorisation/AuthProvider";
 import { useModal } from "../../hooks/useModal";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { primaryGreen } from "../../utils/constants";
+import {
+  DailyNotificationDesc,
+  EventNotificationDesc,
+} from "./PremiumSettingDescriptions";
 
 export const PremiumSettingsModal = () => {
   const { user, updateUser } = useAuth();
@@ -64,17 +68,6 @@ export const PremiumSettingsModal = () => {
       <Horizontal style={styles.firstSeperator} />
       <View style={styles.settingsContainer}>
         <Setting
-          updateFunc={enhancedPlanning}
-          enabled={premium.enhanced_planning_enabled}
-          name="Enhanced Planning"
-          desc={
-            <Text style={styles.settingDescText}>
-              Add times, status and descriptions to any tasks or events when
-              swiped left
-            </Text>
-          }
-        />
-        {/* <Setting
           updateFunc={dailyNotifications}
           enabled={premium.notifications?.daily_notifications}
           name="Daily Notifications"
@@ -99,7 +92,7 @@ export const PremiumSettingsModal = () => {
               }
             />
           }
-        /> */}
+        />
       </View>
       <Horizontal style={styles.secondSeperator} />
       <View style={styles.bottomButtonsContainer}>
@@ -158,7 +151,7 @@ const styles = StyleSheet.create({
     minWidth: "90%",
     paddingHorizontal: 15,
     paddingVertical: 25,
-    marginHorizontal: 16,
+    marginHorizontal: 12,
     borderColor: "rgba(0,0,0,0.5)",
     borderWidth: 1,
     borderRadius: 10,
@@ -192,6 +185,7 @@ const styles = StyleSheet.create({
   settingsContainer: {
     flexDirection: "column",
     gap: 16,
+    paddingHorizontal: 4,
     marginTop: 14,
   },
   settingContainer: { flexDirection: "row", alignItems: "center" },

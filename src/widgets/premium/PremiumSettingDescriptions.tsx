@@ -41,7 +41,7 @@ export const DailyNotificationDesc = ({
       </View>
 
       <Text style={dailyStyles.secondText}>
-        about your schedule for today. Will{" "}
+        about your schedule for today.{" "}
       </Text>
       <TouchableHighlight
         onPress={() => updatePersistent(!persistent)}
@@ -49,7 +49,7 @@ export const DailyNotificationDesc = ({
         underlayColor={"rgba(0,0,0,0.5)"}
       >
         <Text style={dailyStyles.persistentText}>
-          {persistent ? "still" : "not"}
+          {persistent ? "Will" : "Won't"}
         </Text>
       </TouchableHighlight>
       <Text style={dailyStyles.thirdText}>
@@ -73,7 +73,7 @@ export const EventNotificationDesc = ({
 
   return (
     <View style={eventStyles.mainContainer}>
-      <Text style={eventStyles.firstText}>Always receive reminders </Text>
+      <Text style={eventStyles.firstText}>Receive reminders </Text>
       <TextInput
         value={minutesBefore}
         onEndEditing={replaceEmptyWithZero}
@@ -82,9 +82,8 @@ export const EventNotificationDesc = ({
         onChangeText={updateMinutesFromInput}
         style={eventStyles.minutesInput}
       />
-      <Text style={eventStyles.secondText}>
-        minutes before events with set times, as a default
-      </Text>
+      <Text style={eventStyles.secondText}> minutes before</Text>
+      <Text style={eventStyles.secondText}>events as a default</Text>
     </View>
   );
 };

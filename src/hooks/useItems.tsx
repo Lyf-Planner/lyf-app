@@ -90,6 +90,21 @@ export const ItemsProvider = ({ children }) => {
       newItem.time = template_instance.time;
     }
 
+    if (
+      user.premium?.enabled &&
+      user.premium?.notifications?.event_notifications_enabled
+    ) {
+      newItem.notifications = [
+        {
+          user_id: user.id,
+          minutes_before:
+            user.premium?.notifications?.event_notification_minutes_before,
+        },
+      ];
+    }
+
+    console.log("NEW ITEM IS", newItem);
+
     // Add to store
     var tmp = [...items];
     tmp.push(newItem);
