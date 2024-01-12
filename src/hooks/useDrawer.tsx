@@ -9,15 +9,20 @@ import {
 } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Keyboard, StyleSheet } from "react-native";
+import { useAuth } from "../authorisation/AuthProvider";
 
 // Component provider
 export const DrawerProvider = ({ children }) => {
   const [drawer, updateDrawer] = useState<any>(null);
+  const { user } = useAuth();
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   // variables
-  const snapPoints = useMemo(() => ["45%", "63%", "90%"], []);
+  const snapPoints = useMemo(
+    () => (user.premium.enabled ? ["49%", "66.5%", "78%", "95%"] : ["40%"]),
+    [user.premium.enabled]
+  );
 
   // callbacks
   const updateDrawerIndex = useCallback(
