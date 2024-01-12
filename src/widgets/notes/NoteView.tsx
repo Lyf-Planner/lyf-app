@@ -1,15 +1,11 @@
-import { StyleSheet, View, TextInput, Text } from "react-native";
-import { Horizontal } from "../../components/MiscComponents";
+import { StyleSheet, View, TextInput, Text, Dimensions } from "react-native";
 
 import Entypo from "react-native-vector-icons/Entypo";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { NoteTypes } from "./TypesAndHelpers";
 import { ListInput } from "../../components/list/ListInput";
-import { useState } from "react";
 import {
   eventsBadgeColor,
-  offWhite,
-  primaryGreen,
   sleep,
 } from "../../utils/constants";
 import { NoteTypeBadge } from "./NoteTypeBadge";
@@ -100,10 +96,14 @@ export const NoteView = ({
           addItem={addItem}
           updateItem={updateItem}
           removeItem={removeItem}
-          badgeColor={eventsBadgeColor}
-          badgeTextColor="black"
-          listBackgroundColor={offWhite}
-          listWrapperStyles={{ padding: 5 }}
+          badgeColor="rgb(30 41 59)"
+          badgeTextColor="rgb(203 213 225)"
+          listBackgroundColor={eventsBadgeColor}
+          listWrapperStyles={{
+            paddingHorizontal: 10,
+            paddingVertical: 12,
+            borderRadius: 10,
+          }}
         />
       )}
     </View>
@@ -112,7 +112,7 @@ export const NoteView = ({
 
 const styles = StyleSheet.create({
   notePageWrapper: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 10,
   },
   myNotesHeader: {
     flexDirection: "row",
@@ -124,13 +124,13 @@ const styles = StyleSheet.create({
   },
   myNotesTitle: { fontSize: 22, fontWeight: "700", width: "80%" },
   noteText: {
-    borderWidth: 0.5,
+    borderWidth: 1,
     marginTop: 6,
     borderColor: "rgba(0,0,0,0.3)",
-    backgroundColor: offWhite,
+    backgroundColor: "rgba(0,0,0,0.07)",
     borderRadius: 5,
     fontSize: 16,
-    height: 400,
+    height: Dimensions.get("window").height - 250,
     padding: 8,
     marginBottom: 8,
   },

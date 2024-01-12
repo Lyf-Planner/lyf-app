@@ -36,7 +36,9 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
       opacity.value = 0;
       await sleep(500);
       var next = formatDateData(
-        localisedMoment(parseDateString(user.timetable.first_day)).add(1, "day").toDate()
+        localisedMoment(parseDateString(user.timetable.first_day))
+          .add(1, "day")
+          .toDate()
       );
       updateUser({
         ...user,
