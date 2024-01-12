@@ -7,7 +7,7 @@
                 "EAS_PROJECT_ID": "2c533ba0-983e-4ef8-abc4-e938b5768a79"
             }
         },
-        "preview": {
+        "dev": {
             "developmentClient": true,
             "distribution": "internal",
             "env": {
@@ -16,7 +16,7 @@
                 "EAS_PROJECT_ID": "2c533ba0-983e-4ef8-abc4-e938b5768a79"
             } 
         },
-        "sim-preview": {
+        "sim-dev": {
             "developmentClient": true,
             "ios": {
                 "simulator": true
