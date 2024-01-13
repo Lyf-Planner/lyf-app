@@ -87,7 +87,7 @@ export const ListItemDrawer = ({
         tmp.push({
           user_id: user.id,
           minutes_before:
-            user.premium?.notifications?.event_notification_minutes_before || 5,
+            user.premium?.notifications?.event_notification_minutes_before || '5',
         });
     } else {
       if (!enabled) tmp.splice(userIndex, 1);
