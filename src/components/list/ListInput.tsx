@@ -53,12 +53,11 @@ export const ListInput = ({
         returnKeyType="done"
         placeholder={`Add ${type} +`}
         placeholderTextColor="grey"
-        value={newItem}
         style={styles.listNewItem}
         blurOnSubmit={false}
         onSubmitEditing={() => {
           newItem && addItem(newItem);
-          updateNewItem("");
+          inputRef.current.clear();
           inputRef.current.focus();
         }}
         onChangeText={(text) => updateNewItem(text)}
