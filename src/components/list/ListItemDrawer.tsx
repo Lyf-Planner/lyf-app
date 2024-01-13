@@ -46,11 +46,19 @@ export const ListItemDrawer = ({
     if (
       !item.time &&
       user.premium?.enabled &&
-      user.premium?.event_notifications
+      user.premium?.notifications?.event_notifications_enabled
     ) {
+      // If user has the setting to automatically create a notification, pass the update off to notif func
+      var prereq = { ...item, time };
+      updateNotification(
+        true,
+        user.premium.notifications?.event_notification_minutes_before,
+        prereq
+      );
+    } else {
+      updateLocalItem({ ...item, time });
+      updateRootItem({ ...item, time });
     }
-    updateLocalItem({ ...item, time });
-    updateRootItem({ ...item, time });
   };
 
   const switchType = () => {
@@ -70,7 +78,7 @@ export const ListItemDrawer = ({
     updateRootItem({ ...item, date });
   };
 
-  const updateNotification = (enabled, minutes_before) => {
+  const updateNotification = (enabled, minutes_before, prereqItem = item) => {
     var tmp = item.notifications || [];
     var userIndex = tmp.findIndex((x) => x.user_id === user.id);
     if (userIndex === -1) {
@@ -81,12 +89,12 @@ export const ListItemDrawer = ({
           minutes_before:
             user.premium?.notifications?.event_notification_minutes_before || 5,
         });
-    } else { 
+    } else {
       if (!enabled) tmp.splice(userIndex, 1);
       else tmp[userIndex].minutes_before = minutes_before;
     }
-    updateLocalItem({ ...item, notifications: tmp });
-    updateRootItem({ ...item, notifications: tmp });
+    updateLocalItem({ ...prereqItem, notifications: tmp });
+    updateRootItem({ ...prereqItem, notifications: tmp });
   };
 
   const updateDesc = (desc) => updateLocalItem({ ...item, desc });

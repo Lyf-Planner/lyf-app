@@ -103,8 +103,6 @@ export const ItemsProvider = ({ children }) => {
       ];
     }
 
-    console.log("NEW ITEM IS", newItem);
-
     // Add to store
     var tmp = [...items];
     tmp.push(newItem);

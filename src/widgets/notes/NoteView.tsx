@@ -55,9 +55,7 @@ export const NoteView = ({
     sleep(100);
     publishUpdate();
   };
-
-  console.log({ justCreated });
-
+  
   return (
     <View style={styles.notePageWrapper}>
       <View style={styles.myNotesHeader}>
