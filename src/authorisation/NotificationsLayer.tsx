@@ -29,6 +29,8 @@ export const NotificationsLayer = ({ children }) => {
           });
           storeAsyncData("expo_token", token);
         });
+      } else {
+        setEnabled(true);
       }
     });
   }, []);

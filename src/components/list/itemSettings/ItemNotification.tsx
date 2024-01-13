@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
 import { useDrawer } from "../../../hooks/useDrawer";
+import { useAuth } from "../../../authorisation/AuthProvider";
 
 export const ItemNotification = ({
   enabled,
@@ -17,8 +18,15 @@ export const ItemNotification = ({
   updateNotification,
   updateDrawerIndex,
 }) => {
-  const [localText, setText] = useState(`${notification?.minutes_before || 5}`);
-  const updateNotify = (notify) => updateNotification(!!notify, null);
+  const { user } = useAuth();
+  const [localText, setText] = useState(
+    `${
+      notification?.minutes_before ||
+      user.premium?.notifications?.event_notification_minutes_before ||
+      5
+    }`
+  );
+  const updateNotify = (notify) => updateNotification(!!notify, localText);
   const updateMinutes = (minutes_before) =>
     updateNotification(true, minutes_before);
 
@@ -29,6 +37,10 @@ export const ItemNotification = ({
     setText(text);
     updateMinutes(text);
   };
+
+  useEffect(() => {
+    notification?.minutes_before && setText(notification.minutes_before);
+  }, [notification]);
 
   return (
     <View

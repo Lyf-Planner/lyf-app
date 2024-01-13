@@ -81,7 +81,7 @@ export const ListItemDrawer = ({
           minutes_before:
             user.premium?.notifications?.event_notification_minutes_before || 5,
         });
-    } else {
+    } else { 
       if (!enabled) tmp.splice(userIndex, 1);
       else tmp[userIndex].minutes_before = minutes_before;
     }
@@ -90,12 +90,6 @@ export const ListItemDrawer = ({
   };
 
   const updateDesc = (desc) => updateLocalItem({ ...item, desc });
-
-  console.log(
-    "notification searched as",
-    item,
-    item.notifications && item.notifications.find((x) => x.user_id === user.id)
-  );
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
