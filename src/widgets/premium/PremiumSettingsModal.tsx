@@ -28,7 +28,7 @@ export const PremiumSettingsModal = () => {
       ...premium.notifications,
       daily_notifications: enabled,
       daily_notification_time:
-        premium.notifications.daily_notification_time || "08:00",
+        premium.notifications?.daily_notification_time || "08:00",
     });
   const dailyNotificationTime = (time: string) =>
     updateNotificationSettings({
