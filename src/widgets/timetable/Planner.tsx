@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
   menuButtonText: {
     color: "white",
     fontSize: 22,
+    padding: 6,
     fontFamily: "BalooMed",
   },
   addWeekView: {

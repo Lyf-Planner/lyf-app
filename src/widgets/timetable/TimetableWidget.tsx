@@ -17,7 +17,7 @@ export const Timetable = () => {
             (x) => x.type === ListItemType.Event && !x.date && !x.day
           )}
           name="Upcoming Events"
-          icon={<Entypo name="calendar" size={20}/>}
+          icon={<Entypo name="calendar" size={22}/>}
           listType={ListType.Event}
         />
         <ListDropdown
@@ -25,7 +25,7 @@ export const Timetable = () => {
             (x) => x.type === ListItemType.Task && !x.date && !x.day
           )}
           name="To Do List"
-          icon={<Entypo name="list" size={20} />}
+          icon={<Entypo name="list" size={22} />}
           listType={ListType.Task}
         />
       </View>

@@ -204,7 +204,8 @@ const styles = StyleSheet.create({
   dayOfWeekText: {
     fontWeight: "600",
     fontFamily: "BalooSemi",
-    fontSize: 20,
+    fontSize: 21,
+    padding: 4,
   },
   dayOfWeekPressable: {
     borderRadius: 10,

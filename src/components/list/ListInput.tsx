@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
   listNewItem: {
     height: 55,
     backgroundColor: "rgb(17 24 39)",
+    fontFamily: "Baloo",
     borderRadius: 5,
     paddingVertical: 8,
     paddingHorizontal: 8,
@@ -82,6 +83,6 @@ const styles = StyleSheet.create({
     borderColor: "rgb(156 163 175)",
     borderWidth: 1,
     color: "rgb(203 213 225)",
-    fontSize: 16,
+    fontSize: 18,
   },
 });

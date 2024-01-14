@@ -225,6 +225,7 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     fontSize: 18,
+    padding: 2,
   },
   listHiddenBackground: {
     height: 54,

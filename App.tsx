@@ -14,9 +14,9 @@ import { NotificationsLayer } from "./src/authorisation/NotificationsLayer";
 
 export default function App() {
   const [loaded] = useFonts({
-    Baloo: require("./assets/fonts/Baloo_2/static/Baloo2-Regular.ttf"),
-    BalooMed: require("./assets/fonts/Baloo_2/static/Baloo2-Medium.ttf"),
-    BalooSemi: require("./assets/fonts/Baloo_2/static/Baloo2-SemiBold.ttf"),
+    Baloo: require("./assets/fonts/Archivo/static/Archivo-Regular.ttf"),
+    BalooMed: require("./assets/fonts/Archivo/static/Archivo-Medium.ttf"),
+    BalooSemi: require("./assets/fonts/Archivo/static/Archivo-SemiBold.ttf"),
   });
   if (!loaded) return null;
 

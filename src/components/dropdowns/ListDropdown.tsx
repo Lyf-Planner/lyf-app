@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
   listTitle: {
     fontWeight: "500",
     fontSize: 22,
+    paddingVertical: 6,
     fontFamily: "BalooMed",
   },
   animatedChevron: {
