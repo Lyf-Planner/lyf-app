@@ -13,6 +13,13 @@ import { store } from "./src/redux/store";
 import { NotificationsLayer } from "./src/authorisation/NotificationsLayer";
 
 export default function App() {
+  const [loaded] = useFonts({
+    Baloo: require("./assets/fonts/Baloo_2/static/Baloo2-Regular.ttf"),
+    BalooMed: require("./assets/fonts/Baloo_2/static/Baloo2-Medium.ttf"),
+    BalooSemi: require("./assets/fonts/Baloo_2/static/Baloo2-SemiBold.ttf"),
+  });
+  if (!loaded) return null;
+
   console.log(env.BACKEND_URL);
 
   StatusBar.setBarStyle("dark-content");

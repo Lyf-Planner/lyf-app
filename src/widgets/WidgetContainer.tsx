@@ -11,16 +11,16 @@ import { PremiumHeaderButton } from "./premium/PremiumHeaderButton";
 import { BouncyPressable } from "../components/BouncyPressable";
 
 export enum Widgets {
-  Timetable = "Timetable",
+  Plan = "Plan",
   Notes = "Notes",
 }
 
 export const WidgetContainer = () => {
-  const [selected, updateSelected] = useState<any>(Widgets.Timetable);
+  const [selected, updateSelected] = useState<any>(Widgets.Plan);
   const { logout, deleteMe, lastSave } = useAuth();
 
   const WIDGETS = {
-    Timetable: <Timetable />,
+    Plan: <Timetable />,
     Account: (
       <AccountWidget logout={logout} deleteMe={deleteMe} lastSave={lastSave} />
     ),
@@ -28,7 +28,10 @@ export const WidgetContainer = () => {
   };
 
   return (
-    <KeyboardAwareScrollView enableResetScrollToCoords={false}>
+    <KeyboardAwareScrollView
+      enableResetScrollToCoords={false}
+      extraHeight={150}
+    >
       <View style={styles.container}>
         <AppHeaderMenu selected={selected} updateSelected={updateSelected} />
         <Horizontal style={styles.headerSeperator} />
@@ -137,8 +140,9 @@ const styles = StyleSheet.create({
     color: "white",
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
+    fontFamily: "BalooSemi",
   },
   settingButton: {
     alignItems: "center",

@@ -1,4 +1,4 @@
-import { eventsBadgeColor } from "../../utils/constants";
+import { eventsBadgeColor, primaryGreen } from "../../utils/constants";
 
 export enum ItemStatus {
   Cancelled = "Cancelled",
@@ -17,7 +17,7 @@ export const ITEM_STATUS_TO_COLOR = {
   Upcoming: eventsBadgeColor,
   "To Do": "rgb(226 232 240)",
   "In Progress": "rgb(56 189 248)",
-  Done: "rgb(21 128 61)",
+  Done: primaryGreen,
   Cancelled: "rgb(252 165 165)",
 } as any;
 

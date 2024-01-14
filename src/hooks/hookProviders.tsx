@@ -8,18 +8,18 @@ import { NotesProvider } from "./useNotes";
 
 export const AppProviders = ({ children }) => {
   return (
-    <ItemsProvider>
-      <NotesProvider>
-        <MenuProvider>
-          <ModalProvider>
-            <BottomSheetModalProvider>
-              <DrawerProvider>
+    <BottomSheetModalProvider>
+      <DrawerProvider>
+        <ItemsProvider>
+          <NotesProvider>
+            <MenuProvider>
+              <ModalProvider>
                 <InitialisedProvider>{children}</InitialisedProvider>
-              </DrawerProvider>
-            </BottomSheetModalProvider>
-          </ModalProvider>
-        </MenuProvider>
-      </NotesProvider>
-    </ItemsProvider>
+              </ModalProvider>
+            </MenuProvider>
+          </NotesProvider>
+        </ItemsProvider>
+      </DrawerProvider>
+    </BottomSheetModalProvider>
   );
 };

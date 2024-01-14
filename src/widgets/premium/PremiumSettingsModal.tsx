@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   },
   doneButton: { backgroundColor: primaryGreen },
   disablePremiumText: { fontSize: 15 },
-  doneText: { fontSize: 16, color: "white" },
+  doneText: { fontSize: 16, color: "white", fontWeight: "600" },
   bottomButtonText: {
     textAlign: "center",
   },

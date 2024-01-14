@@ -60,6 +60,7 @@ export const Planner = ({ items }) => {
           {displayedWeeks.map((x, i) => (
             <WeekDisplay
               key={x[0]}
+              isFirst={i === 0}
               dates={x}
               items={items.filter((y) => x.includes(y.date) || y.day)}
             />
@@ -103,28 +104,37 @@ const styles = StyleSheet.create({
   menuButtonRow: {
     flexDirection: "row",
     justifyContent: "center",
-    gap: 8,
-    marginTop: 4,
+    gap: 10,
+    marginTop: 8,
     marginHorizontal: 16,
-    backgroundColor: "rgba(0,0,0,0.05)",
-    borderRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
   menuButton: {
     backgroundColor: primaryGreen,
     flex: 1,
-    padding: 10,
+    padding: 8,
+    height: "75%",
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
     borderRadius: 10,
     borderWidth: 2,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
   },
   infoPressable: {
     marginLeft: 6,
     flexDirection: "row",
     alignItems: "center",
   },
-  menuButtonText: { color: "white", fontSize: 20 },
+  menuButtonText: {
+    color: "white",
+    fontSize: 22,
+    fontFamily: "BalooMed",
+  },
   addWeekView: {
     flexDirection: "row",
     justifyContent: "center",

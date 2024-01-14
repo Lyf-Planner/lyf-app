@@ -182,7 +182,8 @@ export const ListItem = ({
               styles.listItemText,
               {
                 color: determineBadgeTextColor(),
-                fontWeight: item.type !== ListItemType.Task ? "600" : "normal",
+                fontFamily:
+                  item.type !== ListItemType.Task ? "BalooMed" : "Baloo",
               },
             ]}
           >
@@ -194,7 +195,7 @@ export const ListItem = ({
               item.status === ItemStatus.Done ? "checkcircle" : "checkcircleo"
             }
             style={{ color: determineBadgeTextColor() }}
-            size={16}
+            size={18}
           />
         </Animated.View>
         <View
@@ -216,19 +217,17 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    height: 50,
+    padding: 12,
+    height: 55,
     borderWidth: 1,
     gap: 4,
     alignItems: "center",
   },
   listItemText: {
-    fontSize: 16,
-    paddingBottom: 1,
+    fontSize: 18,
   },
   listHiddenBackground: {
-    height: 49,
+    height: 54,
     borderWidth: 1,
     flexDirection: "row",
     backgroundColor: "white",

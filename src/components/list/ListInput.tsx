@@ -1,9 +1,6 @@
 import { View, StyleSheet, TextInput } from "react-native";
 import { useRef, useState } from "react";
 import { ListItem } from "./ListItem";
-import { Loader } from "../MiscComponents";
-import { useItems } from "../../hooks/useItems";
-import { useDrawer } from "../../hooks/useDrawer";
 
 export enum ListType {
   Event = "Event",
@@ -23,7 +20,7 @@ export const ListInput = ({
   listWrapperStyles = {},
 }) => {
   const [newItem, updateNewItem] = useState<any>("");
-
+    
   const inputRef = useRef<any>();
 
   return (
@@ -72,21 +69,10 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 4,
     marginTop: 6,
-    padding: 1,
-  },
-  loaderContainer: {
-    height: 50,
-    backgroundColor: "rgb(17 24 39)",
-    width: 120,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    borderColor: "rgb(156 163 175)",
-    borderWidth: 1,
-    borderRadius: 5,
+    padding: 2,
   },
   listNewItem: {
-    height: 50,
+    height: 55,
     backgroundColor: "rgb(17 24 39)",
     borderRadius: 5,
     paddingVertical: 8,

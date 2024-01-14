@@ -5,7 +5,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { View, Text, StyleSheet } from "react-native";
 import { useEffect } from "react";
-import { Horizontal } from "../../components/MiscComponents";
+import { Horizontal, Vertical } from "../../components/MiscComponents";
 import { ListInput } from "../../components/list/ListInput";
 import {
   localisedMoment,
@@ -16,6 +16,7 @@ import {
 } from "../../utils/dates";
 import {
   DaysOfWeek,
+  deepBlue,
   eventsBadgeColor,
   secondaryGreen,
   sleep,
@@ -29,16 +30,14 @@ import { useItems } from "../../hooks/useItems";
 export const Day = ({ items, date = null, day = null, template = false }) => {
   const { user, updateUser } = useAuth();
   const { addItem, updateItem, removeItem } = useItems();
-  const canDelete = date === user.timetable.first_day;
+  const canDelete = !template && date;
 
   const shiftFirst = async () => {
     if (canDelete) {
       opacity.value = 0;
       await sleep(500);
       var next = formatDateData(
-        localisedMoment(parseDateString(user.timetable.first_day))
-          .add(1, "day")
-          .toDate()
+        localisedMoment(parseDateString(date)).add(1, "day").toDate()
       );
       updateUser({
         ...user,
@@ -105,8 +104,14 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
                 {day || dayFromDateString(date)}
               </Text>
             </View>
+            <View style={styles.headerEnd}>
+              <Vertical style={styles.diagLines} />
+              <Vertical style={styles.diagLines} />
 
-            {date && <Text style={styles.dayDateText}>{formatDate(date)}</Text>}
+              {date && (
+                <Text style={styles.dayDateText}>{formatDate(date)}</Text>
+              )}
+            </View>
           </Animated.View>
         </LongPressGestureHandler>
 
@@ -125,7 +130,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
             removeItem={removeItem}
             type={ListItemType.Event}
             badgeColor={eventsBadgeColor}
-            listBackgroundColor="black"
+            listBackgroundColor={deepBlue}
           />
         </View>
 
@@ -148,7 +153,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
             removeItem={removeItem}
             type={ListItemType.Task}
             badgeColor="rgb(241 245 249)"
-            listBackgroundColor="black"
+            listBackgroundColor={deepBlue}
           />
         </View>
       </Animated.View>
@@ -158,7 +163,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
 
 const styles = StyleSheet.create({
   dayRootView: {
-    backgroundColor: "black",
+    backgroundColor: deepBlue,
     width: "100%",
     borderRadius: 10,
     padding: 10,
@@ -170,24 +175,41 @@ const styles = StyleSheet.create({
     backgroundColor: secondaryGreen,
     borderRadius: 10,
     flexDirection: "row",
-    paddingVertical: 6,
     paddingHorizontal: 8,
     alignItems: "center",
   },
-  dayDateText: {
+  headerEnd: {
+    flexDirection: "row",
+    height: "100%",
+    alignItems: "center",
+    gap: 8,
     marginLeft: "auto",
+    marginRight: 2,
+  },
+  diagLines: {
+    borderColor: deepBlue,
+    opacity: 0.2,
+    borderLeftWidth: 2,
+    height: "150%",
+    transform: [{ rotateZ: "-30deg" }],
+    marginLeft: "auto",
+  },
+  dayDateText: {
     fontWeight: "300",
-    paddingHorizontal: 2,
+    paddingRight: 2,
+    marginLeft: 16,
     fontSize: 16,
+    fontFamily: "Baloo",
   },
   dayOfWeekText: {
     fontWeight: "600",
-    fontSize: 18,
+    fontFamily: "BalooSemi",
+    fontSize: 20,
   },
   dayOfWeekPressable: {
     borderRadius: 10,
     paddingHorizontal: 2,
-    paddingVertical: 6,
+    paddingVertical: 14,
   },
   listWrapperView: {
     flexDirection: "column",

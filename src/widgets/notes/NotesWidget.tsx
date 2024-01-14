@@ -29,7 +29,7 @@ export const Notes = () => {
           focussedNote.title === `New ${TypeToDisplayName[focussedNote.type]}`
         }
         updateNote={setFocussedNote}
-        publishUpdate={() => updateNote(focussedNote)}
+        publishUpdate={(note) => updateNote(note)}
       />
     );
   else
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 8,
   },
-  myNotesTitle: { fontSize: 22, fontWeight: "700" },
+  myNotesTitle: { fontSize: 24, fontWeight: "700", fontFamily: "BalooSemi" },
   noteBannersContainer: {
     paddingHorizontal: 12,
     minHeight: 100,

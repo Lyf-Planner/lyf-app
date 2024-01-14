@@ -10,12 +10,15 @@ import { ItemStatus, ListItemType } from "../components/list/constants";
 import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
 import { formatDateData, getStartOfCurrentWeek } from "../utils/dates";
+import { useDrawer } from "./useDrawer";
+import { ListItemDrawer } from "../components/list/ListItemDrawer";
 
 // Assisted state management via provider
 export const ItemsProvider = ({ children }) => {
   const [initialised, setInitialised] = useState(false);
   const [items, setItems] = useState([]);
   const { user, updateUser } = useAuth();
+  const { updateDrawer, updateDrawerIndex } = useDrawer();
 
   // Timetable needs to fetch all the list item ids before anything else
   useEffect(() => {
@@ -112,6 +115,16 @@ export const ItemsProvider = ({ children }) => {
     tmp = user;
     user.timetable.items.push({ id: newItem.id });
     updateUser(user);
+
+    updateDrawer(
+      <ListItemDrawer
+        initialItem={newItem}
+        updateRootItem={updateItem}
+        removeItem={() => removeItem(newItem)}
+        closeModal={() => updateDrawer(null)}
+        updateDrawerIndex={updateDrawerIndex}
+      />
+    );
 
     // Upload in background
     createItem(newItem);

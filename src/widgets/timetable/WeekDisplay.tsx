@@ -14,8 +14,9 @@ import { localisedMoment } from "../../utils/dates";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { isTemplate } from "../../components/list/constants";
 import { v4 as uuid } from "uuid";
+import { deepBlue } from "../../utils/constants";
 
-export const WeekDisplay = ({ items, dates }) => {
+export const WeekDisplay = ({ items, dates, isFirst = false }) => {
   const [hide, updateHide] = useState(false);
   const { user, updateUser } = useAuth();
   const start = formatDateData(
@@ -63,7 +64,14 @@ export const WeekDisplay = ({ items, dates }) => {
   const exposed = useMemo<any>(() => exposedItems(items), [items]);
 
   return (
-    <View style={[styles.weekWrapper, { paddingBottom: hide && 12 }]}>
+    <View
+      style={[
+        styles.weekWrapper,
+        {
+          paddingBottom: hide && 12,
+        },
+      ]}
+    >
       <BouncyPressable
         style={styles.weekDateDisplayTouchable}
         onPress={() => updateHide(!hide)}
@@ -99,10 +107,10 @@ export const WeekDisplay = ({ items, dates }) => {
 const styles = StyleSheet.create({
   weekWrapper: {
     marginHorizontal: 16,
-    marginTop: 12,
+    marginTop: 16,
     marginBottom: 8,
     borderRadius: 10,
-    backgroundColor: "rgba(0,0,0,0.05)",
+    backgroundColor: "rgba(0,0,0,0.1)",
   },
   weekDateDisplayContainer: {
     flexDirection: "row",
@@ -114,9 +122,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   weekDateDisplayTouchable: {
-    marginTop: 12,
+    marginTop: 16,
     marginHorizontal: 12,
-    backgroundColor: "rgba(0,0,0,0.1)",
+    backgroundColor: "rgba(0,0,0,0.2)",
     borderRadius: 10,
   },
   weekDatePressable: {
@@ -126,8 +134,9 @@ const styles = StyleSheet.create({
   },
   weekDateText: {
     fontWeight: "600",
-    fontSize: 18,
-    padding: 2,
+    color: deepBlue,
+    fontSize: 20,
+    fontFamily: "BalooSemi",
   },
   showAllPressable: {
     backgroundColor: "rgb(21, 128, 61)",
@@ -144,7 +153,7 @@ const styles = StyleSheet.create({
   weekDaysWrapperView: {
     flexDirection: "column",
     gap: 16,
-    marginTop: 12,
+    marginTop: 16,
 
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },

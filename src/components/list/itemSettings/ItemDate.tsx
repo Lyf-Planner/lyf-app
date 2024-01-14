@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
     left: 10,
     borderRadius: 8,
   },
-  eventText: { fontSize: 18, fontWeight: "500" },
+  eventText: { fontSize: 20, fontWeight: "500", fontFamily: "BalooSemi" },
   pickerContainer: { marginLeft: "auto" },
 });

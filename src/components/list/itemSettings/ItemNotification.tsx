@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     height: 35,
   },
-  notifyText: { fontSize: 18 },
+  notifyText: { fontSize: 20, fontWeight: "500", fontFamily: "BalooSemi" },
   minutesInputWrapper: {
     marginLeft: "auto",
     flexDirection: "row",

@@ -4,10 +4,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { NoteTypes } from "./TypesAndHelpers";
 import { ListInput } from "../../components/list/ListInput";
-import {
-  eventsBadgeColor,
-  sleep,
-} from "../../utils/constants";
+import { eventsBadgeColor, sleep } from "../../utils/constants";
 import { NoteTypeBadge } from "./NoteTypeBadge";
 import { ListItemType } from "../../components/list/constants";
 import { useAuth } from "../../authorisation/AuthProvider";
@@ -24,8 +21,9 @@ export const NoteView = ({
   const updateNoteTitle = (title: string) => {
     updateNote({ ...note, title });
   };
-  const updateNoteContent = (content) => {
+  const updateNoteContent = (content, publish = false) => {
     updateNote({ ...note, content });
+    publish && publishUpdate({ ...note, content });
   };
 
   // We need to pass different item ops to the ListInput
@@ -37,25 +35,19 @@ export const NoteView = ({
       type: ListItemType.Task,
       permitted_users: [{ user_id: user.id, permissions: "Owner" }],
     };
-    updateNoteContent([...note.content, newItem]);
-    sleep(100);
-    publishUpdate();
+    updateNoteContent([...note.content, newItem], true);
   };
   const updateItem = (item) => {
     var tmp = [...note.content];
     var i = tmp.findIndex((x) => x.id === item.id);
     tmp[i] = item;
-    updateNoteContent(tmp);
-    sleep(100);
-    publishUpdate();
+    updateNoteContent(tmp, true);
   };
   const removeItem = (item) => {
     var tmp = note.content.filter((x) => x.id !== item.id);
-    updateNoteContent(tmp);
-    sleep(100);
-    publishUpdate();
+    updateNoteContent(tmp, true);
   };
-  
+
   return (
     <View style={styles.notePageWrapper}>
       <View style={styles.myNotesHeader}>

@@ -87,7 +87,8 @@ export const ListItemDrawer = ({
         tmp.push({
           user_id: user.id,
           minutes_before:
-            user.premium?.notifications?.event_notification_minutes_before || '5',
+            user.premium?.notifications?.event_notification_minutes_before ||
+            "5",
         });
     } else {
       if (!enabled) tmp.splice(userIndex, 1);
@@ -102,7 +103,7 @@ export const ListItemDrawer = ({
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.mainContainer}>
-        <View style={{ gap: 10, zIndex: 10 }}>
+        <View style={{ gap: 8, zIndex: 10 }}>
           <View style={styles.headerBackground}>
             <TextInput
               value={item.title}
@@ -197,6 +198,9 @@ export const ListItemDrawer = ({
               </Text>
             </TouchableOpacity>
           </View>
+          <Text style={styles.subtitle}>
+            Swipe items right to access this menu
+          </Text>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -219,7 +223,7 @@ const styles = StyleSheet.create({
   },
   firstSeperator: {
     opacity: 0.25,
-    marginTop: 2,
+
     marginBottom: 2,
     borderWidth: 2,
   },
@@ -241,7 +245,7 @@ const styles = StyleSheet.create({
   typeBadge: {
     backgroundColor: eventsBadgeColor,
     marginLeft: "auto",
-    paddingVertical: 4,
+    paddingVertical: 6,
     paddingHorizontal: 8,
     borderRadius: 10,
   },
@@ -256,8 +260,8 @@ const styles = StyleSheet.create({
   },
 
   secondSeperator: { opacity: 0.2, marginTop: 16, borderWidth: 2 },
-  footer: { gap: 10, position: "relative", bottom: 10 },
-  bottomButtonsContainer: { flexDirection: "row", gap: 5, marginTop: 6 },
+  footer: { gap: 12, position: "relative", bottom: 10 },
+  bottomButtonsContainer: { flexDirection: "row", gap: 5 },
   bottomButton: {
     padding: 12,
     flex: 1,
@@ -274,6 +278,3 @@ const styles = StyleSheet.create({
   doneText: { fontWeight: "600" },
   removeText: { color: "white" },
 });
-function updateModal(arg0: null) {
-  throw new Error("Function not implemented.");
-}

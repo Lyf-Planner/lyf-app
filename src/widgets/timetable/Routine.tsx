@@ -22,10 +22,11 @@ export const Routine = ({ items }) => {
 const styles = StyleSheet.create({
   weekWrapper: {
     marginHorizontal: 16,
-    marginTop: 15,
+    marginTop: 16,
     marginBottom: 8,
     borderRadius: 10,
-    backgroundColor: "rgba(0,0,0,0.05)",
+    borderTopRightRadius: 0,
+    backgroundColor: "rgba(0,0,0,0.1)",
   },
   weekDateDisplayContainer: {
     flexDirection: "row",

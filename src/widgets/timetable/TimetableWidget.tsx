@@ -4,6 +4,7 @@ import { ListDropdown } from "../../components/dropdowns/ListDropdown";
 import { ListType } from "../../components/list/ListInput";
 import { ListItemType } from "../../components/list/constants";
 import { useItems } from "../../hooks/useItems";
+import Entypo from "react-native-vector-icons/Entypo";
 
 export const Timetable = () => {
   const { items } = useItems();
@@ -16,6 +17,7 @@ export const Timetable = () => {
             (x) => x.type === ListItemType.Event && !x.date && !x.day
           )}
           name="Upcoming Events"
+          icon={<Entypo name="calendar" size={20}/>}
           listType={ListType.Event}
         />
         <ListDropdown
@@ -23,6 +25,7 @@ export const Timetable = () => {
             (x) => x.type === ListItemType.Task && !x.date && !x.day
           )}
           name="To Do List"
+          icon={<Entypo name="list" size={20} />}
           listType={ListType.Task}
         />
       </View>
@@ -42,7 +45,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 6,
     marginHorizontal: 14,
-    backgroundColor: "rgba(0,0,0,0.05)",
     marginTop: 2,
     marginBottom: 6,
     borderRadius: 10,

@@ -7,12 +7,12 @@ import Animated, {
   withTiming,
   FadeIn,
 } from "react-native-reanimated";
-import { eventsBadgeColor } from "../../utils/constants";
+import { deepBlue, eventsBadgeColor } from "../../utils/constants";
 import Entypo from "react-native-vector-icons/Entypo";
 import { BouncyPressable } from "../BouncyPressable";
 import { useItems } from "../../hooks/useItems";
 
-export const ListDropdown = ({ items, listType, name }) => {
+export const ListDropdown = ({ items, listType, icon, name }) => {
   const [hide, updateHide] = useState(true);
   const { addItem, updateItem, removeItem } = useItems();
 
@@ -40,6 +40,7 @@ export const ListDropdown = ({ items, listType, name }) => {
       style={styles.dropdownContainer}
     >
       <View style={styles.dropdownTextContainer}>
+        {icon}
         <Text style={styles.listTitle}>{name}</Text>
         <Animated.View style={[styles.animatedChevron, rotationAnimation]}>
           <Entypo name={"chevron-right"} size={25} />
@@ -56,7 +57,7 @@ export const ListDropdown = ({ items, listType, name }) => {
             updateItem={updateItem}
             removeItem={removeItem}
             type={listType}
-            badgeColor="rgb(30 41 59)"
+            badgeColor={deepBlue}
             badgeTextColor="rgb(203 213 225)"
             listBackgroundColor={eventsBadgeColor}
           />
@@ -71,21 +72,27 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: eventsBadgeColor,
     borderRadius: 10,
-    paddingVertical: 12,
+    paddingVertical: 10,
     paddingHorizontal: 10,
     justifyContent: "flex-start",
     marginVertical: 1,
     borderWidth: 2,
     borderColor: "rgba(0, 0, 0, 0.1)",
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 3,
   },
   dropdownTextContainer: {
     flexDirection: "row",
+    gap: 8,
     width: "100%",
     alignItems: "center",
   },
   listTitle: {
     fontWeight: "500",
-    fontSize: 20,
+    fontSize: 22,
+    fontFamily: "BalooMed",
   },
   animatedChevron: {
     marginLeft: "auto",
