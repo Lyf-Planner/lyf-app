@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   listTitle: {
     fontSize: 20,
-    paddingVertical: 8,
+    paddingVertical: 4,
     fontFamily: "InterSemi",
   },
   animatedChevron: {

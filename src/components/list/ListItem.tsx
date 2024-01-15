@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    padding: 12,
+    padding: 10,
     height: 55,
     borderWidth: 1,
     gap: 4,

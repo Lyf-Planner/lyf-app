@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   weekDateDisplayContainer: {
     flexDirection: "row",
-    paddingVertical: 4,
+    paddingVertical: 2,
     paddingHorizontal: 10,
     borderRadius: 10,
 

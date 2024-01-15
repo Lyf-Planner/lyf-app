@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   menuButtonText: {
     color: "white",
     fontSize: 20,
-    padding: 6,
+    padding: 2,
     fontFamily: "InterMed",
   },
   addWeekView: {
