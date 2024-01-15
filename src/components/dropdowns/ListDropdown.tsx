@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   listTitle: {
     fontSize: 22,
-    paddingVertical: 6,
+    paddingVertical: 4,
     fontFamily: "InterSemi",
   },
   animatedChevron: {
@@ -100,6 +100,6 @@ const styles = StyleSheet.create({
   },
   listWrapper: {
     flexDirection: "column",
-    marginTop: 2,
+    
   },
 });

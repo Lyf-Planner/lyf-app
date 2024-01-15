@@ -8,6 +8,8 @@ import {
   initialiseDays,
 } from "../../utils/dates";
 import Entypo from "react-native-vector-icons/Entypo";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import FontAwesome6Icon from "react-native-vector-icons/FontAwesome6";
 import { primaryGreen } from "../../utils/constants";
 import { BouncyPressable } from "../../components/BouncyPressable";
 import { Routine } from "./Routine";
@@ -32,24 +34,15 @@ export const Planner = ({ items }) => {
           selected={!updatingTemplate}
           onPress={() => setUpdatingTemplate(false)}
         >
+          <MaterialCommunityIcons name="table" size={24} color="white" />
           <Text style={styles.menuButtonText}>Timetable</Text>
         </MenuButton>
         <MenuButton
           selected={updatingTemplate}
           onPress={() => setUpdatingTemplate(true)}
         >
+          <MaterialCommunityIcons name="refresh" size={24} color="white" />
           <Text style={styles.menuButtonText}>Routine</Text>
-          <Pressable
-            style={styles.infoPressable}
-            onPress={() => {
-              Alert.alert(
-                "Routine?",
-                "Your routine is automatically copied into your timetable each week"
-              );
-            }}
-          >
-            <Entypo name="info-with-circle" color={"white"} size={18} />
-          </Pressable>
         </MenuButton>
       </View>
 
@@ -126,7 +119,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   infoPressable: {
-    marginLeft: 6,
+    marginLeft: 2,
     flexDirection: "row",
     alignItems: "center",
   },

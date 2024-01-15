@@ -138,18 +138,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "InterSemi",
   },
-  showAllPressable: {
-    backgroundColor: "rgb(21, 128, 61)",
-    marginLeft: "auto",
-    paddingVertical: 6,
-    paddingHorizontal: 8,
-    borderRadius: 5,
-    borderWidth: 0.5,
-  },
-  showAllText: {
-    color: "white",
-    fontSize: 15,
-  },
   weekDaysWrapperView: {
     flexDirection: "column",
     gap: 16,
