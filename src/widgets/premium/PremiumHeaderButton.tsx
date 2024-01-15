@@ -5,6 +5,7 @@ import { useModal } from "../../hooks/useModal";
 import { PremiumSettingsModal } from "./PremiumSettingsModal";
 import { PremiumAdvertiseModal } from "./PremiumAdvertiseModal";
 import { PremiumIcon } from "../../components/Icons";
+import { deepBlue } from "../../utils/constants";
 
 export const PremiumHeaderButton = () => {
   const { user } = useAuth();
@@ -17,7 +18,7 @@ export const PremiumHeaderButton = () => {
       style={[
         styles.premiumTooltip,
         {
-          backgroundColor: !!modal ? "rgba(0, 0, 0,0.95)" : "white",
+          backgroundColor: !!modal ? deepBlue : "white",
         },
       ]}
       onPress={() =>

@@ -198,9 +198,6 @@ export const ListItemDrawer = ({
               </Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.subtitle}>
-            Swipe items right to access this menu
-          </Text>
         </View>
       </View>
     </TouchableWithoutFeedback>

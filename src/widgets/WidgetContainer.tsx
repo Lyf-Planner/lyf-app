@@ -9,6 +9,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Notes } from "./notes/NotesWidget";
 import { PremiumHeaderButton } from "./premium/PremiumHeaderButton";
 import { BouncyPressable } from "../components/BouncyPressable";
+import { deepBlue } from "../utils/constants";
 
 export enum Widgets {
   Plan = "Plan",
@@ -58,7 +59,7 @@ const AppHeaderMenu = ({ selected, updateSelected }) => {
           styles.settingButton,
           {
             backgroundColor:
-              selected === "Account" ? "rgba(0, 0, 0,0.95)" : "white",
+              selected === "Account" ? deepBlue : "white",
           },
         ]}
         onPress={() => updateSelected("Account")}
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   highlightedHeaderTextContainer: {
-    backgroundColor: "black",
+    backgroundColor: deepBlue,
   },
   highlightedHeaderText: {
     color: "white",

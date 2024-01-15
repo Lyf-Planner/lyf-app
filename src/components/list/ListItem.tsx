@@ -18,6 +18,7 @@ import { ListItemDrawer } from "./ListItemDrawer";
 import { useDrawer } from "../../hooks/useDrawer";
 import { useItems } from "../../hooks/useItems";
 import { useState } from "react";
+import { primaryGreen } from "../../utils/constants";
 
 export const ListItem = ({
   item,
@@ -102,15 +103,7 @@ export const ListItem = ({
   };
 
   const handleTapOut = () => {
-    if (item.status === ItemStatus.Done)
-      updateItem({ ...item, status: ItemStatus.Upcoming });
-    else if (item.status === ItemStatus.Upcoming) {
-      updateItem({ ...item, status: ItemStatus.InProgress });
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } else {
-      updateItem({ ...item, status: ItemStatus.Done });
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    }
+    openModal();
   };
 
   const handleLongPressIn = () => {
@@ -134,9 +127,15 @@ export const ListItem = ({
   const handleFling = () => {
     offsetX.value = -40;
 
-    // Will soon make this a feature available to all
-    openModal();
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    // if (item.status === ItemStatus.Done)
+    //   updateItem({ ...item, status: ItemStatus.Upcoming });
+    // else if (item.status === ItemStatus.Upcoming) {
+    //   updateItem({ ...item, status: ItemStatus.InProgress });
+    //   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    // } else {
+    updateItem({ ...item, status: ItemStatus.Done });
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    //}
 
     // This makes the animation appear to pause for a second when slid back
     var closeAnimation = setInterval(() => {
@@ -206,7 +205,7 @@ export const ListItem = ({
             styles.listHiddenBackground,
           ]}
         >
-          <MaterialIcons name="edit" style={styles.editIcon} size={20} />
+          <MaterialIcons name="check" style={styles.editIcon} size={20} />
         </View>
       </Animated.View>
     </GestureDetector>
@@ -231,10 +230,10 @@ const styles = StyleSheet.create({
     height: 54,
     borderWidth: 1,
     flexDirection: "row",
-    backgroundColor: "white",
+    backgroundColor: primaryGreen,
     alignItems: "center",
     position: "absolute",
     width: "100%",
   },
-  editIcon: { marginLeft: "auto", marginRight: 11, color: "black" },
+  editIcon: { marginLeft: "auto", marginRight: 11, color: "white" },
 });
