@@ -83,6 +83,6 @@ const styles = StyleSheet.create({
     borderColor: "rgb(156 163 175)",
     borderWidth: 1,
     color: "rgb(203 213 225)",
-    fontSize: 18,
+    fontSize: 17,
   },
 });

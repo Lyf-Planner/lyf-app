@@ -16,20 +16,21 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { TwentyFourHourToAMPM } from "../../utils/dates";
 import { ListItemDrawer } from "./ListItemDrawer";
 import { useDrawer } from "../../hooks/useDrawer";
-import { useItems } from "../../hooks/useItems";
-import { useState } from "react";
-import { primaryGreen } from "../../utils/constants";
+import { eventsBadgeColor, primaryGreen } from "../../utils/constants";
+import { LinearGradient } from "expo-linear-gradient";
 
 export const ListItem = ({
   item,
   updateItem,
   removeItem,
+  swipeToFinish = true,
   badgeColor,
   badgeTextColor,
 }) => {
   const { updateDrawer, updateDrawerIndex } = useDrawer();
 
   const openModal = () => {
+    updateDrawer(null);
     updateDrawer(
       <ListItemDrawer
         initialItem={item}
@@ -51,12 +52,18 @@ export const ListItem = ({
     .runOnJS(true)
     .onStart(() => handleLongPressIn())
     .onEnd(() => handleLongPressOut());
-  const fling = Gesture.Fling()
+  const flingLeft = Gesture.Fling()
     .direction(Directions.LEFT)
     .runOnJS(true)
-    .onEnd(() => handleFling());
+    .onEnd(() => handleFlingLeft());
+  const flingRight = Gesture.Fling()
+    .direction(Directions.RIGHT)
+    .runOnJS(true)
+    .onEnd(() => handleFlingRight());
 
-  const gestures = Gesture.Race(tap, longPress, fling);
+  const gestures = swipeToFinish
+    ? Gesture.Race(tap, longPress, flingLeft, flingRight)
+    : Gesture.Race(tap, longPress);
 
   // ANIMATION DEFINITIONS
 
@@ -124,18 +131,24 @@ export const ListItem = ({
     scale.value = 1;
   };
 
-  const handleFling = () => {
+  const handleFlingLeft = () => {
     offsetX.value = -40;
 
-    // if (item.status === ItemStatus.Done)
-    //   updateItem({ ...item, status: ItemStatus.Upcoming });
-    // else if (item.status === ItemStatus.Upcoming) {
-    //   updateItem({ ...item, status: ItemStatus.InProgress });
-    //   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    // } else {
     updateItem({ ...item, status: ItemStatus.Done });
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    //}
+
+    // This makes the animation appear to pause for a second when slid back
+    var closeAnimation = setInterval(() => {
+      offsetX.value = 0;
+      clearTimeout(closeAnimation);
+    }, 400);
+  };
+
+  const handleFlingRight = () => {
+    offsetX.value = 40;
+
+    updateItem({ ...item, status: ItemStatus.Upcoming });
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
     // This makes the animation appear to pause for a second when slid back
     var closeAnimation = setInterval(() => {
@@ -197,7 +210,10 @@ export const ListItem = ({
             size={18}
           />
         </Animated.View>
-        <View
+        <LinearGradient
+          colors={[eventsBadgeColor, primaryGreen]}
+          start={[0, 1]}
+          end={[1, 0]}
           style={[
             {
               borderRadius: item.type !== ListItemType.Task ? 5 : 15,
@@ -205,8 +221,9 @@ export const ListItem = ({
             styles.listHiddenBackground,
           ]}
         >
-          <MaterialIcons name="check" style={styles.editIcon} size={20} />
-        </View>
+          <MaterialIcons name="close" style={styles.unfinishIcon} size={20} />
+          <MaterialIcons name="check" style={styles.finishIcon} size={20} />
+        </LinearGradient>
       </Animated.View>
     </GestureDetector>
   );
@@ -223,7 +240,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   listItemText: {
-    fontSize: 18,
+    fontSize: 17,
     padding: 2,
   },
   listHiddenBackground: {
@@ -235,5 +252,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
   },
-  editIcon: { marginLeft: "auto", marginRight: 11, color: "white" },
+  unfinishIcon: { marginRight: "auto", marginLeft: 11, color: "white" },
+  finishIcon: { marginLeft: "auto", marginRight: 11, color: "white" },
 });

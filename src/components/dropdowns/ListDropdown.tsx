@@ -17,6 +17,19 @@ export const ListDropdown = ({ items, listType, icon, name }) => {
   const { addItem, updateItem, removeItem } = useItems();
 
   const chevronAngle = useSharedValue(0);
+  const scale = useSharedValue(1);
+
+  const scaleAnimation = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          scale: withTiming(scale.value, {
+            duration: 200,
+          }),
+        },
+      ],
+    } as any;
+  });
 
   const rotationAnimation = useAnimatedStyle(() => {
     return {
@@ -35,17 +48,25 @@ export const ListDropdown = ({ items, listType, icon, name }) => {
   }, [hide]);
 
   return (
-    <BouncyPressable
-      onPress={() => updateHide(!hide)}
-      style={styles.dropdownContainer}
-    >
-      <View style={styles.dropdownTextContainer}>
+    <Animated.View style={[styles.dropdownContainer, scaleAnimation]}>
+      <Pressable
+        style={styles.dropdownTextContainer}
+        onPressIn={() => {
+          scale.value = 0.95;
+        }}
+        onPressOut={() => {
+          scale.value = 1;
+        }}
+        onPress={() => updateHide(!hide)}
+      >
         {icon}
         <Text style={styles.listTitle}>{name}</Text>
-        <Animated.View style={[styles.animatedChevron, rotationAnimation]}>
-          <Entypo name={"chevron-right"} size={25} />
-        </Animated.View>
-      </View>
+        <View style={styles.headerLeft}>
+          <Animated.View style={[styles.animatedChevron, rotationAnimation]}>
+            <Entypo name={"chevron-right"} size={25} />
+          </Animated.View>
+        </View>
+      </Pressable>
       {!hide && (
         <Animated.View
           style={styles.listWrapper}
@@ -63,7 +84,7 @@ export const ListDropdown = ({ items, listType, icon, name }) => {
           />
         </Animated.View>
       )}
-    </BouncyPressable>
+    </Animated.View>
   );
 };
 
@@ -89,17 +110,20 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
   },
+  headerLeft: {
+    flexDirection: "row",
+    marginLeft: "auto",
+    alignItems: "center",
+  },
   listTitle: {
-    fontSize: 22,
-    paddingVertical: 4,
+    fontSize: 20,
+    paddingVertical: 8,
     fontFamily: "InterSemi",
   },
   animatedChevron: {
-    marginLeft: "auto",
     marginRight: 5,
   },
   listWrapper: {
     flexDirection: "column",
-    
   },
 });

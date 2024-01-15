@@ -1,8 +1,9 @@
 import { DaysOfWeek, deepBlue, offWhite } from "../../utils/constants";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Pressable, Alert } from "react-native";
 import { Day } from "./DayDisplay";
 import { BouncyPressable } from "../../components/BouncyPressable";
 import { useState } from "react";
+import Entypo from "react-native-vector-icons/Entypo";
 
 export const Routine = ({ items }) => {
   const [hide, updateHide] = useState(false);
@@ -23,6 +24,16 @@ export const Routine = ({ items }) => {
         <View style={styles.weekDateDisplayContainer}>
           <View style={styles.weekDatePressable}>
             <Text style={styles.weekDateText}>Every Week</Text>
+            <Pressable
+              onPress={() => {
+                Alert.alert(
+                  "Routine",
+                  "Everything in your routine will be copied into your timetable each week :)"
+                );
+              }}
+            >
+              <Entypo name="info-with-circle" color={"black"} size={18} />
+            </Pressable>
           </View>
         </View>
       </BouncyPressable>
@@ -68,12 +79,14 @@ const styles = StyleSheet.create({
   weekDatePressable: {
     borderRadius: 10,
     marginVertical: 6,
-    flexDirection: "column",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
   },
   weekDateText: {
     fontWeight: "600",
     color: deepBlue,
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: "InterSemi",
   },
   weekDaysWrapperView: {

@@ -34,15 +34,15 @@ export const Planner = ({ items }) => {
           selected={!updatingTemplate}
           onPress={() => setUpdatingTemplate(false)}
         >
-          <MaterialCommunityIcons name="table" size={24} color="white" />
           <Text style={styles.menuButtonText}>Timetable</Text>
+          <MaterialCommunityIcons name="table" size={24} color="white" />
         </MenuButton>
         <MenuButton
           selected={updatingTemplate}
           onPress={() => setUpdatingTemplate(true)}
         >
-          <MaterialCommunityIcons name="refresh" size={24} color="white" />
           <Text style={styles.menuButtonText}>Routine</Text>
+          <MaterialCommunityIcons name="refresh" size={24} color="white" />
         </MenuButton>
       </View>
 
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   menuButton: {
     backgroundColor: primaryGreen,
     flex: 1,
-    padding: 8,
+    padding: 10,
     height: "75%",
     alignItems: "center",
     flexDirection: "row",
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
   menuButtonText: {
     color: "white",
-    fontSize: 22,
+    fontSize: 20,
     padding: 6,
     fontFamily: "InterMed",
   },

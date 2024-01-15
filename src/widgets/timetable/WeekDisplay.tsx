@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   weekDateText: {
     fontWeight: "600",
     color: deepBlue,
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: "InterSemi",
   },
   weekDaysWrapperView: {

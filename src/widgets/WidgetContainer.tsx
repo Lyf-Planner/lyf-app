@@ -29,10 +29,7 @@ export const WidgetContainer = () => {
   };
 
   return (
-    <KeyboardAwareScrollView
-      enableResetScrollToCoords={false}
-      extraHeight={150}
-    >
+    <KeyboardAwareScrollView enableResetScrollToCoords={false}>
       <View style={styles.container}>
         <AppHeaderMenu selected={selected} updateSelected={updateSelected} />
         <Horizontal style={styles.headerSeperator} />
@@ -58,8 +55,7 @@ const AppHeaderMenu = ({ selected, updateSelected }) => {
         style={[
           styles.settingButton,
           {
-            backgroundColor:
-              selected === "Account" ? deepBlue : "white",
+            backgroundColor: selected === "Account" ? deepBlue : "white",
           },
         ]}
         onPress={() => updateSelected("Account")}

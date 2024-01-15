@@ -65,8 +65,8 @@ export const NoteView = ({
           style={styles.myNotesTitle}
           onChangeText={updateNoteTitle}
           value={note.title}
-          onSubmitEditing={() => publishUpdate()}
-          onEndEditing={() => publishUpdate()}
+          onSubmitEditing={() => publishUpdate(note)}
+          onEndEditing={() => publishUpdate(note)}
           returnKeyType="done"
         />
         <NoteTypeBadge type={note.type} />
@@ -77,7 +77,7 @@ export const NoteView = ({
           value={note.content}
           style={styles.noteText}
           onChangeText={updateNoteContent}
-          onEndEditing={() => publishUpdate()}
+          onEndEditing={() => publishUpdate(note)}
         />
       ) : (
         <ListInput
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.07)",
     borderRadius: 5,
     fontSize: 16,
-    height: Dimensions.get("window").height - 250,
+    height: 375,
     padding: 8,
     marginBottom: 8,
   },
