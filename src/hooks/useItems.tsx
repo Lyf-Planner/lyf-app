@@ -116,6 +116,18 @@ export const ItemsProvider = ({ children }) => {
     user.timetable.items.push({ id: newItem.id });
     updateUser(user);
 
+    if (items.length === 0) {
+      updateDrawer(
+        <ListItemDrawer
+          initialItem={newItem}
+          updateRootItem={updateItem}
+          removeItem={() => removeItem(newItem)}
+          closeModal={() => updateDrawer(null)}
+          updateDrawerIndex={updateDrawerIndex}
+        />
+      );
+    }
+
     // Upload in background
     createItem(newItem);
   };

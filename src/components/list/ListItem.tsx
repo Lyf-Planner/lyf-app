@@ -52,18 +52,12 @@ export const ListItem = ({
     .runOnJS(true)
     .onStart(() => handleLongPressIn())
     .onEnd(() => handleLongPressOut());
-  const flingLeft = Gesture.Fling()
+  const fling = Gesture.Fling()
     .direction(Directions.LEFT)
     .runOnJS(true)
-    .onEnd(() => handleFlingLeft());
-  const flingRight = Gesture.Fling()
-    .direction(Directions.RIGHT)
-    .runOnJS(true)
-    .onEnd(() => handleFlingRight());
+    .onEnd(() => handleFling());
 
-  const gestures = swipeToFinish
-    ? Gesture.Race(tap, longPress, flingLeft, flingRight)
-    : Gesture.Race(tap, longPress);
+  const gestures = Gesture.Race(tap, longPress, fling);
 
   // ANIMATION DEFINITIONS
 
@@ -110,7 +104,15 @@ export const ListItem = ({
   };
 
   const handleTapOut = () => {
-    openModal();
+    if (item.status === ItemStatus.Done)
+      updateItem({ ...item, status: ItemStatus.Upcoming });
+    else if (item.status === ItemStatus.Upcoming) {
+      updateItem({ ...item, status: ItemStatus.InProgress });
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    } else {
+      updateItem({ ...item, status: ItemStatus.Done });
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    }
   };
 
   const handleLongPressIn = () => {
@@ -131,23 +133,11 @@ export const ListItem = ({
     scale.value = 1;
   };
 
-  const handleFlingLeft = () => {
+  const handleFling = () => {
     offsetX.value = -40;
 
-    updateItem({ ...item, status: ItemStatus.Done });
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-
-    // This makes the animation appear to pause for a second when slid back
-    var closeAnimation = setInterval(() => {
-      offsetX.value = 0;
-      clearTimeout(closeAnimation);
-    }, 400);
-  };
-
-  const handleFlingRight = () => {
-    offsetX.value = 40;
-
-    updateItem({ ...item, status: ItemStatus.Upcoming });
+    // Will soon make this a feature available to all
+    openModal();
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
     // This makes the animation appear to pause for a second when slid back
@@ -210,10 +200,7 @@ export const ListItem = ({
             size={18}
           />
         </Animated.View>
-        <LinearGradient
-          colors={[eventsBadgeColor, primaryGreen]}
-          start={[0, 1]}
-          end={[1, 0]}
+        <View
           style={[
             {
               borderRadius: item.type !== ListItemType.Task ? 5 : 15,
@@ -221,9 +208,8 @@ export const ListItem = ({
             styles.listHiddenBackground,
           ]}
         >
-          <MaterialIcons name="close" style={styles.unfinishIcon} size={20} />
-          <MaterialIcons name="check" style={styles.finishIcon} size={20} />
-        </LinearGradient>
+          <MaterialIcons name="edit" style={styles.editIcon} size={20} />
+        </View>
       </Animated.View>
     </GestureDetector>
   );
@@ -247,11 +233,10 @@ const styles = StyleSheet.create({
     height: 54,
     borderWidth: 1,
     flexDirection: "row",
-    backgroundColor: primaryGreen,
+    backgroundColor: "white",
     alignItems: "center",
     position: "absolute",
     width: "100%",
   },
-  unfinishIcon: { marginRight: "auto", marginLeft: 11, color: "white" },
-  finishIcon: { marginLeft: "auto", marginRight: 11, color: "white" },
+  editIcon: { marginLeft: "auto", marginRight: 11, color: "black" },
 });

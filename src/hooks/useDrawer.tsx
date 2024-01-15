@@ -20,7 +20,7 @@ export const DrawerProvider = ({ children }) => {
 
   // variables
   const snapPoints = useMemo(
-    () => (user.premium.enabled ? ["49%", "66.5%", "78%", "95%"] : ["40%"]),
+    () => (user.premium.enabled ? ["48%", "69%", "80%", "95%"] : ["41%"]),
     [user.premium.enabled]
   );
 

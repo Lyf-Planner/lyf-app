@@ -172,6 +172,11 @@ export const ListItemDrawer = ({
 
         <View style={styles.footer}>
           <Horizontal style={styles.secondSeperator} />
+          {user.timetable.items.length <= 1 && (
+            <Text style={styles.subtitle}>
+              Swipe items right to access this menu
+            </Text>
+          )}
           <View style={styles.bottomButtonsContainer}>
             <TouchableOpacity
               onPress={() => {
@@ -251,7 +256,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     textAlign: "center",
-    opacity: 0.6,
+    opacity: 0.4,
     fontWeight: "600",
     fontSize: 15,
   },

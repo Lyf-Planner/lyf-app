@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import {
-  EventStatusOptions,
+  StatusOptions,
   ITEM_STATUS_TO_COLOR,
   ItemStatus,
   ListItemType,
-  TaskStatusOptions,
   statusTextDisplay,
 } from "../../list/constants";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -16,7 +15,7 @@ export const ItemStatusDropdown = ({ status, updateStatus, type }) => {
   const [localValue, setLocalValue] = useState(status || ItemStatus.Upcoming);
 
   const items = (
-    type === ListItemType.Event ? EventStatusOptions : TaskStatusOptions
+    StatusOptions
   ).map((x) => {
     return {
       label: statusTextDisplay(
