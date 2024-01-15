@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 24,
     fontWeight: "bold",
-    fontFamily: "BalooSemi",
+    fontFamily: "InterSemi",
   },
   settingButton: {
     alignItems: "center",

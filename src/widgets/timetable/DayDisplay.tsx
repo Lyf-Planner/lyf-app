@@ -199,11 +199,11 @@ const styles = StyleSheet.create({
     paddingRight: 2,
     marginLeft: 16,
     fontSize: 16,
-    fontFamily: "Baloo",
+    fontFamily: "Inter",
   },
   dayOfWeekText: {
     fontWeight: "600",
-    fontFamily: "BalooSemi",
+    fontFamily: "InterSemi",
     fontSize: 21,
     padding: 4,
   },

@@ -90,10 +90,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   listTitle: {
-    fontWeight: "500",
     fontSize: 22,
     paddingVertical: 6,
-    fontFamily: "BalooMed",
+    fontFamily: "InterSemi",
   },
   animatedChevron: {
     marginLeft: "auto",

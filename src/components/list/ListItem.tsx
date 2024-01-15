@@ -183,7 +183,7 @@ export const ListItem = ({
               {
                 color: determineBadgeTextColor(),
                 fontFamily:
-                  item.type !== ListItemType.Task ? "BalooMed" : "Baloo",
+                  item.type !== ListItemType.Task ? "InterMed" : "Inter",
               },
             ]}
           >

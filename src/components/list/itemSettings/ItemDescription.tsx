@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     zIndex: 0,
   },
   headingContainer: { height: 35, flexDirection: "row", alignItems: "center" },
-  headingText: { fontSize: 20, fontWeight: "500", fontFamily: "BalooSemi" },
+  headingText: { fontSize: 20, fontWeight: "500", fontFamily: "InterSemi" },
   headerCloseWrapper: { marginLeft: "auto", marginRight: 10 },
   itemDesc: {
     height: 150,

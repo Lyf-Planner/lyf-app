@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: deepBlue,
     fontSize: 20,
-    fontFamily: "BalooSemi",
+    fontFamily: "InterSemi",
   },
   showAllPressable: {
     backgroundColor: "rgb(21, 128, 61)",

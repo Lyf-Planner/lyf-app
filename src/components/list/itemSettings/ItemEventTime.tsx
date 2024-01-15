@@ -19,6 +19,6 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     height: 35,
   },
-  eventText: { fontSize: 20, fontWeight: "500", fontFamily: "BalooSemi" },
+  eventText: { fontSize: 20, fontWeight: "500", fontFamily: "InterSemi" },
   pickerContainer: { marginLeft: "auto" },
 });

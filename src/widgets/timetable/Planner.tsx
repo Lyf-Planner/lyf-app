@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 22,
     padding: 6,
-    fontFamily: "BalooMed",
+    fontFamily: "InterMed",
   },
   addWeekView: {
     flexDirection: "row",

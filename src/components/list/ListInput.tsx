@@ -20,7 +20,7 @@ export const ListInput = ({
   listWrapperStyles = {},
 }) => {
   const [newItem, updateNewItem] = useState<any>("");
-    
+
   const inputRef = useRef<any>();
 
   return (
@@ -74,11 +74,11 @@ const styles = StyleSheet.create({
   listNewItem: {
     height: 55,
     backgroundColor: "rgb(17 24 39)",
-    fontFamily: "Baloo",
+    fontFamily: "Inter",
     borderRadius: 5,
     paddingVertical: 8,
     paddingHorizontal: 8,
-    width: 120,
+    width: 130,
     zIndex: 10,
     borderColor: "rgb(156 163 175)",
     borderWidth: 1,

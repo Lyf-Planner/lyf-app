@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 8,
   },
-  myNotesTitle: { fontSize: 24, fontWeight: "700", fontFamily: "BalooSemi" },
+  myNotesTitle: { fontSize: 24, fontWeight: "700", fontFamily: "InterSemi" },
   noteBannersContainer: {
     paddingHorizontal: 12,
     minHeight: 100,
