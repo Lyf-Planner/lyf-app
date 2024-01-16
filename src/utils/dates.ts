@@ -85,7 +85,7 @@ export const extendByWeek = (weeks) => {
 
 export function formatDate(date: string) {
   var time = parseDateString(date);
-  return localisedMoment(time).format("MMM DDD");
+  return localisedMoment(time).format("MMM D");
 }
 
 export function dateFromDay(day: DaysOfWeek, dates) {
