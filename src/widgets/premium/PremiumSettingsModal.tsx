@@ -46,6 +46,8 @@ export const PremiumSettingsModal = () => {
     updateNotificationSettings({
       ...premium.notifications,
       event_notifications_enabled: enabled,
+      event_notification_minutes_before:
+        premium.notifications.event_notification_minutes_before || "5",
     });
   const eventNotificationMinutesBefore = (time: number) =>
     updateNotificationSettings({

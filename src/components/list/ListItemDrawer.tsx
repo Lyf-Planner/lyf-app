@@ -52,7 +52,7 @@ export const ListItemDrawer = ({
       var prereq = { ...item, time };
       updateNotification(
         true,
-        user.premium.notifications?.event_notification_minutes_before,
+        user.premium.notifications?.event_notification_minutes_before || "5",
         prereq
       );
     } else {
