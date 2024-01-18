@@ -5,11 +5,10 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { Horizontal, Loader } from "../../components/MiscComponents";
-import { eventsBadgeColor, offWhite } from "../../utils/constants";
-import { ItemStatus, ListItemType, isTemplate } from "./constants";
+import { Horizontal } from "../../components/MiscComponents";
+import { eventsBadgeColor } from "../../utils/constants";
+import { ListItemType, isTemplate } from "./constants";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
-
 import { ItemStatusDropdown } from "./itemSettings/ItemStatusDropdown";
 import { useState } from "react";
 import { ItemEventTime } from "./itemSettings/ItemEventTime";

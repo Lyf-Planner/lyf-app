@@ -7,9 +7,8 @@ import {
   TouchableHighlight,
   Alert,
 } from "react-native";
-import Entypo from "react-native-vector-icons/Entypo";
-import { useDrawer } from "../../../hooks/useDrawer";
 import { useAuth } from "../../../authorisation/AuthProvider";
+import Entypo from "react-native-vector-icons/Entypo";
 
 export const ItemNotification = ({
   enabled,

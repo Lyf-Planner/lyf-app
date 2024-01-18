@@ -23,7 +23,7 @@ export const WidgetContainer = () => {
   const WIDGETS = {
     Plan: <Timetable />,
     Account: (
-      <AccountWidget logout={logout} deleteMe={deleteMe} lastSave={lastSave} />
+      <AccountWidget logout={logout} deleteMe={deleteMe} />
     ),
     Notes: <Notes />,
   };

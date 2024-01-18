@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Planner } from "./Planner";
 import { ListDropdown } from "../../components/dropdowns/ListDropdown";
 import { ListType } from "../../components/list/ListInput";

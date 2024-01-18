@@ -1,16 +1,15 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   Menu,
   MenuOptions,
   MenuOption,
   MenuTrigger,
-  withMenuContext,
   renderers,
 } from "react-native-popup-menu";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Horizontal } from "../../components/MiscComponents";
 import { NoteTypes } from "./TypesAndHelpers";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const NewNoteButton = () => {
   return (

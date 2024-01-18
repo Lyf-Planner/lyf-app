@@ -1,4 +1,4 @@
-import { View, Image, ScrollView, StyleSheet } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
 
 const TREE = require("../../assets/images/tree.png");
 const ROUND_TREE = require("../../assets/images/roundtree.png");

@@ -1,14 +1,13 @@
-import { StyleSheet, View, TextInput, Text, Dimensions } from "react-native";
-
-import Entypo from "react-native-vector-icons/Entypo";
+import { StyleSheet, View, TextInput } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { NoteTypes } from "./TypesAndHelpers";
 import { ListInput } from "../../components/list/ListInput";
-import { eventsBadgeColor, sleep } from "../../utils/constants";
+import { eventsBadgeColor } from "../../utils/constants";
 import { NoteTypeBadge } from "./NoteTypeBadge";
 import { ListItemType } from "../../components/list/constants";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { v4 as uuid } from "uuid";
+import Entypo from "react-native-vector-icons/Entypo";
 
 export const NoteView = ({
   note,

@@ -1,4 +1,4 @@
-import { get, post } from "./axios";
+import { get } from "./axios";
 import { storeAsyncData } from "../utils/asyncStorage";
 import env from "../envManager";
 

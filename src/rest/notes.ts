@@ -1,5 +1,5 @@
-import env from "../envManager";
 import { get, post } from "./axios";
+import env from "../envManager";
 
 export async function getNotes(note_ids: string[]) {
   var url = `${env.BACKEND_URL}/getNotes`;

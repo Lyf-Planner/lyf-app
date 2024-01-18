@@ -5,8 +5,6 @@ import { SaveDropdown } from "./dropdowns/SaveDropdown";
 import { useState } from "react";
 import { SettingsDropdowns } from "./dropdowns/constants";
 
-
-
 export const AccountDropdowns = () => {
   const [openSetting, updateOpenSetting] = useState<any>("");
 

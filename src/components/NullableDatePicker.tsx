@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
-
+import { formatDateData } from "../utils/dates";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Entypo from "react-native-vector-icons/Entypo";
-import { formatDateData } from "../utils/dates";
 
 export const NullableDatePicker = ({ updateDate, date }) => {
   return (

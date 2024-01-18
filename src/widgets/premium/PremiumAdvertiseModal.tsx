@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { PremiumIcon } from "../../components/Icons";
-import AppIntroSlider from "react-native-app-intro-slider";
 import { Horizontal } from "../../components/MiscComponents";
 import { primaryGreen } from "../../utils/constants";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useModal } from "../../hooks/useModal";
 import { PremiumSettingsModal } from "./PremiumSettingsModal";
+import AppIntroSlider from "react-native-app-intro-slider";
 
 const LOCK_IMAGE = require("../../../assets/images/lock.png");
 const ENHANCE_IMAGE = require("../../../assets/images/enhanced.png");

@@ -1,11 +1,9 @@
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { LogoutButton } from "./buttons/LogoutButton";
 import { DeleteButton } from "./buttons/DeleteMeButton";
-import { Horizontal } from "../../components/MiscComponents";
-import { TipsDropdown } from "./dropdowns/TipsDropdown";
 import { AccountDropdowns } from "./AccountDropdowns";
 
-export const AccountWidget = ({ logout, deleteMe, lastSave }) => {
+export const AccountWidget = ({ logout, deleteMe }) => {
   return (
     <View style={styles.widgetContainer}>
       <AccountDropdowns />

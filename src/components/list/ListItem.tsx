@@ -10,20 +10,17 @@ import {
   Directions,
 } from "react-native-gesture-handler";
 import { ITEM_STATUS_TO_COLOR, ItemStatus, ListItemType } from "./constants";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import * as Haptics from "expo-haptics";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { TwentyFourHourToAMPM } from "../../utils/dates";
 import { ListItemDrawer } from "./ListItemDrawer";
 import { useDrawer } from "../../hooks/useDrawer";
-import { eventsBadgeColor, primaryGreen } from "../../utils/constants";
-import { LinearGradient } from "expo-linear-gradient";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import * as Haptics from "expo-haptics";
 
 export const ListItem = ({
   item,
   updateItem,
   removeItem,
-  swipeToFinish = true,
   badgeColor,
   badgeTextColor,
 }) => {

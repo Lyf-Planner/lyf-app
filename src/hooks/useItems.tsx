@@ -7,11 +7,11 @@ import {
   updateItem as updateRemoteItem,
 } from "../rest/items";
 import { ItemStatus, ListItemType } from "../components/list/constants";
-import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
 import { formatDateData, getStartOfCurrentWeek } from "../utils/dates";
 import { useDrawer } from "./useDrawer";
 import { ListItemDrawer } from "../components/list/ListItemDrawer";
+import "react-native-get-random-values";
 
 // Assisted state management via provider
 export const ItemsProvider = ({ children }) => {

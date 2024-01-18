@@ -4,7 +4,6 @@ import { useAuth } from "../../../authorisation/AuthProvider";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { primaryGreen } from "../../../utils/constants";
 import { SettingsDropdowns } from "./constants";
-
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 export const ProfileDropdown = ({ settingOpen, setOpen }) => {

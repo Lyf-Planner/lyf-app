@@ -6,17 +6,15 @@ import {
   ListItemType,
   statusTextDisplay,
 } from "../../list/constants";
+import { StyleSheet } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import Entypo from "react-native-vector-icons/Entypo";
-import { StyleSheet } from "react-native";
 
 export const ItemStatusDropdown = ({ status, updateStatus, type }) => {
   const [open, setOpen] = useState(false);
   const [localValue, setLocalValue] = useState(status || ItemStatus.Upcoming);
 
-  const items = (
-    StatusOptions
-  ).map((x) => {
+  const items = StatusOptions.map((x) => {
     return {
       label: statusTextDisplay(
         type === ListItemType.Event ? ListItemType.Event : ListItemType.Task,

@@ -16,7 +16,7 @@ import { isTemplate } from "../../components/list/constants";
 import { v4 as uuid } from "uuid";
 import { deepBlue } from "../../utils/constants";
 
-export const WeekDisplay = ({ items, dates, isFirst = false }) => {
+export const WeekDisplay = ({ items, dates }) => {
   const [hide, updateHide] = useState(false);
   const { user, updateUser } = useAuth();
   const start = formatDateData(

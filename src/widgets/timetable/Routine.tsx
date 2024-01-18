@@ -1,4 +1,4 @@
-import { DaysOfWeek, deepBlue, offWhite } from "../../utils/constants";
+import { DaysOfWeek, deepBlue } from "../../utils/constants";
 import { StyleSheet, View, Text, Pressable, Alert } from "react-native";
 import { Day } from "./DayDisplay";
 import { BouncyPressable } from "../../components/BouncyPressable";

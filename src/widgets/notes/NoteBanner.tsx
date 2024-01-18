@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import {
   Directions,
   Gesture,
@@ -17,10 +11,9 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-
-import Entypo from "react-native-vector-icons/Entypo";
 import { NoteTypeBadge } from "./NoteTypeBadge";
 import { useNotes } from "../../hooks/useNotes";
+import Entypo from "react-native-vector-icons/Entypo";
 
 export const NoteBanner = ({ id, title, noteType, onPress }) => {
   const { removeNote } = useNotes();

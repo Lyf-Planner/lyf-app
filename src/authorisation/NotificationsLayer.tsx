@@ -4,10 +4,10 @@ import {
   getExpoPushTokenAsync,
 } from "expo-notifications";
 import { isDevice } from "expo-device";
-import env from "../envManager";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthProvider";
 import { getAsyncData, storeAsyncData } from "../utils/asyncStorage";
+import env from "../envManager";
 
 export const NotificationsLayer = ({ children }) => {
   const [enabled, setEnabled] = useState(false);

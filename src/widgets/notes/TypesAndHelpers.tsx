@@ -3,11 +3,6 @@ export enum NoteTypes {
   Text = "Text",
 }
 
-export const NoteTypeInitialiser = {
-  List: [],
-  Text: "",
-};
-
 export const TypeToDisplayName = {
   List: "List",
   Text: "Note",

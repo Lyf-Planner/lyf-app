@@ -1,9 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  getAsyncData,
-  storeAsyncData,
-  deleteAsyncData,
-} from "../utils/asyncStorage";
+import { getAsyncData, deleteAsyncData } from "../utils/asyncStorage";
 import { autologin } from "../rest/auth";
 import { LoadingScreen } from "../components/MiscComponents";
 import { Login } from "./Login";

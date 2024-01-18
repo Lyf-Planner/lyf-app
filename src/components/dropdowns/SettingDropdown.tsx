@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
-import Entypo from "react-native-vector-icons/Entypo";
 import { Horizontal } from "../MiscComponents";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import Entypo from "react-native-vector-icons/Entypo";
 
 export const SettingDropdown = ({
   name,

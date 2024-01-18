@@ -1,10 +1,4 @@
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
 import { View, Text, StyleSheet } from "react-native";
-import { useEffect } from "react";
 import { Horizontal, Vertical } from "../../components/MiscComponents";
 import { ListInput } from "../../components/list/ListInput";
 import {
@@ -15,17 +9,21 @@ import {
   parseDateString,
 } from "../../utils/dates";
 import {
-  DaysOfWeek,
   deepBlue,
   eventsBadgeColor,
   secondaryGreen,
   sleep,
 } from "../../utils/constants";
 import { LongPressGestureHandler } from "react-native-gesture-handler";
-import * as Haptics from "expo-haptics";
 import { ListItemType } from "../../components/list/constants";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useItems } from "../../hooks/useItems";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+import * as Haptics from "expo-haptics";
 
 export const Day = ({ items, date = null, day = null, template = false }) => {
   const { user, updateUser } = useAuth();

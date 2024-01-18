@@ -1,19 +1,13 @@
 import { useEffect, useState } from "react";
-import { View, Text, Pressable, StyleSheet, Alert } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { WeekDisplay } from "./WeekDisplay";
-import {
-  extendByWeek,
-  formatDateData,
-  getStartOfCurrentWeek,
-  initialiseDays,
-} from "../../utils/dates";
-import Entypo from "react-native-vector-icons/Entypo";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import FontAwesome6Icon from "react-native-vector-icons/FontAwesome6";
+import { extendByWeek, initialiseDays } from "../../utils/dates";
 import { primaryGreen } from "../../utils/constants";
 import { BouncyPressable } from "../../components/BouncyPressable";
 import { Routine } from "./Routine";
 import { useAuth } from "../../authorisation/AuthProvider";
+import Entypo from "react-native-vector-icons/Entypo";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 export const Planner = ({ items }) => {
   const { user } = useAuth();
@@ -50,10 +44,9 @@ export const Planner = ({ items }) => {
         <Routine items={items.filter((x) => x.day && !x.date)} />
       ) : (
         <View>
-          {displayedWeeks.map((x, i) => (
+          {displayedWeeks.map((x) => (
             <WeekDisplay
               key={x[0]}
-              isFirst={i === 0}
               dates={x}
               items={items.filter((y) => x.includes(y.date) || y.day)}
             />

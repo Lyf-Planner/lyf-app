@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext } from "react";
 import { useAuth } from "../authorisation/AuthProvider";
 import { useItems } from "./useItems";
 import { LoadingScreen } from "../components/MiscComponents";

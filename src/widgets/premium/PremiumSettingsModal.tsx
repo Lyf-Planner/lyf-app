@@ -3,13 +3,13 @@ import { PremiumIcon } from "../../components/Icons";
 import { Horizontal } from "../../components/MiscComponents";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useModal } from "../../hooks/useModal";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { primaryGreen } from "../../utils/constants";
 import {
   DailyNotificationDesc,
   EventNotificationDesc,
 } from "./PremiumSettingDescriptions";
 import { useNotifications } from "../../authorisation/NotificationsLayer";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 export const PremiumSettingsModal = () => {
   const { user, updateUser } = useAuth();

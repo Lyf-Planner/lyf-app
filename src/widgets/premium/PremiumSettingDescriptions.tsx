@@ -5,8 +5,8 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { localisedMoment } from "../../utils/dates";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export const DailyNotificationDesc = ({
   updateTime,

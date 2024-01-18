@@ -8,9 +8,8 @@ import Animated, {
   FadeIn,
 } from "react-native-reanimated";
 import { deepBlue, eventsBadgeColor } from "../../utils/constants";
-import Entypo from "react-native-vector-icons/Entypo";
-import { BouncyPressable } from "../BouncyPressable";
 import { useItems } from "../../hooks/useItems";
+import Entypo from "react-native-vector-icons/Entypo";
 
 export const ListDropdown = ({ items, listType, icon, name }) => {
   const [hide, updateHide] = useState(true);

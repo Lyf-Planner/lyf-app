@@ -3,12 +3,10 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useState,
 } from "react";
 import { saveUser, deleteMe } from "../rest/user";
 import { getAsyncData } from "../utils/asyncStorage";
 import { AppState } from "react-native";
-import { NotificationsLayer } from "./NotificationsLayer";
 
 export const AuthProvider = ({
   children,

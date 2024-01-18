@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from "react";
 import { useAuth } from "../authorisation/AuthProvider";
-import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
 import { NoteTypes } from "../widgets/notes/TypesAndHelpers";
 import {
@@ -9,6 +8,7 @@ import {
   getNotes,
   updateNote as updateRemoteNote,
 } from "../rest/notes";
+import "react-native-get-random-values";
 
 // Assisted state management via provider
 export const NotesProvider = ({ children }) => {

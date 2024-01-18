@@ -1,5 +1,4 @@
 import { StyleSheet, TouchableHighlight } from "react-native";
-
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useModal } from "../../hooks/useModal";
 import { PremiumSettingsModal } from "./PremiumSettingsModal";

@@ -1,5 +1,5 @@
-import Axios from "axios";
 import { getAsyncData } from "../utils/asyncStorage";
+import Axios from "axios";
 
 // Get request
 export async function get(url: string) {
