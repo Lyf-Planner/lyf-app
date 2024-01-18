@@ -9,6 +9,7 @@ import { LoadingScreen } from "../components/MiscComponents";
 import { Login } from "./Login";
 import { AuthProvider } from "./AuthProvider";
 import { AppState } from "react-native";
+import { getCalendars } from "expo-localization";
 
 export const AuthGateway = ({ children }) => {
   const [loggingIn, updateLoggingIn] = useState(false);
@@ -36,7 +37,11 @@ export const AuthGateway = ({ children }) => {
       token
         ? autologin().then((freshUser) => {
             if (!!freshUser) {
-              updateUser(freshUser);
+              // Sync up local with external
+              updateUser({
+                ...freshUser,
+                timezone: getCalendars()[0].timeZone,
+              });
             } else updateLoggingIn(false);
           })
         : updateLoggingIn(false)
