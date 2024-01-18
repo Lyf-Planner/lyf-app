@@ -150,7 +150,7 @@ export const ListItem = ({
   // STYLING
 
   const determineBadgeColor = () => {
-    if (item.status === ItemStatus.Upcoming || !item.status) return badgeColor;
+    if (!item.status || item.status === ItemStatus.Upcoming) return badgeColor;
     else return ITEM_STATUS_TO_COLOR[item.status];
   };
 
