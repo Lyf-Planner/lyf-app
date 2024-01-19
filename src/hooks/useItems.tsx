@@ -134,8 +134,14 @@ export const ItemsProvider = ({ children }) => {
 
   const removeItem = (item, deleteRemote = true) => {
     if (item.template_id) {
-      updateItem({ ...item, status: ItemStatus.Cancelled });
-      return;
+      // Dont delete if item template is still active (it will look the same) - just mark as cancelled
+      const dontDelete = items
+        .map((x) => x.id)
+        .find((x) => x === item.template_id);
+      if (dontDelete) {
+        updateItem({ ...item, status: ItemStatus.Cancelled });
+        return;
+      }
     }
 
     var id = item.id;
