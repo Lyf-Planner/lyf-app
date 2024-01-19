@@ -28,7 +28,7 @@ export const Planner = ({ items }) => {
           selected={!updatingTemplate}
           onPress={() => setUpdatingTemplate(false)}
         >
-          <Text style={styles.menuButtonText}>Timetable</Text>
+          <Text style={[styles.menuButtonText, {marginRight: 2}]}>Timetable</Text>
           <MaterialCommunityIcons name="table" size={24} color="white" />
         </MenuButton>
         <MenuButton
