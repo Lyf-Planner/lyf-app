@@ -27,7 +27,7 @@ export const DrawerProvider = ({ children }) => {
   // callbacks
   const updateDrawerIndex = useCallback(
     (index: number) => {
-      bottomSheetRef.current.snapToIndex(index);
+      bottomSheetRef?.current && bottomSheetRef?.current?.snapToIndex(index);
     },
     [bottomSheetRef]
   );

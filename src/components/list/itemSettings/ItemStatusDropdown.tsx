@@ -17,7 +17,7 @@ export const ItemStatusDropdown = ({ status, updateStatus, type }) => {
   const items = StatusOptions.map((x) => {
     return {
       label: statusTextDisplay(
-        type === ListItemType.Event ? ListItemType.Event : ListItemType.Task,
+        type,
         x
       ),
       value: x,
