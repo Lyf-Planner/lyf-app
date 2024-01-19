@@ -23,12 +23,14 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { useEffect } from "react";
 import * as Haptics from "expo-haptics";
 
 export const Day = ({ items, date = null, day = null, template = false }) => {
   const { user, updateUser } = useAuth();
   const { addItem, updateItem, removeItem } = useItems();
-  const canDelete = !template && date;
+  const canDelete =
+    !template && date && date.localeCompare(formatDateData(new Date())) < 1;
 
   const shiftFirst = async () => {
     if (canDelete) {
@@ -85,6 +87,38 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
     scale.value = 1;
   };
 
+  // Day handle animation
+
+  const dayHandleScale = useSharedValue(1);
+  const smallScaleAnimation = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          scale: withTiming(dayHandleScale.value, {
+            duration: 250,
+          }),
+        },
+      ],
+    } as any;
+  });
+
+  useEffect(() => {
+    if (canDelete && date.localeCompare(formatDateData(new Date())) < 0) {
+      bounceHandle();
+    }
+  }, []);
+
+  const bounceHandle = async () => {
+    const bounceDuration = 250;
+    dayHandleScale.value = 1.03;
+    await sleep(bounceDuration);
+    dayHandleScale.value = 1;
+    await sleep(bounceDuration);
+    dayHandleScale.value = 1.03;
+    await sleep(bounceDuration);
+    dayHandleScale.value = 1;
+  };
+
   return (
     <View>
       <Animated.View
@@ -96,7 +130,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
           onEnded={handleLongPressOut}
           onFailed={handleLongPressOut}
         >
-          <Animated.View style={[styles.dayHeaderView]}>
+          <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
             <View style={styles.dayOfWeekPressable}>
               <Text style={styles.dayOfWeekText}>
                 {day || dayFromDateString(date)}
