@@ -1,5 +1,6 @@
 import { post } from "./axios";
 import { getAsyncData, storeAsyncData } from "../utils/asyncStorage";
+import { getCalendars } from "expo-localization";
 import env from "../envManager";
 
 export async function saveUser(user, token?: string) {
@@ -28,7 +29,11 @@ export async function saveUser(user, token?: string) {
 
 export async function createUser(username: string, password: string) {
   var url = `${env.BACKEND_URL}/createUser`;
-  var body = { user_id: username, password };
+  var body = {
+    user_id: username,
+    password,
+    timezone: getCalendars()[0].timeZone,
+  };
 
   var result = await post(url, body);
   if (result.status === 200) {
