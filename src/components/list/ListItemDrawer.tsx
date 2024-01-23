@@ -171,37 +171,38 @@ export const ListItemDrawer = ({
 
         <View style={styles.footer}>
           <Horizontal style={styles.secondSeperator} />
-          {user.timetable.items.length <= 1 && (
+          {user.timetable.items.length <= 1 ? (
             <Text style={styles.subtitle}>
               Swipe items right to access this menu
             </Text>
+          ) : (
+            <View style={styles.bottomButtonsContainer}>
+              <TouchableOpacity
+                onPress={() => {
+                  removeItem();
+                  closeModal();
+                }}
+                style={[styles.bottomButton, { backgroundColor: "red" }]}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.bottomButtonText, styles.removeText]}>
+                  Delete
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={closeModal}
+                style={[
+                  styles.bottomButton,
+                  { backgroundColor: eventsBadgeColor },
+                ]}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.bottomButtonText, styles.doneText]}>
+                  Done
+                </Text>
+              </TouchableOpacity>
+            </View>
           )}
-          <View style={styles.bottomButtonsContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                removeItem();
-                closeModal();
-              }}
-              style={[styles.bottomButton, { backgroundColor: "red" }]}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.bottomButtonText, styles.removeText]}>
-                Delete
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={closeModal}
-              style={[
-                styles.bottomButton,
-                { backgroundColor: eventsBadgeColor },
-              ]}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.bottomButtonText, styles.doneText]}>
-                Done
-              </Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
     </TouchableWithoutFeedback>
