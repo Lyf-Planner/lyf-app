@@ -55,7 +55,7 @@ export const AuthGateway = ({ children }) => {
         if (
           appState.current.match(/background|inactive/) &&
           nextAppState === "active" &&
-          new Date().getTime() - lastUpdated.getTime() > 60 * 1000
+          new Date().getTime() - lastUpdated.getTime() > 5 * 60 * 1000
         ) {
           console.log(
             `Refreshing user, last local update was ${
@@ -81,8 +81,10 @@ export const AuthGateway = ({ children }) => {
 
   useEffect(() => {
     // Check if we were logged in last time - ask backend if token is still valid
-    updateLoggingIn(true);
-    refreshUser();
+    if (new Date().getTime() - lastUpdated.getTime() > 5 * 60 * 1000) {
+      updateLoggingIn(true);
+      refreshUser();
+    }
   }, []);
 
   if (loggingIn) return <LoadingScreen text={"Remembering your schedule..."} />;
