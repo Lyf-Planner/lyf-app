@@ -34,16 +34,19 @@ export const ListInput = ({
         listWrapperStyles,
       ]}
     >
-      {items.map((x, i: number) => (
-        <ListItem
-          key={x.id}
-          updateItem={updateItem}
-          removeItem={removeItem}
-          badgeColor={badgeColor}
-          badgeTextColor={badgeTextColor}
-          item={x}
-        />
-      ))}
+      {items
+        .sort((a, b) => (a.created ? a.created.localeCompare(b.created) : 1))
+        .sort((a, b) => (a.time ? a.time.localeCompare(b.time) : 1))
+        .map((x, i: number) => (
+          <ListItem
+            key={x.id}
+            updateItem={updateItem}
+            removeItem={removeItem}
+            badgeColor={badgeColor}
+            badgeTextColor={badgeTextColor}
+            item={x}
+          />
+        ))}
 
       <TextInput
         ref={inputRef}
