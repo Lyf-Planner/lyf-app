@@ -153,6 +153,7 @@ export const ListItem = ({
 
   const determineBadgeTextColor = () => {
     if (item.status === ItemStatus.Done) return "white";
+    if (item.status === ItemStatus.InProgress) return "black";
     if (item.status === ItemStatus.Tentative) return "black";
     else return badgeTextColor;
   };
