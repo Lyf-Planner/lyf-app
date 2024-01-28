@@ -85,7 +85,8 @@ export const ItemsProvider = ({ children }) => {
       date,
       day,
       permitted_users: [{ user_id: user.id, permissions: "Owner" }],
-      status,
+      // Shortcut: Status initialises as tentative when title concludes with "?"
+      status: title[title.length - 1] === "?" ? ItemStatus.Tentative : status,
     } as any;
 
     if (template_instance) {
