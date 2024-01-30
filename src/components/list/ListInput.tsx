@@ -39,7 +39,7 @@ export const ListInput = ({
         .sort((a, b) => (a.time ? a.time.localeCompare(b.time) : 1))
         .map((x, i: number) => (
           <ListItem
-            key={x.id}
+            key={x.template_id || x.id}
             updateItem={updateItem}
             removeItem={removeItem}
             badgeColor={badgeColor}

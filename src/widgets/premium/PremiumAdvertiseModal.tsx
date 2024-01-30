@@ -6,6 +6,8 @@ import { useAuth } from "../../authorisation/AuthProvider";
 import { useModal } from "../../hooks/useModal";
 import AppIntroSlider from "react-native-app-intro-slider";
 
+// NOT CURRENTLY IN USE
+
 const LOCK_IMAGE = require("../../../assets/images/lock.png");
 const ENHANCE_IMAGE = require("../../../assets/images/enhanced.png");
 const COLLAB_IMAGE = require("../../../assets/images/collab.jpg");

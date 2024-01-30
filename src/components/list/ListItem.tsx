@@ -133,7 +133,6 @@ export const ListItem = ({
   const handleFling = () => {
     offsetX.value = -40;
 
-    // Will soon make this a feature available to all
     openModal();
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
