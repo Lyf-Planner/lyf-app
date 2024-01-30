@@ -13,8 +13,10 @@ import { ITEM_STATUS_TO_COLOR, ItemStatus, ListItemType } from "./constants";
 import { TwentyFourHourToAMPM } from "../../utils/dates";
 import { ListItemDrawer } from "./ListItemDrawer";
 import { useDrawer } from "../../hooks/useDrawer";
+import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import * as Haptics from "expo-haptics";
 
 export const ListItem = ({
@@ -49,12 +51,16 @@ export const ListItem = ({
     .runOnJS(true)
     .onStart(() => handleLongPressIn())
     .onEnd(() => handleLongPressOut());
-  const fling = Gesture.Fling()
+  const flingLeft = Gesture.Fling()
     .direction(Directions.LEFT)
     .runOnJS(true)
-    .onEnd(() => handleFling());
+    .onEnd(() => handleFlingLeft());
+  const flingRight = Gesture.Fling()
+    .direction(Directions.RIGHT)
+    .runOnJS(true)
+    .onEnd(() => handleFlingRight());
 
-  const gestures = Gesture.Race(tap, longPress, fling);
+  const gestures = Gesture.Race(tap, longPress, flingLeft, flingRight);
 
   // ANIMATION DEFINITIONS
 
@@ -79,7 +85,7 @@ export const ListItem = ({
         transform: [
           {
             translateX: withTiming(offsetX.value, {
-              duration: 200,
+              duration: 250,
             }),
           },
         ],
@@ -90,8 +96,7 @@ export const ListItem = ({
   // GESTURE HANDLERS
 
   const handleTapIn = () => {
-    if (item.status === ItemStatus.Upcoming) scale.value = 0.9;
-    else if (item.status === ItemStatus.InProgress) scale.value = 0.7;
+    if (item.status !== ItemStatus.Done) scale.value = 0.7;
     else scale.value = 0.9;
     timer = setInterval(() => {
       scale.value = 1;
@@ -101,11 +106,8 @@ export const ListItem = ({
   };
 
   const handleTapOut = () => {
-    if (item.status === ItemStatus.Done)
+    if (item.status === ItemStatus.Done) {
       updateItem({ ...item, status: ItemStatus.Upcoming });
-    else if (item.status === ItemStatus.Upcoming) {
-      updateItem({ ...item, status: ItemStatus.InProgress });
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     } else {
       updateItem({ ...item, status: ItemStatus.Done });
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
@@ -130,7 +132,7 @@ export const ListItem = ({
     scale.value = 1;
   };
 
-  const handleFling = () => {
+  const handleFlingLeft = () => {
     offsetX.value = -40;
 
     openModal();
@@ -140,7 +142,21 @@ export const ListItem = ({
     var closeAnimation = setInterval(() => {
       offsetX.value = 0;
       clearTimeout(closeAnimation);
-    }, 400);
+    }, 500);
+  };
+
+  const handleFlingRight = () => {
+    offsetX.value = 40;
+
+    updateItem({ ...item, status: ItemStatus.InProgress });
+    item.status !== ItemStatus.InProgress &&
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
+    // This makes the animation appear to pause for a second when slid back
+    var closeAnimation = setInterval(() => {
+      offsetX.value = 0;
+      clearTimeout(closeAnimation);
+    }, 500);
   };
 
   // STYLING
@@ -196,7 +212,10 @@ export const ListItem = ({
             size={18}
           />
         </Animated.View>
-        <View
+        <LinearGradient
+          colors={[ITEM_STATUS_TO_COLOR[ItemStatus.InProgress], "white"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
           style={[
             {
               borderRadius: item.type !== ListItemType.Task ? 5 : 15,
@@ -204,8 +223,9 @@ export const ListItem = ({
             styles.listHiddenBackground,
           ]}
         >
+          <FontAwesome5 name="play" size={20} style={styles.playIcon} />
           <MaterialIcons name="edit" style={styles.editIcon} size={20} />
-        </View>
+        </LinearGradient>
       </Animated.View>
     </GestureDetector>
   );
@@ -229,10 +249,10 @@ const styles = StyleSheet.create({
     height: 54,
     borderWidth: 1,
     flexDirection: "row",
-    backgroundColor: "white",
     alignItems: "center",
     position: "absolute",
     width: "100%",
   },
+  playIcon: { marginLeft: 12 },
   editIcon: { marginLeft: "auto", marginRight: 11, color: "black" },
 });

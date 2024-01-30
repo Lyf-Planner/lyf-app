@@ -75,7 +75,7 @@ export const ItemsProvider = ({ children }) => {
     type: ListItemType,
     date: string,
     day: string,
-    status = ItemStatus.Upcoming,
+    status?: ItemStatus,
     template_instance?: TemplateInstance
   ) => {
     var newItem = {
@@ -85,25 +85,15 @@ export const ItemsProvider = ({ children }) => {
       date,
       day,
       permitted_users: [{ user_id: user.id, permissions: "Owner" }],
-      // Shortcut: Status initialises as tentative when title concludes with "?"
-      status: title[title.length - 1] === "?" ? ItemStatus.Tentative : status,
     } as any;
 
+    // Conditional properties
+    if (title[title.length - 1] === "?")
+      newItem.status === ItemStatus.Tentative;
+    if (status) newItem.status = status;
     if (template_instance) {
       newItem.template_id = template_instance.template_id;
       newItem.time = template_instance.time;
-    }
-
-    if (
-      user.premium?.notifications?.event_notifications_enabled
-    ) {
-      newItem.notifications = [
-        {
-          user_id: user.id,
-          minutes_before:
-            user.premium?.notifications?.event_notification_minutes_before,
-        },
-      ];
     }
 
     // Add to store

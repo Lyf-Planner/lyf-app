@@ -4,7 +4,7 @@ import { NoteTypes } from "./TypesAndHelpers";
 import { ListInput } from "../../components/list/ListInput";
 import { eventsBadgeColor } from "../../utils/constants";
 import { NoteTypeBadge } from "./NoteTypeBadge";
-import { ListItemType } from "../../components/list/constants";
+import { ItemStatus, ListItemType } from "../../components/list/constants";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { v4 as uuid } from "uuid";
 import Entypo from "react-native-vector-icons/Entypo";

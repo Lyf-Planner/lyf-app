@@ -27,6 +27,7 @@
     "expo-device": "~5.4.0",
     "expo-font": "~11.4.0",
     "expo-haptics": "~12.4.0",
+    "expo-linear-gradient": "^12.7.1",
     "expo-localization": "~14.3.0",
     "expo-notifications": "~0.20.1",
     "expo-splash-screen": "~0.20.5",
@@ -52,8 +53,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/react-native-vector-icons": "^6.4.16",
-    "@types/react": "~18.2.14"
+    "@types/react": "~18.2.14",
+    "@types/react-native-vector-icons": "^6.4.16"
   },
   "private": true
 }
