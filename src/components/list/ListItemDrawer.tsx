@@ -54,7 +54,7 @@ export const ListItemDrawer = ({
         user.premium.notifications?.event_notification_minutes_before || "5",
         prereq
       );
-    } else if (!time) {
+    } else if (!time && item.notifications.find((x) => x.user_id === user.id)) {
       prereq = { ...item, time: null };
       updateNotification(false, "5", prereq);
     } else {
