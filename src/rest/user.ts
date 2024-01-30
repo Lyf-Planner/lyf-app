@@ -4,21 +4,13 @@ import { getCalendars } from "expo-localization";
 import env from "../envManager";
 
 export async function saveUser(user, token?: string) {
-  var url = `${env.BACKEND_URL}/updateMe`;
+  var url = `${env.BACKEND_URL}/updateUser`;
 
   var token = token || (await getAsyncData("token"));
   // Update will only be successful if token matches user being updated!
 
-  var body = {
-    name: user.name,
-    email: user.email,
-    expo_tokens: user.expo_tokens,
-    timezone: user.timezone,
-    timetable: user.timetable,
-    notes: user.notes,
-    premium: user.premium,
-  };
-  var result = await post(url, body);
+  var { last_updated, created, ...body } = user;
+  var result = await post(url, { user: body, token });
   if (result.status === 200) return true;
   else {
     // These posts may be unsuccessful often, as when the app closes this gets called frequently,
