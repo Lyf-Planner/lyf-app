@@ -1,15 +1,11 @@
 import { StyleSheet, TouchableHighlight } from "react-native";
-import { useAuth } from "../../authorisation/AuthProvider";
 import { useModal } from "../../hooks/useModal";
-import { PremiumSettingsModal } from "./PremiumSettingsModal";
-import { PremiumAdvertiseModal } from "./PremiumAdvertiseModal";
-import { PremiumIcon } from "../../components/Icons";
+import { SettingsModal } from "./SettingsModal";
 import { deepBlue } from "../../utils/constants";
+import Feather from "react-native-vector-icons/Feather";
 
-export const PremiumHeaderButton = () => {
-  const { user } = useAuth();
+export const SettingsHeaderButton = () => {
   const { modal, updateModal } = useModal();
-  const premiumEnabled = user.premium?.enabled;
 
   return (
     <TouchableHighlight
@@ -20,13 +16,9 @@ export const PremiumHeaderButton = () => {
           backgroundColor: !!modal ? deepBlue : "white",
         },
       ]}
-      onPress={() =>
-        premiumEnabled
-          ? updateModal(<PremiumSettingsModal />)
-          : updateModal(<PremiumAdvertiseModal />)
-      }
+      onPress={() => updateModal(<SettingsModal />)}
     >
-      <PremiumIcon />
+      <Feather name="settings" size={30} />
     </TouchableHighlight>
   );
 };

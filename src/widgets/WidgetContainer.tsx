@@ -7,7 +7,7 @@ import { Horizontal } from "../components/MiscComponents";
 import { AccountWidget } from "./account/AccountWidget";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Notes } from "./notes/NotesWidget";
-import { PremiumHeaderButton } from "./premium/PremiumHeaderButton";
+import { SettingsHeaderButton } from "./settings/SettingsHeaderButton";
 import { BouncyPressable } from "../components/BouncyPressable";
 import { deepBlue } from "../utils/constants";
 
@@ -22,9 +22,7 @@ export const WidgetContainer = () => {
 
   const WIDGETS = {
     Plan: <Timetable />,
-    Account: (
-      <AccountWidget logout={logout} deleteMe={deleteMe} />
-    ),
+    Account: <AccountWidget logout={logout} deleteMe={deleteMe} />,
     Notes: <Notes />,
   };
 
@@ -50,7 +48,7 @@ const AppHeaderMenu = ({ selected, updateSelected }) => {
           title={x}
         />
       ))}
-      <PremiumHeaderButton />
+      <SettingsHeaderButton />
       <Pressable
         style={[
           styles.settingButton,

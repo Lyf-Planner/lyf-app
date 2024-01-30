@@ -44,7 +44,6 @@ export const ListItemDrawer = ({
   const updateTime = (time) => {
     if (
       !item.time &&
-      user.premium?.enabled &&
       user.premium?.notifications?.event_notifications_enabled
     ) {
       // If user has the setting to automatically create a notification, pass the update off to notif func
@@ -150,26 +149,23 @@ export const ListItemDrawer = ({
 
           <ItemEventTime time={item.time} updateTime={updateTime} />
 
-          {user.premium?.enabled && (
-            <ItemNotification
-              enabled={enabled}
-              time={item.time}
-              notification={
-                item.notifications &&
-                item.notifications.find((x) => x.user_id === user.id)
-              }
-              updateNotification={updateNotification}
-              updateDrawerIndex={updateDrawerIndex}
-            />
-          )}
-          {user.premium?.enabled && (
-            <ItemDescription
-              item={item}
-              updateDesc={updateDesc}
-              publishUpdate={publishUpdate}
-              updateDrawerIndex={updateDrawerIndex}
-            />
-          )}
+          <ItemNotification
+            enabled={enabled}
+            time={item.time}
+            notification={
+              item.notifications &&
+              item.notifications.find((x) => x.user_id === user.id)
+            }
+            updateNotification={updateNotification}
+            updateDrawerIndex={updateDrawerIndex}
+          />
+
+          <ItemDescription
+            item={item}
+            updateDesc={updateDesc}
+            publishUpdate={publishUpdate}
+            updateDrawerIndex={updateDrawerIndex}
+          />
         </View>
 
         <View style={styles.footer}>

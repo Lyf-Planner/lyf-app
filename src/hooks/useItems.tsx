@@ -95,7 +95,6 @@ export const ItemsProvider = ({ children }) => {
     }
 
     if (
-      user.premium?.enabled &&
       user.premium?.notifications?.event_notifications_enabled
     ) {
       newItem.notifications = [

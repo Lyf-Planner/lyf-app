@@ -4,7 +4,6 @@ import { Horizontal } from "../../components/MiscComponents";
 import { primaryGreen } from "../../utils/constants";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useModal } from "../../hooks/useModal";
-import { PremiumSettingsModal } from "./PremiumSettingsModal";
 import AppIntroSlider from "react-native-app-intro-slider";
 
 const LOCK_IMAGE = require("../../../assets/images/lock.png");
@@ -59,7 +58,6 @@ export const PremiumAdvertiseModal = () => {
   };
 
   const closeModal = () => updateModal(null);
-  const switchModal = () => updateModal(<PremiumSettingsModal />);
 
   return (
     <View style={styles.mainContainer}>
@@ -99,7 +97,6 @@ export const PremiumAdvertiseModal = () => {
           <TouchableOpacity
             onPress={() => {
               enablePremium();
-              switchModal();
             }}
             style={[styles.bottomButton, { backgroundColor: primaryGreen }]}
             activeOpacity={0.7}

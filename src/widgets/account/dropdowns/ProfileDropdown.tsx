@@ -26,11 +26,6 @@ export const ProfileDropdown = ({ settingOpen, setOpen }) => {
           fieldNull={!user.id}
           fieldValue={user.id}
         />
-        <DetailsField
-          fieldName={"Premium"}
-          fieldNull={!user.premium?.enabled}
-          fieldValue={user.premium?.enabled ? "Activated" : "Not activated"}
-        />
         <View style={styles.detailsFieldView}>
           <DetailsField
             fieldName={"Email"}

@@ -169,12 +169,11 @@ export const ListItem = ({
         <Animated.View
           style={[
             styles.listItem,
+            flickAnimation,
             {
               backgroundColor: determineBadgeColor(),
-
               borderRadius: item.type !== ListItemType.Task ? 5 : 15,
             },
-            flickAnimation,
           ]}
         >
           <Text
