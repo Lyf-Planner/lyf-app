@@ -81,7 +81,7 @@ export const AuthGateway = ({ children }) => {
 
   useEffect(() => {
     // Check if we were logged in last time - ask backend if token is still valid
-    if (new Date().getTime() - lastUpdated.getTime() > 5 * 60 * 1000) {
+    if (!user || new Date().getTime() - lastUpdated.getTime() > 5 * 60 * 1000) {
       updateLoggingIn(true);
       refreshUser();
     }
