@@ -47,7 +47,7 @@ export const ItemsProvider = ({ children }) => {
         }
       });
     }
-  }, []);
+  }, [user]);
 
   const updateItem = (item, updateRemote = true) => {
     // We create localised instances of templates in the planner - if this is one of those then create it
