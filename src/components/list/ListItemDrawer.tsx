@@ -54,6 +54,9 @@ export const ListItemDrawer = ({
         user.premium.notifications?.event_notification_minutes_before || "5",
         prereq
       );
+    } else if (!time) {
+      prereq = { ...item, time: null };
+      updateNotification(false, "5", prereq);
     } else {
       updateLocalItem({ ...item, time });
       updateRootItem({ ...item, time });
