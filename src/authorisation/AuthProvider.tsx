@@ -1,12 +1,6 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-} from "react";
+import { createContext, useContext } from "react";
 import { saveUser, deleteMe } from "../rest/user";
 import { getAsyncData } from "../utils/asyncStorage";
-import { AppState } from "react-native";
 
 export const AuthProvider = ({
   children,
@@ -15,8 +9,6 @@ export const AuthProvider = ({
   updateUser,
   lastUpdated,
   logout,
-  save,
-  setSave,
 }) => {
   const saveAndLogout = async () => {
     var token = await getAsyncData("token");
@@ -24,59 +16,17 @@ export const AuthProvider = ({
     logout();
   };
 
-  const autoSave = useCallback(() => {
-    console.log("Checking for changes to save");
-    // Check for changes
-    console.log(
-      "last updated",
-      new Date(lastUpdated),
-      "latest",
-      new Date(save.latest),
-      "should save",
-      new Date(lastUpdated) > new Date(save.latest)
-    );
-    if (new Date(lastUpdated) > new Date(save.latest)) {
-      console.log("Autosaving...");
-      saveUser(user)
-        .then(() => setSave({ latest: new Date() }))
-        .catch((error) => {
-          alert(`Error saving: ${error}`);
-        });
-      console.log("Data saved.");
-    }
-  }, [user, save, setSave]);
-
-  // Autosave (every 10s)
-  useEffect(() => {
-    const intervalId = setInterval(() => autoSave(), 10000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [save, setSave, user]);
-
-  // Autosave when app closes!
-  useEffect(() => {
-    var listener = AppState.addEventListener("change", (nextAppState) => {
-      console.log("App state change detected", nextAppState);
-      if (nextAppState === "background") {
-        // This gets throttled by the backend when multiple requests come through
-        if (lastUpdated > save.latest) {
-          saveUser(user);
-          setSave({ latest: new Date() });
-        }
-      }
-    });
-    return () => listener.remove();
-  }, [user, save, setSave]);
+  const updateRemoteAndLocal = (user) => {
+    updateUser(user);
+    saveUser(user);
+  };
 
   const EXPOSED = {
     loggingIn,
     user,
-    updateUser,
+    updateUser: updateRemoteAndLocal,
     deleteMe,
     logout: saveAndLogout,
-    lastSave: save.latest,
     lastUpdated: lastUpdated,
   };
 

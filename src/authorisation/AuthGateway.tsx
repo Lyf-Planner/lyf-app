@@ -4,16 +4,12 @@ import { autologin } from "../rest/auth";
 import { LoadingScreen } from "../components/MiscComponents";
 import { Login } from "./Login";
 import { AuthProvider } from "./AuthProvider";
-import { AppState } from "react-native";
 import { getCalendars } from "expo-localization";
 
 export const AuthGateway = ({ children }) => {
   const [loggingIn, updateLoggingIn] = useState(false);
   const [user, setUser] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(new Date());
-  const [save, setSave] = useState({
-    latest: new Date(),
-  });
 
   const updateUser = useCallback(
     (user) => {
@@ -29,55 +25,22 @@ export const AuthGateway = ({ children }) => {
   };
 
   const refreshUser = () =>
-    getAsyncData("token").then((token) =>
-      token
-        ? autologin().then((freshUser) => {
-            if (!!freshUser) {
-              // Sync up local with external
-              updateUser({
-                ...freshUser,
-                timezone: getCalendars()[0].timeZone,
-              });
-            } else updateLoggingIn(false);
-          })
-        : updateLoggingIn(false)
-    );
-
-  const appState = useRef(AppState.currentState);
-
-  // Sync!
-  useEffect(() => {
-    updateLoggingIn(false);
-
-    const refreshOnOpen = AppState.addEventListener(
-      "change",
-      (nextAppState) => {
-        if (
-          appState.current.match(/background|inactive/) &&
-          nextAppState === "active" &&
-          new Date().getTime() - lastUpdated.getTime() > 5 * 60 * 1000
-        ) {
-          console.log(
-            `Refreshing user, last local update was ${
-              (new Date().getTime() - lastUpdated.getTime()) / (60 * 1000)
-            } mins ago`
-          );
-          getAsyncData("token").then(
-            (token) =>
-              token &&
-              autologin().then((cloudUser) => {
-                updateLoggingIn(true);
-                updateUser(cloudUser);
-                updateLoggingIn(false);
-              })
-          );
-        }
-        appState.current = nextAppState;
+    getAsyncData("token").then((token) => {
+      if (token) {
+        autologin().then((freshUser) => {
+          if (!!freshUser) {
+            // Sync up local with external
+            updateUser({
+              ...freshUser,
+              timezone: getCalendars()[0].timeZone,
+            });
+          }
+          updateLoggingIn(false);
+        });
+      } else {
+        updateLoggingIn(false);
       }
-    );
-
-    return () => refreshOnOpen.remove();
-  }, [user]);
+    });
 
   useEffect(() => {
     // Check if we were logged in last time - ask backend if token is still valid
@@ -97,8 +60,6 @@ export const AuthGateway = ({ children }) => {
       updateUser={updateUser}
       lastUpdated={lastUpdated}
       logout={logout}
-      save={save}
-      setSave={setSave}
     >
       {children}
     </AuthProvider>
