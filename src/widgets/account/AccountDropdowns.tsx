@@ -1,7 +1,6 @@
 import { View } from "react-native";
 import { TipsDropdown } from "./dropdowns/TipsDropdown";
 import { ProfileDropdown } from "./dropdowns/ProfileDropdown";
-import { SaveDropdown } from "./dropdowns/SaveDropdown";
 import { useState } from "react";
 import { SettingsDropdowns } from "./dropdowns/constants";
 
@@ -17,7 +16,6 @@ export const AccountDropdowns = () => {
   return (
     <View style={{ paddingHorizontal: 2 }}>
       <ProfileDropdown settingOpen={openSetting} setOpen={expandDropdown} />
-      <SaveDropdown settingOpen={openSetting} setOpen={expandDropdown} />
       <TipsDropdown settingOpen={openSetting} setOpen={expandDropdown} />
     </View>
   );
