@@ -29,7 +29,11 @@ export async function getNote(id: string) {
 export async function updateNote(note) {
   var url = `${env.BACKEND_URL}/updateNote`;
 
-  var { last_updated, created, ...body } = note;
+  var body = {
+    id: note.id,
+    title: note.title,
+    content: note.content,
+  };
   var result = await post(url, body);
   if (result?.status === 200) {
     return note;

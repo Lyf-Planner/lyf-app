@@ -29,7 +29,17 @@ export async function getItem(id: string) {
 export async function updateItem(item) {
   var url = `${env.BACKEND_URL}/updateItem`;
 
-  var { last_updated, created, ...body } = item;
+  var body = {
+    id: item.id,
+    title: item.title,
+    type: item.type,
+    status: item.status,
+    date: item.date,
+    day: item.day,
+    time: item.time,
+    desc: item.desc,
+    notifications: item.notifications,
+  };
   var result = await post(url, body);
   if (result?.status === 200) {
     return item;
