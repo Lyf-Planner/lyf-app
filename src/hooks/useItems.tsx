@@ -95,7 +95,7 @@ export const ItemsProvider = ({ children }) => {
 
     // Conditional properties
     if (title[title.length - 1] === "?")
-      newItem.status === ItemStatus.Tentative;
+      newItem.status = ItemStatus.Tentative;
     if (template_instance) {
       newItem.template_id = template_instance.template_id;
       newItem.time = template_instance.time;

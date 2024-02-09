@@ -1,7 +1,6 @@
 import { get, post } from "./axios";
 import { storeAsyncData } from "../utils/asyncStorage";
 import { getCalendars } from "expo-localization";
-import { Alert } from "react-native";
 import env from "../envManager";
 import { FriendshipAction } from "../utils/constants";
 
