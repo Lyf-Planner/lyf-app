@@ -12,7 +12,7 @@ export const DeleteButton = ({ deleteMe, logout }) => {
     <TouchableHighlight
       onPress={() => {
         Alert.prompt(
-          "Confirm",
+          "Confirm Deletion",
           "Please re-enter your password to confirm account deletion",
           async (pass) => {
             var success = await deleteMe(pass);

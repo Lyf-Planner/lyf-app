@@ -80,12 +80,12 @@ export const ItemNotification = ({
           underlayColor={"rgba(0,0,0,0.5)"}
           onPress={() => {
             if (!time)
-              alert(
+              Alert.alert(
                 "Tip",
                 "You need to add a time before setting a reminder :)"
               );
             else if (!enabled) {
-              alert(
+              Alert.alert(
                 "Whoops",
                 "You need to enable Notifications for Lyf in your device settings"
               );
