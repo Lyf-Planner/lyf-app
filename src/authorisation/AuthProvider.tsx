@@ -20,6 +20,7 @@ import { deleteMe, saveUser } from "../rest/user";
 export const AuthGateway = ({ children }) => {
   const [loggingIn, updateLoggingIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [initiated, setInitiated] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(new Date());
 
   const updateUser = useCallback(
@@ -76,12 +77,15 @@ export const AuthGateway = ({ children }) => {
     user,
     updateUser: updateRemoteAndLocal,
     deleteMe,
+    initiated,
+    setInitiated,
     logout: saveAndLogout,
-    lastUpdated: lastUpdated,
+    lastUpdated,
   };
 
   if (loggingIn) return <LoadingScreen text={"Remembering your schedule..."} />;
-  else if (!user?.id) return <Login updateUser={updateUser} />;
+  else if (!user?.id)
+    return <Login updateUser={updateUser} setInitiated={setInitiated} />;
 
   return (
     <AuthContext.Provider value={EXPOSED}>{children}</AuthContext.Provider>

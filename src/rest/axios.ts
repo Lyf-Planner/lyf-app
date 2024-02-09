@@ -9,8 +9,7 @@ export async function get(url: string) {
       headers: { Authorization: `Bearer ${token}` },
     });
   } catch (err) {
-    console.log(err);
-    return err;
+    return err.response;
   }
 }
 
@@ -22,7 +21,6 @@ export async function post(url: string, body) {
       headers: { Authorization: `Bearer ${token}` },
     });
   } catch (err) {
-    console.log(err);
-    return err;
+    return err.response;
   }
 }

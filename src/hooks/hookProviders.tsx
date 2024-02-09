@@ -11,24 +11,24 @@ import { NotificationsLayer } from "../authorisation/NotificationsLayer";
 
 export const AppProviders = ({ children }) => {
   return (
-    <TutorialProvider>
-      <AuthGateway>
-        <NotificationsLayer>
-          <BottomSheetModalProvider>
-            <DrawerProvider>
-              <ItemsProvider>
-                <NotesProvider>
-                  <MenuProvider>
-                    <ModalProvider>
-                      <InitialisedProvider>{children}</InitialisedProvider>
-                    </ModalProvider>
-                  </MenuProvider>
-                </NotesProvider>
-              </ItemsProvider>
-            </DrawerProvider>
-          </BottomSheetModalProvider>
-        </NotificationsLayer>
-      </AuthGateway>
-    </TutorialProvider>
+    <AuthGateway>
+      <NotificationsLayer>
+        <BottomSheetModalProvider>
+          <DrawerProvider>
+            <ItemsProvider>
+              <NotesProvider>
+                <MenuProvider>
+                  <ModalProvider>
+                    <InitialisedProvider>
+                      <TutorialProvider>{children}</TutorialProvider>
+                    </InitialisedProvider>
+                  </ModalProvider>
+                </MenuProvider>
+              </NotesProvider>
+            </ItemsProvider>
+          </DrawerProvider>
+        </BottomSheetModalProvider>
+      </NotificationsLayer>
+    </AuthGateway>
   );
 };

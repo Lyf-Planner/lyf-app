@@ -36,12 +36,14 @@ export const IntroSlideItem = ({ item }) => {
         <Text style={styles.topText}>{item.topText}</Text>
       </View>
       {!item.noImage && (
-        <Image
-          source={item.image}
-          alt="example"
-          style={styles.image}
-          resizeMode="contain"
-        />
+        <View style={styles.imageWrapper}>
+          <Image
+            source={item.image}
+            alt="example"
+            style={styles.image}
+            resizeMode="contain"
+          />
+        </View>
       )}
       <View style={styles.textWrapper}>
         <Text style={styles.bottomText}>{item.bottomText}</Text>
@@ -90,15 +92,17 @@ const styles = StyleSheet.create({
   },
   image: {
     borderColor: "black",
-    borderRadius: 10,
+    borderRadius: 50,
     width: "100%",
     height: undefined,
     aspectRatio: 0.85,
-
+  },
+  imageWrapper: {
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 10,
+    borderRadius: 10,
   },
 });
 
@@ -107,10 +111,9 @@ const slides = [
     key: 1,
     title: "Welcome to Lyf!",
     image: SLIDE_1_IMAGE,
-    topText:
-      "Lyf is for planning and organising everything on your plate",
+    topText: "Lyf is the only tool you need to plan and organise everything on your plate",
     bottomText:
-      "It is your notebook for tasks, events and todo lists - keeping everything on your radar in one place!",
+      "It is your notebook for tasks, events and todo lists - to keep everything on your radar in one place!",
   },
   {
     key: 2,
@@ -127,7 +130,7 @@ const slides = [
     image: SLIDE_3_IMAGE,
     topText: "Entering things you do every week can get tedious…",
     bottomText:
-      "You want to start off by putting these items in your Routine! These will be copied into your schedule each week :)",
+      "You want to start off by putting these items in your Routine! These will be copied into your timetable each week",
   },
   {
     key: 4,
@@ -159,7 +162,7 @@ const slides = [
     key: 7,
     title: "All Done!",
     noImage: true,
-    topText: "Your now ready to start using Lyf :)",
+    topText: "You're now ready to start using Lyf :)",
     bottomText:
       "To access this Tutorial again, just press the question mark at the top of the page. Enjoy!",
   },
