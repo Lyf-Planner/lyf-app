@@ -7,7 +7,7 @@ export async function getItems(item_ids: string[]) {
 
   var result = await post(url, body);
   var items = result.data;
-  if (result.status === 200) {
+  if (result?.status === 200) {
     return items;
   } else {
     alert(result.text);
@@ -19,7 +19,7 @@ export async function getItem(id: string) {
 
   var result = await get(url);
   var item = result.data;
-  if (result.status === 200) {
+  if (result?.status === 200) {
     return item;
   } else {
     alert(result.text);
@@ -31,7 +31,7 @@ export async function updateItem(item) {
 
   var { last_updated, created, ...body } = item;
   var result = await post(url, body);
-  if (result.status === 200) {
+  if (result?.status === 200) {
     return item;
   } else {
     alert(result.text);
@@ -42,7 +42,7 @@ export async function createItem(item) {
   var url = `${env.BACKEND_URL}/createItem`;
 
   var result = await post(url, item);
-  if (result.status === 200) {
+  if (result?.status === 200) {
     return result.data;
   } else {
     alert(result.text);
@@ -54,7 +54,7 @@ export async function deleteItem(id) {
   var url = `${env.BACKEND_URL}/deleteItem?item_id=${id}`;
 
   var result = await get(url);
-  if (result.status === 200) {
+  if (result?.status === 200) {
     return;
   } else {
     alert(result.text);

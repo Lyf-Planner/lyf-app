@@ -24,7 +24,7 @@ export async function saveUser(user) {
   else {
     // These posts may be unsuccessful often, as when the app closes this gets called frequently,
     // and the server throttles the requests - most of the time not actually an issue!
-    console.error(`Issue saving user data, server returned ${result.status}`);
+    console.error(`Issue saving user data, server returned ${result?.status}`);
   }
 }
 
@@ -37,14 +37,14 @@ export async function createUser(username: string, password: string) {
   };
 
   var result = await post(url, body);
-  if (result.status === 200) {
+  if (result?.status === 200) {
     console.log("User creation successful", result.data);
     storeAsyncData("token", result.data.token);
     return result.data.user;
-  } else if (result.status === 400) {
+  } else if (result?.status === 400) {
     // While login and creation come from the same function, this won't (shouldn't) happen
     Alert.alert("This username is already taken. Maybe try another?");
-  } else if (result.status === 429) {
+  } else if (result?.status === 429) {
     Alert.alert("Account creation rate is limited to 30 seconds. Please wait");
   }
 }
@@ -53,7 +53,7 @@ export async function deleteMe(password: string) {
   var url = `${env.BACKEND_URL}/deleteMe`;
 
   var result = await post(url, { password });
-  if (result.status === 200) return true;
+  if (result?.status === 200) return true;
   else {
     Alert.alert(result.text);
   }
@@ -64,7 +64,7 @@ export async function getUser(user_id: string) {
 
   var result = await get(url);
   // We use this to check result is a user and not an error object
-  if (result.status === 200) {
+  if (result?.status === 200) {
     return result.data;
   } else {
     Alert.alert(result.text);
@@ -77,7 +77,7 @@ export async function getUsers(user_ids: string[]) {
   var body = { user_ids };
   var result = await post(url, body);
   // We use this to check result is a user and not an error object
-  if (result.status === 200) {
+  if (result?.status === 200) {
     return result.data;
   } else {
     Alert.alert(result.text);
@@ -95,7 +95,7 @@ export async function updateFriendship(
   };
 
   var result = await post(url, body);
-  if (result.status === 200) {
+  if (result?.status === 200) {
     return result.data;
   } else {
     Alert.alert(result.text);
