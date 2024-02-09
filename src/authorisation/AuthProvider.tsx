@@ -70,7 +70,6 @@ export const AuthGateway = ({ children }) => {
   const updateRemoteAndLocal = useCallback(
     async (newUser) => {
       updateUser(newUser);
-      console.log("new user", newUser);
       if (newUser) {
         let saved = await saveUser(newUser);
         if (!saved) updateUser(user);

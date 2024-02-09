@@ -8,7 +8,6 @@ export async function login(username: string, password: string) {
   var url = `${env.BACKEND_URL}/login?user_id=${username}&password=${password}`;
 
   var result = await get(url);
-  console.log("LOGIN RESULT: ", result);
   if (result?.status === 200) {
     storeAsyncData("token", result.data.token);
     return result.data.user;

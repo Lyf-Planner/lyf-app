@@ -154,9 +154,9 @@ const slides = [
     title: "Completing Days",
     image: SLIDE_6_IMAGE,
     topText:
-      "After everything is done, you can hold down the day header to move to the next day.",
+      "After everything is done, you can hold down the top of the day to pop it and move to the next",
     bottomText:
-      "If you want the day back, no worries, just hold down the week dates!",
+      "If you want the day back, just hold down the week dates!",
   },
   {
     key: 7,
