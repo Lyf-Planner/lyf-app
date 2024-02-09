@@ -197,7 +197,7 @@ export const ListItemDrawer = ({
                 activeOpacity={0.7}
               >
                 <Text style={[styles.bottomButtonText, styles.doneText]}>
-                  Done
+                  Close
                 </Text>
               </TouchableOpacity>
             </View>
