@@ -111,7 +111,8 @@ const slides = [
     key: 1,
     title: "Welcome to Lyf!",
     image: SLIDE_1_IMAGE,
-    topText: "Lyf is the only tool you need to plan and organise everything on your plate",
+    topText:
+      "Lyf is the only tool you need to plan and organise everything on your plate",
     bottomText:
       "It is your notebook for tasks, events and todo lists - to keep everything on your radar in one place!",
   },
@@ -136,9 +137,9 @@ const slides = [
     key: 4,
     title: "Planning Details",
     image: SLIDE_4_IMAGE,
-    topText: "To add information an event or task, simply swipe it right",
+    topText: "To add information to an event or task, simply swipe it right",
     bottomText:
-      "Here you can set things like times, reminders, links, locations, even other users!",
+      "Here you can set things like times, reminders, links, locations, even add other users!",
   },
   {
     key: 5,
@@ -154,9 +155,9 @@ const slides = [
     title: "Completing Days",
     image: SLIDE_6_IMAGE,
     topText:
-      "After everything is done, you can hold down the top of the day to pop it and move to the next",
+      "After everything is done, you can hold down the top of the day to move to the next",
     bottomText:
-      "If you want the day back, just hold down the week dates!",
+      "If you want the day back, just hold down the week dates at the top of the week!",
   },
   {
     key: 7,
