@@ -33,9 +33,9 @@ export const AccountInfo = () => {
           <DetailsField
             fieldName={"Display Name"}
             fieldValue={
-              user.details.name ? (
-                <Text style={styles.detailsFieldValueText}>
-                  {user.detais.name}
+              user.details?.name ? (
+                <Text style={styles.detailsFieldValueText} numberOfLines={1}>
+                  {user.details?.name}
                 </Text>
               ) : (
                 <AddField func={updateName} name="Name" />
@@ -47,9 +47,9 @@ export const AccountInfo = () => {
           <DetailsField
             fieldName={"Email"}
             fieldValue={
-              user.details.email ? (
-                <Text style={styles.detailsFieldValueText}>
-                  {user.details.email}
+              user.details?.email ? (
+                <Text style={styles.detailsFieldValueText} numberOfLines={1}>
+                  {user.details?.email}
                 </Text>
               ) : (
                 <AddField func={updateEmail} name="Email" />
@@ -95,10 +95,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   detailsFieldView: { flexDirection: "row", alignItems: "center", height: 25 },
-  detailsFieldNameText: { fontSize: 16, fontWeight: "500", width: 120 },
+  detailsFieldNameText: { fontSize: 16, fontFamily: "InterSemi", width: 120 },
   detailsFieldValueText: {
     fontSize: 16,
-    width: 150,
     flexDirection: "row",
     alignItems: "center",
   },
