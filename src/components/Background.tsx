@@ -1,8 +1,8 @@
 import { View, Image, StyleSheet } from "react-native";
 
-const TREE = require("../../assets/images/tree.png");
-const ROUND_TREE = require("../../assets/images/roundtree.png");
-const BRANCH = require("../../assets/images/branch.png");
+const TREE = require("../../assets/images/background/tree.png");
+const ROUND_TREE = require("../../assets/images/background/roundtree.png");
+const BRANCH = require("../../assets/images/background/branch.png");
 
 export const Background = ({ children }) => {
   return (

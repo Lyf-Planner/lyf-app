@@ -1,10 +1,15 @@
 import { View, Text, Image, StyleSheet } from "react-native";
-import { Background } from "../../components/Background";
 import { deepBlue, deepBlueOpacity, primaryGreen } from "../../utils/constants";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { useTutorial } from "../../hooks/useTutorial";
 import { SaveTooltip } from "../../components/Icons";
-import AntDesign from "react-native-vector-icons/AntDesign";
+
+const SLIDE_1_IMAGE = require(`../../../assets/images/tutorial/slide1.png`);
+const SLIDE_2_IMAGE = require(`../../../assets/images/tutorial/slide2.png`);
+const SLIDE_3_IMAGE = require(`../../../assets/images/tutorial/slide3.png`);
+const SLIDE_4_IMAGE = require(`../../../assets/images/tutorial/slide4.png`);
+const SLIDE_5_IMAGE = require(`../../../assets/images/tutorial/slide5.png`);
+const SLIDE_6_IMAGE = require(`../../../assets/images/tutorial/slide6.png`);
 
 export const IntroSlider = () => {
   const { updateTutorial } = useTutorial();
@@ -30,7 +35,14 @@ export const IntroSlideItem = ({ item }) => {
       <View style={styles.textWrapper}>
         <Text style={styles.topText}>{item.topText}</Text>
       </View>
-      {item.image}
+      {!item.noImage && (
+        <Image
+          source={item.image}
+          alt="example"
+          style={styles.image}
+          resizeMode="contain"
+        />
+      )}
       <View style={styles.textWrapper}>
         <Text style={styles.bottomText}>{item.bottomText}</Text>
       </View>
@@ -45,6 +57,7 @@ const styles = StyleSheet.create({
     paddingVertical: 80,
     flexDirection: "column",
     gap: 12,
+    alignItems: "center",
   },
   title: {
     color: primaryGreen,
@@ -54,7 +67,6 @@ const styles = StyleSheet.create({
   topText: {
     color: "white",
     fontFamily: "InterMed",
-    marginTop: 4,
     fontSize: 18,
   },
   bottomText: {
@@ -63,7 +75,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   textWrapper: {
-    backgroundColor: deepBlueOpacity(0.7),
+    backgroundColor: deepBlueOpacity(0.9),
     padding: 8,
     borderRadius: 10,
   },
@@ -76,28 +88,43 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 10,
   },
+  image: {
+    borderColor: "black",
+    borderRadius: 10,
+    width: "100%",
+    height: undefined,
+    aspectRatio: 0.85,
+
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+  },
 });
 
 const slides = [
   {
     key: 1,
     title: "Welcome to Lyf!",
+    image: SLIDE_1_IMAGE,
     topText:
-      "Lyf is all about planning and organising everything on your plate.",
+      "Lyf is for planning and organising everything on your plate",
     bottomText:
       "It is your notebook for tasks, events and todo lists - keeping everything on your radar in one place!",
   },
   {
     key: 2,
     title: "Getting Started",
+    image: SLIDE_2_IMAGE,
     topText:
       "To create an event or task, simply type it's title into the desired day",
     bottomText:
-      "If you can't find a day for it, that's fine! Just put it in your 'Upcoming Events' or 'Todo List' - you can always add a date to it later",
+      "If you can't find a day for it, that's fine! Just put it in Upcoming Events or To Do List - you can always add a date to it later",
   },
   {
     key: 3,
     title: "Routines",
+    image: SLIDE_3_IMAGE,
     topText: "Entering things you do every week can get tedious…",
     bottomText:
       "You want to start off by putting these items in your Routine! These will be copied into your schedule each week :)",
@@ -105,6 +132,7 @@ const slides = [
   {
     key: 4,
     title: "Planning Details",
+    image: SLIDE_4_IMAGE,
     topText: "To add information an event or task, simply swipe it right",
     bottomText:
       "Here you can set things like times, reminders, links, locations, even other users!",
@@ -112,6 +140,7 @@ const slides = [
   {
     key: 5,
     title: "Completing Tasks",
+    image: SLIDE_5_IMAGE,
     topText:
       "When you finish an item, simply tap on it, and it's status will change to Done :)",
     bottomText:
@@ -120,13 +149,16 @@ const slides = [
   {
     key: 6,
     title: "Completing Days",
-    topText: "When you're done with a day's tasks, how can you clear it?",
+    image: SLIDE_6_IMAGE,
+    topText:
+      "After everything is done, you can hold down the day header to move to the next day.",
     bottomText:
-      "After everything is done, you can hold down the day header to move to the next day. If you want it back, no worries, just hold down the week dates!",
+      "If you want the day back, no worries, just hold down the week dates!",
   },
   {
     key: 7,
     title: "All Done!",
+    noImage: true,
     topText: "Your now ready to start using Lyf :)",
     bottomText:
       "To access this Tutorial again, just press the question mark at the top of the page. Enjoy!",

@@ -11,8 +11,7 @@ export const AuthProvider = ({
   logout,
 }) => {
   const saveAndLogout = async () => {
-    var token = await getAsyncData("token");
-    saveUser(user, token);
+    saveUser(user);
     logout();
   };
 

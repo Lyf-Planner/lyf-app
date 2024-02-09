@@ -10,12 +10,14 @@ import { Horizontal, Loader } from "../components/MiscComponents";
 import { useRef, useState } from "react";
 import { USER_NOT_FOUND, login } from "../rest/auth";
 import { createUser } from "../rest/user";
+import { useTutorial } from "../hooks/useTutorial";
 
 export const Login = ({ updateUser }) => {
   const [uid, updateUid] = useState("");
   const [pass, updatePass] = useState("");
   const [loggingIn, updateLoggingIn] = useState(false);
   const [creating, updateCreating] = useState(false);
+  const { updateTutorial } = useTutorial();
 
   const passRef = useRef<any>();
 
@@ -80,6 +82,7 @@ export const Login = ({ updateUser }) => {
                   updateCreating(true);
                   updateLoggingIn(false);
                   user = await createUser(uid, pass);
+                  updateTutorial(true);
                   updateCreating(false);
                 }
                 updateLoggingIn(false);

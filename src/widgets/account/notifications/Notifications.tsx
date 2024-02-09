@@ -52,38 +52,44 @@ export const NotificationSettings = () => {
 
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.settingsContainer}>
-        <Setting
-          updateFunc={dailyNotifications}
-          enabled={premium.notifications?.daily_notifications}
-          name="Daily Notifications"
-          desc={
-            <DailyNotificationDesc
-              updateTime={dailyNotificationTime}
-              notificationTime={premium.notifications?.daily_notification_time}
-              updatePersistent={persistentDailyNotifications}
-              persistent={premium.notifications?.persistent_daily_notification}
-            />
-          }
-        />
-        <Setting
-          updateFunc={eventNotifications}
-          enabled={premium.notifications?.event_notifications_enabled}
-          name="Event Notifications"
-          desc={
-            <EventNotificationDesc
-              updateMinutes={eventNotificationMinutesBefore}
-              minutesBefore={
-                premium.notifications?.event_notification_minutes_before
-              }
-            />
-          }
-        />
-      </View>
       {!enabled && (
-        <Text style={[styles.subtitle]}>
-          Warning: Your device has Notifications disabled for Lyf
+        <Text style={[styles.subtitle, { marginTop: 12 }]}>
+          Your device has Notifications disabled for Lyf
         </Text>
+      )}
+      {enabled && (
+        <View style={[styles.settingsContainer]}>
+          <Setting
+            updateFunc={dailyNotifications}
+            enabled={premium.notifications?.daily_notifications}
+            name="Daily Notifications"
+            desc={
+              <DailyNotificationDesc
+                updateTime={dailyNotificationTime}
+                notificationTime={
+                  premium.notifications?.daily_notification_time
+                }
+                updatePersistent={persistentDailyNotifications}
+                persistent={
+                  premium.notifications?.persistent_daily_notification
+                }
+              />
+            }
+          />
+          <Setting
+            updateFunc={eventNotifications}
+            enabled={premium.notifications?.event_notifications_enabled}
+            name="Event Notifications"
+            desc={
+              <EventNotificationDesc
+                updateMinutes={eventNotificationMinutesBefore}
+                minutesBefore={
+                  premium.notifications?.event_notification_minutes_before
+                }
+              />
+            }
+          />
+        </View>
       )}
     </View>
   );
