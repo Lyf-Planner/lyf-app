@@ -10,16 +10,20 @@ import { Notes } from "./notes/NotesWidget";
 import { BouncyPressable } from "../components/BouncyPressable";
 import { deepBlue } from "../utils/constants";
 import { AccountHeaderButton } from "./account/AccountHeaderButton";
+import { TutorialHeaderButton } from "./tutorial/TutorialHeaderButton";
+import { IntroSlider } from "./tutorial/IntroSlider";
+import { useTutorial } from "../hooks/useTutorial";
 
 export enum DisplayedWidgets {
   Plan = "Plan",
-  Notes = "Notes",
+  Lists = "Lists",
 }
 
 export enum AllWidgets {
   Plan = "Plan",
-  Notes = "Notes",
+  Lists = "Lists",
   Account = "Account",
+  Tutorial = "Tutorial",
 }
 
 export const WidgetContainer = () => {
@@ -29,7 +33,8 @@ export const WidgetContainer = () => {
   const WIDGETS = {
     Plan: <Timetable />,
     Account: <AccountWidget logout={logout} deleteMe={deleteMe} />,
-    Notes: <Notes />,
+    Lists: <Notes />,
+    Tutorial: <IntroSlider />,
   };
 
   return (
@@ -44,6 +49,8 @@ export const WidgetContainer = () => {
 };
 
 const AppHeaderMenu = ({ selected, updateSelected }) => {
+  const { updateTutorial } = useTutorial();
+
   return (
     <View style={styles.header}>
       {Object.keys(DisplayedWidgets).map((x) => (
@@ -54,7 +61,7 @@ const AppHeaderMenu = ({ selected, updateSelected }) => {
           title={x}
         />
       ))}
-      
+      <TutorialHeaderButton onPress={() => updateTutorial(true)} open={false} />
       <AccountHeaderButton
         onPress={() => updateSelected(AllWidgets.Account)}
         open={selected === AllWidgets.Account}
@@ -125,7 +132,6 @@ const styles = StyleSheet.create({
     borderColor: "rgba(50,50,50,0.25)",
     backgroundColor: "white",
     borderWidth: 1,
-    flex: 1,
   },
   highlightedHeaderTextContainer: {
     backgroundColor: deepBlue,
@@ -137,18 +143,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     fontFamily: "InterSemi",
-  },
-  settingButton: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "center",
-    overflow: "hidden",
-    marginLeft: "auto",
-    marginRight: 8,
-
-    width: 50,
-    borderWidth: 0.5,
-    borderColor: "rgba(0,0,0,0.1)",
-    borderRadius: 50,
   },
 });
