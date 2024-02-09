@@ -26,7 +26,7 @@ export const Routine = ({ items }) => {
             <Text style={styles.weekDateText}>Every Week</Text>
             <Pressable
               onPress={() => {
-                Alert.alert(
+                alert(
                   "Routine",
                   "Everything in your routine will be copied into your timetable each week :)"
                 );

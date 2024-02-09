@@ -43,9 +43,9 @@ export async function createUser(username: string, password: string) {
     return result.data.user;
   } else if (result?.status === 400) {
     // While login and creation come from the same function, this won't (shouldn't) happen
-    Alert.alert("This username is already taken. Maybe try another?");
+    alert("This username is already taken. Maybe try another?");
   } else if (result?.status === 429) {
-    Alert.alert("Account creation rate is limited to 30 seconds. Please wait");
+    alert("Account creation rate is limited to 30 seconds. Please wait");
   }
 }
 
@@ -55,7 +55,7 @@ export async function deleteMe(password: string) {
   var result = await post(url, { password });
   if (result?.status === 200) return true;
   else {
-    Alert.alert(result.text);
+    alert(result.data);
   }
 }
 
@@ -67,7 +67,7 @@ export async function getUser(user_id: string) {
   if (result?.status === 200) {
     return result.data;
   } else {
-    Alert.alert(result.text);
+    alert(result.data);
   }
 }
 
@@ -80,7 +80,7 @@ export async function getUsers(user_ids: string[]) {
   if (result?.status === 200) {
     return result.data;
   } else {
-    Alert.alert(result.text);
+    alert(result.data);
   }
 }
 
@@ -98,6 +98,6 @@ export async function updateFriendship(
   if (result?.status === 200) {
     return result.data;
   } else {
-    Alert.alert(result.text);
+    alert(result.data);
   }
 }

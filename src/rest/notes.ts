@@ -10,7 +10,7 @@ export async function getNotes(note_ids: string[]) {
   if (result?.status === 200) {
     return notes;
   } else {
-    alert(result.text);
+    alert(result.data);
   }
 }
 
@@ -22,7 +22,7 @@ export async function getNote(id: string) {
   if (result?.status === 200) {
     return note;
   } else {
-    alert(result.text);
+    alert(result.data);
   }
 }
 
@@ -38,7 +38,7 @@ export async function updateNote(note) {
   if (result?.status === 200) {
     return note;
   } else {
-    alert(result.text);
+    alert(result.data);
   }
 }
 
@@ -49,7 +49,7 @@ export async function createNote(note) {
   if (result?.status === 200) {
     return result.data;
   } else {
-    alert(result.text);
+    alert(result.data);
     return false;
   }
 }
@@ -61,6 +61,6 @@ export async function deleteNote(id) {
   if (result?.status === 200) {
     return;
   } else {
-    alert(result.text);
+    alert(result.data);
   }
 }

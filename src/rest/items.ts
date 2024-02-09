@@ -10,7 +10,7 @@ export async function getItems(item_ids: string[]) {
   if (result?.status === 200) {
     return items;
   } else {
-    alert(result.text);
+    alert(result.data);
   }
 }
 
@@ -22,7 +22,7 @@ export async function getItem(id: string) {
   if (result?.status === 200) {
     return item;
   } else {
-    alert(result.text);
+    alert(result.data);
   }
 }
 
@@ -44,7 +44,7 @@ export async function updateItem(item) {
   if (result?.status === 200) {
     return item;
   } else {
-    alert(result.text);
+    alert(result.data);
   }
 }
 
@@ -55,7 +55,7 @@ export async function createItem(item) {
   if (result?.status === 200) {
     return result.data;
   } else {
-    alert(result.text);
+    alert(result.data);
     return false;
   }
 }
@@ -67,7 +67,7 @@ export async function deleteItem(id) {
   if (result?.status === 200) {
     return;
   } else {
-    alert(result.text);
+    alert(result.data);
   }
 }
 
@@ -78,7 +78,7 @@ export async function updateItemSocial(item_id, user_id, action) {
   if (result?.status === 200) {
     return result.data;
   } else {
-    alert(result.text);
+    alert(result.data);
     return false;
   }
 }
