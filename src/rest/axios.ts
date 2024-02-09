@@ -10,7 +10,7 @@ export async function get(url: string) {
     });
   } catch (err) {
     console.log(err);
-    return err.response;
+    return err;
   }
 }
 
@@ -23,6 +23,6 @@ export async function post(url: string, body) {
     });
   } catch (err) {
     console.log(err);
-    return err.response;
+    return err;
   }
 }
