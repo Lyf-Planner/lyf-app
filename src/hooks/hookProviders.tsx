@@ -5,24 +5,30 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { ItemsProvider } from "./useItems";
 import { InitialisedProvider } from "./initialisedGateway";
 import { NotesProvider } from "./useNotes";
+import { AuthGateway } from "../authorisation/AuthProvider";
 import { TutorialProvider } from "./useTutorial";
+import { NotificationsLayer } from "../authorisation/NotificationsLayer";
 
 export const AppProviders = ({ children }) => {
   return (
-    <BottomSheetModalProvider>
-      <DrawerProvider>
-        <ItemsProvider>
-          <NotesProvider>
-            <MenuProvider>
-              <TutorialProvider>
-                <ModalProvider>
-                  <InitialisedProvider>{children}</InitialisedProvider>
-                </ModalProvider>
-              </TutorialProvider>
-            </MenuProvider>
-          </NotesProvider>
-        </ItemsProvider>
-      </DrawerProvider>
-    </BottomSheetModalProvider>
+    <TutorialProvider>
+      <AuthGateway>
+        <NotificationsLayer>
+          <BottomSheetModalProvider>
+            <DrawerProvider>
+              <ItemsProvider>
+                <NotesProvider>
+                  <MenuProvider>
+                    <ModalProvider>
+                      <InitialisedProvider>{children}</InitialisedProvider>
+                    </ModalProvider>
+                  </MenuProvider>
+                </NotesProvider>
+              </ItemsProvider>
+            </DrawerProvider>
+          </BottomSheetModalProvider>
+        </NotificationsLayer>
+      </AuthGateway>
+    </TutorialProvider>
   );
 };

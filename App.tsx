@@ -1,12 +1,10 @@
 import { StatusBar } from "react-native";
 import { useFonts } from "expo-font";
-import { AuthGateway } from "./src/authorisation/AuthGateway";
 import { Background } from "./src/components/Background";
 import { WidgetContainer } from "./src/widgets/WidgetContainer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";
 import { AppProviders } from "./src/hooks/hookProviders";
-import { NotificationsLayer } from "./src/authorisation/NotificationsLayer";
 import env from "./src/envManager";
 import "expo-dev-client";
 
@@ -26,13 +24,9 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <Background>
-          <AuthGateway>
-            <NotificationsLayer>
-              <AppProviders>
-                <WidgetContainer />
-              </AppProviders>
-            </NotificationsLayer>
-          </AuthGateway>
+          <AppProviders>
+            <WidgetContainer />
+          </AppProviders>
         </Background>
       </TouchableWithoutFeedback>
     </GestureHandlerRootView>
