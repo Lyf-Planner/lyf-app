@@ -60,3 +60,15 @@ export async function deleteItem(id) {
     alert(result.text);
   }
 }
+
+export async function updateItemSocial(item_id, user_id, action) {
+  var url = `${process.env.REACT_APP_BACKEND_URL}/updateItemSocial`;
+
+  var result = await post(url, { item_id, user_id, action });
+  if (result?.status === 200) {
+    return result.data;
+  } else {
+    alert(result.text);
+    return false;
+  }
+}

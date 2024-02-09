@@ -1,17 +1,26 @@
-import { post } from "./axios";
-import { getAsyncData, storeAsyncData } from "../utils/asyncStorage";
+import { get, post } from "./axios";
+import { storeAsyncData } from "../utils/asyncStorage";
 import { getCalendars } from "expo-localization";
+import { Alert } from "react-native";
 import env from "../envManager";
+import { FriendshipAction } from "../utils/constants";
 
-export async function saveUser(user, token?: string) {
-  var url = `${env.BACKEND_URL}/updateUser`;
+export async function saveUser(user) {
+  var url = `${process.env.REACT_APP_BACKEND_URL}/updateMe`;
+  const timeZone = getCalendars()[0].timeZone;
 
-  var token = token || (await getAsyncData("token"));
-  // Update will only be successful if token matches user being updated!
-
-  var { last_updated, created, ...body } = user;
-  var result = await post(url, { user: body, token });
-  if (result.status === 200) return true;
+  var body = {
+    name: user.name,
+    email: user.email,
+    expo_tokens: user.expo_tokens,
+    timezone: timeZone,
+    timetable: user.timetable,
+    notes: user.notes,
+    premium: user.premium,
+  };
+  var result = await post(url, body);
+  console.log("Updating cloud user");
+  if (result?.status === 200) return true;
   else {
     // These posts may be unsuccessful often, as when the app closes this gets called frequently,
     // and the server throttles the requests - most of the time not actually an issue!
@@ -34,9 +43,9 @@ export async function createUser(username: string, password: string) {
     return result.data.user;
   } else if (result.status === 400) {
     // While login and creation come from the same function, this won't (shouldn't) happen
-    alert("This username is already taken. Maybe try another?");
+    Alert.alert("This username is already taken. Maybe try another?");
   } else if (result.status === 429) {
-    alert("Account creation rate is limited to 30 seconds. Please wait");
+    Alert.alert("Account creation rate is limited to 30 seconds. Please wait");
   }
 }
 
@@ -46,6 +55,49 @@ export async function deleteMe(password: string) {
   var result = await post(url, { password });
   if (result.status === 200) return true;
   else {
-    alert(result.text);
+    Alert.alert(result.text);
+  }
+}
+
+export async function getUser(user_id: string) {
+  var url = `${process.env.REACT_APP_BACKEND_URL}/getUser?user_id=${user_id}`;
+
+  var result = await get(url);
+  // We use this to check result is a user and not an error object
+  if (result.status === 200) {
+    return result.data;
+  } else {
+    Alert.alert(result.text);
+  }
+}
+
+export async function getUsers(user_ids: string[]) {
+  var url = `${process.env.REACT_APP_BACKEND_URL}/getUsers`;
+
+  var body = { user_ids };
+  var result = await post(url, body);
+  // We use this to check result is a user and not an error object
+  if (result.status === 200) {
+    return result.data;
+  } else {
+    Alert.alert(result.text);
+  }
+}
+
+export async function updateFriendship(
+  user_id: string,
+  action: FriendshipAction
+) {
+  var url = `${process.env.REACT_APP_BACKEND_URL}/updateFriendship`;
+  var body = {
+    user_id,
+    action,
+  };
+
+  var result = await post(url, body);
+  if (result.status === 200) {
+    return result.data;
+  } else {
+    Alert.alert(result.text);
   }
 }

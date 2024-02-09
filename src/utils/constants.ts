@@ -17,4 +17,20 @@ export const deepBlue = "rgb(30 41 59)";
 export const deepBlueOpacity = (a: number) => `rgba(30, 41, 59, ${a})`;
 export const offWhite = "rgba(0,0,0,0.02)";
 
+export enum FriendshipAction {
+  Remove = "Remove",
+  Accept = "Accept",
+  Deny = "Deny",
+  Request = "Request",
+  Cancel = "Cancel",
+}
+
+export enum SocialAction {
+  Invite = "Invite",
+  Cancel = "Cancel",
+  Accept = "Accept",
+  Decline = "Decline",
+  Remove = "Remove",
+}
+
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
