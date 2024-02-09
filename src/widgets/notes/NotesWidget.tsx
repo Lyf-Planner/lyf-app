@@ -36,7 +36,7 @@ export const Notes = () => {
     return (
       <View>
         <View style={styles.myNotesHeader}>
-          <Text style={styles.myNotesTitle}>My Notes</Text>
+          <Text style={styles.myNotesTitle}>My Lists</Text>
           <View style={{ marginLeft: "auto", marginRight: 5 }}>
             <NewNoteMenu addNote={newNote} />
           </View>

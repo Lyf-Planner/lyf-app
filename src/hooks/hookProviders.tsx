@@ -5,6 +5,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { ItemsProvider } from "./useItems";
 import { InitialisedProvider } from "./initialisedGateway";
 import { NotesProvider } from "./useNotes";
+import { TutorialProvider } from "./useTutorial";
 
 export const AppProviders = ({ children }) => {
   return (
@@ -13,9 +14,11 @@ export const AppProviders = ({ children }) => {
         <ItemsProvider>
           <NotesProvider>
             <MenuProvider>
-              <ModalProvider>
-                <InitialisedProvider>{children}</InitialisedProvider>
-              </ModalProvider>
+              <TutorialProvider>
+                <ModalProvider>
+                  <InitialisedProvider>{children}</InitialisedProvider>
+                </ModalProvider>
+              </TutorialProvider>
             </MenuProvider>
           </NotesProvider>
         </ItemsProvider>

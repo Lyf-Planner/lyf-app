@@ -23,9 +23,9 @@ export default function App() {
   StatusBar.setBarStyle("dark-content");
 
   return (
-    <Background>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <Background>
           <AuthGateway>
             <NotificationsLayer>
               <AppProviders>
@@ -33,8 +33,8 @@ export default function App() {
               </AppProviders>
             </NotificationsLayer>
           </AuthGateway>
-        </TouchableWithoutFeedback>
-      </GestureHandlerRootView>
-    </Background>
+        </Background>
+      </TouchableWithoutFeedback>
+    </GestureHandlerRootView>
   );
 }

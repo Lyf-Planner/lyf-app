@@ -28,7 +28,7 @@ export enum AllWidgets {
 
 export const WidgetContainer = () => {
   const [selected, updateSelected] = useState<any>(AllWidgets.Plan);
-  const { logout, deleteMe, lastSave } = useAuth();
+  const { logout, deleteMe } = useAuth();
 
   const WIDGETS = {
     Plan: <Timetable />,
