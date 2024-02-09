@@ -21,6 +21,11 @@ export const NotesProvider = ({ children }) => {
   const initialise = () => {
     if (!initialised) {
       getNotes(user.notes.items.map((x) => x.id)).then((results) => {
+        // Sort by created
+        results.sort((a, b) =>
+          a.created ? a.created.localeCompare(b.created) : 1
+        );
+
         setNotes(results);
         setInitialised(true);
 

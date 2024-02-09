@@ -48,19 +48,15 @@ export const Notes = () => {
           {initialised ? (
             <View>
               {notes.length ? (
-                notes
-                  .sort((a, b) =>
-                    a.created ? a.created.localeCompare(b.created) : 1
-                  )
-                  .map((x) => (
-                    <NoteBanner
-                      id={x.id}
-                      title={x.title}
-                      onPress={() => setFocussedNote(x)}
-                      noteType={x.type}
-                      key={x.id}
-                    />
-                  ))
+                notes.map((x) => (
+                  <NoteBanner
+                    id={x.id}
+                    title={x.title}
+                    onPress={() => setFocussedNote(x)}
+                    noteType={x.type}
+                    key={x.id}
+                  />
+                ))
               ) : (
                 <Text style={styles.noNotesText}>No notes created yet :)</Text>
               )}

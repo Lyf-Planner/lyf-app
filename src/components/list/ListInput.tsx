@@ -35,7 +35,6 @@ export const ListInput = ({
       ]}
     >
       {items
-        .sort((a, b) => (a.created ? a.created.localeCompare(b.created) : 1))
         .sort((a, b) => (a.time ? a.time.localeCompare(b.time) : 1))
         .map((x, i: number) => (
           <ListItem

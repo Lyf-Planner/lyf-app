@@ -24,6 +24,11 @@ export const ItemsProvider = ({ children }) => {
   useEffect(() => {
     if (!initialised) {
       getItems(user.timetable.items.map((x) => x.id)).then((results) => {
+        // Sort by created
+        results.sort((a, b) =>
+          a.created ? a.created.localeCompare(b.created) : 1
+        );
+
         // Filter out any old items
         var start = formatDateData(getStartOfCurrentWeek());
         var relevant = results.filter((x) => {

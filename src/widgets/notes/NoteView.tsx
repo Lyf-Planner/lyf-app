@@ -30,6 +30,7 @@ export const NoteView = ({
   const addItem = (title: string) => {
     const newItem = {
       id: uuid(),
+      created: new Date().toISOString(),
       title,
       type: ListItemType.Task,
       permitted_users: [{ user_id: user.id, permissions: "Owner" }],
