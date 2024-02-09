@@ -62,7 +62,7 @@ export async function deleteItem(id) {
 }
 
 export async function updateItemSocial(item_id, user_id, action) {
-  var url = `${process.env.REACT_APP_BACKEND_URL}/updateItemSocial`;
+  var url = `${env.BACKEND_URL}/updateItemSocial`;
 
   var result = await post(url, { item_id, user_id, action });
   if (result?.status === 200) {

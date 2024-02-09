@@ -6,7 +6,7 @@ import env from "../envManager";
 import { FriendshipAction } from "../utils/constants";
 
 export async function saveUser(user) {
-  var url = `${process.env.REACT_APP_BACKEND_URL}/updateMe`;
+  var url = `${env.BACKEND_URL}/updateMe`;
   const timeZone = getCalendars()[0].timeZone;
 
   var body = {
@@ -60,7 +60,7 @@ export async function deleteMe(password: string) {
 }
 
 export async function getUser(user_id: string) {
-  var url = `${process.env.REACT_APP_BACKEND_URL}/getUser?user_id=${user_id}`;
+  var url = `${env.BACKEND_URL}/getUser?user_id=${user_id}`;
 
   var result = await get(url);
   // We use this to check result is a user and not an error object
@@ -72,7 +72,7 @@ export async function getUser(user_id: string) {
 }
 
 export async function getUsers(user_ids: string[]) {
-  var url = `${process.env.REACT_APP_BACKEND_URL}/getUsers`;
+  var url = `${env.BACKEND_URL}/getUsers`;
 
   var body = { user_ids };
   var result = await post(url, body);
@@ -88,7 +88,7 @@ export async function updateFriendship(
   user_id: string,
   action: FriendshipAction
 ) {
-  var url = `${process.env.REACT_APP_BACKEND_URL}/updateFriendship`;
+  var url = `${env.BACKEND_URL}/updateFriendship`;
   var body = {
     user_id,
     action,
