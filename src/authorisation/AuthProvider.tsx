@@ -16,6 +16,7 @@ import { LoadingScreen } from "../components/MiscComponents";
 import { Login } from "./Login";
 import { getCalendars } from "expo-localization";
 import { deleteMe, saveUser } from "../rest/user";
+import { AppState } from "react-native";
 
 export const AuthGateway = ({ children }) => {
   const [loggingIn, updateLoggingIn] = useState(false);
@@ -54,27 +55,43 @@ export const AuthGateway = ({ children }) => {
       }
     });
 
-  useEffect(() => {
-    // Check if we were logged in last time - ask backend if token is still valid
-    if (!user) {
-      updateLoggingIn(true);
-      refreshUser();
+  AppState.addEventListener("change", (nextAppState) => {
+    if (nextAppState === "background") {
+      console.log("storing lastOpen as", new Date());
+      storeAsyncData("lastOpen", new Date().toISOString());
     }
-  }, []);
+  });
 
-  const saveAndLogout = async () => {
-    saveUser(user);
+  const saveAndLogout = async (deleted = false) => {
+    !deleted && saveUser(user);
     logout();
   };
 
   const updateRemoteAndLocal = useCallback(
     async (newUser) => {
       updateUser(newUser);
-      let saved = await saveUser(newUser);
-      if (!saved) updateUser(user);
+      console.log("new user", newUser);
+      if (newUser) {
+        let saved = await saveUser(newUser);
+        if (!saved) updateUser(user);
+      }
     },
     [user]
   );
+
+  useEffect(() => {
+    getAsyncData("lastOpen").then((lastOpen) => {
+      const lastDate = new Date(lastOpen);
+      const overFiveMins =
+        new Date().getTime() - lastDate.getTime() > 5 * 60 * 1000;
+
+      if (!user || overFiveMins) {
+        updateLoggingIn(true);
+        refreshUser();
+      }
+    });
+    // Check if we were logged in last time - ask backend if token is still valid
+  }, []);
 
   const EXPOSED = {
     loggingIn,
