@@ -67,10 +67,14 @@ export const AuthGateway = ({ children }) => {
     logout();
   };
 
-  const updateRemoteAndLocal = (user) => {
-    updateUser(user);
-    saveUser(user);
-  };
+  const updateRemoteAndLocal = useCallback(
+    async (newUser) => {
+      updateUser(newUser);
+      let saved = await saveUser(newUser);
+      if (!saved) updateUser(user);
+    },
+    [user]
+  );
 
   const EXPOSED = {
     loggingIn,
