@@ -119,7 +119,15 @@ export const ListItemDrawer = ({
             />
             <View style={{ marginLeft: "auto" }}>
               <TouchableHighlight
-                style={styles.typeBadge}
+                style={[
+                  styles.typeBadge,
+                  {
+                    backgroundColor:
+                      item.type === ListItemType.Event
+                        ? eventsBadgeColor
+                        : "white",
+                  },
+                ]}
                 onPress={switchType}
                 underlayColor={"rgba(0,0,0,0.5)"}
               >
@@ -244,7 +252,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   typeBadge: {
-    backgroundColor: eventsBadgeColor,
     marginLeft: "auto",
     paddingVertical: 6,
     paddingHorizontal: 8,
