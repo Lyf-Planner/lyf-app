@@ -7,17 +7,23 @@ import { Horizontal } from "../components/MiscComponents";
 import { AccountWidget } from "./account/AccountWidget";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Notes } from "./notes/NotesWidget";
-import { SettingsHeaderButton } from "./settings/SettingsHeaderButton";
 import { BouncyPressable } from "../components/BouncyPressable";
 import { deepBlue } from "../utils/constants";
+import { AccountHeaderButton } from "./account/AccountHeaderButton";
 
-export enum Widgets {
+export enum DisplayedWidgets {
   Plan = "Plan",
   Notes = "Notes",
 }
 
+export enum AllWidgets {
+  Plan = "Plan",
+  Notes = "Notes",
+  Account = "Account",
+}
+
 export const WidgetContainer = () => {
-  const [selected, updateSelected] = useState<any>(Widgets.Plan);
+  const [selected, updateSelected] = useState<any>(AllWidgets.Plan);
   const { logout, deleteMe, lastSave } = useAuth();
 
   const WIDGETS = {
@@ -40,7 +46,7 @@ export const WidgetContainer = () => {
 const AppHeaderMenu = ({ selected, updateSelected }) => {
   return (
     <View style={styles.header}>
-      {Object.keys(Widgets).map((x) => (
+      {Object.keys(DisplayedWidgets).map((x) => (
         <MenuWidgetButton
           key={x}
           selected={selected}
@@ -48,18 +54,11 @@ const AppHeaderMenu = ({ selected, updateSelected }) => {
           title={x}
         />
       ))}
-      <SettingsHeaderButton />
-      <Pressable
-        style={[
-          styles.settingButton,
-          {
-            backgroundColor: selected === "Account" ? deepBlue : "white",
-          },
-        ]}
-        onPress={() => updateSelected("Account")}
-      >
-        <SaveTooltip size={35} style={{ position: "relative", right: 3 }} />
-      </Pressable>
+      
+      <AccountHeaderButton
+        onPress={() => updateSelected(AllWidgets.Account)}
+        open={selected === AllWidgets.Account}
+      />
     </View>
   );
 };

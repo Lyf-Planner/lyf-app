@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { Horizontal } from "../MiscComponents";
@@ -12,13 +12,10 @@ import Entypo from "react-native-vector-icons/Entypo";
 export const SettingDropdown = ({
   name,
   children,
-  onPress,
-  open = false,
-  opacity = 1,
-  boldTitle = false,
-  extraStyles = {},
-  touchableHightlightExtraStyles = {},
+  icon,
+  startOpen = false,
 }) => {
+  const [open, setOpen] = useState(startOpen);
   const chevronAngle = useSharedValue(0);
   const rotationAnimation = useAnimatedStyle(() => {
     return {
@@ -37,42 +34,34 @@ export const SettingDropdown = ({
   }, [open]);
 
   return (
-    <View style={[styles.main, extraStyles]}>
+    <View style={[styles.main]}>
       <TouchableHighlight
-        style={[styles.touchableHighlight, touchableHightlightExtraStyles]}
+        style={[styles.touchableHighlight]}
         underlayColor={"rgba(0,0,0,0.3)"}
-        onPress={onPress}
+        onPress={() => setOpen(!open)}
       >
-        <View style={[styles.pressableDropdown, { opacity }]}>
-          <Text style={[styles.titleText, boldTitle && { fontWeight: "500" }]}>
-            {name}
-          </Text>
-          <Animated.View style={[styles.animatedChevron, rotationAnimation]}>
-            <Entypo name={"chevron-right"} size={25} />
-          </Animated.View>
-        </View>
-      </TouchableHighlight>
-      {open && (
-        <View>
+        <View style={{ width: "100%" }}>
+          <View style={[styles.pressableDropdown]}>
+            <View style={{ width: 20 }}>{icon}</View>
+            <Text style={[styles.titleText]}>{name}</Text>
+            <Animated.View style={[styles.animatedChevron, rotationAnimation]}>
+              <Entypo name={"chevron-right"} size={25} />
+            </Animated.View>
+          </View>
           <Horizontal
             style={{
-              marginTop: 6,
-              marginBottom: 4,
-              opacity: 0.4,
-              borderBottomWidth: open ? 2 : 0.5,
+              borderWidth: 1,
+              opacity: 0.2,
             }}
           />
+        </View>
+      </TouchableHighlight>
+
+      {open && (
+        <View>
           <View style={styles.dropdownContent}>{children}</View>
         </View>
       )}
-      <Horizontal
-        style={{
-          opacity: open ? 0.4 : 0.1,
-          borderBottomWidth: open ? 2 : 0.5,
-          marginTop: 6,
-          marginBottom: 6,
-        }}
-      />
     </View>
   );
 };
@@ -83,17 +72,19 @@ const styles = StyleSheet.create({
   },
   pressableDropdown: {
     flexDirection: "row",
+    gap: 10,
+    paddingHorizontal: 2,
     flex: 1,
     alignItems: "center",
-    height: 35,
   },
   touchableHighlight: {
-    borderRadius: 10,
     flexDirection: "row",
     alignItems: "center",
+    height: 60,
   },
   titleText: {
-    fontSize: 20,
+    fontSize: 22,
+    fontFamily: "InterMed",
   },
 
   animatedChevron: {

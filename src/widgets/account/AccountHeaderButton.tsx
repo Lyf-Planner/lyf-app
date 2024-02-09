@@ -1,30 +1,26 @@
 import { StyleSheet, TouchableHighlight } from "react-native";
-import { useModal } from "../../hooks/useModal";
-import { SettingsModal } from "./SettingsModal";
 import { deepBlue } from "../../utils/constants";
-import Feather from "react-native-vector-icons/Feather";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-export const SettingsHeaderButton = () => {
-  const { modal, updateModal } = useModal();
-
+export const AccountHeaderButton = ({ onPress, open }) => {
   return (
     <TouchableHighlight
       underlayColor={"rgba(0,0,0,0.4)"}
       style={[
-        styles.premiumTooltip,
+        styles.wrapper,
         {
-          backgroundColor: !!modal ? deepBlue : "white",
+          backgroundColor: open ? deepBlue : "white",
         },
       ]}
-      onPress={() => updateModal(<SettingsModal />)}
+      onPress={onPress}
     >
-      <Feather name="settings" size={30} />
+      <FontAwesome name="user" size={30} color={open ? "white" : "black"} />
     </TouchableHighlight>
   );
 };
 
 const styles = StyleSheet.create({
-  premiumTooltip: {
+  wrapper: {
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",

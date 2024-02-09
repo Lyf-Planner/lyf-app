@@ -33,7 +33,7 @@ Tasks to contribute to Lyf Mobile are defined in the [Lyf Mobile Jira](https://l
 #### Common Errors
 
 - `non-std c++ expression`
-  - Happens when the expo cache has a state error. Almost certainly not your fault, just run `npx expo start -c` to clear the cache
+  - Happens when the Expo cache has a state error. Not caused by anything we do - just run `npx expo start -c` to restart and clear the cache
 
 ## Deployments
 
