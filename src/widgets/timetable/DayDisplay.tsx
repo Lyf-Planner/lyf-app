@@ -149,7 +149,9 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
 
         <View style={styles.listWrapperView}>
           <ListInput
-            items={items.filter((x) => x.type === ListItemType.Event)}
+            items={items
+              .filter((x) => x.type === ListItemType.Event)
+              .sort((a, b) => (a.time ? a.time.localeCompare(b.time) : 1))}
             addItem={(name) =>
               addItem(
                 name,
@@ -172,7 +174,9 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
 
         <View style={styles.listWrapperView}>
           <ListInput
-            items={items.filter((x) => x.type === ListItemType.Task)}
+            items={items
+              .filter((x) => x.type === ListItemType.Task)
+              .sort((a, b) => (a.time ? a.time.localeCompare(b.time) : 1))}
             addItem={(name) =>
               addItem(
                 name,

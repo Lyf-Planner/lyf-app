@@ -19,10 +19,6 @@ export const ListInput = ({
   listBackgroundColor = "white",
   listWrapperStyles = {},
 }) => {
-  const [newItem, updateNewItem] = useState<any>("");
-
-  const inputRef = useRef<any>();
-
   return (
     <View
       style={[
@@ -35,7 +31,6 @@ export const ListInput = ({
       ]}
     >
       {items
-        .sort((a, b) => (a.time ? a.time.localeCompare(b.time) : 1))
         .map((x, i: number) => (
           <ListItem
             key={x.template_id || x.id}
@@ -46,22 +41,31 @@ export const ListInput = ({
             item={x}
           />
         ))}
-
-      <TextInput
-        ref={inputRef}
-        returnKeyType="done"
-        placeholder={`Add ${type} +`}
-        placeholderTextColor="grey"
-        style={styles.listNewItem}
-        blurOnSubmit={false}
-        onSubmitEditing={() => {
-          newItem && addItem(newItem);
-          inputRef.current.clear();
-          inputRef.current.focus();
-        }}
-        onChangeText={(text) => updateNewItem(text)}
-      />
+      <NewItem type={type} addItem={addItem} />
     </View>
+  );
+};
+
+const NewItem = ({ type, addItem }) => {
+  const [newItem, updateNewItem] = useState<any>("");
+
+  const inputRef = useRef<any>();
+
+  return (
+    <TextInput
+      ref={inputRef}
+      returnKeyType="done"
+      placeholder={`Add ${type} +`}
+      placeholderTextColor="grey"
+      style={styles.listNewItem}
+      blurOnSubmit={false}
+      onSubmitEditing={() => {
+        newItem && addItem(newItem);
+        inputRef.current.clear();
+        inputRef.current.focus();
+      }}
+      onChangeText={(text) => updateNewItem(text)}
+    />
   );
 };
 
