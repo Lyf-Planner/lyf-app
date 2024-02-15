@@ -18,8 +18,9 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import * as Haptics from "expo-haptics";
-import { sleep } from "../../utils/constants";
-import { useCallback } from "react";
+import { primaryGreen, sleep } from "../../utils/constants";
+import { useCallback, useMemo } from "react";
+import { useAuth } from "../../authorisation/AuthProvider";
 
 const SCALE_MS = 180;
 
@@ -31,6 +32,13 @@ export const ListItem = ({
   badgeTextColor,
 }) => {
   const { updateDrawer, updateDrawerIndex } = useDrawer();
+  const { user } = useAuth();
+  const invited = useMemo(
+    () =>
+      item.invited_users &&
+      !!item.invited_users.find((x) => x.user_id === user.id),
+    [item.invited_users, user]
+  );
 
   const openModal = () => {
     updateDrawer(null);
@@ -214,6 +222,41 @@ export const ListItem = ({
             },
           ]}
         >
+          {item.permitted_users.length > 1 && (
+            <View
+              style={[
+                styles.collaborativeIndicator,
+                {
+                  backgroundColor:
+                    item.status === ItemStatus.Done ? "white" : primaryGreen,
+                },
+              ]}
+            >
+              <FontAwesome5
+                name="users"
+                size={16}
+                color={item.status === ItemStatus.Done ? primaryGreen : "white"}
+              />
+            </View>
+          )}
+          {invited && (
+            <View
+              style={[
+                styles.inviteIndicator,
+                {
+                  backgroundColor:
+                    item.status === ItemStatus.Done ? "white" : primaryGreen,
+                },
+              ]}
+            >
+              <FontAwesome5
+                name="plus"
+                size={16}
+                color={item.status === ItemStatus.Done ? primaryGreen : "white"}
+              />
+            </View>
+          )}
+
           <Text
             style={[
               styles.listItemText,
@@ -278,6 +321,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "absolute",
     width: "100%",
+  },
+  collaborativeIndicator: {
+    borderRadius: 30,
+    aspectRatio: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 4,
+  },
+  inviteIndicator: {
+    borderRadius: 50,
+    aspectRatio: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 6,
   },
   playIcon: { marginLeft: 12 },
   editIcon: { marginLeft: "auto", marginRight: 11, color: "black" },
