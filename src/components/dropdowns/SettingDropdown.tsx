@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   touchableHighlight: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 8,
+    paddingHorizontal: 10,
     height: 60,
   },
   titleText: {

@@ -21,7 +21,7 @@ export const UserAction = ({ user_id }) => {
   const { user } = useAuth();
   const friends = user.social?.friends?.find((x) => x === user_id);
   const requested = user.social?.requested?.find((x) => x === user_id);
-  const requested_by = user.social?.friend_requests?.find((x) => x === user_id);
+  const requested_by = user.social?.requests?.find((x) => x === user_id);
   const blocked = user.social?.blocked?.find((x) => x === user_id);
 
   if (friends) return <Friend user_id={user_id} />;

@@ -24,7 +24,7 @@ export const AccountWidget = ({ logout, deleteMe }) => {
           <AccountInfo />
         </SettingDropdown>
         <SettingDropdown
-          name={`My Friends (${user.social.friends.length})`}
+          name={`My Friends (${user.social.friends?.length || 0})`}
           icon={<FontAwesome name="users" size={18} />}
         >
           <UserList
@@ -33,12 +33,12 @@ export const AccountWidget = ({ logout, deleteMe }) => {
           />
         </SettingDropdown>
         <SettingDropdown
-          name={`Friend Requests (${user.social.friend_requests.length})`}
+          name={`Friend Requests (${user.social.requests?.length || 0})`}
           icon={<FontAwesome name="plus" size={20} />}
           bgColor={"rgba(0,0,0,0.05)"}
         >
           <UserList
-            users={user.social.friend_requests}
+            users={user.social.requests}
             emptyText={"No friend requests at the moment :)"}
           />
         </SettingDropdown>
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1,
     gap: 4,
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
     marginTop: 2,
     minHeight: 500,
   },
