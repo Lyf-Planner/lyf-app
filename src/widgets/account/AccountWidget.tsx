@@ -6,6 +6,7 @@ import { NotificationSettings } from "./notifications/Notifications";
 import { SettingDropdown } from "../../components/dropdowns/SettingDropdown";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { Friends } from "./friends/Friends";
 
 export const AccountWidget = ({ logout, deleteMe }) => {
   return (
@@ -22,6 +23,12 @@ export const AccountWidget = ({ logout, deleteMe }) => {
           icon={<MaterialIcons name="notifications-active" size={22} />}
         >
           <NotificationSettings />
+        </SettingDropdown>
+        <SettingDropdown
+          name="Friends"
+          icon={<FontAwesome name="users" size={18} />}
+        >
+          <Friends />
         </SettingDropdown>
       </View>
       <View style={styles.buttons}>
