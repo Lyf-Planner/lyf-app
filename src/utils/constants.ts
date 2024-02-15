@@ -20,7 +20,7 @@ export const offWhite = "rgba(0,0,0,0.02)";
 export enum FriendshipAction {
   Remove = "Remove",
   Accept = "Accept",
-  Deny = "Deny",
+  Decline = "Decline",
   Request = "Request",
   Cancel = "Cancel",
 }

@@ -7,7 +7,8 @@ import Animated, {
 
 export const BouncyPressable = ({
   children,
-  style,
+  style = {},
+  disabled = false,
   containerStyle = null,
   conditionalStyles = null,
   onPress,
@@ -36,9 +37,10 @@ export const BouncyPressable = ({
     <Animated.View style={[scaleAnimation, containerStyle]}>
       <WrappingPressable
         onPress={onPress}
+        disabled={disabled}
         onLongPress={onLongPress}
         onPressIn={() => {
-          scale.value = 0.95;
+          scale.value = 0.9;
         }}
         onPressOut={() => {
           scale.value = 1;

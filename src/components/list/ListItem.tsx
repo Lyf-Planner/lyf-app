@@ -40,8 +40,10 @@ export const ListItem = ({
     [item.invited_users, user]
   );
 
-  const openModal = () => {
+  const openModal = async () => {
     updateDrawer(null);
+    // Create any localised items for drawer to find
+    if (item.localised) await updateItem(item);
     updateDrawer(
       <ListItemDrawer
         item_id={item.id}

@@ -14,6 +14,7 @@ export const SettingDropdown = ({
   children,
   icon,
   startOpen = false,
+  bgColor = null,
 }) => {
   const [open, setOpen] = useState(startOpen);
   const chevronAngle = useSharedValue(0);
@@ -36,7 +37,10 @@ export const SettingDropdown = ({
   return (
     <View style={[styles.main]}>
       <TouchableHighlight
-        style={[styles.touchableHighlight]}
+        style={[
+          styles.touchableHighlight,
+          { backgroundColor: bgColor || "white" },
+        ]}
         underlayColor={"rgba(0,0,0,0.3)"}
         onPress={() => setOpen(!open)}
       >
@@ -48,14 +52,14 @@ export const SettingDropdown = ({
               <Entypo name={"chevron-right"} size={25} />
             </Animated.View>
           </View>
-          <Horizontal
-            style={{
-              borderWidth: 1,
-              opacity: 0.2,
-            }}
-          />
         </View>
       </TouchableHighlight>
+      <Horizontal
+        style={{
+          borderWidth: 1,
+          opacity: 0.2,
+        }}
+      />
 
       {open && (
         <View>
@@ -80,6 +84,7 @@ const styles = StyleSheet.create({
   touchableHighlight: {
     flexDirection: "row",
     alignItems: "center",
+    paddingHorizontal: 8,
     height: 60,
   },
   titleText: {
@@ -91,8 +96,7 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
   },
   dropdownContent: {
-    marginTop: 6,
-    marginBottom: 6,
+    marginVertical: 8,
     paddingLeft: 4,
   },
 });
