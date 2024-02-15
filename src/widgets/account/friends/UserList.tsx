@@ -20,7 +20,7 @@ export const UserList = ({ users, emptyText }) => {
           <Text style={styles.emptyText}>{emptyText}</Text>
         )
       ) : (
-        <Loader />
+        <Loader size={30} />
       )}
     </View>
   );
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+    minHeight: 50,
   },
   emptyText: {
     fontSize: 18,

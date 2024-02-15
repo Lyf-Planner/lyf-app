@@ -170,7 +170,7 @@ export const HandleRequest = ({ user_id }) => {
         onPress={acceptRequest}
       >
         {accepting ? (
-          <Loader size={20} />
+          <Loader size={20} color="white" />
         ) : (
           <FontAwesome5Icon name="plus" color="white" size={18} />
         )}
@@ -181,7 +181,7 @@ export const HandleRequest = ({ user_id }) => {
         onPress={declineRequest}
       >
         {declining ? (
-          <Loader size={20} />
+          <Loader size={20} color="white" />
         ) : (
           <Entypo name="cross" color="white" size={24} />
         )}
