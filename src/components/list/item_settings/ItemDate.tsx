@@ -1,8 +1,15 @@
 import { View, Text, StyleSheet } from "react-native";
 import { NullableDatePicker } from "../../NullableDatePicker";
 import { primaryGreen } from "../../../utils/constants";
+import { isTemplate } from "../constants";
 
-export const ItemDate = ({ date, updateDate, routineDay }) => {
+export const ItemDate = ({ item, updateItem }) => {
+  const routineDay = isTemplate(item) ? item.day : null;
+
+  const updateDate = (date) => {
+    updateItem({ ...item, date });
+  };
+
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.eventText}>Date</Text>
@@ -12,7 +19,7 @@ export const ItemDate = ({ date, updateDate, routineDay }) => {
             <Text style={styles.routineText}>{`Every ${routineDay}`}</Text>
           </View>
         ) : (
-          <NullableDatePicker date={date} updateDate={updateDate} />
+          <NullableDatePicker date={item.date} updateDate={updateDate} />
         )}
       </View>
     </View>

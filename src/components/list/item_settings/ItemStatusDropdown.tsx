@@ -3,23 +3,25 @@ import {
   StatusOptions,
   ITEM_STATUS_TO_COLOR,
   ItemStatus,
-  ListItemType,
   statusTextDisplay,
-} from "../../list/constants";
+} from "../constants";
 import { StyleSheet } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import Entypo from "react-native-vector-icons/Entypo";
 
-export const ItemStatusDropdown = ({ status, updateStatus, type }) => {
+export const ItemStatusDropdown = ({ item, updateItem }) => {
   const [open, setOpen] = useState(false);
-  const [localValue, setLocalValue] = useState(status || ItemStatus.Upcoming);
+  const [localValue, setLocalValue] = useState(
+    item.status || ItemStatus.Upcoming
+  );
+
+  const updateStatus = (status) => {
+    updateItem({ ...item, status });
+  };
 
   const items = StatusOptions.map((x) => {
     return {
-      label: statusTextDisplay(
-        type,
-        x
-      ),
+      label: statusTextDisplay(item.type, x),
       value: x,
       containerStyle: { backgroundColor: ITEM_STATUS_TO_COLOR[x] },
       labelStyle: {
@@ -31,7 +33,7 @@ export const ItemStatusDropdown = ({ status, updateStatus, type }) => {
   const textColor = localValue === ItemStatus.Done ? "white" : "black";
 
   useEffect(() => {
-    if (localValue !== status) {
+    if (localValue !== item.status) {
       updateStatus(localValue);
     }
   }, [localValue]);

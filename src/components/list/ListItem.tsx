@@ -44,10 +44,8 @@ export const ListItem = ({
     updateDrawer(null);
     updateDrawer(
       <ListItemDrawer
-        initialItem={item}
-        updateRootItem={updateItem}
-        removeItem={() => removeItem(item)}
-        closeModal={() => updateDrawer(null)}
+        item_id={item.id}
+        closeDrawer={() => updateDrawer(null)}
         updateDrawerIndex={updateDrawerIndex}
       />
     );

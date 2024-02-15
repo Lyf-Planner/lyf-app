@@ -9,13 +9,13 @@ import { offWhite } from "../../../utils/constants";
 import { useState } from "react";
 import Entypo from "react-native-vector-icons/Entypo";
 
-export const ItemDescription = ({
-  item,
-  updateDesc,
-  publishUpdate,
-  updateDrawerIndex,
-}) => {
-  const [textOpen, setTextOpen] = useState(!!item.desc);
+export const ItemDescription = ({ item, updateItem, updateDrawerIndex }) => {
+  const [description, setDescription] = useState(item.desc);
+  const [textOpen, setTextOpen] = useState(!!description);
+
+  const updateDescription = () => {
+    updateItem({ ...item, desc: description });
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -26,9 +26,9 @@ export const ItemDescription = ({
             <TouchableHighlight
               onPress={() => {
                 setTextOpen(false);
-                updateDesc(null);
+                setDescription(null);
+                updateDescription();
                 updateDrawerIndex(0);
-                publishUpdate();
               }}
               underlayColor={"rgba(0,0,0,0.5)"}
               style={{ borderRadius: 5 }}
@@ -41,7 +41,8 @@ export const ItemDescription = ({
               underlayColor={"rgba(0,0,0,0.5)"}
               onPress={() => {
                 setTextOpen(true);
-                updateDesc("");
+                setDescription(null);
+                updateDescription();
                 updateDrawerIndex(1);
               }}
             >
@@ -52,12 +53,12 @@ export const ItemDescription = ({
       </View>
       {textOpen && (
         <TextInput
-          value={item.desc}
-          onChangeText={updateDesc}
+          value={description}
+          onChangeText={setDescription}
           onFocus={() => updateDrawerIndex(3)}
           onBlur={() => {
             updateDrawerIndex(1);
-            publishUpdate();
+            updateDescription();
           }}
           style={styles.itemDesc}
           multiline

@@ -1,87 +1,29 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Horizontal } from "../../components/MiscComponents";
 import { eventsBadgeColor } from "../../utils/constants";
-import { ListItemType, isTemplate } from "./constants";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
-import { ItemStatusDropdown } from "./itemSettings/ItemStatusDropdown";
-import { useState } from "react";
-import { ItemEventTime } from "./itemSettings/ItemEventTime";
-import { ItemNotification } from "./itemSettings/ItemNotification";
-import { ItemDescription } from "./itemSettings/ItemDescription";
-import { ItemDate } from "./itemSettings/ItemDate";
-import { TouchableHighlight } from "react-native-gesture-handler";
+import { ItemStatusDropdown } from "./item_settings/ItemStatusDropdown";
+import { useMemo } from "react";
+import { ItemTime } from "./item_settings/ItemTime";
+import { ItemNotification } from "./item_settings/ItemNotification";
+import { ItemDescription } from "./item_settings/ItemDescription";
+import { ItemDate } from "./item_settings/ItemDate";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useNotifications } from "../../authorisation/NotificationsLayer";
+import { ItemTitle } from "./item_settings/ItemTitle";
+import { ItemType } from "./item_settings/ItemType";
+import { useItems } from "../../hooks/useItems";
+import { useDrawer } from "../../hooks/useDrawer";
 
-export const ListItemDrawer = ({
-  initialItem,
-  updateRootItem,
-  removeItem,
-  closeModal,
-  updateDrawerIndex,
-}) => {
+export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
   // We setup a local copy of the item so that certain fields can be published when needed
-  const [item, updateLocalItem] = useState(initialItem);
   const { user } = useAuth();
   const { enabled } = useNotifications();
-  const publishUpdate = () => {
-    updateRootItem({ ...item });
-  };
-
-  const updateStatus = (status) => {
-    updateLocalItem({ ...item, status });
-    updateRootItem({ ...item, status });
-  };
-
-  const updateTitle = (title) => updateLocalItem({ ...item, title });
-
-  const updateTime = (time) => {
-    if (
-      !item.time &&
-      user.premium?.notifications?.event_notifications_enabled
-    ) {
-      // If user has the setting to automatically create a notification, pass the update off to notif func
-      var prereq = { ...item, time };
-      updateNotification(
-        true,
-        user.premium.notifications?.event_notification_minutes_before || "5",
-        prereq
-      );
-    } else if (
-      !time &&
-      item.notifications &&
-      item.notifications.find((x) => x.user_id === user.id)
-    ) {
-      prereq = { ...item, time: null };
-      updateNotification(false, "5", prereq);
-    } else {
-      updateLocalItem({ ...item, time });
-      updateRootItem({ ...item, time });
-    }
-  };
-
-  const switchType = () => {
-    var newItem = { ...item };
-    if (item.type === ListItemType.Task) {
-      newItem.type = ListItemType.Event;
-    } else {
-      newItem.type = ListItemType.Task;
-    }
-
-    updateLocalItem(newItem);
-    updateRootItem(newItem);
-  };
-
-  const updateDate = (date) => {
-    updateLocalItem({ ...item, date });
-    updateRootItem({ ...item, date });
-  };
+  const { items, updateItem, removeItem } = useItems();
+  const item = useMemo(
+    () => items.find((x) => x.id === item_id),
+    [items, item_id]
+  );
 
   const updateNotification = (enabled, minutes_before, prereqItem = item) => {
     var tmp = item.notifications || [];
@@ -99,51 +41,24 @@ export const ListItemDrawer = ({
       if (!enabled) tmp.splice(userIndex, 1);
       else tmp[userIndex].minutes_before = minutes_before;
     }
-    updateLocalItem({ ...prereqItem, notifications: tmp });
-    updateRootItem({ ...prereqItem, notifications: tmp });
+    updateItem({ ...prereqItem, notifications: tmp });
   };
-
-  const updateDesc = (desc) => updateLocalItem({ ...item, desc });
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.mainContainer}>
         <View style={{ gap: 8, zIndex: 10 }}>
           <View style={styles.headerBackground}>
-            <TextInput
-              value={item.title}
-              onChangeText={updateTitle}
-              style={styles.itemName}
-              onFocus={() => updateDrawerIndex(1)}
-              onBlur={() => {
-                !item.desc && updateDrawerIndex(0);
-                publishUpdate();
-              }}
-              returnKeyType="done"
+            <ItemTitle
+              item={item}
+              updateItem={updateItem}
+              updateDrawerIndex={updateDrawerIndex}
             />
             <View style={{ marginLeft: "auto" }}>
-              <TouchableHighlight
-                style={[
-                  styles.typeBadge,
-                  {
-                    backgroundColor:
-                      item.type === ListItemType.Event
-                        ? eventsBadgeColor
-                        : "white",
-                  },
-                ]}
-                onPress={switchType}
-                underlayColor={"rgba(0,0,0,0.5)"}
-              >
-                <Text style={styles.typeText}>{item.type}</Text>
-              </TouchableHighlight>
+              <ItemType item={item} updateItem={updateItem} />
             </View>
           </View>
-          <ItemStatusDropdown
-            status={item.status}
-            updateStatus={updateStatus}
-            type={item.type}
-          />
+          <ItemStatusDropdown item={item} updateItem={updateItem} />
         </View>
         <Horizontal style={styles.firstSeperator} />
 
@@ -153,13 +68,13 @@ export const ListItemDrawer = ({
             gap: 8,
           }}
         >
-          <ItemDate
-            date={item.date}
-            updateDate={updateDate}
-            routineDay={isTemplate(item) ? item.day : null}
-          />
+          <ItemDate item={item} updateItem={updateItem} />
 
-          <ItemEventTime time={item.time} updateTime={updateTime} />
+          <ItemTime
+            item={item}
+            updateItem={updateItem}
+            updateNotification={updateNotification}
+          />
 
           <ItemNotification
             enabled={enabled}
@@ -174,8 +89,7 @@ export const ListItemDrawer = ({
 
           <ItemDescription
             item={item}
-            updateDesc={updateDesc}
-            publishUpdate={publishUpdate}
+            updateItem={updateItem}
             updateDrawerIndex={updateDrawerIndex}
           />
         </View>
@@ -191,7 +105,7 @@ export const ListItemDrawer = ({
               <TouchableOpacity
                 onPress={() => {
                   removeItem();
-                  closeModal();
+                  closeDrawer();
                 }}
                 style={[styles.bottomButton, { backgroundColor: "red" }]}
                 activeOpacity={0.7}
@@ -201,7 +115,7 @@ export const ListItemDrawer = ({
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={closeModal}
+                onPress={closeDrawer}
                 style={[
                   styles.bottomButton,
                   { backgroundColor: eventsBadgeColor },
@@ -248,21 +162,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     borderRadius: 5,
-  },
-  itemName: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "white",
-    flex: 1,
-  },
-  typeBadge: {
-    marginLeft: "auto",
-    paddingVertical: 6,
-    paddingHorizontal: 8,
-    borderRadius: 10,
-  },
-  typeText: {
-    fontSize: 16,
   },
   subtitle: {
     textAlign: "center",

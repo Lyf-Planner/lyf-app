@@ -56,7 +56,7 @@ export const AuthGateway = ({ children }) => {
     });
 
   AppState.addEventListener("change", (nextAppState) => {
-    if (nextAppState === "background") {
+    if (AppState.currentState === "active" && nextAppState !== "active") {
       console.log("storing lastOpen as", new Date());
       storeAsyncData("lastOpen", new Date().toISOString());
     }

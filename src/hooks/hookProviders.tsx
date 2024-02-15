@@ -13,9 +13,9 @@ export const AppProviders = ({ children }) => {
   return (
     <AuthGateway>
       <NotificationsLayer>
-        <BottomSheetModalProvider>
-          <DrawerProvider>
-            <ItemsProvider>
+        <ItemsProvider>
+          <BottomSheetModalProvider>
+            <DrawerProvider>
               <NotesProvider>
                 <MenuProvider>
                   <ModalProvider>
@@ -25,9 +25,9 @@ export const AppProviders = ({ children }) => {
                   </ModalProvider>
                 </MenuProvider>
               </NotesProvider>
-            </ItemsProvider>
-          </DrawerProvider>
-        </BottomSheetModalProvider>
+            </DrawerProvider>
+          </BottomSheetModalProvider>
+        </ItemsProvider>
       </NotificationsLayer>
     </AuthGateway>
   );

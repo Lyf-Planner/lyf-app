@@ -14,7 +14,6 @@ import { useAuth } from "../authorisation/AuthProvider";
 // Component provider
 export const DrawerProvider = ({ children }) => {
   const [drawer, updateDrawer] = useState<any>(null);
-  const { user } = useAuth();
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -50,7 +49,7 @@ export const DrawerProvider = ({ children }) => {
       {!!drawer && (
         <BottomSheetModal
           ref={bottomSheetRef}
-          index={!!drawer?.props?.initialItem?.desc ? 1 : 0}
+          index={0}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           enablePanDownToClose
