@@ -18,6 +18,10 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import * as Haptics from "expo-haptics";
+import { sleep } from "../../utils/constants";
+import { useCallback } from "react";
+
+const SCALE_MS = 180;
 
 export const ListItem = ({
   item,
@@ -66,6 +70,7 @@ export const ListItem = ({
 
   const scale = useSharedValue(1);
   const offsetX = useSharedValue(0);
+  const checkScale = useSharedValue(1);
 
   var timer = null;
   const scaleAnimation = useAnimatedStyle(() => {
@@ -73,7 +78,7 @@ export const ListItem = ({
       transform: [
         {
           scale: withTiming(scale.value, {
-            duration: 300,
+            duration: SCALE_MS,
           }),
         },
       ],
@@ -92,18 +97,34 @@ export const ListItem = ({
         zIndex: 50,
       } as any)
   );
+  const checkScaleAnimation = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          scale: withTiming(checkScale.value, {
+            duration: SCALE_MS,
+          }),
+        },
+      ],
+    } as any;
+  });
 
   // GESTURE HANDLERS
 
-  const handleTapIn = () => {
-    if (item.status !== ItemStatus.Done) scale.value = 0.7;
-    else scale.value = 0.9;
-    timer = setInterval(() => {
-      scale.value = 1;
+  const handleTapIn = useCallback(async () => {
+    const markingAsDone = item.status !== ItemStatus.Done;
+    scale.value = markingAsDone ? 0.7 : 0.9;
+    await sleep(SCALE_MS);
 
-      clearTimeout(timer);
-    }, 100);
-  };
+    scale.value = markingAsDone ? 1.1 : 1;
+    await sleep(SCALE_MS);
+
+    scale.value = 1;
+    checkScale.value = markingAsDone ? 1.5 : 1;
+    await sleep(SCALE_MS);
+
+    checkScale.value = 1;
+  }, [item.status]);
 
   const handleTapOut = () => {
     if (item.status === ItemStatus.Done) {
@@ -178,7 +199,9 @@ export const ListItem = ({
       <Animated.View
         style={[
           scaleAnimation,
-          { opacity: item.status === ItemStatus.Cancelled ? 0.7 : 1 },
+          {
+            opacity: item.status === ItemStatus.Cancelled ? 0.7 : 1,
+          },
         ]}
       >
         <Animated.View
@@ -201,16 +224,19 @@ export const ListItem = ({
               },
             ]}
           >
-            {item.title} {item.time && `${TwentyFourHourToAMPM(item.time)}`}
+            {item.title}
+            {item.time && ` ${TwentyFourHourToAMPM(item.time)}`}
           </Text>
 
-          <AntDesign
-            name={
-              item.status === ItemStatus.Done ? "checkcircle" : "checkcircleo"
-            }
-            style={{ color: determineBadgeTextColor() }}
-            size={18}
-          />
+          <Animated.View style={[checkScaleAnimation]}>
+            <AntDesign
+              name={
+                item.status === ItemStatus.Done ? "checkcircle" : "checkcircleo"
+              }
+              style={{ color: determineBadgeTextColor() }}
+              size={18}
+            />
+          </Animated.View>
         </Animated.View>
         <LinearGradient
           colors={[ITEM_STATUS_TO_COLOR[ItemStatus.InProgress], "white"]}

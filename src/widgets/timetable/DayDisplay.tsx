@@ -15,7 +15,7 @@ import {
   sleep,
 } from "../../utils/constants";
 import { LongPressGestureHandler } from "react-native-gesture-handler";
-import { ListItemType } from "../../components/list/constants";
+import { ItemStatus, ListItemType } from "../../components/list/constants";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useItems } from "../../hooks/useItems";
 import Animated, {
@@ -23,14 +23,24 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import * as Haptics from "expo-haptics";
 
 export const Day = ({ items, date = null, day = null, template = false }) => {
   const { user, updateUser } = useAuth();
   const { addItem, updateItem, removeItem } = useItems();
-  const canDelete =
-    !template && date && date.localeCompare(formatDateData(new Date())) < 1;
+  const allDone = useMemo(
+    () => !items.find((x) => x.status !== ItemStatus.Done),
+    [items]
+  );
+  const canDelete = useMemo(
+    () =>
+      !template &&
+      date &&
+      date.localeCompare(formatDateData(new Date())) < 1 &&
+      allDone,
+    [allDone, date, template]
+  );
 
   const shiftFirst = async () => {
     if (canDelete) {
@@ -103,10 +113,10 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
   });
 
   useEffect(() => {
-    if (canDelete && date.localeCompare(formatDateData(new Date())) < 0) {
+    if (canDelete && date.localeCompare(formatDateData(new Date())) < 1) {
       bounceHandle();
     }
-  }, []);
+  }, [canDelete]);
 
   const bounceHandle = async () => {
     const bounceDuration = 250;
