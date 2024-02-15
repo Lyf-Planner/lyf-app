@@ -5,6 +5,7 @@ import {
   deleteItem,
   getItems,
   updateItem as updateRemoteItem,
+  updateItemSocial as updateRemoteItemSocial,
 } from "../rest/items";
 import { ItemStatus, ListItemType } from "../components/list/constants";
 import { v4 as uuid } from "uuid";
@@ -12,6 +13,7 @@ import { formatDateData, getStartOfCurrentWeek } from "../utils/dates";
 import { useDrawer } from "./useDrawer";
 import { ListItemDrawer } from "../components/list/ListItemDrawer";
 import "react-native-get-random-values";
+import { SocialAction } from "../utils/constants";
 
 // Assisted state management via provider
 export const ItemsProvider = ({ children }) => {
@@ -134,6 +136,22 @@ export const ItemsProvider = ({ children }) => {
     createItem(newItem);
   };
 
+  const updateItemSocial = async (item, user_id, action) => {
+    let result = await updateRemoteItemSocial(item.id, user_id, action);
+    if (!result) return;
+
+    // If user removed themselves, delete from linked items
+    if (
+      (action === SocialAction.Remove || action === SocialAction.Decline) &&
+      user_id === user.id
+    ) {
+      // Remove from items and user
+      removeItem(item, false);
+    } else {
+      updateItem({ ...item, ...result }, false);
+    }
+  };
+
   const removeItem = (item, deleteRemote = true) => {
     if (item.template_id) {
       // Dont delete if item template is still active (it will look the same) - just mark as cancelled
@@ -163,6 +181,7 @@ export const ItemsProvider = ({ children }) => {
     initialised,
     items,
     updateItem,
+    updateItemSocial,
     addItem,
     removeItem,
   };
