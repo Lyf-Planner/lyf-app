@@ -124,6 +124,7 @@ export const ListItem = ({
 
     scale.value = markingAsDone ? 1.1 : 1;
     await sleep(SCALE_MS);
+    markingAsDone && Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
 
     scale.value = 1;
     checkScale.value = markingAsDone ? 1.5 : 1;
