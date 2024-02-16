@@ -15,23 +15,23 @@ import { IntroSlider } from "./tutorial/IntroSlider";
 import { useTutorial } from "../hooks/useTutorial";
 
 export enum DisplayedWidgets {
-  Plan = "Plan",
+  Schedule = "Schedule",
   Lists = "Lists",
 }
 
 export enum AllWidgets {
-  Plan = "Plan",
+  Schedule = "Schedule",
   Lists = "Lists",
   Account = "Account",
   Tutorial = "Tutorial",
 }
 
 export const WidgetContainer = () => {
-  const [selected, updateSelected] = useState<any>(AllWidgets.Plan);
+  const [selected, updateSelected] = useState<any>(AllWidgets.Schedule);
   const { logout, deleteMe } = useAuth();
 
   const WIDGETS = {
-    Plan: <Timetable />,
+    Schedule: <Timetable />,
     Account: <AccountWidget logout={logout} deleteMe={deleteMe} />,
     Lists: <Notes />,
     Tutorial: <IntroSlider />,
@@ -74,7 +74,6 @@ export const MenuWidgetButton = ({ selected, onSelect, title }) => {
   return (
     <BouncyPressable
       style={styles.headerTextContainer}
-      containerStyle={{ flex: 1 }}
       useTouchableHighlight
       conditionalStyles={
         selected === title && styles.highlightedHeaderTextContainer
@@ -111,6 +110,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "row",
+    justifyContent: "space-evenly",
     height: 50,
     paddingHorizontal: 12,
     gap: 6,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   headerTextContainer: {
     borderRadius: 10,
     paddingVertical: 4,
-    paddingHorizontal: 8,
+    paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
