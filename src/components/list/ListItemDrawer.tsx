@@ -75,7 +75,7 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
 
   // Move the drawer up if we have a description set
   useEffect(() => {
-    sleep(200).then(() => {
+    sleep(300).then(() => {
       if (item.desc) updateDrawerIndex(1);
     });
   }, []);

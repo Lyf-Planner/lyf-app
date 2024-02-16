@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
   dropdown: {
     borderRadius: 15,
     minHeight: 45,
+    borderWidth: 0,
   },
   dropdownArrow: { marginRight: 4 },
 });

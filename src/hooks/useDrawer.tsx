@@ -9,7 +9,6 @@ import {
 } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { Keyboard, StyleSheet } from "react-native";
-import { useAuth } from "../authorisation/AuthProvider";
 
 // Component provider
 export const DrawerProvider = ({ children }) => {
