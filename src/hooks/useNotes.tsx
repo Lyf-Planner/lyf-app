@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { useAuth } from "../authorisation/AuthProvider";
 import { v4 as uuid } from "uuid";
 import { NoteTypes } from "../widgets/notes/TypesAndHelpers";
@@ -45,52 +45,61 @@ export const NotesProvider = ({ children }) => {
     }
   };
 
-  const updateNote = (note, updateRemote = true) => {
-    // Update store
-    var tmp = [...notes];
-    var i = tmp.findIndex((x) => x.id === note.id);
-    tmp[i] = note;
-    setNotes(tmp);
+  const updateNote = useCallback(
+    (note, updateRemote = true) => {
+      // Update store
+      var tmp = [...notes];
+      var i = tmp.findIndex((x) => x.id === note.id);
+      tmp[i] = note;
+      setNotes(tmp);
 
-    if (updateRemote) updateRemoteNote(note);
-  };
+      if (updateRemote) updateRemoteNote(note);
+    },
+    [notes]
+  );
 
-  const addNote = async (title: string, type: NoteTypes) => {
-    var newNote = {
-      id: uuid(),
-      title,
-      type,
-      content: type === NoteTypes.Text ? "" : [],
-      permitted_users: [{ user_id: user.id, permissions: "Owner" }],
-    } as any;
+  const addNote = useCallback(
+    async (title: string, type: NoteTypes) => {
+      var newNote = {
+        id: uuid(),
+        title,
+        type,
+        content: type === NoteTypes.Text ? "" : [],
+        permitted_users: [{ user_id: user.id, permissions: "Owner" }],
+      } as any;
 
-    // Add to store
-    var tmp = [...notes];
-    tmp.push(newNote);
-    setNotes(tmp);
+      // Add to store
+      var tmp = [...notes];
+      tmp.push(newNote);
+      setNotes(tmp);
 
-    // Add ref to user
-    tmp = user;
-    user.notes.items.push({ id: newNote.id });
-    updateUser(user);
+      // Add ref to user
+      tmp = user;
+      user.notes.items.push({ id: newNote.id });
+      updateUser(user);
 
-    // Upload in background
-    createNote(newNote);
-    return newNote;
-  };
+      // Upload in background
+      createNote(newNote);
+      return newNote;
+    },
+    [notes, user]
+  );
 
-  const removeNote = (id, deleteRemote = true) => {
-    // Remove from this store
-    var tmp = notes.filter((x) => x.id !== id) as any;
-    setNotes(tmp);
+  const removeNote = useCallback(
+    (id, deleteRemote = true) => {
+      // Remove from this store
+      var tmp = notes.filter((x) => x.id !== id) as any;
+      setNotes(tmp);
 
-    // Remove ref from user
-    tmp = user;
-    tmp.notes.items = tmp.notes.items.filter((x) => x.id !== id);
-    updateUser(tmp);
+      // Remove ref from user
+      tmp = user;
+      tmp.notes.items = tmp.notes.items.filter((x) => x.id !== id);
+      updateUser(tmp);
 
-    if (deleteRemote) deleteNote(id);
-  };
+      if (deleteRemote) deleteNote(id);
+    },
+    [notes, user]
+  );
 
   const EXPOSED = {
     initialise,

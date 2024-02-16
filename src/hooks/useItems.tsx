@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useAuth } from "../authorisation/AuthProvider";
 import {
   createItem,
@@ -60,107 +66,120 @@ export const ItemsProvider = ({ children }) => {
     }
   }, [user]);
 
-  const updateItem = (item, updateRemote = true) => {
-    // We create localised instances of templates in the planner - if this is one of those then create it
-    if (item.localised) {
-      console.log("Local item will be created instead of updated");
-      addItem(item.title, item.type, item.date, null, item.status, {
-        id: item.id,
-        template_id: item.template_id,
-        time: item.time || null,
-      });
-      return;
-    }
-
-    // Update store
-    var tmp = [...items];
-    var i = tmp.findIndex((x) => x.id === item.id);
-    tmp[i] = item;
-    setItems(tmp);
-
-    if (updateRemote) updateRemoteItem(item);
-  };
-
-  const addItem = async (
-    title: string,
-    type: ListItemType,
-    date: string,
-    day: string,
-    status: ItemStatus = ItemStatus.Upcoming,
-    template_instance?: TemplateInstance
-  ) => {
-    var newItem = {
-      id: template_instance ? template_instance.id : uuid(),
-      title,
-      type,
-      date,
-      day,
-      permitted_users: [{ user_id: user.id, permissions: "Owner" }],
-      notifications: [],
-      status,
-    } as any;
-
-    // Conditional properties
-    if (title[title.length - 1] === "?") newItem.status = ItemStatus.Tentative;
-    if (template_instance) {
-      newItem.template_id = template_instance.template_id;
-      newItem.time = template_instance.time;
-    }
-
-    // Add to store
-    var tmp = [...items];
-    tmp.push(newItem);
-    setItems(tmp);
-
-    // Add ref to user
-    tmp = user;
-    user.timetable.items.push({ id: newItem.id });
-    updateUser(user);
-
-    // Upload in background
-    createItem(newItem);
-  };
-
-  const updateItemSocial = async (item, user_id, action) => {
-    let result = await updateRemoteItemSocial(item.id, user_id, action);
-    if (!result) return;
-
-    // If user removed themselves, delete from linked items
-    if (
-      (action === SocialAction.Remove || action === SocialAction.Decline) &&
-      user_id === user.id
-    ) {
-      // Remove from items and user
-      removeItem(item, false);
-    } else {
-      updateItem({ ...item, ...result }, false);
-    }
-  };
-
-  const removeItem = async (item, deleteRemote = true) => {
-    if (item.template_id) {
-      // Dont delete if item template is still active (it will look the same) - just mark as cancelled
-      const dontDelete = items
-        .map((x) => x.id)
-        .find((x) => x === item.template_id);
-      if (dontDelete) {
-        updateItem({ ...item, status: ItemStatus.Cancelled });
+  const updateItem = useCallback(
+    async (item, updateRemote = true) => {
+      // We create localised instances of templates in the planner - if this is one of those then create it
+      if (item.localised) {
+        console.log("Local item will be created instead of updated");
+        addItem(item.title, item.type, item.date, null, item.status, {
+          id: item.id,
+          template_id: item.template_id,
+          time: item.time || null,
+        });
         return;
       }
-    }
 
-    var id = item.id;
-    // Remove from this store
-    var tmp = items.filter((x) => x.id !== id) as any;
-    setItems(tmp);
+      // Update store
+      var tmp = [...items];
+      var i = tmp.findIndex((x) => x.id === item.id);
+      tmp[i] = item;
+      setItems(tmp);
 
-    // Remove ref from user
-    tmp = user;
-    tmp.timetable.items = tmp.timetable.items.filter((x) => x.id !== id);
-    updateUser(tmp);
+      if (updateRemote) await updateRemoteItem(item);
+    },
+    [items]
+  );
 
-    if (deleteRemote) await deleteItem(id);
-  };
+  const addItem = useCallback(
+    async (
+      title: string,
+      type: ListItemType,
+      date: string,
+      day: string,
+      status: ItemStatus = ItemStatus.Upcoming,
+      template_instance?: TemplateInstance
+    ) => {
+      var newItem = {
+        id: template_instance ? template_instance.id : uuid(),
+        title,
+        type,
+        date,
+        day,
+        permitted_users: [{ user_id: user.id, permissions: "Owner" }],
+        notifications: [],
+        status,
+      } as any;
+
+      // Conditional properties
+      if (title[title.length - 1] === "?")
+        newItem.status = ItemStatus.Tentative;
+      if (template_instance) {
+        newItem.template_id = template_instance.template_id;
+        newItem.time = template_instance.time;
+      }
+
+      // Add to store
+      var tmp = [...items];
+      tmp.push(newItem);
+      setItems(tmp);
+
+      // Add ref to user
+      tmp = user;
+      user.timetable.items.push({ id: newItem.id });
+      updateUser(user);
+
+      // Upload in background
+      createItem(newItem);
+    },
+    [items, user]
+  );
+
+  const updateItemSocial = useCallback(
+    async (item, user_id, action) => {
+      let result = await updateRemoteItemSocial(item.id, user_id, action);
+      if (!result) return;
+
+      // If user removed themselves, delete from linked items
+      if (
+        (action === SocialAction.Remove || action === SocialAction.Decline) &&
+        user_id === user.id
+      ) {
+        // Remove from items and user
+        removeItem(item, false);
+      } else {
+        updateItem({ ...item, ...result }, false);
+      }
+    },
+    [user]
+  );
+
+  const removeItem = useCallback(
+    async (item, deleteRemote = true) => {
+      if (item.template_id) {
+        // Dont delete if item template is still active (it will look the same) - just mark as cancelled
+        const dontDelete = items
+          .map((x) => x.id)
+          .find((x) => x === item.template_id);
+        if (dontDelete) {
+          updateItem({ ...item, status: ItemStatus.Cancelled });
+          return;
+        }
+      }
+
+      var id = item.id;
+      // Remove from this store
+      var tmp = items.filter((x) => x.id !== id) as any;
+      setItems(tmp);
+
+      // Remove ref from user
+      tmp = user;
+      tmp.timetable.items = tmp.timetable.items.filter((x) => x.id !== id);
+      updateUser(tmp);
+
+      if (deleteRemote) await deleteItem(id);
+    },
+    [items, user]
+  );
 
   const EXPOSED = {
     initialised,
