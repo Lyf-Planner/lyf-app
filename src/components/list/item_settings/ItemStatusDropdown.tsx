@@ -79,7 +79,11 @@ export const ItemStatusDropdown = ({ item, updateItem }) => {
 const styles = StyleSheet.create({
   dropdownText: {
     fontSize: 18,
+    fontWeight: "500",
   },
-  dropdown: { borderRadius: 20, minHeight: 45 },
+  dropdown: {
+    borderRadius: 15,
+    minHeight: 45,
+  },
   dropdownArrow: { marginRight: 4 },
 });

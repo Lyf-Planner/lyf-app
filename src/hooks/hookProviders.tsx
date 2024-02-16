@@ -14,19 +14,19 @@ export const AppProviders = ({ children }) => {
     <AuthGateway>
       <NotificationsLayer>
         <ItemsProvider>
-          <BottomSheetModalProvider>
-            <DrawerProvider>
-              <NotesProvider>
-                <MenuProvider>
+          <MenuProvider>
+            <BottomSheetModalProvider>
+              <DrawerProvider>
+                <NotesProvider>
                   <ModalProvider>
                     <InitialisedProvider>
                       <TutorialProvider>{children}</TutorialProvider>
                     </InitialisedProvider>
                   </ModalProvider>
-                </MenuProvider>
-              </NotesProvider>
-            </DrawerProvider>
-          </BottomSheetModalProvider>
+                </NotesProvider>
+              </DrawerProvider>
+            </BottomSheetModalProvider>
+          </MenuProvider>
         </ItemsProvider>
       </NotificationsLayer>
     </AuthGateway>

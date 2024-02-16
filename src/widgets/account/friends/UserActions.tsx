@@ -92,7 +92,7 @@ export const Requested = ({ user_id }) => {
 
   return (
     <Menu
-      name="friend-menu"
+      name="requested-menu"
       ref={menu}
       renderer={renderers.Popover}
       rendererProps={{

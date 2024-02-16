@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -9,15 +9,17 @@ import {
 } from "react-native";
 import { useAuth } from "../../../authorisation/AuthProvider";
 import Entypo from "react-native-vector-icons/Entypo";
+import { useNotifications } from "../../../authorisation/NotificationsLayer";
 
 export const ItemNotification = ({
-  enabled,
-  time,
+  item,
   notification,
-  updateNotification,
+  updateNotify,
+  updateMinutes,
   updateDrawerIndex,
 }) => {
   const { user } = useAuth();
+  const { enabled } = useNotifications();
   const [localText, setText] = useState(
     `${
       notification?.minutes_before ||
@@ -25,9 +27,6 @@ export const ItemNotification = ({
       5
     }`
   );
-  const updateNotify = (notify) => updateNotification(!!notify, localText);
-  const updateMinutes = (minutes_before) =>
-    updateNotification(true, minutes_before);
 
   const updateMinutesFromInput = () => {
     updateDrawerIndex(0);
@@ -43,18 +42,21 @@ export const ItemNotification = ({
 
   return (
     <View
-      style={[styles.mainContainer, { opacity: enabled && time ? 1 : 0.3 }]}
+      style={[
+        styles.mainContainer,
+        { opacity: enabled && item.time ? 1 : 0.3 },
+      ]}
     >
       <Text
         style={[
           styles.notifyText,
-          { fontWeight: enabled && time ? "500" : "400" },
+          { fontWeight: enabled && item.time ? "500" : "400" },
         ]}
       >
         Notify Me
       </Text>
 
-      {!!notification && enabled && time ? (
+      {!!notification && enabled && item.time && (
         <View style={styles.minutesInputWrapper}>
           <TouchableHighlight
             onPress={() => updateNotify(false)}
@@ -74,26 +76,6 @@ export const ItemNotification = ({
           />
           <Text style={styles.minsBeforeText}>mins before</Text>
         </View>
-      ) : (
-        <TouchableHighlight
-          style={styles.addNotificationContainer}
-          underlayColor={"rgba(0,0,0,0.5)"}
-          onPress={() => {
-            if (!time)
-              Alert.alert(
-                "Tip",
-                "You need to add a time before setting a reminder :)"
-              );
-            else if (!enabled) {
-              Alert.alert(
-                "Whoops",
-                "You need to enable Notifications for Lyf in your device settings"
-              );
-            } else updateNotify(true);
-          }}
-        >
-          <Text style={styles.addNotificationText}>Add Reminder +</Text>
-        </TouchableHighlight>
       )}
     </View>
   );
@@ -124,15 +106,4 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   minsBeforeText: { fontSize: 18, fontWeight: "200" },
-  addNotificationContainer: {
-    backgroundColor: "rgba(0,0,0,0.08)",
-    marginLeft: "auto",
-    padding: 8.75,
-    position: "relative",
-    left: 10,
-    borderRadius: 8,
-  },
-  addNotificationText: {
-    fontSize: 16,
-  },
 });

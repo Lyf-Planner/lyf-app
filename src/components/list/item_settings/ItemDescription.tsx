@@ -9,9 +9,13 @@ import { offWhite } from "../../../utils/constants";
 import { useState } from "react";
 import Entypo from "react-native-vector-icons/Entypo";
 
-export const ItemDescription = ({ item, updateItem, updateDrawerIndex }) => {
+export const ItemDescription = ({
+  item,
+  updateItem,
+  updateDrawerIndex,
+  setDescOpen,
+}) => {
   const [description, setDescription] = useState(item.desc);
-  const [textOpen, setTextOpen] = useState(!!description);
 
   const updateDescription = () => {
     updateItem({ ...item, desc: description });
@@ -22,48 +26,31 @@ export const ItemDescription = ({ item, updateItem, updateDrawerIndex }) => {
       <View style={styles.headingContainer}>
         <Text style={styles.headingText}>Description</Text>
         <View style={styles.headerCloseWrapper}>
-          {textOpen ? (
-            <TouchableHighlight
-              onPress={() => {
-                setTextOpen(false);
-                setDescription(null);
-                updateDescription();
-                updateDrawerIndex(0);
-              }}
-              underlayColor={"rgba(0,0,0,0.5)"}
-              style={{ borderRadius: 5 }}
-            >
-              <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
-            </TouchableHighlight>
-          ) : (
-            <TouchableHighlight
-              style={styles.addDescriptionContainer}
-              underlayColor={"rgba(0,0,0,0.5)"}
-              onPress={() => {
-                setTextOpen(true);
-                setDescription(null);
-                updateDescription();
-                updateDrawerIndex(1);
-              }}
-            >
-              <Text style={styles.addDescriptionText}>Add Desc +</Text>
-            </TouchableHighlight>
-          )}
+          <TouchableHighlight
+            onPress={() => {
+              setDescOpen(false);
+              setDescription(null);
+              updateItem({ ...item, desc: null });
+              updateDrawerIndex(0);
+            }}
+            underlayColor={"rgba(0,0,0,0.5)"}
+            style={{ borderRadius: 5 }}
+          >
+            <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
+          </TouchableHighlight>
         </View>
       </View>
-      {textOpen && (
-        <TextInput
-          value={description}
-          onChangeText={setDescription}
-          onFocus={() => updateDrawerIndex(3)}
-          onBlur={() => {
-            updateDrawerIndex(1);
-            updateDescription();
-          }}
-          style={styles.itemDesc}
-          multiline
-        />
-      )}
+      <TextInput
+        value={description}
+        onChangeText={setDescription}
+        onFocus={() => updateDrawerIndex(3)}
+        onBlur={() => {
+          updateDrawerIndex(1);
+          updateDescription();
+        }}
+        style={styles.itemDesc}
+        multiline
+      />
     </View>
   );
 };

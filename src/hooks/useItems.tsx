@@ -137,7 +137,7 @@ export const ItemsProvider = ({ children }) => {
     }
   };
 
-  const removeItem = (item, deleteRemote = true) => {
+  const removeItem = async (item, deleteRemote = true) => {
     if (item.template_id) {
       // Dont delete if item template is still active (it will look the same) - just mark as cancelled
       const dontDelete = items
@@ -159,7 +159,7 @@ export const ItemsProvider = ({ children }) => {
     tmp.timetable.items = tmp.timetable.items.filter((x) => x.id !== id);
     updateUser(tmp);
 
-    if (deleteRemote) deleteItem(id);
+    if (deleteRemote) await deleteItem(id);
   };
 
   const EXPOSED = {
