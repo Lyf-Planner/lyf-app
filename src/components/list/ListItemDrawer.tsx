@@ -15,6 +15,7 @@ import { ItemType } from "./item_settings/ItemType";
 import { useItems } from "../../hooks/useItems";
 import { AddDetails } from "./item_settings/AddDetails";
 import { OptionsMenu } from "./item_settings/OptionsMenu";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
 export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
   // We setup a local copy of the item so that certain fields can be published when needed
@@ -67,7 +68,7 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
               updateItem={updateItem}
               updateDrawerIndex={updateDrawerIndex}
             />
-            <View style={{ marginLeft: "auto", marginRight: 8, }}>
+            <View style={{ marginLeft: "auto", marginRight: 8 }}>
               <ItemType item={item} updateItem={updateItem} />
             </View>
             <OptionsMenu item={item} />
@@ -120,24 +121,22 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
             updateNotify={updateNotify}
             updateDrawerIndex={updateDrawerIndex}
             setDescOpen={setDescOpen}
+            descOpen={descOpen}
           />
         </View>
 
         <View style={styles.footer}>
-          <View style={styles.bottomButtonsContainer}>
-            <TouchableOpacity
-              onPress={closeDrawer}
-              style={[
-                styles.bottomButton,
-                { backgroundColor: eventsBadgeColor },
-              ]}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.bottomButtonText, styles.doneText]}>
-                Close
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <FontAwesome5Icon
+            name="chevron-down"
+            size={16}
+            color="rgba(0,0,0,0.3)"
+          />
+          <Text style={[styles.subtitle]}>Swipe down to close</Text>
+          <FontAwesome5Icon
+            name="chevron-down"
+            size={16}
+            color="rgba(0,0,0,0.3)"
+          />
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -185,7 +184,15 @@ const styles = StyleSheet.create({
   },
 
   secondSeperator: { opacity: 0.2, marginTop: 16, borderWidth: 2 },
-  footer: { gap: 12, position: "relative", bottom: 10, marginTop: 16 },
+  footer: {
+    gap: 12,
+    position: "relative",
+    bottom: 10,
+    marginTop: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   bottomButtonsContainer: {
     flexDirection: "row",
     gap: 5,

@@ -16,6 +16,7 @@ export const AddDetails = ({
   updateNotify,
   updateDrawerIndex,
   setDescOpen,
+  descOpen,
 }) => {
   const { enabled } = useNotifications();
   return (
@@ -64,7 +65,7 @@ export const AddDetails = ({
             <Text style={styles.addNotificationText}>Add Reminder +</Text>
           </TouchableHighlight>
         )}
-        {!item.desc && (
+        {!descOpen && (
           <TouchableHighlight
             style={styles.addFieldContainer}
             underlayColor={"rgba(0,0,0,0.5)"}
