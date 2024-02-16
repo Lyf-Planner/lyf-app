@@ -1,5 +1,4 @@
 import { StyleSheet, View } from "react-native";
-import { updateFriendship } from "../../../rest/user";
 import { useAuth } from "../../../authorisation/AuthProvider";
 import { FriendshipAction, primaryGreen } from "../../../utils/constants";
 import { useRef, useState } from "react";
@@ -33,11 +32,10 @@ export const UserAction = ({ user_id }) => {
 
 export const Friend = ({ user_id }) => {
   const [loading, setLoading] = useState(false);
-  const { updateUser, user } = useAuth();
+  const { updateFriendship } = useAuth();
   const removeFriend = async () => {
     setLoading(true);
-    let social = await updateFriendship(user_id, FriendshipAction.Remove);
-    social && updateUser({ ...user, social });
+    await updateFriendship(user_id, FriendshipAction.Remove);
     setLoading(false);
   };
 
@@ -80,11 +78,10 @@ export const Friend = ({ user_id }) => {
 
 export const Requested = ({ user_id }) => {
   const [loading, setLoading] = useState(false);
-  const { updateUser, user } = useAuth();
+  const { updateFriendship } = useAuth();
   const cancelRequest = async () => {
     setLoading(true);
-    let social = await updateFriendship(user_id, FriendshipAction.Cancel);
-    social && updateUser({ ...user, social });
+    await updateFriendship(user_id, FriendshipAction.Cancel);
     setLoading(false);
   };
 
@@ -126,10 +123,9 @@ export const Requested = ({ user_id }) => {
 };
 
 export const AddFriend = ({ user_id }) => {
-  const { updateUser, user } = useAuth();
+  const { updateFriendship } = useAuth();
   const addFriend = async () => {
-    let social = await updateFriendship(user_id, FriendshipAction.Request);
-    social && updateUser({ ...user, social });
+    await updateFriendship(user_id, FriendshipAction.Request);
   };
 
   return (
@@ -143,19 +139,17 @@ export const AddFriend = ({ user_id }) => {
 };
 
 export const HandleRequest = ({ user_id }) => {
-  const { updateUser, user } = useAuth();
+  const { updateFriendship } = useAuth();
   const [accepting, setAccepting] = useState(false);
   const [declining, setDeclining] = useState(false);
   const acceptRequest = async () => {
     setAccepting(true);
-    let social = await updateFriendship(user_id, FriendshipAction.Accept);
-    social && updateUser({ ...user, social });
+    await updateFriendship(user_id, FriendshipAction.Accept);
     setAccepting(false);
   };
   const declineRequest = async () => {
     setDeclining(true);
-    let social = await updateFriendship(user_id, FriendshipAction.Decline);
-    social && updateUser({ ...user, social });
+    await updateFriendship(user_id, FriendshipAction.Decline);
     setDeclining(false);
   };
 

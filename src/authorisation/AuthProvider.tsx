@@ -15,7 +15,11 @@ import { autologin } from "../rest/auth";
 import { LoadingScreen } from "../components/MiscComponents";
 import { Login } from "./Login";
 import { getCalendars } from "expo-localization";
-import { deleteMe, saveUser } from "../rest/user";
+import {
+  deleteMe,
+  saveUser,
+  updateFriendship as updateRemoteFriendship,
+} from "../rest/user";
 import { AppState } from "react-native";
 
 export const AuthGateway = ({ children }) => {
@@ -78,6 +82,14 @@ export const AuthGateway = ({ children }) => {
     [user]
   );
 
+  const updateFriendship = useCallback(
+    async (user_id, action) => {
+      let social = await updateRemoteFriendship(user_id, action);
+      social && updateUser({ ...user, social });
+    },
+    [user]
+  );
+
   useEffect(() => {
     getAsyncData("lastOpen").then((lastOpen) => {
       const lastDate = new Date(lastOpen);
@@ -96,6 +108,7 @@ export const AuthGateway = ({ children }) => {
     loggingIn,
     user,
     updateUser: updateRemoteAndLocal,
+    updateFriendship,
     deleteMe,
     initiated,
     setInitiated,
