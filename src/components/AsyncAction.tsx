@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 8,
   },
-  contentWrapper: { flexDirection: "row", alignItems: "center", gap: 8 },
+  contentWrapper: { flexDirection: "row", alignItems: "center", gap: 4 },
   actionButtonText: {
     fontSize: 18,
     fontWeight: "500",

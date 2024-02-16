@@ -59,7 +59,7 @@ export const FindUsers = () => {
 };
 
 const styles = StyleSheet.create({
-  main: { flexDirection: "column", gap: 4 },
+  main: { flexDirection: "column", gap: 8 },
   searchBarPressable: {
     flexDirection: "row",
     backgroundColor: primaryGreen,

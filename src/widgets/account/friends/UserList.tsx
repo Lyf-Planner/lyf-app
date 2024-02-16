@@ -8,7 +8,7 @@ export const UserList = ({ users, emptyText }) => {
   const [loadedUsers, setLoadedUsers] = useState<any>(null);
 
   useEffect(() => {
-    getUsers(users).then((res) => setLoadedUsers(res));
+    !loadedUsers && getUsers(users).then((res) => setLoadedUsers(res));
   }, [users]);
 
   return (

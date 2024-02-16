@@ -68,7 +68,7 @@ export const Friend = ({ user_id }) => {
         <ActionButton
           title="Friends"
           func={() => {}}
-          icon={<AntDesign name="check" color="white" size={18} />}
+          icon={<AntDesign name="check" color="white" size={20} />}
           color={primaryGreen}
           loadingOverride={loading}
           notPressable
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     borderColor: "rgba(0,0,0,0.5)",
   },
   optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
-  optionText: { fontSize: 18 },
+  optionText: { fontSize: 18, color: "rgba(0,0,0,0.7)" },
   optionSeperator: { marginHorizontal: 5 },
 
   handleRequestMain: { flexDirection: "row", gap: 4, height: "100%" },
