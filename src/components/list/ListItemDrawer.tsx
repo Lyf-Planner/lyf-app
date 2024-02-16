@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Horizontal } from "../../components/MiscComponents";
-import { deepBlue, eventsBadgeColor } from "../../utils/constants";
+import { deepBlue, eventsBadgeColor, sleep } from "../../utils/constants";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
 import { ItemStatusDropdown } from "./item_settings/ItemStatusDropdown";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ItemTime } from "./item_settings/ItemTime";
 import { ItemNotification } from "./item_settings/ItemNotification";
 import { ItemDescription } from "./item_settings/ItemDescription";
@@ -22,20 +22,30 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
   const { user } = useAuth();
   const { enabled } = useNotifications();
   const { items, updateItem } = useItems();
+
   const item = useMemo(
     () => items.find((x) => x.id === item_id),
     [items, item_id]
   );
+  if (!item) closeDrawer();
+
   const notification = useMemo(
     () =>
-      item.notifications &&
+      item?.notifications &&
       enabled &&
       item.notifications.find((x) => x.user_id === user.id),
     [item]
   );
-  const [descOpen, setDescOpen] = useState(!!item.desc);
-  console.log("descOpen is", descOpen, "item.desc is", item.desc);
 
+  const invited = useMemo(
+    () =>
+      item?.invited_users &&
+      !!item.invited_users?.find((x) => x.user_id === user.id),
+    [item?.invited_users, user]
+  );
+  const [descOpen, setDescOpen] = useState(!!item?.desc);
+
+  // Is outside notifications component due to automatic notif setting
   const updateNotification = (enabled, minutes_before, prereqItem = item) => {
     var tmp = item.notifications || [];
     var userIndex = tmp.findIndex((x) => x.user_id === user.id);
@@ -58,20 +68,34 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
   const updateMinutes = (minutes_before) =>
     updateNotification(true, minutes_before);
 
+  const noDetails = useMemo(
+    () => item && !item.date && !item.time && !descOpen && !notification,
+    [item, notification]
+  );
+
+  // Move the drawer up if we have a description set
+  useEffect(() => {
+    sleep(200).then(() => {
+      if (item.desc) updateDrawerIndex(1);
+    });
+  }, []);
+
+  if (!item) return null;
+  // Pass "invited" to block any input component with a localised value
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.mainContainer}>
         <View style={{ gap: 8, zIndex: 10 }}>
           <View style={styles.headerBackground}>
+            <View style={{ marginLeft: "auto", marginRight: 8 }}>
+              <ItemType item={item} updateItem={updateItem} />
+            </View>
             <ItemTitle
               item={item}
               updateItem={updateItem}
               updateDrawerIndex={updateDrawerIndex}
             />
-            <View style={{ marginLeft: "auto", marginRight: 8 }}>
-              <ItemType item={item} updateItem={updateItem} />
-            </View>
-            <OptionsMenu item={item} />
+            {!invited && <OptionsMenu item={item} />}
           </View>
           <ItemStatusDropdown item={item} updateItem={updateItem} />
         </View>
@@ -111,9 +135,11 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
               setDescOpen={setDescOpen}
             />
           )}
-          <Horizontal
-            style={{ borderColor: "rgba(0,0,0,0.1)", marginVertical: 4 }}
-          />
+          {!noDetails && (
+            <Horizontal
+              style={{ borderColor: "rgba(0,0,0,0.1)", marginVertical: 4 }}
+            />
+          )}
           <AddDetails
             item={item}
             updateItem={updateItem}
@@ -165,7 +191,7 @@ const styles = StyleSheet.create({
   },
   headerBackground: {
     backgroundColor: deepBlue,
-    padding: 10,
+    padding: 8,
     height: 50,
     flexDirection: "row",
     alignItems: "center",

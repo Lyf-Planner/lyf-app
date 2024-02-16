@@ -45,6 +45,7 @@ export async function updateItem(item) {
     return item;
   } else {
     alert(result.data);
+    return false;
   }
 }
 

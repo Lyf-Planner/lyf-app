@@ -13,7 +13,7 @@ export const StatusOptions = Object.values(ItemStatus);
 export const ITEM_STATUS_TO_COLOR = {
   // Values taken from the corresponding bg's in tailwind
   Tentative: "rgb(254 240 138)",
-  Upcoming: eventsBadgeColor,
+  Upcoming: "rgba(0,0,0,0.08)",
   "To Do": "rgb(226 232 240)",
   "In Progress": "rgb(56 189 248)",
   Done: primaryGreen,

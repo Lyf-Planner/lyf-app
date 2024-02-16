@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { NullableTimePicker } from "../../NullableTimePicker";
 import { useAuth } from "../../../authorisation/AuthProvider";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export const ItemTime = ({ item, updateItem, updateNotification }) => {
   const { user } = useAuth();
@@ -31,6 +32,7 @@ export const ItemTime = ({ item, updateItem, updateNotification }) => {
 
   return (
     <View style={styles.mainContainer}>
+      <MaterialIcons name="access-time" size={20} />
       <Text style={styles.eventText}>Time</Text>
       <View style={styles.pickerContainer}>
         <NullableTimePicker time={item.time} updateTime={updateTime} />
@@ -43,6 +45,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 8,
     paddingRight: 10,
     height: 35,
   },

@@ -35,10 +35,11 @@ export const ListItem = ({
   const { user } = useAuth();
   const invited = useMemo(
     () =>
-      item.invited_users &&
+      item?.invited_users &&
       !!item.invited_users.find((x) => x.user_id === user.id),
     [item.invited_users, user]
   );
+  if (!item) return null;
 
   const openModal = async () => {
     updateDrawer(null);
@@ -120,6 +121,8 @@ export const ListItem = ({
   // GESTURE HANDLERS
 
   const handleTapIn = useCallback(async () => {
+    if (invited) return;
+
     const markingAsDone = item.status !== ItemStatus.Done;
     scale.value = markingAsDone ? 0.7 : 0.9;
     await sleep(SCALE_MS);
@@ -136,6 +139,11 @@ export const ListItem = ({
   }, [item.status]);
 
   const handleTapOut = () => {
+    if (invited) {
+      openModal();
+      return;
+    }
+
     if (item.status === ItemStatus.Done) {
       updateItem({ ...item, status: ItemStatus.Upcoming });
     } else {
@@ -145,6 +153,7 @@ export const ListItem = ({
   };
 
   const handleLongPressIn = () => {
+    if (invited) return;
     // Start animating the shrinking of the item while user holds it down
 
     scale.value = 0.75;
@@ -158,6 +167,10 @@ export const ListItem = ({
   };
 
   const handleLongPressOut = () => {
+    if (invited) {
+      openModal();
+      return;
+    }
     clearTimeout(timer);
     scale.value = 1;
   };
@@ -176,6 +189,10 @@ export const ListItem = ({
   };
 
   const handleFlingRight = () => {
+    if (invited) {
+      openModal();
+      return;
+    }
     offsetX.value = 40;
 
     updateItem({ ...item, status: ItemStatus.InProgress });

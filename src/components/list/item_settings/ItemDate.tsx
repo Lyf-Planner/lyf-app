@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { NullableDatePicker } from "../../NullableDatePicker";
 import { primaryGreen } from "../../../utils/constants";
 import { isTemplate } from "../constants";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export const ItemDate = ({ item, updateItem }) => {
   const routineDay = isTemplate(item) ? item.day : null;
@@ -12,6 +13,7 @@ export const ItemDate = ({ item, updateItem }) => {
 
   return (
     <View style={styles.mainContainer}>
+      <MaterialIcons name="date-range" size={20} />
       <Text style={styles.eventText}>Date</Text>
       <View style={styles.pickerContainer}>
         {routineDay ? (
@@ -29,6 +31,7 @@ export const ItemDate = ({ item, updateItem }) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: "row",
+    gap: 8,
     alignItems: "center",
     paddingRight: 10,
     height: 35,

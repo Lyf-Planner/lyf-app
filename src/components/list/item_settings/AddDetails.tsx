@@ -8,6 +8,7 @@ import {
 import { offWhite, primaryGreen } from "../../../utils/constants";
 import { formatDateData } from "../../../utils/dates";
 import { useNotifications } from "../../../authorisation/NotificationsLayer";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export const AddDetails = ({
   item,
@@ -30,7 +31,10 @@ export const AddDetails = ({
               updateItem({ ...item, date: formatDateData(new Date()) });
             }}
           >
-            <Text style={styles.addFieldText}>Add Date +</Text>
+            <View style={styles.addFieldContent}>
+              <MaterialIcons name="date-range" color={"white"} size={18} />
+              <Text style={styles.addFieldText}>Add Date +</Text>
+            </View>
           </TouchableHighlight>
         )}
         {!item.time && (
@@ -41,7 +45,10 @@ export const AddDetails = ({
               updateItem({ ...item, time: "09:00" });
             }}
           >
-            <Text style={styles.addFieldText}>Add Time +</Text>
+            <View style={styles.addFieldContent}>
+              <MaterialIcons name="access-time" color={"white"} size={18} />
+              <Text style={styles.addFieldText}>Add Time +</Text>
+            </View>
           </TouchableHighlight>
         )}
         {!notification && (
@@ -62,7 +69,14 @@ export const AddDetails = ({
               } else updateNotify(true);
             }}
           >
-            <Text style={styles.addNotificationText}>Add Reminder +</Text>
+            <View style={styles.addFieldContent}>
+              <MaterialIcons
+                name="notifications-active"
+                color={"white"}
+                size={18}
+              />
+              <Text style={styles.addNotificationText}>Add Reminder +</Text>
+            </View>
           </TouchableHighlight>
         )}
         {!descOpen && (
@@ -75,7 +89,10 @@ export const AddDetails = ({
               updateDrawerIndex(1);
             }}
           >
-            <Text style={styles.addFieldText}>Add Description +</Text>
+            <View style={styles.addFieldContent}>
+              <MaterialIcons name="edit" color={"white"} size={18} />
+              <Text style={styles.addFieldText}>Add Description +</Text>
+            </View>
           </TouchableHighlight>
         )}
       </View>
@@ -106,6 +123,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     flexDirection: "row",
     alignItems: "center",
+  },
+  addFieldContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
   },
   addFieldText: {
     fontSize: 16,

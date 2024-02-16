@@ -68,6 +68,10 @@ export const ItemsProvider = ({ children }) => {
 
   const updateItem = useCallback(
     async (item, updateRemote = true) => {
+      const invited =
+        item.invited_users && item.invited_users.find((x) => x === user.id);
+      if (invited) return;
+
       // We create localised instances of templates in the planner - if this is one of those then create it
       if (item.localised) {
         console.log("Local item will be created instead of updated");
@@ -82,12 +86,19 @@ export const ItemsProvider = ({ children }) => {
       // Update store
       var tmp = [...items];
       var i = tmp.findIndex((x) => x.id === item.id);
+      const before = tmp[i];
       tmp[i] = item;
       setItems(tmp);
 
-      if (updateRemote) await updateRemoteItem(item);
+      if (updateRemote) {
+        let success = await updateRemoteItem(item);
+        if (!success) {
+          tmp[i] = before;
+          setItems(tmp);
+        }
+      }
     },
-    [items]
+    [items, user]
   );
 
   const addItem = useCallback(

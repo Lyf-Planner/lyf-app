@@ -5,11 +5,11 @@ import {
   TextInput,
   StyleSheet,
   TouchableHighlight,
-  Alert,
 } from "react-native";
 import { useAuth } from "../../../authorisation/AuthProvider";
-import Entypo from "react-native-vector-icons/Entypo";
 import { useNotifications } from "../../../authorisation/NotificationsLayer";
+import Entypo from "react-native-vector-icons/Entypo";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export const ItemNotification = ({
   item,
@@ -47,6 +47,7 @@ export const ItemNotification = ({
         { opacity: enabled && item.time ? 1 : 0.3 },
       ]}
     >
+      <MaterialIcons name="notifications-active" size={20} />
       <Text
         style={[
           styles.notifyText,

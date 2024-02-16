@@ -8,6 +8,7 @@ import {
 import { offWhite } from "../../../utils/constants";
 import { useState } from "react";
 import Entypo from "react-native-vector-icons/Entypo";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export const ItemDescription = ({
   item,
@@ -24,6 +25,7 @@ export const ItemDescription = ({
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headingContainer}>
+        <MaterialIcons name="edit" size={20} />
         <Text style={styles.headingText}>Description</Text>
         <View style={styles.headerCloseWrapper}>
           <TouchableHighlight
@@ -61,7 +63,12 @@ const styles = StyleSheet.create({
     gap: 8,
     zIndex: 0,
   },
-  headingContainer: { height: 35, flexDirection: "row", alignItems: "center" },
+  headingContainer: {
+    height: 35,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
   headingText: { fontSize: 20, fontWeight: "500", fontFamily: "InterSemi" },
   headerCloseWrapper: { marginLeft: "auto", marginRight: 10 },
   itemDesc: {

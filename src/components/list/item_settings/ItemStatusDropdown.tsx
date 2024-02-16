@@ -19,6 +19,10 @@ export const ItemStatusDropdown = ({ item, updateItem }) => {
     updateItem({ ...item, status });
   };
 
+  useEffect(() => {
+    setLocalValue(item.status);
+  }, [item.status]);
+
   const items = StatusOptions.map((x) => {
     return {
       label: statusTextDisplay(item.type, x),
@@ -79,7 +83,6 @@ export const ItemStatusDropdown = ({ item, updateItem }) => {
 const styles = StyleSheet.create({
   dropdownText: {
     fontSize: 18,
-    fontWeight: "500",
   },
   dropdown: {
     borderRadius: 15,

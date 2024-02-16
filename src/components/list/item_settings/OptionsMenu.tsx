@@ -9,9 +9,9 @@ import {
   renderers,
 } from "react-native-popup-menu";
 import { StyleSheet, View } from "react-native";
-import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import { Horizontal, Loader } from "../../MiscComponents";
 import { useItems } from "../../../hooks/useItems";
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 
 export const OptionsMenu = ({ item }) => {
   const [loading, setLoading] = useState(false);
@@ -40,15 +40,17 @@ export const OptionsMenu = ({ item }) => {
       }}
     >
       <MenuOptions customStyles={{ optionsContainer: styles.optionsContainer }}>
-        <MenuOption
-          value={1}
-          text="Leave"
-          customStyles={{
-            optionWrapper: styles.optionWrapper,
-            optionText: styles.optionText,
-          }}
-          onSelect={() => leaveItem()}
-        />
+        {!(permission === "Owner" && item.permitted_users.length === 1) && (
+          <MenuOption
+            value={1}
+            text="Leave"
+            customStyles={{
+              optionWrapper: styles.optionWrapper,
+              optionText: styles.optionText,
+            }}
+            onSelect={() => leaveItem()}
+          />
+        )}
         {permission === "Owner" && (
           <Horizontal style={styles.optionSeperator} />
         )}
