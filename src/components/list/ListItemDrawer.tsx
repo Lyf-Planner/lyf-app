@@ -16,6 +16,7 @@ import { useItems } from "../../hooks/useItems";
 import { AddDetails } from "./item_settings/AddDetails";
 import { OptionsMenu } from "./item_settings/OptionsMenu";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import { InviteHandler } from "./item_settings/InviteHandler";
 
 export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
   // We setup a local copy of the item so that certain fields can be published when needed
@@ -85,6 +86,7 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.mainContainer}>
+        {invited && <Text style={styles.subtitle}>You've been invited to...</Text>}
         <View style={{ gap: 8, zIndex: 10 }}>
           <View style={styles.headerBackground}>
             <View style={{ marginLeft: "auto", marginRight: 8 }}>
@@ -97,7 +99,11 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
             />
             {!invited && <OptionsMenu item={item} />}
           </View>
-          <ItemStatusDropdown item={item} updateItem={updateItem} />
+          {invited ? (
+            <InviteHandler item={item} />
+          ) : (
+            <ItemStatusDropdown item={item} updateItem={updateItem} />
+          )}
         </View>
         <Horizontal style={styles.firstSeperator} />
 
@@ -105,6 +111,7 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
           style={{
             flexDirection: "column",
             gap: 8,
+            opacity: invited ? 0.5 : 1,
           }}
         >
           {item.date && <ItemDate item={item} updateItem={updateItem} />}
