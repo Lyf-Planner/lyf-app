@@ -20,7 +20,6 @@ export const AddDetails = ({
   updateItem,
   notification,
   updateNotify,
-  updateDrawerIndex,
   setDescOpen,
   descOpen,
   invited,
@@ -110,7 +109,6 @@ export const AddDetails = ({
               if (invited) return;
               setDescOpen(true);
               updateItem({ ...item, desc: "" });
-              updateDrawerIndex(1);
             }}
           >
             <View style={styles.addFieldContent}>

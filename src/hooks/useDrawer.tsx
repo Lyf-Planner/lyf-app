@@ -7,25 +7,19 @@ import {
   useRef,
   useState,
 } from "react";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Keyboard, StyleSheet } from "react-native";
 
 // Component provider
 export const DrawerProvider = ({ children }) => {
   const [drawer, updateDrawer] = useState<any>(null);
+  const [height, updateHeight] = useState<any>(100);
+
+  console.log("height is", height);
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
-  // variables
-  const snapPoints = useMemo(() => ["45%", "65%", "80%", "95%"], []);
-
   // callbacks
-  const updateDrawerIndex = useCallback(
-    (index: number) => {
-      bottomSheetRef?.current && bottomSheetRef?.current?.snapToIndex(index);
-    },
-    [bottomSheetRef]
-  );
   const handlePresentModalPress = useCallback(() => {
     bottomSheetRef.current?.present();
   }, [bottomSheetRef]);
@@ -34,7 +28,7 @@ export const DrawerProvider = ({ children }) => {
   const EXPOSED = {
     drawer,
     updateDrawer,
-    updateDrawerIndex,
+    updateSheetMinHeight: updateHeight,
   };
 
   useEffect(() => {
@@ -48,13 +42,14 @@ export const DrawerProvider = ({ children }) => {
       {!!drawer && (
         <BottomSheetModal
           ref={bottomSheetRef}
-          index={0}
-          snapPoints={snapPoints}
+          enableDynamicSizing
           onChange={handleSheetChanges}
           enablePanDownToClose
           style={styles.bottomSheetWrapper}
         >
-          {drawer}
+          <BottomSheetView style={{ minHeight: height }}>
+            {drawer}
+          </BottomSheetView>
         </BottomSheetModal>
       )}
     </DrawerContext.Provider>

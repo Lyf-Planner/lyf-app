@@ -31,7 +31,7 @@ export const ListItem = ({
   badgeColor,
   badgeTextColor,
 }) => {
-  const { updateDrawer, updateDrawerIndex } = useDrawer();
+  const { updateDrawer, updateSheetMinHeight } = useDrawer();
   const { user } = useAuth();
   const invited = useMemo(
     () =>
@@ -49,7 +49,7 @@ export const ListItem = ({
       <ListItemDrawer
         item_id={item.id}
         closeDrawer={() => updateDrawer(null)}
-        updateDrawerIndex={updateDrawerIndex}
+        updateSheetMinHeight={updateSheetMinHeight}
       />
     );
   };

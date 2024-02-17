@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ScrollView, TouchableHighlight } from "react-native-gesture-handler";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
-export const ItemUsers = ({ item, updateDrawerIndex }) => {
+export const ItemUsers = ({ item }) => {
   const [open, setOpen] = useState(false);
   const users = useMemo(
     () =>
@@ -14,16 +14,6 @@ export const ItemUsers = ({ item, updateDrawerIndex }) => {
       }),
     [item]
   );
-
-  useEffect(() => {
-    if (open) updateDrawerIndex(1);
-    else if (
-      (!open ||
-        item.permitted_users.concat(item.invited_users || []).length > 1) &&
-      !item.desc
-    )
-      updateDrawerIndex(0);
-  }, [open]);
 
   return (
     <View style={styles.mainContainer}>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { StyleSheet, TextInput } from "react-native";
 
-export const ItemTitle = ({ item, updateItem, updateDrawerIndex, invited }) => {
+export const ItemTitle = ({ item, updateItem, updateSheetMinHeight, invited }) => {
   const [title, setTitle] = useState(item.title);
 
   const updateTitle = (title) => updateItem({ ...item, title });
@@ -11,9 +11,9 @@ export const ItemTitle = ({ item, updateItem, updateDrawerIndex, invited }) => {
       value={title}
       onChangeText={!invited && setTitle}
       style={styles.itemTitle}
-      onFocus={() => updateDrawerIndex(1)}
+      onFocus={() => updateSheetMinHeight(500)}
       onBlur={() => {
-        !item.desc && updateDrawerIndex(0);
+        updateSheetMinHeight(100);
         !invited && updateTitle(title);
       }}
       returnKeyType="done"

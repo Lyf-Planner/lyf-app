@@ -13,9 +13,9 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 export const ItemDescription = ({
   item,
   updateItem,
-  updateDrawerIndex,
   setDescOpen,
   invited,
+  updateSheetMinHeight,
 }) => {
   const [description, setDescription] = useState(item.desc);
 
@@ -23,13 +23,6 @@ export const ItemDescription = ({
     if (invited) return;
     updateItem({ ...item, desc: description });
   };
-
-  // Move the drawer up if we have a description set
-  useEffect(() => {
-    sleep(300).then(() => {
-      if (item.desc) updateDrawerIndex(1);
-    });
-  }, []);
 
   return (
     <View style={styles.mainContainer}>
@@ -43,7 +36,6 @@ export const ItemDescription = ({
               setDescOpen(false);
               setDescription(null);
               updateItem({ ...item, desc: null });
-              updateDrawerIndex(0);
             }}
             underlayColor={"rgba(0,0,0,0.5)"}
             style={{ borderRadius: 5 }}
@@ -55,9 +47,9 @@ export const ItemDescription = ({
       <TextInput
         value={description}
         onChangeText={!invited && setDescription}
-        onFocus={() => updateDrawerIndex(3)}
+        onFocus={() => updateSheetMinHeight(800)}
         onBlur={() => {
-          updateDrawerIndex(1);
+          updateSheetMinHeight(100);
           !invited && updateDescription();
         }}
         style={styles.itemDesc}

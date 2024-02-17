@@ -19,7 +19,7 @@ import { InviteHandler } from "./item_settings/InviteHandler";
 import { ItemUsers } from "./item_settings/ItemUsers";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
-export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
+export const ListItemDrawer = ({ item_id, closeDrawer, updateSheetMinHeight }) => {
   // We setup a local copy of the item so that certain fields can be published when needed
   const { user } = useAuth();
   const { enabled } = useNotifications();
@@ -93,8 +93,8 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
             <ItemTitle
               item={item}
               updateItem={updateItem}
-              updateDrawerIndex={updateDrawerIndex}
               invited={invited}
+              updateSheetMinHeight={updateSheetMinHeight}
             />
             {!invited && <OptionsMenu item={item} />}
           </View>
@@ -114,7 +114,7 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
           }}
         >
           {item.permitted_users.concat(item.invited_users || []).length > 1 && (
-            <ItemUsers item={item} updateDrawerIndex={updateDrawerIndex} />
+            <ItemUsers item={item} />
           )}
 
           {item.date && (
@@ -136,7 +136,6 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
               notification={notification}
               updateNotify={updateNotify}
               updateMinutes={updateMinutes}
-              updateDrawerIndex={updateDrawerIndex}
               invited={invited}
             />
           )}
@@ -145,9 +144,9 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
             <ItemDescription
               item={item}
               updateItem={updateItem}
-              updateDrawerIndex={updateDrawerIndex}
               setDescOpen={setDescOpen}
               invited={invited}
+              updateSheetMinHeight={updateSheetMinHeight}
             />
           )}
           {!noDetails && (
@@ -160,7 +159,6 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
             updateItem={updateItem}
             notification={notification}
             updateNotify={updateNotify}
-            updateDrawerIndex={updateDrawerIndex}
             setDescOpen={setDescOpen}
             descOpen={descOpen}
             invited={invited}
@@ -191,6 +189,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     borderColor: "rgba(0,0,0,0.5)",
     gap: 10,
+    paddingBottom: 40,
   },
   header: {
     flexDirection: "column",
