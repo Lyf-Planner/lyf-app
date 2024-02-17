@@ -23,7 +23,16 @@ export const FriendAction = ({ user_id }) => {
   const requested_by = user.social?.requests?.find((x) => x === user_id);
   const blocked = user.social?.blocked?.find((x) => x === user_id);
 
-  if (friends) return <Friend user_id={user_id} />;
+  if (user_id === user.id)
+    return (
+      <ActionButton
+        title="You"
+        func={() => {}}
+        icon={null}
+        color={primaryGreen}
+      />
+    );
+  else if (friends) return <Friend user_id={user_id} />;
   else if (requested) return <Requested user_id={user_id} />;
   else if (requested_by) return <HandleRequest user_id={user_id} />;
   else if (blocked) return null;

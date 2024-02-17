@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 10,
     paddingVertical: 25,
+    paddingHorizontal: 20,
     marginHorizontal: 20,
     borderColor: "rgba(0,0,0,0.5)",
     borderWidth: 1,
@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 10,
-    width: 250,
   },
   closeButton: {
     position: "absolute",
