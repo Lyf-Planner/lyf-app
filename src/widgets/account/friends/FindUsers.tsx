@@ -54,9 +54,7 @@ export const FindUsers = () => {
         )}
         {searched && <Text style={styles.notFoundText}>Not found</Text>}
       </Pressable>
-      {retrievedUser && (
-        <UserBanner user={retrievedUser} context={UserListContext.Item} />
-      )}
+      {retrievedUser && <UserBanner user={retrievedUser} />}
     </View>
   );
 };
