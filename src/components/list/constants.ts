@@ -1,4 +1,4 @@
-import { eventsBadgeColor, primaryGreen } from "../../utils/constants";
+import { Permission, primaryGreen } from "../../utils/constants";
 
 export enum ItemStatus {
   Cancelled = "Cancelled",
@@ -37,6 +37,11 @@ export const statusTextDisplay = (type: ListItemType, status: ItemStatus) => {
     default:
       return status;
   }
+};
+
+export const getItemPermission = (item, user_id) => {
+  const users = item.permitted_users.concat(item.invited_users || []);
+  return users.find((x) => x.user_id === user_id)?.permissions;
 };
 
 export const isTemplate = (item) => {

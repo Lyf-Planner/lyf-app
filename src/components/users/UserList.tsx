@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
-import { getUsers } from "../../../rest/user";
+import { getUsers } from "../../rest/user";
 import { StyleSheet, View, Text } from "react-native";
 import { UserBanner } from "./UserBanner";
-import { Loader } from "../../../components/MiscComponents";
+import { Loader } from "../MiscComponents";
+import { UserListContext } from "../../utils/constants";
 
-export const UserList = ({ users, emptyText }) => {
-  const [loadedUsers, setLoadedUsers] = useState<any>(null);
+export const UserList = ({
+  users,
+  emptyText,
+  preloadedUsers = null,
+  context = UserListContext.Friends,
+  item = null,
+}) => {
+  const [loadedUsers, setLoadedUsers] = useState<any>(preloadedUsers);
 
   useEffect(() => {
     !loadedUsers && getUsers(users).then((res) => setLoadedUsers(res));
@@ -15,7 +22,9 @@ export const UserList = ({ users, emptyText }) => {
     <View style={styles.main}>
       {loadedUsers ? (
         loadedUsers.length ? (
-          loadedUsers.map((x) => <UserBanner user={x} />)
+          loadedUsers.map((x) => (
+            <UserBanner user={x} context={context} item={item} key={x.id} />
+          ))
         ) : (
           <Text style={styles.emptyText}>{emptyText}</Text>
         )
@@ -29,6 +38,7 @@ export const UserList = ({ users, emptyText }) => {
 const styles = StyleSheet.create({
   main: {
     flexDirection: "column",
+    gap: 8,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",

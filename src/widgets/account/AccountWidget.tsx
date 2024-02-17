@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { LogoutButton } from "./buttons/LogoutButton";
 import { DeleteButton } from "./buttons/DeleteMeButton";
 import { AccountInfo } from "./profile/AccountInfo";
@@ -6,7 +6,7 @@ import { NotificationSettings } from "./notifications/Notifications";
 import { SettingDropdown } from "../../components/dropdowns/SettingDropdown";
 import { FindUsers } from "./friends/FindUsers";
 import { useAuth } from "../../authorisation/AuthProvider";
-import { UserList } from "./friends/UserList";
+import { UserList } from "../../components/users/UserList";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
@@ -24,21 +24,41 @@ export const AccountWidget = ({ logout, deleteMe }) => {
           <AccountInfo />
         </SettingDropdown>
         <SettingDropdown
-          name={`My Friends (${user.social.friends?.length || 0})`}
+          name={
+            <Text>
+              My Friends{" "}
+              <Text style={styles.subtitle}>
+                ( {user.social.friends.length} )
+              </Text>
+            </Text>
+          }
           icon={<FontAwesome name="users" size={18} />}
         >
           <UserList
             users={user.social.friends}
+            preloadedUsers={user.social.friends.map((x) => {
+              return { id: x };
+            })}
             emptyText={"Search for friends below :)"}
           />
         </SettingDropdown>
         <SettingDropdown
-          name={`Friend Requests (${user.social.requests?.length || 0})`}
+          name={
+            <Text>
+              Friend Requests{" "}
+              <Text style={styles.subtitle}>
+                ( {user.social.requests.length} )
+              </Text>
+            </Text>
+          }
           icon={<FontAwesome name="plus" size={20} />}
           bgColor={"rgba(0,0,0,0.05)"}
         >
           <UserList
             users={user.social.requests}
+            preloadedUsers={user.social.requests?.map((x) => {
+              return { id: x };
+            })}
             emptyText={"No friend requests at the moment :)"}
           />
         </SettingDropdown>
@@ -77,5 +97,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 8,
     marginTop: "auto",
+  },
+  subtitle: {
+    opacity: 0.4,
+    fontWeight: "600",
+    fontSize: 16,
   },
 });

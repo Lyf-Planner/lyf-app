@@ -3,9 +3,10 @@ import { Pressable, StyleSheet, View, Text } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { Loader } from "../../../components/MiscComponents";
 import { getUser } from "../../../rest/user";
-import { UserBanner } from "./UserBanner";
+import { UserBanner } from "../../../components/users/UserBanner";
 import { primaryGreen } from "../../../utils/constants";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { UserListContext } from "../../../utils/constants";
 
 export const FindUsers = () => {
   const [retrievedUser, updateRetrievedUser] = useState<any>();
@@ -53,7 +54,9 @@ export const FindUsers = () => {
         )}
         {searched && <Text style={styles.notFoundText}>Not found</Text>}
       </Pressable>
-      {retrievedUser && <UserBanner user={retrievedUser} />}
+      {retrievedUser && (
+        <UserBanner user={retrievedUser} context={UserListContext.Item} />
+      )}
     </View>
   );
 };

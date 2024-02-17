@@ -16,7 +16,7 @@ import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Entypo from "react-native-vector-icons/Entypo";
 
-export const UserAction = ({ user_id }) => {
+export const FriendAction = ({ user_id }) => {
   const { user } = useAuth();
   const friends = user.social?.friends?.find((x) => x === user_id);
   const requested = user.social?.requested?.find((x) => x === user_id);

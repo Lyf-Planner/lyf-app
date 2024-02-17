@@ -226,7 +226,7 @@ export const ListItem = ({
         style={[
           scaleAnimation,
           {
-            opacity: item.status === ItemStatus.Cancelled ? 0.7 : 1,
+            opacity: item.status === ItemStatus.Cancelled || invited ? 0.7 : 1,
           },
         ]}
       >
@@ -240,7 +240,7 @@ export const ListItem = ({
             },
           ]}
         >
-          {item.permitted_users.length > 1 && (
+          {(item.permitted_users.length > 1 || invited) && (
             <View
               style={[
                 styles.collaborativeIndicator,
@@ -252,23 +252,6 @@ export const ListItem = ({
             >
               <FontAwesome5
                 name="users"
-                size={16}
-                color={item.status === ItemStatus.Done ? primaryGreen : "white"}
-              />
-            </View>
-          )}
-          {invited && (
-            <View
-              style={[
-                styles.inviteIndicator,
-                {
-                  backgroundColor:
-                    item.status === ItemStatus.Done ? "white" : primaryGreen,
-                },
-              ]}
-            >
-              <FontAwesome5
-                name="plus"
                 size={16}
                 color={item.status === ItemStatus.Done ? primaryGreen : "white"}
               />

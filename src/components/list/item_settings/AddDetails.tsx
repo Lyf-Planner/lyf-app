@@ -9,6 +9,9 @@ import { offWhite, primaryGreen } from "../../../utils/constants";
 import { formatDateData } from "../../../utils/dates";
 import { useNotifications } from "../../../authorisation/NotificationsLayer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+
+// The button component can definitely be abstracted here
 
 export const AddDetails = ({
   item,
@@ -95,6 +98,21 @@ export const AddDetails = ({
             </View>
           </TouchableHighlight>
         )}
+
+        <TouchableHighlight
+          style={styles.addFieldContainer}
+          underlayColor={"rgba(0,0,0,0.5)"}
+          onPress={() => {
+            // Open modal!
+            updateItem({ ...item, desc: "" });
+            updateDrawerIndex(1);
+          }}
+        >
+          <View style={styles.addFieldContent}>
+            <FontAwesome5Icon name="users" color={"white"} size={16} />
+            <Text style={styles.addFieldText}>Add Friends +</Text>
+          </View>
+        </TouchableHighlight>
       </View>
     </View>
   );

@@ -16,6 +16,12 @@ export const eventsBadgeColor = "rgb(191 219 254)";
 export const deepBlue = "rgb(30 41 59)";
 export const deepBlueOpacity = (a: number) => `rgba(30, 41, 59, ${a})`;
 export const offWhite = "rgba(0,0,0,0.02)";
+export const appleGray = "rgb(235,235,235)";
+
+export enum UserListContext {
+  Friends = "Friends",
+  Item = "Item",
+}
 
 export enum FriendshipAction {
   Remove = "Remove",
@@ -31,6 +37,13 @@ export enum SocialAction {
   Accept = "Accept",
   Decline = "Decline",
   Remove = "Remove",
+}
+
+export enum Permission {
+  Owner = "Owner",
+  Editor = "Editor",
+  Viewer = "Viewer",
+  Invited = "Invited",
 }
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

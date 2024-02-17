@@ -1,10 +1,16 @@
 import { StyleSheet, Text, View } from "react-native";
-import { eventsBadgeColor } from "../../../utils/constants";
-import { UserAction } from "./UserActions";
-import { BouncyPressable } from "../../../components/BouncyPressable";
+import { eventsBadgeColor } from "../../utils/constants";
+import { FriendAction } from "../../widgets/account/friends/FriendActions";
+import { BouncyPressable } from "../BouncyPressable";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { UserListContext } from "../../utils/constants";
+import { ItemSocialAction } from "../list/item_settings/ItemSocialAction";
 
-export const UserBanner = ({ user }) => {
+export const UserBanner = ({
+  user,
+  context = UserListContext.Friends,
+  item = null,
+}) => {
   // Future plan to migrate this to a new "ElevatedPressable" component
   // Pressing the user banner will show more user info
 
@@ -21,7 +27,11 @@ export const UserBanner = ({ user }) => {
       )}
 
       <View style={styles.actionWrapper}>
-        <UserAction user_id={user.id} />
+        {context === UserListContext.Friends ? (
+          <FriendAction user_id={user.id} />
+        ) : (
+          <ItemSocialAction user_id={user.id} item={item} />
+        )}
       </View>
     </BouncyPressable>
   );

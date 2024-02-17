@@ -79,7 +79,7 @@ export async function updateItemSocial(item_id, user_id, action) {
   if (result?.status === 200) {
     return result.data;
   } else {
-    alert(result.data);
+    alert(JSON.stringify(result.data));
     return false;
   }
 }

@@ -90,6 +90,8 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 22,
     fontFamily: "InterMed",
+    flexDirection: "row",
+    alignItems: "center",
   },
 
   animatedChevron: {
