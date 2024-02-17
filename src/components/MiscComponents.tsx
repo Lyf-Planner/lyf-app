@@ -37,7 +37,7 @@ export const LoadingScreen = ({ text }) => {
 };
 
 export const Loader = ({ size = 50, color = "black" }) => {
-  return <Progress.Circle color={color} size={size} indeterminate />;
+  return <Progress.Pie color={color} size={size} indeterminate />;
 };
 
 const styles = StyleSheet.create({

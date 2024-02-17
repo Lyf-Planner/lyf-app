@@ -4,10 +4,11 @@ import { primaryGreen } from "../../utils/constants";
 import { isTemplate } from "../constants";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-export const ItemDate = ({ item, updateItem }) => {
+export const ItemDate = ({ item, updateItem, invited }) => {
   const routineDay = isTemplate(item) ? item.day : null;
 
   const updateDate = (date) => {
+    if (invited) return;
     updateItem({ ...item, date });
   };
 
@@ -21,7 +22,11 @@ export const ItemDate = ({ item, updateItem }) => {
             <Text style={styles.routineText}>{`Every ${routineDay}`}</Text>
           </View>
         ) : (
-          <NullableDatePicker date={item.date} updateDate={updateDate} />
+          <NullableDatePicker
+            date={item.date}
+            updateDate={updateDate}
+            disabled={invited}
+          />
         )}
       </View>
     </View>

@@ -15,10 +15,12 @@ export const ItemDescription = ({
   updateItem,
   updateDrawerIndex,
   setDescOpen,
+  invited,
 }) => {
   const [description, setDescription] = useState(item.desc);
 
   const updateDescription = () => {
+    if (invited) return;
     updateItem({ ...item, desc: description });
   };
 
@@ -37,6 +39,7 @@ export const ItemDescription = ({
         <View style={styles.headerCloseWrapper}>
           <TouchableHighlight
             onPress={() => {
+              if (invited) return;
               setDescOpen(false);
               setDescription(null);
               updateItem({ ...item, desc: null });
@@ -51,11 +54,11 @@ export const ItemDescription = ({
       </View>
       <TextInput
         value={description}
-        onChangeText={setDescription}
+        onChangeText={!invited && setDescription}
         onFocus={() => updateDrawerIndex(3)}
         onBlur={() => {
           updateDrawerIndex(1);
-          updateDescription();
+          !invited && updateDescription();
         }}
         style={styles.itemDesc}
         multiline

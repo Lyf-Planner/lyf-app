@@ -48,6 +48,7 @@ export const ListItem = ({
     updateDrawer(
       <ListItemDrawer
         item_id={item.id}
+        closeDrawer={() => updateDrawer(null)}
         updateDrawerIndex={updateDrawerIndex}
       />
     );

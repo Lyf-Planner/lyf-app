@@ -17,6 +17,7 @@ export const ItemNotification = ({
   updateNotify,
   updateMinutes,
   updateDrawerIndex,
+  invited,
 }) => {
   const { user } = useAuth();
   const { enabled } = useNotifications();
@@ -29,6 +30,7 @@ export const ItemNotification = ({
   );
 
   const updateMinutesFromInput = () => {
+    if (invited) return;
     updateDrawerIndex(0);
     var text = localText.replace(/[^0-9]/g, "");
     if (!text) text = "0";
@@ -72,7 +74,7 @@ export const ItemNotification = ({
             onFocus={() => updateDrawerIndex(2)}
             returnKeyType="done"
             keyboardType="numeric"
-            onChangeText={setText}
+            onChangeText={!invited && setText}
             style={styles.minutesInput}
           />
           <Text style={styles.minsBeforeText}>mins before</Text>

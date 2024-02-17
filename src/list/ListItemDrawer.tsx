@@ -19,7 +19,7 @@ import { InviteHandler } from "./item_settings/InviteHandler";
 import { ItemUsers } from "./item_settings/ItemUsers";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
-export const ListItemDrawer = ({ item_id, updateDrawerIndex }) => {
+export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
   // We setup a local copy of the item so that certain fields can be published when needed
   const { user } = useAuth();
   const { enabled } = useNotifications();
@@ -29,6 +29,7 @@ export const ListItemDrawer = ({ item_id, updateDrawerIndex }) => {
     console.log("Received items updated with", items.length, "items");
     return items.find((x) => x.id === item_id);
   }, [items, item_id]);
+  if (!item) closeDrawer();
 
   const notification = useMemo(
     () =>
@@ -48,6 +49,8 @@ export const ListItemDrawer = ({ item_id, updateDrawerIndex }) => {
 
   // Is outside notifications component due to automatic notif setting
   const updateNotification = (enabled, minutes_before, prereqItem = item) => {
+    if (invited) return;
+
     var tmp = item.notifications || [];
     var userIndex = tmp.findIndex((x) => x.user_id === user.id);
     if (userIndex === -1) {
@@ -85,12 +88,13 @@ export const ListItemDrawer = ({ item_id, updateDrawerIndex }) => {
         <View style={{ gap: 8, zIndex: 10 }}>
           <View style={styles.headerBackground}>
             <View style={{ marginLeft: "auto", marginRight: 8 }}>
-              <ItemType item={item} updateItem={updateItem} />
+              <ItemType item={item} updateItem={updateItem} invited={invited} />
             </View>
             <ItemTitle
               item={item}
               updateItem={updateItem}
               updateDrawerIndex={updateDrawerIndex}
+              invited={invited}
             />
             {!invited && <OptionsMenu item={item} />}
           </View>
@@ -113,13 +117,16 @@ export const ListItemDrawer = ({ item_id, updateDrawerIndex }) => {
             <ItemUsers item={item} updateDrawerIndex={updateDrawerIndex} />
           )}
 
-          {item.date && <ItemDate item={item} updateItem={updateItem} />}
+          {item.date && (
+            <ItemDate item={item} updateItem={updateItem} invited={invited} />
+          )}
 
           {item.time && (
             <ItemTime
               item={item}
               updateItem={updateItem}
               updateNotification={updateNotification}
+              invited={invited}
             />
           )}
 
@@ -130,6 +137,7 @@ export const ListItemDrawer = ({ item_id, updateDrawerIndex }) => {
               updateNotify={updateNotify}
               updateMinutes={updateMinutes}
               updateDrawerIndex={updateDrawerIndex}
+              invited={invited}
             />
           )}
 
@@ -139,6 +147,7 @@ export const ListItemDrawer = ({ item_id, updateDrawerIndex }) => {
               updateItem={updateItem}
               updateDrawerIndex={updateDrawerIndex}
               setDescOpen={setDescOpen}
+              invited={invited}
             />
           )}
           {!noDetails && (
@@ -154,6 +163,7 @@ export const ListItemDrawer = ({ item_id, updateDrawerIndex }) => {
             updateDrawerIndex={updateDrawerIndex}
             setDescOpen={setDescOpen}
             descOpen={descOpen}
+            invited={invited}
           />
         </View>
 

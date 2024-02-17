@@ -3,10 +3,11 @@ import { NullableTimePicker } from "../../components/NullableTimePicker";
 import { useAuth } from "../../authorisation/AuthProvider";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-export const ItemTime = ({ item, updateItem, updateNotification }) => {
+export const ItemTime = ({ item, updateItem, updateNotification, invited }) => {
   const { user } = useAuth();
 
   const updateTime = (time) => {
+    if (invited) return;
     if (
       !item.time &&
       user.premium?.notifications?.event_notifications_enabled
@@ -35,7 +36,7 @@ export const ItemTime = ({ item, updateItem, updateNotification }) => {
       <MaterialIcons name="access-time" size={20} />
       <Text style={styles.eventText}>Time</Text>
       <View style={styles.pickerContainer}>
-        <NullableTimePicker time={item.time} updateTime={updateTime} />
+        <NullableTimePicker time={item.time} updateTime={updateTime} disabled={invited}/>
       </View>
     </View>
   );

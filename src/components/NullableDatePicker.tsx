@@ -3,12 +3,12 @@ import { formatDateData } from "../utils/dates";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Entypo from "react-native-vector-icons/Entypo";
 
-export const NullableDatePicker = ({ updateDate, date }) => {
+export const NullableDatePicker = ({ updateDate, date, disabled = false }) => {
   return (
     <View>
       {date ? (
         <View style={styles.leftShiftDatePicker}>
-          <DatePicker date={date} updateDate={updateDate} />
+          <DatePicker date={date} updateDate={updateDate} disabled={disabled} />
         </View>
       ) : (
         <TouchableHighlight
@@ -25,7 +25,7 @@ export const NullableDatePicker = ({ updateDate, date }) => {
   );
 };
 
-export const DatePicker = ({ date, updateDate }) => {
+export const DatePicker = ({ date, updateDate, disabled = false }) => {
   const updateDateFromPicker = (date) => {
     // Picker gives us a datestamp, that we need to convert to 24 hr date
     var dateTime = new Date(date.nativeEvent.timestamp);
@@ -48,6 +48,7 @@ export const DatePicker = ({ date, updateDate }) => {
         value={datePickerValue}
         mode={"date"}
         is24Hour={true}
+        disabled={disabled}
         onChange={updateDateFromPicker}
       />
     </View>

@@ -23,17 +23,32 @@ export const AddDetails = ({
   updateDrawerIndex,
   setDescOpen,
   descOpen,
+  invited,
 }) => {
   const { enabled } = useNotifications();
   const { updateModal } = useModal();
   return (
     <View style={styles.mainContainer}>
       <View style={styles.detailsListWrapper}>
+        <TouchableHighlight
+          style={styles.addFieldContainer}
+          underlayColor={"rgba(0,0,0,0.5)"}
+          onPress={() => {
+            if (invited) return;
+            updateModal(<AddFriendsModal item_id={item.id} />);
+          }}
+        >
+          <View style={styles.addFieldContent}>
+            <FontAwesome5Icon name="users" color={"white"} size={16} />
+            <Text style={styles.addFieldText}>Add Friends +</Text>
+          </View>
+        </TouchableHighlight>
         {!item.date && (
           <TouchableHighlight
             style={styles.addFieldContainer}
             underlayColor={"rgba(0,0,0,0.5)"}
             onPress={() => {
+              if (invited) return;
               updateItem({ ...item, date: formatDateData(new Date()) });
             }}
           >
@@ -48,6 +63,7 @@ export const AddDetails = ({
             style={styles.addFieldContainer}
             underlayColor={"rgba(0,0,0,0.5)"}
             onPress={() => {
+              if (invited) return;
               updateItem({ ...item, time: "09:00" });
             }}
           >
@@ -62,6 +78,7 @@ export const AddDetails = ({
             style={styles.addNotificationContainer}
             underlayColor={"rgba(0,0,0,0.5)"}
             onPress={() => {
+              if (invited) return;
               if (!item.time)
                 Alert.alert(
                   "Tip",
@@ -90,6 +107,7 @@ export const AddDetails = ({
             style={styles.addFieldContainer}
             underlayColor={"rgba(0,0,0,0.5)"}
             onPress={() => {
+              if (invited) return;
               setDescOpen(true);
               updateItem({ ...item, desc: "" });
               updateDrawerIndex(1);
@@ -101,19 +119,6 @@ export const AddDetails = ({
             </View>
           </TouchableHighlight>
         )}
-
-        <TouchableHighlight
-          style={styles.addFieldContainer}
-          underlayColor={"rgba(0,0,0,0.5)"}
-          onPress={() => {
-            updateModal(<AddFriendsModal item_id={item.id} />);
-          }}
-        >
-          <View style={styles.addFieldContent}>
-            <FontAwesome5Icon name="users" color={"white"} size={16} />
-            <Text style={styles.addFieldText}>Add Friends +</Text>
-          </View>
-        </TouchableHighlight>
       </View>
     </View>
   );

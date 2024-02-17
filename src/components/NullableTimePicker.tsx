@@ -3,12 +3,12 @@ import { localisedMoment } from "../utils/dates";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Entypo from "react-native-vector-icons/Entypo";
 
-export const NullableTimePicker = ({ updateTime, time }) => {
+export const NullableTimePicker = ({ updateTime, time, disabled = false }) => {
   return (
     <View>
       {time ? (
         <View style={styles.leftShiftTimePicker}>
-          <TimePicker time={time} updateTime={updateTime} />
+          <TimePicker time={time} updateTime={updateTime} disabled={disabled} />
         </View>
       ) : (
         <TouchableHighlight
@@ -25,7 +25,7 @@ export const NullableTimePicker = ({ updateTime, time }) => {
   );
 };
 
-export const TimePicker = ({ time, updateTime }) => {
+export const TimePicker = ({ time, updateTime, disabled = false }) => {
   const updateTimeFromPicker = (time) => {
     // Picker gives us a timestamp, that we need to convert to 24 hr time
     var dateTime = new Date(time.nativeEvent.timestamp);
@@ -53,6 +53,7 @@ export const TimePicker = ({ time, updateTime }) => {
         minuteInterval={5}
         mode={"time"}
         is24Hour={true}
+        disabled={disabled}
         onChange={updateTimeFromPicker}
       />
     </View>

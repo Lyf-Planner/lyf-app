@@ -2,8 +2,9 @@ import { StyleSheet, TouchableHighlight, Text } from "react-native";
 import { ListItemType } from "../constants";
 import { eventsBadgeColor } from "../../utils/constants";
 
-export const ItemType = ({ item, updateItem }) => {
+export const ItemType = ({ item, updateItem, invited }) => {
   const switchType = () => {
+    if (invited) return;
     var newItem = { ...item };
     if (item.type === ListItemType.Task) {
       newItem.type = ListItemType.Event;
@@ -40,6 +41,6 @@ const styles = StyleSheet.create({
   },
   typeText: {
     fontSize: 16,
-    fontWeight: "500"
+    fontWeight: "500",
   },
 });
