@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
-import { NullableTimePicker } from "../../NullableTimePicker";
-import { useAuth } from "../../../authorisation/AuthProvider";
+import { NullableTimePicker } from "../../components/NullableTimePicker";
+import { useAuth } from "../../authorisation/AuthProvider";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export const ItemTime = ({ item, updateItem, updateNotification }) => {
