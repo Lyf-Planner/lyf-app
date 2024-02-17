@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableHighlight, Text } from "react-native";
 import { ListItemType } from "../constants";
-import { eventsBadgeColor } from "../../../utils/constants";
+import { eventsBadgeColor } from "../../utils/constants";
 
 export const ItemType = ({ item, updateItem }) => {
   const switchType = () => {

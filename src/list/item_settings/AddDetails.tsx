@@ -5,12 +5,12 @@ import {
   TouchableHighlight,
   Alert,
 } from "react-native";
-import { offWhite, primaryGreen } from "../../../utils/constants";
-import { formatDateData } from "../../../utils/dates";
-import { useNotifications } from "../../../authorisation/NotificationsLayer";
+import { primaryGreen } from "../../utils/constants";
+import { formatDateData } from "../../utils/dates";
+import { useNotifications } from "../../authorisation/NotificationsLayer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import { useModal } from "../../../hooks/useModal";
+import { useModal } from "../../hooks/useModal";
 import { AddFriendsModal } from "./AddFriendsModal";
 
 // The button component can definitely be abstracted here

@@ -2,9 +2,9 @@ import { StyleSheet, Text, View } from "react-native";
 import { eventsBadgeColor } from "../../utils/constants";
 import { FriendAction } from "../../widgets/account/friends/FriendActions";
 import { BouncyPressable } from "../BouncyPressable";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { UserListContext } from "../../utils/constants";
-import { ItemSocialAction } from "../list/item_settings/ItemSocialAction";
+import { ItemSocialAction } from "../../list/item_settings/ItemSocialAction";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export const UserBanner = ({
   user,

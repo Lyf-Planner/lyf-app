@@ -1,23 +1,15 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  Pressable,
-  TouchableHighlight,
-} from "react-native";
-import { useModal } from "../../../hooks/useModal";
-import { useAuth } from "../../../authorisation/AuthProvider";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
+import { useModal } from "../../hooks/useModal";
+import { useAuth } from "../../authorisation/AuthProvider";
 import { useMemo, useState } from "react";
-import { Horizontal } from "../../MiscComponents";
-import { UserList } from "../../users/UserList";
-import { UserListContext } from "../../../utils/constants";
-import { SimpleSearch } from "../../SimpleSearch";
+import { Horizontal } from "../../components/MiscComponents";
+import { UserList } from "../../components/users/UserList";
+import { UserListContext } from "../../utils/constants";
+import { SimpleSearch } from "../../components/SimpleSearch";
 import { ScrollView } from "react-native-gesture-handler";
+import { useItems } from "../../hooks/useItems";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import { useItems } from "../../../hooks/useItems";
 
 export const AddFriendsModal = ({ item_id }) => {
   const { user } = useAuth();

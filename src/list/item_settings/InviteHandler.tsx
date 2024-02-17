@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
-import { BouncyPressable } from "../../BouncyPressable";
+import { BouncyPressable } from "../../components/BouncyPressable";
 import { useState } from "react";
-import { useAuth } from "../../../authorisation/AuthProvider";
-import { useItems } from "../../../hooks/useItems";
-import { SocialAction, primaryGreen } from "../../../utils/constants";
-import { Loader } from "../../MiscComponents";
+import { useAuth } from "../../authorisation/AuthProvider";
+import { useItems } from "../../hooks/useItems";
+import { SocialAction, primaryGreen } from "../../utils/constants";
+import { Loader } from "../../components/MiscComponents";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import AntDesign from "react-native-vector-icons/AntDesign";
 

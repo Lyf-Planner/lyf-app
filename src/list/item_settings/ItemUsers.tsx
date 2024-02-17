@@ -1,9 +1,9 @@
-import { View, StyleSheet, Text, Pressable } from "react-native";
-import { UserList } from "../../users/UserList";
-import { UserListContext, sleep } from "../../../utils/constants";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import { View, StyleSheet, Text } from "react-native";
+import { UserList } from "../../components/users/UserList";
+import { UserListContext } from "../../utils/constants";
 import { useEffect, useMemo, useState } from "react";
 import { ScrollView, TouchableHighlight } from "react-native-gesture-handler";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
 export const ItemUsers = ({ item, updateDrawerIndex }) => {
   const [open, setOpen] = useState(false);

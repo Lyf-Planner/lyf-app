@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Horizontal, Vertical } from "../../components/MiscComponents";
-import { ListInput } from "../../components/list/ListInput";
+import { ListInput } from "../../list/ListInput";
 import {
   localisedMoment,
   dayFromDateString,
@@ -15,7 +15,7 @@ import {
   sleep,
 } from "../../utils/constants";
 import { LongPressGestureHandler } from "react-native-gesture-handler";
-import { ItemStatus, ListItemType } from "../../components/list/constants";
+import { ItemStatus, ListItemType } from "../../list/constants";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useItems } from "../../hooks/useItems";
 import Animated, {

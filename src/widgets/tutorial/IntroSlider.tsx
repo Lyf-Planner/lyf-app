@@ -1,8 +1,8 @@
 import { View, Text, Image, StyleSheet } from "react-native";
-import { deepBlue, deepBlueOpacity, primaryGreen } from "../../utils/constants";
-import AppIntroSlider from "react-native-app-intro-slider";
+import { deepBlueOpacity, primaryGreen } from "../../utils/constants";
 import { useTutorial } from "../../hooks/useTutorial";
 import { SaveTooltip } from "../../components/Icons";
+import AppIntroSlider from "react-native-app-intro-slider";
 
 const SLIDE_1_IMAGE = require(`../../../assets/images/tutorial/slide1.png`);
 const SLIDE_2_IMAGE = require(`../../../assets/images/tutorial/slide2.png`);

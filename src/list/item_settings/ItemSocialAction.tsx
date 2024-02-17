@@ -11,11 +11,11 @@ import {
   SocialAction,
   appleGray,
   primaryGreen,
-} from "../../../utils/constants";
+} from "../../utils/constants";
 import { useMemo, useRef, useState } from "react";
-import { useAuth } from "../../../authorisation/AuthProvider";
-import { useItems } from "../../../hooks/useItems";
-import { ActionButton } from "../../AsyncAction";
+import { useAuth } from "../../authorisation/AuthProvider";
+import { useItems } from "../../hooks/useItems";
+import { ActionButton } from "../../components/AsyncAction";
 import { getItemPermission } from "../constants";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 

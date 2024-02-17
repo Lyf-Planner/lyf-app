@@ -1,8 +1,8 @@
 import { View, StyleSheet } from "react-native";
 import { Planner } from "./Planner";
 import { ListDropdown } from "../../components/dropdowns/ListDropdown";
-import { ListType } from "../../components/list/ListInput";
-import { ListItemType } from "../../components/list/constants";
+import { ListType } from "../../list/ListInput";
+import { ListItemType } from "../../list/constants";
 import { useItems } from "../../hooks/useItems";
 import Entypo from "react-native-vector-icons/Entypo";
 
@@ -17,7 +17,7 @@ export const Timetable = () => {
             (x) => x.type === ListItemType.Event && !x.date && !x.day
           )}
           name="Upcoming Events"
-          icon={<Entypo name="calendar" size={22}/>}
+          icon={<Entypo name="calendar" size={22} />}
           listType={ListType.Event}
         />
         <ListDropdown

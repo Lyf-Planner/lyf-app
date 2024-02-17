@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Pressable, TextInput, View, StyleSheet } from "react-native";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { appleGray } from "../utils/constants";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export const SimpleSearch = ({ search, setSearch }) => {
   let textRef = useRef<any>();

@@ -1,25 +1,25 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { Horizontal } from "../../components/MiscComponents";
-import { deepBlue, eventsBadgeColor, sleep } from "../../utils/constants";
+import { StyleSheet, Text, View } from "react-native";
+import { Horizontal } from "../components/MiscComponents";
+import { deepBlue } from "../utils/constants";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
 import { ItemStatusDropdown } from "./item_settings/ItemStatusDropdown";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ItemTime } from "./item_settings/ItemTime";
 import { ItemNotification } from "./item_settings/ItemNotification";
 import { ItemDescription } from "./item_settings/ItemDescription";
 import { ItemDate } from "./item_settings/ItemDate";
-import { useAuth } from "../../authorisation/AuthProvider";
-import { useNotifications } from "../../authorisation/NotificationsLayer";
+import { useAuth } from "../authorisation/AuthProvider";
+import { useNotifications } from "../authorisation/NotificationsLayer";
 import { ItemTitle } from "./item_settings/ItemTitle";
 import { ItemType } from "./item_settings/ItemType";
-import { useItems } from "../../hooks/useItems";
+import { useItems } from "../hooks/useItems";
 import { AddDetails } from "./item_settings/AddDetails";
 import { OptionsMenu } from "./item_settings/OptionsMenu";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import { InviteHandler } from "./item_settings/InviteHandler";
 import { ItemUsers } from "./item_settings/ItemUsers";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
-export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
+export const ListItemDrawer = ({ item_id, updateDrawerIndex }) => {
   // We setup a local copy of the item so that certain fields can be published when needed
   const { user } = useAuth();
   const { enabled } = useNotifications();

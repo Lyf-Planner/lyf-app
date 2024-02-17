@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { eventsBadgeColor, primaryGreen } from "../../utils/constants";
-import { NoteTypes, TypeToDisplayName } from "./TypesAndHelpers";
+import { TypeToDisplayName } from "./TypesAndHelpers";
 
 const TYPES_TO_COLOR = {
   Text: primaryGreen,

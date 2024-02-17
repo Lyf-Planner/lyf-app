@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import { useAuth } from "../../../authorisation/AuthProvider";
-import { SocialAction } from "../../../utils/constants";
+import { useAuth } from "../../authorisation/AuthProvider";
+import { SocialAction } from "../../utils/constants";
 import {
   Menu,
   MenuOption,
@@ -9,8 +9,8 @@ import {
   renderers,
 } from "react-native-popup-menu";
 import { StyleSheet, View } from "react-native";
-import { Horizontal, Loader } from "../../MiscComponents";
-import { useItems } from "../../../hooks/useItems";
+import { Horizontal, Loader } from "../../components/MiscComponents";
+import { useItems } from "../../hooks/useItems";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 
 export const OptionsMenu = ({ item }) => {

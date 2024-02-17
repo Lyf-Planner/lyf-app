@@ -1,10 +1,10 @@
 import { StyleSheet, View, TextInput } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { NoteTypes } from "./TypesAndHelpers";
-import { ListInput } from "../../components/list/ListInput";
+import { ListInput } from "../../list/ListInput";
 import { eventsBadgeColor } from "../../utils/constants";
 import { NoteTypeBadge } from "./NoteTypeBadge";
-import { ItemStatus, ListItemType } from "../../components/list/constants";
+import { ListItemType } from "../../list/constants";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { v4 as uuid } from "uuid";
 import Entypo from "react-native-vector-icons/Entypo";

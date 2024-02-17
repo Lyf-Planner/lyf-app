@@ -12,7 +12,7 @@ import { Day } from "./DayDisplay";
 import { BouncyPressable } from "../../components/BouncyPressable";
 import { localisedMoment } from "../../utils/dates";
 import { useAuth } from "../../authorisation/AuthProvider";
-import { isTemplate } from "../../components/list/constants";
+import { isTemplate } from "../../list/constants";
 import { v4 as uuid } from "uuid";
 import { deepBlue } from "../../utils/constants";
 

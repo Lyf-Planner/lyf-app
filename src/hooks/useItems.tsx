@@ -13,11 +13,11 @@ import {
   updateItem as updateRemoteItem,
   updateItemSocial as updateRemoteItemSocial,
 } from "../rest/items";
-import { ItemStatus, ListItemType } from "../components/list/constants";
+import { ItemStatus, ListItemType } from "../list/constants";
 import { v4 as uuid } from "uuid";
 import { formatDateData, getStartOfCurrentWeek } from "../utils/dates";
-import "react-native-get-random-values";
 import { SocialAction } from "../utils/constants";
+import "react-native-get-random-values";
 
 // Assisted state management via provider
 export const ItemsProvider = ({ children }) => {

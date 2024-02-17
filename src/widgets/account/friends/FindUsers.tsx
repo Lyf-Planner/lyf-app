@@ -5,8 +5,8 @@ import { Loader } from "../../../components/MiscComponents";
 import { getUser } from "../../../rest/user";
 import { UserBanner } from "../../../components/users/UserBanner";
 import { primaryGreen } from "../../../utils/constants";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { UserListContext } from "../../../utils/constants";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export const FindUsers = () => {
   const [retrievedUser, updateRetrievedUser] = useState<any>();

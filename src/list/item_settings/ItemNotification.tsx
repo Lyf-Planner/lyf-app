@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,8 +6,8 @@ import {
   StyleSheet,
   TouchableHighlight,
 } from "react-native";
-import { useAuth } from "../../../authorisation/AuthProvider";
-import { useNotifications } from "../../../authorisation/NotificationsLayer";
+import { useAuth } from "../../authorisation/AuthProvider";
+import { useNotifications } from "../../authorisation/NotificationsLayer";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 

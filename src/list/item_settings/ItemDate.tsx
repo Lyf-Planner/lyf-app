@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
-import { NullableDatePicker } from "../../NullableDatePicker";
-import { primaryGreen } from "../../../utils/constants";
+import { NullableDatePicker } from "../../components/NullableDatePicker";
+import { primaryGreen } from "../../utils/constants";
 import { isTemplate } from "../constants";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 

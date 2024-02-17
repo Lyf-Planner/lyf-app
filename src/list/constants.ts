@@ -1,4 +1,4 @@
-import { Permission, primaryGreen } from "../../utils/constants";
+import { Permission, primaryGreen } from "../utils/constants";
 
 export enum ItemStatus {
   Cancelled = "Cancelled",

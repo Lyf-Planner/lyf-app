@@ -10,17 +10,17 @@ import {
   Directions,
 } from "react-native-gesture-handler";
 import { ITEM_STATUS_TO_COLOR, ItemStatus, ListItemType } from "./constants";
-import { TwentyFourHourToAMPM } from "../../utils/dates";
+import { TwentyFourHourToAMPM } from "../utils/dates";
 import { ListItemDrawer } from "./ListItemDrawer";
-import { useDrawer } from "../../hooks/useDrawer";
+import { useDrawer } from "../hooks/useDrawer";
 import { LinearGradient } from "expo-linear-gradient";
+import { primaryGreen, sleep } from "../utils/constants";
+import { useCallback, useMemo } from "react";
+import { useAuth } from "../authorisation/AuthProvider";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import * as Haptics from "expo-haptics";
-import { primaryGreen, sleep } from "../../utils/constants";
-import { useCallback, useMemo } from "react";
-import { useAuth } from "../../authorisation/AuthProvider";
 
 const SCALE_MS = 180;
 
@@ -48,7 +48,6 @@ export const ListItem = ({
     updateDrawer(
       <ListItemDrawer
         item_id={item.id}
-        closeDrawer={() => updateDrawer(null)}
         updateDrawerIndex={updateDrawerIndex}
       />
     );
