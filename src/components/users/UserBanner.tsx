@@ -4,6 +4,8 @@ import { FriendAction } from "../../widgets/account/friends/FriendActions";
 import { BouncyPressable } from "../BouncyPressable";
 import { UserListContext } from "../../utils/constants";
 import { ItemSocialAction } from "../../list/item_settings/ItemSocialAction";
+import { useModal } from "../../hooks/useModal";
+import { UserModal } from "./UserModal";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export const UserBanner = ({
@@ -11,15 +13,17 @@ export const UserBanner = ({
   context = UserListContext.Friends,
   item = null,
 }) => {
-  // Future plan to migrate this to a new "ElevatedPressable" component
-  // Pressing the user banner will show more user info
+  const { updateModal } = useModal();
 
   return (
-    <BouncyPressable style={styles.main} onPress={() => {}}>
+    <BouncyPressable
+      style={styles.main}
+      onPress={() => updateModal(<UserModal user_id={user.id} />)}
+    >
       <FontAwesome name="user" size={24} />
-      {user.name ? (
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.mainAliasText}>{user.name}</Text>
+      {user.details?.name ? (
+        <View style={styles.nameRow}>
+          <Text style={styles.mainAliasText}>{user.details.name}</Text>
           <Text style={styles.subAliasText}>{user.id}</Text>
         </View>
       ) : (
@@ -54,6 +58,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 3,
   },
+  nameRow: { flexDirection: "column", gap: 4 },
   actionWrapper: {
     marginLeft: "auto",
     width: 150,

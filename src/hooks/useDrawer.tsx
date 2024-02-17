@@ -15,8 +15,6 @@ export const DrawerProvider = ({ children }) => {
   const [drawer, updateDrawer] = useState<any>(null);
   const [height, updateHeight] = useState<any>(100);
 
-  console.log("height is", height);
-
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   // callbacks

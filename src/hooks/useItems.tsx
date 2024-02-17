@@ -180,8 +180,6 @@ export const ItemsProvider = ({ children }) => {
     if (deleteRemote) await deleteItem(id);
   };
 
-  console.log("items is", items.length);
-
   const EXPOSED = {
     initialised,
     items,
