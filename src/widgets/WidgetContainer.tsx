@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
-import { SaveTooltip } from "../components/Icons";
+import { View, Text, StyleSheet } from "react-native";
 import { Timetable } from "./timetable/TimetableWidget";
 import { useAuth } from "../authorisation/AuthProvider";
 import { Horizontal } from "../components/MiscComponents";
