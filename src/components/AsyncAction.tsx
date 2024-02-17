@@ -28,10 +28,10 @@ export const ActionButton = ({
         <Loader size={20} color={textColor} />
       ) : (
         <View style={styles.contentWrapper}>
-          {icon}
           <Text style={[styles.actionButtonText, { color: textColor }]}>
             {title}
           </Text>
+          {icon}
         </View>
       )}
     </BouncyPressable>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 8,
   },
-  contentWrapper: { flexDirection: "row", alignItems: "center", gap: 4 },
+  contentWrapper: { flexDirection: "row", alignItems: "center", gap: 8 },
   actionButtonText: {
     fontSize: 18,
     fontWeight: "500",

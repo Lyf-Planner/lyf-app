@@ -8,21 +8,14 @@ import { UserListContext } from "../../utils/constants";
 export const UserList = ({
   users,
   emptyText,
-  preloadedUsers = null,
   context = UserListContext.Friends,
   item = null,
 }) => {
-  const [loadedUsers, setLoadedUsers] = useState<any>(preloadedUsers);
-
-  useEffect(() => {
-    !loadedUsers && getUsers(users).then((res) => setLoadedUsers(res));
-  }, [users]);
-
   return (
     <View style={styles.main}>
-      {loadedUsers ? (
-        loadedUsers.length ? (
-          loadedUsers.map((x) => (
+      {users ? (
+        users.length ? (
+          users.map((x) => (
             <UserBanner user={x} context={context} item={item} key={x.id} />
           ))
         ) : (
@@ -32,6 +25,28 @@ export const UserList = ({
         <Loader size={30} />
       )}
     </View>
+  );
+};
+
+export const FetchUserList = ({
+  users,
+  emptyText,
+  context = UserListContext.Friends,
+  item = null,
+}) => {
+  const [loadedUsers, setLoadedUsers] = useState<any>(null);
+
+  useEffect(() => {
+    !loadedUsers && getUsers(users).then((res) => setLoadedUsers(res));
+  }, [users]);
+
+  return (
+    <UserList
+      users={users}
+      emptyText={emptyText}
+      context={context}
+      item={item}
+    />
   );
 };
 

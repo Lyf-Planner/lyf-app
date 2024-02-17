@@ -1,6 +1,6 @@
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import { UserList } from "../../users/UserList";
-import { UserListContext } from "../../../utils/constants";
+import { UserListContext, sleep } from "../../../utils/constants";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import { useEffect, useMemo, useState } from "react";
 import { ScrollView, TouchableHighlight } from "react-native-gesture-handler";
@@ -17,7 +17,12 @@ export const ItemUsers = ({ item, updateDrawerIndex }) => {
 
   useEffect(() => {
     if (open) updateDrawerIndex(1);
-    else if (!open && !item.desc) updateDrawerIndex(0);
+    else if (
+      (!open ||
+        item.permitted_users.concat(item.invited_users || []).length > 1) &&
+      !item.desc
+    )
+      updateDrawerIndex(0);
   }, [open]);
 
   return (
@@ -43,6 +48,7 @@ export const ItemUsers = ({ item, updateDrawerIndex }) => {
           <FontAwesome5Icon
             name={open ? "chevron-down" : "chevron-right"}
             style={{ marginLeft: "auto" }}
+            size={16}
           />
         </View>
       </TouchableHighlight>
@@ -51,7 +57,6 @@ export const ItemUsers = ({ item, updateDrawerIndex }) => {
         <ScrollView style={styles.userList}>
           <UserList
             users={users}
-            preloadedUsers={users}
             emptyText={"No users on this item :)"} // Depressing case to think about
             context={UserListContext.Item}
             item={item}

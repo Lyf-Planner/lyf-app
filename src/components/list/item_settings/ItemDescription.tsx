@@ -5,8 +5,8 @@ import {
   StyleSheet,
   TouchableHighlight,
 } from "react-native";
-import { offWhite } from "../../../utils/constants";
-import { useState } from "react";
+import { offWhite, sleep } from "../../../utils/constants";
+import { useEffect, useState } from "react";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
@@ -21,6 +21,13 @@ export const ItemDescription = ({
   const updateDescription = () => {
     updateItem({ ...item, desc: description });
   };
+
+  // Move the drawer up if we have a description set
+  useEffect(() => {
+    sleep(300).then(() => {
+      if (item.desc) updateDrawerIndex(1);
+    });
+  }, []);
 
   return (
     <View style={styles.mainContainer}>

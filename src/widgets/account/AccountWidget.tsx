@@ -28,15 +28,14 @@ export const AccountWidget = ({ logout, deleteMe }) => {
             <Text>
               My Friends{" "}
               <Text style={styles.subtitle}>
-                ( {user.social.friends.length} )
+                ({user.social.friends.length})
               </Text>
             </Text>
           }
           icon={<FontAwesome name="users" size={18} />}
         >
           <UserList
-            users={user.social.friends}
-            preloadedUsers={user.social.friends.map((x) => {
+            users={user.social.friends.map((x) => {
               return { id: x };
             })}
             emptyText={"Search for friends below :)"}
@@ -47,7 +46,7 @@ export const AccountWidget = ({ logout, deleteMe }) => {
             <Text>
               Friend Requests{" "}
               <Text style={styles.subtitle}>
-                ( {user.social.requests.length} )
+                ({user.social.requests.length})
               </Text>
             </Text>
           }
@@ -55,8 +54,7 @@ export const AccountWidget = ({ logout, deleteMe }) => {
           bgColor={"rgba(0,0,0,0.05)"}
         >
           <UserList
-            users={user.social.requests}
-            preloadedUsers={user.social.requests?.map((x) => {
+            users={user.social.requests?.map((x) => {
               return { id: x };
             })}
             emptyText={"No friend requests at the moment :)"}
@@ -101,6 +99,6 @@ const styles = StyleSheet.create({
   subtitle: {
     opacity: 0.4,
     fontWeight: "600",
-    fontSize: 16,
+    fontSize: 18,
   },
 });

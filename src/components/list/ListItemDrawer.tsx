@@ -25,11 +25,10 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
   const { enabled } = useNotifications();
   const { items, updateItem } = useItems();
 
-  const item = useMemo(
-    () => items.find((x) => x.id === item_id),
-    [items, item_id]
-  );
-  if (!item) closeDrawer();
+  const item = useMemo(() => {
+    console.log("Received items updated with", items.length, "items");
+    return items.find((x) => x.id === item_id);
+  }, [items, item_id]);
 
   const notification = useMemo(
     () =>
@@ -74,13 +73,6 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateDrawerIndex }) => {
     () => item && !item.date && !item.time && !descOpen && !notification,
     [item, notification]
   );
-
-  // Move the drawer up if we have a description set
-  useEffect(() => {
-    sleep(300).then(() => {
-      if (item.desc) updateDrawerIndex(1);
-    });
-  }, []);
 
   if (!item) return null;
   // Pass "invited" to block any input component with a localised value

@@ -10,6 +10,8 @@ import { formatDateData } from "../../../utils/dates";
 import { useNotifications } from "../../../authorisation/NotificationsLayer";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import { useModal } from "../../../hooks/useModal";
+import { AddFriendsModal } from "./AddFriendsModal";
 
 // The button component can definitely be abstracted here
 
@@ -23,6 +25,7 @@ export const AddDetails = ({
   descOpen,
 }) => {
   const { enabled } = useNotifications();
+  const { updateModal } = useModal();
   return (
     <View style={styles.mainContainer}>
       <View style={styles.detailsListWrapper}>
@@ -103,9 +106,7 @@ export const AddDetails = ({
           style={styles.addFieldContainer}
           underlayColor={"rgba(0,0,0,0.5)"}
           onPress={() => {
-            // Open modal!
-            updateItem({ ...item, desc: "" });
-            updateDrawerIndex(1);
+            updateModal(<AddFriendsModal item_id={item.id} />);
           }}
         >
           <View style={styles.addFieldContent}>

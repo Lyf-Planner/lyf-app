@@ -88,6 +88,7 @@ export const ItemsProvider = ({ children }) => {
       var i = tmp.findIndex((x) => x.id === item.id);
       const before = tmp[i];
       tmp[i] = item;
+      tmp.length === 0 && console.error("UPDATE REMOVING ITEMS");
       setItems(tmp);
 
       if (updateRemote) {
@@ -156,9 +157,9 @@ export const ItemsProvider = ({ children }) => {
         user_id === user.id
       ) {
         // Remove from items and user
-        removeItem(item, false);
+        await removeItem(item, false);
       } else {
-        updateItem({ ...item, ...result }, false);
+        await updateItem({ ...item, ...result }, false);
       }
     },
     [user]
@@ -191,6 +192,8 @@ export const ItemsProvider = ({ children }) => {
     },
     [items, user]
   );
+
+  console.log("items is", items.length);
 
   const EXPOSED = {
     initialised,

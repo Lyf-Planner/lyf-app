@@ -15,17 +15,17 @@ export const AppProviders = ({ children }) => {
       <NotificationsLayer>
         <ItemsProvider>
           <MenuProvider>
-            <BottomSheetModalProvider>
-              <DrawerProvider>
-                <NotesProvider>
-                  <ModalProvider>
+            <ModalProvider>
+              <BottomSheetModalProvider>
+                <DrawerProvider>
+                  <NotesProvider>
                     <InitialisedProvider>
                       <TutorialProvider>{children}</TutorialProvider>
                     </InitialisedProvider>
-                  </ModalProvider>
-                </NotesProvider>
-              </DrawerProvider>
-            </BottomSheetModalProvider>
+                  </NotesProvider>
+                </DrawerProvider>
+              </BottomSheetModalProvider>
+            </ModalProvider>
           </MenuProvider>
         </ItemsProvider>
       </NotificationsLayer>
