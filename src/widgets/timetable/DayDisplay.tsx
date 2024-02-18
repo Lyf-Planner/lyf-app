@@ -213,7 +213,6 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 10,
     padding: 10,
-    elavation: 1,
     zIndex: 10,
     flexDirection: "column",
   },
