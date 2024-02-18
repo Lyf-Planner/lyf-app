@@ -29,9 +29,9 @@ export const UserModal = ({ user_id }) => {
           </TouchableHighlight>
           <FontAwesome name="user" size={50} />
           <View style={styles.nameRow}>
-            {user.details?.name ? (
+            {user.name ? (
               <View style={styles.bothNames}>
-                <Text style={styles.mainAliasText}>{user.details.name}</Text>
+                <Text style={styles.mainAliasText}>{user.name}</Text>
                 <Text style={styles.subAliasText}>{user.id}</Text>
               </View>
             ) : (
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   nameRow: { flexDirection: "row", alignItems: "center" },
-  bothNames: { flexDirection: "column", gap: 4 },
+  bothNames: { flexDirection: "column", gap: 4, alignItems: "center" },
   header: {
     flexDirection: "column",
     justifyContent: "center",
