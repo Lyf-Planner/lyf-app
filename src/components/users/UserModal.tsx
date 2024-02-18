@@ -44,7 +44,7 @@ export const UserModal = ({ user_id }) => {
           </View>
           <Horizontal style={styles.firstSeperator} />
           <Text style={styles.subtitle}>Items: {user.items}</Text>
-          <Text style={styles.subtitle}>Notes: {user.notes}</Text>
+          <Text style={styles.subtitle}>Lists: {user.notes}</Text>
         </View>
       ) : (
         <Loader />
