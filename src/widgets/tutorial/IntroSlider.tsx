@@ -48,6 +48,11 @@ export const IntroSlideItem = ({ item }) => {
       <View style={styles.textWrapper}>
         <Text style={styles.bottomText}>{item.bottomText}</Text>
       </View>
+      {item.thirdText && (
+        <View style={styles.textWrapper}>
+          <Text style={styles.bottomText}>{item.thirdText}</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -114,39 +119,43 @@ const slides = [
     topText:
       "Lyf is the only tool you need to plan and organise everything on your plate",
     bottomText:
-      "It is your notebook for tasks, events and todo lists - to keep everything on your radar in one place!",
+      "It is your personal all-in-one notebook for every event or task on your radar",
+    thirdText: "Say goodbye to Notes and Calendars!",
   },
   {
     key: 2,
     title: "Getting Started",
     image: SLIDE_2_IMAGE,
     topText:
-      "To create an event or task, simply type it's title into the desired day",
-    bottomText:
-      "If you can't find a day for it, that's fine! Just put it in Upcoming Events or To Do List - you can always add a date to it later",
+      "To create an event or task, simply type it into the relevant day and press done",
+    bottomText: "If you can't find a day for it, that's fine!",
+    thirdText:
+      "Just put it in Upcoming Events or To Do List - you can always add a date later",
   },
   {
     key: 3,
     title: "Routines",
     image: SLIDE_3_IMAGE,
     topText: "Entering things you do every week can get tedious…",
-    bottomText:
-      "You want to start off by putting these items in your Routine! These will be copied into your timetable each week",
+    bottomText: "Lyf optimises this with it's Routine!",
+    thirdText:
+      "Items in your Routine are be copied into your timetable every week",
   },
   {
     key: 4,
-    title: "Planning Details",
+    title: "Adding Details",
     image: SLIDE_4_IMAGE,
-    topText: "To add information to an event or task, simply swipe it right",
+    topText: "To add information or details to an item, simply swipe it right",
     bottomText:
-      "Here you can set things like times, reminders, links, locations, even add other users!",
+      "Here you can set dates, times, reminders, status and descriptions",
+    thirdText: "Of course, you can also invite friends!",
   },
   {
     key: 5,
     title: "Completing Tasks",
     image: SLIDE_5_IMAGE,
     topText:
-      "When you finish an item, simply tap on it, and it's status will change to Done :)",
+      "When you finish an item, simply tap on it, and it will be marked as Done :)",
     bottomText:
       "If you want to get more granular with your planning and mark an item as “In Progress”, simply swipe it left",
   },
@@ -155,16 +164,16 @@ const slides = [
     title: "Completing Days",
     image: SLIDE_6_IMAGE,
     topText:
-      "After everything is done, you can hold down the top of the day to move to the next",
+      "Once the day is completed, you can hold it down to move on to the next",
     bottomText:
-      "If you want the day back, just hold down the week dates at the top of the week!",
+      "To move back a day, hold down the section containing the week's date range!",
   },
   {
     key: 7,
     title: "All Done!",
     noImage: true,
-    topText: "You're now ready to start using Lyf :)",
-    bottomText:
-      "To access this Tutorial again, just press the question mark at the top of the page. Enjoy!",
+    topText:
+      "To access this Tutorial again, just press the question mark at the top of the page",
+    bottomText: "Enjoy!",
   },
 ];

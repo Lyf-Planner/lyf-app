@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
   },
-  pressable: { paddingRight: 10, paddingVertical: 4, borderRadius: 10 },
+  pressable: { paddingRight: 10, paddingVertical: 6, borderRadius: 10 },
   eventText: { fontSize: 20, fontWeight: "500", fontFamily: "InterSemi" },
   subtitle: {
     textAlign: "center",
