@@ -24,25 +24,28 @@ export const AddDetails = ({
   setDescOpen,
   descOpen,
   invited,
+  noteItem = false,
 }) => {
   const { enabled } = useNotifications();
   const { updateModal } = useModal();
   return (
     <View style={styles.mainContainer}>
       <View style={styles.detailsListWrapper}>
-        <TouchableHighlight
-          style={styles.addFieldContainer}
-          underlayColor={"rgba(0,0,0,0.5)"}
-          onPress={() => {
-            if (invited) return;
-            updateModal(<AddFriendsModal item_id={item.id} />);
-          }}
-        >
-          <View style={styles.addFieldContent}>
-            <FontAwesome5Icon name="users" color={"white"} size={16} />
-            <Text style={styles.addFieldText}>Add Friends +</Text>
-          </View>
-        </TouchableHighlight>
+        {!noteItem && (
+          <TouchableHighlight
+            style={styles.addFieldContainer}
+            underlayColor={"rgba(0,0,0,0.5)"}
+            onPress={() => {
+              if (invited) return;
+              updateModal(<AddFriendsModal item_id={item.id} />);
+            }}
+          >
+            <View style={styles.addFieldContent}>
+              <FontAwesome5Icon name="users" color={"white"} size={16} />
+              <Text style={styles.addFieldText}>Add Friends +</Text>
+            </View>
+          </TouchableHighlight>
+        )}
         {!item.date && !isTemplate(item) && (
           <TouchableHighlight
             style={styles.addFieldContainer}
@@ -73,7 +76,7 @@ export const AddDetails = ({
             </View>
           </TouchableHighlight>
         )}
-        {!notification && (
+        {!notification && !noteItem && (
           <TouchableHighlight
             style={styles.addNotificationContainer}
             underlayColor={"rgba(0,0,0,0.5)"}

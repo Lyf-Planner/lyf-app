@@ -30,6 +30,7 @@ export const ListItem = ({
   removeItem,
   badgeColor,
   badgeTextColor,
+  fromNote = false,
 }) => {
   const { updateDrawer, updateSheetMinHeight } = useDrawer();
   const { user } = useAuth();
@@ -50,6 +51,8 @@ export const ListItem = ({
         item_id={item.id}
         closeDrawer={() => updateDrawer(null)}
         updateSheetMinHeight={updateSheetMinHeight}
+        preloaded={fromNote ? item : null}
+        updatePreloaded={fromNote ? updateItem : null}
       />
     );
   };
@@ -217,6 +220,7 @@ export const ListItem = ({
     if (item.status === ItemStatus.Done) return "white";
     if (item.status === ItemStatus.InProgress) return "black";
     if (item.status === ItemStatus.Tentative) return "black";
+    if (item.status === ItemStatus.Cancelled) return "black";
     else return badgeTextColor;
   };
 

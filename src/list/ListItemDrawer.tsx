@@ -20,22 +20,35 @@ import { ItemUsers } from "./item_settings/ItemUsers";
 import { isTemplate } from "./constants";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
-
 export const ListItemDrawer = ({
   item_id,
   closeDrawer,
   updateSheetMinHeight,
+  // Used for Note items
+  preloaded = null,
+  updatePreloaded = null,
 }) => {
   // We setup a local copy of the item so that certain fields can be published when needed
   const { user } = useAuth();
   const { enabled } = useNotifications();
   const { items, updateItem } = useItems();
+  const [preloadedItem, setPreloadedItem] = useState(preloaded);
 
   const item = useMemo(() => {
-    console.log("Received items updated with", items.length, "items");
+    if (preloadedItem) return preloadedItem;
     return items.find((x) => x.id === item_id);
-  }, [items, item_id]);
+  }, [items, preloadedItem, item_id]);
   if (!item) closeDrawer();
+
+  // Wrapper to handle either the preloaded case or fetched from store case
+  const modifyItem = (item) => {
+    if (preloadedItem) {
+      setPreloadedItem(item);
+      updatePreloaded(item);
+    } else {
+      updateItem(item);
+    }
+  };
 
   const notification = useMemo(
     () =>
@@ -72,7 +85,7 @@ export const ListItemDrawer = ({
       if (!enabled) tmp.splice(userIndex, 1);
       else tmp[userIndex].minutes_before = minutes_before;
     }
-    updateItem({ ...prereqItem, notifications: tmp });
+    modifyItem({ ...prereqItem, notifications: tmp });
   };
   const updateNotify = (notify) => updateNotification(!!notify, "");
   const updateMinutes = (minutes_before) =>
@@ -94,20 +107,22 @@ export const ListItemDrawer = ({
         <View style={{ gap: 8, zIndex: 10 }}>
           <View style={styles.headerBackground}>
             <View style={{ marginLeft: "auto", marginRight: 8 }}>
-              <ItemType item={item} updateItem={updateItem} invited={invited} />
+              <ItemType item={item} updateItem={modifyItem} invited={invited} />
             </View>
             <ItemTitle
               item={item}
-              updateItem={updateItem}
+              updateItem={modifyItem}
               invited={invited}
               updateSheetMinHeight={updateSheetMinHeight}
             />
-            {!invited && <OptionsMenu item={item} />}
+            {!invited && !preloaded && (
+              <OptionsMenu item={item} />
+            )}
           </View>
           {invited ? (
             <InviteHandler item={item} />
           ) : (
-            <ItemStatusDropdown item={item} updateItem={updateItem} />
+            <ItemStatusDropdown item={item} updateItem={modifyItem} />
           )}
         </View>
         <Horizontal style={styles.firstSeperator} />
@@ -124,13 +139,13 @@ export const ListItemDrawer = ({
           )}
 
           {(item.date || isTemplate(item)) && (
-            <ItemDate item={item} updateItem={updateItem} invited={invited} />
+            <ItemDate item={item} updateItem={modifyItem} invited={invited} />
           )}
 
           {item.time && (
             <ItemTime
               item={item}
-              updateItem={updateItem}
+              updateItem={modifyItem}
               updateNotification={updateNotification}
               invited={invited}
             />
@@ -149,7 +164,7 @@ export const ListItemDrawer = ({
           {descOpen && (
             <ItemDescription
               item={item}
-              updateItem={updateItem}
+              updateItem={modifyItem}
               setDescOpen={setDescOpen}
               invited={invited}
               updateSheetMinHeight={updateSheetMinHeight}
@@ -162,12 +177,13 @@ export const ListItemDrawer = ({
           )}
           <AddDetails
             item={item}
-            updateItem={updateItem}
+            updateItem={modifyItem}
             notification={notification}
             updateNotify={updateNotify}
             setDescOpen={setDescOpen}
             descOpen={descOpen}
             invited={invited}
+            noteItem={!!preloaded}
           />
         </View>
 

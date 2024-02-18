@@ -86,6 +86,7 @@ export const NoteView = ({
           addItem={addItem}
           updateItem={updateItem}
           removeItem={removeItem}
+          fromNote
           badgeColor="rgb(30 41 59)"
           badgeTextColor="rgb(203 213 225)"
           listBackgroundColor={eventsBadgeColor}

@@ -18,6 +18,7 @@ export const ListInput = ({
   badgeTextColor = "black",
   listBackgroundColor = "white",
   listWrapperStyles = {},
+  fromNote = false,
 }) => {
   return (
     <View
@@ -30,17 +31,17 @@ export const ListInput = ({
         listWrapperStyles,
       ]}
     >
-      {items
-        .map((x, i: number) => (
-          <ListItem
-            key={x.template_id || x.id}
-            updateItem={updateItem}
-            removeItem={removeItem}
-            badgeColor={badgeColor}
-            badgeTextColor={badgeTextColor}
-            item={x}
-          />
-        ))}
+      {items.map((x, i: number) => (
+        <ListItem
+          key={x.template_id || x.id}
+          updateItem={updateItem}
+          removeItem={removeItem}
+          badgeColor={badgeColor}
+          fromNote={fromNote}
+          badgeTextColor={badgeTextColor}
+          item={x}
+        />
+      ))}
       <NewItem type={type} addItem={addItem} />
     </View>
   );
