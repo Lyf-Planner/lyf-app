@@ -61,7 +61,7 @@ export const AccountWidget = ({ logout, deleteMe }) => {
           />
         </SettingDropdown>
         <SettingDropdown
-          name="Search Users"
+          name="Find Users"
           icon={<FontAwesome name="search" size={20} />}
         >
           <FindUsers />
