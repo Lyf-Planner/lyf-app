@@ -17,9 +17,15 @@ import { AddDetails } from "./item_settings/AddDetails";
 import { OptionsMenu } from "./item_settings/OptionsMenu";
 import { InviteHandler } from "./item_settings/InviteHandler";
 import { ItemUsers } from "./item_settings/ItemUsers";
+import { isTemplate } from "./constants";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
-export const ListItemDrawer = ({ item_id, closeDrawer, updateSheetMinHeight }) => {
+
+export const ListItemDrawer = ({
+  item_id,
+  closeDrawer,
+  updateSheetMinHeight,
+}) => {
   // We setup a local copy of the item so that certain fields can be published when needed
   const { user } = useAuth();
   const { enabled } = useNotifications();
@@ -117,7 +123,7 @@ export const ListItemDrawer = ({ item_id, closeDrawer, updateSheetMinHeight }) =
             <ItemUsers item={item} />
           )}
 
-          {item.date && (
+          {(item.date || isTemplate(item)) && (
             <ItemDate item={item} updateItem={updateItem} invited={invited} />
           )}
 

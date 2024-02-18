@@ -8,10 +8,11 @@ import {
 import { primaryGreen } from "../../utils/constants";
 import { formatDateData } from "../../utils/dates";
 import { useNotifications } from "../../authorisation/NotificationsLayer";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import { useModal } from "../../hooks/useModal";
 import { AddFriendsModal } from "./AddFriendsModal";
+import { isTemplate } from "../constants";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
 // The button component can definitely be abstracted here
 
@@ -42,7 +43,7 @@ export const AddDetails = ({
             <Text style={styles.addFieldText}>Add Friends +</Text>
           </View>
         </TouchableHighlight>
-        {!item.date && (
+        {!item.date && !isTemplate(item) && (
           <TouchableHighlight
             style={styles.addFieldContainer}
             underlayColor={"rgba(0,0,0,0.5)"}
