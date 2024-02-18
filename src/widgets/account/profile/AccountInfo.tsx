@@ -8,6 +8,7 @@ import {
 import { useAuth } from "../../../authorisation/AuthProvider";
 import { primaryGreen } from "../../../utils/constants";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export const AccountInfo = () => {
   const { user, updateUser } = useAuth();
@@ -34,9 +35,18 @@ export const AccountInfo = () => {
             fieldName={"Display Name"}
             fieldValue={
               user.details?.name ? (
-                <Text style={styles.detailsFieldValueText} numberOfLines={1}>
-                  {user.details?.name}
-                </Text>
+                <View style={styles.occupiedFieldRow}>
+                  <Text style={styles.detailsFieldValueText} numberOfLines={1}>
+                    {user.details?.name}
+                  </Text>
+                  <TouchableHighlight
+                    style={styles.editPressable}
+                    underlayColor={"rgba(0,0,0,0.5)"}
+                    onPress={() => fieldPrompt(updateName, "Name")}
+                  >
+                    <MaterialIcons name="edit" size={18} />
+                  </TouchableHighlight>
+                </View>
               ) : (
                 <AddField func={updateName} name="Name" />
               )
@@ -48,9 +58,18 @@ export const AccountInfo = () => {
             fieldName={"Email"}
             fieldValue={
               user.details?.email ? (
-                <Text style={styles.detailsFieldValueText} numberOfLines={1}>
-                  {user.details?.email}
-                </Text>
+                <View style={styles.occupiedFieldRow}>
+                  <Text style={styles.detailsFieldValueText} numberOfLines={1}>
+                    {user.details?.email}
+                  </Text>
+                  <TouchableHighlight
+                    style={styles.editPressable}
+                    underlayColor={"rgba(0,0,0,0.5)"}
+                    onPress={() => fieldPrompt(updateEmail, "Email")}
+                  >
+                    <MaterialIcons name="edit" size={18} />
+                  </TouchableHighlight>
+                </View>
               ) : (
                 <AddField func={updateEmail} name="Email" />
               )
@@ -75,9 +94,7 @@ const AddField = ({ func, name }) => {
   return (
     <TouchableHighlight
       style={styles.addFieldTouchable}
-      onPress={() => {
-        Alert.prompt(`Add ${name}`, `Please enter your ${name} below`, func);
-      }}
+      onPress={() => fieldPrompt(func, name)}
     >
       <View style={styles.addFieldView}>
         <Text style={styles.addFieldText}>Add {name}</Text>
@@ -85,6 +102,10 @@ const AddField = ({ func, name }) => {
       </View>
     </TouchableHighlight>
   );
+};
+
+const fieldPrompt = (func, name) => {
+  Alert.prompt(`Add ${name}`, `Please enter your ${name} below`, func);
 };
 
 const styles = StyleSheet.create({
@@ -103,6 +124,17 @@ const styles = StyleSheet.create({
   },
   detailsColumn: { flexDirection: "column", gap: 8 },
 
+  occupiedFieldRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: 220,
+  },
+  editPressable: {
+    marginLeft: "auto",
+    padding: 4,
+    backgroundColor: "rgba(0,0,0,0.1)",
+    borderRadius: 4,
+  },
   addFieldView: {
     paddingVertical: 4,
     paddingHorizontal: 8,
