@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import {
@@ -58,12 +59,33 @@ export const AuthGateway = ({ children }) => {
       }
     });
 
-  AppState.addEventListener("change", (nextAppState) => {
-    if (AppState.currentState === "active" && nextAppState !== "active") {
-      console.log("storing lastOpen as", new Date());
-      storeAsyncData("lastOpen", new Date().toISOString());
-    }
-  });
+  // Sync!
+  const appState = useRef(AppState.currentState);
+  useEffect(() => {
+
+    const refreshOnOpen = AppState.addEventListener(
+      "change",
+      (nextAppState) => {
+        if (
+          appState.current.match(/background|inactive/) &&
+          nextAppState === "active"
+        ) {
+          getAsyncData("token").then(
+            (token) =>
+              token &&
+              autologin().then((cloudUser) => {
+                updateLoggingIn(true);
+                updateUser(cloudUser);
+                updateLoggingIn(false);
+              })
+          );
+        }
+        appState.current = nextAppState;
+      }
+    );
+
+    return () => refreshOnOpen.remove();
+  }, [user]);
 
   const saveAndLogout = async (deleted = false) => {
     !deleted && saveUser(user);
@@ -90,16 +112,9 @@ export const AuthGateway = ({ children }) => {
   );
 
   useEffect(() => {
-    getAsyncData("lastOpen").then((lastOpen) => {
-      const lastDate = new Date(lastOpen);
-      const overFiveMins =
-        new Date().getTime() - lastDate.getTime() > 5 * 60 * 1000;
+    updateLoggingIn(true);
+    refreshUser();
 
-      if (!user || overFiveMins) {
-        updateLoggingIn(true);
-        refreshUser();
-      }
-    });
     // Check if we were logged in last time - ask backend if token is still valid
   }, []);
 
