@@ -119,7 +119,7 @@ export const Requested = ({ user_id }) => {
       </MenuOptions>
       <MenuTrigger>
         <ActionButton
-          title="Requested"
+          title="Sent"
           func={() => {}}
           icon={<FontAwesome5Icon name="arrow-right" color="white" size={18} />}
           color={"rgba(0,0,0,0.5)"}
@@ -139,7 +139,7 @@ export const AddFriend = ({ user_id }) => {
 
   return (
     <ActionButton
-      title="Add Friend"
+      title="Add"
       func={addFriend}
       icon={<FontAwesome5Icon name="plus" color="white" size={18} />}
       color={primaryGreen}

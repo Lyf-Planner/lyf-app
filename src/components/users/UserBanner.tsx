@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   nameRow: { flexDirection: "column", gap: 4 },
   actionWrapper: {
     marginLeft: "auto",
-    width: 150,
+    width: 110,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
