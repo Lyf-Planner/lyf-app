@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput } from "react-native";
+import { StyleSheet, View, TextInput, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { NoteTypes } from "./TypesAndHelpers";
 import { ListInput } from "../../list/ListInput";
@@ -70,6 +70,11 @@ export const NoteView = ({
           onEndEditing={() => publishUpdate(note)}
           returnKeyType="done"
         />
+        {note.type === NoteTypes.List && (
+          <Text style={[styles.subtitle, { marginLeft: "auto" }]}>
+            ({note.content.length} Items)
+          </Text>
+        )}
         <NoteTypeBadge type={note.type} />
       </View>
       {note.type === NoteTypes.Text ? (
@@ -109,12 +114,13 @@ const styles = StyleSheet.create({
   myNotesHeader: {
     flexDirection: "row",
     paddingRight: 8,
+    gap: 8,
     height: 40,
     alignItems: "center",
     marginTop: 8,
     marginBottom: 2,
   },
-  myNotesTitle: { fontSize: 22, fontWeight: "700", width: "80%" },
+  myNotesTitle: { fontSize: 22, fontWeight: "700" },
   noteText: {
     borderWidth: 1,
     marginTop: 6,
@@ -125,5 +131,11 @@ const styles = StyleSheet.create({
     height: 375,
     padding: 8,
     marginBottom: 8,
+  },
+  subtitle: {
+    textAlign: "center",
+    opacity: 0.6,
+    fontWeight: "600",
+    fontSize: 15,
   },
 });
