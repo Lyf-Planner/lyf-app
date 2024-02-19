@@ -128,7 +128,7 @@ export const AuthGateway = ({ children }) => {
   };
 
   if (loggingIn) return <LoadingScreen text={"Remembering your schedule..."} />;
-  else if (!user)
+  else if (!user?.id)
     return <Login updateUser={updateUser} setInitiated={setInitiated} />;
 
   return (

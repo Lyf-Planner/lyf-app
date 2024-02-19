@@ -27,6 +27,7 @@ export const ItemsProvider = ({ children }) => {
 
   // Timetable needs to fetch all the list item ids before anything else
   useEffect(() => {
+    if (!user) return;
     let itemIds = user.timetable.items.map((x) => x.id);
     let inviteIds = user.timetable.invited_items;
     inviteIds = inviteIds.filter((x) => !itemIds.includes(x));
