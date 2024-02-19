@@ -4,7 +4,7 @@ import { NoteTypes } from "./TypesAndHelpers";
 import { ListInput } from "../../list/ListInput";
 import { eventsBadgeColor } from "../../utils/constants";
 import { NoteTypeBadge } from "./NoteTypeBadge";
-import { ListItemType } from "../../list/constants";
+import { ItemStatus, ListItemType } from "../../list/constants";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { v4 as uuid } from "uuid";
 import Entypo from "react-native-vector-icons/Entypo";
@@ -32,6 +32,7 @@ export const NoteView = ({
       id: uuid(),
       created: new Date().toISOString(),
       title,
+      status: ItemStatus.Upcoming,
       type: ListItemType.Task,
       permitted_users: [{ user_id: user.id, permissions: "Owner" }],
     };
