@@ -1,6 +1,6 @@
 {
   "name": "lyf-app",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "scripts": {
     "start": "npx expo start --dev-client",
     "build:android-sim": "eas build --platform android --profile sim-dev",
