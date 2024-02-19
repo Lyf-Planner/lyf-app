@@ -62,7 +62,6 @@ export const AuthGateway = ({ children }) => {
   // Sync!
   const appState = useRef(AppState.currentState);
   useEffect(() => {
-
     const refreshOnOpen = AppState.addEventListener(
       "change",
       (nextAppState) => {
@@ -74,9 +73,8 @@ export const AuthGateway = ({ children }) => {
             (token) =>
               token &&
               autologin().then((cloudUser) => {
-                updateLoggingIn(true);
+                console.log("Syncing User");
                 updateUser(cloudUser);
-                updateLoggingIn(false);
               })
           );
         }
@@ -112,10 +110,9 @@ export const AuthGateway = ({ children }) => {
   );
 
   useEffect(() => {
+    // Attempt autologin when first entering
     updateLoggingIn(true);
     refreshUser();
-
-    // Check if we were logged in last time - ask backend if token is still valid
   }, []);
 
   const EXPOSED = {
@@ -131,7 +128,7 @@ export const AuthGateway = ({ children }) => {
   };
 
   if (loggingIn) return <LoadingScreen text={"Remembering your schedule..."} />;
-  else if (!user?.id)
+  else if (!user)
     return <Login updateUser={updateUser} setInitiated={setInitiated} />;
 
   return (

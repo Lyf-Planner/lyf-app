@@ -27,13 +27,16 @@ export const ItemsProvider = ({ children }) => {
 
   // Timetable needs to fetch all the list item ids before anything else
   useEffect(() => {
-    if (!initialised) {
-      let itemIds = user.timetable.items.map((x) => x.id);
-      let inviteIds = user.timetable.invited_items;
+    let itemIds = user.timetable.items.map((x) => x.id);
+    let inviteIds = user.timetable.invited_items;
+    inviteIds = inviteIds.filter((x) => !itemIds.includes(x));
+    let fetchedIds = itemIds.concat(inviteIds);
 
-      inviteIds = inviteIds.filter((x) => !itemIds.includes(x));
-      let fetchedIds = itemIds.concat(inviteIds);
+    const itemChanges =
+      JSON.stringify(fetchedIds) !== JSON.stringify(items.map((x) => x.id));
+    console.log("(Item Changes || Uninitialised Items) detected?", itemChanges);
 
+    if (!initialised || itemChanges) {
       getItems(fetchedIds).then((results) => {
         // Sort by created
         results.sort((a, b) =>
