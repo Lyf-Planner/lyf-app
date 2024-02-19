@@ -19,10 +19,6 @@ export const ItemStatusDropdown = ({ item, updateItem }) => {
     updateItem({ ...item, status });
   };
 
-  useEffect(() => {
-    setLocalValue(item.status);
-  }, [item.status]);
-
   const items = StatusOptions.map((x) => {
     return {
       label: statusTextDisplay(item.type, x),
@@ -37,10 +33,14 @@ export const ItemStatusDropdown = ({ item, updateItem }) => {
   const textColor = localValue === ItemStatus.Done ? "white" : "black";
 
   useEffect(() => {
-    if (localValue !== item.status) {
+    if (item.status && localValue !== item.status) {
       updateStatus(localValue);
     }
   }, [localValue]);
+
+  useEffect(() => {
+    setLocalValue(item.status);
+  }, [item]);
 
   return (
     <DropDownPicker
