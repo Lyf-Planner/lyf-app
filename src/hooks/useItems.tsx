@@ -31,7 +31,7 @@ export const ItemsProvider = ({ children }) => {
       let itemIds = user.timetable.items.map((x) => x.id);
       let inviteIds = user.timetable.invited_items;
 
-      inviteIds = inviteIds.filter((x) => itemIds.includes(x));
+      inviteIds = inviteIds.filter((x) => !itemIds.includes(x));
       let fetchedIds = itemIds.concat(inviteIds);
 
       getItems(fetchedIds).then((results) => {
@@ -49,8 +49,16 @@ export const ItemsProvider = ({ children }) => {
         setInitialised(true);
 
         // Remove items from user that no longer exist or are old - appears as a background task
-        if (fetchedIds.length !== relevant.length) {
-          console.warn("User lost some items!");
+        if (
+          JSON.stringify(relevant.map((x) => x.id)) !==
+          JSON.stringify(fetchedIds)
+        ) {
+          console.warn(
+            "User lost some items! Fetched",
+            fetchedIds,
+            "and got",
+            relevant.map((x) => x.id)
+          );
           const relevant_ids = relevant.map((x) => x.id);
           var fresh_items = user.timetable.items.filter((x) =>
             relevant_ids.includes(x.id)
