@@ -28,41 +28,47 @@ export const ItemsProvider = ({ children }) => {
   // Timetable needs to fetch all the list item ids before anything else
   useEffect(() => {
     if (!initialised) {
-      const invites = user.timetable.invited_items.map((x) => {
-        return {
-          id: x,
-        };
-      });
-      getItems(user.timetable.items.concat(invites).map((x) => x.id)).then(
-        (results) => {
-          // Sort by created
-          results.sort((a, b) =>
-            a.created ? a.created.localeCompare(b.created) : 1
+      let itemIds = user.timetable.items.map((x) => x.id);
+      let inviteIds = user.timetable.invited_items;
+
+      inviteIds = inviteIds.filter((x) => itemIds.includes(x));
+      let fetchedIds = itemIds.concat(inviteIds);
+
+      getItems(fetchedIds).then((results) => {
+        // Sort by created
+        results.sort((a, b) =>
+          a.created ? a.created.localeCompare(b.created) : 1
+        );
+
+        // Filter out any old items
+        var start = formatDateData(getStartOfCurrentWeek());
+        var relevant = results.filter((x) => {
+          return !x.date || x.date.localeCompare(start) >= 0;
+        });
+        setItems(relevant);
+        setInitialised(true);
+
+        // Remove items from user that no longer exist or are old - appears as a background task
+        if (fetchedIds.length !== relevant.length) {
+          console.warn("User lost some items!");
+          const relevant_ids = relevant.map((x) => x.id);
+          var fresh_items = user.timetable.items.filter((x) =>
+            relevant_ids.includes(x.id)
+          );
+          var fresh_invites = user.timetable.invited_items.filter((x) =>
+            relevant_ids.includes(x)
           );
 
-          // Filter out any old items
-          var start = formatDateData(getStartOfCurrentWeek());
-          var relevant = results.filter((x) => {
-            return !x.date || x.date.localeCompare(start) >= 0;
+          updateUser({
+            ...user,
+            timetable: {
+              ...user.timetable,
+              items: fresh_items,
+              invited_items: fresh_invites,
+            },
           });
-          setItems(relevant);
-          setInitialised(true);
-
-          // Remove items from user that no longer exist or are old - appears as a background task
-          if (user.timetable.items.length !== relevant.length) {
-            console.warn("User lost some items!");
-            const relevant_ids = relevant.map((x) => x.id);
-            var fresh_items = user.timetable.items.filter((x) =>
-              relevant_ids.includes(x.id)
-            );
-
-            updateUser({
-              ...user,
-              timetable: { ...user.timetable, items: fresh_items },
-            });
-          }
         }
-      );
+      });
     }
   }, [user]);
 
