@@ -157,6 +157,7 @@ export const ListItemDrawer = ({
               notification={notification}
               updateNotify={updateNotify}
               updateMinutes={updateMinutes}
+              updateSheetMinHeight={updateSheetMinHeight}
               invited={invited}
             />
           )}

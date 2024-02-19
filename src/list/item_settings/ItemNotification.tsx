@@ -17,6 +17,7 @@ export const ItemNotification = ({
   updateNotify,
   updateMinutes,
   invited,
+  updateSheetMinHeight,
 }) => {
   const { user } = useAuth();
   const { enabled } = useNotifications();
@@ -69,6 +70,8 @@ export const ItemNotification = ({
           <TextInput
             value={localText}
             onEndEditing={updateMinutesFromInput}
+            onFocus={() => updateSheetMinHeight(700)}
+            onBlur={() => updateSheetMinHeight(100)}
             returnKeyType="done"
             keyboardType="numeric"
             onChangeText={!invited && setText}
