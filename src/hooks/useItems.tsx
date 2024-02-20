@@ -16,13 +16,13 @@ import {
 import { ItemStatus, ListItemType } from "../list/constants";
 import { v4 as uuid } from "uuid";
 import { formatDateData, getStartOfCurrentWeek } from "../utils/dates";
-import { SocialAction } from "../utils/constants";
+import { SocialAction, arraysEqualAsSets } from "../utils/constants";
 import "react-native-get-random-values";
 
 // Assisted state management via provider
 export const ItemsProvider = ({ children }) => {
-  const [initialised, setInitialised] = useState(false);
   const [items, setItems] = useState([]);
+  const [syncing, setSyncing] = useState(true);
   const { user, updateUser } = useAuth();
 
   // Timetable needs to fetch all the list item ids before anything else
@@ -30,14 +30,22 @@ export const ItemsProvider = ({ children }) => {
     if (!user) return;
     let itemIds = user.timetable.items.map((x) => x.id);
     let inviteIds = user.timetable.invited_items;
+    // Remove any invites accepted as items from the invite list
     inviteIds = inviteIds.filter((x) => !itemIds.includes(x));
     let fetchedIds = itemIds.concat(inviteIds);
+    let storeIds = items.map((x) => x.id);
 
-    const itemChanges =
-      JSON.stringify(fetchedIds) !== JSON.stringify(items.map((x) => x.id));
-    console.log("(Item Changes || Uninitialised Items) detected?", itemChanges);
+    const itemChanges = !arraysEqualAsSets(fetchedIds, storeIds);
+    console.log("Item Changes Detected?", itemChanges);
 
-    if (!initialised || itemChanges) {
+    if (itemChanges) {
+      console.log("Syncing Item Store");
+      for (let item of fetchedIds) {
+        if (!syncing && !storeIds.includes(item))
+          console.warn("User is missing the item", item);
+      }
+      setSyncing(true);
+
       getItems(fetchedIds).then((results) => {
         // Sort by created
         results.sort((a, b) =>
@@ -50,39 +58,39 @@ export const ItemsProvider = ({ children }) => {
           return !x.date || x.date.localeCompare(start) >= 0;
         });
         setItems(relevant);
-        setInitialised(true);
 
-        // Remove items from user that no longer exist or are old - appears as a background task
-        if (
-          JSON.stringify(relevant.map((x) => x.id)) !==
-          JSON.stringify(fetchedIds)
-        ) {
-          console.warn(
-            "User lost some items! Fetched",
-            fetchedIds,
-            "and got",
-            relevant.map((x) => x.id)
-          );
-          const relevant_ids = relevant.map((x) => x.id);
-          var fresh_items = user.timetable.items.filter((x) =>
-            relevant_ids.includes(x.id)
-          );
-          var fresh_invites = user.timetable.invited_items.filter((x) =>
-            relevant_ids.includes(x)
-          );
-
-          updateUser({
-            ...user,
-            timetable: {
-              ...user.timetable,
-              items: fresh_items,
-              invited_items: fresh_invites,
-            },
-          });
-        }
+        purgeIrrelevantItems(relevant, fetchedIds);
+        setSyncing(false);
       });
     }
   }, [user]);
+
+  const purgeIrrelevantItems = (relevant, fetchedIds) => {
+    // Remove items from user that no longer exist or are old - appears as a background task
+    if (
+      !arraysEqualAsSets(
+        relevant.map((x) => x.id),
+        fetchedIds
+      )
+    ) {
+      const relevant_ids = relevant.map((x) => x.id);
+      var fresh_items = user.timetable.items.filter((x) =>
+        relevant_ids.includes(x.id)
+      );
+      var fresh_invites = user.timetable.invited_items.filter((x) =>
+        relevant_ids.includes(x)
+      );
+
+      updateUser({
+        ...user,
+        timetable: {
+          ...user.timetable,
+          items: fresh_items,
+          invited_items: fresh_invites,
+        },
+      });
+    }
+  };
 
   const updateItem = async (item, updateRemote = true) => {
     const invited =
@@ -199,7 +207,7 @@ export const ItemsProvider = ({ children }) => {
   };
 
   const EXPOSED = {
-    initialised,
+    syncing,
     items,
     updateItem,
     updateItemSocial,
