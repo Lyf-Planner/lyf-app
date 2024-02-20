@@ -31,23 +31,7 @@ export const AuthGateway = ({ children }) => {
   const updateUser = useCallback(
     (user) => {
       // If user is 30 days out of date, run tutorial
-      console.log(
-        "Last updated was",
-        (new Date().getTime() - new Date(user.last_updated).getTime()) /
-          (1000 * 60 * 60 * 24),
-        "days ago"
-      );
-
-      if (
-        new Date().getTime() - new Date(user.last_updated).getTime() >
-        1000 * 60 * 60 * 24 * 30
-      ) {
-        console.log(
-          "Running tutorial as last_updated was over 30d ago:",
-          user.last_updated
-        );
-        setInitiated(false);
-      }
+      user && checkNeedsTutorial(user);
 
       // Then update
       setUser({ ...user });
@@ -55,6 +39,26 @@ export const AuthGateway = ({ children }) => {
     },
     [setUser]
   );
+
+  const checkNeedsTutorial = (user) => {
+    console.log(
+      "Last updated was",
+      (new Date().getTime() - new Date(user.last_updated).getTime()) /
+        (1000 * 60 * 60 * 24),
+      "days ago"
+    );
+
+    if (
+      new Date().getTime() - new Date(user.last_updated).getTime() >
+      1000 * 60 * 60 * 24 * 30
+    ) {
+      console.log(
+        "Running tutorial as last_updated was over 30d ago:",
+        user.last_updated
+      );
+      setInitiated(false);
+    }
+  };
 
   const logout = () => {
     deleteAsyncData("token");
@@ -105,11 +109,6 @@ export const AuthGateway = ({ children }) => {
     return () => refreshOnOpen.remove();
   }, [user]);
 
-  const saveAndLogout = async (deleted = false) => {
-    !deleted && saveUser(user);
-    logout();
-  };
-
   const updateRemoteAndLocal = useCallback(
     async (newUser) => {
       updateUser(newUser);
@@ -143,7 +142,7 @@ export const AuthGateway = ({ children }) => {
     deleteMe,
     initiated,
     setInitiated,
-    logout: saveAndLogout,
+    logout,
     lastUpdated,
   };
 
