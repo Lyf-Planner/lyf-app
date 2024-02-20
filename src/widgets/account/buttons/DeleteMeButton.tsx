@@ -16,7 +16,7 @@ export const DeleteButton = ({ deleteMe, logout }) => {
           "Please re-enter your password to confirm account deletion",
           async (pass) => {
             var success = await deleteMe(pass);
-            if (success) logout(true);
+            if (success) logout();
           }
         );
       }}
