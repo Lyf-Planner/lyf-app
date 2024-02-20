@@ -62,6 +62,7 @@ export const AuthGateway = ({ children }) => {
 
   const logout = () => {
     deleteAsyncData("token");
+    setInitiated(true);
     updateUser(null);
   };
 
