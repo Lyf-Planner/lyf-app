@@ -38,7 +38,7 @@ export const ItemsProvider = ({ children }) => {
     const itemChanges = !arraysEqualAsSets(fetchedIds, storeIds);
     console.log("Item Changes Detected?", itemChanges);
 
-    if (itemChanges || syncing) {
+    if (itemChanges) {
       console.log("Syncing Item Store");
       for (let item of fetchedIds) {
         if (!syncing && !storeIds.includes(item))
@@ -62,6 +62,8 @@ export const ItemsProvider = ({ children }) => {
         purgeIrrelevantItems(relevant, fetchedIds);
         setSyncing(false);
       });
+    } else {
+      setSyncing(false);
     }
   }, [user]);
 
