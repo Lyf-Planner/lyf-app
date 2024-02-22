@@ -141,7 +141,13 @@ export const ItemsProvider = ({ children }) => {
       type,
       date,
       day,
-      permitted_users: [{ user_id: user.id, permissions: "Owner" }],
+      permitted_users: [
+        {
+          user_id: user.id,
+          displayed_as: user.details?.name || user.id,
+          permissions: "Owner",
+        },
+      ],
       notifications: [],
       status,
     } as any;

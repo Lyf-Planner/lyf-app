@@ -34,7 +34,13 @@ export const NoteView = ({
       title,
       status: ItemStatus.Upcoming,
       type: ListItemType.Task,
-      permitted_users: [{ user_id: user.id, permissions: "Owner" }],
+      permitted_users: [
+        {
+          user_id: user.id,
+          displayed_as: user.details?.name || user.id,
+          permissions: "Owner",
+        },
+      ],
     };
     updateNoteContent([...note.content, newItem], true);
   };

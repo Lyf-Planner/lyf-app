@@ -65,7 +65,13 @@ export const NotesProvider = ({ children }) => {
         title,
         type,
         content: type === NoteTypes.Text ? "" : [],
-        permitted_users: [{ user_id: user.id, permissions: "Owner" }],
+        permitted_users: [
+          {
+            user_id: user.id,
+            displayed_as: user.details?.name || user.id,
+            permissions: "Owner",
+          },
+        ],
       } as any;
 
       // Add to store
