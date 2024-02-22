@@ -43,12 +43,15 @@ export const ListItem = ({
   if (!item) return null;
 
   const openModal = async () => {
+    const invitedRoutineInstantiation = invited && item.template_id;
     updateDrawer(null);
     // Create any localised items for drawer to find
-    if (item.localised) await updateItem(item);
+    if (item.localised && !invitedRoutineInstantiation) await updateItem(item);
+
     updateDrawer(
       <ListItemDrawer
-        item_id={item.id}
+        // Invites to templates should open the template!
+        item_id={invitedRoutineInstantiation ? item.template_id : item.id}
         closeDrawer={() => updateDrawer(null)}
         updateSheetMinHeight={updateSheetMinHeight}
         preloaded={fromNote ? item : null}
