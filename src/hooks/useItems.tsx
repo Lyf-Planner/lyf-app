@@ -105,6 +105,7 @@ export const ItemsProvider = ({ children }) => {
       addItem(item.title, item.type, item.date, null, item.status, {
         id: item.id,
         template_id: item.template_id,
+        permitted_users: item.permitted_users,
         time: item.time || null,
       });
       return;
@@ -151,6 +152,7 @@ export const ItemsProvider = ({ children }) => {
     if (template_instance) {
       newItem.template_id = template_instance.template_id;
       newItem.time = template_instance.time;
+      newItem.permitted_users = template_instance.permitted_users;
     }
 
     // Add to store
@@ -227,6 +229,7 @@ const ItemsContext = createContext(null);
 type TemplateInstance = {
   id: string;
   template_id: string;
+  permitted_users: any[];
   time?: string;
 };
 
