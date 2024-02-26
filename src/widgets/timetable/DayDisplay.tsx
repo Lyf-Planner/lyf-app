@@ -30,7 +30,10 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
   const { user, updateUser } = useAuth();
   const { addItem, updateItem, removeItem } = useItems();
   const allDone = useMemo(
-    () => !items.find((x) => x.status !== ItemStatus.Done),
+    () =>
+      !items.find(
+        (x) => x.status !== ItemStatus.Done && x.status !== ItemStatus.Cancelled
+      ),
     [items]
   );
   const canDelete = useMemo(
