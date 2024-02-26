@@ -170,7 +170,7 @@ const slides = [
     key: 4,
     title: "Adding Details",
     image: SLIDE_4_IMAGE,
-    topText: "To add information or details to an item, simply swipe it right",
+    topText: "To add information or details to an item, simply swipe it left",
     bottomText:
       "Here you can set dates, times, reminders, status and descriptions",
     thirdText: "Of course, you can also invite friends!",
@@ -182,7 +182,7 @@ const slides = [
     topText:
       "When you finish an item, simply tap on it, and it will be marked as Done :)",
     bottomText:
-      "If you want to get more granular with your planning and mark an item as “In Progress”, simply swipe it left",
+      "If you want to get more granular with your planning and mark an item as “In Progress”, simply swipe it right",
   },
   {
     key: 6,
