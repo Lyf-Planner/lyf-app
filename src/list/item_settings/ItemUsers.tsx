@@ -10,7 +10,11 @@ export const ItemUsers = ({ item }) => {
   const users = useMemo(
     () =>
       item.permitted_users.concat(item.invited_users || []).map((x) => {
-        return { ...x, id: x.user_id };
+        return {
+          permissions: x.permissions,
+          id: x.user_id,
+          name: x.displayed_as,
+        };
       }),
     [item]
   );

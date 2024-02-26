@@ -42,9 +42,6 @@ export const UserModal = ({ user_id }) => {
           <View style={{ height: 50 }}>
             <FriendAction user_id={user.id} />
           </View>
-          <Horizontal style={styles.firstSeperator} />
-          <Text style={styles.subtitle}>Items: {user.items}</Text>
-          <Text style={styles.subtitle}>Lists: {user.notes}</Text>
         </View>
       ) : (
         <Loader />

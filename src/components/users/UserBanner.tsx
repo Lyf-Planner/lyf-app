@@ -13,6 +13,7 @@ export const UserBanner = ({
   context = UserListContext.Friends,
   item = null,
 }) => {
+  console.log("user banner has", user);
   const { updateModal } = useModal();
 
   return (
@@ -21,9 +22,9 @@ export const UserBanner = ({
       onPress={() => updateModal(<UserModal user_id={user.id} />)}
     >
       <FontAwesome name="user" size={24} />
-      {user.details?.name ? (
+      {user.name && user.name !== user.id ? (
         <View style={styles.nameRow}>
-          <Text style={styles.mainAliasText}>{user.details.name}</Text>
+          <Text style={styles.mainAliasText}>{user.name}</Text>
           <Text style={styles.subAliasText}>{user.id}</Text>
         </View>
       ) : (
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 3,
   },
-  nameRow: { flexDirection: "column", gap: 4 },
+  nameRow: { flexDirection: "column", gap: 2 },
   actionWrapper: {
     marginLeft: "auto",
     width: 110,

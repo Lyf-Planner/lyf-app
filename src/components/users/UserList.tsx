@@ -40,13 +40,24 @@ export const FetchUserList = ({
     !loadedUsers && getUsers(users).then((res) => setLoadedUsers(res));
   }, [users]);
 
-  return (
+  return loadedUsers ? (
     <UserList
-      users={users}
+      users={loadedUsers}
       emptyText={emptyText}
       context={context}
       item={item}
     />
+  ) : (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginVertical: 8,
+      }}
+    >
+      <Loader />
+    </View>
   );
 };
 

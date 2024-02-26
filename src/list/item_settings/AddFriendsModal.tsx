@@ -3,7 +3,7 @@ import { useModal } from "../../hooks/useModal";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useMemo, useState } from "react";
 import { Horizontal } from "../../components/MiscComponents";
-import { UserList } from "../../components/users/UserList";
+import { FetchUserList } from "../../components/users/UserList";
 import { UserListContext } from "../../utils/constants";
 import { SimpleSearch } from "../../components/SimpleSearch";
 import { ScrollView } from "react-native-gesture-handler";
@@ -24,16 +24,6 @@ export const AddFriendsModal = ({ item_id }) => {
 
   const closeModal = () => updateModal(null);
 
-  const users = useMemo(
-    () =>
-      user.social.friends
-        .filter((x) => !filter || !!x.match(`${filter}`))
-        .map((x) => {
-          return { id: x };
-        }),
-    [filter, user, item]
-  );
-
   return (
     <View style={styles.mainContainer}>
       <TouchableHighlight
@@ -52,8 +42,8 @@ export const AddFriendsModal = ({ item_id }) => {
       <Horizontal style={styles.firstSeperator} />
       <SimpleSearch search={filter} setSearch={setFilter} />
       <ScrollView style={{ maxHeight: 250, padding: 4 }}>
-        <UserList
-          users={users}
+        <FetchUserList
+          users={user.social.friends}
           emptyText={
             filter
               ? "No friends match this search :)"

@@ -6,7 +6,7 @@ import { NotificationSettings } from "./notifications/Notifications";
 import { SettingDropdown } from "../../components/dropdowns/SettingDropdown";
 import { FindUsers } from "./friends/FindUsers";
 import { useAuth } from "../../authorisation/AuthProvider";
-import { UserList } from "../../components/users/UserList";
+import { FetchUserList } from "../../components/users/UserList";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
@@ -34,10 +34,8 @@ export const AccountWidget = ({ logout, deleteMe }) => {
           }
           icon={<FontAwesome name="users" size={18} />}
         >
-          <UserList
-            users={user.social.friends.map((x) => {
-              return { id: x };
-            })}
+          <FetchUserList
+            users={user.social.friends}
             emptyText={"Search for friends below :)"}
           />
         </SettingDropdown>
@@ -53,10 +51,8 @@ export const AccountWidget = ({ logout, deleteMe }) => {
           icon={<FontAwesome name="plus" size={20} />}
           bgColor={"rgba(0,0,0,0.05)"}
         >
-          <UserList
-            users={user.social.requests?.map((x) => {
-              return { id: x };
-            })}
+          <FetchUserList
+            users={user.social.requests}
             emptyText={"No friend requests at the moment :)"}
           />
         </SettingDropdown>
