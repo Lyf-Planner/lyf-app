@@ -15,13 +15,18 @@ export const IntroSlider = () => {
   const { updateTutorial } = useTutorial();
 
   return (
-    <AppIntroSlider
-      data={slides}
-      renderItem={IntroSlideItem}
-      showSkipButton
-      onSkip={() => updateTutorial(false)}
-      onDone={() => updateTutorial(false)}
-    />
+    <View style={{ flex: 1, padding: 20 }}>
+      <AppIntroSlider
+        data={slides}
+        renderItem={IntroSlideItem}
+        showSkipButton
+        renderSkipButton={() => <NavigationButton text="Skip" />}
+        renderNextButton={() => <NavigationButton text="Next" />}
+        renderDoneButton={() => <NavigationButton text="Done" />}
+        onSkip={() => updateTutorial(false)}
+        onDone={() => updateTutorial(false)}
+      />
+    </View>
   );
 };
 
@@ -53,6 +58,14 @@ export const IntroSlideItem = ({ item }) => {
           <Text style={styles.bottomText}>{item.thirdText}</Text>
         </View>
       )}
+    </View>
+  );
+};
+
+const NavigationButton = ({ text }) => {
+  return (
+    <View style={styles.navButtonMain}>
+      <Text style={styles.navButtonText}>{text}</Text>
     </View>
   );
 };
@@ -95,6 +108,18 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 10,
   },
+  navButtonMain: {
+    backgroundColor: "white",
+    padding: 12,
+    borderRadius: 10,
+    borderColor: "white",
+    borderWidth: 1,
+  },
+  navButtonText: {
+    fontSize: 22,
+    color: primaryGreen,
+    fontWeight: "600",
+  },
   image: {
     borderColor: "black",
     borderRadius: 50,
@@ -127,10 +152,10 @@ const slides = [
     title: "Getting Started",
     image: SLIDE_2_IMAGE,
     topText:
-      "To create an event or task, simply type it into the relevant day and press done",
+      "To create an event or task, type it into the relevant day and press done",
     bottomText: "If you can't find a day for it, that's fine!",
     thirdText:
-      "Just put it in Upcoming Events or To Do List - you can always add a date later",
+      "Put it in Upcoming Events or To Do List - you can add a date later",
   },
   {
     key: 3,

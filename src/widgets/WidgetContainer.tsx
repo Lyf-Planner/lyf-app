@@ -33,7 +33,7 @@ export const WidgetContainer = () => {
     Schedule: <Timetable />,
     Account: <AccountWidget logout={logout} deleteMe={deleteMe} />,
     Lists: <Notes />,
-    Tutorial: <IntroSlider />,
+    Tutorial: null,
   };
 
   return (
