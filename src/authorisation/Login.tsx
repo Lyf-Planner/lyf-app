@@ -10,6 +10,7 @@ import { Horizontal, Loader } from "../components/MiscComponents";
 import { useRef, useState } from "react";
 import { USER_NOT_FOUND, login } from "../rest/auth";
 import { createUser } from "../rest/user";
+import { validatePassword, validateUsername } from "../utils/validators";
 
 export const Login = ({ updateUser, setInitiated }) => {
   const [uid, updateUid] = useState("");
@@ -77,6 +78,11 @@ export const Login = ({ updateUser, setInitiated }) => {
                 var user = await login(uid, pass);
                 if (user === USER_NOT_FOUND) {
                   console.log("Creating new account!");
+                  if (!validateUsername(uid) || !validatePassword(pass)) {
+                    updateLoggingIn(false);
+                    return;
+                  }
+
                   updateCreating(true);
                   updateLoggingIn(false);
                   user = await createUser(uid, pass);

@@ -9,17 +9,10 @@ import { useAuth } from "../../../authorisation/AuthProvider";
 import { primaryGreen } from "../../../utils/constants";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { validateDisplayName } from "../../../utils/validators";
 
 export const AccountInfo = () => {
   const { user, updateUser } = useAuth();
-
-  const updateEmail = (email: string) => {
-    updateUser({ ...user, details: { ...user.details, email } });
-  };
-
-  const updateName = (name: string) => {
-    updateUser({ ...user, details: { ...user.details, name } });
-  };
 
   return (
     <View style={styles.main}>
@@ -31,53 +24,80 @@ export const AccountInfo = () => {
           }
         />
         <View style={styles.detailsFieldView}>
-          <DetailsField
-            fieldName={"Display Name"}
-            fieldValue={
-              user.details?.name ? (
-                <View style={styles.occupiedFieldRow}>
-                  <Text style={styles.detailsFieldValueText} numberOfLines={1}>
-                    {user.details?.name}
-                  </Text>
-                  <TouchableHighlight
-                    style={styles.editPressable}
-                    underlayColor={"rgba(0,0,0,0.5)"}
-                    onPress={() => fieldPrompt(updateName, "Name")}
-                  >
-                    <MaterialIcons name="edit" size={18} />
-                  </TouchableHighlight>
-                </View>
-              ) : (
-                <AddField func={updateName} name="Name" />
-              )
-            }
-          />
+          <NameField user={user} updateUser={updateUser} />
         </View>
+
         <View style={styles.detailsFieldView}>
-          <DetailsField
-            fieldName={"Email"}
-            fieldValue={
-              user.details?.email ? (
-                <View style={styles.occupiedFieldRow}>
-                  <Text style={styles.detailsFieldValueText} numberOfLines={1}>
-                    {user.details?.email}
-                  </Text>
-                  <TouchableHighlight
-                    style={styles.editPressable}
-                    underlayColor={"rgba(0,0,0,0.5)"}
-                    onPress={() => fieldPrompt(updateEmail, "Email")}
-                  >
-                    <MaterialIcons name="edit" size={18} />
-                  </TouchableHighlight>
-                </View>
-              ) : (
-                <AddField func={updateEmail} name="Email" />
-              )
-            }
-          />
+          <EmailField user={user} updateUser={updateUser} />
         </View>
       </View>
     </View>
+  );
+};
+
+export const NameField = ({ user, updateUser }) => {
+  const updateName = (name: string) => {
+    if (!validateDisplayName(name)) return;
+    updateUser({ ...user, details: { ...user.details, name } });
+  };
+
+  return (
+    <DetailsField
+      fieldName={"Display Name"}
+      fieldValue={
+        user.details?.name ? (
+          <View style={styles.occupiedFieldRow}>
+            <Text style={styles.detailsFieldValueText} numberOfLines={1}>
+              {user.details?.name}
+            </Text>
+            <TouchableHighlight
+              style={styles.editPressable}
+              testID="Edit-Name"
+              underlayColor={"rgba(0,0,0,0.5)"}
+              onPress={() => fieldPrompt(updateName, "Name")}
+            >
+              <MaterialIcons name="edit" size={18} />
+            </TouchableHighlight>
+          </View>
+        ) : (
+          <AddField func={updateName} name="Name" />
+        )
+      }
+    />
+  );
+};
+
+export const EmailField = ({ user, updateUser }) => {
+  const updateEmail = (email: string) => {
+    if (!(email.includes("@") && email.includes("."))) {
+      Alert.alert("Try Again", "This is not a valid email format");
+    }
+    updateUser({ ...user, details: { ...user.details, email } });
+  };
+
+  return (
+    <DetailsField
+      fieldName={"Email"}
+      fieldValue={
+        user.details?.email ? (
+          <View style={styles.occupiedFieldRow}>
+            <Text style={styles.detailsFieldValueText} numberOfLines={1}>
+              {user.details?.email}
+            </Text>
+            <TouchableHighlight
+              style={styles.editPressable}
+              testID="Edit-Email"
+              underlayColor={"rgba(0,0,0,0.5)"}
+              onPress={() => fieldPrompt(updateEmail, "Email")}
+            >
+              <MaterialIcons name="edit" size={18} />
+            </TouchableHighlight>
+          </View>
+        ) : (
+          <AddField func={updateEmail} name="Email" />
+        )
+      }
+    />
   );
 };
 
