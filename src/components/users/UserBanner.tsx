@@ -23,11 +23,17 @@ export const UserBanner = ({
       <FontAwesome name="user" size={24} />
       {user.name && user.name !== user.id ? (
         <View style={styles.nameRow}>
-          <Text style={styles.mainAliasText}>{user.name}</Text>
-          <Text style={styles.subAliasText}>{user.id}</Text>
+          <Text numberOfLines={1} adjustsFontSizeToFit style={styles.mainAliasText}>
+            {user.name}
+          </Text>
+          <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subAliasText}>
+            {user.id}
+          </Text>
         </View>
       ) : (
-        <Text style={styles.mainAliasText}>{user.id}</Text>
+        <Text adjustsFontSizeToFit numberOfLines={1} style={styles.mainAliasText}>
+          {user.id}
+        </Text>
       )}
 
       <View style={styles.actionWrapper}>
@@ -58,7 +64,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 3,
   },
-  nameRow: { flexDirection: "column", gap: 2 },
+  nameRow: { flexDirection: "column", gap: 2, width: "55%" },
   actionWrapper: {
     marginLeft: "auto",
     width: 110,
