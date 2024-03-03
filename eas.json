@@ -4,8 +4,7 @@
             "env": {
                 "APP_ENV": "prod",
                 "BACKEND_URL": "https://lyf-api-production.up.railway.app",
-                "EAS_PROJECT_ID": "2c533ba0-983e-4ef8-abc4-e938b5768a79",
-                "image": "macos-ventura-13.6-xcode-15.0"
+                "EAS_PROJECT_ID": "2c533ba0-983e-4ef8-abc4-e938b5768a79"
             }
         },
         "qa": {
