@@ -109,7 +109,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
         withTiming(0, { duration: SHAKE_TIME / 2 })
       );
 
-      Vibration.vibrate(DELAY);
+      Vibration.vibrate(DELAY/2);
       scale.value = 1.06;
 
       await sleep(DELAY);
@@ -119,6 +119,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
   };
 
   const handleLongPressOut = () => {
+    if (removeQueued.value) return;
     scale.value = 1;
     offset.value = 0;
     removeQueued.value = false
