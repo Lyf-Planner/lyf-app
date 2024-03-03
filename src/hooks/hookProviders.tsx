@@ -8,26 +8,29 @@ import { NotesProvider } from "./useNotes";
 import { AuthGateway } from "../authorisation/AuthProvider";
 import { TutorialProvider } from "./useTutorial";
 import { NotificationsLayer } from "../authorisation/NotificationsLayer";
+import { WidgetProvider } from "./useWidgetNavigator";
 
 export const AppProviders = ({ children }) => {
   return (
     <AuthGateway>
       <NotificationsLayer>
-        <ItemsProvider>
-          <MenuProvider>
-            <ModalProvider>
-              <BottomSheetModalProvider>
-                <DrawerProvider>
-                  <NotesProvider>
-                    <InitialisedProvider>
-                      <TutorialProvider>{children}</TutorialProvider>
-                    </InitialisedProvider>
-                  </NotesProvider>
-                </DrawerProvider>
-              </BottomSheetModalProvider>
-            </ModalProvider>
-          </MenuProvider>
-        </ItemsProvider>
+        <WidgetProvider>
+          <ItemsProvider>
+            <MenuProvider>
+              <ModalProvider>
+                <BottomSheetModalProvider>
+                  <DrawerProvider>
+                    <NotesProvider>
+                      <InitialisedProvider>
+                        <TutorialProvider>{children}</TutorialProvider>
+                      </InitialisedProvider>
+                    </NotesProvider>
+                  </DrawerProvider>
+                </BottomSheetModalProvider>
+              </ModalProvider>
+            </MenuProvider>
+          </ItemsProvider>
+        </WidgetProvider>
       </NotificationsLayer>
     </AuthGateway>
   );

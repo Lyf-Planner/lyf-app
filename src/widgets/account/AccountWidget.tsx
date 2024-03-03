@@ -10,7 +10,19 @@ import { FetchUserList } from "../../components/users/UserList";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-export const AccountWidget = ({ logout, deleteMe }) => {
+export type DropdownOpenInstructor = {
+  profile?: boolean;
+  friends?: boolean;
+  requests?: boolean;
+  search?: boolean;
+  notifications?: boolean;
+};
+
+export const AccountWidget = ({
+  logout,
+  deleteMe,
+  dropdownOpen = {} as DropdownOpenInstructor,
+}) => {
   const { user } = useAuth();
 
   return (
@@ -20,6 +32,7 @@ export const AccountWidget = ({ logout, deleteMe }) => {
           name="My Profile"
           icon={<FontAwesome name="user" size={22} style={{ left: 2 }} />}
           bgColor={"rgba(0,0,0,0.05)"}
+          startOpen={dropdownOpen.profile}
         >
           <AccountInfo />
         </SettingDropdown>
@@ -33,6 +46,7 @@ export const AccountWidget = ({ logout, deleteMe }) => {
             </Text>
           }
           icon={<FontAwesome name="users" size={18} />}
+          startOpen={dropdownOpen.friends}
         >
           <FetchUserList
             users={user.social.friends}
@@ -40,6 +54,7 @@ export const AccountWidget = ({ logout, deleteMe }) => {
           />
         </SettingDropdown>
         <SettingDropdown
+          startOpen={dropdownOpen.requests}
           name={
             <Text>
               Friend Requests{" "}
@@ -57,6 +72,7 @@ export const AccountWidget = ({ logout, deleteMe }) => {
           />
         </SettingDropdown>
         <SettingDropdown
+          startOpen={dropdownOpen.search}
           name="Find Users"
           icon={<FontAwesome name="search" size={20} />}
         >
@@ -64,6 +80,7 @@ export const AccountWidget = ({ logout, deleteMe }) => {
         </SettingDropdown>
         <SettingDropdown
           name="Notification Settings"
+          startOpen={dropdownOpen.notifications}
           icon={<MaterialIcons name="notifications-active" size={22} />}
           bgColor={"rgba(0,0,0,0.05)"}
         >

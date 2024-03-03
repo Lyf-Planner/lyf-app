@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Timetable } from "./timetable/TimetableWidget";
 import { useAuth } from "../authorisation/AuthProvider";
@@ -10,24 +9,16 @@ import { BouncyPressable } from "../components/BouncyPressable";
 import { deepBlue } from "../utils/constants";
 import { AccountHeaderButton } from "./account/AccountHeaderButton";
 import { TutorialHeaderButton } from "./tutorial/TutorialHeaderButton";
-import { IntroSlider } from "./tutorial/IntroSlider";
 import { useTutorial } from "../hooks/useTutorial";
-
-export enum DisplayedWidgets {
-  Schedule = "Schedule",
-  Lists = "Lists",
-}
-
-export enum AllWidgets {
-  Schedule = "Schedule",
-  Lists = "Lists",
-  Account = "Account",
-  Tutorial = "Tutorial",
-}
+import {
+  AllWidgets,
+  DisplayedWidgets,
+  useWidgetNavigator,
+} from "../hooks/useWidgetNavigator";
 
 export const WidgetContainer = () => {
-  const [selected, updateSelected] = useState<any>(AllWidgets.Schedule);
   const { logout, deleteMe } = useAuth();
+  const { activeWidget, setWidget } = useWidgetNavigator();
 
   const WIDGETS = {
     Schedule: <Timetable />,
@@ -39,9 +30,9 @@ export const WidgetContainer = () => {
   return (
     <KeyboardAwareScrollView enableResetScrollToCoords={false}>
       <View style={styles.container}>
-        <AppHeaderMenu selected={selected} updateSelected={updateSelected} />
+        <AppHeaderMenu selected={activeWidget} updateSelected={setWidget} />
         <Horizontal style={styles.headerSeperator} />
-        {WIDGETS[selected]}
+        {WIDGETS[activeWidget]}
       </View>
     </KeyboardAwareScrollView>
   );

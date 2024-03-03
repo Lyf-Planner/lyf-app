@@ -15,9 +15,16 @@ import { Loader } from "../../../components/MiscComponents";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Entypo from "react-native-vector-icons/Entypo";
+import {
+  AllWidgets,
+  useWidgetNavigator,
+} from "../../../hooks/useWidgetNavigator";
+import { useModal } from "../../../hooks/useModal";
 
 export const FriendAction = ({ user_id }) => {
   const { user } = useAuth();
+  const { setWidget } = useWidgetNavigator();
+  const { updateModal } = useModal();
   const friends = user.social?.friends?.find((x) => x === user_id);
   const requested = user.social?.requested?.find((x) => x === user_id);
   const requested_by = user.social?.requests?.find((x) => x === user_id);
@@ -27,7 +34,10 @@ export const FriendAction = ({ user_id }) => {
     return (
       <ActionButton
         title="You"
-        func={() => {}}
+        func={() => {
+          setWidget(AllWidgets.Account);
+          updateModal(null);
+        }}
         icon={null}
         color={primaryGreen}
       />
