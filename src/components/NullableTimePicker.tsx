@@ -46,6 +46,8 @@ export const TimePicker = ({ time, updateTime, disabled = false }) => {
         underlayColor={"rgba(0,0,0,0.5)"}
         style={styles.pressable}
       >
+        {/* 
+          // @ts-ignore */}
         <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
       </TouchableHighlight>
       <DateTimePicker

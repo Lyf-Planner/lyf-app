@@ -56,6 +56,8 @@ export const NameField = ({ user, updateUser }) => {
               underlayColor={"rgba(0,0,0,0.5)"}
               onPress={() => fieldPrompt(updateName, "Name")}
             >
+              {/* 
+                // @ts-ignore */}
               <MaterialIcons name="edit" size={18} />
             </TouchableHighlight>
           </View>
@@ -90,6 +92,8 @@ export const EmailField = ({ user, updateUser }) => {
               underlayColor={"rgba(0,0,0,0.5)"}
               onPress={() => fieldPrompt(updateEmail, "Email")}
             >
+              {/* 
+                // @ts-ignore */}
               <MaterialIcons name="edit" size={18} />
             </TouchableHighlight>
           </View>
@@ -118,6 +122,8 @@ const AddField = ({ func, name }) => {
     >
       <View style={styles.addFieldView}>
         <Text style={styles.addFieldText}>Add {name}</Text>
+        {/* 
+          // @ts-ignore */}
         <AntDesign name="pluscircle" color="white" />
       </View>
     </TouchableHighlight>

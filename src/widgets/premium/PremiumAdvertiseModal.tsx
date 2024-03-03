@@ -75,6 +75,7 @@ export const PremiumAdvertiseModal = () => {
       <Horizontal style={styles.firstSeperator} />
       <View style={{ height: 165 }}>
         <AppIntroSlider
+          // @ts-ignore
           renderItem={PremiumFeature}
           data={ADVERTISED_FEATURES}
           activeDotStyle={styles.activeDotStyle}

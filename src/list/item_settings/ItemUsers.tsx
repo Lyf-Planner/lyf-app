@@ -34,11 +34,15 @@ export const ItemUsers = ({ item }) => {
             alignItems: "center",
           }}
         >
+          {/* 
+            // @ts-ignore */}
           <FontAwesome5Icon name="users" size={16} />
           <Text style={styles.eventText}>Users</Text>
           <Text style={[styles.subtitle, { fontSize: 16 }]}>
             ( {users.length} )
           </Text>
+          {/* 
+            // @ts-ignore */}
           <FontAwesome5Icon
             name={open ? "chevron-down" : "chevron-right"}
             style={{ marginLeft: "auto" }}

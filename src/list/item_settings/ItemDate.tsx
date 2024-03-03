@@ -14,6 +14,8 @@ export const ItemDate = ({ item, updateItem, invited }) => {
 
   return (
     <View style={styles.mainContainer}>
+      {/* 
+        // @ts-ignore */}
       <MaterialIcons name="date-range" size={20} />
       <Text style={styles.eventText}>Date</Text>
       <View style={styles.pickerContainer}>

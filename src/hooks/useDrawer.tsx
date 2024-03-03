@@ -38,6 +38,7 @@ export const DrawerProvider = ({ children }) => {
     <DrawerContext.Provider value={EXPOSED}>
       {children}
       {!!drawer && (
+        // @ts-ignore
         <BottomSheetModal
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -45,6 +46,8 @@ export const DrawerProvider = ({ children }) => {
           enablePanDownToClose
           style={styles.bottomSheetWrapper}
         >
+          {/* 
+            // @ts-ignore */}
           <BottomSheetView style={{ minHeight: height }}>
             {drawer}
           </BottomSheetView>

@@ -23,6 +23,8 @@ export const DeleteButton = ({ deleteMe, logout }) => {
     >
       <View style={[styles.buttonView, styles.deleteView]}>
         <Text style={styles.deleteText}>Delete Account</Text>
+        {/* 
+          // @ts-ignore */}
         <MaterialCommunityIcons name="delete-circle" size={20} />
       </View>
     </TouchableHighlight>

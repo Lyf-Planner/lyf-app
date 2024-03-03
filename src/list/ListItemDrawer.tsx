@@ -189,12 +189,16 @@ export const ListItemDrawer = ({
         </View>
 
         <View style={styles.footer}>
+          {/* 
+            // @ts-ignore */}
           <FontAwesome5Icon
             name="chevron-down"
             size={16}
             color="rgba(0,0,0,0.3)"
           />
           <Text style={[styles.subtitle]}>Swipe down to close</Text>
+          {/* 
+            // @ts-ignore */}
           <FontAwesome5Icon
             name="chevron-down"
             size={16}

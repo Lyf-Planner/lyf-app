@@ -29,6 +29,8 @@ export const Planner = ({ items }) => {
           onPress={() => setUpdatingTemplate(false)}
         >
           <Text style={[styles.menuButtonText, {marginRight: 2}]}>Timetable</Text>
+          {/* 
+            // @ts-ignore */}
           <MaterialCommunityIcons name="table" size={24} color="white" />
         </MenuButton>
         <MenuButton
@@ -36,6 +38,8 @@ export const Planner = ({ items }) => {
           onPress={() => setUpdatingTemplate(true)}
         >
           <Text style={styles.menuButtonText}>Routine</Text>
+          {/* 
+            // @ts-ignore */}
           <MaterialCommunityIcons name="refresh" size={24} color="white" />
         </MenuButton>
       </View>
@@ -62,8 +66,12 @@ export const Planner = ({ items }) => {
             useTouchableHighlight
           >
             <View style={styles.addWeekView}>
+              {/* 
+                // @ts-ignore */}
               <Entypo name="chevron-down" size={20} />
               <Text style={{ fontSize: 18 }}>Next Week</Text>
+              {/* 
+                // @ts-ignore */}
               <Entypo name="chevron-down" size={20} />
             </View>
           </BouncyPressable>

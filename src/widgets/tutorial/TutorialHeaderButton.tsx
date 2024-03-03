@@ -14,6 +14,8 @@ export const TutorialHeaderButton = ({ onPress, open }) => {
       ]}
       onPress={onPress}
     >
+      {/* 
+        // @ts-ignore */}
       <FontAwesome name="question" size={30} color={open ? "white" : "black"} />
     </TouchableHighlight>
   );

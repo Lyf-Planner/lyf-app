@@ -74,6 +74,7 @@ export const OptionsMenu = ({ item }) => {
           {loading ? (
             <Loader color="white" size={20} />
           ) : (
+            // @ts-ignore
             <SimpleLineIcons name="options-vertical" color="white" size={20} />
           )}
         </View>

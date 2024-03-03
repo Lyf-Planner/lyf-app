@@ -20,6 +20,8 @@ export const UserBanner = ({
       style={styles.main}
       onPress={() => updateModal(<UserModal user_id={user.id} />)}
     >
+      {/* 
+        // @ts-ignore */}
       <FontAwesome name="user" size={24} />
       {user.name && user.name !== user.id ? (
         <View style={styles.nameRow}>

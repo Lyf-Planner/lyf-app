@@ -41,6 +41,8 @@ export const AddDetails = ({
             }}
           >
             <View style={styles.addFieldContent}>
+              {/* 
+                // @ts-ignore */}
               <FontAwesome5Icon name="users" color={"white"} size={16} />
               <Text style={styles.addFieldText}>Add Friends +</Text>
             </View>
@@ -56,6 +58,8 @@ export const AddDetails = ({
             }}
           >
             <View style={styles.addFieldContent}>
+              {/* 
+                // @ts-ignore */}
               <MaterialIcons name="date-range" color={"white"} size={18} />
               <Text style={styles.addFieldText}>Add Date +</Text>
             </View>
@@ -71,6 +75,8 @@ export const AddDetails = ({
             }}
           >
             <View style={styles.addFieldContent}>
+              {/* 
+                // @ts-ignore */}
               <MaterialIcons name="access-time" color={"white"} size={18} />
               <Text style={styles.addFieldText}>Add Time +</Text>
             </View>
@@ -96,6 +102,8 @@ export const AddDetails = ({
             }}
           >
             <View style={styles.addFieldContent}>
+              {/* 
+                // @ts-ignore */}
               <MaterialIcons
                 name="notifications-active"
                 color={"white"}
@@ -116,6 +124,8 @@ export const AddDetails = ({
             }}
           >
             <View style={styles.addFieldContent}>
+              {/* 
+               // @ts-ignore */}
               <MaterialIcons name="edit" color={"white"} size={18} />
               <Text style={styles.addFieldText}>Add Description +</Text>
             </View>

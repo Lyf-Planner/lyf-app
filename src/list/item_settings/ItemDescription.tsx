@@ -27,6 +27,8 @@ export const ItemDescription = ({
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headingContainer}>
+        {/* 
+          // @ts-ignore */}
         <MaterialIcons name="edit" size={20} />
         <Text style={styles.headingText}>Description</Text>
         <View style={styles.headerCloseWrapper}>
@@ -40,6 +42,8 @@ export const ItemDescription = ({
             underlayColor={"rgba(0,0,0,0.5)"}
             style={{ borderRadius: 5 }}
           >
+            {/* 
+             // @ts-ignore */}
             <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
           </TouchableHighlight>
         </View>

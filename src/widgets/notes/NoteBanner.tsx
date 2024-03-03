@@ -49,6 +49,8 @@ export const NoteBanner = ({ id, title, noteType, onPress }) => {
         style={[styles.bannerHiddenBackground]}
         onPress={() => removeNote(id)}
       >
+        {/* 
+          // @ts-ignore */}
         <Entypo name="trash" style={styles.editIcon} size={20} color="white" />
       </TouchableOpacity>
 
@@ -62,7 +64,8 @@ export const NoteBanner = ({ id, title, noteType, onPress }) => {
               <Text style={[styles.titleText]}>{title}</Text>
               <View style={[styles.animatedChevron]}>
                 <NoteTypeBadge type={noteType} />
-
+                {/* 
+                  // @ts-ignore */}
                 <Entypo name={"chevron-right"} size={25} />
               </View>
             </View>

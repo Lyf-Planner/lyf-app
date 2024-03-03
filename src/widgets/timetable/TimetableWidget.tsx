@@ -17,6 +17,7 @@ export const Timetable = () => {
             (x) => x.type === ListItemType.Event && !x.date && !x.day
           )}
           name="Upcoming Events"
+          // @ts-ignore
           icon={<Entypo name="calendar" size={22} />}
           listType={ListType.Event}
         />
@@ -25,6 +26,7 @@ export const Timetable = () => {
             (x) => x.type === ListItemType.Task && !x.date && !x.day
           )}
           name="To Do List"
+          // @ts-ignore
           icon={<Entypo name="list" size={22} />}
           listType={ListType.Task}
         />

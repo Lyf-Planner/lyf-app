@@ -30,6 +30,7 @@ export const AccountWidget = ({
       <View style={{ flexDirection: "column", marginBottom: 8 }}>
         <SettingDropdown
           name="My Profile"
+          // @ts-ignore
           icon={<FontAwesome name="user" size={22} style={{ left: 2 }} />}
           bgColor={"rgba(0,0,0,0.05)"}
           startOpen={dropdownOpen.profile}
@@ -45,6 +46,7 @@ export const AccountWidget = ({
               </Text>
             </Text>
           }
+          // @ts-ignore
           icon={<FontAwesome name="users" size={18} />}
           startOpen={dropdownOpen.friends}
         >
@@ -63,6 +65,7 @@ export const AccountWidget = ({
               </Text>
             </Text>
           }
+          // @ts-ignore
           icon={<FontAwesome name="plus" size={20} />}
           bgColor={"rgba(0,0,0,0.05)"}
         >
@@ -74,6 +77,7 @@ export const AccountWidget = ({
         <SettingDropdown
           startOpen={dropdownOpen.search}
           name="Find Users"
+          // @ts-ignore
           icon={<FontAwesome name="search" size={20} />}
         >
           <FindUsers />
@@ -81,6 +85,7 @@ export const AccountWidget = ({
         <SettingDropdown
           name="Notification Settings"
           startOpen={dropdownOpen.notifications}
+          // @ts-ignore
           icon={<MaterialIcons name="notifications-active" size={22} />}
           bgColor={"rgba(0,0,0,0.05)"}
         >

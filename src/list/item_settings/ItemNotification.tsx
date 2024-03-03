@@ -48,6 +48,8 @@ export const ItemNotification = ({
         { opacity: enabled && item.time ? 1 : 0.3 },
       ]}
     >
+      {/* 
+        // @ts-ignore */}
       <MaterialIcons name="notifications-active" size={20} />
       <Text
         style={[
@@ -65,6 +67,8 @@ export const ItemNotification = ({
             underlayColor={"rgba(0,0,0,0.5)"}
             style={styles.closeTouchable}
           >
+            {/* 
+              // @ts-ignore */}
             <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
           </TouchableHighlight>
           <TextInput

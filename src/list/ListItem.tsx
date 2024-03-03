@@ -257,6 +257,8 @@ export const ListItem = ({
                 },
               ]}
             >
+              {/* 
+                // @ts-ignore */}
               <FontAwesome5
                 name="users"
                 size={16}
@@ -280,6 +282,8 @@ export const ListItem = ({
           </Text>
 
           <Animated.View style={[checkScaleAnimation]}>
+            {/* 
+             // @ts-ignore */}
             <AntDesign
               name={
                 item.status === ItemStatus.Done ? "checkcircle" : "checkcircleo"
@@ -300,7 +304,11 @@ export const ListItem = ({
             styles.listHiddenBackground,
           ]}
         >
+          {/* 
+            // @ts-ignore */}
           <FontAwesome5 name="play" size={20} style={styles.playIcon} />
+          {/* 
+            // @ts-ignore */}
           <MaterialIcons name="edit" style={styles.editIcon} size={20} />
         </LinearGradient>
       </Animated.View>

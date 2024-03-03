@@ -33,6 +33,8 @@ export const ItemTime = ({ item, updateItem, updateNotification, invited }) => {
 
   return (
     <View style={styles.mainContainer}>
+      {/* 
+        // @ts-ignore */}
       <MaterialIcons name="access-time" size={20} />
       <Text style={styles.eventText}>Time</Text>
       <View style={styles.pickerContainer}>
