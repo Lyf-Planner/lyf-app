@@ -10,7 +10,7 @@ export default {
     scheme: "lyf",
     currentFullName: "@ethanhusband/lyf",
     originalFullName: "@ethanhusband/lyf",
-    version: "1.5.8",
+    version: "1.5.9",
     icon: "./assets/images/bg-icon.png",
     orientation: "portrait",
     userInterfaceStyle: "light",
@@ -47,7 +47,7 @@ export default {
     },
     ios: {
       bundleIdentifier: "com.lyfplanner",
-      buildNumber: "1.5.8",
+      buildNumber: "1.5.9",
     },
     plugins: ["expo-localization", "expo-font"],
     extra: {
