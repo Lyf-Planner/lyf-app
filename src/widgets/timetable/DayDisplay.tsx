@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Vibration } from "react-native";
 import { Horizontal, Vertical } from "../../components/MiscComponents";
 import { ListInput } from "../../list/ListInput";
 import {
@@ -21,6 +21,8 @@ import { useItems } from "../../hooks/useItems";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
+  withRepeat,
+  withSequence,
   withTiming,
 } from "react-native-reanimated";
 import { useEffect, useMemo } from "react";
@@ -46,8 +48,9 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
   );
 
   const shiftFirst = async () => {
-    if (canDelete) {
+    if (canDelete && removeQueued.value) {
       opacity.value = 0;
+      scale.value = 1.5;
       await sleep(500);
       var next = formatDateData(
         localisedMoment(parseDateString(date)).add(1, "day").toDate()
@@ -60,44 +63,65 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
   };
   // LONG PRESS HIDE GESTURE
 
+  const removeQueued = useSharedValue(false)
   const opacity = useSharedValue(1);
   const scale = useSharedValue(1);
-  const fadeAnimationStyle = useAnimatedStyle(() => {
+  const offset = useSharedValue(0);
+
+  const SHAKE_OFFSET = 1;
+  const SHAKE_TIME = 30;
+  const DELAY = 400;
+
+  const exitingAnimation = useAnimatedStyle(() => {
     return {
+      transform: [
+        {
+          scale: withTiming(scale.value, {
+            duration: DELAY,
+          }),
+        },
+        { translateX: offset.value },
+      ],
       opacity: withTiming(opacity.value, {
         duration: 500,
       }),
     } as any;
   });
-  const scaleAnimation = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: withTiming(scale.value, {
-            duration: 400,
-          }),
-        },
-      ],
-    } as any;
-  });
 
-  var timer;
-  const handleLongPressIn = () => {
+  const handleLongPressIn = async () => {
     if (canDelete) {
-      scale.value = 1.09;
+      removeQueued.value = true
+      scale.value = 1.05;
+      await sleep(DELAY);
 
-      // After the n seconds pressing, remove the item
-      timer = setInterval(() => {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-        shiftFirst();
-        clearTimeout(timer);
-      }, 400);
+      // Runs for (TOTAL_SHAKES + 1) * SHAKE_TIME
+      const TOTAL_SHAKES = 10;
+      offset.value = withSequence(
+        // start from -OFFSET
+        withTiming(-SHAKE_OFFSET, { duration: SHAKE_TIME / 2 }),
+        // shake between -OFFSET and OFFSET TOTAL_SHAKES times
+        withRepeat(
+          withTiming(SHAKE_OFFSET, { duration: SHAKE_TIME }),
+          TOTAL_SHAKES,
+          true
+        ),
+        // go back to 0 at the end
+        withTiming(0, { duration: SHAKE_TIME / 2 })
+      );
+
+      Vibration.vibrate(DELAY);
+      scale.value = 1.06;
+
+      await sleep(DELAY);
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      shiftFirst();
     }
   };
 
   const handleLongPressOut = () => {
-    clearTimeout(timer);
     scale.value = 1;
+    offset.value = 0;
+    removeQueued.value = false
   };
 
   // Day handle animation
@@ -134,9 +158,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
 
   return (
     <View>
-      <Animated.View
-        style={[styles.dayRootView, fadeAnimationStyle, scaleAnimation]}
-      >
+      <Animated.View style={[styles.dayRootView, exitingAnimation]}>
         <LongPressGestureHandler
           onBegan={handleLongPressIn}
           onCancelled={handleLongPressOut}
