@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: "100%",
     height: undefined,
-    aspectRatio: 0.85,
+    aspectRatio: 0.9,
   },
   imageWrapper: {
     shadowColor: "black",
@@ -142,9 +142,9 @@ const slides = [
     title: "Welcome to Lyf!",
     image: SLIDE_1_IMAGE,
     topText:
-      "Lyf is the only tool you need to plan and organise everything on your plate",
+      "Lyf is the only tool you need to plan and organise everything",
     bottomText:
-      "It is your personal all-in-one notebook for every event or task on your radar",
+      "The all-in-one notebook for every event or task on your radar",
     thirdText: "Say goodbye to Notes and Calendars!",
   },
   {

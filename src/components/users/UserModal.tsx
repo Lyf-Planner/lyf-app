@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
-import { useEffect, useMemo, useState } from "react";
-import { Horizontal, Loader } from "../../components/MiscComponents";
+import { useEffect, useState } from "react";
+import { Loader } from "../../components/MiscComponents";
 import { getUser } from "../../rest/user";
-import { ActionButton } from "../AsyncAction";
 import { FriendAction } from "../../widgets/account/friends/FriendActions";
 import { useModal } from "../../hooks/useModal";
+import { localisedMoment } from "../../utils/dates";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import AntDesign from "react-native-vector-icons/AntDesign";
+
 
 export const UserModal = ({ user_id }) => {
   const [user, setUser] = useState<any>(null);
@@ -42,10 +43,33 @@ export const UserModal = ({ user_id }) => {
           <View style={{ height: 50 }}>
             <FriendAction user_id={user.id} />
           </View>
+
+          <View style={styles.fieldSectionWrapper}>
+            <UserDetailField
+              title="Last Active"
+              value={localisedMoment(user.last_updated).format("MMM D YYYY")}
+            />
+            <UserDetailField
+              title="Joined"
+              value={localisedMoment(user.created).format("MMM D YYYY")}
+            />
+          </View>
         </View>
       ) : (
         <Loader />
       )}
+    </View>
+  );
+};
+
+export const UserDetailField = ({ title, value }) => {
+  return (
+    <View style={styles.fieldWrapper}>
+      <Text style={styles.fieldNameText}>
+        {title}
+        {" > "}
+      </Text>
+      <Text style={styles.fieldValueText}>{value}</Text>
     </View>
   );
 };
@@ -104,4 +128,12 @@ const styles = StyleSheet.create({
   },
   mainAliasText: { fontSize: 22, fontWeight: "500" },
   subAliasText: { fontSize: 14, color: "rgba(0,0,0,0.5)" },
+  fieldSectionWrapper: { gap: 6, marginTop: 8 },
+  fieldWrapper: { flexDirection: "row", justifyContent: "center" },
+  fieldNameText: {
+    opacity: 0.6,
+    fontWeight: "600",
+    fontSize: 16,
+  },
+  fieldValueText: { opacity: 0.4, fontSize: 16 },
 });

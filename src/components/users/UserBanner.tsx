@@ -13,7 +13,6 @@ export const UserBanner = ({
   context = UserListContext.Friends,
   item = null,
 }) => {
-  console.log("user banner has", user);
   const { updateModal } = useModal();
 
   return (
