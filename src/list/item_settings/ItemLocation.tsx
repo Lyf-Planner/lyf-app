@@ -42,19 +42,19 @@ export const ItemLocation = ({
               // @ts-ignore */}
           <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
         </TouchableHighlight>
-          <TextInput
-            value={localText}
-            onEndEditing={() => {
-              updateSheetMinHeight(100);
-              updateLocation(localText);
-            }}
-            placeholder="Type Location"
-            onFocus={() => updateSheetMinHeight(700)}
-            onBlur={() => updateSheetMinHeight(100)}
-            returnKeyType="done"
-            onChangeText={!invited && setText}
-            style={styles.input}
-          />
+        <TextInput
+          value={localText}
+          onEndEditing={() => {
+            updateSheetMinHeight(100);
+            updateLocation(localText);
+          }}
+          placeholder="Type Location"
+          onFocus={() => updateSheetMinHeight(700)}
+          onBlur={() => updateSheetMinHeight(100)}
+          returnKeyType="done"
+          onChangeText={!invited && setText}
+          style={styles.input}
+        />
       </View>
     </View>
   );
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   closeTouchable: { borderRadius: 5 },
   input: {
     backgroundColor: "rgba(0,0,0,0.08)",
-    maxWidth: 210,
+    maxWidth: 300,
     minWidth: 100,
     padding: 8,
     height: 40,
