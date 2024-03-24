@@ -38,6 +38,7 @@ export async function updateItem(item) {
     day: item.day,
     time: item.time,
     end_time: item.end_time,
+    url: item.url,
     desc: item.desc,
     notifications: item.notifications,
   };

@@ -21,11 +21,10 @@ export const ItemLink = ({
   const [localText, setText] = useState(item.url);
 
   function isValidHttpUrl(string) {
-    let url: URL|undefined;
+    let url: URL | undefined;
 
     try {
       url = new URL(string);
-      url.
     } catch (_) {
       return false;
     }
@@ -66,7 +65,7 @@ export const ItemLink = ({
             style={styles.previewText}
             underlayColor={"rgba(0,0,0,0.5)"}
             onPress={() => {
-              if (Linking.canOpenURL(item.url)) {
+              if (isValidHttpUrl(item.url) && Linking.canOpenURL(item.url)) {
                 Linking.openURL(item.url);
               }
             }}
@@ -78,7 +77,10 @@ export const ItemLink = ({
         ) : (
           <TextInput
             value={localText}
-            onEndEditing={() => updateUrl(localText)}
+            onEndEditing={() => {
+              updateSheetMinHeight(100)
+              updateUrl(localText);
+            }}
             onFocus={() => updateSheetMinHeight(700)}
             onBlur={() => updateSheetMinHeight(100)}
             returnKeyType="done"
