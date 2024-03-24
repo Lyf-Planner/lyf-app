@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     borderColor: deepBlue,
     opacity: 0.2,
     borderLeftWidth: 2,
-    height: "100%",
+    height: "140%",
     transform: [{ rotateZ: "-20deg" }],
     marginLeft: "auto",
   },

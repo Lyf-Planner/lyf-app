@@ -393,7 +393,7 @@ const styles = StyleSheet.create({
     borderColor: deepBlue,
     opacity: 0.2,
     marginLeft: 8,
-    height: "160%",
+    height: "200%",
     borderLeftWidth: 2,
     transform: [{ rotateZ: "-20deg" }],
   },
