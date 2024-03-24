@@ -285,7 +285,7 @@ export const ListItem = ({
 
           <Text
             adjustsFontSizeToFit={true}
-            numberOfLines={1}
+            numberOfLines={2}
             style={[
               styles.listItemText,
               {
