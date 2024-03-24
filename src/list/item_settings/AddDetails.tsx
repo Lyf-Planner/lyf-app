@@ -10,7 +10,7 @@ import { formatDateData } from "../../utils/dates";
 import { useNotifications } from "../../authorisation/NotificationsLayer";
 import { useModal } from "../../hooks/useModal";
 import { AddFriendsModal } from "./AddFriendsModal";
-import { isTemplate } from "../constants";
+import { ListItemType, isTemplate } from "../constants";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -69,7 +69,7 @@ export const AddDetails = ({
             </View>
           </TouchableHighlight>
         )}
-        {!item.time && (
+        {!item.time && item.type !== ListItemType.Task && (
           <TouchableHighlight
             style={styles.addFieldContainer}
             underlayColor={"rgba(0,0,0,0.5)"}
