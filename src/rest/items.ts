@@ -37,6 +37,7 @@ export async function updateItem(item) {
     date: item.date,
     day: item.day,
     time: item.time,
+    end_time: item.end_time,
     desc: item.desc,
     notifications: item.notifications,
   };
