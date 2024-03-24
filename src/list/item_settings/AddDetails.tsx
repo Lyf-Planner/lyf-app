@@ -23,6 +23,8 @@ export const AddDetails = ({
   updateNotify,
   setDescOpen,
   descOpen,
+  setLinkOpen,
+  linkOpen,
   invited,
   noteItem = false,
 }) => {
@@ -110,6 +112,24 @@ export const AddDetails = ({
                 size={18}
               />
               <Text style={styles.addNotificationText}>Add Reminder +</Text>
+            </View>
+          </TouchableHighlight>
+        )}
+        {!linkOpen && (
+          <TouchableHighlight
+            style={styles.addFieldContainer}
+            underlayColor={"rgba(0,0,0,0.5)"}
+            onPress={() => {
+              if (invited) return;
+              setLinkOpen(true);
+              updateItem({ ...item, url: "" });
+            }}
+          >
+            <View style={styles.addFieldContent}>
+              {/* 
+               // @ts-ignore */}
+              <MaterialIcons name="link" color={"white"} size={18} />
+              <Text style={styles.addFieldText}>Add Link +</Text>
             </View>
           </TouchableHighlight>
         )}

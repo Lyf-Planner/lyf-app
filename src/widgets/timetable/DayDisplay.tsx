@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: "100%",
     alignItems: "center",
-    gap: 8,
+    gap: 2,
     marginLeft: "auto",
     marginRight: 2,
   },

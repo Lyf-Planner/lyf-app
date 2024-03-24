@@ -15,6 +15,7 @@
     "@types/react": "17.0.43"
   },
   "dependencies": {
+    "@flyerhq/react-native-link-preview": "^1.6.0",
     "@gorhom/bottom-sheet": "^4.5.1",
     "@react-native-async-storage/async-storage": "1.21.0",
     "@react-native-community/datetimepicker": "7.6.1",

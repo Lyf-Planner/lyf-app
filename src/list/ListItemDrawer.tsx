@@ -18,6 +18,7 @@ import { OptionsMenu } from "./item_settings/OptionsMenu";
 import { InviteHandler } from "./item_settings/InviteHandler";
 import { ItemUsers } from "./item_settings/ItemUsers";
 import { isTemplate } from "./constants";
+import { ItemLink } from "./item_settings/ItemLink";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
 export const ListItemDrawer = ({
@@ -65,6 +66,7 @@ export const ListItemDrawer = ({
     [item?.invited_users, user]
   );
   const [descOpen, setDescOpen] = useState(!!item?.desc);
+  const [linkOpen, setLinkOpen] = useState(!!item?.url);
 
   // Is outside notifications component due to automatic notif setting
   const updateNotification = (enabled, minutes_before, prereqItem = item) => {
@@ -115,9 +117,7 @@ export const ListItemDrawer = ({
               invited={invited}
               updateSheetMinHeight={updateSheetMinHeight}
             />
-            {!invited && !preloaded && (
-              <OptionsMenu item={item} />
-            )}
+            {!invited && !preloaded && <OptionsMenu item={item} />}
           </View>
           {invited ? (
             <InviteHandler item={item} />
@@ -162,6 +162,16 @@ export const ListItemDrawer = ({
             />
           )}
 
+          {linkOpen && (
+            <ItemLink
+              item={item}
+              updateItem={modifyItem}
+              setLinkOpen={setLinkOpen}
+              invited={invited}
+              updateSheetMinHeight={updateSheetMinHeight}
+            />
+          )}
+
           {descOpen && (
             <ItemDescription
               item={item}
@@ -183,6 +193,8 @@ export const ListItemDrawer = ({
             updateNotify={updateNotify}
             setDescOpen={setDescOpen}
             descOpen={descOpen}
+            setLinkOpen={setLinkOpen}
+            linkOpen={linkOpen}
             invited={invited}
             noteItem={!!preloaded}
           />
