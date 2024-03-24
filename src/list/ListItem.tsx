@@ -14,13 +14,14 @@ import { TwentyFourHourToAMPM } from "../utils/dates";
 import { ListItemDrawer } from "./ListItemDrawer";
 import { useDrawer } from "../hooks/useDrawer";
 import { LinearGradient } from "expo-linear-gradient";
-import { primaryGreen, sleep } from "../utils/constants";
+import { deepBlue, primaryGreen, sleep } from "../utils/constants";
 import { useCallback, useMemo } from "react";
 import { useAuth } from "../authorisation/AuthProvider";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import * as Haptics from "expo-haptics";
+import { Vertical } from "../components/MiscComponents";
 
 const SCALE_MS = 180;
 
@@ -227,6 +228,28 @@ export const ListItem = ({
     else return badgeTextColor;
   };
 
+  const getTimeText = () => {
+    if (item.end_time && item.time) {
+      const amPmSlicePosition = -2;
+
+      const potentialTime = TwentyFourHourToAMPM(item.time);
+      const endTime = TwentyFourHourToAMPM(item.end_time);
+
+      // Remove AMPM from time to save space, if it's the same as the end time
+      const sameAMPM =
+        potentialTime.slice(amPmSlicePosition) ===
+        endTime.slice(amPmSlicePosition);
+      const time = sameAMPM
+        ? TwentyFourHourToAMPM(item.time, false)
+        : potentialTime;
+
+      return time + "-" + endTime;
+    } else if (item.time) {
+      const time = TwentyFourHourToAMPM(item.time);
+      return time;
+    } else return;
+  };
+
   return (
     <GestureDetector gesture={gestures}>
       <Animated.View
@@ -234,6 +257,7 @@ export const ListItem = ({
           scaleAnimation,
           {
             opacity: item.status === ItemStatus.Cancelled || invited ? 0.7 : 1,
+            width: "100%",
           },
         ]}
       >
@@ -247,7 +271,34 @@ export const ListItem = ({
             },
           ]}
         >
-          {(item.permitted_users.length > 1 || invited) && (
+          <Animated.View style={[checkScaleAnimation]}>
+            {/* 
+             // @ts-ignore */}
+            <AntDesign
+              name={
+                item.status === ItemStatus.Done ? "checkcircle" : "checkcircleo"
+              }
+              style={{ color: determineBadgeTextColor() }}
+              size={18}
+            />
+          </Animated.View>
+
+          <Text
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}
+            style={[
+              styles.listItemText,
+              {
+                color: determineBadgeTextColor(),
+                fontFamily:
+                  item.type !== ListItemType.Task ? "InterMed" : "Inter",
+              },
+            ]}
+          >
+            {item.title}
+          </Text>
+
+          {(item.permitted_users.length > 1 || item.invited_users?.length > 0) && (
             <View
               style={[
                 styles.collaborativeIndicator,
@@ -267,31 +318,25 @@ export const ListItem = ({
             </View>
           )}
 
-          <Text
-            style={[
-              styles.listItemText,
-              {
-                color: determineBadgeTextColor(),
-                fontFamily:
-                  item.type !== ListItemType.Task ? "InterMed" : "Inter",
-              },
-            ]}
-          >
-            {item.title}
-            {item.time && ` ${TwentyFourHourToAMPM(item.time)}`}
-          </Text>
-
-          <Animated.View style={[checkScaleAnimation]}>
-            {/* 
-             // @ts-ignore */}
-            <AntDesign
-              name={
-                item.status === ItemStatus.Done ? "checkcircle" : "checkcircleo"
-              }
-              style={{ color: determineBadgeTextColor() }}
-              size={18}
-            />
-          </Animated.View>
+          {item.time && (
+            <View style={styles.listItemTimeSection}>
+              <Vertical style={styles.diagLines} />
+              <Text
+                adjustsFontSizeToFit={true}
+                numberOfLines={1}
+                style={[
+                  styles.listItemTimeText,
+                  {
+                    color: determineBadgeTextColor(),
+                    fontFamily:
+                      item.type !== ListItemType.Task ? "InterMed" : "Inter",
+                  },
+                ]}
+              >
+                {getTimeText()}
+              </Text>
+            </View>
+          )}
         </Animated.View>
         <LinearGradient
           colors={[ITEM_STATUS_TO_COLOR[ItemStatus.InProgress], "white"]}
@@ -319,7 +364,7 @@ export const ListItem = ({
 const styles = StyleSheet.create({
   listItem: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    width: "100%",
     padding: 10,
     height: 55,
     borderWidth: 1,
@@ -329,6 +374,28 @@ const styles = StyleSheet.create({
   listItemText: {
     fontSize: 17,
     padding: 2,
+    flex: 1,
+  },
+  listItemTimeSection: {
+    maxWidth: "40%",
+    flexDirection: "row",
+    height: "100%",
+    alignItems: "center",
+    marginLeft: "auto",
+    justifyContent: "flex-end",
+  },
+  listItemTimeText: {
+    fontSize: 17,
+    padding: 2,
+    marginLeft: 8
+  },
+  diagLines: {
+    borderColor: deepBlue,
+    opacity: 0.2,
+    marginLeft: 8,
+    height: "160%",
+    borderLeftWidth: 2,
+    transform: [{ rotateZ: "-20deg" }],
   },
   listHiddenBackground: {
     height: 54,
@@ -341,10 +408,12 @@ const styles = StyleSheet.create({
   collaborativeIndicator: {
     borderRadius: 30,
     aspectRatio: 1,
+    width: "10%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     padding: 4,
+    marginHorizontal: "auto"
   },
   inviteIndicator: {
     borderRadius: 50,

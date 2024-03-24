@@ -261,8 +261,8 @@ const styles = StyleSheet.create({
     borderColor: deepBlue,
     opacity: 0.2,
     borderLeftWidth: 2,
-    height: "150%",
-    transform: [{ rotateZ: "-30deg" }],
+    height: "100%",
+    transform: [{ rotateZ: "-20deg" }],
     marginLeft: "auto",
   },
   dayDateText: {

@@ -3,7 +3,18 @@ import { localisedMoment } from "../utils/dates";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Entypo from "react-native-vector-icons/Entypo";
 
-export const NullableTimePicker = ({ updateTime, time, disabled = false }) => {
+export enum NullTimeTextOptions {
+  AddTime = "Add Time +",
+  EndTime = "End Time?",
+}
+
+export const NullableTimePicker = ({
+  updateTime,
+  time,
+  disabled = false,
+  nullText = NullTimeTextOptions.AddTime,
+  defaultTime = "09:00"
+}) => {
   return (
     <View>
       {time ? (
@@ -15,10 +26,17 @@ export const NullableTimePicker = ({ updateTime, time, disabled = false }) => {
           style={styles.addTimeContainer}
           underlayColor={"rgba(0,0,0,0.5)"}
           onPress={() => {
-            updateTime("09:00");
+            updateTime(defaultTime);
           }}
         >
-          <Text style={styles.addTimeText}>Add Time +</Text>
+          <Text
+            style={[
+              styles.addTimeText,
+              { opacity: nullText === NullTimeTextOptions.EndTime ? 0.5 : 1 },
+            ]}
+          >
+            {nullText}
+          </Text>
         </TouchableHighlight>
       )}
     </View>

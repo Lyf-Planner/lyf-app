@@ -107,8 +107,11 @@ export function parseDateString(date: String) {
   return new Date(data[0], data[1] - 1, data[2]);
 }
 
-export function TwentyFourHourToAMPM(time: string) {
+export function TwentyFourHourToAMPM(time: string, withAMPM = true) {
   var [hours, mins] = time.split(":");
   var h = parseInt(hours);
-  return (h % 12 ? h % 12 : 12) + ":" + mins + (h >= 12 ? "pm" : "am");
+  const hourText =  (h % 12 ? h % 12 : 12);
+  const minsText = mins;
+  const AMPM = withAMPM ?  (h >= 12 ? "pm" : "am") : ""
+  return hourText + ":" + minsText + AMPM;
 }
