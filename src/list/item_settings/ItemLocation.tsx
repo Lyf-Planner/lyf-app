@@ -5,53 +5,35 @@ import {
   TextInput,
   StyleSheet,
   TouchableHighlight,
-  Linking,
 } from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-export const ItemLink = ({
+export const ItemLocation = ({
   item,
   updateItem,
-  setLinkOpen,
+  setLocationOpen,
   invited,
   updateSheetMinHeight,
 }) => {
-  const [submitted, setSubmitted] = useState(!!item.url);
-  const [localText, setText] = useState(item.url);
+  const [localText, setText] = useState(item.location);
 
-  function isValidHttpUrl(string) {
-    let url: URL | undefined;
-
-    try {
-      url = new URL(string);
-    } catch (_) {
-      return false;
-    }
-
-    return url.protocol === "http:" || url.protocol === "https:";
-  }
-
-  const updateUrl = (url) => {
-    url = url?.toLowerCase();
+  const updateLocation = (location) => {
     if (invited) return;
-    updateItem({ ...item, url });
-    if (url && isValidHttpUrl(url)) {
-      setSubmitted(true);
-    }
+    updateItem({ ...item, location });
   };
 
   return (
     <View style={[styles.mainContainer]}>
       {/* 
         // @ts-ignore */}
-      <MaterialIcons name="link" size={20} />
-      <Text style={[styles.fieldText]}>Link</Text>
+      <MaterialIcons name="location-pin" size={20} />
+      <Text style={[styles.fieldText]}>Location</Text>
       <View style={styles.inputWrapper}>
         <TouchableHighlight
           onPress={() => {
-            updateUrl(null);
-            setLinkOpen(false);
+            updateLocation(null);
+            setLocationOpen(false);
           }}
           underlayColor={"rgba(0,0,0,0.5)"}
           style={styles.closeTouchable}
@@ -60,35 +42,19 @@ export const ItemLink = ({
               // @ts-ignore */}
           <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
         </TouchableHighlight>
-        {submitted ? (
-          <TouchableHighlight
-            style={styles.previewText}
-            underlayColor={"rgba(0,0,0,0.5)"}
-            onPress={() => {
-              if (isValidHttpUrl(item.url) && Linking.canOpenURL(item.url)) {
-                Linking.openURL(item.url);
-              }
-            }}
-          >
-            <Text style={{ color: "blue", textDecorationLine: "underline" }}>
-              {item.url}
-            </Text>
-          </TouchableHighlight>
-        ) : (
           <TextInput
             value={localText}
             onEndEditing={() => {
-              updateSheetMinHeight(100)
-              updateUrl(localText);
+              updateSheetMinHeight(100);
+              updateLocation(localText);
             }}
-            placeholder="Type Link"
+            placeholder="Type Location"
             onFocus={() => updateSheetMinHeight(700)}
             onBlur={() => updateSheetMinHeight(100)}
             returnKeyType="done"
             onChangeText={!invited && setText}
             style={styles.input}
           />
-        )}
       </View>
     </View>
   );
@@ -111,16 +77,19 @@ const styles = StyleSheet.create({
   closeTouchable: { borderRadius: 5 },
   input: {
     backgroundColor: "rgba(0,0,0,0.08)",
-    padding: 6,
-    width: 200,
+    maxWidth: 210,
+    minWidth: 100,
+    padding: 8,
+    height: 40,
     borderRadius: 8,
     fontSize: 16,
     textAlign: "center",
+    marginLeft: "auto",
   },
   previewText: {
     backgroundColor: "rgba(0,0,0,0.08)",
-    padding: 8,
-    width: 210,
+    padding: 6,
+    width: "50%",
     borderRadius: 10,
     height: 35,
     alignItems: "center",

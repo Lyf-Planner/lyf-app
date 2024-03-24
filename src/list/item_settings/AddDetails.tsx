@@ -25,6 +25,8 @@ export const AddDetails = ({
   descOpen,
   setLinkOpen,
   linkOpen,
+  setLocationOpen,
+  locationOpen,
   invited,
   noteItem = false,
 }) => {
@@ -130,6 +132,24 @@ export const AddDetails = ({
                // @ts-ignore */}
               <MaterialIcons name="link" color={"white"} size={18} />
               <Text style={styles.addFieldText}>Add Link +</Text>
+            </View>
+          </TouchableHighlight>
+        )}
+        {!locationOpen && (
+          <TouchableHighlight
+            style={styles.addFieldContainer}
+            underlayColor={"rgba(0,0,0,0.5)"}
+            onPress={() => {
+              if (invited) return;
+              setLocationOpen(true);
+              updateItem({ ...item, location: "" });
+            }}
+          >
+            <View style={styles.addFieldContent}>
+              {/* 
+               // @ts-ignore */}
+              <MaterialIcons name="location-pin" color={"white"} size={18} />
+              <Text style={styles.addFieldText}>Add Location +</Text>
             </View>
           </TouchableHighlight>
         )}

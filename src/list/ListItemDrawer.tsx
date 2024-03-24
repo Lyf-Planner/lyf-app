@@ -19,6 +19,7 @@ import { InviteHandler } from "./item_settings/InviteHandler";
 import { ItemUsers } from "./item_settings/ItemUsers";
 import { isTemplate } from "./constants";
 import { ItemLink } from "./item_settings/ItemLink";
+import { ItemLocation } from "./item_settings/ItemLocation";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 
 export const ListItemDrawer = ({
@@ -40,6 +41,10 @@ export const ListItemDrawer = ({
     return items.find((x) => x.id === item_id);
   }, [items, preloadedItem, item_id]);
   if (!item) closeDrawer();
+
+  const [descOpen, setDescOpen] = useState(!!item?.desc);
+  const [linkOpen, setLinkOpen] = useState(!!item?.url);
+  const [locationOpen, setLocationOpen] = useState(!!item?.location);
 
   // Wrapper to handle either the preloaded case or fetched from store case
   const modifyItem = (item) => {
@@ -65,8 +70,6 @@ export const ListItemDrawer = ({
       !!item.invited_users?.find((x) => x.user_id === user.id),
     [item?.invited_users, user]
   );
-  const [descOpen, setDescOpen] = useState(!!item?.desc);
-  const [linkOpen, setLinkOpen] = useState(!!item?.url);
 
   // Is outside notifications component due to automatic notif setting
   const updateNotification = (enabled, minutes_before, prereqItem = item) => {
@@ -172,6 +175,16 @@ export const ListItemDrawer = ({
             />
           )}
 
+          {locationOpen && (
+            <ItemLocation
+              item={item}
+              updateItem={modifyItem}
+              setLocationOpen={setLocationOpen}
+              invited={invited}
+              updateSheetMinHeight={updateSheetMinHeight}
+            />
+          )}
+
           {descOpen && (
             <ItemDescription
               item={item}
@@ -195,6 +208,8 @@ export const ListItemDrawer = ({
             descOpen={descOpen}
             setLinkOpen={setLinkOpen}
             linkOpen={linkOpen}
+            setLocationOpen={setLocationOpen}
+            locationOpen={locationOpen}
             invited={invited}
             noteItem={!!preloaded}
           />
