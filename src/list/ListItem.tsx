@@ -298,26 +298,6 @@ export const ListItem = ({
             {item.title}
           </Text>
 
-          {(item.permitted_users.length > 1 || item.invited_users?.length > 0) && (
-            <View
-              style={[
-                styles.collaborativeIndicator,
-                {
-                  backgroundColor:
-                    item.status === ItemStatus.Done ? "white" : primaryGreen,
-                },
-              ]}
-            >
-              {/* 
-                // @ts-ignore */}
-              <FontAwesome5
-                name="users"
-                size={16}
-                color={item.status === ItemStatus.Done ? primaryGreen : "white"}
-              />
-            </View>
-          )}
-
           {item.time && (
             <View style={styles.listItemTimeSection}>
               <Vertical style={styles.diagLines} />
@@ -335,6 +315,27 @@ export const ListItem = ({
               >
                 {getTimeText()}
               </Text>
+            </View>
+          )}
+
+          {(item.permitted_users.length > 1 ||
+            item.invited_users?.length > 0) && (
+            <View
+              style={[
+                styles.collaborativeIndicator,
+                {
+                  backgroundColor:
+                    item.status === ItemStatus.Done ? "white" : primaryGreen,
+                },
+              ]}
+            >
+              {/* 
+                // @ts-ignore */}
+              <FontAwesome5
+                name="users"
+                size={16}
+                color={item.status === ItemStatus.Done ? primaryGreen : "white"}
+              />
             </View>
           )}
         </Animated.View>
@@ -387,7 +388,7 @@ const styles = StyleSheet.create({
   listItemTimeText: {
     fontSize: 17,
     padding: 2,
-    marginLeft: 8
+    marginLeft: 8,
   },
   diagLines: {
     borderColor: deepBlue,
@@ -412,8 +413,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    padding: 4,
-    marginHorizontal: "auto"
   },
   inviteIndicator: {
     borderRadius: 50,
