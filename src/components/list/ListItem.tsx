@@ -296,6 +296,7 @@ export const ListItem = ({
             ]}
           >
             {item.title}
+            {item.location && ` @ ${item.location}`}
           </Text>
 
           {item.time && (
@@ -378,7 +379,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listItemTimeSection: {
-    maxWidth: "40%",
+    minWidth: "30%",
     flexDirection: "row",
     height: "100%",
     alignItems: "center",
@@ -386,9 +387,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   listItemTimeText: {
-    fontSize: 17,
     padding: 2,
-    marginLeft: 8,
+    marginLeft: 12,
   },
   diagLines: {
     borderColor: deepBlue,
