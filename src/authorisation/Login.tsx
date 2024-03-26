@@ -6,7 +6,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
-import { Horizontal, Loader } from "../components/MiscComponents";
+import { Horizontal, Loader } from "../components/general/MiscComponents";
 import { useRef, useState } from "react";
 import { USER_NOT_FOUND, login } from "../rest/auth";
 import { createUser } from "../rest/user";

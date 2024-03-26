@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useState } from "react";
 import { useAuth } from "../authorisation/AuthProvider";
 import { v4 as uuid } from "uuid";
-import { NoteTypes } from "../widgets/notes/TypesAndHelpers";
+import { NoteTypes } from "../pages/notes/TypesAndHelpers";
 import {
   createNote,
   deleteNote,

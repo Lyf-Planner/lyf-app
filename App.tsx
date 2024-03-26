@@ -1,7 +1,7 @@
 import { StatusBar } from "react-native";
 import { useFonts } from "expo-font";
-import { Background } from "./src/components/Background";
-import { WidgetContainer } from "./src/widgets/WidgetContainer";
+import { Background } from "./src/components/general/Background";
+import { WidgetContainer } from "./src/pages/WidgetContainer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { TouchableWithoutFeedback, Keyboard } from "react-native";
 import { AppProviders } from "./src/hooks/hookProviders";

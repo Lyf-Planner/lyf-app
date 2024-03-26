@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import { eventsBadgeColor } from "../../utils/constants";
-import { FriendAction } from "../../widgets/account/friends/FriendActions";
-import { BouncyPressable } from "../BouncyPressable";
+import { FriendAction } from "../../pages/account/friends/FriendActions";
+import { BouncyPressable } from "../pressables/BouncyPressable";
 import { UserListContext } from "../../utils/constants";
-import { ItemSocialAction } from "../../list/item_settings/ItemSocialAction";
+import { ItemSocialAction } from "../list/item_settings/ItemSocialAction";
 import { useModal } from "../../hooks/useModal";
 import { UserModal } from "./UserModal";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -25,15 +25,27 @@ export const UserBanner = ({
       <FontAwesome name="user" size={24} />
       {user.name && user.name !== user.id ? (
         <View style={styles.nameRow}>
-          <Text numberOfLines={1} adjustsFontSizeToFit style={styles.mainAliasText}>
+          <Text
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            style={styles.mainAliasText}
+          >
             {user.name}
           </Text>
-          <Text adjustsFontSizeToFit numberOfLines={1} style={styles.subAliasText}>
+          <Text
+            adjustsFontSizeToFit
+            numberOfLines={1}
+            style={styles.subAliasText}
+          >
             {user.id}
           </Text>
         </View>
       ) : (
-        <Text adjustsFontSizeToFit numberOfLines={1} style={styles.mainAliasText}>
+        <Text
+          adjustsFontSizeToFit
+          numberOfLines={1}
+          style={styles.mainAliasText}
+        >
           {user.id}
         </Text>
       )}

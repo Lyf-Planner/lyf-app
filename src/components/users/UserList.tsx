@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getUsers } from "../../rest/user";
 import { StyleSheet, View, Text } from "react-native";
 import { UserBanner } from "./UserBanner";
-import { Loader } from "../MiscComponents";
+import { Loader } from "../general/MiscComponents";
 import { UserListContext } from "../../utils/constants";
 
 export const UserList = ({

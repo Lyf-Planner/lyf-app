@@ -7,7 +7,7 @@ import { InitialisedProvider } from "./initialisedGateway";
 import { NotesProvider } from "./useNotes";
 import { AuthGateway } from "../authorisation/AuthProvider";
 import { TutorialProvider } from "./useTutorial";
-import { NotificationsLayer } from "../authorisation/NotificationsLayer";
+import { NotificationsLayer } from "./useNotifications";
 import { WidgetProvider } from "./useWidgetNavigator";
 
 export const AppProviders = ({ children }) => {

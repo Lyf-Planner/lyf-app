@@ -13,7 +13,7 @@ import {
   updateItem as updateRemoteItem,
   updateItemSocial as updateRemoteItemSocial,
 } from "../rest/items";
-import { ItemStatus, ListItemType } from "../list/constants";
+import { ItemStatus, ListItemType } from "../components/list/constants";
 import { v4 as uuid } from "uuid";
 import { formatDateData, getStartOfCurrentWeek } from "../utils/dates";
 import { SocialAction, arraysEqualAsSets } from "../utils/constants";

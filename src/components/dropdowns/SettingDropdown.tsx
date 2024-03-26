@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
-import { Horizontal } from "../MiscComponents";
+import { Horizontal } from "../general/MiscComponents";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,

@@ -12,7 +12,7 @@ import {
   storeAsyncData,
 } from "../utils/asyncStorage";
 import { autologin } from "../rest/auth";
-import { LoadingScreen } from "../components/MiscComponents";
+import { LoadingScreen } from "../components/general/MiscComponents";
 import { Login } from "./Login";
 import { getCalendars } from "expo-localization";
 import {

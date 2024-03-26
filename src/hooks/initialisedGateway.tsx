@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import { useAuth } from "../authorisation/AuthProvider";
-import { LoadingScreen } from "../components/MiscComponents";
+import { LoadingScreen } from "../components/general/MiscComponents";
 import { useItems } from "./useItems";
 
 // Wraps the app in a loading screen until all data providers are ready

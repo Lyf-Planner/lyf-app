@@ -1,13 +1,12 @@
 import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
 import { useEffect, useState } from "react";
-import { Loader } from "../../components/MiscComponents";
+import { Loader } from "../../components/general/MiscComponents";
 import { getUser } from "../../rest/user";
-import { FriendAction } from "../../widgets/account/friends/FriendActions";
+import { FriendAction } from "../../pages/account/friends/FriendActions";
 import { useModal } from "../../hooks/useModal";
 import { localisedMoment } from "../../utils/dates";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import AntDesign from "react-native-vector-icons/AntDesign";
-
 
 export const UserModal = ({ user_id }) => {
   const [user, setUser] = useState<any>(null);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, View, Text } from "react-native";
-import { ListInput } from "../../list/ListInput";
+import { ListInput } from "../list/ListInput";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,

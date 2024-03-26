@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { IntroSlider } from "../widgets/tutorial/IntroSlider";
+import { IntroSlider } from "../pages/tutorial/IntroSlider";
 import { useAuth } from "../authorisation/AuthProvider";
 
 // Component provider
