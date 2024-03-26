@@ -161,7 +161,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
     <View>
       <Animated.View style={[styles.dayRootView, exitingAnimation]}>
         <LongPressGestureHandler
-          onBegan={handleLongPressIn}
+          onActivated={handleLongPressIn}
           onCancelled={handleLongPressOut}
           onEnded={handleLongPressOut}
           onFailed={handleLongPressOut}
