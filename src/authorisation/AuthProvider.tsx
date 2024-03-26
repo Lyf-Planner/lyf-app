@@ -36,6 +36,7 @@ export const AuthGateway = ({ children }) => {
       // Then update
       setUser({ ...user });
       setLastUpdated(new Date());
+      user && updateLoggingIn(false);
     },
     [setUser]
   );
@@ -94,13 +95,13 @@ export const AuthGateway = ({ children }) => {
           appState.current.match(/background|inactive/) &&
           nextAppState === "active"
         ) {
-          getAsyncData("token").then(
-            (token) =>
-              token &&
-              autologin().then((cloudUser) => {
-                console.log("Syncing User");
-                updateUser(cloudUser);
-              })
+          getAsyncData("token").then((token) =>
+            token
+              ? autologin().then((cloudUser) => {
+                  console.log("Syncing User");
+                  updateUser(cloudUser);
+                })
+              : updateLoggingIn(false)
           );
         }
         appState.current = nextAppState;
