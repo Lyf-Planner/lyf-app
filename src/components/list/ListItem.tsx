@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, GestureResponderEvent, Pressable } from "react-native";
 import Animated, {
   useSharedValue,
   withTiming,
@@ -8,6 +8,7 @@ import {
   GestureDetector,
   Gesture,
   Directions,
+  TouchableHighlight,
 } from "react-native-gesture-handler";
 import { ITEM_STATUS_TO_COLOR, ItemStatus, ListItemType } from "./constants";
 import { TwentyFourHourToAMPM } from "../../utils/dates";
@@ -15,13 +16,15 @@ import { ListItemDrawer } from "./ListItemDrawer";
 import { useDrawer } from "../../hooks/useDrawer";
 import { LinearGradient } from "expo-linear-gradient";
 import { deepBlue, primaryGreen, sleep } from "../../utils/constants";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { Vertical } from "../general/MiscComponents";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import Feather from "react-native-vector-icons/Feather";
 import * as Haptics from "expo-haptics";
+import { BouncyPressable } from "../pressables/BouncyPressable";
 
 const SCALE_MS = 180;
 
@@ -32,6 +35,7 @@ export const ListItem = ({
   badgeColor,
   badgeTextColor,
   fromNote = false,
+  dragFunc = null,
 }) => {
   const { updateDrawer, updateSheetMinHeight } = useDrawer();
   const { user } = useAuth();
@@ -87,6 +91,7 @@ export const ListItem = ({
   const scale = useSharedValue(1);
   const offsetX = useSharedValue(0);
   const checkScale = useSharedValue(1);
+  const dragging = useSharedValue(false);
 
   var timer = null;
   const scaleAnimation = useAnimatedStyle(() => {
@@ -160,7 +165,11 @@ export const ListItem = ({
   };
 
   const handleLongPressIn = () => {
-    if (invited) return;
+    if (invited || dragging.value) {
+      console.log("not running long press handler!")
+      return;
+    }
+    console.log("running handlepressin")
     // Start animating the shrinking of the item while user holds it down
 
     scale.value = 0.75;
@@ -339,6 +348,34 @@ export const ListItem = ({
               />
             </View>
           )}
+
+          {item.type === ListItemType.Task && (
+            <Pressable
+              onPressIn={() => {
+                console.log("setting dragging to true")
+                dragging.value = true
+                dragFunc()
+              }}
+              onPressOut={() => {
+                console.log("setting dragging to false")
+                dragging.value = false;
+              }}
+              style={[
+                styles.sortableIndicator,
+                {
+                  backgroundColor: determineBadgeTextColor(),
+                },
+              ]}
+            >
+              {/* 
+                // @ts-ignore */}
+              <Feather
+                name="menu"
+                size={16}
+                color={item.status === ItemStatus.Done ? primaryGreen : "white"}
+              />
+            </Pressable>
+          )}
         </Animated.View>
         <LinearGradient
           colors={[ITEM_STATUS_TO_COLOR[ItemStatus.InProgress], "white"]}
@@ -407,6 +444,14 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   collaborativeIndicator: {
+    borderRadius: 30,
+    aspectRatio: 1,
+    width: "10%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  sortableIndicator: {
     borderRadius: 30,
     aspectRatio: 1,
     width: "10%",

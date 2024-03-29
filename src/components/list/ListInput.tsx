@@ -1,6 +1,8 @@
 import { View, StyleSheet, TextInput } from "react-native";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ListItem } from "./ListItem";
+import DraggableFlatList from "react-native-draggable-flatlist";
+import { useItems } from "../../hooks/useItems";
 
 export enum ListType {
   Event = "Event",
@@ -20,28 +22,50 @@ export const ListInput = ({
   listWrapperStyles = {},
   fromNote = false,
 }) => {
+  const [localItems, setLocalItems] = useState(items);
+  const { resortItems } = useItems();
+
+  useEffect(() => {
+    setLocalItems(items);
+  }, [items]);
+
+  console.log(
+    "items refreshed as",
+    items.map((x) => x.id)
+  );
+
   return (
-    <View
-      style={[
-        styles.listContainer,
-        {
-          flexDirection: "row",
-          backgroundColor: listBackgroundColor,
-        },
-        listWrapperStyles,
-      ]}
-    >
-      {items.map((x, i: number) => (
-        <ListItem
-          key={x.template_id || x.id}
-          updateItem={updateItem}
-          removeItem={removeItem}
-          badgeColor={badgeColor}
-          fromNote={fromNote}
-          badgeTextColor={badgeTextColor}
-          item={x}
-        />
-      ))}
+    <View style={{ gap: 2 }}>
+      <DraggableFlatList
+        containerStyle={[
+          styles.listContainer,
+          {
+            flexDirection: "row",
+            backgroundColor: listBackgroundColor,
+          },
+          listWrapperStyles,
+        ]}
+        data={localItems}
+        onDragEnd={({ data }) => {
+          resortItems(data.map((x) => x.id))
+          setLocalItems(data);
+        }}
+        keyExtractor={(item: any, index: number) => item.id + "-" + index}
+        renderItem={(x: any) => {
+          return (
+            <ListItem
+              key={x.item.template_id || x.item.id}
+              updateItem={updateItem}
+              removeItem={removeItem}
+              badgeColor={badgeColor}
+              fromNote={fromNote}
+              badgeTextColor={badgeTextColor}
+              item={x.item}
+              dragFunc={x.drag}
+            />
+          );
+        }}
+      />
       <NewItem type={type} addItem={addItem} />
     </View>
   );
@@ -75,7 +99,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     width: "100%",
     gap: 4,
-    marginTop: 6,
+    marginTop: 4,
     padding: 2,
   },
   listNewItem: {
