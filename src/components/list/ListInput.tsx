@@ -1,7 +1,7 @@
 import { View, StyleSheet, TextInput } from "react-native";
 import { useEffect, useRef, useState } from "react";
-import { ListItem } from "./ListItem";
-import DraggableFlatList from "react-native-draggable-flatlist";
+import { ListItem } from "./item/ListItem";
+import { NestableDraggableFlatList } from "react-native-draggable-flatlist";
 import { useItems } from "../../hooks/useItems";
 
 export enum ListType {
@@ -22,46 +22,35 @@ export const ListInput = ({
   listWrapperStyles = {},
   fromNote = false,
 }) => {
-  const [localItems, setLocalItems] = useState(items);
   const { resortItems } = useItems();
-
-  useEffect(() => {
-    setLocalItems(items);
-  }, [items]);
-
-  console.log(
-    "items refreshed as",
-    items.map((x) => x.id)
-  );
 
   return (
     <View style={{ gap: 2 }}>
-      <DraggableFlatList
+      <NestableDraggableFlatList
         containerStyle={[
           styles.listContainer,
           {
-            flexDirection: "row",
             backgroundColor: listBackgroundColor,
           },
           listWrapperStyles,
         ]}
-        data={localItems}
+        style={styles.flatlistInternal}
+        data={items}
         onDragEnd={({ data }) => {
-          resortItems(data.map((x) => x.id))
-          setLocalItems(data);
+          resortItems(data.map((x) => x.id));
         }}
-        keyExtractor={(item: any, index: number) => item.id + "-" + index}
+        keyExtractor={(item: any) => item.id}
         renderItem={(x: any) => {
           return (
             <ListItem
               key={x.item.template_id || x.item.id}
               updateItem={updateItem}
-              removeItem={removeItem}
               badgeColor={badgeColor}
               fromNote={fromNote}
               badgeTextColor={badgeTextColor}
               item={x.item}
               dragFunc={x.drag}
+              isActive={x.isActive}
             />
           );
         }}
@@ -97,11 +86,14 @@ const NewItem = ({ type, addItem }) => {
 const styles = StyleSheet.create({
   listContainer: {
     flexWrap: "wrap",
+    flexDirection: "row",
+    overflow: "visible",
     width: "100%",
     gap: 4,
     marginTop: 4,
     padding: 2,
   },
+  flatlistInternal: { overflow: "visible" },
   listNewItem: {
     height: 55,
     backgroundColor: "rgb(17 24 39)",

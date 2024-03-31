@@ -15,6 +15,7 @@ import {
   DisplayedWidgets,
   useWidgetNavigator,
 } from "../hooks/useWidgetNavigator";
+import { NestableScrollContainer } from "react-native-draggable-flatlist";
 
 export const WidgetContainer = () => {
   const { logout, deleteMe } = useAuth();
@@ -28,13 +29,13 @@ export const WidgetContainer = () => {
   };
 
   return (
-    <KeyboardAwareScrollView enableResetScrollToCoords={false}>
+    <NestableScrollContainer>
       <View style={styles.container}>
         <AppHeaderMenu selected={activeWidget} updateSelected={setWidget} />
         <Horizontal style={styles.headerSeperator} />
         {WIDGETS[activeWidget]}
       </View>
-    </KeyboardAwareScrollView>
+    </NestableScrollContainer>
   );
 };
 
