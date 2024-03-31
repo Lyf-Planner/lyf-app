@@ -39,8 +39,6 @@ export const ItemsProvider = ({ children }) => {
     const itemChanges = !arraysEqualAsSets(fetchedIds, storeIds);
     console.log("Item Changes Detected?", itemChanges);
 
-    console.log("initialising with items", itemIds);
-
     if (itemChanges) {
       console.log("Syncing Item Store");
       for (let item of fetchedIds) {
@@ -222,16 +220,10 @@ export const ItemsProvider = ({ children }) => {
   };
 
   const resortItems = (priorities: string[]) => {
-    console.log("resort called with priorities", priorities);
-
     const sortedItems = items.sort(
       (a, b) => priorities.indexOf(a.id) - priorities.indexOf(b.id)
     );
 
-    console.log(
-      "sorted changed items?",
-      JSON.stringify(sortedItems) === JSON.stringify(items)
-    );
     setItems(sortedItems);
 
     updateUser({
