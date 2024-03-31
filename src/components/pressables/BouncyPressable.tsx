@@ -11,7 +11,7 @@ export const BouncyPressable = ({
   disabled = false,
   containerStyle = null,
   conditionalStyles = null,
-  onPress,
+  onPress = null,
   onLongPress = null,
   useTouchableHighlight = false,
 }) => {

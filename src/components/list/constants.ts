@@ -1,4 +1,4 @@
-import { Permission, primaryGreen } from "../../utils/constants";
+import { primaryGreen } from "../../utils/constants";
 
 export enum ItemStatus {
   Cancelled = "Cancelled",
@@ -10,14 +10,21 @@ export enum ItemStatus {
 
 export const StatusOptions = Object.values(ItemStatus);
 
+export const tentativeColor = "rgb(254 240 138)"
+export const upcomingColor = "rgb(235,235,235)"
+export const todoColor = "rgb(226 232 240)"
+export const inProgressColor = "rgb(56 189 248)"
+export const doneColor = primaryGreen
+export const cancelledColor = "rgb(252 165 165)"
+
 export const ITEM_STATUS_TO_COLOR = {
   // Values taken from the corresponding bg's in tailwind
-  Tentative: "rgb(254 240 138)",
-  Upcoming: "rgb(235,235,235)",
-  "To Do": "rgb(226 232 240)",
-  "In Progress": "rgb(56 189 248)",
-  Done: primaryGreen,
-  Cancelled: "rgb(252 165 165)",
+  Tentative: tentativeColor,
+  Upcoming: upcomingColor,
+  "To Do": todoColor,
+  "In Progress": inProgressColor,
+  Done: doneColor,
+  Cancelled: cancelledColor,
 } as any;
 
 export enum ListItemType {

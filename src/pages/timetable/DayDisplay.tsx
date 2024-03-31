@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Vibration } from "react-native";
+import { View, Text, StyleSheet, Vibration, Pressable } from "react-native";
 import { Horizontal, Vertical } from "../../components/general/MiscComponents";
 import { ListInput } from "../../components/list/ListInput";
 import {
@@ -14,7 +14,6 @@ import {
   secondaryGreen,
   sleep,
 } from "../../utils/constants";
-import { LongPressGestureHandler } from "react-native-gesture-handler";
 import { ItemStatus, ListItemType } from "../../components/list/constants";
 import { useAuth } from "../../authorisation/AuthProvider";
 import { useItems } from "../../hooks/useItems";
@@ -25,10 +24,18 @@ import Animated, {
   withSequence,
   withTiming,
 } from "react-native-reanimated";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { BouncyPressable } from "../../components/pressables/BouncyPressable";
+import {
+  LyfMenu,
+  MenuPopoverPlacement,
+  PopoverOption,
+} from "../../components/menus/LyfMenu";
+import { SortableList } from "../../components/list/SortableList";
 import * as Haptics from "expo-haptics";
 
 export const Day = ({ items, date = null, day = null, template = false }) => {
+  const [sorting, setSorting] = useState(false);
   const { user, updateUser } = useAuth();
   const { addItem, updateItem, removeItem } = useItems();
   const allDone = useMemo(
@@ -47,6 +54,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
     [allDone, date, template]
   );
 
+  // Shift the users preferred start day one ahead - this is how we remove it implicitly
   const shiftFirst = async () => {
     if (canDelete && removeQueued.value) {
       opacity.value = 0;
@@ -61,7 +69,8 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
       });
     }
   };
-  // LONG PRESS HIDE GESTURE
+
+  // Day finishing animation
 
   const removeQueued = useSharedValue(false);
   const opacity = useSharedValue(1);
@@ -88,7 +97,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
     } as any;
   });
 
-  const handleLongPressIn = async () => {
+  const finishDay = async () => {
     if (canDelete) {
       removeQueued.value = true;
       scale.value = 1.05;
@@ -118,14 +127,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
     }
   };
 
-  const handleLongPressOut = () => {
-    if (removeQueued.value) return;
-    scale.value = 1;
-    offset.value = 0;
-    removeQueued.value = false;
-  };
-
-  // Day handle animation
+  // Day handle bounce animation
 
   const dayHandleScale = useSharedValue(1);
   const smallScaleAnimation = useAnimatedStyle(() => {
@@ -140,12 +142,6 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
     } as any;
   });
 
-  useEffect(() => {
-    if (canDelete && date.localeCompare(formatDateData(new Date())) < 1) {
-      bounceHandle();
-    }
-  }, [canDelete]);
-
   const bounceHandle = async () => {
     const bounceDuration = 250;
     dayHandleScale.value = 1.03;
@@ -157,31 +153,64 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
     dayHandleScale.value = 1;
   };
 
+  useEffect(() => {
+    if (canDelete && date.localeCompare(formatDateData(new Date())) < 1) {
+      bounceHandle();
+    }
+  }, [canDelete]);
+
+  // Menu stuff
+
+  const buildMenuOptions = () => {
+    const menuOptions: PopoverOption[] = [];
+
+    // Finish day if ready
+    if (canDelete) {
+      menuOptions.push({
+        text: "✅ Finish Day",
+        key: "✅ Finish Day",
+        onSelect: () => finishDay(),
+      });
+    }
+
+    // Sort tasks if more than one
+    if (items.filter((item) => item.type === ListItemType.Task).length > 1) {
+      menuOptions.push({
+        text: "↕️ Sort Tasks",
+        key: "↕️ Sort Tasks",
+        onSelect: () => setSorting(true),
+      });
+    }
+
+    return menuOptions;
+  };
+
   return (
     <View>
       <Animated.View style={[styles.dayRootView, exitingAnimation]}>
-        <LongPressGestureHandler
-          onActivated={handleLongPressIn}
-          onCancelled={handleLongPressOut}
-          onEnded={handleLongPressOut}
-          onFailed={handleLongPressOut}
+        <LyfMenu
+          name={date}
+          placement={MenuPopoverPlacement.Top}
+          options={buildMenuOptions()}
         >
-          <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
-            <View style={styles.dayOfWeekPressable}>
-              <Text style={styles.dayOfWeekText}>
-                {day || dayFromDateString(date)}
-              </Text>
-            </View>
-            <View style={styles.headerEnd}>
-              <Vertical style={styles.diagLines} />
-              <Vertical style={styles.diagLines} />
+          <BouncyPressable onPress={() => console.log("opening menu")} disabled>
+            <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
+              <View style={styles.dayOfWeekPressable}>
+                <Text style={styles.dayOfWeekText}>
+                  {day || dayFromDateString(date)}
+                </Text>
+              </View>
+              <View style={styles.headerEnd}>
+                <Vertical style={styles.diagLines} />
+                <Vertical style={styles.diagLines} />
 
-              {date && (
-                <Text style={styles.dayDateText}>{formatDate(date)}</Text>
-              )}
-            </View>
-          </Animated.View>
-        </LongPressGestureHandler>
+                {date && (
+                  <Text style={styles.dayDateText}>{formatDate(date)}</Text>
+                )}
+              </View>
+            </Animated.View>
+          </BouncyPressable>
+        </LyfMenu>
 
         <View style={styles.listWrapperView}>
           <ListInput
@@ -209,24 +238,31 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
         />
 
         <View style={styles.listWrapperView}>
-          <ListInput
-            items={items
-              .filter((x) => x.type === ListItemType.Task)
-              .sort((a, b) => (a.time ? a.time.localeCompare(b.time) : 1))}
-            addItem={(name) =>
-              addItem(
-                name,
-                ListItemType.Task,
-                template ? null : date,
-                template ? day : null
-              )
-            }
-            updateItem={updateItem}
-            removeItem={removeItem}
-            type={ListItemType.Task}
-            badgeColor="rgb(241 245 249)"
-            listBackgroundColor={deepBlue}
-          />
+          {sorting ? (
+            <SortableList
+              items={items.filter((x) => x.type === ListItemType.Task)}
+              badgeColor="rgb(241 245 249)"
+              listBackgroundColor={deepBlue}
+              doneSorting={() => setSorting(false)}
+            />
+          ) : (
+            <ListInput
+              items={items.filter((x) => x.type === ListItemType.Task)}
+              addItem={(name) =>
+                addItem(
+                  name,
+                  ListItemType.Task,
+                  template ? null : date,
+                  template ? day : null
+                )
+              }
+              updateItem={updateItem}
+              removeItem={removeItem}
+              type={ListItemType.Task}
+              badgeColor="rgb(241 245 249)"
+              listBackgroundColor={deepBlue}
+            />
+          )}
         </View>
       </Animated.View>
     </View>

@@ -1,6 +1,6 @@
 import { View, StyleSheet, TextInput } from "react-native";
 import { useRef, useState } from "react";
-import { ListItem } from "./ListItem";
+import { ListItem } from "./item/ListItem";
 
 export enum ListType {
   Event = "Event",
@@ -25,7 +25,6 @@ export const ListInput = ({
       style={[
         styles.listContainer,
         {
-          flexDirection: "row",
           backgroundColor: listBackgroundColor,
         },
         listWrapperStyles,
@@ -73,8 +72,8 @@ const NewItem = ({ type, addItem }) => {
 const styles = StyleSheet.create({
   listContainer: {
     flexWrap: "wrap",
+    flexDirection: "row",
     width: "100%",
-    gap: 4,
     marginTop: 6,
     padding: 2,
   },
@@ -82,6 +81,7 @@ const styles = StyleSheet.create({
     height: 55,
     backgroundColor: "rgb(17 24 39)",
     fontFamily: "Inter",
+    marginTop: 4,
     borderRadius: 10,
     paddingVertical: 8,
     paddingHorizontal: 8,

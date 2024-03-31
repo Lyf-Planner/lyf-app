@@ -30,6 +30,7 @@ export const ItemsProvider = ({ children }) => {
     if (!user) return;
     let itemIds = user.timetable.items.map((x) => x.id);
     let inviteIds = user.timetable.invited_items;
+
     // Remove any invites accepted as items from the invite list
     inviteIds = inviteIds.filter((x) => !itemIds.includes(x));
     let fetchedIds = itemIds.concat(inviteIds);
@@ -47,16 +48,12 @@ export const ItemsProvider = ({ children }) => {
       setSyncing(true);
 
       getItems(fetchedIds).then((results) => {
-        // Sort by created
-        results.sort((a, b) =>
-          a.created ? a.created.localeCompare(b.created) : 1
-        );
-
         // Filter out any old items
         var start = formatDateData(getStartOfCurrentWeek());
         var relevant = results.filter((x) => {
           return !x.date || x.date.localeCompare(start) >= 0;
         });
+
         setItems(relevant);
 
         purgeIrrelevantItems(relevant, fetchedIds);
@@ -153,23 +150,29 @@ export const ItemsProvider = ({ children }) => {
       status,
     } as any;
 
+    // Add to store
+    const tmpItems = [...items];
+
     // Conditional properties
     if (title[title.length - 1] === "?") newItem.status = ItemStatus.Tentative;
+
+    // Template instances get inserted after their template to preserve orderings!
     if (template_instance) {
       newItem.template_id = template_instance.template_id;
       newItem.time = template_instance.time;
       newItem.permitted_users = template_instance.permitted_users;
+      const templateIndex = tmpItems.findIndex((x) => x.id === newItem.template_id);
+      tmpItems.splice(templateIndex, 0, newItem);
+    } else {
+      tmpItems.push(newItem);
     }
 
-    // Add to store
-    var tmp = [...items];
-    tmp.push(newItem);
-    setItems(tmp);
+    setItems(tmpItems);
 
     // Add ref to user
-    tmp = user;
-    user.timetable.items.push({ id: newItem.id });
-    updateUser(user);
+    const tmpUser = user;
+    tmpUser.timetable.items.push({ id: newItem.id });
+    updateUser(tmpUser);
 
     // Upload in background
     createItem(newItem);
@@ -216,6 +219,22 @@ export const ItemsProvider = ({ children }) => {
     if (deleteRemote) await deleteItem(id);
   };
 
+  const resortItems = (priorities: string[]) => {
+    const sortedItems = items.sort(
+      (a, b) => priorities.indexOf(a.id) - priorities.indexOf(b.id)
+    );
+
+    setItems(sortedItems);
+
+    updateUser({
+      ...user,
+      timetable: {
+        ...user.timetable,
+        items: sortedItems.map((x) => ({ id: x.id })),
+      },
+    });
+  };
+
   const EXPOSED = {
     syncing,
     items,
@@ -223,6 +242,7 @@ export const ItemsProvider = ({ children }) => {
     updateItemSocial,
     addItem,
     removeItem,
+    resortItems,
   };
 
   return (
