@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import Animated, {
   useSharedValue,
   withTiming,
@@ -13,31 +13,25 @@ import { ITEM_STATUS_TO_COLOR, ItemStatus, ListItemType } from "../constants";
 import { TwentyFourHourToAMPM } from "../../../utils/dates";
 import { ListItemDrawer } from "../ListItemDrawer";
 import { useDrawer } from "../../../hooks/useDrawer";
+import { LinearGradient } from "expo-linear-gradient";
 import { deepBlue, primaryGreen, sleep } from "../../../utils/constants";
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useMemo } from "react";
 import { useAuth } from "../../../authorisation/AuthProvider";
 import { Vertical } from "../../general/MiscComponents";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import Feather from "react-native-vector-icons/Feather";
 import * as Haptics from "expo-haptics";
-import { ScaleDecorator } from "react-native-draggable-flatlist";
-import SwipeableItem, {
-  SwipeableItemImperativeRef,
-} from "react-native-swipeable-item";
-import { EditItemUnderlay } from "./EditItemUnderlay";
-import { InProgressUnderlay } from "./InProgressUnderlay";
 
 const SCALE_MS = 180;
 
 export const ListItem = ({
   item,
   updateItem,
+  removeItem,
   badgeColor,
   badgeTextColor,
   fromNote = false,
-  dragFunc = null,
-  isActive = false,
 }) => {
   const { updateDrawer, updateSheetMinHeight } = useDrawer();
   const { user } = useAuth();
@@ -48,8 +42,6 @@ export const ListItem = ({
     [item.invited_users, user]
   );
   if (!item) return null;
-
-  const swipeableItemRef = useRef<SwipeableItemImperativeRef>();
 
   const openModal = async () => {
     const invitedRoutineInstantiation = invited && item.template_id;
@@ -88,14 +80,13 @@ export const ListItem = ({
     .runOnJS(true)
     .onEnd(() => handleFlingRight());
 
-  const gestures = Gesture.Race(tap);
+  const gestures = Gesture.Race(tap, longPress, flingLeft, flingRight);
 
   // ANIMATION DEFINITIONS
 
   const scale = useSharedValue(1);
   const offsetX = useSharedValue(0);
   const checkScale = useSharedValue(1);
-  const dragging = useSharedValue(false);
 
   var timer = null;
   const scaleAnimation = useAnimatedStyle(() => {
@@ -169,19 +160,15 @@ export const ListItem = ({
   };
 
   const handleLongPressIn = () => {
-    if (invited || dragging.value) {
-      console.log("not running long press handler!");
-      return;
-    }
-    console.log("running handlepressin");
+    if (invited) return;
     // Start animating the shrinking of the item while user holds it down
 
     scale.value = 0.75;
 
     // After the n seconds pressing, remove the item
     timer = setInterval(() => {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      openModal();
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      removeItem(item, true);
       clearTimeout(timer);
     }, 250);
   };
@@ -196,8 +183,16 @@ export const ListItem = ({
   };
 
   const handleFlingLeft = () => {
+    offsetX.value = -40;
+
     openModal();
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
+    // This makes the animation appear to pause for a second when slid back
+    var closeAnimation = setInterval(() => {
+      offsetX.value = 0;
+      clearTimeout(closeAnimation);
+    }, 500);
   };
 
   const handleFlingRight = () => {
@@ -205,10 +200,17 @@ export const ListItem = ({
       openModal();
       return;
     }
+    offsetX.value = 40;
 
     updateItem({ ...item, status: ItemStatus.InProgress });
     item.status !== ItemStatus.InProgress &&
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
+    // This makes the animation appear to pause for a second when slid back
+    var closeAnimation = setInterval(() => {
+      offsetX.value = 0;
+      clearTimeout(closeAnimation);
+    }, 500);
   };
 
   // STYLING
@@ -249,142 +251,115 @@ export const ListItem = ({
   };
 
   return (
-    <SwipeableItem
-      item={item}
-      ref={swipeableItemRef}
-      snapPointsLeft={[40]}
-      snapPointsRight={[40]}
-      activationThreshold={1}
-      onChange={({ openDirection }) => {
-        if (openDirection === "left") {
-          handleFlingLeft();
-        } else if (openDirection === "right") {
-          handleFlingRight();
-        }
-      }}
-      renderUnderlayRight={() => <InProgressUnderlay item={item} />}
-      renderUnderlayLeft={() => <EditItemUnderlay item={item} />}
-    >
-      <GestureDetector gesture={gestures}>
+    <GestureDetector gesture={gestures}>
+      <Animated.View
+        style={[
+          scaleAnimation,
+          {
+            opacity: item.status === ItemStatus.Cancelled || invited ? 0.7 : 1,
+            width: "100%",
+          },
+        ]}
+      >
         <Animated.View
           style={[
-            scaleAnimation,
+            styles.listItem,
+            flickAnimation,
             {
-              opacity:
-                item.status === ItemStatus.Cancelled || invited ? 0.7 : 1,
-              width: "100%",
+              backgroundColor: determineBadgeColor(),
+              borderRadius: item.type !== ListItemType.Task ? 5 : 15,
             },
           ]}
         >
-          <Animated.View
+          <Animated.View style={[checkScaleAnimation]}>
+            {/* 
+             // @ts-ignore */}
+            <AntDesign
+              name={
+                item.status === ItemStatus.Done ? "checkcircle" : "checkcircleo"
+              }
+              style={{ color: determineBadgeTextColor() }}
+              size={18}
+            />
+          </Animated.View>
+
+          <Text
+            adjustsFontSizeToFit={true}
+            numberOfLines={2}
             style={[
-              styles.listItem,
-              flickAnimation,
+              styles.listItemText,
               {
-                backgroundColor: determineBadgeColor(),
-                borderRadius: item.type !== ListItemType.Task ? 5 : 15,
+                color: determineBadgeTextColor(),
+                fontFamily:
+                  item.type !== ListItemType.Task ? "InterMed" : "Inter",
               },
             ]}
           >
-            <Animated.View style={[checkScaleAnimation]}>
-              {/* 
-             // @ts-ignore */}
-              <AntDesign
-                name={
-                  item.status === ItemStatus.Done
-                    ? "checkcircle"
-                    : "checkcircleo"
-                }
-                style={{ color: determineBadgeTextColor() }}
-                size={18}
-              />
-            </Animated.View>
+            {item.title}
+            {item.location && ` @ ${item.location}`}
+          </Text>
 
-            <Text
-              adjustsFontSizeToFit={true}
-              numberOfLines={2}
+          {item.time && (
+            <View style={styles.listItemTimeSection}>
+              <Vertical style={styles.diagLines} />
+              <Text
+                adjustsFontSizeToFit={true}
+                numberOfLines={1}
+                style={[
+                  styles.listItemTimeText,
+                  {
+                    color: determineBadgeTextColor(),
+                    fontFamily:
+                      item.type !== ListItemType.Task ? "InterMed" : "Inter",
+                  },
+                ]}
+              >
+                {getTimeText()}
+              </Text>
+            </View>
+          )}
+
+          {(item.permitted_users.length > 1 ||
+            item.invited_users?.length > 0) && (
+            <View
               style={[
-                styles.listItemText,
+                styles.collaborativeIndicator,
                 {
-                  color: determineBadgeTextColor(),
-                  fontFamily:
-                    item.type !== ListItemType.Task ? "InterMed" : "Inter",
+                  backgroundColor:
+                    item.status === ItemStatus.Done ? "white" : primaryGreen,
                 },
               ]}
             >
-              {item.title}
-              {item.location && ` @ ${item.location}`}
-            </Text>
-
-            {item.time && (
-              <View style={styles.listItemTimeSection}>
-                <Vertical style={styles.diagLines} />
-                <Text
-                  adjustsFontSizeToFit={true}
-                  numberOfLines={1}
-                  style={[
-                    styles.listItemTimeText,
-                    {
-                      color: determineBadgeTextColor(),
-                      fontFamily:
-                        item.type !== ListItemType.Task ? "InterMed" : "Inter",
-                    },
-                  ]}
-                >
-                  {getTimeText()}
-                </Text>
-              </View>
-            )}
-
-            {(item.permitted_users.length > 1 ||
-              item.invited_users?.length > 0) && (
-              <View
-                style={[
-                  styles.collaborativeIndicator,
-                  {
-                    backgroundColor:
-                      item.status === ItemStatus.Done ? "white" : primaryGreen,
-                  },
-                ]}
-              >
-                {/* 
+              {/* 
                 // @ts-ignore */}
-                <FontAwesome5
-                  name="users"
-                  size={16}
-                  color={
-                    item.status === ItemStatus.Done ? primaryGreen : "white"
-                  }
-                />
-              </View>
-            )}
-
-            {item.type === ListItemType.Task && (
-              <Pressable
-                disabled={isActive}
-                onPressIn={() => dragFunc()}
-                style={[
-                  styles.sortableIndicator,
-                  {
-                    backgroundColor: determineBadgeTextColor(),
-                  },
-                ]}
-              >
-                {/* 
-                // @ts-ignore */}
-                <Feather
-                  name="menu"
-                  size={16}
-                  color={
-                    item.status === ItemStatus.Done ? primaryGreen : "white"
-                  }
-                />
-              </Pressable>
-            )}
-          </Animated.View>
+              <FontAwesome5
+                name="users"
+                size={16}
+                color={item.status === ItemStatus.Done ? primaryGreen : "white"}
+              />
+            </View>
+          )}
         </Animated.View>
-      </GestureDetector>
-    </SwipeableItem>
+        <LinearGradient
+          colors={[ITEM_STATUS_TO_COLOR[ItemStatus.InProgress], "white"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={[
+            {
+              borderRadius: item.type !== ListItemType.Task ? 5 : 15,
+            },
+            styles.listHiddenBackground,
+          ]}
+        >
+          {/* 
+            // @ts-ignore */}
+          <FontAwesome5 name="play" size={20} style={styles.playIcon} />
+          {/* 
+            // @ts-ignore */}
+          <MaterialIcons name="edit" style={styles.editIcon} size={20} />
+        </LinearGradient>
+      </Animated.View>
+    </GestureDetector>
   );
 };
 
@@ -393,7 +368,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     padding: 10,
-    flex: 1,
     height: 55,
     borderWidth: 1,
     gap: 4,
@@ -424,16 +398,15 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     transform: [{ rotateZ: "-20deg" }],
   },
-
-  collaborativeIndicator: {
-    borderRadius: 30,
-    aspectRatio: 1,
-    width: "10%",
+  listHiddenBackground: {
+    height: 54,
+    borderWidth: 1,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    position: "absolute",
+    width: "100%",
   },
-  sortableIndicator: {
+  collaborativeIndicator: {
     borderRadius: 30,
     aspectRatio: 1,
     width: "10%",
@@ -449,4 +422,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 6,
   },
+  playIcon: { marginLeft: 12 },
+  editIcon: { marginLeft: "auto", marginRight: 11, color: "black" },
 });

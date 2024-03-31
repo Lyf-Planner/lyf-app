@@ -1,8 +1,6 @@
 import { View, StyleSheet, TextInput } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ListItem } from "./item/ListItem";
-import { NestableDraggableFlatList } from "react-native-draggable-flatlist";
-import { useItems } from "../../hooks/useItems";
 
 export enum ListType {
   Event = "Event",
@@ -22,39 +20,27 @@ export const ListInput = ({
   listWrapperStyles = {},
   fromNote = false,
 }) => {
-  const { resortItems } = useItems();
-
   return (
-    <View style={{ gap: 2 }}>
-      <NestableDraggableFlatList
-        containerStyle={[
-          styles.listContainer,
-          {
-            backgroundColor: listBackgroundColor,
-          },
-          listWrapperStyles,
-        ]}
-        style={styles.flatlistInternal}
-        data={items}
-        onDragEnd={({ data }) => {
-          resortItems(data.map((x) => x.id));
-        }}
-        keyExtractor={(item: any) => item.id}
-        renderItem={(x: any) => {
-          return (
-            <ListItem
-              key={x.item.template_id || x.item.id}
-              updateItem={updateItem}
-              badgeColor={badgeColor}
-              fromNote={fromNote}
-              badgeTextColor={badgeTextColor}
-              item={x.item}
-              dragFunc={x.drag}
-              isActive={x.isActive}
-            />
-          );
-        }}
-      />
+    <View
+      style={[
+        styles.listContainer,
+        {
+          backgroundColor: listBackgroundColor,
+        },
+        listWrapperStyles,
+      ]}
+    >
+      {items.map((x, i: number) => (
+        <ListItem
+          key={x.template_id || x.id}
+          updateItem={updateItem}
+          removeItem={removeItem}
+          badgeColor={badgeColor}
+          fromNote={fromNote}
+          badgeTextColor={badgeTextColor}
+          item={x}
+        />
+      ))}
       <NewItem type={type} addItem={addItem} />
     </View>
   );
@@ -87,17 +73,15 @@ const styles = StyleSheet.create({
   listContainer: {
     flexWrap: "wrap",
     flexDirection: "row",
-    overflow: "visible",
     width: "100%",
-    gap: 4,
-    marginTop: 4,
+    marginTop: 6,
     padding: 2,
   },
-  flatlistInternal: { overflow: "visible" },
   listNewItem: {
     height: 55,
     backgroundColor: "rgb(17 24 39)",
     fontFamily: "Inter",
+    marginTop: 4,
     borderRadius: 10,
     paddingVertical: 8,
     paddingHorizontal: 8,
