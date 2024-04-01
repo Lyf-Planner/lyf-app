@@ -39,6 +39,7 @@ export async function updateItem(item) {
     time: item.time,
     end_time: item.end_time,
     url: item.url,
+    location: item.location,
     show_in_upcoming: item.show_in_upcoming,
     desc: item.desc,
     notifications: item.notifications,
