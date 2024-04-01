@@ -28,10 +28,10 @@ export const ActionButton = ({
         <Loader size={20} color={textColor} />
       ) : (
         <View style={styles.contentWrapper}>
+          {icon}
           <Text style={[styles.actionButtonText, { color: textColor }]}>
             {title}
           </Text>
-          {icon}
         </View>
       )}
     </BouncyPressable>

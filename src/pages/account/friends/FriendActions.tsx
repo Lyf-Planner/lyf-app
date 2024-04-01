@@ -1,15 +1,8 @@
 import { StyleSheet, View } from "react-native";
 import { useAuth } from "../../../authorisation/AuthProvider";
 import { FriendshipAction, primaryGreen } from "../../../utils/constants";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ActionButton } from "../../../components/pressables/AsyncAction";
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuTrigger,
-  renderers,
-} from "react-native-popup-menu";
 import { BouncyPressable } from "../../../components/pressables/BouncyPressable";
 import { Loader } from "../../../components/general/MiscComponents";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
@@ -20,6 +13,11 @@ import {
   useWidgetNavigator,
 } from "../../../hooks/useWidgetNavigator";
 import { useModal } from "../../../hooks/useModal";
+import {
+  LyfMenu,
+  MenuPopoverPlacement,
+  PopoverMenuOption,
+} from "../../../components/menus/LyfMenu";
 
 export const FriendAction = ({ user_id }) => {
   const { user } = useAuth();
@@ -58,41 +56,29 @@ export const Friend = ({ user_id }) => {
     setLoading(false);
   };
 
-  const menu = useRef<any>();
+  const menuOptions: PopoverMenuOption[] = [
+    {
+      text: "❌ Remove",
+      onSelect: () => removeFriend(),
+    },
+  ];
 
   return (
-    <Menu
-      name="friend-menu"
-      ref={menu}
-      renderer={renderers.Popover}
-      rendererProps={{
-        placement: "top",
-        anchorStyle: { backgroundColor: "#bababa" },
-      }}
+    <LyfMenu
+      options={menuOptions}
+      placement={MenuPopoverPlacement.Top}
+      name={`requested-menu-${user_id}`}
     >
-      <MenuOptions customStyles={{ optionsContainer: styles.optionsContainer }}>
-        <MenuOption
-          value={1}
-          text="Remove"
-          customStyles={{
-            optionWrapper: styles.optionWrapper,
-            optionText: styles.optionText,
-          }}
-          onSelect={() => removeFriend()}
-        />
-      </MenuOptions>
-      <MenuTrigger>
-        <ActionButton
-          title="Friends"
-          func={() => {}}
-          // @ts-ignore
-          icon={<AntDesign name="check" color="white" size={20} />}
-          color={primaryGreen}
-          loadingOverride={loading}
-          notPressable
-        />
-      </MenuTrigger>
-    </Menu>
+      <ActionButton
+        title="Friends"
+        func={() => {}}
+        // @ts-ignore
+        icon={<AntDesign name="check" color="white" size={20} />}
+        color={primaryGreen}
+        loadingOverride={loading}
+        notPressable
+      />
+    </LyfMenu>
   );
 };
 
@@ -105,41 +91,29 @@ export const Requested = ({ user_id }) => {
     setLoading(false);
   };
 
-  const menu = useRef<any>();
+  const menuOptions: PopoverMenuOption[] = [
+    {
+      text: "❌ Cancel",
+      onSelect: () => cancelRequest(),
+    },
+  ];
 
   return (
-    <Menu
-      name="requested-menu"
-      ref={menu}
-      renderer={renderers.Popover}
-      rendererProps={{
-        placement: "top",
-        anchorStyle: { backgroundColor: "#bababa" },
-      }}
+    <LyfMenu
+      options={menuOptions}
+      placement={MenuPopoverPlacement.Top}
+      name={`requested-menu-${user_id}`}
     >
-      <MenuOptions customStyles={{ optionsContainer: styles.optionsContainer }}>
-        <MenuOption
-          value={1}
-          text="Cancel"
-          customStyles={{
-            optionWrapper: styles.optionWrapper,
-            optionText: styles.optionText,
-          }}
-          onSelect={() => cancelRequest()}
-        />
-      </MenuOptions>
-      <MenuTrigger>
-        <ActionButton
-          title="Sent"
-          func={() => {}}
-          // @ts-ignore
-          icon={<FontAwesome5Icon name="arrow-right" color="white" size={18} />}
-          color={"rgba(0,0,0,0.5)"}
-          loadingOverride={loading}
-          notPressable
-        />
-      </MenuTrigger>
-    </Menu>
+      <ActionButton
+        title="Sent"
+        func={() => {}}
+        // @ts-ignore
+        icon={<FontAwesome5Icon name="arrow-right" color="white" size={18} />}
+        color={"rgba(0,0,0,0.5)"}
+        loadingOverride={loading}
+        notPressable
+      />
+    </LyfMenu>
   );
 };
 

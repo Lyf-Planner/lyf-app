@@ -33,7 +33,6 @@ export const ItemDate = ({ item, updateItem, invited }) => {
   const menuOptions: PopoverMenuOption[] = [
     {
       text: getOptionText(),
-      key: "",
       onSelect: () =>
         updateItem({ ...item, show_in_upcoming: !item.show_in_upcoming }),
     },

@@ -168,7 +168,6 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
     if (canDelete) {
       menuOptions.push({
         text: "✅ Finish Day",
-        key: "✅ Finish Day",
         onSelect: () => finishDay(),
       });
     }
@@ -176,7 +175,6 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
     // Sort tasks if more than one
     menuOptions.push({
       text: "↕️ Sort Tasks",
-      key: "↕️ Sort Tasks",
       onSelect: () => setSorting(true),
     });
 

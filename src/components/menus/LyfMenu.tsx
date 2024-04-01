@@ -18,7 +18,6 @@ export type LyfMenuProps = {
 
 export type PopoverMenuOption = {
   text: string;
-  key: string;
   onSelect: () => void;
 };
 
@@ -53,7 +52,7 @@ export const LyfMenu = (props: LyfMenuProps) => {
         {props.options.map((option, i) => (
           <MenuOption
             value={i}
-            key={option.key}
+            key={i}
             text={option.text}
             customStyles={{
               optionWrapper: styles.optionWrapper,
