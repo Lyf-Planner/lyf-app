@@ -1,11 +1,11 @@
 import {
   createContext,
-  useCallback,
   useContext,
   useEffect,
   useState,
 } from "react";
 import { useAuth } from "../authorisation/AuthProvider";
+import { getCalendars } from "expo-localization";
 import {
   createItem,
   deleteItem,
@@ -99,12 +99,7 @@ export const ItemsProvider = ({ children }) => {
     // We create localised instances of templates in the planner - if this is one of those then create it
     if (item.localised) {
       console.log("Local item will be created instead of updated");
-      addItem(item.title, item.type, item.date, null, item.status, {
-        id: item.id,
-        template_id: item.template_id,
-        permitted_users: item.permitted_users,
-        time: item.time || null,
-      });
+      addItem(null, null, null, null, null, item);
       return;
     }
 
@@ -131,37 +126,45 @@ export const ItemsProvider = ({ children }) => {
     date: string,
     day: string,
     status: ItemStatus = ItemStatus.Upcoming,
-    template_instance?: TemplateInstance
+    // Template instance is a whole list item
+    template_instance?: any
   ) => {
-    var newItem = {
-      id: template_instance ? template_instance.id : uuid(),
-      title,
-      type,
-      date,
-      day,
-      permitted_users: [
-        {
-          user_id: user.id,
-          displayed_as: user.details?.name || user.id,
-          permissions: "Owner",
-        },
-      ],
-      notifications: [],
-      status,
-    } as any;
+    if (template_instance) {
+      var newItem = { ...template_instance };
+      delete newItem.localised;
+    } else {
+      var newItem = {
+        id: uuid(),
+        title,
+        type,
+        tz: getCalendars()[0].timeZone,
+        date,
+        day,
+        permitted_users: [
+          {
+            user_id: user.id,
+            displayed_as: user.details?.name || user.id,
+            permissions: "Owner",
+          },
+        ],
+        notifications: [],
+        status,
+      } as any;
+    }
 
     // Add to store
     const tmpItems = [...items];
 
     // Conditional properties
-    if (title[title.length - 1] === "?") newItem.status = ItemStatus.Tentative;
+    if (newItem.title[newItem.title.length - 1] === "?") {
+      newItem.status = ItemStatus.Tentative;
+    }
 
     // Template instances get inserted after their template to preserve orderings!
     if (template_instance) {
-      newItem.template_id = template_instance.template_id;
-      newItem.time = template_instance.time;
-      newItem.permitted_users = template_instance.permitted_users;
-      const templateIndex = tmpItems.findIndex((x) => x.id === newItem.template_id);
+      const templateIndex = tmpItems.findIndex(
+        (x) => x.id === newItem.template_id
+      );
       tmpItems.splice(templateIndex, 0, newItem);
     } else {
       tmpItems.push(newItem);

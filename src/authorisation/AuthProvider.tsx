@@ -9,7 +9,6 @@ import {
 import {
   getAsyncData,
   deleteAsyncData,
-  storeAsyncData,
 } from "../utils/asyncStorage";
 import { autologin } from "../rest/auth";
 import { LoadingScreen } from "../components/general/MiscComponents";

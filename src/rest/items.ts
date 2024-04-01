@@ -37,6 +37,7 @@ export async function updateItem(item) {
     date: item.date,
     day: item.day,
     time: item.time,
+    tz: item.tz,
     end_time: item.end_time,
     url: item.url,
     location: item.location,
@@ -56,7 +57,25 @@ export async function updateItem(item) {
 export async function createItem(item) {
   var url = `${env.BACKEND_URL}/createItem`;
 
-  var result = await post(url, item);
+  var body = {
+    id: item.id,
+    template_id: item.template_id,
+    title: item.title,
+    type: item.type,
+    status: item.status,
+    date: item.date,
+    day: item.day,
+    time: item.time,
+    tz: item.tz,
+    end_time: item.end_time,
+    url: item.url,
+    location: item.location,
+    show_in_upcoming: item.show_in_upcoming,
+    desc: item.desc,
+    notifications: item.notifications,
+    permitted_users: item.permitted_users,
+  };
+  var result = await post(url, body);
   if (result?.status === 200) {
     return result.data;
   } else {

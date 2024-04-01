@@ -32,7 +32,7 @@ export const ListInput = ({
     >
       {items.map((x, i: number) => (
         <ListItem
-          key={x.template_id || x.id}
+          key={x.id}
           updateItem={updateItem}
           removeItem={removeItem}
           badgeColor={badgeColor}
