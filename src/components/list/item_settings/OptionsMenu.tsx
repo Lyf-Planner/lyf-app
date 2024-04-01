@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useAuth } from "../../../authorisation/AuthProvider";
 import { SocialAction } from "../../../utils/constants";
 import {
@@ -20,6 +20,10 @@ export const OptionsMenu = ({ item }) => {
   const permission = item.permitted_users.find(
     (x) => x.user_id === user.id
   )?.permissions;
+  const menuName = useMemo(
+    () => `item-options-${item.id}-${item.show_in_upcoming}`,
+    []
+  );
 
   const leaveItem = async () => {
     setLoading(true);
@@ -31,7 +35,7 @@ export const OptionsMenu = ({ item }) => {
 
   return (
     <Menu
-      name="item-options-menu"
+      name={menuName}
       ref={menu}
       renderer={renderers.Popover}
       rendererProps={{

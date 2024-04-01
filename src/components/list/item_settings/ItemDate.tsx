@@ -1,23 +1,59 @@
 import { View, Text, StyleSheet } from "react-native";
 import { NullableDatePicker } from "../../fields/NullableDatePicker";
-import { primaryGreen } from "../../../utils/constants";
-import { isTemplate } from "../constants";
+import { DaysOfWeek, primaryGreen } from "../../../utils/constants";
+import { ListItemType, isTemplate } from "../constants";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import {
+  LyfMenu,
+  MenuPopoverPlacement,
+  PopoverMenuOption,
+} from "../../menus/LyfMenu";
+import { useCallback, useMemo } from "react";
 
 export const ItemDate = ({ item, updateItem, invited }) => {
-  const routineDay = isTemplate(item) ? item.day : null;
+  const routineDay: DaysOfWeek | null = isTemplate(item) ? item.day : null;
+  const menuName = useMemo(
+    () => `show-in-upcoming-${item.id}-${item.show_in_upcoming}`,
+    []
+  );
 
   const updateDate = (date) => {
     if (invited) return;
     updateItem({ ...item, date });
   };
 
+  const getOptionText = useCallback(() => {
+    const start = item.show_in_upcoming ? "Remove from" : "Add to";
+    const end =
+      item.type === ListItemType.Event ? '"Upcoming Events"' : '"To Do List"';
+
+    return start + " " + end;
+  }, [item.type, item.show_in_upcoming]);
+
+  const menuOptions: PopoverMenuOption[] = [
+    {
+      text: getOptionText(),
+      key: "",
+      onSelect: () =>
+        updateItem({ ...item, show_in_upcoming: !item.show_in_upcoming }),
+    },
+  ];
+
   return (
     <View style={styles.mainContainer}>
-      {/* 
+      <LyfMenu
+        name={menuName}
+        placement={MenuPopoverPlacement.Top}
+        options={menuOptions}
+      >
+        <View style={styles.fieldNameContainer}>
+          {/* 
         // @ts-ignore */}
-      <MaterialIcons name="date-range" size={20} />
-      <Text style={styles.eventText}>Date</Text>
+          <MaterialIcons name="date-range" size={20} />
+
+          <Text style={styles.eventText}>Date</Text>
+        </View>
+      </LyfMenu>
       <View style={styles.pickerContainer}>
         {routineDay ? (
           <View style={styles.routineContainer}>
@@ -42,6 +78,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingRight: 10,
     height: 35,
+  },
+  fieldNameContainer: {
+    flexDirection: "row",
+    gap: 8,
+    alignItems: "center",
   },
   routineText: {
     fontSize: 16,

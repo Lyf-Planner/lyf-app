@@ -7,15 +7,16 @@ import {
   MenuTrigger,
   renderers,
 } from "react-native-popup-menu";
+import { BouncyPressable } from "../pressables/BouncyPressable";
 
 export type LyfMenuProps = {
   name: string;
   placement: MenuPopoverPlacement;
   children: JSX.Element;
-  options: PopoverOption[];
+  options: PopoverMenuOption[];
 };
 
-export type PopoverOption = {
+export type PopoverMenuOption = {
   text: string;
   key: string;
   onSelect: () => void;
@@ -38,7 +39,6 @@ export const LyfMenu = (props: LyfMenuProps) => {
 
   return (
     <Menu
-  
       name={props.name}
       ref={menu}
       renderer={renderers.Popover}
@@ -63,7 +63,13 @@ export const LyfMenu = (props: LyfMenuProps) => {
           />
         ))}
       </MenuOptions>
-      <MenuTrigger>{props.children}</MenuTrigger>
+      <MenuTrigger
+        customStyles={{
+          TriggerTouchableComponent: BouncyPressable,
+        }}
+      >
+        {props.children}
+      </MenuTrigger>
     </Menu>
   );
 };

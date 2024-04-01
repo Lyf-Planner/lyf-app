@@ -29,7 +29,7 @@ import { BouncyPressable } from "../../components/pressables/BouncyPressable";
 import {
   LyfMenu,
   MenuPopoverPlacement,
-  PopoverOption,
+  PopoverMenuOption,
 } from "../../components/menus/LyfMenu";
 import { SortableList } from "../../components/list/SortableList";
 import * as Haptics from "expo-haptics";
@@ -162,7 +162,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
   // Menu stuff
 
   const buildMenuOptions = () => {
-    const menuOptions: PopoverOption[] = [];
+    const menuOptions: PopoverMenuOption[] = [];
 
     // Finish day if ready
     if (canDelete) {
@@ -174,13 +174,11 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
     }
 
     // Sort tasks if more than one
-    if (items.filter((item) => item.type === ListItemType.Task).length > 1) {
-      menuOptions.push({
-        text: "↕️ Sort Tasks",
-        key: "↕️ Sort Tasks",
-        onSelect: () => setSorting(true),
-      });
-    }
+    menuOptions.push({
+      text: "↕️ Sort Tasks",
+      key: "↕️ Sort Tasks",
+      onSelect: () => setSorting(true),
+    });
 
     return menuOptions;
   };

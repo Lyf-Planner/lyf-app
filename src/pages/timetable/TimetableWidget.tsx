@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { View, StyleSheet } from "react-native";
 import { Planner } from "./Planner";
 import { ListDropdown } from "../../components/dropdowns/ListDropdown";
@@ -9,29 +10,45 @@ import Entypo from "react-native-vector-icons/Entypo";
 export const Timetable = () => {
   const { items } = useItems();
 
+  const filterUpcomingEvents = useCallback(() => {
+    return items.filter(
+      (x) =>
+        x.type === ListItemType.Event &&
+        ((!x.date && !x.day) || x.show_in_upcoming)
+    );
+  }, [items]);
+
+  const filterToDoList = useCallback(() => {
+    return items.filter(
+      (x) =>
+        x.type === ListItemType.Task &&
+        ((!x.date && !x.day) || x.show_in_upcoming)
+    );
+  }, [items]);
+
+  const filterScheduledItems = useCallback(() => {
+    return items.filter((x) => x.date || x.day);
+  }, [items]);
+
   return (
     <View style={styles.widgetContainer}>
       <View style={styles.miscListContainer}>
         <ListDropdown
-          items={items.filter(
-            (x) => x.type === ListItemType.Event && !x.date && !x.day
-          )}
+          items={filterUpcomingEvents()}
           name="Upcoming Events"
           // @ts-ignore
           icon={<Entypo name="calendar" size={22} />}
           listType={ListType.Event}
         />
         <ListDropdown
-          items={items.filter(
-            (x) => x.type === ListItemType.Task && !x.date && !x.day
-          )}
+          items={filterToDoList()}
           name="To Do List"
           // @ts-ignore
           icon={<Entypo name="list" size={22} />}
           listType={ListType.Task}
         />
       </View>
-      <Planner items={items.filter((x) => x.date || x.day)} />
+      <Planner items={filterScheduledItems()} />
     </View>
   );
 };
