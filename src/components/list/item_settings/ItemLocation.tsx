@@ -78,8 +78,9 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "rgba(0,0,0,0.08)",
     maxWidth: 300,
-    minWidth: 100,
-    padding: 8,
+    minWidth: 150,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     height: 40,
     borderRadius: 8,
     fontSize: 16,
