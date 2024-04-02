@@ -39,7 +39,7 @@ export const Planner = ({ items }) => {
         >
           {/* 
             // @ts-ignore */}
-          <MaterialCommunityIcons name="refresh" size={24} color="white" />
+          <MaterialCommunityIcons name="refresh" size={24} color="white" style={{top: 1}}/>
           <Text style={styles.menuButtonText}>Routine</Text>
         </MenuButton>
       </View>
