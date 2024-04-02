@@ -10,6 +10,9 @@ import {
 import Entypo from "react-native-vector-icons/Entypo";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
+export const HTTP_PREFIX = "http://";
+export const HTTPS_PREFIX = "https://";
+
 export const ItemLink = ({
   item,
   updateItem,
@@ -34,6 +37,15 @@ export const ItemLink = ({
 
   const updateUrl = (url) => {
     url = url?.toLowerCase();
+    // Add https if missing either http or https
+    if (
+      url &&
+      url.slice(0, HTTP_PREFIX.length) !== HTTP_PREFIX &&
+      url.slice(0, HTTPS_PREFIX.length) !== HTTPS_PREFIX
+    ) {
+      url = HTTPS_PREFIX + url;
+    }
+
     if (invited) return;
     updateItem({ ...item, url });
     if (url && isValidHttpUrl(url)) {
@@ -78,7 +90,7 @@ export const ItemLink = ({
           <TextInput
             value={localText}
             onEndEditing={() => {
-              updateSheetMinHeight(100)
+              updateSheetMinHeight(100);
               updateUrl(localText);
             }}
             placeholder="Type Link"
