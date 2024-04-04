@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
   listContainer: {
     flexWrap: "wrap",
     flexDirection: "row",
+    gap: 2,
     width: "100%",
     marginTop: 6,
     padding: 2,
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
     height: 55,
     backgroundColor: "rgb(17 24 39)",
     fontFamily: "Inter",
-    marginTop: 4,
+    marginTop: 2,
     borderRadius: 10,
     paddingVertical: 8,
     paddingHorizontal: 8,
