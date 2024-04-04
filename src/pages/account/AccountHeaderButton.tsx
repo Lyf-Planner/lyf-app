@@ -14,8 +14,6 @@ export const AccountHeaderButton = ({ onPress, open }) => {
       ]}
       onPress={onPress}
     >
-      {/* 
-        // @ts-ignore */}
       <FontAwesome name="user" size={30} color={open ? "white" : "black"} />
     </TouchableHighlight>
   );

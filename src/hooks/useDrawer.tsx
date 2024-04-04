@@ -46,8 +46,6 @@ export const DrawerProvider = ({ children }) => {
           enablePanDownToClose
           style={styles.bottomSheetWrapper}
         >
-          {/* 
-            // @ts-ignore */}
           <BottomSheetView style={{ minHeight: height }}>
             {drawer}
           </BottomSheetView>

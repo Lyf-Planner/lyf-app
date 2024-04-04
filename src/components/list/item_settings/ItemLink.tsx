@@ -55,8 +55,6 @@ export const ItemLink = ({
 
   return (
     <View style={[styles.mainContainer]}>
-      {/* 
-        // @ts-ignore */}
       <MaterialIcons name="link" size={20} />
       <Text style={[styles.fieldText]}>Link</Text>
       <View style={styles.inputWrapper}>
@@ -68,8 +66,6 @@ export const ItemLink = ({
           underlayColor={"rgba(0,0,0,0.5)"}
           style={styles.closeTouchable}
         >
-          {/* 
-              // @ts-ignore */}
           <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
         </TouchableHighlight>
         {submitted ? (

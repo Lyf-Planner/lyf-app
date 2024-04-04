@@ -31,14 +31,10 @@ export const AddFriendsModal = ({ item_id }) => {
         onPress={closeModal}
         underlayColor={"rgba(0,0,0,0.5)"}
       >
-        {/* 
-          // @ts-ignore */}
         <AntDesign name="close" color="rgba(0,0,0,0.5)" size={18} />
       </TouchableHighlight>
       <View style={{ gap: 2 }}>
         <View style={styles.header}>
-          {/* 
-            // @ts-ignore */}
           <FontAwesome5Icon name="user-plus" size={40} />
           <Text style={styles.title}>Invite Friends</Text>
         </View>

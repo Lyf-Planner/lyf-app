@@ -12,8 +12,6 @@ export const SimpleSearch = ({ search, setSearch }) => {
         style={styles.searchBarPressable}
         onPress={() => textRef.current.focus()}
       >
-        {/* 
-          // @ts-ignore */}
         <FontAwesome name="search" color="black" size={20} />
         <TextInput
           ref={textRef}

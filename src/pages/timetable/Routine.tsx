@@ -32,8 +32,6 @@ export const Routine = ({ items }) => {
                 );
               }}
             >
-              {/* 
-                // @ts-ignore */}
               <Entypo name="info-with-circle" color={"black"} size={18} />
             </Pressable>
           </View>

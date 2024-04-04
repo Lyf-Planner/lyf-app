@@ -83,8 +83,6 @@ export const SortableItem = ({
   return (
     <View style={[styles.listItem, conditionalStyles.listItem]}>
       <View>
-        {/* 
-             // @ts-ignore */}
         <AntDesign
           name={
             item.status === ItemStatus.Done ? "checkcircle" : "checkcircleo"
@@ -130,8 +128,6 @@ export const SortableItem = ({
             conditionalStyles.collaborativeIndicator,
           ]}
         >
-          {/* 
-                // @ts-ignore */}
           <FontAwesome5
             name="users"
             size={16}
@@ -150,8 +146,6 @@ export const SortableItem = ({
             conditionalStyles.sortableIndicator,
           ]}
         >
-          {/* 
-                // @ts-ignore */}
           <Feather
             name="menu"
             size={16}

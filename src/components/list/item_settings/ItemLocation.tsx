@@ -25,8 +25,6 @@ export const ItemLocation = ({
 
   return (
     <View style={[styles.mainContainer]}>
-      {/* 
-        // @ts-ignore */}
       <MaterialIcons name="location-pin" size={20} />
       <Text style={[styles.fieldText]}>Location</Text>
       <View style={styles.inputWrapper}>
@@ -38,8 +36,6 @@ export const ItemLocation = ({
           underlayColor={"rgba(0,0,0,0.5)"}
           style={styles.closeTouchable}
         >
-          {/* 
-              // @ts-ignore */}
           <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
         </TouchableHighlight>
         <TextInput

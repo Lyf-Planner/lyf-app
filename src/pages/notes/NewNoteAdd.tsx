@@ -14,8 +14,6 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 const NewNoteButton = () => {
   return (
     <View style={{ padding: 4, borderRadius: 5 }}>
-      {/* 
-        // @ts-ignore */}
       <MaterialCommunityIcons name="note-plus-outline" size={30} />
     </View>
   );

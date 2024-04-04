@@ -6,8 +6,6 @@ export const LogoutButton = ({ logout }) => {
     <TouchableHighlight onPress={logout}>
       <View style={styles.buttonView}>
         <Text style={styles.logoutText}>Logout</Text>
-        {/* 
-          // @ts-ignore */}
         <MaterialCommunityIcons name="logout" size={18} />
       </View>
     </TouchableHighlight>

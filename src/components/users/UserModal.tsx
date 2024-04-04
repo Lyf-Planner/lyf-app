@@ -25,12 +25,8 @@ export const UserModal = ({ user_id }) => {
             onPress={() => updateModal(null)}
             underlayColor={"rgba(0,0,0,0.5)"}
           >
-            {/* 
-             // @ts-ignore */}
             <AntDesign name="close" color="rgba(0,0,0,0.5)" size={18} />
           </TouchableHighlight>
-          {/* 
-            // @ts-ignore */}
           <FontAwesome name="user" size={50} />
           <View style={styles.nameRow}>
             {user.name ? (

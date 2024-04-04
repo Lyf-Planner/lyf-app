@@ -46,8 +46,6 @@ export const ItemDate = ({ item, updateItem, invited }) => {
         options={menuOptions}
       >
         <View style={styles.fieldNameContainer}>
-          {/* 
-        // @ts-ignore */}
           <MaterialIcons name="date-range" size={20} />
 
           <Text style={styles.eventText}>Date</Text>

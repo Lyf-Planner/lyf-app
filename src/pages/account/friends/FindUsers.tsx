@@ -34,8 +34,6 @@ export const FindUsers = () => {
         style={styles.searchBarPressable}
         onPress={() => textRef.current.focus()}
       >
-        {/* 
-          // @ts-ignore */}
         <FontAwesome name="search" color="white" size={20} />
         <TextInput
           ref={textRef}

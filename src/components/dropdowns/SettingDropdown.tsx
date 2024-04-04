@@ -49,8 +49,6 @@ export const SettingDropdown = ({
             <View style={{ width: 20 }}>{icon}</View>
             <Text style={[styles.titleText]}>{name}</Text>
             <Animated.View style={[styles.animatedChevron, rotationAnimation]}>
-              {/* 
-                // @ts-ignore */}
               <Entypo name={"chevron-right"} size={25} />
             </Animated.View>
           </View>

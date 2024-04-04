@@ -63,8 +63,6 @@ export const ListDropdown = ({ items, listType, icon, name }) => {
         <Text>{`(${items.length})`}</Text>
         <View style={styles.headerLeft}>
           <Animated.View style={[styles.animatedChevron, rotationAnimation]}>
-            {/* 
-              // @ts-ignore */}
             <Entypo name={"chevron-right"} size={25} />
           </Animated.View>
         </View>

@@ -59,8 +59,6 @@ export const NoteView = ({
     <View style={styles.notePageWrapper}>
       <View style={styles.myNotesHeader}>
         <TouchableOpacity onPress={() => onBack()}>
-          {/* 
-            // @ts-ignore */}
           <Entypo name={"chevron-left"} size={30} />
         </TouchableOpacity>
         <TextInput
