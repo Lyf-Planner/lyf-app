@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Vibration, Pressable } from "react-native";
 import { Horizontal, Vertical } from "../../components/general/MiscComponents";
-import { ListInput } from "../../components/list/ListInput";
+import { List } from "../../components/list/List";
 import {
   localisedMoment,
   dayFromDateString,
@@ -209,10 +209,14 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
         </LyfMenu>
 
         <View style={styles.listWrapperView}>
-          <ListInput
+          <List
             items={items
               .filter((x) => x.type === ListItemType.Event)
               .sort((a, b) => (a.time ? a.time.localeCompare(b.time) : 1))}
+            itemStyleOptions={{
+              itemColor: eventsBadgeColor,
+              itemTextColor: "black",
+            }}
             addItem={(name) =>
               addItem(
                 name,
@@ -224,8 +228,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
             updateItem={updateItem}
             removeItem={removeItem}
             type={ListItemType.Event}
-            badgeColor={eventsBadgeColor}
-            listBackgroundColor={deepBlue}
+            listWrapperStyles={{ backgroundColor: deepBlue }}
           />
         </View>
 
@@ -237,13 +240,20 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
           {sorting ? (
             <SortableList
               items={items.filter((x) => x.type === ListItemType.Task)}
-              badgeColor="rgb(241 245 249)"
-              listBackgroundColor={deepBlue}
+              itemStyleOptions={{
+                itemColor: "rgb(241 245 249)",
+                itemTextColor: "black",
+              }}
+              listWrapperStyles={{ backgroundColor: deepBlue }}
               doneSorting={() => setSorting(false)}
             />
           ) : (
-            <ListInput
+            <List
               items={items.filter((x) => x.type === ListItemType.Task)}
+              itemStyleOptions={{
+                itemColor: eventsBadgeColor,
+                itemTextColor: "black",
+              }}
               addItem={(name) =>
                 addItem(
                   name,
@@ -255,8 +265,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
               updateItem={updateItem}
               removeItem={removeItem}
               type={ListItemType.Task}
-              badgeColor="rgb(241 245 249)"
-              listBackgroundColor={deepBlue}
+              listWrapperStyles={{ backgroundColor: deepBlue }}
             />
           )}
         </View>

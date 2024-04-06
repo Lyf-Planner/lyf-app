@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, View, Text } from "react-native";
-import { ListInput } from "../list/ListInput";
+import { List } from "../list/List";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -72,15 +72,17 @@ export const ListDropdown = ({ items, listType, icon, name }) => {
           style={styles.listWrapper}
           entering={FadeIn.duration(200)}
         >
-          <ListInput
+          <List
             items={items}
+            itemStyleOptions={{
+              itemColor: deepBlue,
+              itemTextColor: "rgb(203 213 225)",
+            }}
             addItem={(name) => addItem(name, listType, null, null)}
             updateItem={updateItem}
             removeItem={removeItem}
             type={listType}
-            badgeColor={deepBlue}
-            badgeTextColor="rgb(203 213 225)"
-            listBackgroundColor={eventsBadgeColor}
+            listWrapperStyles={{ backgroundColor: eventsBadgeColor }}
           />
         </Animated.View>
       )}

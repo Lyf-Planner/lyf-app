@@ -3,7 +3,7 @@ import { eventsBadgeColor } from "../../utils/constants";
 import { FriendAction } from "../../pages/account/friends/FriendActions";
 import { BouncyPressable } from "../pressables/BouncyPressable";
 import { UserListContext } from "../../utils/constants";
-import { ItemSocialAction } from "../list/item_settings/ItemSocialAction";
+import { ItemSocialAction } from "../list/drawer_settings/ItemSocialAction";
 import { useModal } from "../../hooks/useModal";
 import { UserModal } from "./UserModal";
 import FontAwesome from "react-native-vector-icons/FontAwesome";

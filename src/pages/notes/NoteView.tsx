@@ -1,7 +1,7 @@
 import { StyleSheet, View, TextInput, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { NoteTypes } from "./TypesAndHelpers";
-import { ListInput } from "../../components/list/ListInput";
+import { List } from "../../components/list/List";
 import { eventsBadgeColor } from "../../utils/constants";
 import { NoteTypeBadge } from "./NoteTypeBadge";
 import { ItemStatus, ListItemType } from "../../components/list/constants";
@@ -25,8 +25,9 @@ export const NoteView = ({
     publish && publishUpdate({ ...note, content });
   };
 
-  // We need to pass different item ops to the ListInput
+  // We need to pass different item ops to the List
   // Since the list items are stored on note.content
+  // This needs to be reevaluated such that notes reference real items
   const addItem = (title: string) => {
     const newItem = {
       id: uuid(),
@@ -92,20 +93,22 @@ export const NoteView = ({
           onEndEditing={() => publishUpdate(note)}
         />
       ) : (
-        <ListInput
+        <List
           items={note.content || []}
+          itemStyleOptions={{
+            itemColor: "rgb(30 41 59)",
+            itemTextColor: "rgb(203 213 225)",
+          }}
           type={ListItemType.Item}
           addItem={addItem}
           updateItem={updateItem}
           removeItem={removeItem}
           fromNote
-          badgeColor="rgb(30 41 59)"
-          badgeTextColor="rgb(203 213 225)"
-          listBackgroundColor={eventsBadgeColor}
           listWrapperStyles={{
             paddingHorizontal: 10,
             paddingVertical: 12,
             borderRadius: 10,
+            backgroundColor: eventsBadgeColor
           }}
         />
       )}

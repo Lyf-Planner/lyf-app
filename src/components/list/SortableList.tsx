@@ -1,54 +1,52 @@
 import { View, StyleSheet, Text } from "react-native";
 import DraggableFlatlist from "react-native-draggable-flatlist";
 import { useItems } from "../../hooks/useItems";
-import { primaryGreen, secondaryGreen } from "../../utils/constants";
-import { SortableItem } from "./item/SortableItem";
+import { secondaryGreen } from "../../utils/constants";
+import { SortableListItem } from "./item/SortableListItem";
 import { BouncyPressable } from "../pressables/BouncyPressable";
+import { ListItem as ListItemAsType } from "../../utils/abstractTypes";
+import { ItemStyleOptions } from "./item/ListItem";
 
-export enum ListType {
-  Event = "Event",
-  Task = "Task",
-  Item = "Item",
-}
+type Props = {
+  items: ListItemAsType[];
+  doneSorting: () => void;
+  itemStyleOptions: ItemStyleOptions;
+  listWrapperStyles?: Object;
+};
 
 export const SortableList = ({
   items,
   doneSorting,
-  badgeColor,
-  badgeTextColor = "black",
-  listBackgroundColor = "white",
+  itemStyleOptions,
   listWrapperStyles = {},
-}) => {
+}: Props) => {
   const { resortItems } = useItems();
 
+  const onDragEnd = ({ data }) => {
+    resortItems(data.map((x) => x.id));
+  };
+
+  const renderItem = (x: ListItemAsType) => {
+    return (
+      <SortableListItem
+        key={x.item.template_id || x.item.id}
+        itemStyleOptions={itemStyleOptions}
+        item={x.item}
+        dragFunc={x.drag}
+        isActive={x.isActive}
+      />
+    );
+  };
+
   return (
-    <View style={{ gap: 2 }}>
+    <View style={styles.main}>
       <DraggableFlatlist
-        containerStyle={[
-          styles.listContainer,
-          {
-            backgroundColor: listBackgroundColor,
-          },
-          listWrapperStyles,
-        ]}
+        containerStyle={[styles.listContainer, listWrapperStyles]}
         style={styles.flatlistInternal}
         data={items}
-        onDragEnd={({ data }) => {
-          resortItems(data.map((x) => x.id));
-        }}
-        keyExtractor={(item: any) => item.id}
-        renderItem={(x: any) => {
-          return (
-            <SortableItem
-              key={x.item.template_id || x.item.id}
-              badgeColor={badgeColor}
-              badgeTextColor={badgeTextColor}
-              item={x.item}
-              dragFunc={x.drag}
-              isActive={x.isActive}
-            />
-          );
-        }}
+        onDragEnd={onDragEnd}
+        keyExtractor={(item: ListItemAsType) => item.id}
+        renderItem={renderItem}
       />
       <DoneButton doneSorting={doneSorting} />
     </View>
@@ -64,6 +62,7 @@ const DoneButton = ({ doneSorting }) => {
 };
 
 const styles = StyleSheet.create({
+  main: { gap: 2 },
   listContainer: {
     flexWrap: "wrap",
     flexDirection: "row",

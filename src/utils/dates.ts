@@ -115,3 +115,10 @@ export function TwentyFourHourToAMPM(time: string, withAMPM = true) {
   const AMPM = withAMPM ?  (h >= 12 ? "pm" : "am") : ""
   return hourText + ":" + minsText + AMPM;
 }
+
+export function TwentyFourHourToRawAMPM(time: string) {
+  const [hours] = time.split(":");
+  var h = parseInt(hours);
+  const AMPM = (h >= 12 ? "pm" : "am")
+  return AMPM;
+}

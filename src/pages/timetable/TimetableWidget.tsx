@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { View, StyleSheet } from "react-native";
 import { Planner } from "./Planner";
 import { ListDropdown } from "../../components/dropdowns/ListDropdown";
-import { ListType } from "../../components/list/ListInput";
+import { ListType } from "../../components/list/List";
 import { ListItemType } from "../../components/list/constants";
 import { useItems } from "../../hooks/useItems";
 import Entypo from "react-native-vector-icons/Entypo";

@@ -1,3 +1,4 @@
+import { ListItem } from "../../utils/abstractTypes";
 import { primaryGreen } from "../../utils/constants";
 
 export enum ItemStatus {
@@ -10,12 +11,12 @@ export enum ItemStatus {
 
 export const StatusOptions = Object.values(ItemStatus);
 
-export const tentativeColor = "rgb(254 240 138)"
-export const upcomingColor = "rgb(235,235,235)"
-export const todoColor = "rgb(226 232 240)"
-export const inProgressColor = "rgb(56 189 248)"
-export const doneColor = primaryGreen
-export const cancelledColor = "rgb(252 165 165)"
+export const tentativeColor = "rgb(254 240 138)";
+export const upcomingColor = "rgb(235,235,235)";
+export const todoColor = "rgb(226 232 240)";
+export const inProgressColor = "rgb(56 189 248)";
+export const doneColor = primaryGreen;
+export const cancelledColor = "rgb(252 165 165)";
 
 export const ITEM_STATUS_TO_COLOR = {
   // Values taken from the corresponding bg's in tailwind
@@ -26,6 +27,24 @@ export const ITEM_STATUS_TO_COLOR = {
   Done: doneColor,
   Cancelled: cancelledColor,
 } as any;
+
+// Used by background
+export const getItemPrimaryColor = (item: ListItem, defaultColor: string) => {
+  if (!item.status || item.status === ItemStatus.Upcoming) {
+    return defaultColor;
+  } else {
+    return ITEM_STATUS_TO_COLOR[item.status];
+  }
+};
+
+// Used by text and icons etc
+export const getItemSecondaryColor = (item: ListItem, defaultColor: string) => {
+  if (item.status === ItemStatus.Done) return "white";
+  if (item.status === ItemStatus.InProgress) return "black";
+  if (item.status === ItemStatus.Tentative) return "black";
+  if (item.status === ItemStatus.Cancelled) return "black";
+  else return defaultColor;
+};
 
 export enum ListItemType {
   Event = "Event",

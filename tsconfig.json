@@ -1,6 +1,10 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "moduleResolution": "node",
+    "noEmit": true,
+    "jsx": "react-native",
+    "baseUrl": "src",
     "paths": {
       "react": [ "./node_modules/@types/react" ]
     }

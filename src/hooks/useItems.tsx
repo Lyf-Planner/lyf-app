@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "../authorisation/AuthProvider";
 import { getCalendars } from "expo-localization";
 import {
@@ -18,6 +13,24 @@ import { v4 as uuid } from "uuid";
 import { formatDateData, getStartOfCurrentWeek } from "../utils/dates";
 import { SocialAction, arraysEqualAsSets } from "../utils/constants";
 import "react-native-get-random-values";
+import { ListItem } from "../utils/abstractTypes";
+
+export type AddItem = (
+  title: string,
+  type: ListItemType,
+  date: string,
+  day: string,
+  status?: ItemStatus,
+  template_instance?: ListItem
+) => void;
+export type UpdateItem = (item: ListItem, updateRemote?: boolean) => void;
+export type UpdateItemSocial = (
+  item: ListItem,
+  user_id: string,
+  action: SocialAction
+) => void;
+export type RemoveItem = (item: ListItem, deleteRemote?: boolean) => void;
+export type ResortItems = (priorities: string[]) => void;
 
 // Assisted state management via provider
 export const ItemsProvider = ({ children }) => {
@@ -127,7 +140,7 @@ export const ItemsProvider = ({ children }) => {
     day: string,
     status: ItemStatus = ItemStatus.Upcoming,
     // Template instance is a whole list item
-    template_instance?: any
+    template_instance?: ListItem
   ) => {
     if (template_instance) {
       var newItem = { ...template_instance };
