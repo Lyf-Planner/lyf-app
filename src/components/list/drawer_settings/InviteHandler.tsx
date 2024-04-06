@@ -25,14 +25,12 @@ export const InviteHandler = ({ item }) => {
       <InviteHandleButton
         color={primaryGreen}
         text="Accept"
-        // @ts-ignore
         icon={<FontAwesome5Icon name="check" size={18} color="white" />}
         func={acceptInvite}
       />
       <InviteHandleButton
         color={"red"}
         text="Decline"
-        // @ts-ignore
         icon={<AntDesign name="close" size={18} color="white" />}
         func={rejectInvite}
       />

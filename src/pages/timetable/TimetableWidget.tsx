@@ -36,14 +36,12 @@ export const Timetable = () => {
         <ListDropdown
           items={filterUpcomingEvents()}
           name="Upcoming Events"
-          // @ts-ignore
           icon={<Entypo name="calendar" size={22} />}
           listType={ListType.Event}
         />
         <ListDropdown
           items={filterToDoList()}
           name="To Do List"
-          // @ts-ignore
           icon={<Entypo name="list" size={22} />}
           listType={ListType.Task}
         />

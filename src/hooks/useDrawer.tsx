@@ -38,7 +38,6 @@ export const DrawerProvider = ({ children }) => {
     <DrawerContext.Provider value={EXPOSED}>
       {children}
       {!!drawer && (
-        // @ts-ignore
         <BottomSheetModal
           ref={bottomSheetRef}
           enableDynamicSizing

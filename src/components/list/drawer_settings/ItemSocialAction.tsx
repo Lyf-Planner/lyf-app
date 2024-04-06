@@ -67,7 +67,6 @@ export const ItemSocialAction = ({ item, user_id }) => {
       func={permission ? () => {} : inviteUser}
       icon={
         !permission && (
-          // @ts-ignore
           <FontAwesome5Icon name="user-plus" size={16} color="white" />
         )
       }

@@ -72,7 +72,6 @@ export const Friend = ({ user_id }) => {
       <ActionButton
         title="Friends"
         func={() => {}}
-        // @ts-ignore
         icon={<AntDesign name="check" color="white" size={20} />}
         color={primaryGreen}
         loadingOverride={loading}
@@ -107,7 +106,6 @@ export const Requested = ({ user_id }) => {
       <ActionButton
         title="Sent"
         func={() => {}}
-        // @ts-ignore
         icon={<FontAwesome5Icon name="arrow-right" color="white" size={18} />}
         color={"rgba(0,0,0,0.5)"}
         loadingOverride={loading}
@@ -127,7 +125,6 @@ export const AddFriend = ({ user_id }) => {
     <ActionButton
       title="Add"
       func={addFriend}
-      // @ts-ignore
       icon={<FontAwesome5Icon name="plus" color="white" size={18} />}
       color={primaryGreen}
     />
@@ -162,7 +159,6 @@ export const HandleRequest = ({ user_id }) => {
         {accepting ? (
           <Loader size={20} color="white" />
         ) : (
-          // @ts-ignore
           <FontAwesome5Icon name="plus" color="white" size={18} />
         )}
       </BouncyPressable>
@@ -174,7 +170,6 @@ export const HandleRequest = ({ user_id }) => {
         {declining ? (
           <Loader size={20} color="white" />
         ) : (
-          // @ts-ignore
           <Entypo name="cross" color="white" size={24} />
         )}
       </BouncyPressable>

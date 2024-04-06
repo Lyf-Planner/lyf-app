@@ -20,7 +20,6 @@ export const SaveTooltip = ({ style = {}, size }) => {
 };
 
 export const PremiumIcon = ({ size = 30 }) => {
-  // @ts-ignore
   return <SimpleLineIcons name="diamond" size={size} color={"#2fdce1"} />;
 };
 

@@ -55,7 +55,6 @@ export const ItemStatusDropdown = ({ item, updateItem }) => {
         },
       ]}
       ArrowDownIconComponent={() => (
-        // @ts-ignore
         <Entypo
           name="chevron-thin-down"
           size={18}
@@ -64,7 +63,6 @@ export const ItemStatusDropdown = ({ item, updateItem }) => {
         />
       )}
       ArrowUpIconComponent={() => (
-        // @ts-ignore
         <Entypo
           name="chevron-thin-up"
           size={18}
