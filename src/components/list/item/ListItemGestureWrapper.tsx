@@ -185,5 +185,6 @@ export const ListItemGestureWrapper = ({
 const styles = StyleSheet.create({
   listItemWrapper: {
     width: "100%",
+    height: 55,
   },
 });

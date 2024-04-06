@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     padding: 10,
-    height: LIST_ITEM_HEIGHT,
+    height: 55,
     borderWidth: 1,
     gap: 4,
     alignItems: "center",
