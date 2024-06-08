@@ -1,19 +1,19 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { useAuth } from "../authorisation/AuthProvider";
-import { getCalendars } from "expo-localization";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useAuth } from '../authorisation/AuthProvider';
+import { getCalendars } from 'expo-localization';
 import {
   createItem,
   deleteItem,
   getItems,
   updateItem as updateRemoteItem,
-  updateItemSocial as updateRemoteItemSocial,
-} from "../rest/items";
-import { ItemStatus, ListItemType } from "../components/list/constants";
-import { v4 as uuid } from "uuid";
-import { formatDateData, getStartOfCurrentWeek } from "../utils/dates";
-import { SocialAction, arraysEqualAsSets } from "../utils/constants";
-import "react-native-get-random-values";
-import { ListItem } from "../utils/abstractTypes";
+  updateItemSocial as updateRemoteItemSocial
+} from '../rest/items';
+import { ItemStatus, ListItemType } from '../components/list/constants';
+import { v4 as uuid } from 'uuid';
+import { formatDateData, getStartOfCurrentWeek } from '../utils/dates';
+import { SocialAction, arraysEqualAsSets } from '../utils/constants';
+import 'react-native-get-random-values';
+import { ListItem } from '../utils/abstractTypes';
 
 export type AddItem = (
   title: string,
@@ -40,30 +40,33 @@ export const ItemsProvider = ({ children }) => {
 
   // Timetable needs to fetch all the list item ids before anything else
   useEffect(() => {
-    if (!user) return;
-    let itemIds = user.timetable.items.map((x) => x.id);
+    if (!user) {
+      return;
+    }
+    const itemIds = user.timetable.items.map((x) => x.id);
     let inviteIds = user.timetable.invited_items;
 
     // Remove any invites accepted as items from the invite list
     inviteIds = inviteIds.filter((x) => !itemIds.includes(x));
-    let fetchedIds = itemIds.concat(inviteIds);
-    let storeIds = items.map((x) => x.id);
+    const fetchedIds = itemIds.concat(inviteIds);
+    const storeIds = items.map((x) => x.id);
 
     const itemChanges = !arraysEqualAsSets(fetchedIds, storeIds);
-    console.log("Item Changes Detected?", itemChanges);
+    console.log('Item Changes Detected?', itemChanges);
 
     if (itemChanges) {
-      console.log("Syncing Item Store");
-      for (let item of fetchedIds) {
-        if (!syncing && !storeIds.includes(item))
-          console.warn("User is missing the item", item);
+      console.log('Syncing Item Store');
+      for (const item of fetchedIds) {
+        if (!syncing && !storeIds.includes(item)) {
+          console.warn('User is missing the item', item);
+        }
       }
       setSyncing(true);
 
       getItems(fetchedIds).then((results) => {
         // Filter out any old items
-        var start = formatDateData(getStartOfCurrentWeek());
-        var relevant = results.filter((x) => {
+        const start = formatDateData(getStartOfCurrentWeek());
+        const relevant = results.filter((x) => {
           return !x.date || x.date.localeCompare(start) >= 0;
         });
 
@@ -86,10 +89,10 @@ export const ItemsProvider = ({ children }) => {
       )
     ) {
       const relevant_ids = relevant.map((x) => x.id);
-      var fresh_items = user.timetable.items.filter((x) =>
+      const fresh_items = user.timetable.items.filter((x) =>
         relevant_ids.includes(x.id)
       );
-      var fresh_invites = user.timetable.invited_items.filter((x) =>
+      const fresh_invites = user.timetable.invited_items.filter((x) =>
         relevant_ids.includes(x)
       );
 
@@ -98,8 +101,8 @@ export const ItemsProvider = ({ children }) => {
         timetable: {
           ...user.timetable,
           items: fresh_items,
-          invited_items: fresh_invites,
-        },
+          invited_items: fresh_invites
+        }
       });
     }
   };
@@ -107,25 +110,27 @@ export const ItemsProvider = ({ children }) => {
   const updateItem = async (item, updateRemote = true) => {
     const invited =
       item.invited_users && item.invited_users.find((x) => x === user.id);
-    if (invited) return;
+    if (invited) {
+      return;
+    }
 
     // We create localised instances of templates in the planner - if this is one of those then create it
     if (item.localised) {
-      console.log("Local item will be created instead of updated");
+      console.log('Local item will be created instead of updated');
       addItem(null, null, null, null, null, item);
       return;
     }
 
     // Update store
-    var tmp = [...items];
-    var i = tmp.findIndex((x) => x.id === item.id);
+    const tmp = [...items];
+    const i = tmp.findIndex((x) => x.id === item.id);
     const before = tmp[i];
     tmp[i] = item;
-    tmp.length === 0 && console.error("UPDATE REMOVING ITEMS");
+    tmp.length === 0 && console.error('UPDATE REMOVING ITEMS');
     setItems(tmp);
 
     if (updateRemote) {
-      let success = await updateRemoteItem(item);
+      const success = await updateRemoteItem(item);
       if (!success) {
         tmp[i] = before;
         setItems(tmp);
@@ -157,11 +162,11 @@ export const ItemsProvider = ({ children }) => {
           {
             user_id: user.id,
             displayed_as: user.details?.name || user.id,
-            permissions: "Owner",
-          },
+            permissions: 'Owner'
+          }
         ],
         notifications: [],
-        status,
+        status
       } as any;
     }
 
@@ -169,7 +174,7 @@ export const ItemsProvider = ({ children }) => {
     const tmpItems = [...items];
 
     // Conditional properties
-    if (newItem.title[newItem.title.length - 1] === "?") {
+    if (newItem.title[newItem.title.length - 1] === '?') {
       newItem.status = ItemStatus.Tentative;
     }
 
@@ -195,8 +200,10 @@ export const ItemsProvider = ({ children }) => {
   };
 
   const updateItemSocial = async (item, user_id, action) => {
-    let result = await updateRemoteItemSocial(item.id, user_id, action);
-    if (!result) return;
+    const result = await updateRemoteItemSocial(item.id, user_id, action);
+    if (!result) {
+      return;
+    }
 
     // If user removed themselves, delete from linked items
     if (
@@ -222,9 +229,9 @@ export const ItemsProvider = ({ children }) => {
       }
     }
 
-    var id = item.id;
+    const { id } = item;
     // Remove from this store
-    var tmp = items.filter((x) => x.id !== id) as any;
+    let tmp = items.filter((x) => x.id !== id) as any;
     setItems(tmp);
 
     // Remove ref from user
@@ -232,7 +239,9 @@ export const ItemsProvider = ({ children }) => {
     tmp.timetable.items = tmp.timetable.items.filter((x) => x.id !== id);
     updateUser(tmp);
 
-    if (deleteRemote) await deleteItem(id);
+    if (deleteRemote) {
+      await deleteItem(id);
+    }
   };
 
   const resortItems = (priorities: string[]) => {
@@ -246,8 +255,8 @@ export const ItemsProvider = ({ children }) => {
       ...user,
       timetable: {
         ...user.timetable,
-        items: sortedItems.map((x) => ({ id: x.id })),
-      },
+        items: sortedItems.map((x) => ({ id: x.id }))
+      }
     });
   };
 
@@ -258,7 +267,7 @@ export const ItemsProvider = ({ children }) => {
     updateItemSocial,
     addItem,
     removeItem,
-    resortItems,
+    resortItems
   };
 
   return (

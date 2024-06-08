@@ -1,19 +1,19 @@
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import {
   Directions,
   Gesture,
   GestureDetector,
-  TouchableHighlight,
-} from "react-native-gesture-handler";
-import { Horizontal } from "../../components/general/MiscComponents";
+  TouchableHighlight
+} from 'react-native-gesture-handler';
+import { Horizontal } from '../../components/general/MiscComponents';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
-import { NoteTypeBadge } from "./NoteTypeBadge";
-import { useNotes } from "../../hooks/useNotes";
-import Entypo from "react-native-vector-icons/Entypo";
+  withTiming
+} from 'react-native-reanimated';
+import { NoteTypeBadge } from './NoteTypeBadge';
+import { useNotes } from '../../providers/useNotes';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 export const NoteBanner = ({ id, title, noteType, onPress }) => {
   const { removeNote } = useNotes();
@@ -35,11 +35,11 @@ export const NoteBanner = ({ id, title, noteType, onPress }) => {
         transform: [
           {
             translateX: withTiming(offsetX.value, {
-              duration: 200,
-            }),
-          },
+              duration: 200
+            })
+          }
         ],
-        zIndex: 50,
+        zIndex: 50
       } as any)
   );
 
@@ -55,14 +55,14 @@ export const NoteBanner = ({ id, title, noteType, onPress }) => {
       <Animated.View style={[styles.bannerView, flingAnimation]}>
         <GestureDetector gesture={composed}>
           <TouchableHighlight
-            underlayColor={"rgb(150,150,150)"}
+            underlayColor={'rgb(150,150,150)'}
             onPress={onPress}
           >
             <View style={styles.touchableHighlight}>
               <Text style={[styles.titleText]}>{title}</Text>
               <View style={[styles.animatedChevron]}>
                 <NoteTypeBadge type={noteType} />
-                <Entypo name={"chevron-right"} size={25} />
+                <Entypo name={'chevron-right'} size={25} />
               </View>
             </View>
           </TouchableHighlight>
@@ -72,7 +72,7 @@ export const NoteBanner = ({ id, title, noteType, onPress }) => {
       <Horizontal
         style={{
           opacity: 0.1,
-          borderBottomWidth: 0.5,
+          borderBottomWidth: 0.5
         }}
       />
     </View>
@@ -81,42 +81,42 @@ export const NoteBanner = ({ id, title, noteType, onPress }) => {
 
 const styles = StyleSheet.create({
   main: {
-    width: "100%",
-    overflow: "hidden",
-    zIndex: -5,
+    width: '100%',
+    overflow: 'hidden',
+    zIndex: -5
   },
   bannerView: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "white",
-    height: 55,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    height: 55
   },
   bannerHiddenBackground: {
     height: 54.9,
     right: 0,
-    flexDirection: "row",
-    alignItems: "center",
-    position: "absolute",
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'absolute',
     zIndex: -1,
-    backgroundColor: "red",
-    width: 55,
+    backgroundColor: 'red',
+    width: 55
   },
   touchableHighlight: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
     paddingLeft: 6,
-    paddingRight: 15,
+    paddingRight: 15
   },
   titleText: {
     fontSize: 20,
-    color: "rgba(0,0,0,0.75)",
-    fontWeight: "400",
+    color: 'rgba(0,0,0,0.75)',
+    fontWeight: '400'
   },
-  editIcon: { marginLeft: "auto", marginRight: 17.5 },
+  editIcon: { marginLeft: 'auto', marginRight: 17.5 },
   animatedChevron: {
-    marginLeft: "auto",
-    flexDirection: "row",
-  },
+    marginLeft: 'auto',
+    flexDirection: 'row'
+  }
 });

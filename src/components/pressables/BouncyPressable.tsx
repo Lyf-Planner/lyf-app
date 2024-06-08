@@ -1,9 +1,9 @@
-import { Pressable, TouchableHighlight } from "react-native";
+import { Pressable, TouchableHighlight } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
+  withTiming
+} from 'react-native-reanimated';
 
 export const BouncyPressable = ({
   children,
@@ -13,7 +13,7 @@ export const BouncyPressable = ({
   conditionalStyles = null,
   onPress = null,
   onLongPress = null,
-  useTouchableHighlight = false,
+  useTouchableHighlight = false
 }) => {
   const scale = useSharedValue(1);
 
@@ -22,14 +22,14 @@ export const BouncyPressable = ({
       transform: [
         {
           scale: withTiming(scale.value, {
-            duration: 200,
-          }),
-        },
-      ],
+            duration: 200
+          })
+        }
+      ]
     } as any;
   });
 
-  var WrappingPressable = useTouchableHighlight
+  const WrappingPressable = useTouchableHighlight
     ? TouchableHighlight
     : Pressable;
 
@@ -45,7 +45,7 @@ export const BouncyPressable = ({
         onPressOut={() => {
           scale.value = 1;
         }}
-        underlayColor={"rgba(0,0,0,0.5)"}
+        underlayColor={'rgba(0,0,0,0.5)'}
         style={[style, conditionalStyles]}
       >
         {children}

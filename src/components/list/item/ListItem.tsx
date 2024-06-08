@@ -1,13 +1,13 @@
-import { useMemo } from "react";
-import { useAuth } from "../../../authorisation/AuthProvider";
-import { ListItemUnderlay } from "./ListItemUnderlay";
-import { useDrawer } from "../../../hooks/useDrawer";
-import { SharedValue, useSharedValue } from "react-native-reanimated";
-import { ListItemGestureWrapper } from "./ListItemGestureWrapper";
-import { ListItemDrawer } from "../ListItemDrawer";
-import { ListItemOverlay } from "./ListItemOverlay";
-import { ListItem as ListItemAsType } from "../../../utils/abstractTypes";
-import { RemoveItem, UpdateItem } from "../../../hooks/useItems";
+import { useMemo } from 'react';
+import { useAuth } from '../../../authorisation/AuthProvider';
+import { ListItemUnderlay } from './ListItemUnderlay';
+import { useDrawer } from '../../../providers/useDrawer';
+import { SharedValue, useSharedValue } from 'react-native-reanimated';
+import { ListItemGestureWrapper } from './ListItemGestureWrapper';
+import { ListItemDrawer } from '../ListItemDrawer';
+import { ListItemOverlay } from './ListItemOverlay';
+import { ListItem as ListItemAsType } from '../../../utils/abstractTypes';
+import { RemoveItem, UpdateItem } from '../../../providers/useItems';
 
 export const LIST_ITEM_HEIGHT = 55;
 
@@ -35,7 +35,7 @@ export const ListItem = ({
   itemStyleOptions,
   updateItem,
   removeItem,
-  fromNote = false,
+  fromNote = false
 }: Props) => {
   const { updateDrawer, updateSheetMinHeight } = useDrawer();
   const { user } = useAuth();
@@ -52,7 +52,9 @@ export const ListItem = ({
     const invitedRoutineInstantiation = invited && item.template_id;
     updateDrawer(null);
     // Create any localised items for drawer to find
-    if (item.localised && !invitedRoutineInstantiation) await updateItem(item);
+    if (item.localised && !invitedRoutineInstantiation) {
+      await updateItem(item);
+    }
 
     updateDrawer(
       <ListItemDrawer
@@ -71,7 +73,7 @@ export const ListItem = ({
   const animatedValues: ListItemAnimatedValues = {
     scale: useSharedValue(1),
     offsetX: useSharedValue(0),
-    checkScale: useSharedValue(1),
+    checkScale: useSharedValue(1)
   };
 
   return (

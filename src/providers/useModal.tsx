@@ -1,5 +1,5 @@
-import { createContext, useContext, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { createContext, useContext, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 // Component provider
 export const ModalProvider = ({ children }) => {
@@ -7,7 +7,7 @@ export const ModalProvider = ({ children }) => {
 
   const EXPOSED = {
     modal,
-    updateModal,
+    updateModal
   };
 
   const modalExists = !!modal;
@@ -29,13 +29,13 @@ export const useModal = () => {
 const styles = StyleSheet.create({
   modalPositioning: {
     zIndex: 50,
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.4)",
-  },
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)'
+  }
 });

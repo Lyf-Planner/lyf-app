@@ -1,15 +1,15 @@
-import { useRef } from "react";
-import { StyleSheet, View } from "react-native";
+import { useRef } from 'react';
+import { StyleSheet, View } from 'react-native';
 import {
   Menu,
   MenuOptions,
   MenuOption,
   MenuTrigger,
-  renderers,
-} from "react-native-popup-menu";
-import { Horizontal } from "../../components/general/MiscComponents";
-import { NoteTypes } from "./TypesAndHelpers";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+  renderers
+} from 'react-native-popup-menu';
+import { Horizontal } from '../../components/general/MiscComponents';
+import { NoteTypes } from './TypesAndHelpers';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const NewNoteButton = () => {
   return (
@@ -35,8 +35,8 @@ export const NewNoteMenu = ({ addNote }) => {
         ref={menu}
         renderer={renderers.Popover}
         rendererProps={{
-          placement: "bottom",
-          anchorStyle: { backgroundColor: "#bababa" },
+          placement: 'bottom',
+          anchorStyle: { backgroundColor: '#bababa' }
         }}
       >
         <MenuOptions
@@ -47,7 +47,7 @@ export const NewNoteMenu = ({ addNote }) => {
             text="+ New List"
             customStyles={{
               optionWrapper: styles.optionWrapper,
-              optionText: styles.optionText,
+              optionText: styles.optionText
             }}
             onSelect={() => addNote(NoteTypes.List)}
           />
@@ -57,7 +57,7 @@ export const NewNoteMenu = ({ addNote }) => {
             text="+ New Note"
             customStyles={{
               optionWrapper: styles.optionWrapper,
-              optionText: styles.optionText,
+              optionText: styles.optionText
             }}
             onSelect={() => addNote(NoteTypes.Text)}
           />
@@ -72,14 +72,14 @@ export const NewNoteMenu = ({ addNote }) => {
 
 const styles = StyleSheet.create({
   optionsContainer: {
-    flexDirection: "column",
-    justifyContent: "space-evenly",
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
     paddingLeft: 0,
     borderRadius: 10,
     borderWidth: 0.5,
-    borderColor: "rgba(0,0,0,0.5)",
+    borderColor: 'rgba(0,0,0,0.5)'
   },
   optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
   optionText: { fontSize: 18 },
-  optionSeperator: { marginHorizontal: 5 },
+  optionSeperator: { marginHorizontal: 5 }
 });

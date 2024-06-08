@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { getUsers } from "../../rest/user";
-import { StyleSheet, View, Text } from "react-native";
-import { UserBanner } from "./UserBanner";
-import { Loader } from "../general/MiscComponents";
-import { UserListContext } from "../../utils/constants";
+import { useEffect, useState } from 'react';
+import { getUsers } from '../../rest/user';
+import { StyleSheet, View, Text } from 'react-native';
+import { UserBanner } from './UserBanner';
+import { Loader } from '../general/MiscComponents';
+import { UserListContext } from '../../utils/constants';
 
 export const UserList = ({
   users,
   emptyText,
   context = UserListContext.Friends,
-  item = null,
+  item = null
 }) => {
   return (
     <View style={styles.main}>
@@ -32,7 +32,7 @@ export const FetchUserList = ({
   users,
   emptyText,
   context = UserListContext.Friends,
-  item = null,
+  item = null
 }) => {
   const [loadedUsers, setLoadedUsers] = useState<any>(null);
 
@@ -50,10 +50,10 @@ export const FetchUserList = ({
   ) : (
     <View
       style={{
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        marginVertical: 8,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 8
       }}
     >
       <Loader />
@@ -63,18 +63,18 @@ export const FetchUserList = ({
 
 const styles = StyleSheet.create({
   main: {
-    flexDirection: "column",
+    flexDirection: 'column',
     gap: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    minHeight: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    minHeight: 50
   },
   emptyText: {
     fontSize: 18,
     marginVertical: 8,
-    fontFamily: "Inter",
+    fontFamily: 'Inter',
     opacity: 0.7,
-    fontWeight: "600",
-  },
+    fontWeight: '600'
+  }
 });

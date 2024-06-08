@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   StatusOptions,
   ITEM_STATUS_TO_COLOR,
   ItemStatus,
-  statusTextDisplay,
-} from "../constants";
-import { StyleSheet } from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
-import Entypo from "react-native-vector-icons/Entypo";
+  statusTextDisplay
+} from '../constants';
+import { StyleSheet } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 export const ItemStatusDropdown = ({ item, updateItem }) => {
   const [open, setOpen] = useState(false);
@@ -25,12 +25,12 @@ export const ItemStatusDropdown = ({ item, updateItem }) => {
       value: x,
       containerStyle: { backgroundColor: ITEM_STATUS_TO_COLOR[x] },
       labelStyle: {
-        color: x === ItemStatus.Done ? "white" : "black",
-      },
+        color: x === ItemStatus.Done ? 'white' : 'black'
+      }
     };
   });
 
-  const textColor = localValue === ItemStatus.Done ? "white" : "black";
+  const textColor = localValue === ItemStatus.Done ? 'white' : 'black';
 
   useEffect(() => {
     if (item.status && localValue !== item.status) {
@@ -51,8 +51,8 @@ export const ItemStatusDropdown = ({ item, updateItem }) => {
       style={[
         styles.dropdown,
         {
-          backgroundColor: ITEM_STATUS_TO_COLOR[localValue],
-        },
+          backgroundColor: ITEM_STATUS_TO_COLOR[localValue]
+        }
       ]}
       ArrowDownIconComponent={() => (
         <Entypo
@@ -72,7 +72,7 @@ export const ItemStatusDropdown = ({ item, updateItem }) => {
       )}
       setOpen={setOpen}
       setValue={setLocalValue} // This prop works in a dumb way - onSelectItem is used for state updates for ease of mind
-      listMode={"SCROLLVIEW"}
+      listMode={'SCROLLVIEW'}
       dropDownDirection="BOTTOM"
       autoScroll
       multiple={false}
@@ -82,12 +82,12 @@ export const ItemStatusDropdown = ({ item, updateItem }) => {
 
 const styles = StyleSheet.create({
   dropdownText: {
-    fontSize: 18,
+    fontSize: 18
   },
   dropdown: {
     borderRadius: 15,
     minHeight: 45,
-    borderWidth: 0,
+    borderWidth: 0
   },
-  dropdownArrow: { marginRight: 4 },
+  dropdownArrow: { marginRight: 4 }
 });

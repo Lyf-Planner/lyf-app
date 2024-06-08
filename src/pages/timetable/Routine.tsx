@@ -1,9 +1,9 @@
-import { DaysOfWeek, deepBlue } from "../../utils/constants";
-import { StyleSheet, View, Text, Pressable, Alert } from "react-native";
-import { Day } from "./DayDisplay";
-import { BouncyPressable } from "../../components/pressables/BouncyPressable";
-import { useState } from "react";
-import Entypo from "react-native-vector-icons/Entypo";
+import { DaysOfWeek, deepBlue } from '../../utils/constants';
+import { StyleSheet, View, Text, Pressable, Alert } from 'react-native';
+import { Day } from './DayDisplay';
+import { BouncyPressable } from '../../components/pressables/BouncyPressable';
+import { useState } from 'react';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 export const Routine = ({ items }) => {
   const [hide, updateHide] = useState(false);
@@ -13,8 +13,8 @@ export const Routine = ({ items }) => {
       style={[
         styles.weekWrapper,
         {
-          paddingBottom: hide && 12,
-        },
+          paddingBottom: hide && 12
+        }
       ]}
     >
       <BouncyPressable
@@ -27,12 +27,12 @@ export const Routine = ({ items }) => {
             <Pressable
               onPress={() => {
                 Alert.alert(
-                  "Routine",
-                  "Everything in your routine will be copied into your timetable each week :)"
+                  'Routine',
+                  'Everything in your routine will be copied into your timetable each week :)'
                 );
               }}
             >
-              <Entypo name="info-with-circle" color={"black"} size={18} />
+              <Entypo name="info-with-circle" color={'black'} size={18} />
             </Pressable>
           </View>
         </View>
@@ -59,44 +59,44 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 8,
     borderRadius: 10,
-    backgroundColor: "rgba(0,0,0,0.1)",
+    backgroundColor: 'rgba(0,0,0,0.1)'
   },
   weekDateDisplayContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: 4,
     paddingHorizontal: 10,
     borderRadius: 10,
 
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   weekDateDisplayTouchable: {
     marginTop: 16,
     marginHorizontal: 12,
-    backgroundColor: "rgba(0,0,0,0.2)",
-    borderRadius: 10,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    borderRadius: 10
   },
   weekDatePressable: {
     borderRadius: 10,
     marginVertical: 6,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8
   },
   weekDateText: {
-    fontWeight: "600",
+    fontWeight: '600',
     color: deepBlue,
     fontSize: 18,
-    fontFamily: "InterSemi",
+    fontFamily: 'InterSemi'
   },
   weekDaysWrapperView: {
-    flexDirection: "column",
+    flexDirection: 'column',
     gap: 16,
     marginTop: 16,
 
-    shadowColor: "black",
+    shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
-    shadowRadius: 3,
-  },
+    shadowRadius: 3
+  }
 });

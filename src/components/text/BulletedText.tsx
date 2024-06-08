@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from 'react-native';
 
 export const BulletedText = ({ children }) => {
   return (
     <View style={styles.bulletTextWrapper}>
-      <Text style={styles.bullet}>{`\u25CF`}</Text>
+      <Text style={styles.bullet}>{'\u25CF'}</Text>
       {children}
     </View>
   );
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     width: 15,
     fontSize: 10,
     marginTop: 3,
-    textAlignVertical: "center",
+    textAlignVertical: 'center'
   },
-  bulletTextWrapper: { flexDirection: "row", alignItems: "flex-start" },
+  bulletTextWrapper: { flexDirection: 'row', alignItems: 'flex-start' }
 });

@@ -3,20 +3,22 @@ import {
   View,
   Text,
   Alert,
-  StyleSheet,
-} from "react-native";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+  StyleSheet
+} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const DeleteButton = ({ deleteMe, logout }) => {
   return (
     <TouchableHighlight
       onPress={() => {
         Alert.prompt(
-          "Confirm Deletion",
-          "Please re-enter your password to confirm account deletion",
+          'Confirm Deletion',
+          'Please re-enter your password to confirm account deletion',
           async (pass) => {
-            var success = await deleteMe(pass);
-            if (success) logout();
+            const success = await deleteMe(pass);
+            if (success) {
+              logout();
+            }
           }
         );
       }}
@@ -31,22 +33,22 @@ export const DeleteButton = ({ deleteMe, logout }) => {
 
 const styles = StyleSheet.create({
   buttonView: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     borderWidth: 0.5,
     padding: 10,
-    alignItems: "center",
+    alignItems: 'center',
     gap: 4,
-    borderRadius: 5,
+    borderRadius: 5
   },
   logoutText: {
     fontSize: 18,
-    fontWeight: "700",
+    fontWeight: '700'
   },
   deleteText: {
-    fontSize: 16,
+    fontSize: 16
   },
   deleteView: {
-    backgroundColor: "red",
-  },
+    backgroundColor: 'red'
+  }
 });

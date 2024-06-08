@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { WeekDisplay } from "./WeekDisplay";
-import { extendByWeek, initialiseDays } from "../../utils/dates";
-import { primaryGreen } from "../../utils/constants";
-import { BouncyPressable } from "../../components/pressables/BouncyPressable";
-import { Routine } from "./Routine";
-import { useAuth } from "../../authorisation/AuthProvider";
-import Entypo from "react-native-vector-icons/Entypo";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useEffect, useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { WeekDisplay } from './WeekDisplay';
+import { extendByWeek, initialiseDays } from '../../utils/dates';
+import { primaryGreen } from '../../utils/constants';
+import { BouncyPressable } from '../../components/pressables/BouncyPressable';
+import { Routine } from './Routine';
+import { useAuth } from '../../authorisation/AuthProvider';
+import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const Planner = ({ items }) => {
   const { user } = useAuth();
@@ -84,7 +84,7 @@ const MenuButton = ({ children, onPress, selected = false }) => {
       style={styles.menuButton}
       onPress={onPress}
       containerStyle={{ flex: 1 }}
-      conditionalStyles={{ borderColor: selected ? "black" : primaryGreen }}
+      conditionalStyles={{ borderColor: selected ? 'black' : primaryGreen }}
     >
       {children}
     </BouncyPressable>
@@ -93,56 +93,56 @@ const MenuButton = ({ children, onPress, selected = false }) => {
 
 const styles = StyleSheet.create({
   menuButtonRow: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     gap: 10,
     marginTop: 8,
     marginHorizontal: 16,
     borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderTopRightRadius: 10
   },
   menuButton: {
     backgroundColor: primaryGreen,
     flex: 1,
     padding: 12,
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "center",
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
     borderRadius: 10,
     borderWidth: 2,
-    shadowColor: "black",
+    shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
-    shadowRadius: 2,
+    shadowRadius: 2
   },
   infoPressable: {
     marginLeft: 2,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   menuButtonText: {
-    color: "white",
+    color: 'white',
     fontSize: 20,
     padding: 2,
-    fontFamily: "InterMed",
+    fontFamily: 'InterMed'
   },
   addWeekView: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderWidth: 1,
     gap: 5,
     padding: 15,
     width: 250,
-    borderRadius: 10,
+    borderRadius: 10
   },
   addWeekTouchable: {
-    borderRadius: 10,
+    borderRadius: 10
   },
   addWeekButton: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginTop: 10,
-    marginBottom: 10,
-  },
+    marginBottom: 10
+  }
 });

@@ -1,12 +1,12 @@
-import { getAsyncData } from "../utils/asyncStorage";
-import Axios from "axios";
+import { getAsyncData } from '../utils/asyncStorage';
+import Axios from 'axios';
 
 // Get request
 export async function get(url: string) {
   try {
-    var token = await getAsyncData("token");
+    const token = await getAsyncData('token');
     return await Axios.get(url, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}` }
     });
   } catch (err) {
     return err.response;
@@ -16,9 +16,9 @@ export async function get(url: string) {
 // Post request
 export async function post(url: string, body) {
   try {
-    var token = await getAsyncData("token");
+    const token = await getAsyncData('token');
     return await Axios.post(url, body, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}` }
     });
   } catch (err) {
     return err.response;

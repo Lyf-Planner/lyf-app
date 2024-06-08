@@ -1,26 +1,26 @@
-import { View, StyleSheet } from "react-native";
-import { useMemo } from "react";
+import { View, StyleSheet } from 'react-native';
+import { useMemo } from 'react';
 import {
   ListItemType,
   getItemPrimaryColor,
-  getItemSecondaryColor,
-} from "../constants";
-import { Vertical } from "../../general/MiscComponents";
-import { deepBlue } from "../../../utils/constants";
+  getItemSecondaryColor
+} from '../constants';
+import { Vertical } from '../../general/MiscComponents';
+import { deepBlue } from '../../../utils/constants';
 import Animated, {
   useAnimatedStyle,
-  withTiming,
-} from "react-native-reanimated";
+  withTiming
+} from 'react-native-reanimated';
 import {
   ItemStyleOptions,
   LIST_ITEM_HEIGHT,
-  ListItemAnimatedValues,
-} from "./ListItem";
-import { ListItem } from "../../../utils/abstractTypes";
-import { AnimatedCheck } from "../../general/AnimatedCheck";
-import { ItemTitleFormatter } from "../../text/ItemTitleFormatter";
-import { CollaborativeIcon } from "../../general/CollaborativeIcon";
-import { ItemTimeFormatter } from "components/text/ItemTimeFormatter";
+  ListItemAnimatedValues
+} from './ListItem';
+import { ListItem } from '../../../utils/abstractTypes';
+import { AnimatedCheck } from '../../general/AnimatedCheck';
+import { ItemTitleFormatter } from '../../text/ItemTitleFormatter';
+import { CollaborativeIcon } from '../../general/CollaborativeIcon';
+import { ItemTimeFormatter } from 'components/text/ItemTimeFormatter';
 
 type Props = {
   item: ListItem;
@@ -31,7 +31,7 @@ type Props = {
 export const ListItemOverlay = ({
   item,
   itemStyleOptions,
-  animatedValues,
+  animatedValues
 }: Props) => {
   // ANIMATIONS
 
@@ -39,11 +39,11 @@ export const ListItemOverlay = ({
     transform: [
       {
         translateX: withTiming(animatedValues.offsetX.value, {
-          duration: 250,
-        }),
-      },
+          duration: 250
+        })
+      }
     ],
-    zIndex: 50,
+    zIndex: 50
   }));
 
   // STYLING
@@ -65,8 +65,8 @@ export const ListItemOverlay = ({
   const conditionalStyles = {
     listItem: {
       backgroundColor: primaryColor,
-      borderRadius: item.type !== ListItemType.Task ? 5 : 15,
-    },
+      borderRadius: item.type !== ListItemType.Task ? 5 : 15
+    }
   };
 
   return (
@@ -95,28 +95,28 @@ export const ListItemOverlay = ({
 
 const styles = StyleSheet.create({
   listItem: {
-    flexDirection: "row",
-    width: "100%",
+    flexDirection: 'row',
+    width: '100%',
     padding: 10,
     height: 55,
     borderWidth: 1,
     gap: 4,
-    alignItems: "center",
+    alignItems: 'center'
   },
   listItemTimeSection: {
-    minWidth: "30%",
-    flexDirection: "row",
-    height: "100%",
-    alignItems: "center",
-    marginLeft: "auto",
-    justifyContent: "flex-end",
+    minWidth: '30%',
+    flexDirection: 'row',
+    height: '100%',
+    alignItems: 'center',
+    marginLeft: 'auto',
+    justifyContent: 'flex-end'
   },
   diagLines: {
     borderColor: deepBlue,
     opacity: 0.2,
     marginLeft: 8,
-    height: "200%",
+    height: '200%',
     borderLeftWidth: 2,
-    transform: [{ rotateZ: "-20deg" }],
-  },
+    transform: [{ rotateZ: '-20deg' }]
+  }
 });

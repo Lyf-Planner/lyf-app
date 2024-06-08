@@ -1,5 +1,5 @@
-import { View, TouchableHighlight, Text, StyleSheet } from "react-native";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { View, TouchableHighlight, Text, StyleSheet } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const LogoutButton = ({ logout }) => {
   return (
@@ -14,16 +14,16 @@ export const LogoutButton = ({ logout }) => {
 
 const styles = StyleSheet.create({
   buttonView: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     borderWidth: 0.5,
     padding: 10,
-    alignItems: "center",
+    alignItems: 'center',
     gap: 4,
-    borderRadius: 5,
+    borderRadius: 5
   },
   logoutText: {
     fontSize: 18,
-    fontWeight: "700",
-  },
+    fontWeight: '700'
+  }
 });

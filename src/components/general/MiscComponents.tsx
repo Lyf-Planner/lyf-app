@@ -1,14 +1,14 @@
-import { View, StyleSheet, Text } from "react-native";
-import * as Progress from "react-native-progress";
+import { View, StyleSheet, Text } from 'react-native';
+import * as Progress from 'react-native-progress';
 
 export const Horizontal = ({ style = {} }) => {
   return (
     <View
       style={[
         {
-          borderBottomWidth: 0.5,
+          borderBottomWidth: 0.5
         },
-        style,
+        style
       ]}
     />
   );
@@ -19,9 +19,9 @@ export const Vertical = ({ style = {} }) => {
     <View
       style={[
         {
-          borderLeftWidth: 0.5,
+          borderLeftWidth: 0.5
         },
-        style,
+        style
       ]}
     />
   );
@@ -30,22 +30,22 @@ export const Vertical = ({ style = {} }) => {
 export const LoadingScreen = ({ text }) => {
   return (
     <View style={styles.loadingContainer}>
-      <Text style={{ color: "white", fontSize: 16 }}>{text}</Text>
+      <Text style={{ color: 'white', fontSize: 16 }}>{text}</Text>
       <Loader color="white" size={60} />
     </View>
   );
 };
 
-export const Loader = ({ size = 50, color = "black" }) => {
+export const Loader = ({ size = 50, color = 'black' }) => {
   return <Progress.Pie color={color} size={size} indeterminate />;
 };
 
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
-    alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 25,
-  },
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 25
+  }
 });

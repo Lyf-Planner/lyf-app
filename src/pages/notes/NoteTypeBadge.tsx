@@ -1,15 +1,15 @@
-import { View, Text, StyleSheet } from "react-native";
-import { eventsBadgeColor, primaryGreen } from "../../utils/constants";
-import { TypeToDisplayName } from "./TypesAndHelpers";
+import { View, Text, StyleSheet } from 'react-native';
+import { eventsBadgeColor, primaryGreen } from '../../utils/constants';
+import { TypeToDisplayName } from './TypesAndHelpers';
 
 const TYPES_TO_COLOR = {
   Text: primaryGreen,
-  List: eventsBadgeColor,
+  List: eventsBadgeColor
 };
 
 const TYPES_TO_TEXT = {
-  Text: "white",
-  List: "black",
+  Text: 'white',
+  List: 'black'
 };
 
 export const NoteTypeBadge = ({ type }) => {
@@ -24,9 +24,9 @@ export const NoteTypeBadge = ({ type }) => {
 
 const styles = StyleSheet.create({
   main: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: 5,
     paddingHorizontal: 10,
-    borderRadius: 20,
-  },
+    borderRadius: 20
+  }
 });

@@ -1,14 +1,14 @@
-import { View, StyleSheet } from "react-native";
-import { ItemStyleOptions, ListItem } from "./item/ListItem";
-import { ListItem as ListItemAsType } from "../../utils/abstractTypes";
-import { UpdateItem, RemoveItem } from "../../hooks/useItems";
-import { AddItemByTitle, NewItem } from "./NewItem";
-import { ListItemType } from "./constants";
+import { View, StyleSheet } from 'react-native';
+import { ItemStyleOptions, ListItem } from './item/ListItem';
+import { ListItem as ListItemAsType } from '../../utils/abstractTypes';
+import { UpdateItem, RemoveItem } from '../../providers/useItems';
+import { AddItemByTitle, NewItem } from './NewItem';
+import { ListItemType } from './constants';
 
 export enum ListType {
-  Event = "Event",
-  Task = "Task",
-  Item = "Item",
+  Event = 'Event',
+  Task = 'Task',
+  Item = 'Item',
 }
 
 type Props = {
@@ -30,7 +30,7 @@ export const List = ({
   updateItem,
   removeItem,
   listWrapperStyles = {},
-  fromNote = false,
+  fromNote = false
 }: Props) => {
   return (
     <View style={[styles.listContainer, listWrapperStyles]}>
@@ -51,11 +51,11 @@ export const List = ({
 
 const styles = StyleSheet.create({
   listContainer: {
-    flexWrap: "wrap",
-    flexDirection: "row",
+    flexWrap: 'wrap',
+    flexDirection: 'row',
     gap: 2,
-    width: "100%",
+    width: '100%',
     marginTop: 6,
-    padding: 2,
-  },
+    padding: 2
+  }
 });

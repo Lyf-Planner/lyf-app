@@ -4,17 +4,17 @@ import {
   StyleSheet,
   TextInput,
   Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
-import { Horizontal, Loader } from "../components/general/MiscComponents";
-import { useRef, useState } from "react";
-import { USER_NOT_FOUND, login } from "../rest/auth";
-import { createUser } from "../rest/user";
-import { validatePassword, validateUsername } from "../utils/validators";
+  TouchableWithoutFeedback
+} from 'react-native';
+import { Horizontal, Loader } from '../components/general/MiscComponents';
+import { useRef, useState } from 'react';
+import { USER_NOT_FOUND, login } from '../rest/auth';
+import { createUser } from '../rest/user';
+import { validatePassword, validateUsername } from '../utils/validators';
 
 export const Login = ({ updateUser, setInitiated }) => {
-  const [uid, updateUid] = useState("");
-  const [pass, updatePass] = useState("");
+  const [uid, updateUid] = useState('');
+  const [pass, updatePass] = useState('');
   const [loggingIn, updateLoggingIn] = useState(false);
   const [creating, updateCreating] = useState(false);
 
@@ -32,7 +32,7 @@ export const Login = ({ updateUser, setInitiated }) => {
               <View style={styles.loader}>
                 <Loader size={30} />
                 <Text style={styles.loaderText}>
-                  {loggingIn ? "Fetching your Lyf..." : "Creating your Lyf..."}
+                  {loggingIn ? 'Fetching your Lyf...' : 'Creating your Lyf...'}
                 </Text>
               </View>
             ) : (
@@ -48,7 +48,7 @@ export const Login = ({ updateUser, setInitiated }) => {
           <View
             style={[
               styles.fieldContainer,
-              { opacity: loggingIn || creating ? 0.5 : 1 },
+              { opacity: loggingIn || creating ? 0.5 : 1 }
             ]}
           >
             <TextInput
@@ -75,9 +75,9 @@ export const Login = ({ updateUser, setInitiated }) => {
               onChangeText={(text) => updatePass(text)}
               onSubmitEditing={async () => {
                 updateLoggingIn(true);
-                var user = await login(uid, pass);
+                let user = await login(uid, pass);
                 if (user === USER_NOT_FOUND) {
-                  console.log("Creating new account!");
+                  console.log('Creating new account!');
                   if (!validateUsername(uid) || !validatePassword(pass)) {
                     updateLoggingIn(false);
                     return;
@@ -103,65 +103,65 @@ export const Login = ({ updateUser, setInitiated }) => {
 const styles = StyleSheet.create({
   touchableWithoutFeedback: {
     flex: 1,
-    zIndex: 0,
+    zIndex: 0
   },
   page: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 0
   },
   container: {
-    backgroundColor: "white",
-    flexDirection: "column",
-    width: "75%",
+    backgroundColor: 'white',
+    flexDirection: 'column',
+    width: '75%',
     maxWidth: 400,
     borderRadius: 15,
     padding: 15,
-    alignItems: "center",
-    zIndex: 10,
+    alignItems: 'center',
+    zIndex: 10
   },
   headerContainer: {
     marginBottom: 14,
     height: 45,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   loader: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 6,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 6
   },
-  loaderText: { fontSize: 14, color: "rgba(0,0,0,0.5)", fontWeight: "500" },
+  loaderText: { fontSize: 14, color: 'rgba(0,0,0,0.5)', fontWeight: '500' },
   loginText: {
-    fontSize: 25,
+    fontSize: 25
   },
   headerTextContainer: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 3,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 3
   },
-  registerDisclaimer: { fontSize: 12, color: "rgba(0,0,0,0.3)" },
+  registerDisclaimer: { fontSize: 12, color: 'rgba(0,0,0,0.3)' },
 
   fieldContainer: {
-    flexDirection: "column",
-    backgroundColor: "rgb(203 213 225)",
+    flexDirection: 'column',
+    backgroundColor: 'rgb(203 213 225)',
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: 'black',
     borderRadius: 10,
     paddingHorizontal: 8,
     paddingVertical: 2,
-    width: "100%",
+    width: '100%'
   },
   fieldSeperator: {
-    borderColor: "rgba(0,0,0,0.5)",
+    borderColor: 'rgba(0,0,0,0.5)'
   },
   fields: {
     marginVertical: 8,
-    fontSize: 18,
-  },
+    fontSize: 18
+  }
 });

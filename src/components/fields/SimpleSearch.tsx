@@ -1,10 +1,10 @@
-import { useRef } from "react";
-import { Pressable, TextInput, View, StyleSheet } from "react-native";
-import { appleGray } from "../../utils/constants";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useRef } from 'react';
+import { Pressable, TextInput, View, StyleSheet } from 'react-native';
+import { appleGray } from '../../utils/constants';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export const SimpleSearch = ({ search, setSearch }) => {
-  let textRef = useRef<any>();
+  const textRef = useRef<any>();
 
   return (
     <View style={styles.main}>
@@ -17,7 +17,7 @@ export const SimpleSearch = ({ search, setSearch }) => {
           ref={textRef}
           value={search}
           returnKeyType="done"
-          selectionColor={"blackr"}
+          selectionColor={'blackr'}
           style={styles.searchInput}
           onChangeText={setSearch}
           autoCapitalize="none"
@@ -30,18 +30,18 @@ export const SimpleSearch = ({ search, setSearch }) => {
 };
 
 const styles = StyleSheet.create({
-  main: { flexDirection: "row", width: "100%" },
+  main: { flexDirection: 'row', width: '100%' },
   searchBarPressable: {
-    flexDirection: "row",
-    width: "100%",
+    flexDirection: 'row',
+    width: '100%',
     backgroundColor: appleGray,
     borderWidth: 1,
     borderRadius: 10,
     padding: 6,
-    alignItems: "center",
+    alignItems: 'center',
     gap: 4,
-    marginHorizontal: 4,
+    marginHorizontal: 4
   },
-  searchInput: { padding: 4, color: "black", fontSize: 22 },
-  loaderWrapper: { marginLeft: "auto", marginRight: 8 },
+  searchInput: { padding: 4, color: 'black', fontSize: 22 },
+  loaderWrapper: { marginLeft: 'auto', marginRight: 8 }
 });

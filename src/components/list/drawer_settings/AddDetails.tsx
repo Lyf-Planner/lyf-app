@@ -3,16 +3,16 @@ import {
   Text,
   StyleSheet,
   TouchableHighlight,
-  Alert,
-} from "react-native";
-import { primaryGreen } from "../../../utils/constants";
-import { formatDateData } from "../../../utils/dates";
-import { useNotifications } from "../../../hooks/useNotifications";
-import { useModal } from "../../../hooks/useModal";
-import { AddFriendsModal } from "./AddFriendsModal";
-import { ListItemType, isTemplate } from "../constants";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+  Alert
+} from 'react-native';
+import { primaryGreen } from '../../../utils/constants';
+import { formatDateData } from '../../../utils/dates';
+import { useNotifications } from '../../../providers/useNotifications';
+import { useModal } from '../../../providers/useModal';
+import { AddFriendsModal } from './AddFriendsModal';
+import { ListItemType, isTemplate } from '../constants';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 // The button component can definitely be abstracted here
 
@@ -28,7 +28,7 @@ export const AddDetails = ({
   setLocationOpen,
   locationOpen,
   invited,
-  noteItem = false,
+  noteItem = false
 }) => {
   const { enabled } = useNotifications();
   const { updateModal } = useModal();
@@ -38,14 +38,16 @@ export const AddDetails = ({
         {!noteItem && (
           <TouchableHighlight
             style={styles.addFieldContainer}
-            underlayColor={"rgba(0,0,0,0.5)"}
+            underlayColor={'rgba(0,0,0,0.5)'}
             onPress={() => {
-              if (invited) return;
+              if (invited) {
+                return;
+              }
               updateModal(<AddFriendsModal item_id={item.id} />);
             }}
           >
             <View style={styles.addFieldContent}>
-              <FontAwesome5Icon name="users" color={"white"} size={16} />
+              <FontAwesome5Icon name="users" color={'white'} size={16} />
               <Text style={styles.addFieldText}>Add Friends +</Text>
             </View>
           </TouchableHighlight>
@@ -53,14 +55,16 @@ export const AddDetails = ({
         {!item.date && !isTemplate(item) && (
           <TouchableHighlight
             style={styles.addFieldContainer}
-            underlayColor={"rgba(0,0,0,0.5)"}
+            underlayColor={'rgba(0,0,0,0.5)'}
             onPress={() => {
-              if (invited) return;
+              if (invited) {
+                return;
+              }
               updateItem({ ...item, date: formatDateData(new Date()) });
             }}
           >
             <View style={styles.addFieldContent}>
-              <MaterialIcons name="date-range" color={"white"} size={18} />
+              <MaterialIcons name="date-range" color={'white'} size={18} />
               <Text style={styles.addFieldText}>Add Date +</Text>
             </View>
           </TouchableHighlight>
@@ -68,14 +72,16 @@ export const AddDetails = ({
         {!item.time && item.type !== ListItemType.Task && (
           <TouchableHighlight
             style={styles.addFieldContainer}
-            underlayColor={"rgba(0,0,0,0.5)"}
+            underlayColor={'rgba(0,0,0,0.5)'}
             onPress={() => {
-              if (invited) return;
-              updateItem({ ...item, time: "09:00" });
+              if (invited) {
+                return;
+              }
+              updateItem({ ...item, time: '09:00' });
             }}
           >
             <View style={styles.addFieldContent}>
-              <MaterialIcons name="access-time" color={"white"} size={18} />
+              <MaterialIcons name="access-time" color={'white'} size={18} />
               <Text style={styles.addFieldText}>Add Time +</Text>
             </View>
           </TouchableHighlight>
@@ -83,26 +89,30 @@ export const AddDetails = ({
         {!notification && !noteItem && (
           <TouchableHighlight
             style={styles.addNotificationContainer}
-            underlayColor={"rgba(0,0,0,0.5)"}
+            underlayColor={'rgba(0,0,0,0.5)'}
             onPress={() => {
-              if (invited) return;
-              if (!item.time)
+              if (invited) {
+                return;
+              }
+              if (!item.time) {
                 Alert.alert(
-                  "Tip",
-                  "You need to add a time before setting a reminder :)"
+                  'Tip',
+                  'You need to add a time before setting a reminder :)'
                 );
-              else if (!enabled) {
+              } else if (!enabled) {
                 Alert.alert(
-                  "Whoops",
-                  "You need to enable Notifications for Lyf in your device settings"
+                  'Whoops',
+                  'You need to enable Notifications for Lyf in your device settings'
                 );
-              } else updateNotify(true);
+              } else {
+                updateNotify(true);
+              }
             }}
           >
             <View style={styles.addFieldContent}>
               <MaterialIcons
                 name="notifications-active"
-                color={"white"}
+                color={'white'}
                 size={18}
               />
               <Text style={styles.addNotificationText}>Add Reminder +</Text>
@@ -112,15 +122,17 @@ export const AddDetails = ({
         {!linkOpen && (
           <TouchableHighlight
             style={styles.addFieldContainer}
-            underlayColor={"rgba(0,0,0,0.5)"}
+            underlayColor={'rgba(0,0,0,0.5)'}
             onPress={() => {
-              if (invited) return;
+              if (invited) {
+                return;
+              }
               setLinkOpen(true);
-              updateItem({ ...item, url: "" });
+              updateItem({ ...item, url: '' });
             }}
           >
             <View style={styles.addFieldContent}>
-              <MaterialIcons name="link" color={"white"} size={18} />
+              <MaterialIcons name="link" color={'white'} size={18} />
               <Text style={styles.addFieldText}>Add Link +</Text>
             </View>
           </TouchableHighlight>
@@ -128,15 +140,17 @@ export const AddDetails = ({
         {!locationOpen && (
           <TouchableHighlight
             style={styles.addFieldContainer}
-            underlayColor={"rgba(0,0,0,0.5)"}
+            underlayColor={'rgba(0,0,0,0.5)'}
             onPress={() => {
-              if (invited) return;
+              if (invited) {
+                return;
+              }
               setLocationOpen(true);
-              updateItem({ ...item, location: "" });
+              updateItem({ ...item, location: '' });
             }}
           >
             <View style={styles.addFieldContent}>
-              <MaterialIcons name="location-pin" color={"white"} size={18} />
+              <MaterialIcons name="location-pin" color={'white'} size={18} />
               <Text style={styles.addFieldText}>Add Location +</Text>
             </View>
           </TouchableHighlight>
@@ -144,15 +158,17 @@ export const AddDetails = ({
         {!descOpen && (
           <TouchableHighlight
             style={styles.addFieldContainer}
-            underlayColor={"rgba(0,0,0,0.5)"}
+            underlayColor={'rgba(0,0,0,0.5)'}
             onPress={() => {
-              if (invited) return;
+              if (invited) {
+                return;
+              }
               setDescOpen(true);
-              updateItem({ ...item, desc: "" });
+              updateItem({ ...item, desc: '' });
             }}
           >
             <View style={styles.addFieldContent}>
-              <MaterialIcons name="edit" color={"white"} size={18} />
+              <MaterialIcons name="edit" color={'white'} size={18} />
               <Text style={styles.addFieldText}>Add Description +</Text>
             </View>
           </TouchableHighlight>
@@ -164,46 +180,46 @@ export const AddDetails = ({
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flexDirection: "column",
+    flexDirection: 'column',
     gap: 8,
-    zIndex: 0,
+    zIndex: 0
   },
   headingContainer: {
     height: 35,
-    flexDirection: "column",
+    flexDirection: 'column'
   },
-  headingText: { fontSize: 20, fontWeight: "500", fontFamily: "InterSemi" },
+  headingText: { fontSize: 20, fontWeight: '500', fontFamily: 'InterSemi' },
   detailsListWrapper: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-    gap: 4,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: 4
   },
   addFieldContainer: {
     backgroundColor: primaryGreen,
     padding: 8.75,
     borderRadius: 8,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   addFieldContent: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4
   },
   addFieldText: {
     fontSize: 16,
-    textAlignVertical: "center",
-    color: "white",
+    textAlignVertical: 'center',
+    color: 'white'
   },
 
   addNotificationContainer: {
     backgroundColor: primaryGreen,
     padding: 8.75,
-    borderRadius: 8,
+    borderRadius: 8
   },
   addNotificationText: {
     fontSize: 16,
-    color: "white",
-  },
+    color: 'white'
+  }
 });

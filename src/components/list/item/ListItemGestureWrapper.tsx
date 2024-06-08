@@ -1,20 +1,20 @@
 import Animated, {
   withTiming,
-  useAnimatedStyle,
-} from "react-native-reanimated";
-import { ItemStatus } from "../constants";
-import { StyleSheet } from "react-native";
-import { useCallback } from "react";
-import { sleep } from "../../../utils/constants";
+  useAnimatedStyle
+} from 'react-native-reanimated';
+import { ItemStatus } from '../constants';
+import { StyleSheet } from 'react-native';
+import { useCallback } from 'react';
+import { sleep } from '../../../utils/constants';
 import {
   Directions,
   Gesture,
-  GestureDetector,
-} from "react-native-gesture-handler";
-import { ListItem, LyfElement } from "../../../utils/abstractTypes";
-import * as Haptics from "expo-haptics";
-import { LIST_ITEM_HEIGHT, ListItemAnimatedValues } from "./ListItem";
-import { RemoveItem, UpdateItem } from "../../../hooks/useItems";
+  GestureDetector
+} from 'react-native-gesture-handler';
+import { ListItem, LyfElement } from '../../../utils/abstractTypes';
+import * as Haptics from 'expo-haptics';
+import { LIST_ITEM_HEIGHT, ListItemAnimatedValues } from './ListItem';
+import { RemoveItem, UpdateItem } from '../../../providers/useItems';
 
 type Props = {
   children: LyfElement;
@@ -35,7 +35,7 @@ export const ListItemGestureWrapper = ({
   animatedValues,
   openModal,
   updateItem,
-  removeItem,
+  removeItem
 }: Props) => {
   let longPressTimer = null;
 
@@ -63,7 +63,9 @@ export const ListItemGestureWrapper = ({
   // GESTURE HANDLERS
 
   const handleTapIn = useCallback(async () => {
-    if (invited) return;
+    if (invited) {
+      return;
+    }
 
     const markingAsDone = item.status !== ItemStatus.Done;
     animatedValues.scale.value = markingAsDone ? 0.7 : 0.9;
@@ -95,7 +97,9 @@ export const ListItemGestureWrapper = ({
   };
 
   const handleLongPressIn = () => {
-    if (invited) return;
+    if (invited) {
+      return;
+    }
     // Start animating the shrinking of the item while user holds it down
 
     animatedValues.scale.value = 0.75;
@@ -153,18 +157,18 @@ export const ListItemGestureWrapper = ({
       transform: [
         {
           scale: withTiming(animatedValues.scale.value, {
-            duration: SCALE_MS,
-          }),
-        },
-      ],
+            duration: SCALE_MS
+          })
+        }
+      ]
     };
   });
 
   const conditionalStyles = {
     listItemWrapper: {
       // Dim the opacity if a task is cancelled or a user is only invited
-      opacity: item.status === ItemStatus.Cancelled || invited ? 0.7 : 1,
-    },
+      opacity: item.status === ItemStatus.Cancelled || invited ? 0.7 : 1
+    }
   };
 
   return (
@@ -173,7 +177,7 @@ export const ListItemGestureWrapper = ({
         style={[
           scaleAnimation,
           styles.listItemWrapper,
-          conditionalStyles.listItemWrapper,
+          conditionalStyles.listItemWrapper
         ]}
       >
         {children}
@@ -184,7 +188,7 @@ export const ListItemGestureWrapper = ({
 
 const styles = StyleSheet.create({
   listItemWrapper: {
-    width: "100%",
-    height: 55,
-  },
+    width: '100%',
+    height: 55
+  }
 });

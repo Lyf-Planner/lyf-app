@@ -4,17 +4,17 @@ import {
   formatDate,
   formatDateData,
   getStartOfCurrentWeek,
-  parseDateString,
-} from "../../utils/dates";
-import { useMemo, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { Day } from "./DayDisplay";
-import { BouncyPressable } from "../../components/pressables/BouncyPressable";
-import { localisedMoment } from "../../utils/dates";
-import { useAuth } from "../../authorisation/AuthProvider";
-import { isTemplate } from "../../components/list/constants";
-import { v4 as uuid } from "uuid";
-import { deepBlue } from "../../utils/constants";
+  parseDateString
+} from '../../utils/dates';
+import { useMemo, useState } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import { Day } from './DayDisplay';
+import { BouncyPressable } from '../../components/pressables/BouncyPressable';
+import { localisedMoment } from '../../utils/dates';
+import { useAuth } from '../../authorisation/AuthProvider';
+import { isTemplate } from '../../components/list/constants';
+import { v4 as uuid } from 'uuid';
+import { deepBlue } from '../../utils/constants';
 
 export const WeekDisplay = ({ items, dates }) => {
   const [hide, updateHide] = useState(false);
@@ -24,15 +24,16 @@ export const WeekDisplay = ({ items, dates }) => {
   );
 
   const unshiftFirst = async () => {
-    var first = user.timetable.first_day || formatDateData(new Date());
-    var prev = formatDateData(
-      localisedMoment(parseDateString(first)).add(-1, "day").toDate()
+    const first = user.timetable.first_day || formatDateData(new Date());
+    const prev = formatDateData(
+      localisedMoment(parseDateString(first)).add(-1, 'day').toDate()
     );
-    if (prev.localeCompare(start) >= 0)
+    if (prev.localeCompare(start) >= 0) {
       updateUser({
         ...user,
-        timetable: { ...user.timetable, first_day: prev },
+        timetable: { ...user.timetable, first_day: prev }
       });
+    }
   };
 
   const exposedItems = (x) => {
@@ -55,9 +56,11 @@ export const WeekDisplay = ({ items, dates }) => {
             date: dateFromDay(x.day, dates),
             day: null,
             template_id: x.id,
-            localised: true,
+            localised: true
           };
-        } else return x;
+        } else {
+          return x;
+        }
       });
   };
 
@@ -68,8 +71,8 @@ export const WeekDisplay = ({ items, dates }) => {
       style={[
         styles.weekWrapper,
         {
-          paddingBottom: hide && 12,
-        },
+          paddingBottom: hide && 12
+        }
       ]}
     >
       <BouncyPressable
@@ -110,42 +113,42 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 8,
     borderRadius: 10,
-    backgroundColor: "rgba(0,0,0,0.1)",
+    backgroundColor: 'rgba(0,0,0,0.1)'
   },
   weekDateDisplayContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingVertical: 2,
     paddingHorizontal: 10,
     borderRadius: 10,
 
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   weekDateDisplayTouchable: {
     marginTop: 16,
     marginHorizontal: 12,
-    backgroundColor: "rgba(0,0,0,0.2)",
-    borderRadius: 10,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    borderRadius: 10
   },
   weekDatePressable: {
     borderRadius: 10,
     marginVertical: 6,
-    flexDirection: "column",
+    flexDirection: 'column'
   },
   weekDateText: {
-    fontWeight: "600",
+    fontWeight: '600',
     color: deepBlue,
     fontSize: 18,
-    fontFamily: "InterSemi",
+    fontFamily: 'InterSemi'
   },
   weekDaysWrapperView: {
-    flexDirection: "column",
+    flexDirection: 'column',
     gap: 16,
     marginTop: 16,
 
-    shadowColor: "black",
+    shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
-    shadowRadius: 3,
-  },
+    shadowRadius: 3
+  }
 });

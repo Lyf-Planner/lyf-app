@@ -1,26 +1,26 @@
-import { StyleSheet, Text, View } from "react-native";
-import { Horizontal } from "../general/MiscComponents";
-import { deepBlue } from "../../utils/constants";
-import { Keyboard, TouchableWithoutFeedback } from "react-native";
-import { ItemStatusDropdown } from "./drawer_settings/ItemStatusDropdown";
-import { useMemo, useState } from "react";
-import { ItemTime } from "./drawer_settings/ItemTime";
-import { ItemNotification } from "./drawer_settings/ItemNotification";
-import { ItemDescription } from "./drawer_settings/ItemDescription";
-import { ItemDate } from "./drawer_settings/ItemDate";
-import { useAuth } from "../../authorisation/AuthProvider";
-import { useNotifications } from "../../hooks/useNotifications";
-import { ItemTitle } from "./drawer_settings/ItemTitle";
-import { ItemType } from "./drawer_settings/ItemType";
-import { useItems } from "../../hooks/useItems";
-import { AddDetails } from "./drawer_settings/AddDetails";
-import { OptionsMenu } from "./drawer_settings/OptionsMenu";
-import { InviteHandler } from "./drawer_settings/InviteHandler";
-import { ItemUsers } from "./drawer_settings/ItemUsers";
-import { isTemplate } from "./constants";
-import { ItemLink } from "./drawer_settings/ItemLink";
-import { ItemLocation } from "./drawer_settings/ItemLocation";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import { StyleSheet, Text, View } from 'react-native';
+import { Horizontal } from '../general/MiscComponents';
+import { deepBlue } from '../../utils/constants';
+import { Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { ItemStatusDropdown } from './drawer_settings/ItemStatusDropdown';
+import { useMemo, useState } from 'react';
+import { ItemTime } from './drawer_settings/ItemTime';
+import { ItemNotification } from './drawer_settings/ItemNotification';
+import { ItemDescription } from './drawer_settings/ItemDescription';
+import { ItemDate } from './drawer_settings/ItemDate';
+import { useAuth } from '../../authorisation/AuthProvider';
+import { useNotifications } from '../../providers/useNotifications';
+import { ItemTitle } from './drawer_settings/ItemTitle';
+import { ItemType } from './drawer_settings/ItemType';
+import { useItems } from '../../providers/useItems';
+import { AddDetails } from './drawer_settings/AddDetails';
+import { OptionsMenu } from './drawer_settings/OptionsMenu';
+import { InviteHandler } from './drawer_settings/InviteHandler';
+import { ItemUsers } from './drawer_settings/ItemUsers';
+import { isTemplate } from './constants';
+import { ItemLink } from './drawer_settings/ItemLink';
+import { ItemLocation } from './drawer_settings/ItemLocation';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 export const ListItemDrawer = ({
   item_id,
@@ -28,7 +28,7 @@ export const ListItemDrawer = ({
   updateSheetMinHeight,
   // Used for Note items
   preloaded = null,
-  updatePreloaded = null,
+  updatePreloaded = null
 }) => {
   // We setup a local copy of the item so that certain fields can be published when needed
   const { user } = useAuth();
@@ -37,10 +37,14 @@ export const ListItemDrawer = ({
   const [preloadedItem, setPreloadedItem] = useState(preloaded);
 
   const item = useMemo(() => {
-    if (preloadedItem) return preloadedItem;
+    if (preloadedItem) {
+      return preloadedItem;
+    }
     return items.find((x) => x.id === item_id);
   }, [items, preloadedItem, item_id]);
-  if (!item) closeDrawer();
+  if (!item) {
+    closeDrawer();
+  }
 
   const [descOpen, setDescOpen] = useState(!!item?.desc);
   const [linkOpen, setLinkOpen] = useState(!!item?.url);
@@ -73,26 +77,33 @@ export const ListItemDrawer = ({
 
   // Is outside notifications component due to automatic notif setting
   const updateNotification = (enabled, minutes_before, prereqItem = item) => {
-    if (invited) return;
+    if (invited) {
+      return;
+    }
 
-    var tmp = item.notifications || [];
-    var userIndex = tmp.findIndex((x) => x.user_id === user.id);
+    const tmp = item.notifications || [];
+    const userIndex = tmp.findIndex((x) => x.user_id === user.id);
     if (userIndex === -1) {
-      if (!enabled) return;
-      else
+      if (!enabled) {
+        return;
+      } else {
         tmp.push({
           user_id: user.id,
           minutes_before:
             user.premium?.notifications?.event_notification_minutes_before ||
-            "5",
+            '5'
         });
+      }
     } else {
-      if (!enabled) tmp.splice(userIndex, 1);
-      else tmp[userIndex].minutes_before = minutes_before;
+      if (!enabled) {
+        tmp.splice(userIndex, 1);
+      } else {
+        tmp[userIndex].minutes_before = minutes_before;
+      }
     }
     modifyItem({ ...prereqItem, notifications: tmp });
   };
-  const updateNotify = (notify) => updateNotification(!!notify, "");
+  const updateNotify = (notify) => updateNotification(!!notify, '');
   const updateMinutes = (minutes_before) =>
     updateNotification(true, minutes_before);
 
@@ -101,7 +112,9 @@ export const ListItemDrawer = ({
     [item, notification]
   );
 
-  if (!item) return null;
+  if (!item) {
+    return null;
+  }
   // Pass "invited" to block any input component with a localised value
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -111,7 +124,7 @@ export const ListItemDrawer = ({
         )}
         <View style={{ gap: 8, zIndex: 10 }}>
           <View style={styles.headerBackground}>
-            <View style={{ marginLeft: "auto", marginRight: 8 }}>
+            <View style={{ marginLeft: 'auto', marginRight: 8 }}>
               <ItemType item={item} updateItem={modifyItem} invited={invited} />
             </View>
             <ItemTitle
@@ -132,9 +145,9 @@ export const ListItemDrawer = ({
 
         <View
           style={{
-            flexDirection: "column",
+            flexDirection: 'column',
             gap: 8,
-            opacity: invited ? 0.5 : 1,
+            opacity: invited ? 0.5 : 1
           }}
         >
           {item.permitted_users.concat(item.invited_users || []).length > 1 && (
@@ -196,7 +209,7 @@ export const ListItemDrawer = ({
           )}
           {!noDetails && (
             <Horizontal
-              style={{ borderColor: "rgba(0,0,0,0.1)", marginVertical: 4 }}
+              style={{ borderColor: 'rgba(0,0,0,0.1)', marginVertical: 4 }}
             />
           )}
           <AddDetails
@@ -236,76 +249,76 @@ export const ListItemDrawer = ({
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     paddingHorizontal: 18,
-    borderColor: "rgba(0,0,0,0.5)",
+    borderColor: 'rgba(0,0,0,0.5)',
     gap: 10,
-    paddingBottom: 40,
+    paddingBottom: 40
   },
   header: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     gap: 4,
-    marginBottom: 4,
+    marginBottom: 4
   },
   firstSeperator: {
     opacity: 0.25,
 
     marginBottom: 2,
-    borderWidth: 2,
+    borderWidth: 2
   },
   headerBackground: {
     backgroundColor: deepBlue,
     padding: 8,
     height: 50,
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
     borderRadius: 5,
-    shadowColor: "black",
+    shadowColor: 'black',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
-    shadowRadius: 2,
+    shadowRadius: 2
   },
   subtitle: {
-    textAlign: "center",
+    textAlign: 'center',
     opacity: 0.4,
-    fontWeight: "600",
-    fontSize: 15,
+    fontWeight: '600',
+    fontSize: 15
   },
 
   secondSeperator: { opacity: 0.2, marginTop: 16, borderWidth: 2 },
   footer: {
     gap: 12,
-    position: "relative",
+    position: 'relative',
     bottom: 10,
     marginTop: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   bottomButtonsContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 5,
-    shadowColor: "black",
+    shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
-    shadowRadius: 3,
+    shadowRadius: 3
   },
   bottomButton: {
     padding: 12,
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderWidth: 0.5,
-    borderRadius: 10,
+    borderRadius: 10
   },
   bottomButtonText: {
     fontSize: 16,
-    textAlign: "center",
+    textAlign: 'center'
   },
-  doneText: { fontWeight: "600" },
-  removeText: { color: "white" },
+  doneText: { fontWeight: '600' },
+  removeText: { color: 'white' }
 });

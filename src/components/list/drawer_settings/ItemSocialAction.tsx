@@ -3,42 +3,42 @@ import {
   MenuOption,
   MenuOptions,
   MenuTrigger,
-  renderers,
-} from "react-native-popup-menu";
-import { StyleSheet } from "react-native";
+  renderers
+} from 'react-native-popup-menu';
+import { StyleSheet } from 'react-native';
 import {
   Permission,
   SocialAction,
   appleGray,
-  primaryGreen,
-} from "../../../utils/constants";
-import { useMemo, useRef, useState } from "react";
-import { useAuth } from "../../../authorisation/AuthProvider";
-import { useItems } from "../../../hooks/useItems";
-import { ActionButton } from "../../pressables/AsyncAction";
-import { getItemPermission } from "../constants";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+  primaryGreen
+} from '../../../utils/constants';
+import { useMemo, useRef, useState } from 'react';
+import { useAuth } from '../../../authorisation/AuthProvider';
+import { useItems } from '../../../providers/useItems';
+import { ActionButton } from '../../pressables/AsyncAction';
+import { getItemPermission } from '../constants';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const PERMISSION_COLOR = {
   Owner: primaryGreen,
   Editor: primaryGreen,
-  Invited: appleGray,
+  Invited: appleGray
 };
 
 export const ItemSocialAction = ({ item, user_id }) => {
   const [loading, setLoading] = useState(false);
   const { updateItemSocial } = useItems();
   const { user } = useAuth();
-  let permission = useMemo(
+  const permission = useMemo(
     () => item && getItemPermission(item, user_id),
     [item?.permitted_users, item?.invited_users, loading]
   );
-  let myPermission = useMemo(
+  const myPermission = useMemo(
     () => item && getItemPermission(item, user.id),
     [item?.permitted_users, item?.invited_users]
   );
   const hasMenu = useMemo(
-    () => myPermission === "Owner" && permission,
+    () => myPermission === 'Owner' && permission,
     [myPermission, permission]
   );
 
@@ -63,7 +63,7 @@ export const ItemSocialAction = ({ item, user_id }) => {
   const color = PERMISSION_COLOR[permission as any] || primaryGreen;
   const button = (
     <ActionButton
-      title={permission || "Invite"}
+      title={permission || 'Invite'}
       func={permission ? () => {} : inviteUser}
       icon={
         !permission && (
@@ -73,21 +73,21 @@ export const ItemSocialAction = ({ item, user_id }) => {
       color={color}
       notPressable={hasMenu}
       loadingOverride={loading}
-      textColor={permission === Permission.Invited ? "black" : "white"}
+      textColor={permission === Permission.Invited ? 'black' : 'white'}
     />
   );
 
   const menu = useRef<any>();
 
-  if (hasMenu)
+  if (hasMenu) {
     return (
       <Menu
         name={`item-user-${user_id}-menu`}
         ref={menu}
         renderer={renderers.Popover}
         rendererProps={{
-          placement: "top",
-          anchorStyle: { backgroundColor: "#bababa" },
+          placement: 'top',
+          anchorStyle: { backgroundColor: '#bababa' }
         }}
       >
         <MenuOptions
@@ -95,10 +95,10 @@ export const ItemSocialAction = ({ item, user_id }) => {
         >
           <MenuOption
             value={1}
-            text={permission === Permission.Owner ? "Leave" : "Remove"}
+            text={permission === Permission.Owner ? 'Leave' : 'Remove'}
             customStyles={{
               optionWrapper: styles.optionWrapper,
-              optionText: styles.optionText,
+              optionText: styles.optionText
             }}
             onSelect={
               permission === Permission.Invited ? cancelInvite : removeUser
@@ -108,19 +108,21 @@ export const ItemSocialAction = ({ item, user_id }) => {
         <MenuTrigger>{button}</MenuTrigger>
       </Menu>
     );
-  else return button;
+  } else {
+    return button;
+  }
 };
 
 const styles = StyleSheet.create({
   optionsContainer: {
-    flexDirection: "column",
-    justifyContent: "space-evenly",
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
     paddingLeft: 0,
     borderRadius: 10,
     borderWidth: 0.5,
-    borderColor: "rgba(0,0,0,0.5)",
+    borderColor: 'rgba(0,0,0,0.5)'
   },
   optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
-  optionText: { fontSize: 18, color: "rgba(0,0,0,0.7)" },
-  optionSeperator: { marginHorizontal: 5 },
+  optionText: { fontSize: 18, color: 'rgba(0,0,0,0.7)' },
+  optionSeperator: { marginHorizontal: 5 }
 });

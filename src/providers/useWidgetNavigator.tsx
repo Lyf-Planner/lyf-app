@@ -1,15 +1,15 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from 'react';
 
 export enum DisplayedWidgets {
-  Schedule = "Schedule",
-  Lists = "Lists",
+  Schedule = 'Schedule',
+  Lists = 'Lists',
 }
 
 export enum AllWidgets {
-  Schedule = "Schedule",
-  Lists = "Lists",
-  Account = "Account",
-  Tutorial = "Tutorial",
+  Schedule = 'Schedule',
+  Lists = 'Lists',
+  Account = 'Account',
+  Tutorial = 'Tutorial',
 }
 
 // Component provider
@@ -18,7 +18,7 @@ export const WidgetProvider = ({ children }) => {
 
   const EXPOSED = {
     activeWidget,
-    setWidget,
+    setWidget
   };
 
   return (

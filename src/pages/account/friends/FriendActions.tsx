@@ -1,23 +1,23 @@
-import { StyleSheet, View } from "react-native";
-import { useAuth } from "../../../authorisation/AuthProvider";
-import { FriendshipAction, primaryGreen } from "../../../utils/constants";
-import { useState } from "react";
-import { ActionButton } from "../../../components/pressables/AsyncAction";
-import { BouncyPressable } from "../../../components/pressables/BouncyPressable";
-import { Loader } from "../../../components/general/MiscComponents";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import Entypo from "react-native-vector-icons/Entypo";
+import { StyleSheet, View } from 'react-native';
+import { useAuth } from '../../../authorisation/AuthProvider';
+import { FriendshipAction, primaryGreen } from '../../../utils/constants';
+import { useState } from 'react';
+import { ActionButton } from '../../../components/pressables/AsyncAction';
+import { BouncyPressable } from '../../../components/pressables/BouncyPressable';
+import { Loader } from '../../../components/general/MiscComponents';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {
   AllWidgets,
-  useWidgetNavigator,
-} from "../../../hooks/useWidgetNavigator";
-import { useModal } from "../../../hooks/useModal";
+  useWidgetNavigator
+} from '../../../providers/useWidgetNavigator';
+import { useModal } from '../../../providers/useModal';
 import {
   LyfMenu,
   MenuPopoverPlacement,
-  PopoverMenuOption,
-} from "../../../components/menus/LyfMenu";
+  PopoverMenuOption
+} from '../../../components/menus/LyfMenu';
 
 export const FriendAction = ({ user_id }) => {
   const { user } = useAuth();
@@ -28,7 +28,7 @@ export const FriendAction = ({ user_id }) => {
   const requested_by = user.social?.requests?.find((x) => x === user_id);
   const blocked = user.social?.blocked?.find((x) => x === user_id);
 
-  if (user_id === user.id)
+  if (user_id === user.id) {
     return (
       <ActionButton
         title="You"
@@ -40,11 +40,17 @@ export const FriendAction = ({ user_id }) => {
         color={primaryGreen}
       />
     );
-  else if (friends) return <Friend user_id={user_id} />;
-  else if (requested) return <Requested user_id={user_id} />;
-  else if (requested_by) return <HandleRequest user_id={user_id} />;
-  else if (blocked) return null;
-  else return <AddFriend user_id={user_id} />;
+  } else if (friends) {
+    return <Friend user_id={user_id} />;
+  } else if (requested) {
+    return <Requested user_id={user_id} />;
+  } else if (requested_by) {
+    return <HandleRequest user_id={user_id} />;
+  } else if (blocked) {
+    return null;
+  } else {
+    return <AddFriend user_id={user_id} />;
+  }
 };
 
 export const Friend = ({ user_id }) => {
@@ -58,9 +64,9 @@ export const Friend = ({ user_id }) => {
 
   const menuOptions: PopoverMenuOption[] = [
     {
-      text: "❌ Remove",
-      onSelect: () => removeFriend(),
-    },
+      text: '❌ Remove',
+      onSelect: () => removeFriend()
+    }
   ];
 
   return (
@@ -92,9 +98,9 @@ export const Requested = ({ user_id }) => {
 
   const menuOptions: PopoverMenuOption[] = [
     {
-      text: "❌ Cancel",
-      onSelect: () => cancelRequest(),
-    },
+      text: '❌ Cancel',
+      onSelect: () => cancelRequest()
+    }
   ];
 
   return (
@@ -107,7 +113,7 @@ export const Requested = ({ user_id }) => {
         title="Sent"
         func={() => {}}
         icon={<FontAwesome5Icon name="arrow-right" color="white" size={18} />}
-        color={"rgba(0,0,0,0.5)"}
+        color={'rgba(0,0,0,0.5)'}
         loadingOverride={loading}
         notPressable
       />
@@ -152,7 +158,7 @@ export const HandleRequest = ({ user_id }) => {
         containerStyle={styles.handleRequestPressableContainer}
         style={[
           styles.handleRequestPressable,
-          { backgroundColor: primaryGreen },
+          { backgroundColor: primaryGreen }
         ]}
         onPress={acceptRequest}
       >
@@ -164,7 +170,7 @@ export const HandleRequest = ({ user_id }) => {
       </BouncyPressable>
       <BouncyPressable
         containerStyle={styles.handleRequestPressableContainer}
-        style={[styles.handleRequestPressable, { backgroundColor: "red" }]}
+        style={[styles.handleRequestPressable, { backgroundColor: 'red' }]}
         onPress={declineRequest}
       >
         {declining ? (
@@ -179,25 +185,25 @@ export const HandleRequest = ({ user_id }) => {
 
 const styles = StyleSheet.create({
   optionsContainer: {
-    flexDirection: "column",
-    justifyContent: "space-evenly",
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
     paddingLeft: 0,
     borderRadius: 10,
     borderWidth: 0.5,
-    borderColor: "rgba(0,0,0,0.5)",
+    borderColor: 'rgba(0,0,0,0.5)'
   },
   optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
-  optionText: { fontSize: 18, color: "rgba(0,0,0,0.7)" },
+  optionText: { fontSize: 18, color: 'rgba(0,0,0,0.7)' },
   optionSeperator: { marginHorizontal: 5 },
 
-  handleRequestMain: { flexDirection: "row", gap: 4, height: "100%" },
+  handleRequestMain: { flexDirection: 'row', gap: 4, height: '100%' },
   handleRequestPressable: {
     flex: 1,
     paddingVertical: 10,
     borderRadius: 50,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  handleRequestPressableContainer: { flex: 1, height: "100%" },
+  handleRequestPressableContainer: { flex: 1, height: '100%' }
 });

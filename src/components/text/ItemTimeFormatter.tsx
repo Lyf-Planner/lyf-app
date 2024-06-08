@@ -1,8 +1,8 @@
-import { StyleSheet, Text } from "react-native";
-import { ListItem } from "../../utils/abstractTypes";
-import { ListItemType } from "../list/constants";
-import { TwentyFourHourToAMPM } from "../../utils/dates";
-import { useMemo } from "react";
+import { StyleSheet, Text } from 'react-native';
+import { ListItem } from '../../utils/abstractTypes';
+import { ListItemType } from '../list/constants';
+import { TwentyFourHourToAMPM } from '../../utils/dates';
+import { useMemo } from 'react';
 
 type Props = {
   item: ListItem;
@@ -25,11 +25,13 @@ export const ItemTimeFormatter = ({ item, textColor }: Props) => {
         ? TwentyFourHourToAMPM(item.time, false)
         : potentialTime;
 
-      return time + "-" + endTime;
+      return `${time}-${endTime}`;
     } else if (item.time) {
       const time = TwentyFourHourToAMPM(item.time);
       return time;
-    } else return;
+    } else {
+      return;
+    }
   };
 
   const timeText = useMemo(() => getTimeText(), [item]);
@@ -37,8 +39,8 @@ export const ItemTimeFormatter = ({ item, textColor }: Props) => {
   const conditionalStyles = {
     listItemTimeText: {
       color: textColor,
-      fontFamily: item.type !== ListItemType.Task ? "InterMed" : "Inter",
-    },
+      fontFamily: item.type !== ListItemType.Task ? 'InterMed' : 'Inter'
+    }
   };
 
   return (
@@ -55,6 +57,6 @@ export const ItemTimeFormatter = ({ item, textColor }: Props) => {
 const styles = StyleSheet.create({
   listItemTimeText: {
     padding: 2,
-    marginLeft: 12,
-  },
+    marginLeft: 12
+  }
 });

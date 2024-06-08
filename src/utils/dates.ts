@@ -1,33 +1,33 @@
-import moment from "moment";
-import { DaysOfWeek } from "./constants";
+import moment from 'moment';
+import { DaysOfWeek } from './constants';
 
 // Wrapper to configure moment function
 export const localisedMoment = (args: any) => {
   // This sets the first day of the week to Monday. For some reason not a default
-  moment.updateLocale("en", {
+  moment.updateLocale('en', {
     week: {
-      dow: 1,
-    },
+      dow: 1
+    }
   });
   return moment(args);
 };
 
 export function getStartOfCurrentWeek(date?: Date) {
-  var now = date ?? new Date();
+  const now = date ?? new Date();
 
   // This sets the first day of the week to Monday. For some reason not a default
 
-  var start = localisedMoment(now)
-    .startOf("week")
+  const start = localisedMoment(now)
+    .startOf('week')
     .toDate()
     .setHours(0, 0, 0, 0);
   return new Date(start);
 }
 
 export function getEndOfCurrentWeek(date?: Date) {
-  var now = date ?? new Date();
+  const now = date ?? new Date();
 
-  var end = localisedMoment(now).endOf("week").toDate().setHours(0, 0, 0, 0);
+  const end = localisedMoment(now).endOf('week').toDate().setHours(0, 0, 0, 0);
   return new Date(end);
 }
 
@@ -35,9 +35,9 @@ export const initialiseDays = (user) => {
   const endOfCurrentWeek = getEndOfCurrentWeek();
   const start = establishFirstDay(user.timetable.first_day);
 
-  var initial = [[start]];
-  var week = 0;
-  var next = localisedMoment(start).add(1, "day").toDate();
+  const initial = [[start]];
+  let week = 0;
+  let next = localisedMoment(start).add(1, 'day').toDate();
   while (next.getTime() <= endOfCurrentWeek.getTime()) {
     if (next.getDay() === 1) {
       initial.push([formatDateData(next)]);
@@ -46,7 +46,7 @@ export const initialiseDays = (user) => {
       initial[week].push(formatDateData(next));
     }
 
-    next = localisedMoment(next).add(1, "day").toDate();
+    next = localisedMoment(next).add(1, 'day').toDate();
   }
 
   return initial;
@@ -54,71 +54,75 @@ export const initialiseDays = (user) => {
 
 const establishFirstDay = (first_day) => {
   // Show days from first_day onward, unless it is behind the start of the current week or ahead of current day
-  var today = new Date();
+  const today = new Date();
   today.setHours(0, 0, 0, 0);
-  var start = first_day ? first_day : formatDateData(today);
+  let start = first_day ? first_day : formatDateData(today);
   const startOfWeek = formatDateData(getStartOfCurrentWeek(today));
 
   if (start.localeCompare(startOfWeek) < 0)
-    // Always refresh to Monday at the start of each week
+  // Always refresh to Monday at the start of each week
+  {
     start = startOfWeek;
+  }
 
   return start;
 };
 
 export const extendByWeek = (weeks) => {
-  var i = weeks.length - 1;
-  var lastWeek = weeks[i];
-  var lastDay = lastWeek[lastWeek.length - 1];
-  const endOfNextWeek = localisedMoment(lastDay).add(1, "week").toDate();
+  const i = weeks.length - 1;
+  const lastWeek = weeks[i];
+  const lastDay = lastWeek[lastWeek.length - 1];
+  const endOfNextWeek = localisedMoment(lastDay).add(1, 'week').toDate();
 
-  var next = localisedMoment(lastDay).add(1, "day").toDate();
+  let next = localisedMoment(lastDay).add(1, 'day').toDate();
 
   weeks.push([]);
   while (next.getTime() <= endOfNextWeek.getTime()) {
     weeks[i + 1].push(formatDateData(next));
-    next = localisedMoment(next).add(1, "day").toDate();
+    next = localisedMoment(next).add(1, 'day').toDate();
   }
 
   return weeks;
 };
 
 export function formatDate(date: string) {
-  var time = parseDateString(date);
-  return localisedMoment(time).format("MMM D");
+  const time = parseDateString(date);
+  return localisedMoment(time).format('MMM D');
 }
 
 export function dateFromDay(day: DaysOfWeek, dates) {
-  for (var date of dates) {
-    if (localisedMoment(date).format("dddd") === day) return date;
+  for (const date of dates) {
+    if (localisedMoment(date).format('dddd') === day) {
+      return date;
+    }
   }
 }
 
 export function dayFromDateString(date: string) {
-  return localisedMoment(parseDateString(date)).format("dddd");
+  return localisedMoment(parseDateString(date)).format('dddd');
 }
 
 export function formatDateData(date: Date) {
-  return localisedMoment(date).format("YYYY-MM-DD");
+  return localisedMoment(date).format('YYYY-MM-DD');
 }
 
-export function parseDateString(date: String) {
-  var data = date.split("-").map((x) => parseInt(x));
+export function parseDateString(date: string) {
+  const data = date.split('-').map((x) => parseInt(x));
   return new Date(data[0], data[1] - 1, data[2]);
 }
 
 export function TwentyFourHourToAMPM(time: string, withAMPM = true) {
-  var [hours, mins] = time.split(":");
-  var h = parseInt(hours);
-  const hourText =  (h % 12 ? h % 12 : 12);
+  const [hours, mins] = time.split(':');
+  const h = parseInt(hours);
+  const hourText = (h % 12 ? h % 12 : 12);
   const minsText = mins;
-  const AMPM = withAMPM ?  (h >= 12 ? "pm" : "am") : ""
-  return hourText + ":" + minsText + AMPM;
+  const AMPM = withAMPM ? (h >= 12 ? 'pm' : 'am') : '';
+  return `${hourText}:${minsText}${AMPM}`;
 }
 
 export function TwentyFourHourToRawAMPM(time: string) {
-  const [hours] = time.split(":");
-  var h = parseInt(hours);
-  const AMPM = (h >= 12 ? "pm" : "am")
+  const [hours] = time.split(':');
+  const h = parseInt(hours);
+  const AMPM = (h >= 12 ? 'pm' : 'am');
   return AMPM;
 }

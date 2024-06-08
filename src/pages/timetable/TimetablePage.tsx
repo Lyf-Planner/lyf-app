@@ -1,11 +1,11 @@
-import { useCallback } from "react";
-import { View, StyleSheet } from "react-native";
-import { Planner } from "./Planner";
-import { ListDropdown } from "../../components/dropdowns/ListDropdown";
-import { ListType } from "../../components/list/List";
-import { ListItemType } from "../../components/list/constants";
-import { useItems } from "../../hooks/useItems";
-import Entypo from "react-native-vector-icons/Entypo";
+import { useCallback } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Planner } from './Planner';
+import { ListDropdown } from '../../components/dropdowns/ListDropdown';
+import { ListType } from '../../components/list/List';
+import { ListItemType } from '../../components/list/constants';
+import { useItems } from '../../providers/useItems';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 export const Timetable = () => {
   const { items } = useItems();
@@ -53,17 +53,17 @@ export const Timetable = () => {
 
 const styles = StyleSheet.create({
   widgetContainer: {
-    flexDirection: "column",
+    flexDirection: 'column',
     marginTop: 10,
     flex: 1,
-    gap: 2,
+    gap: 2
   },
   miscListContainer: {
-    flexDirection: "column",
+    flexDirection: 'column',
     gap: 6,
     marginHorizontal: 14,
     marginTop: 2,
     marginBottom: 6,
-    borderRadius: 10,
-  },
+    borderRadius: 10
+  }
 });

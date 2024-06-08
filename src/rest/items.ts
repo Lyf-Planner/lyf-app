@@ -1,12 +1,12 @@
-import { get, post } from "./axios";
-import env from "../envManager";
+import { get, post } from './axios';
+import env from '../envManager';
 
 export async function getItems(item_ids: string[]) {
-  var url = `${env.BACKEND_URL}/getItems`;
-  var body = { item_ids };
+  const url = `${env.BACKEND_URL}/getItems`;
+  const body = { item_ids };
 
-  var result = await post(url, body);
-  var items = result.data;
+  const result = await post(url, body);
+  const items = result.data;
   if (result?.status === 200) {
     return items;
   } else {
@@ -15,10 +15,10 @@ export async function getItems(item_ids: string[]) {
 }
 
 export async function getItem(id: string) {
-  var url = `${env.BACKEND_URL}/getItem?id=${id}`;
+  const url = `${env.BACKEND_URL}/getItem?id=${id}`;
 
-  var result = await get(url);
-  var item = result.data;
+  const result = await get(url);
+  const item = result.data;
   if (result?.status === 200) {
     return item;
   } else {
@@ -27,9 +27,9 @@ export async function getItem(id: string) {
 }
 
 export async function updateItem(item) {
-  var url = `${env.BACKEND_URL}/updateItem`;
+  const url = `${env.BACKEND_URL}/updateItem`;
 
-  var body = {
+  const body = {
     id: item.id,
     title: item.title,
     type: item.type,
@@ -43,9 +43,9 @@ export async function updateItem(item) {
     location: item.location,
     show_in_upcoming: item.show_in_upcoming,
     desc: item.desc,
-    notifications: item.notifications,
+    notifications: item.notifications
   };
-  var result = await post(url, body);
+  const result = await post(url, body);
   if (result?.status === 200) {
     return item;
   } else {
@@ -55,9 +55,9 @@ export async function updateItem(item) {
 }
 
 export async function createItem(item) {
-  var url = `${env.BACKEND_URL}/createItem`;
+  const url = `${env.BACKEND_URL}/createItem`;
 
-  var body = {
+  const body = {
     id: item.id,
     template_id: item.template_id,
     title: item.title,
@@ -73,9 +73,9 @@ export async function createItem(item) {
     show_in_upcoming: item.show_in_upcoming,
     desc: item.desc,
     notifications: item.notifications,
-    permitted_users: item.permitted_users,
+    permitted_users: item.permitted_users
   };
-  var result = await post(url, body);
+  const result = await post(url, body);
   if (result?.status === 200) {
     return result.data;
   } else {
@@ -85,9 +85,9 @@ export async function createItem(item) {
 }
 
 export async function deleteItem(id) {
-  var url = `${env.BACKEND_URL}/deleteItem?item_id=${id}`;
+  const url = `${env.BACKEND_URL}/deleteItem?item_id=${id}`;
 
-  var result = await get(url);
+  const result = await get(url);
   if (result?.status === 200) {
     return;
   } else {
@@ -96,9 +96,9 @@ export async function deleteItem(id) {
 }
 
 export async function updateItemSocial(item_id, user_id, action) {
-  var url = `${env.BACKEND_URL}/updateItemSocial`;
+  const url = `${env.BACKEND_URL}/updateItemSocial`;
 
-  var result = await post(url, { item_id, user_id, action });
+  const result = await post(url, { item_id, user_id, action });
   if (result?.status === 200) {
     return result.data;
   } else {

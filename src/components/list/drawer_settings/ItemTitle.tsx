@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { useState } from 'react';
+import { StyleSheet, TextInput } from 'react-native';
 
 export const ItemTitle = ({ item, updateItem, updateSheetMinHeight, invited }) => {
   const [title, setTitle] = useState(item.title);
@@ -24,8 +24,8 @@ export const ItemTitle = ({ item, updateItem, updateSheetMinHeight, invited }) =
 const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 20,
-    fontWeight: "600",
-    color: "white",
-    flex: 1,
-  },
+    fontWeight: '600',
+    color: 'white',
+    flex: 1
+  }
 });

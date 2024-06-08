@@ -1,20 +1,20 @@
-import { StyleSheet, View, TextInput, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { NoteTypes } from "./TypesAndHelpers";
-import { List } from "../../components/list/List";
-import { eventsBadgeColor } from "../../utils/constants";
-import { NoteTypeBadge } from "./NoteTypeBadge";
-import { ItemStatus, ListItemType } from "../../components/list/constants";
-import { useAuth } from "../../authorisation/AuthProvider";
-import { v4 as uuid } from "uuid";
-import Entypo from "react-native-vector-icons/Entypo";
+import { StyleSheet, View, TextInput, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { NoteTypes } from './TypesAndHelpers';
+import { List } from '../../components/list/List';
+import { eventsBadgeColor } from '../../utils/constants';
+import { NoteTypeBadge } from './NoteTypeBadge';
+import { ItemStatus, ListItemType } from '../../components/list/constants';
+import { useAuth } from '../../authorisation/AuthProvider';
+import { v4 as uuid } from 'uuid';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 export const NoteView = ({
   note,
   onBack,
   justCreated,
   updateNote,
-  publishUpdate,
+  publishUpdate
 }) => {
   const { user } = useAuth();
   const updateNoteTitle = (title: string) => {
@@ -39,20 +39,20 @@ export const NoteView = ({
         {
           user_id: user.id,
           displayed_as: user.details?.name || user.id,
-          permissions: "Owner",
-        },
-      ],
+          permissions: 'Owner'
+        }
+      ]
     };
     updateNoteContent([...note.content, newItem], true);
   };
   const updateItem = (item) => {
-    var tmp = [...note.content];
-    var i = tmp.findIndex((x) => x.id === item.id);
+    const tmp = [...note.content];
+    const i = tmp.findIndex((x) => x.id === item.id);
     tmp[i] = item;
     updateNoteContent(tmp, true);
   };
   const removeItem = (item) => {
-    var tmp = note.content.filter((x) => x.id !== item.id);
+    const tmp = note.content.filter((x) => x.id !== item.id);
     updateNoteContent(tmp, true);
   };
 
@@ -60,14 +60,14 @@ export const NoteView = ({
     <View style={styles.notePageWrapper}>
       <View style={styles.myNotesHeader}>
         <TouchableOpacity onPress={() => onBack()}>
-          <Entypo name={"chevron-left"} size={30} />
+          <Entypo name={'chevron-left'} size={30} />
         </TouchableOpacity>
         <TextInput
           autoFocus={justCreated}
           onFocus={(e: any) =>
             // Workaround for selectTextOnFocus={true} not working
             e.currentTarget.setNativeProps({
-              selection: { start: 0, end: note.title.length },
+              selection: { start: 0, end: note.title.length }
             })
           }
           style={styles.myNotesTitle}
@@ -78,7 +78,7 @@ export const NoteView = ({
           returnKeyType="done"
         />
         {note.type === NoteTypes.List && (
-          <Text style={[styles.subtitle, { marginLeft: "auto" }]}>
+          <Text style={[styles.subtitle, { marginLeft: 'auto' }]}>
             ({note.content.length} Items)
           </Text>
         )}
@@ -96,8 +96,8 @@ export const NoteView = ({
         <List
           items={note.content || []}
           itemStyleOptions={{
-            itemColor: "rgb(30 41 59)",
-            itemTextColor: "rgb(203 213 225)",
+            itemColor: 'rgb(30 41 59)',
+            itemTextColor: 'rgb(203 213 225)'
           }}
           type={ListItemType.Item}
           addItem={addItem}
@@ -118,33 +118,33 @@ export const NoteView = ({
 
 const styles = StyleSheet.create({
   notePageWrapper: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 10
   },
   myNotesHeader: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingRight: 8,
     gap: 8,
     height: 40,
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 8,
-    marginBottom: 2,
+    marginBottom: 2
   },
-  myNotesTitle: { fontSize: 22, fontWeight: "700" },
+  myNotesTitle: { fontSize: 22, fontWeight: '700' },
   noteText: {
     borderWidth: 1,
     marginTop: 6,
-    borderColor: "rgba(0,0,0,0.3)",
-    backgroundColor: "rgba(0,0,0,0.07)",
+    borderColor: 'rgba(0,0,0,0.3)',
+    backgroundColor: 'rgba(0,0,0,0.07)',
     borderRadius: 5,
     fontSize: 16,
     height: 375,
     padding: 8,
-    marginBottom: 8,
+    marginBottom: 8
   },
   subtitle: {
-    textAlign: "center",
+    textAlign: 'center',
     opacity: 0.6,
-    fontWeight: "600",
-    fontSize: 15,
-  },
+    fontWeight: '600',
+    fontSize: 15
+  }
 });

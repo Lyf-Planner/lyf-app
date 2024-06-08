@@ -3,13 +3,13 @@ import {
   StyleSheet,
   TouchableHighlight,
   Text,
-  Alert,
-} from "react-native";
-import { useAuth } from "../../../authorisation/AuthProvider";
-import { primaryGreen } from "../../../utils/constants";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { validateDisplayName } from "../../../utils/validators";
+  Alert
+} from 'react-native';
+import { useAuth } from '../../../authorisation/AuthProvider';
+import { primaryGreen } from '../../../utils/constants';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { validateDisplayName } from '../../../utils/validators';
 
 export const AccountInfo = () => {
   const { user, updateUser } = useAuth();
@@ -18,7 +18,7 @@ export const AccountInfo = () => {
     <View style={styles.main}>
       <View style={styles.detailsColumn}>
         <DetailsField
-          fieldName={"Username"}
+          fieldName={'Username'}
           fieldValue={
             <Text style={styles.detailsFieldValueText}>{user.id}</Text>
           }
@@ -37,13 +37,15 @@ export const AccountInfo = () => {
 
 export const NameField = ({ user, updateUser }) => {
   const updateName = (name: string) => {
-    if (!validateDisplayName(name)) return;
+    if (!validateDisplayName(name)) {
+      return;
+    }
     updateUser({ ...user, details: { ...user.details, name } });
   };
 
   return (
     <DetailsField
-      fieldName={"Display Name"}
+      fieldName={'Display Name'}
       fieldValue={
         user.details?.name ? (
           <View style={styles.occupiedFieldRow}>
@@ -53,8 +55,8 @@ export const NameField = ({ user, updateUser }) => {
             <TouchableHighlight
               style={styles.editPressable}
               testID="Edit-Name"
-              underlayColor={"rgba(0,0,0,0.5)"}
-              onPress={() => fieldPrompt(updateName, "Name")}
+              underlayColor={'rgba(0,0,0,0.5)'}
+              onPress={() => fieldPrompt(updateName, 'Name')}
             >
               <MaterialIcons name="edit" size={18} />
             </TouchableHighlight>
@@ -69,15 +71,15 @@ export const NameField = ({ user, updateUser }) => {
 
 export const EmailField = ({ user, updateUser }) => {
   const updateEmail = (email: string) => {
-    if (!(email.includes("@") && email.includes("."))) {
-      Alert.alert("Try Again", "This is not a valid email format");
+    if (!(email.includes('@') && email.includes('.'))) {
+      Alert.alert('Try Again', 'This is not a valid email format');
     }
     updateUser({ ...user, details: { ...user.details, email } });
   };
 
   return (
     <DetailsField
-      fieldName={"Email"}
+      fieldName={'Email'}
       fieldValue={
         user.details?.email ? (
           <View style={styles.occupiedFieldRow}>
@@ -87,8 +89,8 @@ export const EmailField = ({ user, updateUser }) => {
             <TouchableHighlight
               style={styles.editPressable}
               testID="Edit-Email"
-              underlayColor={"rgba(0,0,0,0.5)"}
-              onPress={() => fieldPrompt(updateEmail, "Email")}
+              underlayColor={'rgba(0,0,0,0.5)'}
+              onPress={() => fieldPrompt(updateEmail, 'Email')}
             >
               <MaterialIcons name="edit" size={18} />
             </TouchableHighlight>
@@ -132,42 +134,42 @@ const styles = StyleSheet.create({
   main: {
     paddingHorizontal: 2,
     paddingVertical: 8,
-    flexDirection: "column",
-    gap: 8,
+    flexDirection: 'column',
+    gap: 8
   },
-  detailsFieldView: { flexDirection: "row", alignItems: "center", height: 25 },
-  detailsFieldNameText: { fontSize: 16, fontFamily: "InterSemi", width: 120 },
+  detailsFieldView: { flexDirection: 'row', alignItems: 'center', height: 25 },
+  detailsFieldNameText: { fontSize: 16, fontFamily: 'InterSemi', width: 120 },
   detailsFieldValueText: {
     fontSize: 16,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center'
   },
-  detailsColumn: { flexDirection: "column", gap: 8 },
+  detailsColumn: { flexDirection: 'column', gap: 8 },
 
   occupiedFieldRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: 220,
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 220
   },
   editPressable: {
-    marginLeft: "auto",
+    marginLeft: 'auto',
     padding: 4,
-    backgroundColor: "rgba(0,0,0,0.1)",
-    borderRadius: 4,
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    borderRadius: 4
   },
   addFieldView: {
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: 10,
     backgroundColor: primaryGreen,
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 4,
-    alignItems: "center",
+    alignItems: 'center'
   },
   addFieldTouchable: {
     borderRadius: 10,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center'
   },
-  addFieldText: { color: "white" },
+  addFieldText: { color: 'white' }
 });

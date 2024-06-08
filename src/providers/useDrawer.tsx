@@ -5,10 +5,10 @@ import {
   useEffect,
   useMemo,
   useRef,
-  useState,
-} from "react";
-import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { Keyboard, StyleSheet } from "react-native";
+  useState
+} from 'react';
+import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+import { Keyboard, StyleSheet } from 'react-native';
 
 // Component provider
 export const DrawerProvider = ({ children }) => {
@@ -26,11 +26,13 @@ export const DrawerProvider = ({ children }) => {
   const EXPOSED = {
     drawer,
     updateDrawer,
-    updateSheetMinHeight: updateHeight,
+    updateSheetMinHeight: updateHeight
   };
 
   useEffect(() => {
-    if (drawer) handlePresentModalPress();
+    if (drawer) {
+      handlePresentModalPress();
+    }
     Keyboard.dismiss();
   }, [drawer]);
 
@@ -62,9 +64,9 @@ export const useDrawer = () => {
 
 const styles = StyleSheet.create({
   bottomSheetWrapper: {
-    shadowColor: "black",
+    shadowColor: 'black',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.8,
-    shadowRadius: 10,
-  },
+    shadowRadius: 10
+  }
 });

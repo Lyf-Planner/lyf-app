@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   View,
   Text,
   TextInput,
   StyleSheet,
-  TouchableHighlight,
-} from "react-native";
-import { useAuth } from "../../../authorisation/AuthProvider";
-import { useNotifications } from "../../../hooks/useNotifications";
-import Entypo from "react-native-vector-icons/Entypo";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+  TouchableHighlight
+} from 'react-native';
+import { useAuth } from '../../../authorisation/AuthProvider';
+import { useNotifications } from '../../../providers/useNotifications';
+import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export const ItemNotification = ({
   item,
@@ -17,7 +17,7 @@ export const ItemNotification = ({
   updateNotify,
   updateMinutes,
   invited,
-  updateSheetMinHeight,
+  updateSheetMinHeight
 }) => {
   const { user } = useAuth();
   const { enabled } = useNotifications();
@@ -30,9 +30,13 @@ export const ItemNotification = ({
   );
 
   const updateMinutesFromInput = () => {
-    if (invited) return;
-    var text = localText.replace(/[^0-9]/g, "");
-    if (!text) text = "0";
+    if (invited) {
+      return;
+    }
+    let text = localText.replace(/[^0-9]/g, '');
+    if (!text) {
+      text = '0';
+    }
     setText(text);
     updateMinutes(text);
   };
@@ -45,14 +49,14 @@ export const ItemNotification = ({
     <View
       style={[
         styles.mainContainer,
-        { opacity: enabled && item.time ? 1 : 0.3 },
+        { opacity: enabled && item.time ? 1 : 0.3 }
       ]}
     >
       <MaterialIcons name="notifications-active" size={20} />
       <Text
         style={[
           styles.notifyText,
-          { fontWeight: enabled && item.time ? "500" : "400" },
+          { fontWeight: enabled && item.time ? '500' : '400' }
         ]}
       >
         Notify Me
@@ -62,7 +66,7 @@ export const ItemNotification = ({
         <View style={styles.minutesInputWrapper}>
           <TouchableHighlight
             onPress={() => updateNotify(false)}
-            underlayColor={"rgba(0,0,0,0.5)"}
+            underlayColor={'rgba(0,0,0,0.5)'}
             style={styles.closeTouchable}
           >
             <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
@@ -86,27 +90,27 @@ export const ItemNotification = ({
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 8,
     paddingRight: 10,
-    height: 35,
+    height: 35
   },
-  notifyText: { fontSize: 20, fontWeight: "500", fontFamily: "InterSemi" },
+  notifyText: { fontSize: 20, fontWeight: '500', fontFamily: 'InterSemi' },
   minutesInputWrapper: {
-    marginLeft: "auto",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6
   },
   closeTouchable: { borderRadius: 5 },
   minutesInput: {
-    backgroundColor: "rgba(0,0,0,0.08)",
+    backgroundColor: 'rgba(0,0,0,0.08)',
     padding: 6,
     width: 45,
     borderRadius: 8,
     fontSize: 16,
-    textAlign: "center",
+    textAlign: 'center'
   },
-  minsBeforeText: { fontSize: 18, fontWeight: "200" },
+  minsBeforeText: { fontSize: 18, fontWeight: '200' }
 });

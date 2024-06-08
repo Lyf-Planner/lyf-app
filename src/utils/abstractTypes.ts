@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { SharedValue } from "react-native-reanimated";
+import { ReactNode } from 'react';
+import { SharedValue } from 'react-native-reanimated';
 
 export type LyfElement = ReactNode | SharedValue<ReactNode>
 

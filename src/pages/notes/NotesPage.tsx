@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet } from "react-native";
-import { Horizontal, Loader } from "../../components/general/MiscComponents";
-import { useEffect, useState } from "react";
-import { NewNoteMenu } from "./NewNoteAdd";
-import { NoteTypes, TypeToDisplayName } from "./TypesAndHelpers";
-import { NoteView } from "./NoteView";
-import { NoteBanner } from "./NoteBanner";
-import { useNotes } from "../../hooks/useNotes";
+import { View, Text, StyleSheet } from 'react-native';
+import { Horizontal, Loader } from '../../components/general/MiscComponents';
+import { useEffect, useState } from 'react';
+import { NewNoteMenu } from './NewNoteAdd';
+import { NoteTypes, TypeToDisplayName } from './TypesAndHelpers';
+import { NoteView } from './NoteView';
+import { NoteBanner } from './NoteBanner';
+import { useNotes } from '../../providers/useNotes';
 
 export const Notes = () => {
   const [focussedNote, setFocussedNote] = useState(null);
@@ -16,11 +16,11 @@ export const Notes = () => {
   }, []);
 
   const newNote = (type: NoteTypes) => {
-    let title = `New ${type === NoteTypes.Text ? "Note" : "List"}`;
+    const title = `New ${type === NoteTypes.Text ? 'Note' : 'List'}`;
     addNote(title, type).then((newNote) => setFocussedNote(newNote));
   };
 
-  if (focussedNote)
+  if (focussedNote) {
     return (
       <NoteView
         note={focussedNote}
@@ -32,12 +32,12 @@ export const Notes = () => {
         publishUpdate={(note) => updateNote(note)}
       />
     );
-  else
+  } else {
     return (
       <View>
         <View style={styles.myNotesHeader}>
           <Text style={styles.myNotesTitle}>My Lists</Text>
-          <View style={{ marginLeft: "auto", marginRight: 5 }}>
+          <View style={{ marginLeft: 'auto', marginRight: 5 }}>
             <NewNoteMenu addNote={newNote} />
           </View>
         </View>
@@ -64,10 +64,10 @@ export const Notes = () => {
           ) : (
             <View
               style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flex: 1
               }}
             >
               <Loader size={50} />
@@ -76,28 +76,29 @@ export const Notes = () => {
         </View>
       </View>
     );
+  }
 };
 
 const styles = StyleSheet.create({
   myNotesHeader: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 40,
-    alignItems: "center",
+    alignItems: 'center',
     paddingHorizontal: 16,
     marginTop: 8,
-    marginBottom: 8,
+    marginBottom: 8
   },
-  myNotesTitle: { fontSize: 24, fontWeight: "700", fontFamily: "InterSemi" },
+  myNotesTitle: { fontSize: 24, fontWeight: '700', fontFamily: 'InterSemi' },
   noteBannersContainer: {
     paddingHorizontal: 12,
-    minHeight: 100,
+    minHeight: 100
   },
   noNotesText: {
     paddingTop: 45,
     paddingHorizontal: 12,
-    textAlign: "center",
+    textAlign: 'center',
     opacity: 0.4,
-    fontWeight: "600",
-    fontSize: 16,
-  },
+    fontWeight: '600',
+    fontSize: 16
+  }
 });

@@ -1,38 +1,38 @@
-import { View, Text, StyleSheet, Vibration, Pressable } from "react-native";
-import { Horizontal, Vertical } from "../../components/general/MiscComponents";
-import { List } from "../../components/list/List";
+import { View, Text, StyleSheet, Vibration, Pressable } from 'react-native';
+import { Horizontal, Vertical } from '../../components/general/MiscComponents';
+import { List } from '../../components/list/List';
 import {
   localisedMoment,
   dayFromDateString,
   formatDate,
   formatDateData,
-  parseDateString,
-} from "../../utils/dates";
+  parseDateString
+} from '../../utils/dates';
 import {
   deepBlue,
   eventsBadgeColor,
   secondaryGreen,
-  sleep,
-} from "../../utils/constants";
-import { ItemStatus, ListItemType } from "../../components/list/constants";
-import { useAuth } from "../../authorisation/AuthProvider";
-import { useItems } from "../../hooks/useItems";
+  sleep
+} from '../../utils/constants';
+import { ItemStatus, ListItemType } from '../../components/list/constants';
+import { useAuth } from '../../authorisation/AuthProvider';
+import { useItems } from '../../providers/useItems';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withSequence,
-  withTiming,
-} from "react-native-reanimated";
-import { useEffect, useMemo, useState } from "react";
-import { BouncyPressable } from "../../components/pressables/BouncyPressable";
+  withTiming
+} from 'react-native-reanimated';
+import { useEffect, useMemo, useState } from 'react';
+import { BouncyPressable } from '../../components/pressables/BouncyPressable';
 import {
   LyfMenu,
   MenuPopoverPlacement,
-  PopoverMenuOption,
-} from "../../components/menus/LyfMenu";
-import { SortableList } from "../../components/list/SortableList";
-import * as Haptics from "expo-haptics";
+  PopoverMenuOption
+} from '../../components/menus/LyfMenu';
+import { SortableList } from '../../components/list/SortableList';
+import * as Haptics from 'expo-haptics';
 
 export const Day = ({ items, date = null, day = null, template = false }) => {
   const [sorting, setSorting] = useState(false);
@@ -60,12 +60,12 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
       opacity.value = 0;
       scale.value = 1.5;
       await sleep(500);
-      var next = formatDateData(
-        localisedMoment(parseDateString(date)).add(1, "day").toDate()
+      const next = formatDateData(
+        localisedMoment(parseDateString(date)).add(1, 'day').toDate()
       );
       updateUser({
         ...user,
-        timetable: { ...user.timetable, first_day: next },
+        timetable: { ...user.timetable, first_day: next }
       });
     }
   };
@@ -86,14 +86,14 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
       transform: [
         {
           scale: withTiming(scale.value, {
-            duration: DELAY,
-          }),
+            duration: DELAY
+          })
         },
-        { translateX: offset.value },
+        { translateX: offset.value }
       ],
       opacity: withTiming(opacity.value, {
-        duration: 500,
-      }),
+        duration: 500
+      })
     } as any;
   });
 
@@ -135,10 +135,10 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
       transform: [
         {
           scale: withTiming(dayHandleScale.value, {
-            duration: 250,
-          }),
-        },
-      ],
+            duration: 250
+          })
+        }
+      ]
     } as any;
   });
 
@@ -167,15 +167,15 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
     // Finish day if ready
     if (canDelete) {
       menuOptions.push({
-        text: "✅ Finish Day",
-        onSelect: () => finishDay(),
+        text: '✅ Finish Day',
+        onSelect: () => finishDay()
       });
     }
 
     // Sort tasks if more than one
     menuOptions.push({
-      text: "↕️ Sort Tasks",
-      onSelect: () => setSorting(true),
+      text: '↕️ Sort Tasks',
+      onSelect: () => setSorting(true)
     });
 
     return menuOptions;
@@ -189,7 +189,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
           placement={MenuPopoverPlacement.Top}
           options={buildMenuOptions()}
         >
-          <BouncyPressable onPress={() => console.log("opening menu")} disabled>
+          <BouncyPressable onPress={() => console.log('opening menu')} disabled>
             <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
               <View style={styles.dayOfWeekPressable}>
                 <Text style={styles.dayOfWeekText}>
@@ -215,7 +215,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
               .sort((a, b) => (a.time ? a.time.localeCompare(b.time) : 1))}
             itemStyleOptions={{
               itemColor: eventsBadgeColor,
-              itemTextColor: "black",
+              itemTextColor: 'black'
             }}
             addItem={(name) =>
               addItem(
@@ -233,7 +233,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
         </View>
 
         <Horizontal
-          style={{ borderColor: "rgba(255,255,255,0.5)", marginTop: 6 }}
+          style={{ borderColor: 'rgba(255,255,255,0.5)', marginTop: 6 }}
         />
 
         <View style={styles.listWrapperView}>
@@ -241,8 +241,8 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
             <SortableList
               items={items.filter((x) => x.type === ListItemType.Task)}
               itemStyleOptions={{
-                itemColor: "rgb(241 245 249)",
-                itemTextColor: "black",
+                itemColor: 'rgb(241 245 249)',
+                itemTextColor: 'black'
               }}
               listWrapperStyles={{ backgroundColor: deepBlue }}
               doneSorting={() => setSorting(false)}
@@ -252,7 +252,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
               items={items.filter((x) => x.type === ListItemType.Task)}
               itemStyleOptions={{
                 itemColor: eventsBadgeColor,
-                itemTextColor: "black",
+                itemTextColor: 'black'
               }}
               addItem={(name) =>
                 addItem(
@@ -277,59 +277,59 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
 const styles = StyleSheet.create({
   dayRootView: {
     backgroundColor: deepBlue,
-    width: "100%",
+    width: '100%',
     borderRadius: 10,
     padding: 10,
     zIndex: 10,
-    flexDirection: "column",
+    flexDirection: 'column'
   },
   dayHeaderView: {
     backgroundColor: secondaryGreen,
     borderRadius: 10,
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingHorizontal: 8,
-    alignItems: "center",
+    alignItems: 'center'
   },
   headerEnd: {
-    flexDirection: "row",
-    height: "100%",
-    alignItems: "center",
+    flexDirection: 'row',
+    height: '100%',
+    alignItems: 'center',
     gap: 2,
-    marginLeft: "auto",
-    marginRight: 2,
+    marginLeft: 'auto',
+    marginRight: 2
   },
   diagLines: {
     borderColor: deepBlue,
     opacity: 0.2,
     borderLeftWidth: 2,
-    height: "140%",
-    transform: [{ rotateZ: "-20deg" }],
-    marginLeft: "auto",
+    height: '140%',
+    transform: [{ rotateZ: '-20deg' }],
+    marginLeft: 'auto'
   },
   dayDateText: {
-    fontWeight: "300",
+    fontWeight: '300',
     paddingRight: 2,
     marginLeft: 16,
     fontSize: 16,
-    fontFamily: "Inter",
+    fontFamily: 'Inter'
   },
   dayOfWeekText: {
-    fontWeight: "600",
-    fontFamily: "InterSemi",
+    fontWeight: '600',
+    fontFamily: 'InterSemi',
     fontSize: 18,
-    padding: 2,
+    padding: 2
   },
   dayOfWeekPressable: {
     borderRadius: 10,
     paddingHorizontal: 2,
-    paddingVertical: 14,
+    paddingVertical: 14
   },
   listWrapperView: {
-    flexDirection: "column",
+    flexDirection: 'column'
   },
   listTopicText: {
-    color: "white",
+    color: 'white',
     fontSize: 16,
-    fontWeight: "500",
-  },
+    fontWeight: '500'
+  }
 });

@@ -1,17 +1,17 @@
-import { useMemo, useRef, useState } from "react";
-import { useAuth } from "../../../authorisation/AuthProvider";
-import { SocialAction } from "../../../utils/constants";
+import { useMemo, useRef, useState } from 'react';
+import { useAuth } from '../../../authorisation/AuthProvider';
+import { SocialAction } from '../../../utils/constants';
 import {
   Menu,
   MenuOption,
   MenuOptions,
   MenuTrigger,
-  renderers,
-} from "react-native-popup-menu";
-import { StyleSheet, View } from "react-native";
-import { Horizontal, Loader } from "../../general/MiscComponents";
-import { useItems } from "../../../hooks/useItems";
-import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
+  renderers
+} from 'react-native-popup-menu';
+import { StyleSheet, View } from 'react-native';
+import { Horizontal, Loader } from '../../general/MiscComponents';
+import { useItems } from '../../../providers/useItems';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 export const OptionsMenu = ({ item }) => {
   const [loading, setLoading] = useState(false);
@@ -39,32 +39,32 @@ export const OptionsMenu = ({ item }) => {
       ref={menu}
       renderer={renderers.Popover}
       rendererProps={{
-        placement: "top",
-        anchorStyle: { backgroundColor: "#bababa" },
+        placement: 'top',
+        anchorStyle: { backgroundColor: '#bababa' }
       }}
     >
       <MenuOptions customStyles={{ optionsContainer: styles.optionsContainer }}>
-        {!(permission === "Owner" && item.permitted_users.length === 1) && (
+        {!(permission === 'Owner' && item.permitted_users.length === 1) && (
           <MenuOption
             value={1}
             text="Leave"
             customStyles={{
               optionWrapper: styles.optionWrapper,
-              optionText: styles.optionText,
+              optionText: styles.optionText
             }}
             onSelect={() => leaveItem()}
           />
         )}
-        {permission === "Owner" && (
+        {permission === 'Owner' && (
           <Horizontal style={styles.optionSeperator} />
         )}
-        {permission === "Owner" && (
+        {permission === 'Owner' && (
           <MenuOption
             value={1}
             text="Delete"
             customStyles={{
               optionWrapper: styles.optionWrapper,
-              optionText: styles.optionText,
+              optionText: styles.optionText
             }}
             onSelect={async () => {
               setLoading(true);
@@ -88,14 +88,14 @@ export const OptionsMenu = ({ item }) => {
 
 const styles = StyleSheet.create({
   optionsContainer: {
-    flexDirection: "column",
-    justifyContent: "space-evenly",
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
     paddingLeft: 0,
     borderRadius: 10,
     borderWidth: 0.5,
-    borderColor: "rgba(0,0,0,0.5)",
+    borderColor: 'rgba(0,0,0,0.5)'
   },
   optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
-  optionText: { fontSize: 18, color: "rgba(0,0,0,0.7)" },
-  optionSeperator: { marginHorizontal: 5 },
+  optionText: { fontSize: 18, color: 'rgba(0,0,0,0.7)' },
+  optionSeperator: { marginHorizontal: 5 }
 });

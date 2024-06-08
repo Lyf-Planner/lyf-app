@@ -1,13 +1,13 @@
-import { useRef } from "react";
-import { StyleSheet } from "react-native";
+import { useRef } from 'react';
+import { StyleSheet } from 'react-native';
 import {
   Menu,
   MenuOption,
   MenuOptions,
   MenuTrigger,
-  renderers,
-} from "react-native-popup-menu";
-import { BouncyPressable } from "../pressables/BouncyPressable";
+  renderers
+} from 'react-native-popup-menu';
+import { BouncyPressable } from '../pressables/BouncyPressable';
 
 export type LyfMenuProps = {
   name: string;
@@ -22,18 +22,18 @@ export type PopoverMenuOption = {
 };
 
 export enum MenuPopoverPlacement {
-  Top = "top",
-  Right = "right",
-  Bottom = "bottom",
-  Left = "left",
-  Auto = "auto",
+  Top = 'top',
+  Right = 'right',
+  Bottom = 'bottom',
+  Left = 'left',
+  Auto = 'auto',
 }
 
 export const LyfMenu = (props: LyfMenuProps) => {
   const menu = useRef<Menu>();
   const rendererProps = {
     placement: props.placement,
-    anchorStyle: { backgroundColor: "#bababa" },
+    anchorStyle: { backgroundColor: '#bababa' }
   };
 
   return (
@@ -46,7 +46,7 @@ export const LyfMenu = (props: LyfMenuProps) => {
       <MenuOptions
         customStyles={{
           optionsContainer: styles.optionsContainer,
-          optionsWrapper: styles.optionsWrapper,
+          optionsWrapper: styles.optionsWrapper
         }}
       >
         {props.options.map((option, i) => (
@@ -56,7 +56,7 @@ export const LyfMenu = (props: LyfMenuProps) => {
             text={option.text}
             customStyles={{
               optionWrapper: styles.optionWrapper,
-              optionText: styles.optionText,
+              optionText: styles.optionText
             }}
             onSelect={option.onSelect}
           />
@@ -64,7 +64,7 @@ export const LyfMenu = (props: LyfMenuProps) => {
       </MenuOptions>
       <MenuTrigger
         customStyles={{
-          TriggerTouchableComponent: BouncyPressable,
+          TriggerTouchableComponent: BouncyPressable
         }}
       >
         {props.children}
@@ -75,14 +75,14 @@ export const LyfMenu = (props: LyfMenuProps) => {
 
 const styles = StyleSheet.create({
   optionsContainer: {
-    flexDirection: "column",
+    flexDirection: 'column',
     paddingLeft: 0,
     borderRadius: 10,
     borderWidth: 0.5,
-    borderColor: "rgba(0,0,0,0.5)",
+    borderColor: 'rgba(0,0,0,0.5)'
   },
   optionsWrapper: { marginVertical: 4 },
   optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
-  optionText: { fontSize: 18, color: "rgba(0,0,0,0.7)", textAlign: "right" },
-  optionSeperator: { marginHorizontal: 5 },
+  optionText: { fontSize: 18, color: 'rgba(0,0,0,0.7)', textAlign: 'right' },
+  optionSeperator: { marginHorizontal: 5 }
 });

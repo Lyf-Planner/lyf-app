@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, View, Text } from "react-native";
-import { List } from "../list/List";
+import { useEffect, useState } from 'react';
+import { Pressable, StyleSheet, View, Text } from 'react-native';
+import { List } from '../list/List';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-  FadeIn,
-} from "react-native-reanimated";
-import { deepBlue, eventsBadgeColor } from "../../utils/constants";
-import { useItems } from "../../hooks/useItems";
-import Entypo from "react-native-vector-icons/Entypo";
+  FadeIn
+} from 'react-native-reanimated';
+import { deepBlue, eventsBadgeColor } from '../../utils/constants';
+import { useItems } from '../../providers/useItems';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 export const ListDropdown = ({ items, listType, icon, name }) => {
   const [hide, updateHide] = useState(true);
@@ -23,10 +23,10 @@ export const ListDropdown = ({ items, listType, icon, name }) => {
       transform: [
         {
           scale: withTiming(scale.value, {
-            duration: 200,
-          }),
-        },
-      ],
+            duration: 200
+          })
+        }
+      ]
     } as any;
   });
 
@@ -35,10 +35,10 @@ export const ListDropdown = ({ items, listType, icon, name }) => {
       transform: [
         {
           rotateZ: withTiming(`${chevronAngle.value}deg`, {
-            duration: 200,
-          }),
-        },
-      ],
+            duration: 200
+          })
+        }
+      ]
     } as any;
   });
 
@@ -63,7 +63,7 @@ export const ListDropdown = ({ items, listType, icon, name }) => {
         <Text>{`(${items.length})`}</Text>
         <View style={styles.headerLeft}>
           <Animated.View style={[styles.animatedChevron, rotationAnimation]}>
-            <Entypo name={"chevron-right"} size={25} />
+            <Entypo name={'chevron-right'} size={25} />
           </Animated.View>
         </View>
       </Pressable>
@@ -76,7 +76,7 @@ export const ListDropdown = ({ items, listType, icon, name }) => {
             items={items}
             itemStyleOptions={{
               itemColor: deepBlue,
-              itemTextColor: "rgb(203 213 225)",
+              itemTextColor: 'rgb(203 213 225)'
             }}
             addItem={(name) => addItem(name, listType, null, null)}
             updateItem={updateItem}
@@ -92,40 +92,40 @@ export const ListDropdown = ({ items, listType, icon, name }) => {
 
 const styles = StyleSheet.create({
   dropdownContainer: {
-    flexDirection: "column",
+    flexDirection: 'column',
     backgroundColor: eventsBadgeColor,
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 10,
-    justifyContent: "flex-start",
+    justifyContent: 'flex-start',
     marginVertical: 1,
     borderWidth: 2,
-    borderColor: "rgba(0, 0, 0, 0.1)",
-    shadowColor: "black",
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
-    shadowRadius: 3,
+    shadowRadius: 3
   },
   dropdownTextContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 8,
-    width: "100%",
-    alignItems: "center",
+    width: '100%',
+    alignItems: 'center'
   },
   headerLeft: {
-    flexDirection: "row",
-    marginLeft: "auto",
-    alignItems: "center",
+    flexDirection: 'row',
+    marginLeft: 'auto',
+    alignItems: 'center'
   },
   listTitle: {
     fontSize: 20,
     paddingVertical: 4,
-    fontFamily: "InterSemi",
+    fontFamily: 'InterSemi'
   },
   animatedChevron: {
-    marginRight: 5,
+    marginRight: 5
   },
   listWrapper: {
-    flexDirection: "column",
-  },
+    flexDirection: 'column'
+  }
 });

@@ -49,7 +49,7 @@ export default {
       bundleIdentifier: "com.lyfplanner",
       buildNumber: "1.5.12",
     },
-    plugins: ["expo-localization", "expo-font"],
+    plugins: ["expo-localization", "expo-font", "expo-asset"],
     extra: {
       backendUrl: process.env.BACKEND_URL,
       localBackendPort: process.env.LOCAL_BACKEND_PORT,

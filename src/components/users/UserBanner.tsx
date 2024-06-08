@@ -1,17 +1,17 @@
-import { StyleSheet, Text, View } from "react-native";
-import { eventsBadgeColor } from "../../utils/constants";
-import { FriendAction } from "../../pages/account/friends/FriendActions";
-import { BouncyPressable } from "../pressables/BouncyPressable";
-import { UserListContext } from "../../utils/constants";
-import { ItemSocialAction } from "../list/drawer_settings/ItemSocialAction";
-import { useModal } from "../../hooks/useModal";
-import { UserModal } from "./UserModal";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { StyleSheet, Text, View } from 'react-native';
+import { eventsBadgeColor } from '../../utils/constants';
+import { FriendAction } from '../../pages/account/friends/FriendActions';
+import { BouncyPressable } from '../pressables/BouncyPressable';
+import { UserListContext } from '../../utils/constants';
+import { ItemSocialAction } from '../list/drawer_settings/ItemSocialAction';
+import { useModal } from '../../providers/useModal';
+import { UserModal } from './UserModal';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export const UserBanner = ({
   user,
   context = UserListContext.Friends,
-  item = null,
+  item = null
 }) => {
   const { updateModal } = useModal();
 
@@ -61,9 +61,9 @@ export const UserBanner = ({
 
 const styles = StyleSheet.create({
   main: {
-    flexDirection: "row",
-    width: "100%",
-    alignItems: "center",
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
     height: 70,
     gap: 8,
     paddingHorizontal: 16,
@@ -71,20 +71,20 @@ const styles = StyleSheet.create({
     backgroundColor: eventsBadgeColor,
     borderRadius: 10,
 
-    shadowColor: "black",
+    shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
-    shadowRadius: 3,
+    shadowRadius: 3
   },
-  nameRow: { flexDirection: "column", gap: 2, width: "55%" },
+  nameRow: { flexDirection: 'column', gap: 2, width: '55%' },
   actionWrapper: {
-    marginLeft: "auto",
+    marginLeft: 'auto',
     width: 110,
-    shadowColor: "black",
+    shadowColor: 'black',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
-    shadowRadius: 1,
+    shadowRadius: 1
   },
-  mainAliasText: { fontSize: 22, fontWeight: "500" },
-  subAliasText: { fontSize: 14, color: "rgba(0,0,0,0.5)" },
+  mainAliasText: { fontSize: 22, fontWeight: '500' },
+  subAliasText: { fontSize: 14, color: 'rgba(0,0,0,0.5)' }
 });

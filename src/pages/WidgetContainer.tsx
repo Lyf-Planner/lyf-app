@@ -1,20 +1,20 @@
-import { View, Text, StyleSheet } from "react-native";
-import { Timetable } from "./timetable/TimetableWidget";
-import { useAuth } from "../authorisation/AuthProvider";
-import { Horizontal } from "../components/general/MiscComponents";
-import { AccountWidget } from "./account/AccountWidget";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Notes } from "./notes/NotesWidget";
-import { BouncyPressable } from "../components/pressables/BouncyPressable";
-import { deepBlue } from "../utils/constants";
-import { AccountHeaderButton } from "./account/AccountHeaderButton";
-import { TutorialHeaderButton } from "./tutorial/TutorialHeaderButton";
-import { useTutorial } from "../hooks/useTutorial";
+import { View, Text, StyleSheet } from 'react-native';
+import { Timetable } from './timetable/TimetableWidget';
+import { useAuth } from '../authorisation/AuthProvider';
+import { Horizontal } from '../components/general/MiscComponents';
+import { AccountWidget } from './account/AccountWidget';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Notes } from './notes/NotesWidget';
+import { BouncyPressable } from '../components/pressables/BouncyPressable';
+import { deepBlue } from '../utils/constants';
+import { AccountHeaderButton } from './account/AccountHeaderButton';
+import { TutorialHeaderButton } from './tutorial/TutorialHeaderButton';
+import { useTutorial } from '../providers/useTutorial';
 import {
   AllWidgets,
   DisplayedWidgets,
-  useWidgetNavigator,
-} from "../hooks/useWidgetNavigator";
+  useWidgetNavigator
+} from '../providers/useWidgetNavigator';
 
 export const WidgetContainer = () => {
   const { logout, deleteMe } = useAuth();
@@ -24,7 +24,7 @@ export const WidgetContainer = () => {
     Schedule: <Timetable />,
     Account: <AccountWidget logout={logout} deleteMe={deleteMe} />,
     Lists: <Notes />,
-    Tutorial: null,
+    Tutorial: null
   };
 
   return (
@@ -73,7 +73,7 @@ export const MenuWidgetButton = ({ selected, onSelect, title }) => {
       <Text
         style={[
           styles.headerText,
-          selected === title && styles.highlightedHeaderText,
+          selected === title && styles.highlightedHeaderText
         ]}
       >
         {title}
@@ -88,51 +88,51 @@ const styles = StyleSheet.create({
     marginVertical: 55,
     marginHorizontal: 10,
     borderRadius: 10,
-    shadowColor: "black",
+    shadowColor: 'black',
     shadowRadius: 5,
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.8,
     flex: 1,
     paddingVertical: 12,
-    backgroundColor: "rgba(255,255,255,1)",
+    backgroundColor: 'rgba(255,255,255,1)',
 
-    flexDirection: "column",
+    flexDirection: 'column'
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
     height: 50,
     paddingHorizontal: 12,
-    gap: 6,
+    gap: 6
   },
   headerSeperator: {
     marginTop: 10,
     borderWidth: 4,
     borderRadius: 20,
-    marginHorizontal: 12,
+    marginHorizontal: 12
   },
   widgetSelect: {},
   headerTextContainer: {
     borderRadius: 10,
     paddingVertical: 4,
     paddingHorizontal: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     height: 50,
-    borderColor: "rgba(50,50,50,0.25)",
-    backgroundColor: "white",
-    borderWidth: 1,
+    borderColor: 'rgba(50,50,50,0.25)',
+    backgroundColor: 'white',
+    borderWidth: 1
   },
   highlightedHeaderTextContainer: {
-    backgroundColor: deepBlue,
+    backgroundColor: deepBlue
   },
   highlightedHeaderText: {
-    color: "white",
+    color: 'white'
   },
   headerText: {
     fontSize: 24,
-    fontWeight: "bold",
-    fontFamily: "InterSemi",
-  },
+    fontWeight: 'bold',
+    fontFamily: 'InterSemi'
+  }
 });

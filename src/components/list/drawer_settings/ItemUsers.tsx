@@ -1,9 +1,9 @@
-import { View, StyleSheet, Text } from "react-native";
-import { UserList } from "../../users/UserList";
-import { UserListContext } from "../../../utils/constants";
-import { useEffect, useMemo, useState } from "react";
-import { ScrollView, TouchableHighlight } from "react-native-gesture-handler";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import { View, StyleSheet, Text } from 'react-native';
+import { UserList } from '../../users/UserList';
+import { UserListContext } from '../../../utils/constants';
+import { useEffect, useMemo, useState } from 'react';
+import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 export const ItemUsers = ({ item }) => {
   const [open, setOpen] = useState(false);
@@ -13,7 +13,7 @@ export const ItemUsers = ({ item }) => {
         return {
           permissions: x.permissions,
           id: x.user_id,
-          name: x.displayed_as,
+          name: x.displayed_as
         };
       }),
     [item]
@@ -24,14 +24,14 @@ export const ItemUsers = ({ item }) => {
       <TouchableHighlight
         onPress={() => setOpen(!open)}
         style={styles.pressable}
-        underlayColor={"rgba(0,0,0,0.5)"}
+        underlayColor={'rgba(0,0,0,0.5)'}
       >
         <View
           style={{
-            flexDirection: "row",
-            width: "100%",
+            flexDirection: 'row',
+            width: '100%',
             gap: 8,
-            alignItems: "center",
+            alignItems: 'center'
           }}
         >
           <FontAwesome5Icon name="users" size={16} />
@@ -40,8 +40,8 @@ export const ItemUsers = ({ item }) => {
             ( {users.length} )
           </Text>
           <FontAwesome5Icon
-            name={open ? "chevron-down" : "chevron-right"}
-            style={{ marginLeft: "auto" }}
+            name={open ? 'chevron-down' : 'chevron-right'}
+            style={{ marginLeft: 'auto' }}
             size={16}
           />
         </View>
@@ -51,7 +51,7 @@ export const ItemUsers = ({ item }) => {
         <ScrollView style={styles.userList}>
           <UserList
             users={users}
-            emptyText={"No users on this item :)"} // Depressing case to think about
+            emptyText={'No users on this item :)'} // Depressing case to think about
             context={UserListContext.Item}
             item={item}
           />
@@ -63,19 +63,19 @@ export const ItemUsers = ({ item }) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flexDirection: "column",
-    alignItems: "center",
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   pressable: { paddingRight: 10, paddingVertical: 6, borderRadius: 10 },
-  eventText: { fontSize: 20, fontWeight: "500", fontFamily: "InterSemi" },
+  eventText: { fontSize: 20, fontWeight: '500', fontFamily: 'InterSemi' },
   subtitle: {
-    textAlign: "center",
+    textAlign: 'center',
     opacity: 0.4,
-    fontWeight: "600",
-    fontSize: 15,
+    fontWeight: '600',
+    fontSize: 15
   },
   userList: {
     padding: 8,
-    maxHeight: 300,
-  },
+    maxHeight: 300
+  }
 });

@@ -1,11 +1,13 @@
-import { StyleSheet, TouchableHighlight, Text } from "react-native";
-import { ListItemType } from "../constants";
-import { eventsBadgeColor } from "../../../utils/constants";
+import { StyleSheet, TouchableHighlight, Text } from 'react-native';
+import { ListItemType } from '../constants';
+import { eventsBadgeColor } from '../../../utils/constants';
 
 export const ItemType = ({ item, updateItem, invited }) => {
   const switchType = () => {
-    if (invited) return;
-    var newItem = { ...item };
+    if (invited) {
+      return;
+    }
+    const newItem = { ...item };
     if (item.type === ListItemType.Task) {
       newItem.type = ListItemType.Event;
     } else {
@@ -21,11 +23,11 @@ export const ItemType = ({ item, updateItem, invited }) => {
         styles.typeBadge,
         {
           backgroundColor:
-            item.type === ListItemType.Event ? eventsBadgeColor : "white",
-        },
+            item.type === ListItemType.Event ? eventsBadgeColor : 'white'
+        }
       ]}
       onPress={switchType}
-      underlayColor={"rgba(0,0,0,0.5)"}
+      underlayColor={'rgba(0,0,0,0.5)'}
     >
       <Text style={styles.typeText}>{item.type}</Text>
     </TouchableHighlight>
@@ -34,13 +36,13 @@ export const ItemType = ({ item, updateItem, invited }) => {
 
 const styles = StyleSheet.create({
   typeBadge: {
-    marginLeft: "auto",
+    marginLeft: 'auto',
     paddingVertical: 6,
     paddingHorizontal: 8,
-    borderRadius: 10,
+    borderRadius: 10
   },
   typeText: {
     fontSize: 16,
-    fontWeight: "500",
-  },
+    fontWeight: '500'
+  }
 });

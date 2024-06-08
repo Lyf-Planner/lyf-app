@@ -1,12 +1,12 @@
-import { View, Text, StyleSheet } from "react-native";
-import { BouncyPressable } from "../../pressables/BouncyPressable";
-import { useState } from "react";
-import { useAuth } from "../../../authorisation/AuthProvider";
-import { useItems } from "../../../hooks/useItems";
-import { SocialAction, primaryGreen } from "../../../utils/constants";
-import { Loader } from "../../general/MiscComponents";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import AntDesign from "react-native-vector-icons/AntDesign";
+import { View, Text, StyleSheet } from 'react-native';
+import { BouncyPressable } from '../../pressables/BouncyPressable';
+import { useState } from 'react';
+import { useAuth } from '../../../authorisation/AuthProvider';
+import { useItems } from '../../../providers/useItems';
+import { SocialAction, primaryGreen } from '../../../utils/constants';
+import { Loader } from '../../general/MiscComponents';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export const InviteHandler = ({ item }) => {
   const { user } = useAuth();
@@ -29,7 +29,7 @@ export const InviteHandler = ({ item }) => {
         func={acceptInvite}
       />
       <InviteHandleButton
-        color={"red"}
+        color={'red'}
         text="Decline"
         icon={<AntDesign name="close" size={18} color="white" />}
         func={rejectInvite}
@@ -65,32 +65,32 @@ const InviteHandleButton = ({ func, text, color, icon }) => {
 
 const styles = StyleSheet.create({
   main: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 50,
-    width: "100%",
+    width: '100%',
     gap: 4,
 
-    shadowColor: "black",
+    shadowColor: 'black',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
-    shadowRadius: 2,
+    shadowRadius: 2
   },
   pressable: {
     flex: 1,
     borderRadius: 10,
     padding: 8,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   contentWrapper: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 4,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 4
   },
   buttonText: {
-    color: "white",
-    fontSize: 18,
-  },
+    color: 'white',
+    fontSize: 18
+  }
 });

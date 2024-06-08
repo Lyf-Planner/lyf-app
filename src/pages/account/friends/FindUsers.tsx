@@ -1,23 +1,25 @@
-import { useEffect, useRef, useState } from "react";
-import { Pressable, StyleSheet, View, Text } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
-import { Loader } from "../../../components/general/MiscComponents";
-import { getUser } from "../../../rest/user";
-import { UserBanner } from "../../../components/users/UserBanner";
-import { primaryGreen } from "../../../utils/constants";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useEffect, useRef, useState } from 'react';
+import { Pressable, StyleSheet, View, Text } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
+import { Loader } from '../../../components/general/MiscComponents';
+import { getUser } from '../../../rest/user';
+import { UserBanner } from '../../../components/users/UserBanner';
+import { primaryGreen } from '../../../utils/constants';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export const FindUsers = () => {
   const [retrievedUser, updateRetrievedUser] = useState<any>();
   const [searching, updateSearching] = useState(false);
   const [searched, updateSearched] = useState(false);
-  const [username, updateUsername] = useState("");
-  let textRef = useRef<any>();
+  const [username, updateUsername] = useState('');
+  const textRef = useRef<any>();
 
   const findUser = async () => {
     updateSearching(true);
-    let user = await getUser(username);
-    if (!user) updateSearched(true);
+    const user = await getUser(username);
+    if (!user) {
+      updateSearched(true);
+    }
     updateRetrievedUser(user);
     updateSearching(false);
   };
@@ -38,7 +40,7 @@ export const FindUsers = () => {
         <TextInput
           ref={textRef}
           value={username}
-          selectionColor={"white"}
+          selectionColor={'white'}
           style={styles.searchInput}
           onChangeText={updateUsername}
           onSubmitEditing={findUser}
@@ -59,23 +61,23 @@ export const FindUsers = () => {
 };
 
 const styles = StyleSheet.create({
-  main: { flexDirection: "column", gap: 8 },
+  main: { flexDirection: 'column', gap: 8 },
   searchBarPressable: {
-    flexDirection: "row",
+    flexDirection: 'row',
     backgroundColor: primaryGreen,
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
-    alignItems: "center",
+    alignItems: 'center',
     gap: 4,
-    marginHorizontal: 4,
+    marginHorizontal: 4
   },
-  searchInput: { padding: 4, color: "white", fontSize: 22 },
-  loaderWrapper: { marginLeft: "auto", marginRight: 8 },
+  searchInput: { padding: 4, color: 'white', fontSize: 22 },
+  loaderWrapper: { marginLeft: 'auto', marginRight: 8 },
   notFoundText: {
-    color: "white",
+    color: 'white',
     fontSize: 16,
-    marginLeft: "auto",
-    marginRight: 4,
-  },
+    marginLeft: 'auto',
+    marginRight: 4
+  }
 });

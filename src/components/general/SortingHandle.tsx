@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet } from "react-native";
-import Feather from "react-native-vector-icons/Feather";
+import { Pressable, StyleSheet } from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 
 type Props = {
   dragFunc: () => void;
@@ -12,12 +12,12 @@ export const SortingHandle = ({
   dragFunc,
   disabled,
   backgroundColor,
-  iconColor,
+  iconColor
 }: Props) => {
   const conditionalStyles = {
     sortableIndicator: {
-      backgroundColor,
-    },
+      backgroundColor
+    }
   };
 
   return (
@@ -36,9 +36,9 @@ const styles = StyleSheet.create({
   sortableIndicator: {
     borderRadius: 30,
     aspectRatio: 1,
-    width: "10%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+    width: '10%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });
