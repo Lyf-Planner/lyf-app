@@ -17,30 +17,44 @@ import { getCalendars } from 'expo-localization';
 import {
   deleteMe,
   saveUser,
-  updateFriendship as updateRemoteFriendship
 } from '../rest/user';
 import { AppState } from 'react-native';
+import { UserDbObject } from 'schema/database/user';
+import { Background } from 'components/general/Background';
 
-export const AuthGateway = ({ children }) => {
+type Props = {
+  children: JSX.Element;
+}
+
+export const AuthGateway = ({ children }: Props) => {
   const [loggingIn, updateLoggingIn] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<UserDbObject | null>(null);
   const [initiated, setInitiated] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(new Date());
 
   const updateUser = useCallback(
-    (user) => {
+    (changes: Partial<UserDbObject>) => {
       // If user is 30 days out of date, run tutorial
       user && checkNeedsTutorial(user);
 
       // Then update
-      setUser({ ...user });
+      let newUser;
+      if (user) {
+        newUser = { ...user, ...changes};
+      } else {
+        newUser = changes as UserDbObject;
+      }
+
+      setUser({ ...newUser });
       setLastUpdated(new Date());
       user && updateLoggingIn(false);
     },
-    [setUser]
+    [user, setUser]
   );
 
-  const checkNeedsTutorial = (user) => {
+  const clearUser = () => setUser(null);
+
+  const checkNeedsTutorial = (user: UserDbObject) => {
     console.log(
       'Last updated was',
       (new Date().getTime() - new Date(user.last_updated).getTime()) /
@@ -63,7 +77,7 @@ export const AuthGateway = ({ children }) => {
   const logout = () => {
     deleteAsyncData('token');
     setInitiated(true);
-    updateUser(null);
+    clearUser();
   };
 
   const refreshUser = () =>
@@ -111,22 +125,14 @@ export const AuthGateway = ({ children }) => {
   }, [user]);
 
   const updateRemoteAndLocal = useCallback(
-    async (newUser) => {
+    async (newUser: Partial<UserDbObject>) => {
       updateUser(newUser);
       if (newUser) {
         const saved = await saveUser(newUser);
         if (!saved) {
-          updateUser(user);
+          updateUser(user!);
         }
       }
-    },
-    [user]
-  );
-
-  const updateFriendship = useCallback(
-    async (user_id, action) => {
-      const social = await updateRemoteFriendship(user_id, action);
-      social && updateUser({ ...user, social });
     },
     [user]
   );
@@ -141,7 +147,6 @@ export const AuthGateway = ({ children }) => {
     loggingIn,
     user,
     updateUser: updateRemoteAndLocal,
-    updateFriendship,
     deleteMe,
     initiated,
     setInitiated,
@@ -150,9 +155,17 @@ export const AuthGateway = ({ children }) => {
   };
 
   if (loggingIn) {
-    return <LoadingScreen text={'Remembering your schedule...'} />;
+    return (
+      <Background>
+        <LoadingScreen text={'Signing In Securely...'} />
+      </Background>
+    );
   } else if (!user?.id) {
-    return <Login updateUser={updateUser} setInitiated={setInitiated} />;
+    return (
+      <Background>
+        <Login updateUser={updateUser} />
+      </Background>
+    );
   }
 
   return (
@@ -160,7 +173,7 @@ export const AuthGateway = ({ children }) => {
   );
 };
 
-const AuthContext = createContext(null);
+const AuthContext = createContext<any>(null);
 
 export const useAuth = () => {
   return useContext(AuthContext);

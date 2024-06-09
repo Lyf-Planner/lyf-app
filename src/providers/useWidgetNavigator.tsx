@@ -12,8 +12,12 @@ export enum AllWidgets {
   Tutorial = 'Tutorial',
 }
 
+type Props = {
+  children: JSX.Element;
+}
+
 // Component provider
-export const WidgetProvider = ({ children }) => {
+export const WidgetProvider = ({ children }: Props) => {
   const [activeWidget, setWidget] = useState<any>(AllWidgets.Schedule);
 
   const EXPOSED = {

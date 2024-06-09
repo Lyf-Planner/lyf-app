@@ -10,8 +10,12 @@ import {
 } from '../rest/notes';
 import 'react-native-get-random-values';
 
+type Props = {
+  children: JSX.Element;
+}
+
 // Assisted state management via provider
-export const NotesProvider = ({ children }) => {
+export const NotesProvider = ({ children }: Props) => {
   const [initialised, setInitialised] = useState(false);
   const [notes, setNotes] = useState([]);
   const { user, updateUser } = useAuth();

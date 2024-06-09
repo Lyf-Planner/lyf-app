@@ -32,8 +32,12 @@ export type UpdateItemSocial = (
 export type RemoveItem = (item: ListItem, deleteRemote?: boolean) => void;
 export type ResortItems = (priorities: string[]) => void;
 
+type Props = {
+  children: JSX.Element;
+}
+
 // Assisted state management via provider
-export const ItemsProvider = ({ children }) => {
+export const ItemsProvider = ({ children }: Props) => {
   const [items, setItems] = useState([]);
   const [syncing, setSyncing] = useState(true);
   const { user, updateUser } = useAuth();

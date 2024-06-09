@@ -10,9 +10,12 @@ import { TutorialProvider } from './useTutorial';
 import { NotificationsLayer } from './useNotifications';
 import { WidgetProvider } from './useWidgetNavigator';
 
-export const AppProviders = ({ children }) => {
+type Props = {
+  children: JSX.Element;
+}
+
+export const AppProviders = ({ children }: Props) => {
   return (
-    <AuthGateway>
       <NotificationsLayer>
         <WidgetProvider>
           <ItemsProvider>
@@ -32,6 +35,5 @@ export const AppProviders = ({ children }) => {
           </ItemsProvider>
         </WidgetProvider>
       </NotificationsLayer>
-    </AuthGateway>
   );
 };

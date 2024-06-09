@@ -8,6 +8,7 @@ import { AppProviders } from './providers/hookProviders';
 import env from './envManager';
 import 'expo-dev-client';
 import Routes from 'Routes';
+import { AuthGateway } from 'authorisation/AuthProvider';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -28,7 +29,9 @@ export default function App() {
   return (
     <GestureHandlerRootView>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <AuthGateway>
           <Routes />
+        </AuthGateway>
       </TouchableWithoutFeedback>
     </GestureHandlerRootView>
   );

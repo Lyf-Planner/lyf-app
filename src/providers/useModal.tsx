@@ -1,8 +1,12 @@
 import { createContext, useContext, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+type Props = {
+  children: JSX.Element;
+}
+
 // Component provider
-export const ModalProvider = ({ children }) => {
+export const ModalProvider = ({ children }: Props) => {
   const [modal, updateModal] = useState<any>(null);
 
   const EXPOSED = {

@@ -10,8 +10,12 @@ import {
 import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { Keyboard, StyleSheet } from 'react-native';
 
+type Props = {
+  children: JSX.Element;
+}
+
 // Component provider
-export const DrawerProvider = ({ children }) => {
+export const DrawerProvider = ({ children }: Props) => {
   const [drawer, updateDrawer] = useState<any>(null);
   const [height, updateHeight] = useState<any>(100);
 

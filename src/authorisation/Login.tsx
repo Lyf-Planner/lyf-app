@@ -11,8 +11,13 @@ import { useRef, useState } from 'react';
 import { USER_NOT_FOUND, login } from '../rest/auth';
 import { createUser } from '../rest/user';
 import { validatePassword, validateUsername } from '../utils/validators';
+import { UserDbObject } from 'schema/database/user';
 
-export const Login = ({ updateUser, setInitiated }) => {
+type Props = {
+  updateUser: (changes: Partial<UserDbObject>) => void;
+}
+
+export const Login = ({ updateUser }: Props) => {
   const [uid, updateUid] = useState('');
   const [pass, updatePass] = useState('');
   const [loggingIn, updateLoggingIn] = useState(false);
@@ -39,7 +44,7 @@ export const Login = ({ updateUser, setInitiated }) => {
               <View style={styles.headerTextContainer}>
                 <Text style={styles.loginText}>Login</Text>
                 <Text style={styles.registerDisclaimer}>
-                  Entering new details will create a new account!
+                  New details will create a new account!
                 </Text>
               </View>
             )}
@@ -86,7 +91,6 @@ export const Login = ({ updateUser, setInitiated }) => {
                   updateCreating(true);
                   updateLoggingIn(false);
                   user = await createUser(uid, pass);
-                  setInitiated(false);
                   updateCreating(false);
                 }
                 updateLoggingIn(false);
@@ -137,7 +141,8 @@ const styles = StyleSheet.create({
   },
   loaderText: { fontSize: 14, color: 'rgba(0,0,0,0.5)', fontWeight: '500' },
   loginText: {
-    fontSize: 25
+    fontSize: 25,
+    fontFamily: "Lexend"
   },
   headerTextContainer: {
     flexDirection: 'column',
@@ -145,7 +150,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 3
   },
-  registerDisclaimer: { fontSize: 12, color: 'rgba(0,0,0,0.3)' },
+  registerDisclaimer: { fontSize: 12, color: 'rgba(0,0,0,0.3)', fontFamily: "Lexend" },
 
   fieldContainer: {
     flexDirection: 'column',
@@ -162,6 +167,8 @@ const styles = StyleSheet.create({
   },
   fields: {
     marginVertical: 8,
-    fontSize: 18
+    fontSize: 18,
+    fontWeight: "300",
+    fontFamily: "Lexend"
   }
 });

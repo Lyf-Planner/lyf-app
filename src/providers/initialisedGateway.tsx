@@ -3,8 +3,13 @@ import { useAuth } from '../authorisation/AuthProvider';
 import { LoadingScreen } from '../components/general/MiscComponents';
 import { useItems } from './useItems';
 
+type Props = {
+  children: JSX.Element;
+}
+
+
 // Wraps the app in a loading screen until all data providers are ready
-export const InitialisedProvider = ({ children }) => {
+export const InitialisedProvider = ({ children }: Props) => {
   const { loggingIn } = useAuth();
   const { syncing } = useItems();
 

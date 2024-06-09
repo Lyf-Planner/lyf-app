@@ -9,7 +9,11 @@ import { useAuth } from '../authorisation/AuthProvider';
 import { getAsyncData, storeAsyncData } from '../utils/asyncStorage';
 import env from '../envManager';
 
-export const NotificationsLayer = ({ children }) => {
+type Props = {
+  children: JSX.Element;
+}
+
+export const NotificationsLayer = ({ children }: Props) => {
   const [enabled, setEnabled] = useState(false);
   const { user, updateUser } = useAuth();
   useEffect(() => {
