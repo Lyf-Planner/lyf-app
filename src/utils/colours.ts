@@ -1,5 +1,6 @@
 
 export const primaryGreen = 'rgb(21, 128, 61)';
+export const primaryGreenWithOpacity = (a: number) => `rgba(21, 128, 61, ${a})`
 export const secondaryGreen = 'rgb(34 197 94)'; // brighter one
 
 export const eventsBadgeColor = 'rgb(191 219 254)';

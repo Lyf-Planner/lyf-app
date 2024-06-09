@@ -1,9 +1,10 @@
 import { routes } from 'Routes';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useMemo } from 'react';
 import * as Native from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 
-import { black, gentleBlack, offWhite, primaryGreen, transparent, white } from 'utils/colours';
+import { black, gentleBlack, primaryGreen, secondaryGreen, white } from 'utils/colours';
 
 const ENLARGED_TAB_INDEX = 2
 
@@ -25,9 +26,17 @@ export const Tab = ({ isFocused, index, onPress, route }: Props) => {
     return 85;
   }
 
+    const gradientStart = { x: 0, y: 1 };
+  const gradientEnd = { x: 0, y: 0 };
+  const gradientColors = isFocused ? [secondaryGreen, primaryGreen] : [white, white]
+
   const conditionalStyles = Native.StyleSheet.create({
+    linearGradient: {
+      borderTopLeftRadius: isCentral ? 15 : 0,
+      borderTopRightRadius: isCentral ? 15 : 0,
+      height: tabHeight(),
+    },
     pressable: {
-      backgroundColor: isFocused ? primaryGreen : white,
       borderTopLeftRadius: isCentral ? 15 : 0,
       borderTopRightRadius: isCentral ? 15 : 0,
       height: tabHeight(),
@@ -48,23 +57,31 @@ export const Tab = ({ isFocused, index, onPress, route }: Props) => {
       key={index}
       style={styles.main}
     >
-      <Native.Pressable
-        onPress={onPress}
-        style={[styles.pressable, conditionalStyles.pressable]}
+      <LinearGradient
+        colors={gradientColors}
+        start={gradientStart}
+        end={gradientEnd}
+        style={conditionalStyles.linearGradient}
       >
-        <Native.View
-          style={[styles.iconWrapper, conditionalStyles.iconWrapper]}
+        <Native.Pressable
+          onPress={onPress}
+          style={[styles.pressable, conditionalStyles.pressable]}
         >
-          {route.icon(isFocused ? white : black)}
-        </Native.View>
-        {isFocused && 
-          <Octicons
-            name="dot-fill"
-            color="white"
-            style={styles.whiteDot}
-          />
-        }
-      </Native.Pressable>
+          
+            <Native.View
+              style={[styles.iconWrapper, conditionalStyles.iconWrapper]}
+            >
+              {route.icon(isFocused ? white : black)}
+            </Native.View>
+            {isFocused && 
+              <Octicons
+                name="dot-fill"
+                color="white"
+                style={styles.whiteDot}
+              />
+            }
+        </Native.Pressable>
+      </LinearGradient>
     </Native.View>
   );
 };
@@ -72,7 +89,8 @@ export const Tab = ({ isFocused, index, onPress, route }: Props) => {
 const styles = Native.StyleSheet.create({
   main: {
     flex: 1,
-    justifyContent: 'center',
+    flexDirection: "column",
+    justifyContent: "flex-end",
     borderRadius: 1
   },
   pressable: {

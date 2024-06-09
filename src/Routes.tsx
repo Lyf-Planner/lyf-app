@@ -34,7 +34,7 @@ export const routes = Object.freeze({
     root: <Native.View></Native.View> // <Notes />
   },
   create: {
-    label: "Plan",
+    label: "New Plan",
     icon: (color: string) => <AntDesign name='pluscircleo' size={40} color={color}/>,
     root: <Native.View></Native.View> // TODO: Add Planning page
   },
