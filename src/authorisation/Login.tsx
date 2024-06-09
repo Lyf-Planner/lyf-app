@@ -11,10 +11,10 @@ import { useRef, useState } from 'react';
 import { USER_NOT_FOUND, login } from '../rest/auth';
 import { createUser } from '../rest/user';
 import { validatePassword, validateUsername } from '../utils/validators';
-import { UserDbObject } from 'schema/database/user';
+import { ExposedUser } from 'schema/user';
 
 type Props = {
-  updateUser: (changes: Partial<UserDbObject>) => void;
+  updateUser: (changes: Partial<ExposedUser>) => void;
 }
 
 export const Login = ({ updateUser }: Props) => {
@@ -25,79 +25,101 @@ export const Login = ({ updateUser }: Props) => {
 
   const passRef = useRef<any>();
 
+  const onSubmit = async () => {
+    updateLoggingIn(true);
+    let user = await login(uid, pass);
+
+    if (user === USER_NOT_FOUND) {
+      if (!validateUsername(uid) || !validatePassword(pass)) {
+        updateLoggingIn(false);
+        return;
+      }
+
+      // Create new user when valid and not found
+      updateCreating(true);
+      updateLoggingIn(false);
+      user = await createUser(uid, pass);
+      updateCreating(false);
+    }
+
+    updateLoggingIn(false);
+    updateUser(user);
+  }
+
+  const conditionalStyles = {
+    fieldContainer: { opacity: loggingIn || creating ? 0.5 : 1 }
+  }
+
+  const _renderHeader = () => {
+    const showAuthStatus = loggingIn || creating;
+    const authStatus = loggingIn ? 'Fetching your Lyf...' : 'Creating your Lyf...'
+
+    return (
+      <View style={styles.headerContainer}>
+        {showAuthStatus ? (
+          <View style={styles.loader}>
+            <Loader size={30} />
+            <Text style={styles.loaderText}>
+              {authStatus}
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.headerTextContainer}>
+            <Text style={styles.loginText}>Login</Text>
+            <Text style={styles.registerDisclaimer}>
+              New details will create a new account!
+            </Text>
+          </View>
+        )}
+      </View>
+    );
+  }
+
+  const _renderFields = () => {
+    return (
+      <View
+        style={[
+          styles.fieldContainer,
+          conditionalStyles.fieldContainer
+        ]}
+      >
+        <TextInput
+          style={styles.fields}
+          autoCapitalize="none"
+          autoCorrect={false}
+          returnKeyType="next"
+          inputMode="text"
+          placeholder="Username"
+          value={uid}
+          onChangeText={updateUid}
+          onSubmitEditing={() => passRef.current.focus()}
+          blurOnSubmit={false}
+        />
+        <Horizontal style={styles.fieldSeperator} />
+        <TextInput
+          style={styles.fields}
+          returnKeyType="done"
+          ref={passRef}
+          placeholder="Password"
+          autoCorrect={false}
+          value={pass}
+          secureTextEntry
+          onChangeText={updatePass}
+          onSubmitEditing={onSubmit}
+        />
+      </View>
+    )
+  }
+
   return (
     <TouchableWithoutFeedback
       style={styles.touchableWithoutFeedback}
-      onPress={() => Keyboard.dismiss()}
+      onPress={Keyboard.dismiss}
     >
       <View style={styles.page}>
         <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            {loggingIn || creating ? (
-              <View style={styles.loader}>
-                <Loader size={30} />
-                <Text style={styles.loaderText}>
-                  {loggingIn ? 'Fetching your Lyf...' : 'Creating your Lyf...'}
-                </Text>
-              </View>
-            ) : (
-              <View style={styles.headerTextContainer}>
-                <Text style={styles.loginText}>Login</Text>
-                <Text style={styles.registerDisclaimer}>
-                  New details will create a new account!
-                </Text>
-              </View>
-            )}
-          </View>
-
-          <View
-            style={[
-              styles.fieldContainer,
-              { opacity: loggingIn || creating ? 0.5 : 1 }
-            ]}
-          >
-            <TextInput
-              style={styles.fields}
-              autoCapitalize="none"
-              autoCorrect={false}
-              returnKeyType="next"
-              inputMode="text"
-              placeholder="Username"
-              value={uid}
-              onChangeText={(text) => updateUid(text)}
-              onSubmitEditing={() => passRef.current.focus()}
-              blurOnSubmit={false}
-            />
-            <Horizontal style={styles.fieldSeperator} />
-            <TextInput
-              style={styles.fields}
-              returnKeyType="done"
-              ref={passRef}
-              placeholder="Password"
-              autoCorrect={false}
-              value={pass}
-              secureTextEntry
-              onChangeText={(text) => updatePass(text)}
-              onSubmitEditing={async () => {
-                updateLoggingIn(true);
-                let user = await login(uid, pass);
-                if (user === USER_NOT_FOUND) {
-                  console.log('Creating new account!');
-                  if (!validateUsername(uid) || !validatePassword(pass)) {
-                    updateLoggingIn(false);
-                    return;
-                  }
-
-                  updateCreating(true);
-                  updateLoggingIn(false);
-                  user = await createUser(uid, pass);
-                  updateCreating(false);
-                }
-                updateLoggingIn(false);
-                updateUser(user);
-              }}
-            />
-          </View>
+          {_renderHeader()}
+          {_renderFields()}
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -139,7 +161,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6
   },
-  loaderText: { fontSize: 14, color: 'rgba(0,0,0,0.5)', fontWeight: '500' },
+  loaderText: { 
+    fontSize: 14, 
+    color: 'rgba(0,0,0,0.5)', 
+    fontFamily: "Lexend" 
+  },
   loginText: {
     fontSize: 25,
     fontFamily: "Lexend"
@@ -150,8 +176,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 3
   },
-  registerDisclaimer: { fontSize: 12, color: 'rgba(0,0,0,0.3)', fontFamily: "Lexend" },
-
+  registerDisclaimer: { 
+    fontSize: 12, 
+    color: 'rgba(0,0,0,0.3)', 
+    fontFamily: "Lexend" 
+  },
   fieldContainer: {
     flexDirection: 'column',
     backgroundColor: 'rgb(203 213 225)',

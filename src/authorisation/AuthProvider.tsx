@@ -19,8 +19,8 @@ import {
   saveUser,
 } from '../rest/user';
 import { AppState } from 'react-native';
-import { UserDbObject } from 'schema/database/user';
 import { Background } from 'components/general/Background';
+import { ExposedUser } from 'schema/user';
 
 type Props = {
   children: JSX.Element;
@@ -28,55 +28,41 @@ type Props = {
 
 export const AuthGateway = ({ children }: Props) => {
   const [loggingIn, updateLoggingIn] = useState(false);
-  const [user, setUser] = useState<UserDbObject | null>(null);
-  const [initiated, setInitiated] = useState(true);
+  const [user, setUser] = useState<ExposedUser | null>(null);
   const [lastUpdated, setLastUpdated] = useState(new Date());
 
-  const updateUser = useCallback(
-    (changes: Partial<UserDbObject>) => {
-      // If user is 30 days out of date, run tutorial
-      user && checkNeedsTutorial(user);
-
-      // Then update
+  const updateUserInternal = useCallback(
+    (changes: Partial<ExposedUser>) => {
       let newUser;
       if (user) {
         newUser = { ...user, ...changes};
       } else {
-        newUser = changes as UserDbObject;
+        // If there is no user this should be initialised with a full user
+        newUser = changes as ExposedUser;
       }
 
       setUser({ ...newUser });
       setLastUpdated(new Date());
-      user && updateLoggingIn(false);
+      updateLoggingIn(false);
     },
     [user, setUser]
   );
 
+  const updateUser = useCallback(
+    async (newUser: Partial<ExposedUser>) => {
+      updateUserInternal(newUser);
+
+      if (newUser) {
+        await saveUser(newUser);
+      }
+    },
+    [user]
+  );
+
   const clearUser = () => setUser(null);
-
-  const checkNeedsTutorial = (user: UserDbObject) => {
-    console.log(
-      'Last updated was',
-      (new Date().getTime() - new Date(user.last_updated).getTime()) /
-        (1000 * 60 * 60 * 24),
-      'days ago'
-    );
-
-    if (
-      new Date().getTime() - new Date(user.last_updated).getTime() >
-      1000 * 60 * 60 * 24 * 30
-    ) {
-      console.log(
-        'Running tutorial as last_updated was over 30d ago:',
-        user.last_updated
-      );
-      setInitiated(false);
-    }
-  };
 
   const logout = () => {
     deleteAsyncData('token');
-    setInitiated(true);
     clearUser();
   };
 
@@ -98,25 +84,28 @@ export const AuthGateway = ({ children }: Props) => {
       }
     });
 
-  // Sync!
+  // --- Sync --- //
   const appState = useRef(AppState.currentState);
+
   useEffect(() => {
     const refreshOnOpen = AppState.addEventListener(
       'change',
       (nextAppState) => {
-        if (
-          appState.current.match(/background|inactive/) &&
-          nextAppState === 'active'
-        ) {
-          getAsyncData('token').then((token) =>
-            token
-              ? autologin().then((cloudUser) => {
+        const isOpeningApp = appState.current.match(/background|inactive/) && nextAppState === 'active'
+
+        if (isOpeningApp) {
+          getAsyncData('token').then((token) => {
+            if (token) {
+              autologin().then((cloudUser) => {
                 console.log('Syncing User');
                 updateUser(cloudUser);
-              })
-              : updateLoggingIn(false)
-          );
+              });
+            } else {
+              updateLoggingIn(false)
+            }
+          });
         }
+
         appState.current = nextAppState;
       }
     );
@@ -124,32 +113,18 @@ export const AuthGateway = ({ children }: Props) => {
     return () => refreshOnOpen.remove();
   }, [user]);
 
-  const updateRemoteAndLocal = useCallback(
-    async (newUser: Partial<UserDbObject>) => {
-      updateUser(newUser);
-      if (newUser) {
-        const saved = await saveUser(newUser);
-        if (!saved) {
-          updateUser(user!);
-        }
-      }
-    },
-    [user]
-  );
-
   useEffect(() => {
     // Attempt autologin when first entering
     updateLoggingIn(true);
     refreshUser();
   }, []);
 
+  // --- Provider --- //
+
   const EXPOSED = {
-    loggingIn,
     user,
-    updateUser: updateRemoteAndLocal,
+    updateUser,
     deleteMe,
-    initiated,
-    setInitiated,
     logout,
     lastUpdated
   };
@@ -160,10 +135,10 @@ export const AuthGateway = ({ children }: Props) => {
         <LoadingScreen text={'Signing In Securely...'} />
       </Background>
     );
-  } else if (!user?.id) {
+  } else if (!user) {
     return (
       <Background>
-        <Login updateUser={updateUser} />
+        <Login updateUser={updateUserInternal} />
       </Background>
     );
   }

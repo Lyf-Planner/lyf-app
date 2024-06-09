@@ -27,10 +27,10 @@ export const Vertical = ({ style = {} }) => {
   );
 };
 
-export const LoadingScreen = ({ text }) => {
+export const LoadingScreen = ({ text }: { text: string}) => {
   return (
     <View style={styles.loadingContainer}>
-      <Text style={{ color: 'white', fontSize: 16 }}>{text}</Text>
+      <Text style={{ color: 'white', fontSize: 16, fontFamily: "Lexend" }}>{text}</Text>
       <Loader color="white" size={60} />
     </View>
   );
