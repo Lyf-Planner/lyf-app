@@ -1,52 +1,59 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Planner } from './Planner';
+import { Planner } from './containers/Planner';
 import { ListDropdown } from '../../components/dropdowns/ListDropdown';
 import { ListType } from '../../components/list/List';
 import { ListItemType } from '../../components/list/constants';
-import { useItems } from '../../providers/useItems';
+import { useTimetable } from '../../providers/useTimetable';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { ItemType } from 'schema/database/items';
 
 export const Timetable = () => {
-  const { items } = useItems();
+  const { items, loading, reload } = useTimetable();
 
-  const filterUpcomingEvents = useCallback(() => {
-    return items.filter(
+  useEffect(() => {
+    if (loading) {
+      reload();
+    }
+  }, [])
+
+  const upcomingEvents = useMemo(() => (
+    items.filter(
       (x) =>
-        x.type === ListItemType.Event &&
+        x.type === ItemType.Event &&
         ((!x.date && !x.day) || x.show_in_upcoming)
-    );
-  }, [items]);
+    )
+  ), [items]);
 
-  const filterToDoList = useCallback(() => {
-    return items.filter(
+  const toDoList = useMemo(() => (
+    items.filter(
       (x) =>
-        x.type === ListItemType.Task &&
+        x.type === ItemType.Task &&
         ((!x.date && !x.day) || x.show_in_upcoming)
-    );
-  }, [items]);
+    )
+  ), [items]);
 
-  const filterScheduledItems = useCallback(() => {
-    return items.filter((x) => x.date || x.day);
-  }, [items]);
+  const scheduledItems = useMemo(() => (
+    items.filter((x) => x.date || x.day)
+  ), [items]);
 
   return (
     <View style={styles.widgetContainer}>
       <View style={styles.miscListContainer}>
         <ListDropdown
-          items={filterUpcomingEvents()}
+          items={upcomingEvents}
           name="Upcoming Events"
           icon={<Entypo name="calendar" size={22} />}
           listType={ListType.Event}
         />
         <ListDropdown
-          items={filterToDoList()}
+          items={toDoList}
           name="To Do List"
           icon={<Entypo name="list" size={22} />}
           listType={ListType.Task}
         />
       </View>
-      <Planner items={filterScheduledItems()} />
+      <Planner items={scheduledItems} />
     </View>
   );
 };

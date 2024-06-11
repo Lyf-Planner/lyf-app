@@ -15,22 +15,6 @@ export enum UserListContext {
   Item = 'Item',
 }
 
-export enum FriendshipAction {
-  Remove = 'Remove',
-  Accept = 'Accept',
-  Decline = 'Decline',
-  Request = 'Request',
-  Cancel = 'Cancel',
-}
-
-export enum SocialAction {
-  Invite = 'Invite',
-  Cancel = 'Cancel',
-  Accept = 'Accept',
-  Decline = 'Decline',
-  Remove = 'Remove',
-}
-
 export enum Permission {
   Owner = 'Owner',
   Editor = 'Editor',

@@ -7,13 +7,13 @@ import Animated, {
   withTiming,
   FadeIn
 } from 'react-native-reanimated';
-import { deepBlue, eventsBadgeColor } from '../../utils/constants';
-import { useItems } from '../../providers/useItems';
+import { deepBlue, eventsBadgeColor } from '../../utils/colours';
+import { useTimetable } from '../../providers/useTimetable';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 export const ListDropdown = ({ items, listType, icon, name }) => {
   const [hide, updateHide] = useState(true);
-  const { addItem, updateItem, removeItem } = useItems();
+  const { addItem, updateItem, removeItem } = useTimetable();
 
   const chevronAngle = useSharedValue(0);
   const scale = useSharedValue(1);

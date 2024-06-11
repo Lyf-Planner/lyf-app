@@ -31,6 +31,10 @@ export function getEndOfCurrentWeek(date?: Date) {
   return new Date(end);
 }
 
+export function addWeekToStringDate(date: string) {
+  return formatDateData(moment(date).add(1, 'week').toDate());
+}
+
 export const initialiseDays = (user) => {
   const endOfCurrentWeek = getEndOfCurrentWeek();
   const start = establishFirstDay(user.timetable.first_day);

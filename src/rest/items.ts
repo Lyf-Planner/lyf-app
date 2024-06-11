@@ -1,9 +1,13 @@
 import { get, post } from './axios';
 import env from '../envManager';
+import { SocialAction } from 'schema/social';
+import { Permission } from 'schema/database/items_on_users';
+import { ID } from 'schema/database/abstract';
+import { UserRelatedItem } from 'schema/user';
 
-export async function getItems(item_ids: string[]) {
-  const url = `${env.BACKEND_URL}/getItems`;
-  const body = { item_ids };
+export async function getTimetable(user_id: string, start_date: string) {
+  const url = `${env.BACKEND_URL}/item/timetable`;
+  const body = { user_id, start_date };
 
   const result = await post(url, body);
   const items = result.data;
@@ -26,38 +30,22 @@ export async function getItem(id: string) {
   }
 }
 
-export async function updateItem(item) {
-  const url = `${env.BACKEND_URL}/updateItem`;
+export async function updateItem(changes: Partial<UserRelatedItem>) {
+  const url = `${env.BACKEND_URL}/item/update`;
 
-  const body = {
-    id: item.id,
-    title: item.title,
-    type: item.type,
-    status: item.status,
-    date: item.date,
-    day: item.day,
-    time: item.time,
-    tz: item.tz,
-    end_time: item.end_time,
-    url: item.url,
-    location: item.location,
-    show_in_upcoming: item.show_in_upcoming,
-    desc: item.desc,
-    notifications: item.notifications
-  };
-  const result = await post(url, body);
+  const result = await post(url, changes);
   if (result?.status === 200) {
-    return item;
+    return result;
   } else {
     alert(result.data);
     return false;
   }
 }
 
-export async function createItem(item) {
+export async function createItem(item: UserRelatedItem) {
   const url = `${env.BACKEND_URL}/createItem`;
 
-  const body = {
+  const body: UserRelatedItem = {
     id: item.id,
     template_id: item.template_id,
     title: item.title,
@@ -72,8 +60,6 @@ export async function createItem(item) {
     location: item.location,
     show_in_upcoming: item.show_in_upcoming,
     desc: item.desc,
-    notifications: item.notifications,
-    permitted_users: item.permitted_users
   };
   const result = await post(url, body);
   if (result?.status === 200) {
@@ -84,7 +70,7 @@ export async function createItem(item) {
   }
 }
 
-export async function deleteItem(id) {
+export async function deleteItem(id: ID) {
   const url = `${env.BACKEND_URL}/deleteItem?item_id=${id}`;
 
   const result = await get(url);
@@ -95,10 +81,15 @@ export async function deleteItem(id) {
   }
 }
 
-export async function updateItemSocial(item_id, user_id, action) {
-  const url = `${env.BACKEND_URL}/updateItemSocial`;
+export async function updateItemSocial(item_id: ID, user_id: ID, action: SocialAction, permission?: Permission) {
+  const url = `${env.BACKEND_URL}/item/updateSocial`;
 
-  const result = await post(url, { item_id, user_id, action });
+  const result = await post(url, { 
+    item_id, 
+    user_id, 
+    action, 
+    permission
+  });
   if (result?.status === 200) {
     return result.data;
   } else {

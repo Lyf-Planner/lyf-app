@@ -20,10 +20,18 @@ import {
 } from '../rest/user';
 import { AppState } from 'react-native';
 import { Background } from 'components/general/Background';
-import { ExposedUser } from 'schema/user';
+import { ExposedUser, User } from 'schema/user';
 
 type Props = {
   children: JSX.Element;
+}
+
+type AuthExposed = {
+  user: ExposedUser | null,
+  updateUser: (changes: Partial<User>) => Promise<void>;
+  deleteMe: (password: string) => Promise<true | undefined>,
+  logout: () => void,
+  lastUpdated: Date
 }
 
 export const AuthGateway = ({ children }: Props) => {
@@ -144,11 +152,13 @@ export const AuthGateway = ({ children }: Props) => {
   }
 
   return (
-    <AuthContext.Provider value={EXPOSED}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={EXPOSED}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 
-const AuthContext = createContext<any>(null);
+const AuthContext = createContext<AuthExposed>(undefined as any); // TODO: Do this better
 
 export const useAuth = () => {
   return useContext(AuthContext);

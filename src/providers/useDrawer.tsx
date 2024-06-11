@@ -14,10 +14,17 @@ type Props = {
   children: JSX.Element;
 }
 
+type DrawerBody = JSX.Element | undefined
+type DrawerHooks = {
+  drawer: DrawerBody,
+  updateDrawer: (drawer: DrawerBody) => void
+  updateSheetMinHeight: (height: number) => void
+}
+
 // Component provider
 export const DrawerProvider = ({ children }: Props) => {
-  const [drawer, updateDrawer] = useState<any>(null);
-  const [height, updateHeight] = useState<any>(100);
+  const [drawer, updateDrawer] = useState<JSX.Element | undefined>(undefined);
+  const [minHeight, updateMinHeight] = useState<number>(100);
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -27,12 +34,6 @@ export const DrawerProvider = ({ children }: Props) => {
   }, [bottomSheetRef]);
   const handleSheetChanges = useCallback((index: number) => {}, []);
 
-  const EXPOSED = {
-    drawer,
-    updateDrawer,
-    updateSheetMinHeight: updateHeight
-  };
-
   useEffect(() => {
     if (drawer) {
       handlePresentModalPress();
@@ -40,10 +41,17 @@ export const DrawerProvider = ({ children }: Props) => {
     Keyboard.dismiss();
   }, [drawer]);
 
+  const exposed = {
+    drawer,
+    updateDrawer,
+    updateSheetMinHeight: updateMinHeight
+  };
+
   return (
-    <DrawerContext.Provider value={EXPOSED}>
+    <DrawerContext.Provider value={exposed}>
       {children}
-      {!!drawer && (
+
+      {drawer && (
         <BottomSheetModal
           ref={bottomSheetRef}
           enableDynamicSizing
@@ -51,7 +59,7 @@ export const DrawerProvider = ({ children }: Props) => {
           enablePanDownToClose
           style={styles.bottomSheetWrapper}
         >
-          <BottomSheetView style={{ minHeight: height }}>
+          <BottomSheetView style={{ minHeight }}>
             {drawer}
           </BottomSheetView>
         </BottomSheetModal>
@@ -60,7 +68,7 @@ export const DrawerProvider = ({ children }: Props) => {
   );
 };
 
-const DrawerContext = createContext(null);
+const DrawerContext = createContext<DrawerHooks | undefined>(undefined);
 
 export const useDrawer = () => {
   return useContext(DrawerContext);
