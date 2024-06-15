@@ -1,33 +1,36 @@
-import { createContext, useContext, useState } from 'react';
+import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 type Props = {
   children: JSX.Element;
 }
 
+type ModalHooks = {
+  modal: JSX.Element | undefined;
+  updateModal: (modal: JSX.Element|undefined) => void;
+}
+
 // Component provider
 export const ModalProvider = ({ children }: Props) => {
-  const [modal, updateModal] = useState<any>(null);
+  const [modal, updateModal] = useState<JSX.Element|undefined>(undefined);
 
-  const EXPOSED = {
+  const exposed = {
     modal,
     updateModal
   };
 
-  const modalExists = !!modal;
-
   return (
-    <ModalContext.Provider value={EXPOSED}>
+    <ModalContext.Provider value={exposed}>
       {children}
-      {modalExists && <View style={styles.modalPositioning}>{modal}</View>}
+      {!!modal && <View style={styles.modalPositioning}>{modal}</View>}
     </ModalContext.Provider>
   );
 };
 
-const ModalContext = createContext(null);
+const ModalContext = createContext<ModalHooks | undefined>(undefined);
 
 export const useModal = () => {
-  return useContext(ModalContext);
+  return useContext(ModalContext) as ModalHooks;
 };
 
 const styles = StyleSheet.create({

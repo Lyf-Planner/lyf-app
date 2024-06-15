@@ -8,21 +8,27 @@ import {
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { ItemDrawerProps } from '../ItemDrawer';
+
+type Props = ItemDrawerProps & {
+  setLocationOpen: (open: boolean) => void;
+  updateSheetMinHeight: (height: number) => void;
+}
 
 export const ItemLocation = ({
   item,
   updateItem,
   setLocationOpen,
-  invited,
   updateSheetMinHeight
-}) => {
-  const [localText, setText] = useState(item.location);
+}: Props) => {
+  const [location, setLocation] = useState(item.location);
 
-  const updateLocation = (location) => {
-    if (invited) {
+  const uploadLocation = () => {
+    if (item.invite_pending) {
       return;
     }
-    updateItem({ ...item, location });
+
+    updateItem(item.id, { location });
   };
 
   return (
@@ -32,7 +38,7 @@ export const ItemLocation = ({
       <View style={styles.inputWrapper}>
         <TouchableHighlight
           onPress={() => {
-            updateLocation(null);
+            setLocation(undefined);
             setLocationOpen(false);
           }}
           underlayColor={'rgba(0,0,0,0.5)'}
@@ -40,17 +46,24 @@ export const ItemLocation = ({
         >
           <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
         </TouchableHighlight>
+
         <TextInput
-          value={localText}
+          value={location}
           onEndEditing={() => {
             updateSheetMinHeight(100);
-            updateLocation(localText);
+            uploadLocation();
           }}
-          placeholder="Type Location"
+          placeholder="Enter Location"
           onFocus={() => updateSheetMinHeight(700)}
           onBlur={() => updateSheetMinHeight(100)}
           returnKeyType="done"
-          onChangeText={!invited && setText}
+          onChangeText={(text: string) => {
+            if (item.invite_pending) {
+              return;
+            }
+
+            setLocation(text);
+          }}
           style={styles.input}
         />
       </View>

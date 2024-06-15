@@ -37,15 +37,15 @@ export type AddItem = (
   type: ItemType,
   rank: number,
   initial: Partial<LocalItem>,
-) => void;
-export type UpdateItem = (id: ID, changes: Partial<UserRelatedItem>, updateRemote?: boolean) => void;
+) => Promise<void>;
+export type UpdateItem = (id: ID, changes: Partial<UserRelatedItem>, updateRemote?: boolean) => Promise<void>;
 export type UpdateItemSocial = (
   item: ListItem,
   user_id: string,
   action: SocialAction,
   permission?: Permission
-) => void;
-export type RemoveItem = (item: ListItem, deleteRemote?: boolean) => void;
+) => Promise<void>;
+export type RemoveItem = (item: ListItem, deleteRemote?: boolean) => Promise<void>;
 export type ResortItems = (priorities: ID[]) => void;
 
 type Props = {
@@ -54,7 +54,6 @@ type Props = {
 
 /**
  * Store for all data related to timetable
- * Primary stores items from the /item/timetable query
  */
 export const TimetableProvider = ({ children }: Props) => {
   const { user } = useAuth()

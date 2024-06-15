@@ -2,8 +2,6 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Planner } from './containers/Planner';
 import { ListDropdown } from '../../components/dropdowns/ListDropdown';
-import { ListType } from '../../components/list/List';
-import { ListItemType } from '../../components/list/constants';
 import { useTimetable } from '../../providers/useTimetable';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { ItemType } from 'schema/database/items';
@@ -44,13 +42,13 @@ export const Timetable = () => {
           items={upcomingEvents}
           name="Upcoming Events"
           icon={<Entypo name="calendar" size={22} />}
-          listType={ListType.Event}
+          listType={ItemType.Event}
         />
         <ListDropdown
           items={toDoList}
           name="To Do List"
           icon={<Entypo name="list" size={22} />}
-          listType={ListType.Task}
+          listType={ItemType.Task}
         />
       </View>
       <Planner items={scheduledItems} />

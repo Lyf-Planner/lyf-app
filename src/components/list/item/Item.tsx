@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
-import { useAuth } from '../../../authorisation/AuthProvider';
-import { ListItemUnderlay } from './ListItemUnderlay';
+import { ListItemUnderlay } from './ItemUnderlay';
 import { useDrawer } from '../../../providers/useDrawer';
 import { SharedValue, useSharedValue } from 'react-native-reanimated';
-import { ListItemGestureWrapper } from './ListItemGestureWrapper';
-import { ListItemDrawer } from '../ListItemDrawer';
-import { ListItemOverlay } from './ListItemOverlay';
-import { ListItem as ListItemAsType } from '../../../utils/abstractTypes';
-import { RemoveItem, UpdateItem } from '../../../providers/useItems';
+import { ListItemGestureWrapper } from './ItemGestureWrapper';
+import { ListItemOverlay } from './ItemOverlay';
+import { useTimetable } from '../../../providers/useTimetable';
+import { LocalItem } from 'schema/items';
+import { ItemDrawer } from '../ItemDrawer';
 
 export const LIST_ITEM_HEIGHT = 55;
 
@@ -23,47 +21,34 @@ export type ItemStyleOptions = {
 };
 
 type Props = {
-  item: ListItemAsType;
+  item: LocalItem;
   itemStyleOptions: ItemStyleOptions;
-  updateItem: UpdateItem;
-  removeItem: RemoveItem;
   fromNote: boolean;
 };
 
-export const ListItem = ({
+export const Item = ({
   item,
   itemStyleOptions,
-  updateItem,
-  removeItem,
-  fromNote = false
 }: Props) => {
-  const { updateDrawer, updateSheetMinHeight } = useDrawer();
-  const { user } = useAuth();
-  const invited = useMemo(
-    () =>
-      item?.invited_users &&
-      !!item.invited_users.find((x) => x.user_id === user.id),
-    [item.invited_users, user]
-  );
+  const { updateDrawer } = useDrawer();
+  const { updateItem, removeItem } = useTimetable();
 
   // UTILS
 
   const openModal = async () => {
-    const invitedRoutineInstantiation = invited && item.template_id;
-    updateDrawer(null);
+    const invitedRoutineInstantiation = item.invite_pending && item.template_id;
+    updateDrawer(undefined);
     // Create any localised items for drawer to find
     if (item.localised && !invitedRoutineInstantiation) {
-      await updateItem(item);
+      // TODO: Review invitedRoutineInstantiation
+      await updateItem(item.id, item);
     }
 
     updateDrawer(
-      <ListItemDrawer
+      <ItemDrawer
         // Invites to templates should open the template!
-        item_id={invitedRoutineInstantiation ? item.template_id : item.id}
-        closeDrawer={() => updateDrawer(null)}
-        updateSheetMinHeight={updateSheetMinHeight}
-        preloaded={fromNote ? item : null}
-        updatePreloaded={fromNote ? updateItem : null}
+        item={item}
+        updateItem={updateItem}
       />
     );
   };
@@ -79,7 +64,7 @@ export const ListItem = ({
   return (
     <ListItemGestureWrapper
       item={item}
-      invited={invited}
+      invited={item.invite_pending}
       animatedValues={animatedValues}
       openModal={openModal}
       updateItem={updateItem}

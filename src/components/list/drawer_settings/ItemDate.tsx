@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { NullableDatePicker } from '../../fields/NullableDatePicker';
-import { DaysOfWeek, primaryGreen } from '../../../utils/constants';
-import { ListItemType, isTemplate } from '../constants';
+import { primaryGreen } from 'utils/colours';
+import { isTemplate } from '../constants';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   LyfMenu,
@@ -9,25 +9,19 @@ import {
   PopoverMenuOption
 } from '../../menus/LyfMenu';
 import { useCallback, useMemo } from 'react';
+import { ItemDrawerProps } from '../ItemDrawer';
+import { DayOfWeek } from 'schema/util/dates';
+import { ItemType } from 'schema/database/items';
 
-export const ItemDate = ({ item, updateItem, invited }) => {
-  const routineDay: DaysOfWeek | null = isTemplate(item) ? item.day : null;
+export const ItemDate = ({ item, updateItem }: ItemDrawerProps) => {
+  const routineDay: DayOfWeek | undefined = isTemplate(item) ? item.day : undefined;
   const menuName = useMemo(
-    () => `show-in-upcoming-${item.id}-${item.show_in_upcoming}`,
-    []
+    () => `show-in-upcoming-${item.id}-${item.show_in_upcoming}`, []
   );
-
-  const updateDate = (date) => {
-    if (invited) {
-      return;
-    }
-    updateItem({ ...item, date });
-  };
 
   const getOptionText = useCallback(() => {
     const start = item.show_in_upcoming ? 'Remove from' : 'Add to';
-    const end =
-      item.type === ListItemType.Event ? '"Upcoming Events"' : '"To Do List"';
+    const end = item.type === ItemType.Event ? '"Upcoming Events"' : '"To Do List"';
 
     return `${start} ${end}`;
   }, [item.type, item.show_in_upcoming]);
@@ -36,7 +30,7 @@ export const ItemDate = ({ item, updateItem, invited }) => {
     {
       text: getOptionText(),
       onSelect: () =>
-        updateItem({ ...item, show_in_upcoming: !item.show_in_upcoming })
+        updateItem(item.id, { show_in_upcoming: !item.show_in_upcoming })
     }
   ];
 
@@ -53,6 +47,7 @@ export const ItemDate = ({ item, updateItem, invited }) => {
           <Text style={styles.eventText}>Date</Text>
         </View>
       </LyfMenu>
+
       <View style={styles.pickerContainer}>
         {routineDay ? (
           <View style={styles.routineContainer}>
@@ -61,8 +56,8 @@ export const ItemDate = ({ item, updateItem, invited }) => {
         ) : (
           <NullableDatePicker
             date={item.date}
-            updateDate={updateDate}
-            disabled={invited}
+            updateDate={(date: string) => updateItem(item.id, { date })}
+            disabled={item.invite_pending}
           />
         )}
       </View>

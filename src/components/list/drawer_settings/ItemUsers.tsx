@@ -4,20 +4,22 @@ import { UserListContext } from '../../../utils/constants';
 import { useEffect, useMemo, useState } from 'react';
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { LocalItem } from 'schema/items';
 
-export const ItemUsers = ({ item }) => {
+type Props = {
+  item: LocalItem,
+  loading: boolean,
+}
+
+export const ItemUsers = ({ item, loading }: Props) => {
   const [open, setOpen] = useState(false);
   const users = useMemo(
-    () =>
-      item.permitted_users.concat(item.invited_users || []).map((x) => {
-        return {
-          permissions: x.permissions,
-          id: x.user_id,
-          name: x.displayed_as
-        };
-      }),
-    [item]
+    () => item.relations.users || [], [item]
   );
+
+  useEffect(() => {
+
+  })
 
   return (
     <View style={styles.mainContainer}>

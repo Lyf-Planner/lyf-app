@@ -1,20 +1,31 @@
-import { Pressable, TouchableHighlight } from 'react-native';
+import { Pressable, StyleSheetProperties, TouchableHighlight } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming
 } from 'react-native-reanimated';
 
+type Props = {
+  children: JSX.Element | JSX.Element[];
+  style?: Object;
+  disabled?: boolean;
+  containerStyle?: Object;
+  conditionalStyles?: Object;
+  onPress?: () => void;
+  onLongPress?: () => void;
+  useTouchableHighlight?: boolean
+}
+
 export const BouncyPressable = ({
   children,
-  style = {},
-  disabled = false,
-  containerStyle = null,
-  conditionalStyles = null,
-  onPress = null,
-  onLongPress = null,
+  style,
+  disabled,
+  containerStyle,
+  conditionalStyles,
+  onPress,
+  onLongPress,
   useTouchableHighlight = false
-}) => {
+}: Props) => {
   const scale = useSharedValue(1);
 
   const scaleAnimation = useAnimatedStyle(() => {

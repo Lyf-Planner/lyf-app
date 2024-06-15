@@ -1,23 +1,23 @@
 import { StyleSheet, View } from 'react-native';
 import {
-  ItemStatus,
-  ListItemType,
   getItemPrimaryColor,
   getItemSecondaryColor
 } from '../constants';
-import { primaryGreen } from '../../../utils/constants';
+import { primaryGreen } from '../../../utils/colours';
 import { useMemo } from 'react';
 import { useAuth } from '../../../authorisation/AuthProvider';
 import { ListItem } from '../../../utils/abstractTypes';
-import { ItemStyleOptions } from './ListItem';
+import { ItemStyleOptions } from './Item';
 import { AnimatedCheck } from '../../general/AnimatedCheck';
 import { useSharedValue } from 'react-native-reanimated';
 import { ItemTitleFormatter } from '../../text/ItemTitleFormatter';
 import { SortingHandle } from '../../general/SortingHandle';
 import { CollaborativeIcon } from 'components/general/CollaborativeIcon';
+import { ItemStatus, ItemType } from 'schema/database/items';
+import { LocalItem } from 'schema/items';
 
 type Props = {
-  item: ListItem;
+  item: LocalItem;
   itemStyleOptions: ItemStyleOptions;
   dragFunc: () => void;
   isActive?: boolean;
@@ -29,14 +29,6 @@ export const SortableListItem = ({
   dragFunc,
   isActive = false
 }: Props) => {
-  const { user } = useAuth();
-  const invited = useMemo(
-    () =>
-      item?.invited_users &&
-      !!item.invited_users.find((x) => x.user_id === user.id),
-    [item.invited_users, user]
-  );
-
   const checkScale = useSharedValue(1);
   const primaryColor = useMemo(
     () => getItemPrimaryColor(item, itemStyleOptions.itemColor),
@@ -46,16 +38,12 @@ export const SortableListItem = ({
     () => getItemSecondaryColor(item, itemStyleOptions.itemTextColor),
     [item, itemStyleOptions]
   );
-  const isCollaborative = useMemo(
-    () => item.permitted_users.length > 1 || item.invited_users?.length > 0,
-    [item]
-  );
 
   const conditionalStyles = {
     listItem: {
       backgroundColor: primaryColor,
-      borderRadius: item.type !== ListItemType.Task ? 5 : 15,
-      opacity: item.status === ItemStatus.Cancelled || invited ? 0.7 : 1
+      borderRadius: item.type !== ItemType.Task ? 5 : 15,
+      opacity: item.status === ItemStatus.Cancelled || item.invite_pending ? 0.7 : 1
     },
     sortHandleIconColor:
       item.status === ItemStatus.Done ? primaryGreen : 'white'
@@ -71,7 +59,7 @@ export const SortableListItem = ({
 
       <ItemTitleFormatter item={item} textColor={secondaryColor} />
 
-      {isCollaborative && <CollaborativeIcon item={item} />}
+      {item.collaborative && <CollaborativeIcon item={item} />}
       <SortingHandle
         dragFunc={dragFunc}
         disabled={isActive}

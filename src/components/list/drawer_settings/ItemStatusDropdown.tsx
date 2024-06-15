@@ -8,15 +8,16 @@ import {
 import { StyleSheet } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { ItemDrawerProps } from '../ItemDrawer';
 
-export const ItemStatusDropdown = ({ item, updateItem }) => {
+export const ItemStatusDropdown = ({ item, updateItem }: ItemDrawerProps) => {
   const [open, setOpen] = useState(false);
   const [localValue, setLocalValue] = useState(
     item.status || ItemStatus.Upcoming
   );
 
-  const updateStatus = (status) => {
-    updateItem({ ...item, status });
+  const updateStatus = (status: ItemStatus) => {
+    updateItem(item.id, { status });
   };
 
   const items = StatusOptions.map((x) => {

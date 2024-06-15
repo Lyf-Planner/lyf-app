@@ -1,23 +1,24 @@
 import { useRef, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
-import { LIST_ITEM_HEIGHT } from './item/ListItem';
-import { ListItemType } from './constants';
+import { LIST_ITEM_HEIGHT } from './item/Item';
+import { ItemType } from 'schema/database/items';
 
 export type AddItemByTitle = (title: string) => void;
+
 type Props = {
-  type: ListItemType;
-  addItem: AddItemByTitle;
+  type: ItemType;
+  addItemByTitle: AddItemByTitle;
 };
 
-export const NewItem = ({ type, addItem }: Props) => {
+export const NewItem = ({ type, addItemByTitle }: Props) => {
   const [newItem, updateNewItem] = useState<string>('');
-  const inputRef = useRef<TextInput>();
+  const inputRef = useRef<TextInput>(null);
   const placeholderText = `Add ${type} +`;
 
   const onSubmit = () => {
-    newItem && addItem(newItem);
-    inputRef.current.clear();
-    inputRef.current.focus();
+    newItem && addItemByTitle(newItem);
+    inputRef.current?.clear();
+    inputRef.current?.focus();
   };
 
   const onChangeText = (text: string) => updateNewItem(text);

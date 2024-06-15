@@ -1,33 +1,41 @@
 import { StyleSheet, TouchableHighlight, Text } from 'react-native';
-import { ListItemType } from '../constants';
-import { eventsBadgeColor } from '../../../utils/constants';
+import { eventsBadgeColor } from '../../../utils/colours';
+import { LocalItem } from 'schema/items';
+import { UpdateItem } from 'providers/useTimetable';
+import { ItemType } from 'schema/database/items';
+import { useCallback } from 'react';
+import { ItemDrawerProps } from '../ItemDrawer';
 
-export const ItemType = ({ item, updateItem, invited }) => {
-  const switchType = () => {
-    if (invited) {
+export const ItemTypeBadge = ({ item, updateItem }: ItemDrawerProps) => {
+  const switchType = useCallback(() => {
+    if (item.invite_pending) {
       return;
     }
-    const newItem = { ...item };
-    if (item.type === ListItemType.Task) {
-      newItem.type = ListItemType.Event;
+
+    let type;
+    if (item.type === ItemType.Task) {
+      type = ItemType.Event;
     } else {
-      newItem.type = ListItemType.Task;
+      type = ItemType.Task;
     }
 
-    updateItem(newItem);
-  };
+    updateItem(item.id, { type });
+  }, [item]);
+
+  const conditionalStyles = {
+    typeBadge: {
+      backgroundColor: item.type === ItemType.Event ? eventsBadgeColor : 'white'
+    }
+  }
 
   return (
     <TouchableHighlight
       style={[
         styles.typeBadge,
-        {
-          backgroundColor:
-            item.type === ListItemType.Event ? eventsBadgeColor : 'white'
-        }
+        conditionalStyles.typeBadge
       ]}
       onPress={switchType}
-      underlayColor={'rgba(0,0,0,0.5)'}
+      underlayColor="rgba(0,0,0,0.5)"
     >
       <Text style={styles.typeText}>{item.type}</Text>
     </TouchableHighlight>

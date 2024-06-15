@@ -9,34 +9,47 @@ import {
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { ItemDrawerProps } from '../ItemDrawer';
 
 export const HTTP_PREFIX = 'http://';
 export const HTTPS_PREFIX = 'https://';
+
+type Props = ItemDrawerProps & {
+  setLinkOpen: (open: boolean) => void;
+  updateSheetMinHeight: (height: number) => void;
+}
 
 export const ItemLink = ({
   item,
   updateItem,
   setLinkOpen,
-  invited,
   updateSheetMinHeight
-}) => {
+}: Props) => {
   const [submitted, setSubmitted] = useState(!!item.url);
   const [localText, setText] = useState(item.url);
 
-  function isValidHttpUrl(string) {
-    let url: URL | undefined;
+  function isValidHttpUrl(text: string|undefined) {
+    if (!text) {
+      return false;
+    }
 
     try {
-      url = new URL(string);
+      new URL(text);
     } catch (_) {
       return false;
     }
 
-    return url.protocol === 'http:' || url.protocol === 'https:';
+    // We don't just check inclusion of http - as to allow linking to other apps
+    // TODO: Review more secure approach to this
+    return text.includes("://");
   }
 
-  const updateUrl = (url) => {
-    url = url?.toLowerCase();
+  const uploadUrl = () => {
+    if (item.invite_pending) {
+      return;
+    }
+
+    let url = localText?.toLowerCase();
     // Add https if missing either http or https
     if (
       url &&
@@ -46,10 +59,8 @@ export const ItemLink = ({
       url = HTTPS_PREFIX + url;
     }
 
-    if (invited) {
-      return;
-    }
-    updateItem({ ...item, url });
+    
+    updateItem(item.id, { url });
     if (url && isValidHttpUrl(url)) {
       setSubmitted(true);
     }
@@ -61,8 +72,9 @@ export const ItemLink = ({
       <Text style={[styles.fieldText]}>Link</Text>
       <View style={styles.inputWrapper}>
         <TouchableHighlight
+          disabled={item.invite_pending}
           onPress={() => {
-            updateUrl(null);
+            setText('');
             setLinkOpen(false);
           }}
           underlayColor={'rgba(0,0,0,0.5)'}
@@ -70,17 +82,19 @@ export const ItemLink = ({
         >
           <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
         </TouchableHighlight>
+
         {submitted ? (
           <TouchableHighlight
-            style={styles.previewText}
+            style={styles.previewTouchable}
+            disabled={item.invite_pending}
             underlayColor={'rgba(0,0,0,0.5)'}
-            onPress={() => {
-              if (isValidHttpUrl(item.url) && Linking.canOpenURL(item.url)) {
-                Linking.openURL(item.url);
+            onPress={async () => {
+              if (item.url && isValidHttpUrl(item.url) && await Linking.canOpenURL(item.url)) {
+                await Linking.openURL(item.url);
               }
             }}
           >
-            <Text style={{ color: 'blue', textDecorationLine: 'underline' }}>
+            <Text style={styles.previewText}>
               {item.url}
             </Text>
           </TouchableHighlight>
@@ -89,13 +103,19 @@ export const ItemLink = ({
             value={localText}
             onEndEditing={() => {
               updateSheetMinHeight(100);
-              updateUrl(localText);
+              uploadUrl();
             }}
             placeholder="Type Link"
             onFocus={() => updateSheetMinHeight(700)}
             onBlur={() => updateSheetMinHeight(100)}
             returnKeyType="done"
-            onChangeText={!invited && setText}
+            onChangeText={(text: string) => {
+              if (item.invite_pending) {
+                return;
+              }
+
+              setText(text)
+            }}
             style={styles.input}
           />
         )}
@@ -127,7 +147,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center'
   },
-  previewText: {
+  previewTouchable: {
     backgroundColor: 'rgba(0,0,0,0.08)',
     padding: 8,
     width: 210,
@@ -138,5 +158,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontSize: 16,
     textAlign: 'center'
+  },
+  previewText: { 
+    color: 'blue',
+    textDecorationLine: 'underline' 
   }
 });

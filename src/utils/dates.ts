@@ -1,8 +1,8 @@
 import moment from 'moment';
-import { DaysOfWeek } from './constants';
+import { DayOfWeek } from 'schema/util/dates';
 
 // Wrapper to configure moment function
-export const localisedMoment = (args: any) => {
+export const localisedMoment = (...args: any[]) => {
   // This sets the first day of the week to Monday. For some reason not a default
   moment.updateLocale('en', {
     week: {

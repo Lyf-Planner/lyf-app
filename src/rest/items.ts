@@ -18,8 +18,8 @@ export async function getTimetable(user_id: string, start_date: string) {
   }
 }
 
-export async function getItem(id: string) {
-  const url = `${env.BACKEND_URL}/getItem?id=${id}`;
+export async function getItem(id: string, include: string) {
+  const url = `${env.BACKEND_URL}/getItem?id=${id}&include=${include}`;
 
   const result = await get(url);
   const item = result.data;

@@ -1,10 +1,11 @@
-import { ITEM_STATUS_TO_COLOR, ItemStatus, ListItemType } from '../constants';
-import { LIST_ITEM_HEIGHT } from './ListItem';
+import { ITEM_STATUS_TO_COLOR, ItemStatus } from '../constants';
+import { LIST_ITEM_HEIGHT } from './Item';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet } from 'react-native';
 import { ListItem } from '../../../utils/abstractTypes';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { ItemType } from 'schema/database/items';
 
 type Props = {
   item: ListItem;
@@ -17,7 +18,7 @@ export const ListItemUnderlay = ({ item }: Props) => {
 
   const conditionalStyles = {
     listHiddenBackground: {
-      borderRadius: item.type !== ListItemType.Task ? 5 : 15
+      borderRadius: item.type !== ItemType.Task ? 5 : 15
     }
   };
 

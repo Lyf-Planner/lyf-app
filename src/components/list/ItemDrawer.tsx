@@ -1,18 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Horizontal } from '../general/MiscComponents';
-import { deepBlue } from '../../utils/constants';
+import { deepBlue } from '../../utils/colours';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { ItemStatusDropdown } from './drawer_settings/ItemStatusDropdown';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ItemTime } from './drawer_settings/ItemTime';
 import { ItemNotification } from './drawer_settings/ItemNotification';
 import { ItemDescription } from './drawer_settings/ItemDescription';
 import { ItemDate } from './drawer_settings/ItemDate';
-import { useAuth } from '../../authorisation/AuthProvider';
 import { useNotifications } from '../../providers/useNotifications';
 import { ItemTitle } from './drawer_settings/ItemTitle';
-import { ItemType } from './drawer_settings/ItemType';
-import { useItems } from '../../providers/useItems';
+import { ItemTypeBadge } from './drawer_settings/ItemType';
+import { UpdateItem, useTimetable } from '../../providers/useTimetable';
 import { AddDetails } from './drawer_settings/AddDetails';
 import { OptionsMenu } from './drawer_settings/OptionsMenu';
 import { InviteHandler } from './drawer_settings/InviteHandler';
@@ -21,169 +20,111 @@ import { isTemplate } from './constants';
 import { ItemLink } from './drawer_settings/ItemLink';
 import { ItemLocation } from './drawer_settings/ItemLocation';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { LocalItem } from 'schema/items';
+import { useDrawer } from 'providers/useDrawer';
+import { getItem, updateItemSocial } from 'rest/items';
 
-export const ListItemDrawer = ({
-  item_id,
-  closeDrawer,
-  updateSheetMinHeight,
-  // Used for Note items
-  preloaded = null,
-  updatePreloaded = null
-}) => {
-  // We setup a local copy of the item so that certain fields can be published when needed
-  const { user } = useAuth();
+export type ItemDrawerProps = {
+  item: LocalItem,
+  updateItem: UpdateItem
+}
+
+export const ItemDrawer = ({
+  item,
+  updateItem,
+}: ItemDrawerProps) => {
   const { enabled } = useNotifications();
-  const { items, updateItem } = useItems();
-  const [preloadedItem, setPreloadedItem] = useState(preloaded);
+  const { updateDrawer, updateSheetMinHeight} = useDrawer();
+  const [loadingUsers, setLoadingUsers] = useState(!!item.relations?.users);
 
-  const item = useMemo(() => {
-    if (preloadedItem) {
-      return preloadedItem;
+  useEffect(() => {
+    if (loadingUsers) {
+      getItem(item.id, "users").then((item) => {
+        if (item) {
+          updateItem(item.id, item, false)
+          setLoadingUsers(false);
+        }
+      })
     }
-    return items.find((x) => x.id === item_id);
-  }, [items, preloadedItem, item_id]);
+  }, [])
+
   if (!item) {
-    closeDrawer();
+    // Close this
+    updateDrawer(undefined);
+    return null;
   }
 
   const [descOpen, setDescOpen] = useState(!!item?.desc);
   const [linkOpen, setLinkOpen] = useState(!!item?.url);
   const [locationOpen, setLocationOpen] = useState(!!item?.location);
 
-  // Wrapper to handle either the preloaded case or fetched from store case
-  const modifyItem = (item) => {
-    if (preloadedItem) {
-      setPreloadedItem(item);
-      updatePreloaded(item);
-    } else {
-      updateItem(item);
-    }
-  };
-
-  const notification = useMemo(
-    () =>
-      item?.notifications &&
-      enabled &&
-      item.notifications.find((x) => x.user_id === user.id),
+  const noDetails = useMemo(
+    () => item && !item.date && !item.time && !descOpen && !item.notification_mins_before,
     [item]
   );
 
-  const invited = useMemo(
-    () =>
-      item?.invited_users &&
-      !!item.invited_users?.find((x) => x.user_id === user.id),
-    [item?.invited_users, user]
-  );
-
-  // Is outside notifications component due to automatic notif setting
-  const updateNotification = (enabled, minutes_before, prereqItem = item) => {
-    if (invited) {
-      return;
+  const conditionalStyles = {
+    detailsContainer: {
+      opacity: item.invite_pending ? 0.5 : 1
     }
-
-    const tmp = item.notifications || [];
-    const userIndex = tmp.findIndex((x) => x.user_id === user.id);
-    if (userIndex === -1) {
-      if (!enabled) {
-        return;
-      } else {
-        tmp.push({
-          user_id: user.id,
-          minutes_before:
-            user.premium?.notifications?.event_notification_minutes_before ||
-            '5'
-        });
-      }
-    } else {
-      if (!enabled) {
-        tmp.splice(userIndex, 1);
-      } else {
-        tmp[userIndex].minutes_before = minutes_before;
-      }
-    }
-    modifyItem({ ...prereqItem, notifications: tmp });
-  };
-  const updateNotify = (notify) => updateNotification(!!notify, '');
-  const updateMinutes = (minutes_before) =>
-    updateNotification(true, minutes_before);
-
-  const noDetails = useMemo(
-    () => item && !item.date && !item.time && !descOpen && !notification,
-    [item, notification]
-  );
-
-  if (!item) {
-    return null;
   }
+
   // Pass "invited" to block any input component with a localised value
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.mainContainer}>
-        {invited && (
+
+        {item.invite_pending && (
           <Text style={styles.subtitle}>You've been invited to...</Text>
         )}
-        <View style={{ gap: 8, zIndex: 10 }}>
+
+        <View style={styles.header}>
           <View style={styles.headerBackground}>
-            <View style={{ marginLeft: 'auto', marginRight: 8 }}>
-              <ItemType item={item} updateItem={modifyItem} invited={invited} />
+            <View style={styles.itemType}> {/** TODO: Review whether this wrapping View is needed */}
+              <ItemTypeBadge item={item} updateItem={updateItem} />
             </View>
-            <ItemTitle
-              item={item}
-              updateItem={modifyItem}
-              invited={invited}
-              updateSheetMinHeight={updateSheetMinHeight}
-            />
-            {!invited && !preloaded && <OptionsMenu item={item} />}
+            <ItemTitle item={item} updateItem={updateItem} />
+            {!item.invite_pending && <OptionsMenu item={item} />}
           </View>
-          {invited ? (
+
+          {item.invite_pending ? (
             <InviteHandler item={item} />
           ) : (
-            <ItemStatusDropdown item={item} updateItem={modifyItem} />
+            <ItemStatusDropdown item={item} updateItem={updateItem} />
           )}
         </View>
+
         <Horizontal style={styles.firstSeperator} />
 
-        <View
-          style={{
-            flexDirection: 'column',
-            gap: 8,
-            opacity: invited ? 0.5 : 1
-          }}
-        >
-          {item.permitted_users.concat(item.invited_users || []).length > 1 && (
-            <ItemUsers item={item} />
+        <View style={[styles.detailsContainer, conditionalStyles.detailsContainer]}>
+          {item.collaborative && (
+            <ItemUsers item={item} loading={loadingUsers} />
           )}
 
           {(item.date || isTemplate(item)) && (
-            <ItemDate item={item} updateItem={modifyItem} invited={invited} />
+            <ItemDate item={item} updateItem={updateItem} />
           )}
 
           {item.time && (
             <ItemTime
               item={item}
-              updateItem={modifyItem}
-              updateNotification={updateNotification}
-              invited={invited}
+              updateItem={updateItem}
             />
           )}
 
-          {notification && (
+          {item.notification_mins_before && (
             <ItemNotification
               item={item}
-              notification={notification}
-              updateNotify={updateNotify}
-              updateMinutes={updateMinutes}
+              updateItem={updateItem}
               updateSheetMinHeight={updateSheetMinHeight}
-              invited={invited}
             />
           )}
 
           {linkOpen && (
             <ItemLink
               item={item}
-              updateItem={modifyItem}
+              updateItem={updateItem}
               setLinkOpen={setLinkOpen}
-              invited={invited}
               updateSheetMinHeight={updateSheetMinHeight}
             />
           )}
@@ -191,9 +132,8 @@ export const ListItemDrawer = ({
           {locationOpen && (
             <ItemLocation
               item={item}
-              updateItem={modifyItem}
+              updateItem={updateItem}
               setLocationOpen={setLocationOpen}
-              invited={invited}
               updateSheetMinHeight={updateSheetMinHeight}
             />
           )}
@@ -201,9 +141,8 @@ export const ListItemDrawer = ({
           {descOpen && (
             <ItemDescription
               item={item}
-              updateItem={modifyItem}
+              updateItem={updateItem}
               setDescOpen={setDescOpen}
-              invited={invited}
               updateSheetMinHeight={updateSheetMinHeight}
             />
           )}
@@ -214,17 +153,13 @@ export const ListItemDrawer = ({
           )}
           <AddDetails
             item={item}
-            updateItem={modifyItem}
-            notification={notification}
-            updateNotify={updateNotify}
+            updateItem={updateItem}
             setDescOpen={setDescOpen}
             descOpen={descOpen}
             setLinkOpen={setLinkOpen}
             linkOpen={linkOpen}
             setLocationOpen={setLocationOpen}
             locationOpen={locationOpen}
-            invited={invited}
-            noteItem={!!preloaded}
           />
         </View>
 
@@ -234,8 +169,7 @@ export const ListItemDrawer = ({
             size={16}
             color="rgba(0,0,0,0.3)"
           />
-          <Text style={[styles.subtitle]}>Swipe down to close</Text>
-
+          <Text style={styles.subtitle}>Swipe down to close</Text>
           <FontAwesome5Icon
             name="chevron-down"
             size={16}
@@ -255,18 +189,22 @@ const styles = StyleSheet.create({
     gap: 10,
     paddingBottom: 40
   },
-  header: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 4,
-    marginBottom: 4
+  header: { 
+    gap: 8, 
+    zIndex: 10 
+  },
+  itemType: { 
+    marginLeft: 'auto',
+    marginRight: 8 
   },
   firstSeperator: {
     opacity: 0.25,
-
     marginBottom: 2,
     borderWidth: 2
+  },
+  detailsContainer: {
+    flexDirection: 'column',
+    gap: 8,
   },
   headerBackground: {
     backgroundColor: deepBlue,

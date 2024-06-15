@@ -2,22 +2,32 @@ import { View, Text, StyleSheet } from 'react-native';
 import { BouncyPressable } from '../../pressables/BouncyPressable';
 import { useState } from 'react';
 import { useAuth } from '../../../authorisation/AuthProvider';
-import { useItems } from '../../../providers/useItems';
-import { SocialAction, primaryGreen } from '../../../utils/constants';
+import { useTimetable } from '../../../providers/useTimetable';
+import { primaryGreen } from '../../../utils/colours';
 import { Loader } from '../../general/MiscComponents';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { LocalItem } from 'schema/items';
+import { SocialAction } from 'schema/util/social';
 
-export const InviteHandler = ({ item }) => {
+type Props = {
+  item: LocalItem
+}
+
+export const InviteHandler = ({ item }: Props) => {
   const { user } = useAuth();
-  const { updateItemSocial } = useItems();
+  const { updateItemSocial } = useTimetable();
 
   const acceptInvite = async () => {
-    await updateItemSocial(item, user.id, SocialAction.Accept);
+    if (user) {
+      await updateItemSocial(item, user.id, SocialAction.Accept);
+    }
   };
 
   const rejectInvite = async () => {
-    await updateItemSocial(item, user.id, SocialAction.Decline);
+    if (user) {
+      await updateItemSocial(item, user.id, SocialAction.Decline);
+    }
   };
 
   return (
@@ -38,17 +48,26 @@ export const InviteHandler = ({ item }) => {
   );
 };
 
-const InviteHandleButton = ({ func, text, color, icon }) => {
+type HandleProps = {
+  func: () => Promise<void>;
+  text: string;
+  color: string;
+  icon: JSX.Element;
+}
+
+const InviteHandleButton = ({ func, text, color, icon }: HandleProps) => {
   const [loading, setLoading] = useState(false);
+
+  const pressWithLoading = async () => {
+    setLoading(true);
+    await func();
+    setLoading(false);
+  }
 
   return (
     <BouncyPressable
-      onPress={async () => {
-        setLoading(true);
-        await func();
-        setLoading(false);
-      }}
-      containerStyle={{ flex: 1 }}
+      onPress={pressWithLoading}
+      containerStyle={styles.handleContainer}
       style={[styles.pressable, { backgroundColor: color }]}
     >
       {loading ? (
@@ -82,6 +101,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  handleContainer: { 
+    flex: 1 
   },
   contentWrapper: {
     flexDirection: 'row',

@@ -1,23 +1,15 @@
 import { View, StyleSheet } from 'react-native';
-import { ItemStyleOptions, ListItem } from './item/ListItem';
-import { ListItem as ListItemAsType } from '../../utils/abstractTypes';
-import { UpdateItem, RemoveItem } from '../../providers/useItems';
+import { ItemStyleOptions, Item } from './item/Item';
+import { UpdateItem, RemoveItem } from '../../providers/useTimetable';
 import { AddItemByTitle, NewItem } from './NewItem';
-import { ListItemType } from './constants';
-
-export enum ListType {
-  Event = 'Event',
-  Task = 'Task',
-  Item = 'Item',
-}
+import { ItemType } from 'schema/database/items';
+import { LocalItem } from 'schema/items';
 
 type Props = {
-  items: ListItemAsType[];
-  type: ListItemType;
+  items: LocalItem[];
+  type: ItemType;
   itemStyleOptions: ItemStyleOptions;
-  addItem: AddItemByTitle;
-  updateItem: UpdateItem;
-  removeItem: RemoveItem;
+  addItemByTitle: AddItemByTitle;
   listWrapperStyles?: Object;
   fromNote?: boolean;
 };
@@ -26,25 +18,21 @@ export const List = ({
   items,
   type,
   itemStyleOptions,
-  addItem,
-  updateItem,
-  removeItem,
+  addItemByTitle,
   listWrapperStyles = {},
   fromNote = false
 }: Props) => {
   return (
     <View style={[styles.listContainer, listWrapperStyles]}>
       {items.map((x) => (
-        <ListItem
+        <Item
           key={x.id}
-          updateItem={updateItem}
-          removeItem={removeItem}
           itemStyleOptions={itemStyleOptions}
           fromNote={fromNote}
           item={x}
         />
       ))}
-      <NewItem type={type} addItem={addItem} />
+      <NewItem type={type} addItemByTitle={addItemByTitle} />
     </View>
   );
 };

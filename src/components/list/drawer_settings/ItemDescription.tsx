@@ -5,25 +5,32 @@ import {
   StyleSheet,
   TouchableHighlight
 } from 'react-native';
-import { offWhite, sleep } from '../../../utils/constants';
+import { sleep } from 'utils/misc';
+import { offWhite } from 'utils/colours';
 import { useEffect, useState } from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { ItemDrawerProps } from '../ItemDrawer';
+
+type Props = ItemDrawerProps & {
+  setDescOpen: (open: boolean) => void;
+  updateSheetMinHeight: (height: number) => void;
+}
 
 export const ItemDescription = ({
   item,
   updateItem,
   setDescOpen,
-  invited,
   updateSheetMinHeight
-}) => {
-  const [description, setDescription] = useState(item.desc);
+}: Props) => {
+  const [desc, setDesc] = useState(item.desc);
 
-  const updateDescription = () => {
-    if (invited) {
+  const uploadDescription = () => {
+    if (item.invite_pending) {
       return;
     }
-    updateItem({ ...item, desc: description });
+
+    updateItem(item.id, { desc });
   };
 
   return (
@@ -33,13 +40,11 @@ export const ItemDescription = ({
         <Text style={styles.headingText}>Description</Text>
         <View style={styles.headerCloseWrapper}>
           <TouchableHighlight
+            disabled={item.invite_pending}
             onPress={() => {
-              if (invited) {
-                return;
-              }
               setDescOpen(false);
-              setDescription(null);
-              updateItem({ ...item, desc: null });
+              setDesc('');
+              uploadDescription()
             }}
             underlayColor={'rgba(0,0,0,0.5)'}
             style={{ borderRadius: 5 }}
@@ -48,13 +53,18 @@ export const ItemDescription = ({
           </TouchableHighlight>
         </View>
       </View>
+
       <TextInput
-        value={description}
-        onChangeText={!invited && setDescription}
+        value={desc}
+        onChangeText={(text: string) => {
+          if (!item.invite_pending) { 
+            setDesc(text)
+          }
+        }}
         onFocus={() => updateSheetMinHeight(800)}
         onBlur={() => {
           updateSheetMinHeight(100);
-          !invited && updateDescription();
+          uploadDescription();
         }}
         style={styles.itemDesc}
         multiline

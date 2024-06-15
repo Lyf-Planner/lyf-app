@@ -10,40 +10,37 @@ import { useAuth } from '../../../authorisation/AuthProvider';
 import { useNotifications } from '../../../providers/useNotifications';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { ItemDrawerProps } from '../ItemDrawer';
+
+type Props = ItemDrawerProps & {
+  updateSheetMinHeight: (height: number) => void
+}
 
 export const ItemNotification = ({
   item,
-  notification,
-  updateNotify,
-  updateMinutes,
-  invited,
+  updateItem,
   updateSheetMinHeight
-}) => {
-  const { user } = useAuth();
+}: Props) => {
   const { enabled } = useNotifications();
-  const [localText, setText] = useState(
-    `${
-      notification?.minutes_before ||
-      user.premium?.notifications?.event_notification_minutes_before ||
-      5
-    }`
-  );
+  const [mins, setMins] = useState(`${item.notification_mins_before}`);
 
-  const updateMinutesFromInput = () => {
-    if (invited) {
+  const uploadMinutesFromInput = () => {
+    if (item.invite_pending) {
       return;
     }
-    let text = localText.replace(/[^0-9]/g, '');
-    if (!text) {
-      text = '0';
-    }
-    setText(text);
-    updateMinutes(text);
-  };
+    
+    let parsed = mins;
+    if (parsed) {
+      parsed = parsed.replace(/[^0-9]/g, '');
 
-  useEffect(() => {
-    notification?.minutes_before && setText(notification.minutes_before);
-  }, [notification]);
+      if (!parsed) {
+        parsed = '0';
+      }
+    }
+
+    setMins(parsed);
+    updateItem(item.id, { notification_mins_before: parseInt(parsed) });
+  };
 
   return (
     <View
@@ -62,23 +59,32 @@ export const ItemNotification = ({
         Notify Me
       </Text>
 
-      {!!notification && enabled && item.time && (
+      {!!mins && enabled && item.time && (
         <View style={styles.minutesInputWrapper}>
           <TouchableHighlight
-            onPress={() => updateNotify(false)}
+            onPress={() => {
+              setMins('');
+              uploadMinutesFromInput()
+            }}
             underlayColor={'rgba(0,0,0,0.5)'}
             style={styles.closeTouchable}
           >
             <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
           </TouchableHighlight>
           <TextInput
-            value={localText}
-            onEndEditing={updateMinutesFromInput}
+            value={mins}
+            onEndEditing={uploadMinutesFromInput}
             onFocus={() => updateSheetMinHeight(700)}
             onBlur={() => updateSheetMinHeight(100)}
             returnKeyType="done"
             keyboardType="numeric"
-            onChangeText={!invited && setText}
+            onChangeText={(text: string) => {
+              if (item.invite_pending) {
+                return;
+              }
+
+              setMins(text)
+            }}
             style={styles.minutesInput}
           />
           <Text style={styles.minsBeforeText}>mins before</Text>

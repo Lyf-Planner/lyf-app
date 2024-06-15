@@ -13,71 +13,92 @@ type Props = {
   children: JSX.Element;
 }
 
+type NotificationHooks = {
+  enabled: boolean;
+  getDefaultNotificationMins: () => number;
+}
+
+const DEFAULT_NOTIFICATION_MINS = 5;
+
 export const NotificationsLayer = ({ children }: Props) => {
   const [enabled, setEnabled] = useState(false);
   const { user, updateUser } = useAuth();
+
   useEffect(() => {
     getAsyncData('expo_token').then((token) => {
-      if (!token) {
-        const curTokens = user.expo_tokens || [];
-        registerForPushNotificationsAsync().then((token) => {
-          if (!token) {
-            setEnabled(false);
-            return;
-          }
-          setEnabled(true);
-          curTokens.push(token);
-          updateUser({
-            ...user,
-            expo_tokens: curTokens
-          });
-          storeAsyncData('expo_token', token);
-        });
-      } else {
+      if (token) {
         setEnabled(true);
+        return;
       }
+      
+      registerForPushNotificationsAsync().then((token) => {
+        if (!token) {
+          setEnabled(false);
+          return;
+        }
+
+        setEnabled(true);
+        updateUser({
+          ...user,
+          expo_tokens: [token]
+        });
+
+        storeAsyncData('expo_token', token);
+      });
     });
   }, []);
 
-  const EXPOSED = {
-    enabled
+  const getDefaultNotificationMins = () => {
+    if (user?.event_notification_minutes_before) {
+      return user?.event_notification_minutes_before;
+    }
+
+    return DEFAULT_NOTIFICATION_MINS;
+  }
+
+  const exposed: NotificationHooks = {
+    enabled,
+    getDefaultNotificationMins
   };
 
   return (
-    <NotificationContext.Provider value={EXPOSED}>
+    <NotificationContext.Provider value={exposed}>
       {children}
     </NotificationContext.Provider>
   );
 };
 
 async function registerForPushNotificationsAsync() {
-  let token;
   console.log('Registering ExpoPushToken');
 
-  if (isDevice) {
-    const { status: existingStatus } = await getPermissionsAsync();
-    let finalStatus = existingStatus;
-    console.log('Existing notification status is', existingStatus);
-    if (existingStatus !== 'granted') {
-      const { status } = await requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      return;
-    }
-    token = await getExpoPushTokenAsync({
-      projectId: env.PROJECT_ID as any
-    });
-    console.log(token);
-  } else {
-    alert('Must use physical device for Push Notifications');
+  if (!isDevice) {
+    alert('Must use physical device for Push Notifications');  
+    return;
   }
 
-  return token?.data;
+  const { status: existingStatus } = await getPermissionsAsync();
+  console.log('Existing notification status is', existingStatus);
+
+  let finalStatus = existingStatus;
+  
+  if (existingStatus !== 'granted') {
+    const { status } = await requestPermissionsAsync();
+    finalStatus = status;
+  }
+
+  if (finalStatus !== 'granted') {
+    return;
+  }
+
+  const token = await getExpoPushTokenAsync({
+    projectId: env.PROJECT_ID as any
+  });
+
+  return token.data;
 }
 
-const NotificationContext = createContext(null);
+const NotificationContext = createContext<NotificationHooks | undefined>(undefined);
 
 export const useNotifications = () => {
-  return useContext(NotificationContext);
+  return useContext(NotificationContext) as NotificationHooks;
 };

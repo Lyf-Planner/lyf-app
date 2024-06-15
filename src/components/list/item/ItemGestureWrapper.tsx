@@ -5,7 +5,7 @@ import Animated, {
 import { ItemStatus } from '../constants';
 import { StyleSheet } from 'react-native';
 import { useCallback } from 'react';
-import { sleep } from '../../../utils/constants';
+import { sleep } from '../../../utils/misc';
 import {
   Directions,
   Gesture,
@@ -13,8 +13,8 @@ import {
 } from 'react-native-gesture-handler';
 import { ListItem, LyfElement } from '../../../utils/abstractTypes';
 import * as Haptics from 'expo-haptics';
-import { LIST_ITEM_HEIGHT, ListItemAnimatedValues } from './ListItem';
-import { RemoveItem, UpdateItem } from '../../../providers/useItems';
+import { LIST_ITEM_HEIGHT, ListItemAnimatedValues } from './Item';
+import { RemoveItem, UpdateItem } from '../../../providers/useTimetable';
 
 type Props = {
   children: LyfElement;
@@ -37,7 +37,7 @@ export const ListItemGestureWrapper = ({
   updateItem,
   removeItem
 }: Props) => {
-  let longPressTimer = null;
+  let longPressTimer: NodeJS.Timeout | undefined;
 
   // GESTURE DEFINITIONS
 
@@ -89,9 +89,9 @@ export const ListItemGestureWrapper = ({
     }
 
     if (item.status === ItemStatus.Done) {
-      updateItem({ ...item, status: ItemStatus.Upcoming });
+      updateItem(item.id, { status: ItemStatus.Upcoming });
     } else {
-      updateItem({ ...item, status: ItemStatus.Done });
+      updateItem(item.id, { status: ItemStatus.Done });
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     }
   };
@@ -141,7 +141,7 @@ export const ListItemGestureWrapper = ({
     }
     animatedValues.offsetX.value = 40;
 
-    updateItem({ ...item, status: ItemStatus.InProgress });
+    updateItem(item.id, { status: ItemStatus.InProgress });
     item.status !== ItemStatus.InProgress &&
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 

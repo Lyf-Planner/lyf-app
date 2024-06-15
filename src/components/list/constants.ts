@@ -1,5 +1,7 @@
+import { LocalItem } from 'schema/items';
 import { ListItem } from '../../utils/abstractTypes';
-import { primaryGreen } from '../../utils/constants';
+import { primaryGreen } from '../../utils/colours';
+import { ItemType } from 'schema/database/items';
 
 export enum ItemStatus {
   Cancelled = 'Cancelled',
@@ -55,30 +57,19 @@ export const getItemSecondaryColor = (item: ListItem, defaultColor: string) => {
   }
 };
 
-export enum ListItemType {
-  Event = 'Event',
-  Task = 'Task',
-  Item = 'Item',
-}
-
-export const statusTextDisplay = (type: ListItemType, status: ItemStatus) => {
+export const statusTextDisplay = (type: ItemType, status: ItemStatus) => {
   switch (status) {
     case ItemStatus.Upcoming:
-      return type === ListItemType.Event ? 'Confirmed' : 'To Do';
+      return type === ItemType.Event ? 'Confirmed' : 'To Do';
     case ItemStatus.Tentative:
-      return type === ListItemType.Event ? 'Tenative' : 'Maybe';
+      return type === ItemType.Event ? 'Tenative' : 'Maybe';
     case ItemStatus.Cancelled:
-      return type === ListItemType.Event ? 'Cancelled' : "Won't Do";
+      return type === ItemType.Event ? 'Cancelled' : "Won't Do";
     default:
       return status;
   }
 };
 
-export const getItemPermission = (item, user_id) => {
-  const users = item.permitted_users.concat(item.invited_users || []);
-  return users.find((x) => x.user_id === user_id)?.permissions;
-};
-
-export const isTemplate = (item) => {
+export const isTemplate = (item: LocalItem) => {
   return item.day && !item.date;
 };

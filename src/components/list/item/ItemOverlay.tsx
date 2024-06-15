@@ -1,12 +1,11 @@
 import { View, StyleSheet } from 'react-native';
 import { useMemo } from 'react';
 import {
-  ListItemType,
   getItemPrimaryColor,
   getItemSecondaryColor
 } from '../constants';
 import { Vertical } from '../../general/MiscComponents';
-import { deepBlue } from '../../../utils/constants';
+import { deepBlue } from '../../../utils/colours';
 import Animated, {
   useAnimatedStyle,
   withTiming
@@ -15,12 +14,13 @@ import {
   ItemStyleOptions,
   LIST_ITEM_HEIGHT,
   ListItemAnimatedValues
-} from './ListItem';
+} from './Item';
 import { ListItem } from '../../../utils/abstractTypes';
 import { AnimatedCheck } from '../../general/AnimatedCheck';
 import { ItemTitleFormatter } from '../../text/ItemTitleFormatter';
 import { CollaborativeIcon } from '../../general/CollaborativeIcon';
 import { ItemTimeFormatter } from 'components/text/ItemTimeFormatter';
+import { ItemType } from 'schema/database/items';
 
 type Props = {
   item: ListItem;
@@ -65,7 +65,7 @@ export const ListItemOverlay = ({
   const conditionalStyles = {
     listItem: {
       backgroundColor: primaryColor,
-      borderRadius: item.type !== ListItemType.Task ? 5 : 15
+      borderRadius: item.type !== ItemType.Task ? 5 : 15
     }
   };
 

@@ -6,67 +6,46 @@ import {
 import { useAuth } from '../../../authorisation/AuthProvider';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { localisedMoment } from '../../../utils/dates';
+import { ItemDrawerProps } from '../ItemDrawer';
+import { TimeString } from 'schema/util/dates';
+import { LocalItem } from 'schema/items';
 
-export const ItemTime = ({ item, updateItem, updateNotification, invited }) => {
+export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
   const { user } = useAuth();
 
-  const updateTime = (time) => {
-    if (invited) {
+  const uploadTime = (time: TimeString|undefined) => {
+    if (item.invite_pending) {
       return;
     }
-    if (
-      !item.time &&
-      user.premium?.notifications?.event_notifications_enabled
-    ) {
-      // If user has the setting to automatically create a notification, pass the update off to notif func
-      var prereq = { ...item, time };
-      updateNotification(
-        true,
-        user.premium.notifications?.event_notification_minutes_before || '5',
-        prereq
-      );
-    } else if (
-      !time &&
-      item.notifications &&
-      item.notifications.find((x) => x.user_id === user.id)
-    ) {
-      prereq = { ...item, time: null };
-      updateNotification(false, '5', prereq);
-    } else {
-      const update = { ...item, time };
-      // Adjust the end time if less than time - make the window equivalent
-      if (item.end_time) {
-        console.log('adjusting end time');
-        update.end_time = getAdjustedEndTime(time);
-        console.log('adjusted end time to', update.end_time);
-      }
+    
+    const changeSet: Partial<LocalItem> = { time };
 
-      updateItem(update);
+    if (time && user?.event_notification_minutes_before) {
+      changeSet.notification_mins_before = user.event_notification_minutes_before
     }
+
+    if (!time && item.notification_mins_before) {
+      changeSet.notification_mins_before = undefined
+    }
+
+    changeSet.end_time = getAdjustedEndTime(time);
+
+    updateItem(item.id, changeSet);
   };
 
-  const getAdjustedEndTime = (newTime) => {
-    if (!item.time || !item.end_time || !newTime) {
-      return null;
+  const getAdjustedEndTime = (newTime: TimeString | undefined) => {
+    if (!newTime || !item.time || !item.end_time) {
+      return undefined;
     }
 
     // Determine the original time window
-    const [startHrs, startMins] = item.time.split(':');
-    const [endHrs, endMins] = item.end_time.split(':');
-    const startDateTime = new Date(null, null, null, startHrs, startMins);
-    const endDateTime = new Date(null, null, null, endHrs, endMins);
+    const startDateTime = localisedMoment(item.time, 'HH:mm').toDate()
+    const endDateTime = localisedMoment(item.end_time, 'HH:mm').toDate()
 
     const window = endDateTime.getTime() - startDateTime.getTime();
 
     // Add that window to the provided time to get the adjusted end time!
-    const [newStartHrs, newStartMins] = newTime.split(':');
-    const newStartDateTime = new Date(
-      null,
-      null,
-      null,
-      newStartHrs,
-      newStartMins
-    );
+    const newStartDateTime = localisedMoment(newTime, 'HH:mm')
     const newEndTime = localisedMoment(newStartDateTime)
       .add(window, 'ms')
       .format('HH:mm');
@@ -74,16 +53,9 @@ export const ItemTime = ({ item, updateItem, updateNotification, invited }) => {
     return newEndTime;
   };
 
-  const updateEndTime = (end_time) => {
-    if (invited) {
-      return;
-    }
-    updateItem({ ...item, end_time });
-  };
-
   const getDefaultEndTime = () => {
-    const [hrs, mins] = item.time.split(':');
-    const dateTime = new Date(null, null, null, hrs, mins);
+    const dateTime = localisedMoment(item.time, 'HH:mm').toDate();
+
     return localisedMoment(dateTime).add(1, 'hour').format('HH:mm');
   };
 
@@ -94,14 +66,14 @@ export const ItemTime = ({ item, updateItem, updateNotification, invited }) => {
       <View style={styles.pickerContainer}>
         <NullableTimePicker
           time={item.time}
-          updateTime={updateTime}
-          disabled={invited}
+          updateTime={uploadTime}
+          disabled={item.invite_pending}
         />
         <Text style={{ marginLeft: 20, textAlign: 'center' }}>-</Text>
         <NullableTimePicker
           time={item.end_time}
-          updateTime={updateEndTime}
-          disabled={invited}
+          updateTime={(end_time: TimeString) => updateItem(item.id, {  end_time })}
+          disabled={item.invite_pending}
           nullText={NullTimeTextOptions.EndTime}
           defaultTime={getDefaultEndTime()}
         />

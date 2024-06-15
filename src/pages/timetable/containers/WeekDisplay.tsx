@@ -5,7 +5,7 @@ import {
   formatDateData,
   getStartOfCurrentWeek,
   parseDateString
-} from '../../utils/dates';
+} from '../../../utils/dates';
 import { useMemo, useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Day } from './DayDisplay';

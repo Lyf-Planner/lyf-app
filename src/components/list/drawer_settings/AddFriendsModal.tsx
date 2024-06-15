@@ -7,41 +7,39 @@ import { FetchUserList } from '../../users/UserList';
 import { UserListContext } from '../../../utils/constants';
 import { SimpleSearch } from '../../fields/SimpleSearch';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useItems } from '../../../providers/useItems';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { ID } from 'schema/database/abstract';
 
-export const AddFriendsModal = ({ item_id }) => {
+type Props = {
+  item_id: ID
+}
+
+export const AddFriendsModal = ({ item_id }: Props) => {
   const { user } = useAuth();
-  const { items } = useItems();
   const { updateModal } = useModal();
 
   const [filter, setFilter] = useState(null);
-  const item = useMemo(
-    () => items.find((x) => x.id === item_id),
-    [items, item_id]
-  );
 
-  const closeModal = () => updateModal(null);
+  const closeModal = () => updateModal(undefined);
 
   return (
     <View style={styles.mainContainer}>
       <TouchableHighlight
-        style={{ marginLeft: 'auto', padding: 4, borderRadius: 5 }}
+        style={styles.touchable}
         onPress={closeModal}
         underlayColor={'rgba(0,0,0,0.5)'}
       >
         <AntDesign name="close" color="rgba(0,0,0,0.5)" size={18} />
       </TouchableHighlight>
-      <View style={{ gap: 2 }}>
-        <View style={styles.header}>
-          <FontAwesome5Icon name="user-plus" size={40} />
-          <Text style={styles.title}>Invite Friends</Text>
-        </View>
+      <View style={styles.header}>
+        <FontAwesome5Icon name="user-plus" size={40} />
+        <Text style={styles.title}>Invite Friends</Text>
       </View>
       <Horizontal style={styles.firstSeperator} />
+
       <SimpleSearch search={filter} setSearch={setFilter} />
-      <ScrollView style={{ maxHeight: 250, padding: 4 }}>
+      <ScrollView style={styles.userScroll}>
         <FetchUserList
           users={user.social.friends}
           emptyText={
@@ -72,6 +70,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 10
   },
+  touchable: { 
+    marginLeft: 'auto', 
+    padding: 4, 
+    borderRadius: 5 
+  },
   header: {
     flexDirection: 'column',
     justifyContent: 'center',
@@ -84,6 +87,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 4,
     borderWidth: 2
+  },
+  userScroll: { 
+    maxHeight: 250, 
+    padding: 4 
   },
   title: { fontSize: 22, fontWeight: '700' },
   subtitle: {

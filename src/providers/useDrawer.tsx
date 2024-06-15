@@ -17,7 +17,7 @@ type Props = {
 type DrawerBody = JSX.Element | undefined
 type DrawerHooks = {
   drawer: DrawerBody,
-  updateDrawer: (drawer: DrawerBody) => void
+  updateDrawer: (drawer: DrawerBody | undefined) => void
   updateSheetMinHeight: (height: number) => void
 }
 
@@ -71,7 +71,7 @@ export const DrawerProvider = ({ children }: Props) => {
 const DrawerContext = createContext<DrawerHooks | undefined>(undefined);
 
 export const useDrawer = () => {
-  return useContext(DrawerContext);
+  return useContext(DrawerContext) as DrawerHooks; // TODO: Typeguard this
 };
 
 const styles = StyleSheet.create({

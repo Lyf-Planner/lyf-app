@@ -5,46 +5,50 @@ import {
   TouchableHighlight,
   Alert
 } from 'react-native';
-import { primaryGreen } from '../../../utils/constants';
+import { primaryGreen } from '../../../utils/colours';
 import { formatDateData } from '../../../utils/dates';
 import { useNotifications } from '../../../providers/useNotifications';
 import { useModal } from '../../../providers/useModal';
 import { AddFriendsModal } from './AddFriendsModal';
-import { ListItemType, isTemplate } from '../constants';
+import { isTemplate } from '../constants';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { ItemDrawerProps } from '../ItemDrawer';
+import { ItemType } from 'schema/database/items';
 
 // The button component can definitely be abstracted here
+
+type Props = ItemDrawerProps & {
+  setDescOpen: (open: boolean) => void,
+  descOpen: boolean,
+  setLinkOpen: (open: boolean) => void,
+  linkOpen: boolean,
+  setLocationOpen: (open: boolean) => void,
+  locationOpen: boolean,
+}
 
 export const AddDetails = ({
   item,
   updateItem,
-  notification,
-  updateNotify,
   setDescOpen,
   descOpen,
   setLinkOpen,
   linkOpen,
   setLocationOpen,
   locationOpen,
-  invited,
-  noteItem = false
-}) => {
-  const { enabled } = useNotifications();
+}: Props) => {
+  const { enabled, getDefaultNotificationMins } = useNotifications();
   const { updateModal } = useModal();
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.detailsListWrapper}>
-        {!noteItem && (
+        {!item.note_id && (
           <TouchableHighlight
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
-            onPress={() => {
-              if (invited) {
-                return;
-              }
-              updateModal(<AddFriendsModal item_id={item.id} />);
-            }}
+            disabled={item.invite_pending}
+            onPress={() => updateModal(<AddFriendsModal item_id={item.id} />)}
           >
             <View style={styles.addFieldContent}>
               <FontAwesome5Icon name="users" color={'white'} size={16} />
@@ -52,16 +56,13 @@ export const AddDetails = ({
             </View>
           </TouchableHighlight>
         )}
+
         {!item.date && !isTemplate(item) && (
           <TouchableHighlight
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
-            onPress={() => {
-              if (invited) {
-                return;
-              }
-              updateItem({ ...item, date: formatDateData(new Date()) });
-            }}
+            disabled={item.invite_pending}
+            onPress={() => updateItem(item.id, { date: formatDateData(new Date()) })}
           >
             <View style={styles.addFieldContent}>
               <MaterialIcons name="date-range" color={'white'} size={18} />
@@ -69,16 +70,13 @@ export const AddDetails = ({
             </View>
           </TouchableHighlight>
         )}
-        {!item.time && item.type !== ListItemType.Task && (
+
+        {!item.time && item.type !== ItemType.Task && (
           <TouchableHighlight
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
-            onPress={() => {
-              if (invited) {
-                return;
-              }
-              updateItem({ ...item, time: '09:00' });
-            }}
+            disabled={item.invite_pending}
+            onPress={() => updateItem(item.id, { time: '09:00' })}
           >
             <View style={styles.addFieldContent}>
               <MaterialIcons name="access-time" color={'white'} size={18} />
@@ -86,27 +84,30 @@ export const AddDetails = ({
             </View>
           </TouchableHighlight>
         )}
-        {!notification && !noteItem && (
+
+        {!item.notification_mins_before && (
           <TouchableHighlight
             style={styles.addNotificationContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
+            disabled={item.invite_pending}
             onPress={() => {
-              if (invited) {
-                return;
-              }
               if (!item.time) {
                 Alert.alert(
-                  'Tip',
+                  'Lyf Tip',
                   'You need to add a time before setting a reminder :)'
                 );
-              } else if (!enabled) {
+                return;
+              }
+
+              if (!enabled) {
                 Alert.alert(
-                  'Whoops',
+                  'Lyf Tip',
                   'You need to enable Notifications for Lyf in your device settings'
                 );
-              } else {
-                updateNotify(true);
-              }
+                return;
+              } 
+            
+              updateItem(item.id, { notification_mins_before: getDefaultNotificationMins() })
             }}
           >
             <View style={styles.addFieldContent}>
@@ -119,16 +120,15 @@ export const AddDetails = ({
             </View>
           </TouchableHighlight>
         )}
+
         {!linkOpen && (
           <TouchableHighlight
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
+            disabled={item.invite_pending}
             onPress={() => {
-              if (invited) {
-                return;
-              }
               setLinkOpen(true);
-              updateItem({ ...item, url: '' });
+              updateItem(item.id, { url: '' });
             }}
           >
             <View style={styles.addFieldContent}>
@@ -137,16 +137,15 @@ export const AddDetails = ({
             </View>
           </TouchableHighlight>
         )}
+
         {!locationOpen && (
           <TouchableHighlight
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
+            disabled={item.invite_pending}
             onPress={() => {
-              if (invited) {
-                return;
-              }
               setLocationOpen(true);
-              updateItem({ ...item, location: '' });
+              updateItem(item.id, { location: '' });
             }}
           >
             <View style={styles.addFieldContent}>
@@ -155,16 +154,14 @@ export const AddDetails = ({
             </View>
           </TouchableHighlight>
         )}
+
         {!descOpen && (
           <TouchableHighlight
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
             onPress={() => {
-              if (invited) {
-                return;
-              }
               setDescOpen(true);
-              updateItem({ ...item, desc: '' });
+              updateItem(item.id, { desc: '' });
             }}
           >
             <View style={styles.addFieldContent}>
