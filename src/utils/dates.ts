@@ -1,5 +1,6 @@
 import moment from 'moment';
-import { DayOfWeek } from 'schema/util/dates';
+import { User } from 'schema/user';
+import { DateString, DayOfWeek } from 'schema/util/dates';
 
 // Wrapper to configure moment function
 export const localisedMoment = (...args: any[]) => {
@@ -35,12 +36,15 @@ export function addWeekToStringDate(date: string) {
   return formatDateData(moment(date).add(1, 'week').toDate());
 }
 
-export const initialiseDays = (user) => {
-  const endOfCurrentWeek = getEndOfCurrentWeek();
-  const start = establishFirstDay(user.timetable.first_day);
+export const upcomingWeek = (date: DateString) => {
+  const start = establishFirstDay(date);
 
-  const initial = [[start]];
-  let week = 0;
+  const initial = [start];
+
+  for (let i = 0; i < DayOfWeek; i++) {
+
+  }
+
   let next = localisedMoment(start).add(1, 'day').toDate();
   while (next.getTime() <= endOfCurrentWeek.getTime()) {
     if (next.getDay() === 1) {
@@ -56,7 +60,7 @@ export const initialiseDays = (user) => {
   return initial;
 };
 
-const establishFirstDay = (first_day) => {
+const establishFirstDay = (first_day: DateString) => {
   // Show days from first_day onward, unless it is behind the start of the current week or ahead of current day
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -94,7 +98,7 @@ export function formatDate(date: string) {
   return localisedMoment(time).format('MMM D');
 }
 
-export function dateFromDay(day: DaysOfWeek, dates) {
+export function dateFromDay(day: DayOfWeek, dates) {
   for (const date of dates) {
     if (localisedMoment(date).format('dddd') === day) {
       return date;

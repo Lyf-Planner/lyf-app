@@ -9,12 +9,18 @@ import {
 import { useMemo, useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Day } from './DayDisplay';
-import { BouncyPressable } from '../../components/pressables/BouncyPressable';
-import { localisedMoment } from '../../utils/dates';
-import { useAuth } from '../../authorisation/AuthProvider';
-import { isTemplate } from '../../components/list/constants';
+import { BouncyPressable } from '../../../components/pressables/BouncyPressable';
+import { localisedMoment } from '../../../utils/dates';
+import { useAuth } from '../../../authorisation/AuthProvider';
+import { isTemplate } from '../../../components/list/constants';
 import { v4 as uuid } from 'uuid';
-import { deepBlue } from '../../utils/constants';
+import { deepBlue } from '../../../utils/colours';
+import { LocalItem } from 'schema/items';
+
+type Props = {
+  items: LocalItem[],
+  dates: 
+}
 
 export const WeekDisplay = ({ items, dates }) => {
   const [hide, updateHide] = useState(false);

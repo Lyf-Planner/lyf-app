@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { WeekDisplay } from './WeekDisplay';
-import { extendByWeek, initialiseDays } from '../../utils/dates';
-import { primaryGreen } from '../../utils/constants';
-import { BouncyPressable } from '../../components/pressables/BouncyPressable';
+import { extendByWeek, initialiseDays } from '../../../utils/dates';
+import { primaryGreen } from '../../../utils/colours';
+import { BouncyPressable } from '../../../components/pressables/BouncyPressable';
 import { Routine } from './Routine';
-import { useAuth } from '../../authorisation/AuthProvider';
+import { useAuth } from '../../../authorisation/AuthProvider';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { LocalItem } from 'schema/items';
 
-export const Planner = ({ items }) => {
+type Props = {
+  items: LocalItem
+}
+
+export const Planner = ({ items }: Props) => {
   const { user } = useAuth();
   const [updatingTemplate, setUpdatingTemplate] = useState(false);
   const [displayedWeeks, setDisplayedWeeks] = useState(initialiseDays(user));
@@ -17,7 +22,7 @@ export const Planner = ({ items }) => {
   useEffect(() => {
     // Keep remote first_day in sync with any!
     setDisplayedWeeks(initialiseDays(user));
-  }, [user.timetable.first_day]);
+  }, [user?.first_day]);
 
   const addWeek = () => setDisplayedWeeks(extendByWeek([...displayedWeeks]));
 
