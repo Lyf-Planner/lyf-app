@@ -1,8 +1,13 @@
 import { StyleSheet, TouchableHighlight } from 'react-native';
-import { deepBlue } from '../../utils/constants';
+import { deepBlue } from '../../utils/colours';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export const TutorialHeaderButton = ({ onPress, open }) => {
+type Props = {
+  onPress: () => void;
+  open: boolean
+}
+
+export const TutorialHeaderButton = ({ onPress, open }: Props) => {
   return (
     <TouchableHighlight
       underlayColor={'rgba(0,0,0,0.4)'}

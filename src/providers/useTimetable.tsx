@@ -8,19 +8,17 @@ import {
   updateItem as updateRemoteItem,
   updateItemSocial as updateRemoteItemSocial
 } from '../rest/items';
-import { ItemStatus, ListItemType } from '../components/list/constants';
+import { ItemStatus } from '../components/list/constants';
 import { v4 as uuid } from 'uuid';
 import { addWeekToStringDate, formatDateData, getStartOfCurrentWeek } from '../utils/dates';
-import { arraysEqualAsSets } from '../utils/sets'
 import 'react-native-get-random-values';
 import { ListItem } from '../utils/abstractTypes';
 import { PublicUser, UserRelatedItem } from 'schema/user';
-import { Alert } from 'react-native';
-import { Item, LocalItem } from 'schema/items';
-import { ItemDbObject, ItemType } from 'schema/database/items';
-import { Permission } from 'schema/database/items_on_users';
-import { SocialAction } from 'schema/social';
-import { ID } from 'schema/database/abstract';
+import { Item, LocalItem } from '../schema/items';
+import { ItemDbObject, ItemType } from '../schema/database/items';
+import { Permission } from '../schema/database/items_on_users';
+import { SocialAction } from '../schema/util/social';
+import { ID } from '../schema/database/abstract';
 
 export type TimetableHooks = {
   loading: boolean,

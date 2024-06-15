@@ -1,6 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import { useAuth } from '../../../authorisation/AuthProvider';
-import { FriendshipAction, primaryGreen } from '../../../utils/constants';
+import { FriendshipAction } from '../../../utils/constants';
+import { primaryGreen } from 'utils/colours';
 import { useState } from 'react';
 import { ActionButton } from '../../../components/pressables/AsyncAction';
 import { BouncyPressable } from '../../../components/pressables/BouncyPressable';
@@ -8,10 +9,6 @@ import { Loader } from '../../../components/general/MiscComponents';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {
-  AllWidgets,
-  useWidgetNavigator
-} from '../../../providers/useWidgetNavigator';
 import { useModal } from '../../../providers/useModal';
 import {
   LyfMenu,
@@ -21,10 +18,9 @@ import {
 
 export const FriendAction = ({ user_id }) => {
   const { user } = useAuth();
-  const { setWidget } = useWidgetNavigator();
   const { updateModal } = useModal();
-  const friends = user.social?.friends?.find((x) => x === user_id);
-  const requested = user.social?.requested?.find((x) => x === user_id);
+  const friends = user?.relations?.users?.find((x) => x === user_id);
+  const requested = user.relations?.users?.find((x) => x === user_id);
   const requested_by = user.social?.requests?.find((x) => x === user_id);
   const blocked = user.social?.blocked?.find((x) => x === user_id);
 

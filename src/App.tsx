@@ -4,11 +4,11 @@ import { Background } from './components/general/Background';
 import { WidgetContainer } from './pages/WidgetContainer';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { AppProviders } from './providers/hookProviders';
 import env from './envManager';
 import 'expo-dev-client';
 import Routes from 'Routes';
 import { AuthGateway } from 'authorisation/AuthProvider';
+import { Providers } from 'providers/providers';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -30,7 +30,9 @@ export default function App() {
     <GestureHandlerRootView>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <AuthGateway>
-          <Routes />
+          <Providers>
+            <Routes />
+          </Providers>
         </AuthGateway>
       </TouchableWithoutFeedback>
     </GestureHandlerRootView>

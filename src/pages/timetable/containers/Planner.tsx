@@ -1,35 +1,51 @@
-import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { WeekDisplay } from './WeekDisplay';
-import { extendByWeek, initialiseDays } from '../../../utils/dates';
-import { primaryGreen } from '../../../utils/colours';
+import { useEffect, useMemo, useState } from 'react';
+import { View, Text, StyleSheet, Alert, Pressable } from 'react-native';
+import { dayFromDateString, extendByWeek, formatDate, formatDateData, localisedMoment, parseDateString, upcomingWeek } from '../../../utils/dates';
+import { deepBlue, primaryGreen } from '../../../utils/colours';
 import { BouncyPressable } from '../../../components/pressables/BouncyPressable';
-import { Routine } from './Routine';
 import { useAuth } from '../../../authorisation/AuthProvider';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { LocalItem } from 'schema/items';
+import { DayDisplay } from './DayDisplay';
+import { WeekDays } from 'schema/util/dates';
 
 type Props = {
-  items: LocalItem
+  items: LocalItem[]
 }
 
 export const Planner = ({ items }: Props) => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
+  const firstDay = useMemo(() => user?.first_day || formatDateData(new Date()), [])
+
   const [updatingTemplate, setUpdatingTemplate] = useState(false);
-  const [displayedWeeks, setDisplayedWeeks] = useState(initialiseDays(user));
+  const [displayedDays, setDisplayedDays] = useState(upcomingWeek(firstDay));
 
   useEffect(() => {
-    // Keep remote first_day in sync with any!
-    setDisplayedWeeks(initialiseDays(user));
+    // TODO: Function to adjust displayedDays in response to first_day changes
   }, [user?.first_day]);
 
-  const addWeek = () => setDisplayedWeeks(extendByWeek([...displayedWeeks]));
+  const unshiftFirst = async () => {
+    const first = user?.first_day || formatDateData(new Date());
+    const prev = formatDateData(
+      localisedMoment(parseDateString(first)).add(-1, 'day').toDate()
+    );
+
+    if (prev.localeCompare(firstDay) >= 0) {
+      updateUser({
+        ...user,
+        first_day: prev
+      });
+    }
+  };
+
+  const addWeek = () => setDisplayedDays(extendByWeek(displayedDays));
+  const updateDisplayedDays = (start: string, end: string) => null; // TODO: Return something
 
   return (
     <View>
       <View style={styles.menuButtonRow}>
-        <MenuButton
+       <MenuButton
           selected={!updatingTemplate}
           onPress={() => setUpdatingTemplate(false)}
         >
@@ -50,15 +66,46 @@ export const Planner = ({ items }: Props) => {
         </MenuButton>
       </View>
 
+      {/* TODO: Date selector (like this) */}
       {updatingTemplate ? (
-        <Routine items={items.filter((x) => x.day && !x.date)} />
+        <CalendarRange onLongPress={() => unshiftFirst()}>
+          <Text style={styles.weekDateText}>Every Week</Text>
+            <Pressable
+              onPress={() => {
+                Alert.alert(
+                  'Routine',
+                  'Everything in your routine will be copied into your timetable each week :)'
+                );
+              }}
+            >
+              <Entypo name="info-with-circle" color={'black'} size={18} />
+            </Pressable>
+        </CalendarRange>
+      ) :(
+        <CalendarRange>
+          <Text style={styles.weekDateText}>
+            {formatDate(firstDay)} - {formatDate(displayedDays[displayedDays.length - 1])}
+          </Text>
+        </CalendarRange>
+      )}      
+
+      {updatingTemplate ? (
+        <View>
+          {WeekDays.map((x) => (
+            <DayDisplay
+              key={x}
+              day={x}
+              items={items.filter((y) => (y.day && x === y.day))}
+            />
+          ))}
+        </View>
       ) : (
         <View>
-          {displayedWeeks.map((x) => (
-            <WeekDisplay
+          {displayedDays.map((x) => (
+            <DayDisplay
               key={x[0]}
-              dates={x}
-              items={items.filter((y) => x.includes(y.date) || y.day)}
+              date={x}
+              items={items.filter((y) => (y.date && x.includes(y.date)) || y.day)}
             />
           ))}
         </View>
@@ -83,7 +130,33 @@ export const Planner = ({ items }: Props) => {
   );
 };
 
-const MenuButton = ({ children, onPress, selected = false }) => {
+type CalendarProps = {
+  onLongPress?: () => void;
+  children: JSX.Element | JSX.Element[]
+}
+
+const CalendarRange = ({ onLongPress, children }: CalendarProps) => {
+  return (
+    <BouncyPressable
+      style={styles.weekDateDisplayTouchable}
+      onLongPress={onLongPress}
+    >
+      <View style={styles.weekDateDisplayContainer}>
+        <View style={styles.weekDatePressable}>
+          {children}
+        </View>
+      </View>
+    </BouncyPressable>
+  );
+}
+
+type MenuProps = {
+  children: JSX.Element | JSX.Element[];
+  onPress: () => void;
+  selected?: boolean;
+}
+
+const MenuButton = ({ children, onPress, selected = false }: MenuProps) => {
   return (
     <BouncyPressable
       style={styles.menuButton}
@@ -149,5 +222,44 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10,
     marginBottom: 10
+  }, 
+
+  weekDateDisplayContainer: {
+    flexDirection: 'row',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  weekDateDisplayTouchable: {
+    marginTop: 16,
+    marginHorizontal: 12,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    borderRadius: 10
+  },
+  weekDatePressable: {
+    borderRadius: 10,
+    marginVertical: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8
+  },
+  weekDateText: {
+    fontWeight: '600',
+    color: deepBlue,
+    fontSize: 18,
+    fontFamily: 'InterSemi'
+  },
+  weekDaysWrapperView: {
+    flexDirection: 'column',
+    gap: 16,
+    marginTop: 16,
+
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 3
   }
 });

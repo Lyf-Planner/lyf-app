@@ -3,7 +3,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming
 } from 'react-native-reanimated';
-import { SCALE_MS } from '../list/item/ListItemGestureWrapper';
+import { SCALE_MS } from '../list/item/ItemGestureWrapper';
 import { ItemStatus } from '../list/constants';
 import { ListItem } from '../../utils/abstractTypes';
 import AntDesign from 'react-native-vector-icons/AntDesign';

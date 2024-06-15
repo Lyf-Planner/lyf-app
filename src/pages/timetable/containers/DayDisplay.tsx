@@ -1,22 +1,21 @@
 import { View, Text, StyleSheet, Vibration, Pressable } from 'react-native';
-import { Horizontal, Vertical } from '../../components/general/MiscComponents';
-import { List } from '../../components/list/List';
+import { Horizontal, Vertical } from '../../../components/general/MiscComponents';
+import { List } from '../../../components/list/List';
 import {
   localisedMoment,
   dayFromDateString,
   formatDate,
   formatDateData,
   parseDateString
-} from '../../utils/dates';
+} from '../../../utils/dates';
 import {
   deepBlue,
   eventsBadgeColor,
   secondaryGreen,
-  sleep
-} from '../../utils/constants';
-import { ItemStatus, ListItemType } from '../../components/list/constants';
-import { useAuth } from '../../authorisation/AuthProvider';
-import { useItems } from '../../providers/useItems';
+} from '../../../utils/colours';
+import { sleep } from 'utils/misc';
+import { useAuth } from '../../../authorisation/AuthProvider';
+import { useTimetable } from '../../../providers/useTimetable';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -25,19 +24,29 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated';
 import { useEffect, useMemo, useState } from 'react';
-import { BouncyPressable } from '../../components/pressables/BouncyPressable';
+import { BouncyPressable } from '../../../components/pressables/BouncyPressable';
 import {
   LyfMenu,
   MenuPopoverPlacement,
   PopoverMenuOption
-} from '../../components/menus/LyfMenu';
-import { SortableList } from '../../components/list/SortableList';
+} from '../../../components/menus/LyfMenu';
+import { SortableList } from '../../../components/list/SortableList';
 import * as Haptics from 'expo-haptics';
+import { LocalItem } from 'schema/items';
+import { DateString } from 'schema/util/dates';
+import { ItemStatus, ItemType } from 'schema/database/items';
 
-export const Day = ({ items, date = null, day = null, template = false }) => {
+type Props = {
+  items: LocalItem[],
+  date?: DateString,
+  day?: string,
+  useRoutine?: boolean
+}
+
+export const DayDisplay = ({ items, date = undefined, day = undefined, useRoutine = false }: Props) => {
   const [sorting, setSorting] = useState(false);
   const { user, updateUser } = useAuth();
-  const { addItem, updateItem, removeItem } = useItems();
+  const { addItem, updateItem, removeItem } = useTimetable();
   const allDone = useMemo(
     () =>
       !items.find(
@@ -47,11 +56,11 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
   );
   const canDelete = useMemo(
     () =>
-      !template &&
+      !useRoutine &&
       date &&
       date.localeCompare(formatDateData(new Date())) < 1 &&
       allDone,
-    [allDone, date, template]
+    [allDone, date, useRoutine]
   );
 
   // Shift the users preferred start day one ahead - this is how we remove it implicitly
@@ -59,13 +68,16 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
     if (canDelete && removeQueued.value) {
       opacity.value = 0;
       scale.value = 1.5;
+
       await sleep(500);
+      const currentFirst = date || formatDateData(new Date())
       const next = formatDateData(
-        localisedMoment(parseDateString(date)).add(1, 'day').toDate()
+        localisedMoment(parseDateString(currentFirst)).add(1, 'day').toDate()
       );
+
       updateUser({
         ...user,
-        timetable: { ...user.timetable, first_day: next }
+        first_day: next
       });
     }
   };
@@ -154,7 +166,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
   };
 
   useEffect(() => {
-    if (canDelete && date.localeCompare(formatDateData(new Date())) < 1) {
+    if (canDelete && date && date.localeCompare(formatDateData(new Date())) < 1) {
       bounceHandle();
     }
   }, [canDelete]);
@@ -185,7 +197,8 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
     <View>
       <Animated.View style={[styles.dayRootView, exitingAnimation]}>
         <LyfMenu
-          name={date}
+        // TODO: This sucks
+          name={(date ? date : day) + "-menu"} 
           placement={MenuPopoverPlacement.Top}
           options={buildMenuOptions()}
         >
@@ -193,7 +206,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
             <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
               <View style={styles.dayOfWeekPressable}>
                 <Text style={styles.dayOfWeekText}>
-                  {day || dayFromDateString(date)}
+                  {day || (date && dayFromDateString(date))}
                 </Text>
               </View>
               <View style={styles.headerEnd}>
@@ -210,24 +223,33 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
 
         <View style={styles.listWrapperView}>
           <List
-            items={items
-              .filter((x) => x.type === ListItemType.Event)
-              .sort((a, b) => (a.time ? a.time.localeCompare(b.time) : 1))}
+            items={
+              items
+              .filter((x) => x.type === ItemType.Event)
+              .sort((a, b) => {
+                if (a.time && b.time) {
+                  return a.time.localeCompare(b.time)
+                }
+
+                if (a.time) {
+                  return -1;
+                }
+
+                return 1;
+              })
+            }
+            type={ItemType.Event}
             itemStyleOptions={{
               itemColor: eventsBadgeColor,
               itemTextColor: 'black'
             }}
-            addItem={(name) =>
+            addItemByTitle={(title: string) =>
               addItem(
-                name,
-                ListItemType.Event,
-                template ? null : date,
-                template ? day : null
+                ItemType.Event,
+                items.length,
+                { title }
               )
             }
-            updateItem={updateItem}
-            removeItem={removeItem}
-            type={ListItemType.Event}
             listWrapperStyles={{ backgroundColor: deepBlue }}
           />
         </View>
@@ -239,7 +261,7 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
         <View style={styles.listWrapperView}>
           {sorting ? (
             <SortableList
-              items={items.filter((x) => x.type === ListItemType.Task)}
+              items={items.filter((x) => x.type === ItemType.Task)}
               itemStyleOptions={{
                 itemColor: 'rgb(241 245 249)',
                 itemTextColor: 'black'
@@ -249,22 +271,19 @@ export const Day = ({ items, date = null, day = null, template = false }) => {
             />
           ) : (
             <List
-              items={items.filter((x) => x.type === ListItemType.Task)}
+              items={items.filter((x) => x.type === ItemType.Task)}
               itemStyleOptions={{
                 itemColor: eventsBadgeColor,
                 itemTextColor: 'black'
               }}
-              addItem={(name) =>
+              addItemByTitle={(title: string) =>
                 addItem(
-                  name,
-                  ListItemType.Task,
-                  template ? null : date,
-                  template ? day : null
+                  ItemType.Event,
+                  items.length,
+                  { title }
                 )
               }
-              updateItem={updateItem}
-              removeItem={removeItem}
-              type={ListItemType.Task}
+              type={ItemType.Task}
               listWrapperStyles={{ backgroundColor: deepBlue }}
             />
           )}

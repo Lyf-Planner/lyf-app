@@ -8,6 +8,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { TabBar } from "components/navigation/TabBar";
 import { defaultTabHeader } from "components/navigation/Header";
 import { offWhite } from "utils/colours";
+import { Timetable } from 'pages/timetable/TimetablePage';
 
 export const appTheme: Theme = {
   dark: false,
@@ -26,7 +27,7 @@ export const routes = Object.freeze({
   timetable: {
     label: "Timetable",
     icon: (color: string) => <MaterialCommunityIcons name='calendar' size={30} color={color}/>,
-    root: <Native.View></Native.View> // <Timetable />
+    root: <Timetable />
   },
   lists: {
     label: "Lists",

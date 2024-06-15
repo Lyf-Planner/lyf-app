@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { User } from 'schema/user';
-import { DateString, DayOfWeek } from 'schema/util/dates';
+import { DateString, DayOfWeek, WeekDays } from 'schema/util/dates';
 
 // Wrapper to configure moment function
 export const localisedMoment = (...args: any[]) => {
@@ -41,20 +41,12 @@ export const upcomingWeek = (date: DateString) => {
 
   const initial = [start];
 
-  for (let i = 0; i < DayOfWeek; i++) {
+  let next = localisedMoment(start).toDate();
 
-  }
-
-  let next = localisedMoment(start).add(1, 'day').toDate();
-  while (next.getTime() <= endOfCurrentWeek.getTime()) {
-    if (next.getDay() === 1) {
-      initial.push([formatDateData(next)]);
-      week++;
-    } else {
-      initial[week].push(formatDateData(next));
-    }
-
+  for (let i = 1; i < WeekDays.length; i++) {
     next = localisedMoment(next).add(1, 'day').toDate();
+    initial.push(formatDateData(next));
+
   }
 
   return initial;
@@ -76,21 +68,18 @@ const establishFirstDay = (first_day: DateString) => {
   return start;
 };
 
-export const extendByWeek = (weeks) => {
-  const i = weeks.length - 1;
-  const lastWeek = weeks[i];
-  const lastDay = lastWeek[lastWeek.length - 1];
+export const extendByWeek = (days: string[]) => {
+  const lastDay = days[days.length - 1];
   const endOfNextWeek = localisedMoment(lastDay).add(1, 'week').toDate();
 
   let next = localisedMoment(lastDay).add(1, 'day').toDate();
 
-  weeks.push([]);
   while (next.getTime() <= endOfNextWeek.getTime()) {
-    weeks[i + 1].push(formatDateData(next));
+    days.push(formatDateData(next));
     next = localisedMoment(next).add(1, 'day').toDate();
   }
 
-  return weeks;
+  return days;
 };
 
 export function formatDate(date: string) {
@@ -98,7 +87,7 @@ export function formatDate(date: string) {
   return localisedMoment(time).format('MMM D');
 }
 
-export function dateFromDay(day: DayOfWeek, dates) {
+export function dateFromDay(day: DayOfWeek, dates: string[]) {
   for (const date of dates) {
     if (localisedMoment(date).format('dddd') === day) {
       return date;

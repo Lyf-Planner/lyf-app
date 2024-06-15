@@ -1,5 +1,5 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { deepBlueOpacity, primaryGreen } from '../../utils/constants';
+import { View, Text, Image, StyleSheet, ListRenderItemInfo } from 'react-native';
+import { deepBlueOpacity, primaryGreen } from '../../utils/colours';
 import { useTutorial } from '../../providers/useTutorial';
 import { SaveTooltip } from '../../components/general/Icons';
 import AppIntroSlider from 'react-native-app-intro-slider';
@@ -11,7 +11,7 @@ const SLIDE_4_IMAGE = require('../../../assets/images/tutorial/slide4.png');
 const SLIDE_5_IMAGE = require('../../../assets/images/tutorial/slide5.png');
 const SLIDE_6_IMAGE = require('../../../assets/images/tutorial/slide6.png');
 
-export const IntroSlider = () => {
+export const TutorialOverlay = () => {
   const { updateTutorial } = useTutorial();
 
   return (
@@ -30,7 +30,11 @@ export const IntroSlider = () => {
   );
 };
 
-export const IntroSlideItem = ({ item }) => {
+type IntoSlideItemProps = {
+  item: Slide 
+}
+
+export const IntroSlideItem = ({ item }: IntoSlideItemProps) => {
   return (
     <View style={styles.main}>
       <View style={styles.titleWrapper}>
@@ -62,7 +66,7 @@ export const IntroSlideItem = ({ item }) => {
   );
 };
 
-const NavigationButton = ({ text }) => {
+const NavigationButton = ({ text }: { text: string }) => {
   return (
     <View style={styles.navButtonMain}>
       <Text style={styles.navButtonText}>{text}</Text>
@@ -136,7 +140,17 @@ const styles = StyleSheet.create({
   }
 });
 
-const slides = [
+type Slide = {
+  key: number,
+  title: string,
+  image?: any,
+  noImage?: boolean,
+  topText: string,
+  bottomText: string,
+  thirdText?: string
+}
+
+const slides: Slide[] = [
   {
     key: 1,
     title: 'Welcome to Lyf!',
