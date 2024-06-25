@@ -1,6 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
 import { useAuth } from '../../../authorisation/AuthProvider';
-import { SocialAction } from '../../../utils/constants';
 import {
   Menu,
   MenuOption,
@@ -10,20 +9,28 @@ import {
 } from 'react-native-popup-menu';
 import { StyleSheet, View } from 'react-native';
 import { Horizontal, Loader } from '../../general/MiscComponents';
-import { useItems } from '../../../providers/useItems';
+import { useTimetable } from '../../../providers/useTimetable';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import { LocalItem } from '../../../schema/items';
+import { SocialAction } from '../../../schema/util/social';
+import { Permission } from '../../../schema/database/items_on_users';
 
-export const OptionsMenu = ({ item }) => {
+type Props = {
+  item: LocalItem
+}
+
+export const OptionsMenu = ({ item }: Props) => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
-  const { updateItemSocial, removeItem } = useItems();
-  const permission = item.permitted_users.find(
-    (x) => x.user_id === user.id
-  )?.permissions;
+  const { updateItemSocial, removeItem } = useTimetable();
   const menuName = useMemo(
     () => `item-options-${item.id}-${item.show_in_upcoming}`,
     []
   );
+
+  if (!user) {
+    return null;
+  }
 
   const leaveItem = async () => {
     setLoading(true);
@@ -44,7 +51,7 @@ export const OptionsMenu = ({ item }) => {
       }}
     >
       <MenuOptions customStyles={{ optionsContainer: styles.optionsContainer }}>
-        {!(permission === 'Owner' && item.permitted_users.length === 1) && (
+        {(item.permission !== Permission.Owner || item.collaborative) && (
           <MenuOption
             value={1}
             text="Leave"
@@ -55,10 +62,10 @@ export const OptionsMenu = ({ item }) => {
             onSelect={() => leaveItem()}
           />
         )}
-        {permission === 'Owner' && (
+        {item.permission === 'Owner' && (
           <Horizontal style={styles.optionSeperator} />
         )}
-        {permission === 'Owner' && (
+        {item.permission === 'Owner' && (
           <MenuOption
             value={1}
             text="Delete"

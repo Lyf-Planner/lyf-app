@@ -26,11 +26,17 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
 
   const scale = useSharedValue(1);
   const chevronAngle = useSharedValue(0);
+  const shadowOffsetX = useSharedValue(2.5);
+  const shadowOffsetY = useSharedValue(2.5);
 
   const scaleAnimation = useAnimatedStyle(() => ({
     transform: [{
       scale: withTiming(scale.value, { duration: 200 })
-    }]
+    }],
+    shadowOffset: { 
+      width: withTiming(shadowOffsetX.value, { duration: 100 }), 
+      height: withTiming(shadowOffsetY.value, { duration: 100 })
+    }
   }));
   const chevronRotationAnimation = useAnimatedStyle(() => ({
     transform: [{
@@ -46,13 +52,21 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
     <Animated.View style={[styles.dropdownContainer, scaleAnimation]}>
       <Pressable
         style={styles.dropdownTextContainer}
-        onPressIn={() => scale.value = 0.95}
-        onPressOut={() => scale.value = 1}
+        onPressIn={() => {
+          shadowOffsetX.value = 0;
+          shadowOffsetY.value = 0;
+          scale.value = 0.95;
+        }}
+        onPressOut={() => {
+          shadowOffsetX.value = 2.5;
+          shadowOffsetY.value = 2.5;
+          scale.value = 1;
+        }}
         onPress={() => updateHide(!hide)}
       >
         {icon}
         <Text style={styles.listTitle}>{name}</Text>
-        <Text>{`(${items.length})`}</Text>
+        <Text style={styles.listSize}>{`(${items.length})`}</Text>
         <View style={styles.headerLeft}>
           <Animated.View style={[styles.animatedChevron, chevronRotationAnimation]}>
             <Entypo name="chevron-right" size={25} />
@@ -86,16 +100,15 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: eventsBadgeColor,
     borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 10,
+    padding: 12,
     justifyContent: 'flex-start',
     marginVertical: 1,
     borderWidth: 2,
     borderColor: 'rgba(0, 0, 0, 0.1)',
+
     shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 3
+    shadowOpacity: 0.5,
+    shadowRadius: 1
   },
   dropdownTextContainer: {
     flexDirection: 'row',
@@ -111,7 +124,11 @@ const styles = StyleSheet.create({
   listTitle: {
     fontSize: 20,
     paddingVertical: 4,
-    fontFamily: 'InterSemi'
+    fontFamily: 'Lexend'
+  },
+  listSize: {
+    paddingVertical: 4,
+    fontFamily: 'Lexend'
   },
   animatedChevron: {
     marginRight: 5

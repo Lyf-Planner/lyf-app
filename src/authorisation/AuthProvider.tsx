@@ -20,7 +20,10 @@ import {
 } from '../rest/user';
 import { AppState } from 'react-native';
 import { Background } from 'components/general/Background';
-import { ExposedUser, User } from 'schema/user';
+import { ExposedUser, User } from '../schema/user';
+import { updateFriendship as updateRemoteFriendship, getUser } from '../rest/user';
+import { ID } from '../schema/database/abstract';
+import { FriendshipAction } from '../schema/util/social';
 
 type Props = {
   children: JSX.Element;
@@ -28,16 +31,20 @@ type Props = {
 
 type AuthExposed = {
   user: ExposedUser | null,
-  updateUser: (changes: Partial<User>) => Promise<void>;
+  updateUser: (changes: Partial<User>) => Promise<void>,
+  updateFriendship: (user_id: ID, action: FriendshipAction) => Promise<void>;
   deleteMe: (password: string) => Promise<true | undefined>,
   logout: () => void,
-  lastUpdated: Date
+  lastUpdated: Date,
+  refreshWithFriends: () => Promise<void>
 }
 
 export const AuthGateway = ({ children }: Props) => {
   const [loggingIn, updateLoggingIn] = useState(false);
   const [user, setUser] = useState<ExposedUser | null>(null);
   const [lastUpdated, setLastUpdated] = useState(new Date());
+
+  // --- User Data --- //
 
   const updateUserInternal = useCallback(
     (changes: Partial<ExposedUser>) => {
@@ -74,13 +81,39 @@ export const AuthGateway = ({ children }: Props) => {
     clearUser();
   };
 
+  const updateFriendship = useCallback(
+    async (user_id, action) => {
+      if (!user) {
+        return;
+      }
+
+      const friends = await updateRemoteFriendship(user_id, action);
+      updateUser({ relations: { ...user.relations, users: friends } });
+    },
+    [user]
+  );
+
+  const refreshWithFriends = useCallback(
+    async () => {
+      if (!user) {
+        return
+      }
+
+      const freshUser = await getUser(user.id, "users");
+      updateUser(freshUser);
+    },
+    [user?.id]
+  );
+
+  // --- Sync --- //
+
   const refreshUser = () =>
     getAsyncData('token').then((token) => {
       if (token) {
         autologin().then((freshUser) => {
           if (freshUser) {
             // Sync up local with external
-            updateUser({
+            updateUserInternal({
               ...freshUser,
               timezone: getCalendars()[0].timeZone
             });
@@ -92,7 +125,6 @@ export const AuthGateway = ({ children }: Props) => {
       }
     });
 
-  // --- Sync --- //
   const appState = useRef(AppState.currentState);
 
   useEffect(() => {
@@ -106,7 +138,7 @@ export const AuthGateway = ({ children }: Props) => {
             if (token) {
               autologin().then((cloudUser) => {
                 console.log('Syncing User');
-                updateUser(cloudUser);
+                updateUserInternal(cloudUser);
               });
             } else {
               updateLoggingIn(false)
@@ -132,9 +164,11 @@ export const AuthGateway = ({ children }: Props) => {
   const EXPOSED = {
     user,
     updateUser,
+    updateFriendship,
     deleteMe,
     logout,
-    lastUpdated
+    lastUpdated,
+    refreshWithFriends
   };
 
   if (loggingIn) {
@@ -158,8 +192,8 @@ export const AuthGateway = ({ children }: Props) => {
   );
 };
 
-const AuthContext = createContext<AuthExposed>(undefined as any); // TODO: Do this better
+const AuthContext = createContext<AuthExposed | undefined>(undefined); // TODO: Do this better
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  return useContext(AuthContext) as AuthExposed;
 };

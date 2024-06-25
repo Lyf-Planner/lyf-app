@@ -101,7 +101,7 @@ export const TimetableProvider = ({ children }: Props) => {
     setItems(tmp);
 
     if (updateRemote) {
-      const success = await updateRemoteItem(changes);
+      const success = await updateRemoteItem({ id, ...changes });
       if (!success) {
         // Fallback to handle failed remote updates
         tmp[i] = item;
@@ -115,6 +115,8 @@ export const TimetableProvider = ({ children }: Props) => {
     rank: number,
     initial: Partial<LocalItem>,
   ) => {
+    console.log('creating item with overridden values:', initial);
+
     const newItem: LocalItem = {
       // Set defaults
       id: uuid(),
@@ -134,18 +136,13 @@ export const TimetableProvider = ({ children }: Props) => {
       // Then overwrite with whatever info we do have;
       ...initial
     };
-    
-
-    // Add to store
-    const tmpItems = [...items];
 
     // Conditional properties
     if (newItem.title[newItem.title.length - 1] === '?') {
       newItem.status = ItemStatus.Tentative;
     }
 
-    tmpItems.push(newItem);
-    setItems(tmpItems);
+    setItems([...items, newItem]);
 
     // Upload in background
     createItem(newItem);

@@ -1,11 +1,12 @@
 import { View, StyleSheet, Text } from 'react-native';
 import DraggableFlatlist from 'react-native-draggable-flatlist';
-import { useItems } from '../../providers/useItems';
-import { secondaryGreen } from '../../utils/constants';
+import { useTimetable } from '../../providers/useTimetable';
+import { secondaryGreen } from '../../utils/colours';
 import { SortableListItem } from './item/SortableListItem';
 import { BouncyPressable } from '../pressables/BouncyPressable';
 import { ListItem as ListItemAsType } from '../../utils/abstractTypes';
-import { ItemStyleOptions } from './item/ListItem';
+import { ItemStyleOptions } from './item/Item';
+import { Identifiable } from 'schema/database/abstract';
 
 type Props = {
   items: ListItemAsType[];
@@ -20,9 +21,9 @@ export const SortableList = ({
   itemStyleOptions,
   listWrapperStyles = {}
 }: Props) => {
-  const { resortItems } = useItems();
+  const { resortItems } = useTimetable();
 
-  const onDragEnd = ({ data }) => {
+  const onDragEnd = ({ data }: { data: Identifiable[] }) => {
     resortItems(data.map((x) => x.id));
   };
 
@@ -53,7 +54,7 @@ export const SortableList = ({
   );
 };
 
-const DoneButton = ({ doneSorting }) => {
+const DoneButton = ({ doneSorting }: { doneSorting: () => void }) => {
   return (
     <BouncyPressable style={styles.doneButton} onPress={doneSorting}>
       <Text style={styles.doneText}>Done</Text>

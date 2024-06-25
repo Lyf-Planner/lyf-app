@@ -1,0 +1,210 @@
+import * as Native from 'react-native';
+import { UserRelatedItem } from "../../schema/user"
+import { dayFromDateString, extendByWeek, formatDate, formatDateData, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
+import { useEffect, useMemo, useState } from 'react';
+import { useAuth } from 'authorisation/AuthProvider';
+import { CalendarRange } from './containers/CalendarRange';
+import { appleGray, blackWithOpacity, deepBlue, offWhite } from 'utils/colours';
+import { DayDisplay } from './containers/DayDisplay';
+import { LocalItem } from 'schema/items';
+import { BouncyPressable } from 'components/pressables/BouncyPressable';
+import Entypo from 'react-native-vector-icons/Entypo';
+import { ListDropdown } from 'components/dropdowns/ListDropdown';
+import { ItemType } from 'schema/database/items';
+import { v4 as uuid } from 'uuid';
+import { isTemplate } from 'components/list/constants';
+import { ScrollView } from 'react-native-gesture-handler';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useTimetable } from 'providers/useTimetable';
+
+export const Calendar = () => {
+  const { items } = useTimetable();
+  const { user, updateUser } = useAuth()
+  const firstDay = useMemo(() => user?.first_day || formatDateData(new Date()), [])
+
+  const [updatingTemplate, setUpdatingTemplate] = useState(false);
+  const [displayedDays, setDisplayedDays] = useState(upcomingWeek(firstDay));
+
+  useEffect(() => {
+    // TODO: Function to adjust displayedDays in response to first_day changes
+  }, [user?.first_day]);
+
+  const calendarItems = useMemo(() => {
+    const localItems: LocalItem[] = [];
+
+    for (const date of displayedDays) {
+      for (const item of items) {
+        if (item.date === date) {
+          localItems.push({ ...item, localised: false });
+        }
+
+        if (isTemplate(item) && item.day === dayFromDateString(date)) {
+          localItems.push({
+            ...item,
+            id: uuid(),
+            date,
+            day: undefined,
+            template_id: item.id,
+            localised: true,
+          })
+        }
+      }
+    }
+
+    return localItems;
+  }, [items])
+
+  const upcomingEvents = useMemo(() => (
+    items
+    .filter(
+      (x) =>
+        x.type === ItemType.Event &&
+        ((!x.date && !x.day) || x.show_in_upcoming)
+    )
+    .map((item) => ({ ...item, localised: false }))
+  ), [items]);
+
+  const toDoList = useMemo(() => (
+    items
+    .filter(
+      (x) =>
+        x.type === ItemType.Task &&
+        ((!x.date && !x.day) || x.show_in_upcoming)
+    )
+    .map((item) => ({ ...item, localised: false }))
+  ), [items]);
+
+  const unshiftFirst = async () => {
+    const first = user?.first_day || formatDateData(new Date());
+    const prev = formatDateData(
+      localisedMoment(parseDateString(first)).add(-1, 'day').toDate()
+    );
+
+    if (prev.localeCompare(firstDay) >= 0) {
+      updateUser({
+        ...user,
+        first_day: prev
+      });
+    }
+  };
+
+  useEffect(() => {
+    console.log('displayed days updated')
+  }, [displayedDays])
+
+  const addWeek = () => setDisplayedDays(extendByWeek(displayedDays));
+  const updateDisplayedDays = (start: string, end: string) => null; // TODO: Return something
+
+  
+  console.log("calendar items", calendarItems);
+  console.log('displayed days', displayedDays)
+
+  return (
+    <KeyboardAwareScrollView enableResetScrollToCoords={false}>
+      <Native.View style={styles.main}>
+        <ListDropdown
+          items={upcomingEvents}
+          name="Upcoming Events"
+          icon={<Entypo name="calendar" size={22} />}
+          listType={ItemType.Event}
+        />
+        <ListDropdown
+          items={toDoList}
+          name="To Do List"
+          icon={<Entypo name="list" size={22} />}
+          listType={ItemType.Task}
+        />
+
+        <Native.View style={styles.calendarWrapper}>
+          <CalendarRange onLongPress={() => unshiftFirst()}>
+            <Native.Text style={styles.weekDateText}>
+              {formatDate(displayedDays[0])} - {formatDate(displayedDays[displayedDays.length - 1])}
+            </Native.Text>
+          </CalendarRange>
+
+          {displayedDays.map((x) => (
+            <DayDisplay
+              key={x}
+              date={x}
+              day={null}
+              items={calendarItems.filter((y) => y.date === x)}
+            />
+          ))}
+
+          <Native.View style={styles.addWeekButton}>
+            <BouncyPressable
+              onPress={() => addWeek()}
+              style={styles.addWeekTouchable}
+              useTouchableHighlight
+            >
+              <Native.View style={styles.addWeekView}>
+                <Entypo name="chevron-down" size={20} />
+                <Native.Text style={styles.addWeekText}>Add Week</Native.Text>
+                <Entypo name="chevron-down" size={20} />
+              </Native.View>
+            </BouncyPressable>
+          </Native.View>
+        </Native.View>
+      </Native.View>
+    </KeyboardAwareScrollView>
+  )
+}
+
+const styles = Native.StyleSheet.create({
+  main: {
+    marginBottom: 125,
+    paddingHorizontal: 14,
+    marginTop: 15,
+    flexDirection: "column",
+    gap: 8
+  },
+
+  weekDateText: {
+    color: deepBlue,
+    fontSize: 20,
+    fontFamily: 'Lexend'
+  },
+
+  calendarWrapper: {
+    flexDirection: 'column',
+    marginTop: 4,
+    gap: 14,
+    backgroundColor: blackWithOpacity(0.1),
+    borderRadius: 10
+  },
+
+  weekDaysWrapperView: {
+    flexDirection: 'column',
+    paddingHorizontal: 12,
+    gap: 14,
+    marginTop: 10,
+
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 3
+  },
+
+  addWeekView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 5,
+    padding: 15,
+    backgroundColor: "rgba(0,0,0,0.2)",
+    width: 250,
+    borderRadius: 10
+  },
+  addWeekTouchable: {
+    borderRadius: 10
+  },
+  addWeekButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 15,
+  },
+  addWeekText: { 
+    fontSize: 18,
+    fontFamily: "Lexend"
+  }
+})

@@ -7,73 +7,81 @@ import {
 } from 'react-native-popup-menu';
 import { StyleSheet } from 'react-native';
 import {
-  Permission,
-  SocialAction,
   appleGray,
   primaryGreen
-} from '../../../utils/constants';
+} from '../../../utils/colours';
 import { useMemo, useRef, useState } from 'react';
 import { useAuth } from '../../../authorisation/AuthProvider';
-import { useItems } from '../../../providers/useItems';
+import { useTimetable } from '../../../providers/useTimetable';
 import { ActionButton } from '../../pressables/AsyncAction';
-import { getItemPermission } from '../constants';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { ItemRelatedUser, LocalItem } from '../../../schema/items';
+import { ID } from '../../../schema/database/abstract';
+import { Permission } from '../../../schema/database/items_on_users';
+import { SocialAction } from '../../../schema/util/social';
 
-const PERMISSION_COLOR = {
+const PERMISSION_COLOR: Record<Permission, string> = {
   Owner: primaryGreen,
   Editor: primaryGreen,
-  Invited: appleGray
+  'Read Only': appleGray
 };
 
-export const ItemSocialAction = ({ item, user_id }) => {
+type Props = {
+  item: LocalItem,
+  item_user: ItemRelatedUser
+}
+
+export const ItemSocialAction = ({ item, item_user }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { updateItemSocial } = useItems();
+  const { updateItemSocial } = useTimetable();
   const { user } = useAuth();
-  const permission = useMemo(
-    () => item && getItemPermission(item, user_id),
-    [item?.permitted_users, item?.invited_users, loading]
-  );
-  const myPermission = useMemo(
-    () => item && getItemPermission(item, user.id),
-    [item?.permitted_users, item?.invited_users]
-  );
+
   const hasMenu = useMemo(
-    () => myPermission === 'Owner' && permission,
-    [myPermission, permission]
+    () => (
+      !item.invite_pending && (
+        item.permission === Permission.Owner || 
+        item.permission === Permission.Editor
+      )
+    ),
+    [item.permission]
   );
 
   const removeUser = async () => {
     setLoading(true);
-    await updateItemSocial(item, user_id, SocialAction.Remove);
+    if (item.permission === Permission.Editor && item_user.permission !== Permission.ReadOnly) {
+      return;
+    }
+
+    await updateItemSocial(item, item_user.id, SocialAction.Remove);
     setLoading(false);
   };
 
   const cancelInvite = async () => {
     setLoading(true);
-    await updateItemSocial(item, user_id, SocialAction.Cancel);
+    await updateItemSocial(item, item_user.id, SocialAction.Cancel);
     setLoading(false);
   };
 
   const inviteUser = async () => {
     setLoading(true);
-    await updateItemSocial(item, user_id, SocialAction.Invite);
+    await updateItemSocial(item, item_user.id, SocialAction.Invite);
     setLoading(false);
   };
 
-  const color = PERMISSION_COLOR[permission as any] || primaryGreen;
+  const color = PERMISSION_COLOR[item.permission];
   const button = (
     <ActionButton
-      title={permission || 'Invite'}
-      func={permission ? () => {} : inviteUser}
+      title={item_user.permission || 'Invite'}
+      func={hasMenu? () => null : inviteUser}
       icon={
-        !permission && (
+        !item.permission && (
           <FontAwesome5Icon name="user-plus" size={16} color="white" />
         )
       }
       color={color}
       notPressable={hasMenu}
       loadingOverride={loading}
-      textColor={permission === Permission.Invited ? 'black' : 'white'}
+      textColor={item_user.invite_pending ? 'black' : 'white'}
     />
   );
 
@@ -82,7 +90,7 @@ export const ItemSocialAction = ({ item, user_id }) => {
   if (hasMenu) {
     return (
       <Menu
-        name={`item-user-${user_id}-menu`}
+        name={`item-user-${item_user.id}-menu`}
         ref={menu}
         renderer={renderers.Popover}
         rendererProps={{
@@ -95,14 +103,12 @@ export const ItemSocialAction = ({ item, user_id }) => {
         >
           <MenuOption
             value={1}
-            text={permission === Permission.Owner ? 'Leave' : 'Remove'}
+            text={item.permission === Permission.Owner ? 'Leave' : 'Remove'}
             customStyles={{
               optionWrapper: styles.optionWrapper,
               optionText: styles.optionText
             }}
-            onSelect={
-              permission === Permission.Invited ? cancelInvite : removeUser
-            }
+            onSelect={item_user.invite_pending ? cancelInvite : removeUser}
           />
         </MenuOptions>
         <MenuTrigger>{button}</MenuTrigger>

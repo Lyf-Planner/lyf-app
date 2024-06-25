@@ -1,6 +1,5 @@
 import { StyleSheet, View } from 'react-native';
 import { useAuth } from '../../../authorisation/AuthProvider';
-import { FriendshipAction } from '../../../utils/constants';
 import { primaryGreen } from 'utils/colours';
 import { useState } from 'react';
 import { ActionButton } from '../../../components/pressables/AsyncAction';
@@ -15,46 +14,62 @@ import {
   MenuPopoverPlacement,
   PopoverMenuOption
 } from '../../../components/menus/LyfMenu';
+import { UserFriend } from '../../../schema/user';
+import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingBFFRequest, hasOutgoingRequest } from '../../../schema/util/social';
+import { routes } from 'Routes';
+import { useNavigation } from '@react-navigation/native';
 
-export const FriendAction = ({ user_id }) => {
+type Props = {
+  friend: UserFriend
+}
+
+export const FriendAction = ({ friend }: Props) => {
   const { user } = useAuth();
-  const { updateModal } = useModal();
-  const friends = user?.relations?.users?.find((x) => x === user_id);
-  const requested = user.relations?.users?.find((x) => x === user_id);
-  const requested_by = user.social?.requests?.find((x) => x === user_id);
-  const blocked = user.social?.blocked?.find((x) => x === user_id);
+  if (!user) {
+    return null;
+  }
 
-  if (user_id === user.id) {
+  const { updateModal } = useModal();
+
+  if (friend.id === user.id) {
     return (
       <ActionButton
         title="You"
         func={() => {
-          setWidget(AllWidgets.Account);
-          updateModal(null);
+          useNavigation().navigate(routes.profile.label as never) // TODO: Fix this (RN 0.65> bug), anticipate fix!
+          updateModal(undefined);
         }}
         icon={null}
         color={primaryGreen}
       />
     );
-  } else if (friends) {
-    return <Friend user_id={user_id} />;
-  } else if (requested) {
-    return <Requested user_id={user_id} />;
-  } else if (requested_by) {
-    return <HandleRequest user_id={user_id} />;
+  }
+
+  const friends = hasFriendship(friend);
+  const outgoing = hasOutgoingRequest(user.id, friend);
+  const bff_outgoing = hasOutgoingBFFRequest(user.id, friend)
+  const incoming = hasIncomingRequest(user.id, friend);
+  const blocked = hasBlock(friend);
+
+  if (friends) {
+    return <Friend friend={friend} />;
+  } else if (outgoing) {
+    return <Requested friend={friend} />;
+  } else if (incoming) {
+    return <HandleRequest friend={friend} />;
   } else if (blocked) {
     return null;
   } else {
-    return <AddFriend user_id={user_id} />;
+    return <AddFriend friend={friend} />;
   }
 };
 
-export const Friend = ({ user_id }) => {
+export const Friend = ({ friend }: Props) => {
   const [loading, setLoading] = useState(false);
   const { updateFriendship } = useAuth();
   const removeFriend = async () => {
     setLoading(true);
-    await updateFriendship(user_id, FriendshipAction.Remove);
+    await updateFriendship(friend.id, FriendshipAction.Remove);
     setLoading(false);
   };
 
@@ -69,7 +84,7 @@ export const Friend = ({ user_id }) => {
     <LyfMenu
       options={menuOptions}
       placement={MenuPopoverPlacement.Top}
-      name={`requested-menu-${user_id}`}
+      name={`requested-menu-${friend.id}`}
     >
       <ActionButton
         title="Friends"
@@ -83,12 +98,12 @@ export const Friend = ({ user_id }) => {
   );
 };
 
-export const Requested = ({ user_id }) => {
+export const Requested = ({ friend }: Props) => {
   const [loading, setLoading] = useState(false);
   const { updateFriendship } = useAuth();
   const cancelRequest = async () => {
     setLoading(true);
-    await updateFriendship(user_id, FriendshipAction.Cancel);
+    await updateFriendship(friend.id, FriendshipAction.Cancel);
     setLoading(false);
   };
 
@@ -103,7 +118,7 @@ export const Requested = ({ user_id }) => {
     <LyfMenu
       options={menuOptions}
       placement={MenuPopoverPlacement.Top}
-      name={`requested-menu-${user_id}`}
+      name={`requested-menu-${friend.id}`}
     >
       <ActionButton
         title="Sent"
@@ -117,10 +132,10 @@ export const Requested = ({ user_id }) => {
   );
 };
 
-export const AddFriend = ({ user_id }) => {
+export const AddFriend = ({ friend }: Props) => {
   const { updateFriendship } = useAuth();
   const addFriend = async () => {
-    await updateFriendship(user_id, FriendshipAction.Request);
+    await updateFriendship(friend.id, FriendshipAction.Request);
   };
 
   return (
@@ -133,18 +148,18 @@ export const AddFriend = ({ user_id }) => {
   );
 };
 
-export const HandleRequest = ({ user_id }) => {
+export const HandleRequest = ({ friend }: Props) => {
   const { updateFriendship } = useAuth();
   const [accepting, setAccepting] = useState(false);
   const [declining, setDeclining] = useState(false);
   const acceptRequest = async () => {
     setAccepting(true);
-    await updateFriendship(user_id, FriendshipAction.Accept);
+    await updateFriendship(friend.id, FriendshipAction.Accept);
     setAccepting(false);
   };
   const declineRequest = async () => {
     setDeclining(true);
-    await updateFriendship(user_id, FriendshipAction.Decline);
+    await updateFriendship(friend.id, FriendshipAction.Decline);
     setDeclining(false);
   };
 

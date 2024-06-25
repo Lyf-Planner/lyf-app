@@ -1,13 +1,21 @@
-import { useCallback, useEffect, useMemo } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Planner } from './containers/Planner';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
 import { ListDropdown } from '../../components/dropdowns/ListDropdown';
 import { useTimetable } from '../../providers/useTimetable';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { ItemType } from 'schema/database/items';
+import { ScrollView } from 'react-native-gesture-handler';
+import { BouncyPressable } from 'components/pressables/BouncyPressable';
+import { black, primaryGreen, secondaryGreen, white } from 'utils/colours';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Calendar } from './Calendar';
+import { Routine } from './Routine';
+ 
+const Tab = createMaterialTopTabNavigator();
 
 export const Timetable = () => {
-  const { items, loading, reload } = useTimetable();
+  const { loading, reload } = useTimetable();
 
   useEffect(() => {
     if (loading) {
@@ -15,60 +23,63 @@ export const Timetable = () => {
     }
   }, [])
 
-  const upcomingEvents = useMemo(() => (
-    items.filter(
-      (x) =>
-        x.type === ItemType.Event &&
-        ((!x.date && !x.day) || x.show_in_upcoming)
-    )
-  ), [items]);
-
-  const toDoList = useMemo(() => (
-    items.filter(
-      (x) =>
-        x.type === ItemType.Task &&
-        ((!x.date && !x.day) || x.show_in_upcoming)
-    )
-  ), [items]);
-
-  const scheduledItems = useMemo(() => (
-    items.filter((x) => x.date || x.day)
-  ), [items]);
-
   return (
-    <View style={styles.widgetContainer}>
-      <View style={styles.miscListContainer}>
-        <ListDropdown
-          items={upcomingEvents}
-          name="Upcoming Events"
-          icon={<Entypo name="calendar" size={22} />}
-          listType={ItemType.Event}
+    <View style={styles.main}>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarBounces: true,
+          tabBarPressOpacity: 0.75,
+          tabBarLabelStyle: styles.tabBarLabelStyle,
+          tabBarItemStyle: styles.tabBarItemStyle,
+          tabBarStyle: styles.tabBarStyle,
+          tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
+        }}
+      >
+        <Tab.Screen 
+          name="Calendar" 
+          component={Calendar} 
+          options={{
+            tabBarIcon: () => <MaterialCommunityIcons name="table" size={24} color="white" />,
+            tabBarLabel: "Calendar"
+          }}
         />
-        <ListDropdown
-          items={toDoList}
-          name="To Do List"
-          icon={<Entypo name="list" size={22} />}
-          listType={ItemType.Task}
+        <Tab.Screen 
+          name="Routine" 
+          component={Routine}
+          options={{
+            tabBarIcon: () =>  <MaterialCommunityIcons name="refresh" size={24} color="white" style={{ top: 1 }} />,
+            tabBarLabel: "Routine"
+          }}
         />
-      </View>
-      <Planner items={scheduledItems} />
+      </Tab.Navigator>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  widgetContainer: {
+  main: {
     flexDirection: 'column',
-    marginTop: 10,
     flex: 1,
     gap: 2
   },
-  miscListContainer: {
-    flexDirection: 'column',
-    gap: 6,
-    marginHorizontal: 14,
-    marginTop: 2,
-    marginBottom: 6,
-    borderRadius: 10
+  tabBarLabelStyle: { 
+    fontSize: 20, 
+    color: white, 
+    fontFamily: "Lexend", 
+    textTransform: "none" 
+  },
+  tabBarItemStyle: {
+    height: 65,
+    flexDirection: "row"
+  },
+  tabBarStyle: {
+    backgroundColor: primaryGreen, 
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2
+  },
+  tabBarIndicatorStyle: {
+    backgroundColor: black
   }
 });

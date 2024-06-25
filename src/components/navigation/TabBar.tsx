@@ -50,5 +50,10 @@ const styles = Native.StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     bottom: 0,
+
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: -1 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4
   }
 });

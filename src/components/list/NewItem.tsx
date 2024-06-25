@@ -6,11 +6,13 @@ import { ItemType } from 'schema/database/items';
 export type AddItemByTitle = (title: string) => void;
 
 type Props = {
-  type: ItemType;
   addItemByTitle: AddItemByTitle;
+  onBlur?: () => void;
+  onFocus?: () => void;
+  type: ItemType;
 };
 
-export const NewItem = ({ type, addItemByTitle }: Props) => {
+export const NewItem = ({ addItemByTitle, onBlur, onFocus, type }: Props) => {
   const [newItem, updateNewItem] = useState<string>('');
   const inputRef = useRef<TextInput>(null);
   const placeholderText = `Add ${type} +`;
@@ -31,6 +33,8 @@ export const NewItem = ({ type, addItemByTitle }: Props) => {
       placeholderTextColor="grey"
       style={styles.listNewItem}
       blurOnSubmit={false}
+      onBlur={onBlur}
+      onFocus={onFocus}
       onSubmitEditing={onSubmit}
       onChangeText={onChangeText}
     />
@@ -41,12 +45,12 @@ const styles = StyleSheet.create({
   listNewItem: {
     height: LIST_ITEM_HEIGHT,
     backgroundColor: 'rgb(17 24 39)',
-    fontFamily: 'Inter',
+    fontFamily: 'Lexend',
     marginTop: 2,
     borderRadius: 10,
     paddingVertical: 8,
     paddingHorizontal: 8,
-    width: '100%',
+    flex: 1,
     zIndex: 10,
     borderColor: 'rgb(156 163 175)',
     borderWidth: 1,

@@ -1,6 +1,6 @@
 import { LocalItem } from 'schema/items';
 import { ListItem } from '../../utils/abstractTypes';
-import { primaryGreen } from '../../utils/colours';
+import { eventsBadgeColor, offWhite, primaryGreen, white } from '../../utils/colours';
 import { ItemType } from 'schema/database/items';
 
 export enum ItemStatus {
@@ -31,12 +31,12 @@ export const ITEM_STATUS_TO_COLOR = {
 } as any;
 
 // Used by background
-export const getItemPrimaryColor = (item: ListItem, defaultColor: string) => {
+export const getItemPrimaryColor = (item: ListItem) => {
   if (!item.status || item.status === ItemStatus.Upcoming) {
-    return defaultColor;
-  } else {
-    return ITEM_STATUS_TO_COLOR[item.status];
+    return item.type === ItemType.Event ? eventsBadgeColor : white;
   }
+    
+  return ITEM_STATUS_TO_COLOR[item.status];
 };
 
 // Used by text and icons etc

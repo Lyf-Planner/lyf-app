@@ -4,7 +4,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import { Loader } from '../../../components/general/MiscComponents';
 import { getUser } from '../../../rest/user';
 import { UserBanner } from '../../../components/users/UserBanner';
-import { primaryGreen } from '../../../utils/constants';
+import { primaryGreen } from '../../../utils/colours';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export const FindUsers = () => {
@@ -16,7 +16,7 @@ export const FindUsers = () => {
 
   const findUser = async () => {
     updateSearching(true);
-    const user = await getUser(username);
+    const user = await getUser(username, "");
     if (!user) {
       updateSearched(true);
     }

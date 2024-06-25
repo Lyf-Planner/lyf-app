@@ -33,20 +33,23 @@ import {
 import { SortableList } from '../../../components/list/SortableList';
 import * as Haptics from 'expo-haptics';
 import { LocalItem } from 'schema/items';
-import { DateString } from 'schema/util/dates';
+import { DateString, DayOfWeek } from 'schema/util/dates';
 import { ItemStatus, ItemType } from 'schema/database/items';
+import { NewItem } from 'components/list/NewItem';
 
 type Props = {
   items: LocalItem[],
-  date?: DateString,
-  day?: string,
+  date: DateString | null,
+  day: DayOfWeek | null,
   useRoutine?: boolean
 }
 
-export const DayDisplay = ({ items, date = undefined, day = undefined, useRoutine = false }: Props) => {
+export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
   const [sorting, setSorting] = useState(false);
+  const [newItemType, setNewItemType] = useState<ItemType | null>(null);
+
   const { user, updateUser } = useAuth();
-  const { addItem, updateItem, removeItem } = useTimetable();
+  const { addItem } = useTimetable();
   const allDone = useMemo(
     () =>
       !items.find(
@@ -193,6 +196,8 @@ export const DayDisplay = ({ items, date = undefined, day = undefined, useRoutin
     return menuOptions;
   };
 
+  console.log('date', date, "day", day, "has items", items);
+
   return (
     <View>
       <Animated.View style={[styles.dayRootView, exitingAnimation]}>
@@ -222,43 +227,6 @@ export const DayDisplay = ({ items, date = undefined, day = undefined, useRoutin
         </LyfMenu>
 
         <View style={styles.listWrapperView}>
-          <List
-            items={
-              items
-              .filter((x) => x.type === ItemType.Event)
-              .sort((a, b) => {
-                if (a.time && b.time) {
-                  return a.time.localeCompare(b.time)
-                }
-
-                if (a.time) {
-                  return -1;
-                }
-
-                return 1;
-              })
-            }
-            type={ItemType.Event}
-            itemStyleOptions={{
-              itemColor: eventsBadgeColor,
-              itemTextColor: 'black'
-            }}
-            addItemByTitle={(title: string) =>
-              addItem(
-                ItemType.Event,
-                items.length,
-                { title }
-              )
-            }
-            listWrapperStyles={{ backgroundColor: deepBlue }}
-          />
-        </View>
-
-        <Horizontal
-          style={{ borderColor: 'rgba(255,255,255,0.5)', marginTop: 6 }}
-        />
-
-        <View style={styles.listWrapperView}>
           {sorting ? (
             <SortableList
               items={items.filter((x) => x.type === ItemType.Task)}
@@ -271,22 +239,51 @@ export const DayDisplay = ({ items, date = undefined, day = undefined, useRoutin
             />
           ) : (
             <List
-              items={items.filter((x) => x.type === ItemType.Task)}
+              items={items.sort((a, b) => {
+                if (a.time && b.time) {
+                  return a.time.localeCompare(b.time)
+                }
+
+                if (a.time) {
+                  return -1;
+                }
+
+                return 1;
+              })}
               itemStyleOptions={{
                 itemColor: eventsBadgeColor,
                 itemTextColor: 'black'
               }}
-              addItemByTitle={(title: string) =>
-                addItem(
-                  ItemType.Event,
-                  items.length,
-                  { title }
-                )
-              }
-              type={ItemType.Task}
               listWrapperStyles={{ backgroundColor: deepBlue }}
             />
           )}
+        </View>
+
+        <View style={styles.addItemSection}>
+          {newItemType !== ItemType.Task &&
+            <NewItem 
+              addItemByTitle={(title: string) => addItem(ItemType.Event, items.length, {
+                title,
+                date: date || undefined,
+                day: day || undefined
+              })}
+              type={ItemType.Event} 
+              onBlur={() => setNewItemType(null)}
+              onFocus={() => setNewItemType(ItemType.Event)}
+            />
+          }
+          {newItemType !== ItemType.Event &&
+            <NewItem
+              type={ItemType.Task} 
+              addItemByTitle={(title: string) => addItem(ItemType.Task, items.length, {
+                title,
+                date: date || undefined,
+                day: day || undefined
+              })}  
+              onBlur={() => setNewItemType(null)}
+              onFocus={() => setNewItemType(ItemType.Task)}
+            />
+          }
         </View>
       </Animated.View>
     </View>
@@ -300,7 +297,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     zIndex: 10,
-    flexDirection: 'column'
+    flexDirection: 'column',
+
+    shadowColor: 'black',
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 3
   },
   dayHeaderView: {
     backgroundColor: secondaryGreen,
@@ -330,11 +332,10 @@ const styles = StyleSheet.create({
     paddingRight: 2,
     marginLeft: 16,
     fontSize: 16,
-    fontFamily: 'Inter'
+    fontFamily: 'Lexend'
   },
   dayOfWeekText: {
-    fontWeight: '600',
-    fontFamily: 'InterSemi',
+    fontFamily: 'Lexend-Semibold',
     fontSize: 18,
     padding: 2
   },
@@ -350,5 +351,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: '500'
+  },
+  addItemSection: {
+    flexDirection: 'row',
+    gap: 4,
   }
 });

@@ -9,6 +9,7 @@ export async function get(url: string) {
       headers: { Authorization: `Bearer ${token}` }
     });
   } catch (err) {
+    console.log("error", err);
     return err.response;
   }
 }

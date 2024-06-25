@@ -27,7 +27,7 @@ export const routes = Object.freeze({
   timetable: {
     label: "Timetable",
     icon: (color: string) => <MaterialCommunityIcons name='calendar' size={30} color={color}/>,
-    root: <Timetable />
+    root: <Native.View><Native.Text>HELLO WORLD</Native.Text></Native.View>
   },
   lists: {
     label: "Lists",
@@ -68,7 +68,7 @@ export default function Routes() {
           <Tab.Screen
             name={key}
             key={route.label}
-            component={Native.View}
+            component={Timetable}
             options={defaultTabHeader(route.label)}
           />
         ))}

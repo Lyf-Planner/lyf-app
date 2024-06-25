@@ -21,9 +21,10 @@ import { ItemTitleFormatter } from '../../text/ItemTitleFormatter';
 import { CollaborativeIcon } from '../../general/CollaborativeIcon';
 import { ItemTimeFormatter } from 'components/text/ItemTimeFormatter';
 import { ItemType } from 'schema/database/items';
+import { LocalItem } from 'schema/items';
 
 type Props = {
-  item: ListItem;
+  item: LocalItem;
   itemStyleOptions: ItemStyleOptions;
   animatedValues: ListItemAnimatedValues;
 };
@@ -49,23 +50,20 @@ export const ListItemOverlay = ({
   // STYLING
 
   const primaryColor = useMemo(
-    () => getItemPrimaryColor(item, itemStyleOptions.itemColor),
+    () => getItemPrimaryColor(item),
     [item, itemStyleOptions]
   );
   const secondaryColor = useMemo(
     () => getItemSecondaryColor(item, itemStyleOptions.itemTextColor),
     [item, itemStyleOptions]
   );
-  const isCollaborative = useMemo(
-    () => item.permitted_users.length > 1 || item.invited_users?.length > 0,
-    [item]
-  );
+
   const showTime = useMemo(() => !!item.time, [item]);
 
   const conditionalStyles = {
     listItem: {
       backgroundColor: primaryColor,
-      borderRadius: item.type !== ItemType.Task ? 5 : 15
+      borderRadius: item.type === ItemType.Event ? 5 : 10
     }
   };
 
@@ -87,7 +85,7 @@ export const ListItemOverlay = ({
           </View>
         )}
 
-        {isCollaborative && <CollaborativeIcon item={item} />}
+        {item.collaborative && <CollaborativeIcon item={item} />}
       </View>
     </Animated.View>
   );

@@ -31,7 +31,7 @@ export const SortableListItem = ({
 }: Props) => {
   const checkScale = useSharedValue(1);
   const primaryColor = useMemo(
-    () => getItemPrimaryColor(item, itemStyleOptions.itemColor),
+    () => getItemPrimaryColor(item),
     [item, itemStyleOptions]
   );
   const secondaryColor = useMemo(

@@ -1,21 +1,11 @@
 import { get, post } from './axios';
 import env from '../envManager';
-
-export async function getNotes(note_ids: string[]) {
-  const url = `${env.BACKEND_URL}/getNotes`;
-  const body = { note_ids };
-
-  const result = await post(url, body);
-  const notes = result.data;
-  if (result?.status === 200) {
-    return notes;
-  } else {
-    alert(result.data);
-  }
-}
+import { Note } from 'schema/notes';
+import { NoteDbObject } from 'schema/database/notes';
+import { ID } from 'schema/database/abstract';
 
 export async function getNote(id: string) {
-  const url = `${env.BACKEND_URL}/getNote?id=${id}`;
+  const url = `${env.BACKEND_URL}/note/get?id=${id}`;
 
   const result = await get(url);
   const note = result.data;
@@ -26,24 +16,19 @@ export async function getNote(id: string) {
   }
 }
 
-export async function updateNote(note) {
-  const url = `${env.BACKEND_URL}/updateNote`;
+export async function updateNote(changes: Partial<Note>) {
+  const url = `${env.BACKEND_URL}/note/update`;
 
-  const body = {
-    id: note.id,
-    title: note.title,
-    content: note.content
-  };
-  const result = await post(url, body);
+  const result = await post(url, changes);
   if (result?.status === 200) {
-    return note;
+    return result.data;
   } else {
     alert(result.data);
   }
 }
 
-export async function createNote(note) {
-  const url = `${env.BACKEND_URL}/createNote`;
+export async function createNote(note: NoteDbObject) {
+  const url = `${env.BACKEND_URL}/note/create`;
 
   const result = await post(url, note);
   if (result?.status === 200) {
@@ -54,8 +39,8 @@ export async function createNote(note) {
   }
 }
 
-export async function deleteNote(id) {
-  const url = `${env.BACKEND_URL}/deleteNote?note_id=${id}`;
+export async function deleteNote(id: ID) {
+  const url = `${env.BACKEND_URL}/note/delete?note_id=${id}`;
 
   const result = await get(url);
   if (result?.status === 200) {

@@ -3,13 +3,14 @@ import { User } from 'schema/user';
 import { DateString, DayOfWeek, WeekDays } from 'schema/util/dates';
 
 // Wrapper to configure moment function
-export const localisedMoment = (...args: any[]) => {
+export const localisedMoment = (args?: any) => {
   // This sets the first day of the week to Monday. For some reason not a default
   moment.updateLocale('en', {
     week: {
       dow: 1
     }
   });
+
   return moment(args);
 };
 
@@ -38,7 +39,6 @@ export function addWeekToStringDate(date: string) {
 
 export const upcomingWeek = (date: DateString) => {
   const start = establishFirstDay(date);
-
   const initial = [start];
 
   let next = localisedMoment(start).toDate();
@@ -53,19 +53,18 @@ export const upcomingWeek = (date: DateString) => {
 };
 
 const establishFirstDay = (first_day: DateString) => {
-  // Show days from first_day onward, unless it is behind the start of the current week or ahead of current day
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  let start = first_day ? first_day : formatDateData(today);
-  const startOfWeek = formatDateData(getStartOfCurrentWeek(today));
+  // Show the users' first day unless over a week old
+  const oneWeekAgo = localisedMoment().add(-1, 'weeks').toDate();
+  const startDate = parseDateString(first_day);
 
-  if (start.localeCompare(startOfWeek) < 0)
-  // Always refresh to Monday at the start of each week
-  {
-    start = startOfWeek;
+  console.log(startDate, oneWeekAgo)
+
+  if (startDate < oneWeekAgo) {
+    localisedMoment(oneWeekAgo).toDate
+    return formatDateData(oneWeekAgo);
   }
 
-  return start;
+  return first_day;
 };
 
 export const extendByWeek = (days: string[]) => {
@@ -79,6 +78,7 @@ export const extendByWeek = (days: string[]) => {
     next = localisedMoment(next).add(1, 'day').toDate();
   }
 
+  console.log("days", days);
   return days;
 };
 
@@ -103,7 +103,7 @@ export function formatDateData(date: Date) {
   return localisedMoment(date).format('YYYY-MM-DD');
 }
 
-export function parseDateString(date: string) {
+export function parseDateString(date: DateString) {
   const data = date.split('-').map((x) => parseInt(x));
   return new Date(data[0], data[1] - 1, data[2]);
 }

@@ -1,6 +1,6 @@
 import { StyleSheet, Text } from 'react-native';
 import { ListItem } from '../../utils/abstractTypes';
-import { ListItemType } from '../list/constants';
+import { ItemType } from 'schema/database/items';
 
 type Props = {
   item: ListItem;
@@ -11,7 +11,7 @@ export const ItemTitleFormatter = ({ item, textColor }: Props) => {
   const conditionalStyles = {
     listItemText: {
       color: textColor,
-      fontFamily: item.type !== ListItemType.Task ? 'InterMed' : 'Inter'
+      fontFamily: item.type !== ItemType.Task ? 'InterMed' : 'Inter'
     }
   };
 

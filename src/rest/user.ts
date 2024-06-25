@@ -2,22 +2,14 @@ import { get, post } from './axios';
 import { storeAsyncData } from '../utils/asyncStorage';
 import { getCalendars } from 'expo-localization';
 import env from '../envManager';
-import { FriendshipAction } from '../utils/constants';
+import { User } from '../schema/user';
+import { FriendshipAction } from '../schema/util/social';
 
-export async function saveUser(user) {
-  const url = `${env.BACKEND_URL}/updateMe`;
-  const { timeZone } = getCalendars()[0];
+export async function saveUser(changes: Partial<User>) {
+  const url = `${env.BACKEND_URL}/user/update`;
 
-  const body = {
-    details: user.details,
-    expo_tokens: user.expo_tokens,
-    timezone: timeZone,
-    timetable: user.timetable,
-    notes: user.notes,
-    premium: user.premium
-  };
-  const result = await post(url, body);
-  console.log('Updating cloud user');
+  const result = await post(url, changes);
+
   if (result?.status === 200) {
     return true;
   } else {
@@ -30,7 +22,7 @@ export async function saveUser(user) {
 }
 
 export async function createUser(username: string, password: string) {
-  const url = `${env.BACKEND_URL}/createUser`;
+  const url = `${env.BACKEND_URL}/user/create`;
   const body = {
     user_id: username,
     password,
@@ -51,7 +43,7 @@ export async function createUser(username: string, password: string) {
 }
 
 export async function deleteMe(password: string) {
-  const url = `${env.BACKEND_URL}/deleteMe`;
+  const url = `${env.BACKEND_URL}/user/delete`;
 
   const result = await post(url, { password });
   if (result?.status === 200) {
@@ -61,8 +53,8 @@ export async function deleteMe(password: string) {
   }
 }
 
-export async function getUser(user_id: string) {
-  const url = `${env.BACKEND_URL}/getUser?user_id=${user_id}`;
+export async function getUser(user_id: string, include: string) {
+  const url = `${env.BACKEND_URL}/user/get?user_id=${user_id}&include=${include}`;
 
   const result = await get(url);
   // We use this to check result is a user and not an error object
@@ -71,24 +63,11 @@ export async function getUser(user_id: string) {
   }
 }
 
-export async function getUsers(user_ids: string[]) {
-  const url = `${env.BACKEND_URL}/getUsers`;
-
-  const body = { user_ids };
-  const result = await post(url, body);
-  // We use this to check result is a user and not an error object
-  if (result?.status === 200) {
-    return result.data;
-  } else {
-    alert(result.data);
-  }
-}
-
 export async function updateFriendship(
   user_id: string,
   action: FriendshipAction
 ) {
-  const url = `${env.BACKEND_URL}/updateFriendship`;
+  const url = `${env.BACKEND_URL}/user/updateFriendship`;
   const body = {
     user_id,
     action
