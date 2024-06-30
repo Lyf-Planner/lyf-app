@@ -12,10 +12,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import {
   ItemStyleOptions,
-  LIST_ITEM_HEIGHT,
   ListItemAnimatedValues
 } from './Item';
-import { ListItem } from '../../../utils/abstractTypes';
 import { AnimatedCheck } from '../../general/AnimatedCheck';
 import { ItemTitleFormatter } from '../../text/ItemTitleFormatter';
 import { CollaborativeIcon } from '../../general/CollaborativeIcon';

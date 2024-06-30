@@ -13,7 +13,7 @@ import {
 } from 'react-native-gesture-handler';
 import { ListItem, LyfElement } from '../../../utils/abstractTypes';
 import * as Haptics from 'expo-haptics';
-import { LIST_ITEM_HEIGHT, ListItemAnimatedValues } from './Item';
+import { ListItemAnimatedValues } from './Item';
 import { RemoveItem, UpdateItem } from '../../../providers/useTimetable';
 
 type Props = {
@@ -40,7 +40,6 @@ export const ListItemGestureWrapper = ({
   let longPressTimer: NodeJS.Timeout | undefined;
 
   // GESTURE DEFINITIONS
-
   const tap = Gesture.Tap()
     .runOnJS(true)
     .onStart(() => handleTapIn())
@@ -49,16 +48,36 @@ export const ListItemGestureWrapper = ({
     .runOnJS(true)
     .onStart(() => handleLongPressIn())
     .onEnd(() => handleLongPressOut());
-  const flingLeft = Gesture.Fling()
+
+  // TODO: Fix this to no longer require adjustment and pager-view prerelease package
+  //
+  // These stopped working properly after adding the topTabNavigator
+  // The issue is that the drag value is inconsistent/incorrect after bumping
+  //
+  // The solution was to use pager-view prerelease as per https://github.com/callstack/react-native-pager-view/issues/713
+  // and manually adjust this to track the value and arbitrary lower the drag threshold (typically 20px)
+  let flingStartX: number;
+  const fling = Gesture.Fling()
     .direction(Directions.LEFT)
+    .onBegin((event) => flingStartX = event.absoluteX)
+    .onFinalize((event) => {
+      console.log("diff is", event.absoluteX - flingStartX)
+      if (event.absoluteX - flingStartX > 5) {
+        handleFlingRight();
+      }
+      if (event.absoluteX - flingStartX < -5) {
+        handleFlingLeft();
+      }
+    })
     .runOnJS(true)
     .onEnd(() => handleFlingLeft());
-  const flingRight = Gesture.Fling()
-    .direction(Directions.RIGHT)
-    .runOnJS(true)
-    .onEnd(() => handleFlingRight());
+  // Originally, we just had this:
+  // const flingRight = Gesture.Fling()
+  //   .direction(Directions.RIGHT)
+  //   .runOnJS(true)
+  //   .onEnd(() => handleFlingRight());
 
-  const gestures = Gesture.Race(tap, longPress, flingLeft, flingRight);
+  const gestures = Gesture.Simultaneous(tap, longPress, fling);
 
   // GESTURE HANDLERS
 
@@ -89,9 +108,9 @@ export const ListItemGestureWrapper = ({
     }
 
     if (item.status === ItemStatus.Done) {
-      updateItem(item.id, { status: ItemStatus.Upcoming });
+      updateItem(item, { status: ItemStatus.Upcoming });
     } else {
-      updateItem(item.id, { status: ItemStatus.Done });
+      updateItem(item, { status: ItemStatus.Done });
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     }
   };
@@ -122,6 +141,7 @@ export const ListItemGestureWrapper = ({
   };
 
   const handleFlingLeft = () => {
+    console.log('fling left detected')
     animatedValues.offsetX.value = -40;
 
     openModal();
@@ -135,13 +155,14 @@ export const ListItemGestureWrapper = ({
   };
 
   const handleFlingRight = () => {
+    console.log('fling right detected')
     if (invited) {
       openModal();
       return;
     }
     animatedValues.offsetX.value = 40;
 
-    updateItem(item.id, { status: ItemStatus.InProgress });
+    updateItem(item, { status: ItemStatus.InProgress });
     item.status !== ItemStatus.InProgress &&
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 

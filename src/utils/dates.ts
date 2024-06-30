@@ -14,6 +14,17 @@ export const localisedMoment = (args?: any) => {
   return moment(args);
 };
 
+export const localisedFormattedMoment = (args?: any, format?: string) => {
+  // This sets the first day of the week to Monday. For some reason not a default
+  moment.updateLocale('en', {
+    week: {
+      dow: 1
+    }
+  });
+
+  return moment(args, format);
+};
+
 export function getStartOfCurrentWeek(date?: Date) {
   const now = date ?? new Date();
 
@@ -57,11 +68,10 @@ const establishFirstDay = (first_day: DateString) => {
   const oneWeekAgo = localisedMoment().add(-1, 'weeks').toDate();
   const startDate = parseDateString(first_day);
 
-  console.log(startDate, oneWeekAgo)
+  console.log("establishing first day", startDate, oneWeekAgo)
 
   if (startDate < oneWeekAgo) {
-    localisedMoment(oneWeekAgo).toDate
-    return formatDateData(oneWeekAgo);
+    return formatDateData(getStartOfCurrentWeek());
   }
 
   return first_day;

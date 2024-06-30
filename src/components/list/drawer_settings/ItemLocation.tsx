@@ -28,7 +28,7 @@ export const ItemLocation = ({
       return;
     }
 
-    updateItem(item.id, { location });
+    updateItem(item, { location });
   };
 
   return (

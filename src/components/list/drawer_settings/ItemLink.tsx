@@ -60,11 +60,13 @@ export const ItemLink = ({
     }
 
     
-    updateItem(item.id, { url });
+    updateItem(item, { url });
     if (url && isValidHttpUrl(url)) {
       setSubmitted(true);
     }
   };
+
+  const clearField = () => updateItem(item, { url: undefined });
 
   return (
     <View style={[styles.mainContainer]}>
@@ -74,7 +76,7 @@ export const ItemLink = ({
         <TouchableHighlight
           disabled={item.invite_pending}
           onPress={() => {
-            setText('');
+            clearField();
             setLinkOpen(false);
           }}
           underlayColor={'rgba(0,0,0,0.5)'}

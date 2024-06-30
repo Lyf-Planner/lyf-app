@@ -5,7 +5,7 @@ import {
 } from '../../fields/NullableTimePicker';
 import { useAuth } from '../../../authorisation/AuthProvider';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { localisedMoment } from '../../../utils/dates';
+import { localisedFormattedMoment, localisedMoment } from '../../../utils/dates';
 import { ItemDrawerProps } from '../ItemDrawer';
 import { TimeString } from 'schema/util/dates';
 import { LocalItem } from 'schema/items';
@@ -30,7 +30,7 @@ export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
 
     changeSet.end_time = getAdjustedEndTime(time);
 
-    updateItem(item.id, changeSet);
+    updateItem(item, changeSet);
   };
 
   const getAdjustedEndTime = (newTime: TimeString | undefined) => {
@@ -39,13 +39,13 @@ export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
     }
 
     // Determine the original time window
-    const startDateTime = localisedMoment(item.time, 'HH:mm').toDate()
-    const endDateTime = localisedMoment(item.end_time, 'HH:mm').toDate()
+    const startDateTime = localisedFormattedMoment(item.time, 'HH:mm').toDate()
+    const endDateTime = localisedFormattedMoment(item.end_time, 'HH:mm').toDate()
 
     const window = endDateTime.getTime() - startDateTime.getTime();
 
     // Add that window to the provided time to get the adjusted end time!
-    const newStartDateTime = localisedMoment(newTime, 'HH:mm')
+    const newStartDateTime = localisedFormattedMoment(newTime, 'HH:mm')
     const newEndTime = localisedMoment(newStartDateTime)
       .add(window, 'ms')
       .format('HH:mm');
@@ -54,7 +54,7 @@ export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
   };
 
   const getDefaultEndTime = () => {
-    const dateTime = localisedMoment(item.time, 'HH:mm').toDate();
+    const dateTime = localisedFormattedMoment(item.time, 'HH:mm').toDate();
 
     return localisedMoment(dateTime).add(1, 'hour').format('HH:mm');
   };
@@ -72,7 +72,7 @@ export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
         <Text style={{ marginLeft: 20, textAlign: 'center' }}>-</Text>
         <NullableTimePicker
           time={item.end_time}
-          updateTime={(end_time: TimeString) => updateItem(item.id, {  end_time })}
+          updateTime={(end_time: TimeString) => updateItem(item, { end_time })}
           disabled={item.invite_pending}
           nullText={NullTimeTextOptions.EndTime}
           defaultTime={getDefaultEndTime()}

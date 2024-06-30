@@ -30,7 +30,7 @@ export const ItemDate = ({ item, updateItem }: ItemDrawerProps) => {
     {
       text: getOptionText(),
       onSelect: () =>
-        updateItem(item.id, { show_in_upcoming: !item.show_in_upcoming })
+        updateItem(item, { show_in_upcoming: !item.show_in_upcoming })
     }
   ];
 
@@ -56,7 +56,7 @@ export const ItemDate = ({ item, updateItem }: ItemDrawerProps) => {
         ) : (
           <NullableDatePicker
             date={item.date}
-            updateDate={(date: string) => updateItem(item.id, { date })}
+            updateDate={(date: string) => updateItem(item, { date })}
             disabled={item.invite_pending}
           />
         )}

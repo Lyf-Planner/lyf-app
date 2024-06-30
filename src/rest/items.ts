@@ -33,8 +33,8 @@ export async function getItem(id: string, include: string) {
 export async function updateItem(changes: Partial<UserRelatedItem>) {
   const url = `${env.BACKEND_URL}/item/update`;
 
+  console.log("posting changes", changes);
   const result = await post(url, changes);
-  console.log("update result:", result);
   if (result?.status === 200) {
     return result;
   } else {
@@ -47,7 +47,7 @@ export async function updateItem(changes: Partial<UserRelatedItem>) {
 export async function createItem(item: UserRelatedItem) {
   const url = `${env.BACKEND_URL}/item/create`;
 
-  console.log('creating item', item);
+  console.log('creating item', item, typeof item.sorting_rank);
 
   const result = await post(url, item);
   if (result?.status === 201) {

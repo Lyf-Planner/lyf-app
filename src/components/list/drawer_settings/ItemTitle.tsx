@@ -1,15 +1,11 @@
-import { useDrawer } from 'providers/useDrawer';
-import { UpdateItem } from 'providers/useTimetable';
 import { useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
-import { LocalItem } from 'schema/items';
 import { ItemDrawerProps } from '../ItemDrawer';
 
-export const ItemTitle = ({ item, updateItem }: ItemDrawerProps) => {
-  const { updateSheetMinHeight } = useDrawer();
+export const ItemTitle = ({ item, updateItem, updateSheetMinHeight }: ItemDrawerProps) => {
   const [title, setTitle] = useState(item.title);
 
-  const updateTitle = (title: string) => updateItem(item.id, { title });
+  const updateTitle = (title: string) => updateItem(item, { title });
 
   return (
     <TextInput

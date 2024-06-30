@@ -7,6 +7,7 @@ import { WeekDays } from 'schema/util/dates';
 import { LocalItem } from 'schema/items';
 import { useMemo } from 'react';
 import { useTimetable } from 'providers/useTimetable';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 type Props = {
@@ -22,36 +23,42 @@ export const Routine = () => {
   ), [items]);
 
   return (
-    <Native.View>
-      <CalendarRange>
-          <Native.Text style={styles.weekDateText}>Every Week</Native.Text>
-            <Native.Pressable
-              onPress={() => {
-                Native.Alert.alert(
-                  'Routine',
-                  'Everything in your routine will be copied into your timetable each week :)'
-                );
-              }}
-            >
-              <Entypo name="info-with-circle" color={'black'} size={18} />
-            </Native.Pressable>
-        </CalendarRange>
+    <KeyboardAwareScrollView>
+      <Native.View style={styles.main}>
+        <CalendarRange>
+            <Native.Text style={styles.weekDateText}>Every Week</Native.Text>
+              <Native.Pressable
+                onPress={() => {
+                  Native.Alert.alert(
+                    'Routine',
+                    'Everything in your routine will be copied into your timetable each week :)'
+                  );
+                }}
+              >
+                <Entypo name="info-with-circle" color={'black'} size={18} />
+              </Native.Pressable>
+          </CalendarRange>
 
-        <Native.View style={styles.weekDaysWrapperView}>
-          {WeekDays.map((x) => (
-            <DayDisplay
-              key={x}
-              day={x}
-              date={null}
-              items={items.filter((y) => (y.day && x === y.day))}
-            />
-          ))}
+          <Native.View style={styles.weekDaysWrapperView}>
+            {WeekDays.map((x) => (
+              <DayDisplay
+                key={x}
+                day={x}
+                date={null}
+                items={items.filter((y) => (y.day && x === y.day))}
+              />
+            ))}
+          </Native.View>
         </Native.View>
-    </Native.View>
+    </KeyboardAwareScrollView>
   )
 }
 
 const styles = Native.StyleSheet.create({
+  main: {
+    marginBottom: 125,
+  },
+
   weekDateText: {
     fontWeight: '600',
     color: deepBlue,

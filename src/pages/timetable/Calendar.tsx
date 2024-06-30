@@ -1,10 +1,9 @@
 import * as Native from 'react-native';
-import { UserRelatedItem } from "../../schema/user"
-import { dayFromDateString, extendByWeek, formatDate, formatDateData, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
+import { dayFromDateString, extendByWeek, formatDate, formatDateData, getStartOfCurrentWeek, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
 import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from 'authorisation/AuthProvider';
 import { CalendarRange } from './containers/CalendarRange';
-import { appleGray, blackWithOpacity, deepBlue, offWhite } from 'utils/colours';
+import { blackWithOpacity, deepBlue } from 'utils/colours';
 import { DayDisplay } from './containers/DayDisplay';
 import { LocalItem } from 'schema/items';
 import { BouncyPressable } from 'components/pressables/BouncyPressable';
@@ -13,16 +12,17 @@ import { ListDropdown } from 'components/dropdowns/ListDropdown';
 import { ItemType } from 'schema/database/items';
 import { v4 as uuid } from 'uuid';
 import { isTemplate } from 'components/list/constants';
-import { ScrollView } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useTimetable } from 'providers/useTimetable';
 
 export const Calendar = () => {
   const { items } = useTimetable();
   const { user, updateUser } = useAuth()
-  const firstDay = useMemo(() => user?.first_day || formatDateData(new Date()), [])
+  const firstDay = useMemo(() => 
+    user?.first_day || formatDateData(getStartOfCurrentWeek()), 
+    [user?.first_day]
+  )
 
-  const [updatingTemplate, setUpdatingTemplate] = useState(false);
   const [displayedDays, setDisplayedDays] = useState(upcomingWeek(firstDay));
 
   useEffect(() => {
@@ -38,7 +38,13 @@ export const Calendar = () => {
           localItems.push({ ...item, localised: false });
         }
 
+        // Template Match Case 1 - Matching Day
         if (isTemplate(item) && item.day === dayFromDateString(date)) {
+          // Escape due to instantiation 
+          if (items.some((x) => x.template_id === item.id && x.date === date)) {
+            continue;
+          }
+
           localItems.push({
             ...item,
             id: uuid(),
@@ -94,10 +100,6 @@ export const Calendar = () => {
 
   const addWeek = () => setDisplayedDays(extendByWeek(displayedDays));
   const updateDisplayedDays = (start: string, end: string) => null; // TODO: Return something
-
-  
-  console.log("calendar items", calendarItems);
-  console.log('displayed days', displayedDays)
 
   return (
     <KeyboardAwareScrollView enableResetScrollToCoords={false}>

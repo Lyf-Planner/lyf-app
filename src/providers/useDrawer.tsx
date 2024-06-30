@@ -15,7 +15,7 @@ type Props = {
 }
 
 type DrawerBody = JSX.Element | undefined
-type DrawerHooks = {
+export type DrawerHooks = {
   drawer: DrawerBody,
   updateDrawer: (drawer: DrawerBody | undefined) => void
   updateSheetMinHeight: (height: number) => void

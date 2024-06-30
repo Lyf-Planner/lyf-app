@@ -12,6 +12,7 @@ import { useTimetable } from '../../providers/useTimetable';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { ItemType } from 'schema/database/items';
 import { LocalItem } from 'schema/items';
+import { NewItem } from 'components/list/NewItem';
 
 type Props = {
   items: LocalItem[],
@@ -85,9 +86,15 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
               itemColor: deepBlue,
               itemTextColor: 'rgb(203 213 225)'
             }}
-            addItemByTitle={(title) => addItem(listType, items.length, { title })}
-            type={listType}
             listWrapperStyles={{ backgroundColor: eventsBadgeColor }}
+          />
+          <NewItem 
+            addItemByTitle={(title: string) => addItem(
+              listType,
+              items.length,
+              { title }
+            )}
+            type={listType}
           />
         </Animated.View>
       )}

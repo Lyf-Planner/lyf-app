@@ -8,6 +8,7 @@ import { ItemStatus, ListItemType } from '../../components/list/constants';
 import { useAuth } from '../../authorisation/AuthProvider';
 import { v4 as uuid } from 'uuid';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { ItemType } from 'schema/database/items';
 
 export const NoteView = ({
   note,
@@ -99,7 +100,6 @@ export const NoteView = ({
             itemColor: 'rgb(30 41 59)',
             itemTextColor: 'rgb(203 213 225)'
           }}
-          type={ListItemType.Item}
           addItem={addItem}
           updateItem={updateItem}
           removeItem={removeItem}

@@ -17,7 +17,7 @@ export const ItemStatusDropdown = ({ item, updateItem }: ItemDrawerProps) => {
   );
 
   const updateStatus = (status: ItemStatus) => {
-    updateItem(item.id, { status });
+    updateItem(item, { status });
   };
 
   const items = StatusOptions.map((x) => {

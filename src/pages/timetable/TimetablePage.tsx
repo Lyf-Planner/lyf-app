@@ -1,12 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { ListDropdown } from '../../components/dropdowns/ListDropdown';
+import { useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { useTimetable } from '../../providers/useTimetable';
-import Entypo from 'react-native-vector-icons/Entypo';
-import { ItemType } from 'schema/database/items';
-import { ScrollView } from 'react-native-gesture-handler';
-import { BouncyPressable } from 'components/pressables/BouncyPressable';
-import { black, primaryGreen, secondaryGreen, white } from 'utils/colours';
+import { black, primaryGreen, white } from 'utils/colours';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Calendar } from './Calendar';
@@ -27,6 +22,7 @@ export const Timetable = () => {
     <View style={styles.main}>
       <Tab.Navigator
         screenOptions={{
+          swipeEnabled: false, // TODO: Enable this, to work in tandem with item swiping. This is really hard.
           tabBarBounces: true,
           tabBarPressOpacity: 0.75,
           tabBarLabelStyle: styles.tabBarLabelStyle,

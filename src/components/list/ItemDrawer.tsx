@@ -21,27 +21,50 @@ import { ItemLink } from './drawer_settings/ItemLink';
 import { ItemLocation } from './drawer_settings/ItemLocation';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { LocalItem } from 'schema/items';
-import { useDrawer } from 'providers/useDrawer';
+import { DrawerHooks } from 'providers/useDrawer';
 import { getItem, updateItemSocial } from 'rest/items';
+import { ID } from 'schema/database/abstract';
 
 export type ItemDrawerProps = {
   item: LocalItem,
-  updateItem: UpdateItem
+  updateItem: UpdateItem,
+  updateDrawer: (drawer: JSX.Element | undefined) => void;
+  updateSheetMinHeight: (height: number) => void;
+}
+
+type Props = {
+  id: ID,
+  updateDrawer: (drawer: JSX.Element | undefined) => void;
+  updateSheetMinHeight: (height: number) => void;
 }
 
 export const ItemDrawer = ({
-  item,
-  updateItem,
-}: ItemDrawerProps) => {
-  const { enabled } = useNotifications();
-  const { updateDrawer, updateSheetMinHeight} = useDrawer();
+  id,
+  updateDrawer,
+  updateSheetMinHeight
+}: Props) => {
+  // Establish item from store
+  const { items, updateItem } = useTimetable();
+  const item = useMemo(() => items.find((x) => x.id === id), [items]);
+  if (!item) {
+    return null;
+  }
+
+  // Establish props passed to children
+  const props: ItemDrawerProps = {
+    item,
+    updateItem,
+    updateDrawer,
+    updateSheetMinHeight
+  }
+
   const [loadingUsers, setLoadingUsers] = useState(!!item.relations?.users);
 
   useEffect(() => {
     if (loadingUsers) {
       getItem(item.id, "users").then((item) => {
         if (item) {
-          updateItem(item.id, item, false)
+          updateItem(item, item, false)
           setLoadingUsers(false);
         }
       })
@@ -69,6 +92,8 @@ export const ItemDrawer = ({
     }
   }
 
+  console.log("item.time", item.time)
+
   // Pass "invited" to block any input component with a localised value
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -80,71 +105,49 @@ export const ItemDrawer = ({
 
         <View style={styles.header}>
           <View style={styles.headerBackground}>
-            <View style={styles.itemType}> {/** TODO: Review whether this wrapping View is needed */}
-              <ItemTypeBadge item={item} updateItem={updateItem} />
+            <View style={styles.itemType}>{/** TODO: Review whether this wrapping View is needed */}
+              <ItemTypeBadge {...props} />
             </View>
-            <ItemTitle item={item} updateItem={updateItem} />
+            <ItemTitle {...props} />
             {!item.invite_pending && <OptionsMenu item={item} />}
           </View>
 
           {item.invite_pending ? (
             <InviteHandler item={item} />
           ) : (
-            <ItemStatusDropdown item={item} updateItem={updateItem} />
+            <ItemStatusDropdown {...props} />
           )}
         </View>
 
         <Horizontal style={styles.firstSeperator} />
 
         <View style={[styles.detailsContainer, conditionalStyles.detailsContainer]}>
-          {item.collaborative && (
+          {/* {item.collaborative && (
             <ItemUsers item={item} loading={loadingUsers} />
-          )}
+          )} */}
 
           {(item.date || isTemplate(item)) && (
-            <ItemDate item={item} updateItem={updateItem} />
+            <ItemDate {...props} />
           )}
 
           {item.time && (
-            <ItemTime
-              item={item}
-              updateItem={updateItem}
-            />
+            <ItemTime {...props} />
           )}
 
           {item.notification_mins_before && (
-            <ItemNotification
-              item={item}
-              updateItem={updateItem}
-              updateSheetMinHeight={updateSheetMinHeight}
-            />
+            <ItemNotification {...props} />
           )}
 
           {linkOpen && (
-            <ItemLink
-              item={item}
-              updateItem={updateItem}
-              setLinkOpen={setLinkOpen}
-              updateSheetMinHeight={updateSheetMinHeight}
-            />
+            <ItemLink setLinkOpen={setLinkOpen} {...props} />
           )}
 
           {locationOpen && (
-            <ItemLocation
-              item={item}
-              updateItem={updateItem}
-              setLocationOpen={setLocationOpen}
-              updateSheetMinHeight={updateSheetMinHeight}
-            />
+            <ItemLocation setLocationOpen={setLocationOpen} {...props} />
           )}
 
           {descOpen && (
-            <ItemDescription
-              item={item}
-              updateItem={updateItem}
-              setDescOpen={setDescOpen}
-              updateSheetMinHeight={updateSheetMinHeight}
-            />
+            <ItemDescription setDescOpen={setDescOpen} {...props} />
           )}
           {!noDetails && (
             <Horizontal
@@ -152,8 +155,7 @@ export const ItemDrawer = ({
             />
           )}
           <AddDetails
-            item={item}
-            updateItem={updateItem}
+            {...props}
             setDescOpen={setDescOpen}
             descOpen={descOpen}
             setLinkOpen={setLinkOpen}

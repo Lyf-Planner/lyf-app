@@ -62,7 +62,7 @@ export const AddDetails = ({
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
             disabled={item.invite_pending}
-            onPress={() => updateItem(item.id, { date: formatDateData(new Date()) })}
+            onPress={() => updateItem(item, { date: formatDateData(new Date()) })}
           >
             <View style={styles.addFieldContent}>
               <MaterialIcons name="date-range" color={'white'} size={18} />
@@ -76,7 +76,7 @@ export const AddDetails = ({
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
             disabled={item.invite_pending}
-            onPress={() => updateItem(item.id, { time: '09:00' })}
+            onPress={() => updateItem(item, { time: '09:00' })}
           >
             <View style={styles.addFieldContent}>
               <MaterialIcons name="access-time" color={'white'} size={18} />
@@ -91,10 +91,10 @@ export const AddDetails = ({
             underlayColor={'rgba(0,0,0,0.5)'}
             disabled={item.invite_pending}
             onPress={() => {
-              if (!item.time) {
+              if (!item.time || !item.date) {
                 Alert.alert(
                   'Lyf Tip',
-                  'You need to add a time before setting a reminder :)'
+                  'Add a date and time before setting a reminder :)'
                 );
                 return;
               }
@@ -107,7 +107,7 @@ export const AddDetails = ({
                 return;
               } 
             
-              updateItem(item.id, { notification_mins_before: getDefaultNotificationMins() })
+              updateItem(item, { notification_mins_before: getDefaultNotificationMins() })
             }}
           >
             <View style={styles.addFieldContent}>
@@ -128,7 +128,7 @@ export const AddDetails = ({
             disabled={item.invite_pending}
             onPress={() => {
               setLinkOpen(true);
-              updateItem(item.id, { url: '' });
+              updateItem(item, { url: '' });
             }}
           >
             <View style={styles.addFieldContent}>
@@ -145,7 +145,7 @@ export const AddDetails = ({
             disabled={item.invite_pending}
             onPress={() => {
               setLocationOpen(true);
-              updateItem(item.id, { location: '' });
+              updateItem(item, { location: '' });
             }}
           >
             <View style={styles.addFieldContent}>
@@ -161,7 +161,7 @@ export const AddDetails = ({
             underlayColor={'rgba(0,0,0,0.5)'}
             onPress={() => {
               setDescOpen(true);
-              updateItem(item.id, { desc: '' });
+              updateItem(item, { desc: '' });
             }}
           >
             <View style={styles.addFieldContent}>

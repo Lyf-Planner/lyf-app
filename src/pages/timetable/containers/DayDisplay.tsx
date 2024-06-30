@@ -196,7 +196,6 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
     return menuOptions;
   };
 
-  console.log('date', date, "day", day, "has items", items);
 
   return (
     <View>

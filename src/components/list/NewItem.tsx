@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
-import { LIST_ITEM_HEIGHT } from './item/Item';
 import { ItemType } from 'schema/database/items';
 
 export type AddItemByTitle = (title: string) => void;
@@ -43,7 +42,7 @@ export const NewItem = ({ addItemByTitle, onBlur, onFocus, type }: Props) => {
 
 const styles = StyleSheet.create({
   listNewItem: {
-    height: LIST_ITEM_HEIGHT,
+    height: 55,
     backgroundColor: 'rgb(17 24 39)',
     fontFamily: 'Lexend',
     marginTop: 2,

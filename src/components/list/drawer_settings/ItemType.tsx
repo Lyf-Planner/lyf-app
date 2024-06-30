@@ -19,7 +19,7 @@ export const ItemTypeBadge = ({ item, updateItem }: ItemDrawerProps) => {
       type = ItemType.Task;
     }
 
-    updateItem(item.id, { type });
+    updateItem(item, { type });
   }, [item]);
 
   const conditionalStyles = {

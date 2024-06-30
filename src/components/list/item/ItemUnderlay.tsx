@@ -1,5 +1,4 @@
 import { ITEM_STATUS_TO_COLOR, ItemStatus } from '../constants';
-import { LIST_ITEM_HEIGHT } from './Item';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet } from 'react-native';
 import { ListItem } from '../../../utils/abstractTypes';
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
   playIcon: { marginLeft: 12 },
   editIcon: { marginLeft: 'auto', marginRight: 11, color: 'black' },
   listHiddenBackground: {
-    height: LIST_ITEM_HEIGHT,
+    height: 55,
     borderWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',

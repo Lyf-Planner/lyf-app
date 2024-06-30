@@ -7,8 +7,6 @@ import { useTimetable } from '../../../providers/useTimetable';
 import { LocalItem } from 'schema/items';
 import { ItemDrawer } from '../ItemDrawer';
 
-export const LIST_ITEM_HEIGHT = 55;
-
 export type ListItemAnimatedValues = {
   scale: SharedValue<number>;
   offsetX: SharedValue<number>;
@@ -30,7 +28,7 @@ export const Item = ({
   item,
   itemStyleOptions,
 }: Props) => {
-  const { updateDrawer } = useDrawer();
+  const { updateDrawer, updateSheetMinHeight } = useDrawer();
   const { updateItem, removeItem } = useTimetable();
 
   // UTILS
@@ -41,14 +39,15 @@ export const Item = ({
     // Create any localised items for drawer to find
     if (item.localised && !invitedRoutineInstantiation) {
       // TODO: Review invitedRoutineInstantiation
-      await updateItem(item.id, item);
+      await updateItem(item, {});
     }
 
     updateDrawer(
       <ItemDrawer
         // Invites to templates should open the template!
-        item={item}
-        updateItem={updateItem}
+        id={item.id}
+        updateDrawer={updateDrawer}
+        updateSheetMinHeight={updateSheetMinHeight}
       />
     );
   };

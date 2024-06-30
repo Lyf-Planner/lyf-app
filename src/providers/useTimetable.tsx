@@ -36,7 +36,7 @@ export type AddItem = (
   rank: number,
   initial: Partial<LocalItem>,
 ) => Promise<void>;
-export type UpdateItem = (id: ID, changes: Partial<UserRelatedItem>, updateRemote?: boolean) => Promise<void>;
+export type UpdateItem = (item: LocalItem, changes: Partial<UserRelatedItem>, updateRemote?: boolean) => Promise<void>;
 export type UpdateItemSocial = (
   item: ListItem,
   user_id: string,
@@ -79,17 +79,18 @@ export const TimetableProvider = ({ children }: Props) => {
     setLoading(false);
   }, [user])
 
-  const updateItem = async (id: ID, changes: Partial<UserRelatedItem>, updateRemote = true) => {
-    const item = items.find((x) => x.id === id);
-    if (!item) {
-      console.error("Cannot update item not held in store ?")
-      return;
-    }
-
+  const updateItem = async (item: LocalItem, changes: Partial<UserRelatedItem>, updateRemote = true) => {
     // We create localised instances of templates in the planner - if this is one of those then create it
+    console.log("updating item", item);
     if (item.localised) {
       console.log('Local item will be created instead of updated');
       await addItem(item.type, item.sorting_rank, { ...item, ...changes});
+      return;
+    }
+
+    const inStoreItem = items.find((x) => x.id === item.id);
+    if (!inStoreItem) {
+      console.error("Cannot update item not held in store ?")
       return;
     }
 
@@ -101,7 +102,7 @@ export const TimetableProvider = ({ children }: Props) => {
     setItems(tmp);
 
     if (updateRemote) {
-      const success = await updateRemoteItem({ id, ...changes });
+      const success = await updateRemoteItem({ id: item.id, ...changes });
       if (!success) {
         // Fallback to handle failed remote updates
         tmp[i] = item;
@@ -170,7 +171,7 @@ export const TimetableProvider = ({ children }: Props) => {
     return result;
   };
 
-  const removeItem: RemoveItem = async (item: UserRelatedItem, deleteRemote = true) => {
+  const removeItem: RemoveItem = async (item: LocalItem, deleteRemote = true) => {
     if (item.template_id) {
       // Dont delete if item template is still active (it will look the same) - just mark as cancelled
       const dontDelete = items
@@ -178,7 +179,7 @@ export const TimetableProvider = ({ children }: Props) => {
         .find((x) => x === item.template_id);
 
       if (dontDelete) {
-        updateItem(item.id, { status: ItemStatus.Cancelled }, true);
+        updateItem(item, { status: ItemStatus.Cancelled }, true);
         return;
       }
     }
@@ -198,7 +199,7 @@ export const TimetableProvider = ({ children }: Props) => {
       const item = items.find((x) => x.id === priorities[i]);
       
       if (item) {
-        updateItem(item.id, { sorting_rank: parseInt(i) }, true)
+        updateItem(item, { sorting_rank: parseInt(i) }, true)
       }
     }
   };

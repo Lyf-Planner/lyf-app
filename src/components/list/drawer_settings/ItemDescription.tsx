@@ -30,8 +30,10 @@ export const ItemDescription = ({
       return;
     }
 
-    updateItem(item.id, { desc });
+    updateItem(item, { desc });
   };
+
+  const clearField = () => updateItem(item, { desc: undefined });
 
   return (
     <View style={styles.mainContainer}>
@@ -43,8 +45,7 @@ export const ItemDescription = ({
             disabled={item.invite_pending}
             onPress={() => {
               setDescOpen(false);
-              setDesc('');
-              uploadDescription()
+              clearField();
             }}
             underlayColor={'rgba(0,0,0,0.5)'}
             style={{ borderRadius: 5 }}

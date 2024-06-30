@@ -24,12 +24,17 @@ export const ItemNotification = ({
   const { enabled } = useNotifications();
   const [mins, setMins] = useState(`${item.notification_mins_before}`);
 
-  const uploadMinutesFromInput = () => {
+  const uploadMinutesFromInput = (minsOverride?: string | null) => {
     if (item.invite_pending) {
       return;
     }
+
+    if (minsOverride === null) {
+      updateItem(item, { notification_mins_before: undefined });
+      return;
+    }
     
-    let parsed = mins;
+    let parsed = minsOverride || mins;
     if (parsed) {
       parsed = parsed.replace(/[^0-9]/g, '');
 
@@ -39,7 +44,7 @@ export const ItemNotification = ({
     }
 
     setMins(parsed);
-    updateItem(item.id, { notification_mins_before: parseInt(parsed) });
+    updateItem(item, { notification_mins_before: parseInt(parsed) });
   };
 
   return (
@@ -59,12 +64,12 @@ export const ItemNotification = ({
         Notify Me
       </Text>
 
-      {!!mins && enabled && item.time && (
+      {!!mins && (
         <View style={styles.minutesInputWrapper}>
           <TouchableHighlight
             onPress={() => {
               setMins('');
-              uploadMinutesFromInput()
+              uploadMinutesFromInput(null)
             }}
             underlayColor={'rgba(0,0,0,0.5)'}
             style={styles.closeTouchable}
@@ -73,7 +78,7 @@ export const ItemNotification = ({
           </TouchableHighlight>
           <TextInput
             value={mins}
-            onEndEditing={uploadMinutesFromInput}
+            onEndEditing={() => uploadMinutesFromInput()}
             onFocus={() => updateSheetMinHeight(700)}
             onBlur={() => updateSheetMinHeight(100)}
             returnKeyType="done"

@@ -1,8 +1,8 @@
 import { StyleSheet, Text } from 'react-native';
 import { ListItem } from '../../utils/abstractTypes';
-import { ListItemType } from '../list/constants';
 import { TwentyFourHourToAMPM } from '../../utils/dates';
 import { useMemo } from 'react';
+import { ItemType } from 'schema/database/items';
 
 type Props = {
   item: ListItem;
@@ -39,7 +39,7 @@ export const ItemTimeFormatter = ({ item, textColor }: Props) => {
   const conditionalStyles = {
     listItemTimeText: {
       color: textColor,
-      fontFamily: item.type !== ListItemType.Task ? 'InterMed' : 'Inter'
+      fontFamily: item.type !== ItemType.Task ? 'InterMed' : 'Inter'
     }
   };
 
