@@ -65,7 +65,7 @@ export const ListItemGestureWrapper = ({
       if (event.absoluteX - flingStartX > 5) {
         handleFlingRight();
       }
-      if (event.absoluteX - flingStartX < -5) {
+      if (event.absoluteX - flingStartX < -10) {
         handleFlingLeft();
       }
     })

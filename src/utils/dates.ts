@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { User } from 'schema/user';
-import { DateString, DayOfWeek, WeekDays } from 'schema/util/dates';
+import { DateString, DayOfWeek, TimeString, WeekDays } from 'schema/util/dates';
 
 // Wrapper to configure moment function
 export const localisedMoment = (args?: any) => {
@@ -44,24 +44,40 @@ export function getEndOfCurrentWeek(date?: Date) {
   return new Date(end);
 }
 
-export function addWeekToStringDate(date: string) {
-  return formatDateData(moment(date).add(1, 'week').toDate());
+export function addWeekToStringDate(date: string, amount = 1) {
+  return formatDateData(moment(date).add(amount, 'week').toDate());
 }
 
 export const upcomingWeek = (date: DateString) => {
   const start = establishFirstDay(date);
-  const initial = [start];
+  const end = formatDateData(localisedMoment(start).add(1, 'week').add(-1, 'day').toDate());
 
-  let next = localisedMoment(start).toDate();
+  return allDatesBetween(start, end);
+};
 
-  for (let i = 1; i < WeekDays.length; i++) {
-    next = localisedMoment(next).add(1, 'day').toDate();
-    initial.push(formatDateData(next));
+export const allDatesBetween = (start: DateString, end: DateString) => {
+  // Note: is inclusive of both start and end date
 
+  if (end.localeCompare(start) < 0) { 
+    return [];
   }
 
-  return initial;
-};
+  let dates: string[] = [];
+  let shiftingDate = start;
+  while (shiftingDate.localeCompare(end) <= 0) {
+    dates.push(shiftingDate);
+    shiftingDate = formatDateData(localisedMoment(shiftingDate).add(1, 'day').toDate());
+  }
+
+  return dates;
+}
+
+export const daysDifferenceBetween = (start: DateString, end: DateString) => {
+  const a = localisedMoment(start);
+  const b = localisedMoment(end);
+  // Add 1 <==> inclusive of the end
+  return b.diff(a, 'days') + 1;
+}
 
 const establishFirstDay = (first_day: DateString) => {
   // Show the users' first day unless over a week old
@@ -79,22 +95,22 @@ const establishFirstDay = (first_day: DateString) => {
 
 export const extendByWeek = (days: string[]) => {
   const lastDay = days[days.length - 1];
-  const endOfNextWeek = localisedMoment(lastDay).add(1, 'week').toDate();
-
-  let next = localisedMoment(lastDay).add(1, 'day').toDate();
-
-  while (next.getTime() <= endOfNextWeek.getTime()) {
-    days.push(formatDateData(next));
-    next = localisedMoment(next).add(1, 'day').toDate();
-  }
-
-  console.log("days", days);
-  return days;
+  const newEnd = formatDateData(localisedMoment(lastDay).add(1, 'week').toDate());
+  
+  return allDatesBetween(days[0], newEnd);
 };
+
+export const dateWithTime = (time: TimeString) => {
+  const [hours, mins] = time.split(':');
+  const date = new Date();
+  date.setHours(parseInt(hours), parseInt(mins));
+  
+  return date;
+}
 
 export function formatDate(date: string) {
   const time = parseDateString(date);
-  return localisedMoment(time).format('MMM D');
+  return localisedMoment(time).format('MMMM D');
 }
 
 export function dateFromDay(day: DayOfWeek, dates: string[]) {

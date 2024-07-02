@@ -56,7 +56,7 @@ export const ItemDate = ({ item, updateItem }: ItemDrawerProps) => {
         ) : (
           <NullableDatePicker
             date={item.date}
-            updateDate={(date: string) => updateItem(item, { date })}
+            updateDate={(date: string | null) => updateItem(item, { date: date || undefined })}
             disabled={item.invite_pending}
           />
         )}

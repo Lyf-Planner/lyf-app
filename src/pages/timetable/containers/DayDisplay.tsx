@@ -299,9 +299,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
 
     shadowColor: 'black',
-    shadowOffset: { width: 1, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 3
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 0.5
   },
   dayHeaderView: {
     backgroundColor: secondaryGreen,
@@ -330,12 +330,12 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     paddingRight: 2,
     marginLeft: 16,
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: 'Lexend'
   },
   dayOfWeekText: {
     fontFamily: 'Lexend-Semibold',
-    fontSize: 18,
+    fontSize: 20,
     padding: 2
   },
   dayOfWeekPressable: {

@@ -27,8 +27,8 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
 
   const scale = useSharedValue(1);
   const chevronAngle = useSharedValue(0);
-  const shadowOffsetX = useSharedValue(2.5);
-  const shadowOffsetY = useSharedValue(2.5);
+  const shadowOffsetX = useSharedValue(3);
+  const shadowOffsetY = useSharedValue(3);
 
   const scaleAnimation = useAnimatedStyle(() => ({
     transform: [{
@@ -107,15 +107,15 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: eventsBadgeColor,
     borderRadius: 10,
-    padding: 12,
+    padding: 14,
     justifyContent: 'flex-start',
     marginVertical: 1,
     borderWidth: 2,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+    borderColor: 'rgba(0, 0, 0, 0.2)',
 
     shadowColor: 'black',
     shadowOpacity: 0.5,
-    shadowRadius: 1
+    shadowRadius: 0.5
   },
   dropdownTextContainer: {
     flexDirection: 'row',
@@ -125,16 +125,17 @@ const styles = StyleSheet.create({
   },
   headerLeft: {
     flexDirection: 'row',
-    marginLeft: 'auto',
     alignItems: 'center'
   },
   listTitle: {
-    fontSize: 20,
-    paddingVertical: 4,
+    fontSize: 22,
+    paddingVertical: 2,
     fontFamily: 'Lexend'
   },
   listSize: {
     paddingVertical: 4,
+    fontSize: 16,
+    marginLeft: 'auto',
     fontFamily: 'Lexend'
   },
   animatedChevron: {

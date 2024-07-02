@@ -1,11 +1,20 @@
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-import { localisedMoment } from '../../utils/dates';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { dateWithTime, localisedMoment } from '../../utils/dates';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { TimeString } from 'schema/util/dates';
 
 export enum NullTimeTextOptions {
   AddTime = 'Add Time +',
   EndTime = 'End Time?',
+}
+
+type Props = {
+  updateTime: (time: TimeString | null) => void;
+  time?: TimeString,
+  disabled?: boolean,
+  nullText?: string,
+  defaultTime?: TimeString,
 }
 
 export const NullableTimePicker = ({
@@ -14,7 +23,7 @@ export const NullableTimePicker = ({
   disabled = false,
   nullText = NullTimeTextOptions.AddTime,
   defaultTime = '09:00'
-}) => {
+}: Props) => {
   return (
     <View>
       {time ? (
@@ -43,8 +52,8 @@ export const NullableTimePicker = ({
   );
 };
 
-export const TimePicker = ({ time, updateTime, disabled = false }) => {
-  const updateTimeFromPicker = (time) => {
+export const TimePicker = ({ time, updateTime, disabled = false }: Props) => {
+  const updateTimeFromPicker = (time: DateTimePickerEvent) => {
     // Picker gives us a timestamp, that we need to convert to 24 hr time
     const dateTime = new Date(time.nativeEvent.timestamp);
     updateTime(localisedMoment(dateTime).format('HH:mm'));
@@ -52,7 +61,8 @@ export const TimePicker = ({ time, updateTime, disabled = false }) => {
 
   const today = new Date();
   const datePickerValue =
-    !!time &&
+    time ? 
+    dateWithTime(time) : 
     new Date(
       `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${time}`
     );

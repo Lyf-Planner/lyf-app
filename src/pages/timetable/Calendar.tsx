@@ -1,9 +1,9 @@
 import * as Native from 'react-native';
-import { dayFromDateString, extendByWeek, formatDate, formatDateData, getStartOfCurrentWeek, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
+import { allDatesBetween, dayFromDateString, extendByWeek, formatDate, formatDateData, getStartOfCurrentWeek, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
 import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from 'authorisation/AuthProvider';
 import { CalendarRange } from './containers/CalendarRange';
-import { blackWithOpacity, deepBlue } from 'utils/colours';
+import { blackWithOpacity, deepBlue, white } from 'utils/colours';
 import { DayDisplay } from './containers/DayDisplay';
 import { LocalItem } from 'schema/items';
 import { BouncyPressable } from 'components/pressables/BouncyPressable';
@@ -14,9 +14,11 @@ import { v4 as uuid } from 'uuid';
 import { isTemplate } from 'components/list/constants';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useTimetable } from 'providers/useTimetable';
+import { DateString } from 'schema/util/dates';
+import { Loader } from 'components/general/MiscComponents';
 
 export const Calendar = () => {
-  const { items } = useTimetable();
+  const { loading, items, reload } = useTimetable();
   const { user, updateUser } = useAuth()
   const firstDay = useMemo(() => 
     user?.first_day || formatDateData(getStartOfCurrentWeek()), 
@@ -99,92 +101,113 @@ export const Calendar = () => {
   }, [displayedDays])
 
   const addWeek = () => setDisplayedDays(extendByWeek(displayedDays));
-  const updateDisplayedDays = (start: string, end: string) => null; // TODO: Return something
+
+  const updateDisplayedDays = async (start?: string, end?: string) => {
+    setDisplayedDays(allDatesBetween(
+      start || displayedDays[0],
+      end || displayedDays[displayedDays.length - 1]
+    ));
+    await reload(start, end)
+  }
 
   return (
-    <KeyboardAwareScrollView enableResetScrollToCoords={false}>
+    <KeyboardAwareScrollView enableResetScrollToCoords={false} style={styles.scroll}>
       <Native.View style={styles.main}>
-        <ListDropdown
-          items={upcomingEvents}
-          name="Upcoming Events"
-          icon={<Entypo name="calendar" size={22} />}
-          listType={ItemType.Event}
-        />
-        <ListDropdown
-          items={toDoList}
-          name="To Do List"
-          icon={<Entypo name="list" size={22} />}
-          listType={ItemType.Task}
-        />
-
-        <Native.View style={styles.calendarWrapper}>
-          <CalendarRange onLongPress={() => unshiftFirst()}>
-            <Native.Text style={styles.weekDateText}>
-              {formatDate(displayedDays[0])} - {formatDate(displayedDays[displayedDays.length - 1])}
-            </Native.Text>
-          </CalendarRange>
-
-          {displayedDays.map((x) => (
-            <DayDisplay
-              key={x}
-              date={x}
-              day={null}
-              items={calendarItems.filter((y) => y.date === x)}
-            />
-          ))}
-
-          <Native.View style={styles.addWeekButton}>
-            <BouncyPressable
-              onPress={() => addWeek()}
-              style={styles.addWeekTouchable}
-              useTouchableHighlight
-            >
-              <Native.View style={styles.addWeekView}>
-                <Entypo name="chevron-down" size={20} />
-                <Native.Text style={styles.addWeekText}>Add Week</Native.Text>
-                <Entypo name="chevron-down" size={20} />
-              </Native.View>
-            </BouncyPressable>
-          </Native.View>
+        <Native.View style={styles.dropdowns}>
+          <ListDropdown
+            items={upcomingEvents}
+            name="Upcoming Events"
+            icon={<Entypo name="calendar" size={22} />}
+            listType={ItemType.Event}
+          />
+          <ListDropdown
+            items={toDoList}
+            name="To Do List"
+            icon={<Entypo name="list" size={22} />}
+            listType={ItemType.Task}
+          />
         </Native.View>
+
+        <CalendarRange
+          startDate={displayedDays[0]}
+          endDate={displayedDays[displayedDays.length - 1]}
+          updateDisplayedDays={updateDisplayedDays}
+        />
+
+        {loading && 
+          <Native.View style={styles.loadingContainer}>
+            <Loader />
+            <Native.Text style={styles.loadingText}>
+              Organizing...
+            </Native.Text>
+          </Native.View>
+        }
+
+        {!loading &&
+          <Native.View style={styles.calendarWrapper}>
+            {displayedDays.map((x) => (
+              <DayDisplay
+                key={x}
+                date={x}
+                day={null}
+                items={calendarItems.filter((y) => y.date === x)}
+              />
+            ))}
+
+            <Native.View style={styles.addWeekButton}>
+              <BouncyPressable
+                onPress={() => addWeek()}
+                style={styles.addWeekTouchable}
+                useTouchableHighlight
+              >
+                <Native.View style={styles.addWeekView}>
+                  <Entypo name="chevron-down" size={20} />
+                  <Native.Text style={styles.addWeekText}>Add Week</Native.Text>
+                  <Entypo name="chevron-down" size={20} />
+                </Native.View>
+              </BouncyPressable>
+            </Native.View>
+          </Native.View>
+        }
       </Native.View>
     </KeyboardAwareScrollView>
   )
 }
 
 const styles = Native.StyleSheet.create({
+  scroll: {
+    backgroundColor: "#EEE"
+  },
+
   main: {
     marginBottom: 125,
     paddingHorizontal: 14,
     marginTop: 15,
     flexDirection: "column",
-    gap: 8
+    gap: 20
   },
 
-  weekDateText: {
-    color: deepBlue,
-    fontSize: 20,
-    fontFamily: 'Lexend'
+  dropdowns: {
+    flexDirection: 'column',
+    gap: 8
   },
 
   calendarWrapper: {
     flexDirection: 'column',
-    marginTop: 4,
-    gap: 14,
-    backgroundColor: blackWithOpacity(0.1),
+    gap: 20,
     borderRadius: 10
   },
 
-  weekDaysWrapperView: {
+  loadingContainer: {
+    marginTop: 20,
     flexDirection: 'column',
-    paddingHorizontal: 12,
-    gap: 14,
-    marginTop: 10,
-
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 3
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 10,
+  },
+  loadingText: {
+    fontFamily: 'Lexend',
+    fontSize: 20
   },
 
   addWeekView: {

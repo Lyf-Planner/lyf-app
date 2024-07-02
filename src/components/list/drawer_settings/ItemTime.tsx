@@ -13,12 +13,12 @@ import { LocalItem } from 'schema/items';
 export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
   const { user } = useAuth();
 
-  const uploadTime = (time: TimeString|undefined) => {
+  const uploadTime = (time: TimeString|null) => {
     if (item.invite_pending) {
       return;
     }
     
-    const changeSet: Partial<LocalItem> = { time };
+    const changeSet: Partial<LocalItem> = { time: time || undefined };
 
     if (time && user?.event_notification_minutes_before) {
       changeSet.notification_mins_before = user.event_notification_minutes_before
@@ -33,7 +33,7 @@ export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
     updateItem(item, changeSet);
   };
 
-  const getAdjustedEndTime = (newTime: TimeString | undefined) => {
+  const getAdjustedEndTime = (newTime: TimeString | null) => {
     if (!newTime || !item.time || !item.end_time) {
       return undefined;
     }
@@ -72,7 +72,9 @@ export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
         <Text style={{ marginLeft: 20, textAlign: 'center' }}>-</Text>
         <NullableTimePicker
           time={item.end_time}
-          updateTime={(end_time: TimeString) => updateItem(item, { end_time })}
+          updateTime={async (end_time: TimeString | null) => 
+            updateItem(item, { end_time: end_time || undefined })
+          }
           disabled={item.invite_pending}
           nullText={NullTimeTextOptions.EndTime}
           defaultTime={getDefaultEndTime()}

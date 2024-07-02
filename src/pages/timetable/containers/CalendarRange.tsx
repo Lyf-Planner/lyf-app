@@ -1,47 +1,87 @@
+import DateTimePicker from '@react-native-community/datetimepicker';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Swiper from 'react-native-swiper';
+
 import { BouncyPressable } from "components/pressables/BouncyPressable";
+import { LinearGradient } from "expo-linear-gradient";
 import * as Native from 'react-native';
+import { primaryGreen, secondaryGreen } from "utils/colours";
+import { addWeekToStringDate, daysDifferenceBetween, formatDate, formatDateData, localisedMoment } from 'utils/dates';
+import { ScrollView } from 'react-native-gesture-handler';
+import { SwipeableList } from 'components/general/SwipeableList';
+import { useMemo, useState } from 'react';
+import { DateString } from 'schema/util/dates';
 
 type CalendarProps = {
-  onLongPress?: () => void;
-  children: JSX.Element | JSX.Element[]
+  updateDisplayedDays: (start: DateString, end: DateString) => void;
+  startDate: string;
+  endDate: string;
 }
 
-export const CalendarRange = ({ onLongPress, children }: CalendarProps) => {
+type DateRangeOption = {
+  start: DateString,
+  end: DateString
+}
+
+enum ShiftDirection {
+  BACK = -1,
+  FORWARD = 1
+}
+
+export const CalendarRange = ({ updateDisplayedDays, startDate, endDate }: CalendarProps) => {
+  // const dateOptions = useMemo(() => [
+  //   { start: addWeekToStringDate(startDate, -1), end: addWeekToStringDate(endDate, -1) },
+  //   { start: startDate, end: endDate },
+  //   { start: addWeekToStringDate(startDate), end: addWeekToStringDate(endDate) },
+  // ], [startDate, endDate]);
+
+  const shift = (direction: ShiftDirection) => {
+    const range = daysDifferenceBetween(startDate, endDate);
+    console.log({ range });
+    const newStart = formatDateData(localisedMoment(startDate).add(direction * range, 'days').toDate())
+    const newEnd = formatDateData(localisedMoment(endDate).add(direction * range, 'days').toDate())
+    console.log({ newStart, newEnd });
+
+    updateDisplayedDays(newStart, newEnd);
+  }
+
   return (
     <BouncyPressable
       style={styles.weekDateDisplayTouchable}
-      onLongPress={onLongPress}
     >
-      <Native.View style={styles.weekDateDisplayContainer}>
-        <Native.View style={styles.weekDatePressable}>
-          {children}
-        </Native.View>
-      </Native.View>
+      <Native.TouchableOpacity onPress={() => shift(ShiftDirection.BACK)}>
+        <Entypo name="chevron-left" color="white" size={25} />
+      </Native.TouchableOpacity>
+      <Native.Text style={styles.weekDateText}>
+        {formatDate(startDate)} - {formatDate(endDate)}
+      </Native.Text>
+      <Native.TouchableOpacity onPress={() => shift(ShiftDirection.FORWARD)}>
+        <Entypo name="chevron-right" color="white" size={25} />
+      </Native.TouchableOpacity>
     </BouncyPressable>
   );
 }
 
-const styles = Native.StyleSheet.create({
-  weekDateDisplayContainer: {
-    flexDirection: 'row',
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    borderRadius: 10,
 
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
+const styles = Native.StyleSheet.create({
   weekDateDisplayTouchable: {
-    marginTop: 16,
-    marginHorizontal: 12,
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    borderRadius: 10
-  },
-  weekDatePressable: {
-    borderRadius: 10,
-    marginVertical: 6,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8
+    justifyContent: 'space-between',
+    padding: 12,
+    borderWidth: 2,
+    borderRadius: 10,
+    backgroundColor: primaryGreen,
+
+    // shadowColor: 'black',
+    // shadowOffset: { width: 3, height: 3 },
+    // shadowOpacity: 0.5,
+    // shadowRadius: 0.5,
+    // overflow: 'visible'
+  },
+  weekDateText: {
+    color: 'white',
+    fontSize: 20,
+    fontFamily: 'Lexend',
   },
 })

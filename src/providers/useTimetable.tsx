@@ -19,6 +19,7 @@ import { ItemDbObject, ItemType } from '../schema/database/items';
 import { Permission } from '../schema/database/items_on_users';
 import { SocialAction } from '../schema/util/social';
 import { ID } from '../schema/database/abstract';
+import { DateString } from 'schema/util/dates';
 
 export type TimetableHooks = {
   loading: boolean,
@@ -26,7 +27,7 @@ export type TimetableHooks = {
   updateItem: UpdateItem,
   updateItemSocial: UpdateItemSocial,
   addItem: AddItem,
-  reload: () => Promise<void>,
+  reload: (start_date?: DateString, end_date?: DateString) => Promise<DateString[]>,
   removeItem: RemoveItem,
   resortItems: ResortItems
 }
@@ -65,7 +66,7 @@ export const TimetableProvider = ({ children }: Props) => {
   // Timetable needs to fetch all the list item ids before anything else
   const reload = useCallback(async (start_date?: string, end_date?: string) => {
     if (!user) {
-      return;
+      return ['', ''];
     }
 
     const start = start_date || startDate || user.first_day || formatDateData(new Date());
@@ -77,6 +78,8 @@ export const TimetableProvider = ({ children }: Props) => {
     const items = await getTimetable(user.id, start);
     setItems(items);
     setLoading(false);
+
+    return [start, end];
   }, [user])
 
   const updateItem = async (item: LocalItem, changes: Partial<UserRelatedItem>, updateRemote = true) => {

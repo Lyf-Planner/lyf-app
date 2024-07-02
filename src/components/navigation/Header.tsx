@@ -5,25 +5,12 @@
 import * as Native from 'react-native'
 import { Image, Pressable, StyleSheet, TouchableHighlight } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Fontisto from "react-native-vector-icons/Fontisto";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { gentleBlack, primaryGreen, white } from "utils/colours";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 
+
 const LyfIcon = require("../../../assets/images/icon.png")
-      
-      // <Image
-      //   source={TREE}
-      //   alt="tree"
-      //   style={styles.smallTree}
-      //   resizeMode="contain"
-      // />
-      // <Image
-      //   source={ROUND_TREE}
-      //   alt="round-tree"
-      //   style={styles.roundTree}
-      //   resizeMode="contain"
-      //   resizeMethod={'resize'}
-      // />
 
 export function defaultTabHeader(label: string): BottomTabNavigationOptions  {
   return {
@@ -41,7 +28,7 @@ export function defaultTabHeader(label: string): BottomTabNavigationOptions  {
     ),
     headerRight: () => (
       <Native.TouchableOpacity style={headerStyles.settingsContent} onPress={() => null}>
-        <Fontisto name="spinner-cog" style={headerStyles.cog} size={25} />
+        <MaterialCommunityIcons name="bell" style={headerStyles.notifications} size={30} />
       </Native.TouchableOpacity>
     ),
     headerTitleStyle: headerStyles.title,
@@ -99,7 +86,7 @@ const headerStyles = StyleSheet.create({
     position: 'relative',
     bottom: 2
   },
-  cog: {
+  notifications: {
     position: 'relative',
     bottom: 2
   }

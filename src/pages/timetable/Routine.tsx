@@ -25,7 +25,7 @@ export const Routine = () => {
   return (
     <KeyboardAwareScrollView>
       <Native.View style={styles.main}>
-        <CalendarRange>
+        {/* <CalendarRange>
             <Native.Text style={styles.weekDateText}>Every Week</Native.Text>
               <Native.Pressable
                 onPress={() => {
@@ -37,7 +37,7 @@ export const Routine = () => {
               >
                 <Entypo name="info-with-circle" color={'black'} size={18} />
               </Native.Pressable>
-          </CalendarRange>
+          </CalendarRange> */}
 
           <Native.View style={styles.weekDaysWrapperView}>
             {WeekDays.map((x) => (
