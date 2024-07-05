@@ -1,78 +1,72 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Horizontal, Loader } from '../../components/general/MiscComponents';
 import { useEffect, useState } from 'react';
-import { NewNoteMenu } from './NewNoteAdd';
-import { NoteTypes, TypeToDisplayName } from './TypesAndHelpers';
+import { NewNoteMenu } from './containers/NewNoteAdd';
 import { NoteView } from './NoteView';
-import { NoteBanner } from './NoteBanner';
-import { useNotes } from '../../providers/useNotes';
+import { NoteRow } from './containers/NoteRow';
+import { useNotes } from 'providers/cloud/useNotes';
+import { NoteType } from 'schema/database/notes';
+import { UserRelatedNote } from 'schema/user';
+import { ID } from 'schema/database/abstract';
 
 export const Notes = () => {
-  const [focussedNote, setFocussedNote] = useState(null);
-  const { notes, initialised, initialise, updateNote, addNote } = useNotes();
+  // Can be the ID of a folder or note, the manager will figure it out
+  const [selectedId, setSelectedId] = useState<ID | null>(null);
+  const { loading, reload, notes, updateNote, addNote } = useNotes();
 
   useEffect(() => {
-    initialise();
+    reload();
   }, []);
 
-  const newNote = (type: NoteTypes) => {
-    const title = `New ${type === NoteTypes.Text ? 'Note' : 'List'}`;
-    addNote(title, type).then((newNote) => setFocussedNote(newNote));
+  const newNote = (type: NoteType) => {
+    const title = `New ${type === NoteType.ListOnly ? 'List' : 'Note'}`;
+    addNote(title, type).then((id: ID) => setSelectedId(id));
   };
 
-  if (focussedNote) {
+  if (selectedId) {
     return (
       <NoteView
-        note={focussedNote}
-        onBack={() => setFocussedNote(null)}
-        justCreated={
-          focussedNote.title === `New ${TypeToDisplayName[focussedNote.type]}`
-        }
-        updateNote={setFocussedNote}
-        publishUpdate={(note) => updateNote(note)}
+        id={selectedId}
+        onBack={() => setSelectedId(null)}
+        updateSelected={(id: ID) => setSelectedId(id)}
       />
     );
   } else {
     return (
       <View>
         <View style={styles.myNotesHeader}>
-          <Text style={styles.myNotesTitle}>My Lists</Text>
-          <View style={{ marginLeft: 'auto', marginRight: 5 }}>
-            <NewNoteMenu addNote={newNote} />
+          <Text style={styles.myNotesTitle}>My Notes</Text>
+          <View style={styles.newNoteContainer}>
+            <NewNoteMenu newNote={newNote} />
           </View>
         </View>
         <Horizontal
-          style={{ borderWidth: 2, opacity: 0.6, marginHorizontal: 12 }}
+          style={styles.headerSeperator}
         />
         <View style={styles.noteBannersContainer}>
-          {initialised ? (
+          {!loading &&
             <View>
-              {notes.length ? (
+              {notes.length > 0 &&
                 notes.map((x) => (
-                  <NoteBanner
-                    id={x.id}
-                    title={x.title}
-                    onPress={() => setFocussedNote(x)}
-                    noteType={x.type}
+                  <NoteRow
+                    note={x}
+                    onSelect={() => setSelectedId(x.id)}
                     key={x.id}
                   />
                 ))
-              ) : (
+              } 
+
+              {notes.length === 0 &&
                 <Text style={styles.noNotesText}>No notes created yet :)</Text>
-              )}
+              }
             </View>
-          ) : (
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flex: 1
-              }}
-            >
+          }
+
+          {loading &&
+            <View style={styles.loadingContainer}>
               <Loader size={50} />
             </View>
-          )}
+          }
         </View>
       </View>
     );
@@ -89,6 +83,9 @@ const styles = StyleSheet.create({
     marginBottom: 8
   },
   myNotesTitle: { fontSize: 24, fontWeight: '700', fontFamily: 'InterSemi' },
+  newNoteContainer: { marginLeft: 'auto', marginRight: 5 },
+  headerSeperator: { borderWidth: 2, opacity: 0.6, marginHorizontal: 12 },
+  
   noteBannersContainer: {
     paddingHorizontal: 12,
     minHeight: 100
@@ -100,5 +97,11 @@ const styles = StyleSheet.create({
     opacity: 0.4,
     fontWeight: '600',
     fontSize: 16
+  },
+  loadingContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1
   }
 });

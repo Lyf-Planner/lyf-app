@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { useAuth } from '../../../authorisation/AuthProvider';
+import { useAuth } from 'providers/cloud/useAuth';
 import {
   DailyNotificationDesc,
   EventNotificationDesc
 } from './NotificationDescriptions';
-import { useNotifications } from '../../../providers/useNotifications';
-import { primaryGreen } from '../../../utils/constants';
+import { useNotifications } from 'providers/cloud/useNotifications';
+import { primaryGreen } from '../../../utils/colours';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 export const NotificationSettings = () => {

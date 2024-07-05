@@ -1,10 +1,15 @@
 import { View, Image, StyleSheet } from 'react-native';
+import { LyfElement } from 'utils/abstractTypes';
 
 const TREE = require('../../../assets/images/background/tree.png');
 const ROUND_TREE = require('../../../assets/images/background/roundtree.png');
 const BRANCH = require('../../../assets/images/background/branch.png');
 
-export const Background = ({ children }) => {
+type Props = {
+  children: LyfElement
+}
+
+export const Background = ({ children }: Props) => {
   return (
     <View style={styles.page}>
       <Image

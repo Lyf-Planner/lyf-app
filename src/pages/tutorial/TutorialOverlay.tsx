@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet, ListRenderItemInfo } from 'react-native';
 import { deepBlueOpacity, primaryGreen } from '../../utils/colours';
-import { useTutorial } from '../../providers/useTutorial';
+import { useTutorial } from 'providers/overlays/useTutorial';
 import { SaveTooltip } from '../../components/general/Icons';
 import AppIntroSlider from 'react-native-app-intro-slider';
 

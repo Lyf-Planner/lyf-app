@@ -14,8 +14,8 @@ import {
   secondaryGreen,
 } from '../../../utils/colours';
 import { sleep } from 'utils/misc';
-import { useAuth } from '../../../authorisation/AuthProvider';
-import { useTimetable } from '../../../providers/useTimetable';
+import { useAuth } from 'providers/cloud/useAuth';
+import { useTimetable } from 'providers/cloud/useTimetable';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -195,6 +195,14 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
 
     return menuOptions;
   };
+
+  const conditionalStyles = {
+    dayRootView: allDone ? {
+      
+    } : {
+
+    }
+  }
 
 
   return (

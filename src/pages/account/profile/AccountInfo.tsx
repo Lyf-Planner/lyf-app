@@ -5,8 +5,8 @@ import {
   Text,
   Alert
 } from 'react-native';
-import { useAuth } from '../../../authorisation/AuthProvider';
-import { primaryGreen } from '../../../utils/constants';
+import { useAuth } from 'providers/cloud/useAuth';
+import { primaryGreen } from '../../../utils/colours';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { validateDisplayName } from '../../../utils/validators';

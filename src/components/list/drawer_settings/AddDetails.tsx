@@ -7,8 +7,8 @@ import {
 } from 'react-native';
 import { primaryGreen } from '../../../utils/colours';
 import { formatDateData } from '../../../utils/dates';
-import { useNotifications } from '../../../providers/useNotifications';
-import { useModal } from '../../../providers/useModal';
+import { useNotifications } from 'providers/cloud/useNotifications';
+import { useModal } from 'providers/overlays/useModal';
 import { AddFriendsModal } from './AddFriendsModal';
 import { isTemplate } from '../constants';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';

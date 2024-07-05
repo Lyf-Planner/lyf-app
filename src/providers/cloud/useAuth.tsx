@@ -9,21 +9,21 @@ import {
 import {
   getAsyncData,
   deleteAsyncData
-} from '../utils/asyncStorage';
-import { autologin } from '../rest/auth';
-import { LoadingScreen } from '../components/general/MiscComponents';
-import { Login } from './Login';
+} from 'utils/asyncStorage';
+import { autologin } from 'rest/auth';
+import { LoadingScreen } from 'components/general/MiscComponents';
+import { Login } from 'components/auth/Login';
 import { getCalendars } from 'expo-localization';
 import {
   deleteMe,
   saveUser,
-} from '../rest/user';
+} from 'rest/user';
 import { AppState } from 'react-native';
 import { Background } from 'components/general/Background';
-import { ExposedUser, User } from '../schema/user';
-import { updateFriendship as updateRemoteFriendship, getUser } from '../rest/user';
-import { ID } from '../schema/database/abstract';
-import { FriendshipAction } from '../schema/util/social';
+import { ExposedUser, User } from 'schema/user';
+import { updateFriendship as updateRemoteFriendship, getUser } from 'rest/user';
+import { ID } from 'schema/database/abstract';
+import { FriendshipAction } from 'schema/util/social';
 
 type Props = {
   children: JSX.Element;
@@ -192,8 +192,8 @@ export const AuthGateway = ({ children }: Props) => {
   );
 };
 
-const AuthContext = createContext<AuthExposed | undefined>(undefined); // TODO: Do this better
+const AuthContext = createContext<AuthExposed>(undefined as any); // TODO: Do this better
 
 export const useAuth = () => {
-  return useContext(AuthContext) as AuthExposed;
+  return useContext(AuthContext);
 };

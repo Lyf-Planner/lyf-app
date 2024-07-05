@@ -30,7 +30,7 @@ export const routes = Object.freeze({
     root: <Native.View><Native.Text>HELLO WORLD</Native.Text></Native.View>
   },
   lists: {
-    label: "Lists",
+    label: "Notes",
     icon: (color: string) => <Entypo name='list' size={30} color={color} />,
     root: <Native.View></Native.View> // <Notes />
   },

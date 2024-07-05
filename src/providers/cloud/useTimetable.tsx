@@ -1,5 +1,5 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { useAuth } from '../authorisation/AuthProvider';
+import { createContext, useCallback, useContext, useState } from 'react';
+import { useAuth } from 'providers/cloud/useAuth';
 import { getCalendars } from 'expo-localization';
 import {
   createItem,
@@ -7,19 +7,20 @@ import {
   getTimetable,
   updateItem as updateRemoteItem,
   updateItemSocial as updateRemoteItemSocial
-} from '../rest/items';
-import { ItemStatus } from '../components/list/constants';
+} from 'rest/items';
+import { ItemStatus } from 'components/list/constants';
 import { v4 as uuid } from 'uuid';
-import { addWeekToStringDate, formatDateData, getStartOfCurrentWeek } from '../utils/dates';
+import { addWeekToStringDate, formatDateData } from 'utils/dates';
 import 'react-native-get-random-values';
-import { ListItem } from '../utils/abstractTypes';
+import { ListItem } from 'utils/abstractTypes';
 import { PublicUser, UserRelatedItem } from 'schema/user';
-import { Item, LocalItem } from '../schema/items';
-import { ItemDbObject, ItemType } from '../schema/database/items';
-import { Permission } from '../schema/database/items_on_users';
-import { SocialAction } from '../schema/util/social';
-import { ID } from '../schema/database/abstract';
+import { Item, LocalItem } from 'schema/items';
+import { ItemDbObject, ItemType } from 'schema/database/items';
+import { Permission } from 'schema/database/items_on_users';
+import { SocialAction } from 'schema/util/social';
+import { ID } from 'schema/database/abstract';
 import { DateString } from 'schema/util/dates';
+import { useCloud } from './cloudProvider';
 
 export type TimetableHooks = {
   loading: boolean,
@@ -56,28 +57,41 @@ type Props = {
  */
 export const TimetableProvider = ({ children }: Props) => {
   const { user } = useAuth()
+  const { setSyncing } = useCloud();
 
+  const [initialised, setInitialised] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [items, setItems] = useState<LocalItem[]>([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("")
-  const [loading, setLoading] = useState(true);
-  
 
   // Timetable needs to fetch all the list item ids before anything else
   const reload = useCallback(async (start_date?: string, end_date?: string) => {
     if (!user) {
+      setItems([])
       return ['', ''];
+    }
+
+    if (!initialised) {
+      setLoading(true);
+    } else {
+      setSyncing(true);
     }
 
     const start = start_date || startDate || user.first_day || formatDateData(new Date());
     const end = end_date || endDate || addWeekToStringDate(start);
     setStartDate(start)
     setEndDate(end);
-
-    setLoading(true)
+  
     const items = await getTimetable(user.id, start);
     setItems(items);
-    setLoading(false);
+
+    if (!initialised) {
+      setLoading(false);
+      setInitialised(true);
+    } else {
+      setSyncing(false);
+    }
 
     return [start, end];
   }, [user])

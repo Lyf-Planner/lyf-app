@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useTimetable } from '../../providers/useTimetable';
+import { useTimetable } from 'providers/cloud/useTimetable';
 import { black, primaryGreen, white } from 'utils/colours';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -13,9 +13,7 @@ export const Timetable = () => {
   const { loading, reload } = useTimetable();
 
   useEffect(() => {
-    if (loading) {
-      reload();
-    }
+    reload();
   }, [])
 
   return (

@@ -1,6 +1,6 @@
 import { View, StyleSheet, Text } from 'react-native';
 import DraggableFlatlist from 'react-native-draggable-flatlist';
-import { useTimetable } from '../../providers/useTimetable';
+import { useTimetable } from 'providers/cloud/useTimetable';
 import { secondaryGreen } from '../../utils/colours';
 import { SortableListItem } from './item/SortableListItem';
 import { BouncyPressable } from '../pressables/BouncyPressable';

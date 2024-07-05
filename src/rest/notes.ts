@@ -4,6 +4,18 @@ import { Note } from 'schema/notes';
 import { NoteDbObject } from 'schema/database/notes';
 import { ID } from 'schema/database/abstract';
 
+export async function myNotes() {
+  const url = `${env.BACKEND_URL}/note/myNotes`;
+
+  const result = await get(url);
+  const notes = result.data;
+  if (result?.status === 200) {
+    return notes;
+  } else {
+    alert(result.data);
+  }
+}
+
 export async function getNote(id: string) {
   const url = `${env.BACKEND_URL}/note/get?id=${id}`;
 

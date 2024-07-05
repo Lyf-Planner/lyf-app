@@ -27,10 +27,10 @@ export const ModalProvider = ({ children }: Props) => {
   );
 };
 
-const ModalContext = createContext<ModalHooks | undefined>(undefined);
+const ModalContext = createContext<ModalHooks>(undefined as any);
 
 export const useModal = () => {
-  return useContext(ModalContext) as ModalHooks;
+  return useContext(ModalContext);
 };
 
 const styles = StyleSheet.create({

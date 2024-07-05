@@ -5,17 +5,27 @@ import {
   GestureDetector,
   TouchableHighlight
 } from 'react-native-gesture-handler';
-import { Horizontal } from '../../components/general/MiscComponents';
+import { Horizontal } from 'components/general/MiscComponents';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming
 } from 'react-native-reanimated';
 import { NoteTypeBadge } from './NoteTypeBadge';
-import { useNotes } from '../../providers/useNotes';
+import { useNotes } from 'providers/cloud/useNotes';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { ID } from 'schema/database/abstract';
+import { UserRelatedNote } from 'schema/user';
 
-export const NoteBanner = ({ id, title, noteType, onPress }) => {
+type Props = {
+  note: UserRelatedNote,
+  onSelect: () => void;
+}
+
+export const NoteRow = ({ 
+  note,
+  onSelect
+}: Props) => {
   const { removeNote } = useNotes();
   const offsetX = useSharedValue(0);
 
@@ -29,25 +39,18 @@ export const NoteBanner = ({ id, title, noteType, onPress }) => {
     .onEnd(() => (offsetX.value = 0));
   const composed = Gesture.Exclusive(flingLeft, flingRight);
 
-  const flingAnimation = useAnimatedStyle(
-    () =>
-      ({
-        transform: [
-          {
-            translateX: withTiming(offsetX.value, {
-              duration: 200
-            })
-          }
-        ],
-        zIndex: 50
-      } as any)
-  );
+  const flingAnimation = useAnimatedStyle(() => ({
+    transform: [{
+      translateX: withTiming(offsetX.value, { duration: 200 })
+    }],
+    zIndex: 50
+  }));
 
   return (
     <View style={[styles.main]}>
       <TouchableOpacity
         style={[styles.bannerHiddenBackground]}
-        onPress={() => removeNote(id)}
+        onPress={() => removeNote(note.id)}
       >
         <Entypo name="trash" style={styles.editIcon} size={20} color="white" />
       </TouchableOpacity>
@@ -56,12 +59,12 @@ export const NoteBanner = ({ id, title, noteType, onPress }) => {
         <GestureDetector gesture={composed}>
           <TouchableHighlight
             underlayColor={'rgb(150,150,150)'}
-            onPress={onPress}
+            onPress={onSelect}
           >
             <View style={styles.touchableHighlight}>
-              <Text style={[styles.titleText]}>{title}</Text>
+              <Text style={[styles.titleText]}>{note.title}</Text>
               <View style={[styles.animatedChevron]}>
-                <NoteTypeBadge type={noteType} />
+                <NoteTypeBadge type={note.type} />
                 <Entypo name={'chevron-right'} size={25} />
               </View>
             </View>

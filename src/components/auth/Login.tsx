@@ -6,11 +6,11 @@ import {
   Keyboard,
   TouchableWithoutFeedback
 } from 'react-native';
-import { Horizontal, Loader } from '../components/general/MiscComponents';
+import { Horizontal, Loader } from '../general/MiscComponents';
 import { useRef, useState } from 'react';
-import { USER_NOT_FOUND, login } from '../rest/auth';
-import { createUser } from '../rest/user';
-import { validatePassword, validateUsername } from '../utils/validators';
+import { USER_NOT_FOUND, login } from '../../rest/auth';
+import { createUser } from '../../rest/user';
+import { validatePassword, validateUsername } from '../../utils/validators';
 import { ExposedUser } from 'schema/user';
 
 type Props = {

@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { useAuth } from '../../../authorisation/AuthProvider';
+import { useAuth } from 'providers/cloud/useAuth';
 import { primaryGreen } from 'utils/colours';
 import { useState } from 'react';
 import { ActionButton } from '../../../components/pressables/AsyncAction';
@@ -8,7 +8,7 @@ import { Loader } from '../../../components/general/MiscComponents';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { useModal } from '../../../providers/useModal';
+import { useModal } from 'providers/overlays/useModal';
 import {
   LyfMenu,
   MenuPopoverPlacement,

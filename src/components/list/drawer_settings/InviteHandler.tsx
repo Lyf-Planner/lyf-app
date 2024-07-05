@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { BouncyPressable } from '../../pressables/BouncyPressable';
 import { useState } from 'react';
-import { useAuth } from '../../../authorisation/AuthProvider';
-import { useTimetable } from '../../../providers/useTimetable';
+import { useAuth } from 'providers/cloud/useAuth';
+import { useTimetable } from 'providers/cloud/useTimetable';
 import { primaryGreen } from '../../../utils/colours';
 import { Loader } from '../../general/MiscComponents';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';

@@ -14,7 +14,7 @@ import { DayOfWeek } from 'schema/util/dates';
 import { ItemType } from 'schema/database/items';
 
 export const ItemDate = ({ item, updateItem }: ItemDrawerProps) => {
-  const routineDay: DayOfWeek | undefined = isTemplate(item) ? item.day : undefined;
+  const routineDay: string | undefined = isTemplate(item) ? item.day : undefined;
   const menuName = useMemo(
     () => `show-in-upcoming-${item.id}-${item.show_in_upcoming}`, []
   );

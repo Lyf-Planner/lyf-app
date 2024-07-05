@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableHighlight } from 'react-native';
-import { deepBlue } from '../../utils/constants';
+import { deepBlue } from 'utils/colours';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export const AccountHeaderButton = ({ onPress, open }) => {

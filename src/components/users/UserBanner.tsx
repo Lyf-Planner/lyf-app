@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { eventsBadgeColor } from '../../utils/constants';
+import { eventsBadgeColor } from 'utils/colours';
 import { FriendAction } from '../../pages/account/friends/FriendActions';
 import { BouncyPressable } from '../pressables/BouncyPressable';
 import { UserListContext } from '../../utils/constants';
 import { ItemSocialAction } from '../list/drawer_settings/ItemSocialAction';
-import { useModal } from '../../providers/useModal';
+import { useModal } from 'providers/overlays/useModal';
 import { UserModal } from './UserModal';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 

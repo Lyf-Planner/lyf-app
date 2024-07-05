@@ -3,7 +3,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Swiper from 'react-native-swiper';
 
 import { BouncyPressable } from "components/pressables/BouncyPressable";
-import { LinearGradient } from "expo-linear-gradient";
 import * as Native from 'react-native';
 import { primaryGreen, secondaryGreen } from "utils/colours";
 import { addWeekToStringDate, daysDifferenceBetween, formatDate, formatDateData, localisedMoment } from 'utils/dates';

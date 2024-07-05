@@ -1,9 +1,9 @@
 import { View } from 'react-native';
 import { ListItem } from '../../utils/abstractTypes';
 import { StyleSheet } from 'react-native';
-import { ItemStatus } from '../list/constants';
-import { primaryGreen } from '../../utils/constants';
+import { primaryGreen } from 'utils/colours';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { ItemStatus } from 'schema/database/items';
 
 type Props = {
   item: ListItem;

@@ -1,9 +1,9 @@
 import { ListItemUnderlay } from './ItemUnderlay';
-import { useDrawer } from '../../../providers/useDrawer';
+import { useDrawer } from 'providers/overlays/useDrawer';
 import { SharedValue, useSharedValue } from 'react-native-reanimated';
 import { ListItemGestureWrapper } from './ItemGestureWrapper';
 import { ListItemOverlay } from './ItemOverlay';
-import { useTimetable } from '../../../providers/useTimetable';
+import { useTimetable } from 'providers/cloud/useTimetable';
 import { LocalItem } from 'schema/items';
 import { ItemDrawer } from '../ItemDrawer';
 

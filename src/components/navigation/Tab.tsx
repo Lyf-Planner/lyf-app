@@ -41,7 +41,6 @@ export const Tab = ({ isFocused, index, onPress, route }: Props) => {
       borderTopRightRadius: isCentral ? 15 : 0,
       height: tabHeight(),
       borderColor: gentleBlack,
-      borderTopWidth: 0.5,
       borderLeftWidth: isCentral ? 0.5 : 0,
       borderRightWidth: isCentral ? 0.5 : 0,
       paddingLeft: index === 0 ? 10 : 0,
@@ -108,10 +107,4 @@ const styles = Native.StyleSheet.create({
     position: 'relative', 
     bottom: 25 
   },
-  label: {
-    position: 'relative',
-    bottom: 30,
-    fontSize: 11,
-    fontFamily: 'Lexend'
-  }
 })

@@ -1,91 +1,45 @@
 import { StyleSheet, View, TextInput, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { NoteTypes } from './TypesAndHelpers';
 import { List } from '../../components/list/List';
-import { eventsBadgeColor } from '../../utils/constants';
-import { NoteTypeBadge } from './NoteTypeBadge';
-import { ItemStatus, ListItemType } from '../../components/list/constants';
-import { useAuth } from '../../authorisation/AuthProvider';
-import { v4 as uuid } from 'uuid';
-import Entypo from 'react-native-vector-icons/Entypo';
-import { ItemType } from 'schema/database/items';
+import { eventsBadgeColor } from 'utils/colours';
+
+import { ID } from 'schema/database/abstract';
+import { useNotes } from 'providers/cloud/useNotes';
+import { useMemo } from 'react';
+import { NoteType } from 'schema/database/notes';
+import { NoteHeader } from './containers/NoteHeader';
+
+type Props = {
+  id: ID,
+  onBack: () => void;
+  updateSelected: (id: ID) => void;
+}
 
 export const NoteView = ({
-  note,
+  id,
   onBack,
-  justCreated,
-  updateNote,
-  publishUpdate
-}) => {
-  const { user } = useAuth();
-  const updateNoteTitle = (title: string) => {
-    updateNote({ ...note, title });
-  };
-  const updateNoteContent = (content, publish = false) => {
-    updateNote({ ...note, content });
-    publish && publishUpdate({ ...note, content });
-  };
+  updateSelected
+}: Props) => {
+  const { notes, updateNote } = useNotes();
 
-  // We need to pass different item ops to the List
-  // Since the list items are stored on note.content
-  // This needs to be reevaluated such that notes reference real items
-  const addItem = (title: string) => {
-    const newItem = {
-      id: uuid(),
-      created: new Date().toISOString(),
-      title,
-      status: ItemStatus.Upcoming,
-      type: ListItemType.Task,
-      permitted_users: [
-        {
-          user_id: user.id,
-          displayed_as: user.details?.name || user.id,
-          permissions: 'Owner'
-        }
-      ]
-    };
-    updateNoteContent([...note.content, newItem], true);
+  const note = useMemo(() => notes.find((x) => x.id === id), [notes]);
+  if (!note) {
+    return null;
+  }
+
+  const updateNoteTitle = (title: string) => {
+    updateNote(note, { title });
   };
-  const updateItem = (item) => {
-    const tmp = [...note.content];
-    const i = tmp.findIndex((x) => x.id === item.id);
-    tmp[i] = item;
-    updateNoteContent(tmp, true);
-  };
-  const removeItem = (item) => {
-    const tmp = note.content.filter((x) => x.id !== item.id);
-    updateNoteContent(tmp, true);
+  const updateNoteContent = (content: string, publish = false) => {
+    updateNote(note, { content });
+    // TODO: Put into own section
   };
 
   return (
     <View style={styles.notePageWrapper}>
-      <View style={styles.myNotesHeader}>
-        <TouchableOpacity onPress={() => onBack()}>
-          <Entypo name={'chevron-left'} size={30} />
-        </TouchableOpacity>
-        <TextInput
-          autoFocus={justCreated}
-          onFocus={(e: any) =>
-            // Workaround for selectTextOnFocus={true} not working
-            e.currentTarget.setNativeProps({
-              selection: { start: 0, end: note.title.length }
-            })
-          }
-          style={styles.myNotesTitle}
-          onChangeText={updateNoteTitle}
-          value={note.title}
-          onSubmitEditing={() => publishUpdate(note)}
-          onEndEditing={() => publishUpdate(note)}
-          returnKeyType="done"
-        />
-        {note.type === NoteTypes.List && (
-          <Text style={[styles.subtitle, { marginLeft: 'auto' }]}>
-            ({note.content.length} Items)
-          </Text>
-        )}
-        <NoteTypeBadge type={note.type} />
-      </View>
-      {note.type === NoteTypes.Text ? (
+      <NoteHeader note={note} onBack={onBack}/>
+
+      {note.type === NoteType.NoteOnly ? (
         <TextInput
           multiline={true}
           value={note.content}
@@ -120,16 +74,7 @@ const styles = StyleSheet.create({
   notePageWrapper: {
     paddingHorizontal: 10
   },
-  myNotesHeader: {
-    flexDirection: 'row',
-    paddingRight: 8,
-    gap: 8,
-    height: 40,
-    alignItems: 'center',
-    marginTop: 8,
-    marginBottom: 2
-  },
-  myNotesTitle: { fontSize: 22, fontWeight: '700' },
+
   noteText: {
     borderWidth: 1,
     marginTop: 6,
@@ -141,10 +86,4 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 8
   },
-  subtitle: {
-    textAlign: 'center',
-    opacity: 0.6,
-    fontWeight: '600',
-    fontSize: 15
-  }
 });

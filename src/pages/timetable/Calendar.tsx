@@ -1,7 +1,7 @@
 import * as Native from 'react-native';
 import { allDatesBetween, dayFromDateString, extendByWeek, formatDate, formatDateData, getStartOfCurrentWeek, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
 import { useEffect, useMemo, useState } from 'react';
-import { useAuth } from 'authorisation/AuthProvider';
+import { useAuth } from 'providers/cloud/useAuth';
 import { CalendarRange } from './containers/CalendarRange';
 import { blackWithOpacity, deepBlue, white } from 'utils/colours';
 import { DayDisplay } from './containers/DayDisplay';
@@ -13,7 +13,7 @@ import { ItemType } from 'schema/database/items';
 import { v4 as uuid } from 'uuid';
 import { isTemplate } from 'components/list/constants';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useTimetable } from 'providers/useTimetable';
+import { useTimetable } from 'providers/cloud/useTimetable';
 import { DateString } from 'schema/util/dates';
 import { Loader } from 'components/general/MiscComponents';
 

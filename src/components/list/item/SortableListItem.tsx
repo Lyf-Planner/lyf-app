@@ -5,8 +5,6 @@ import {
 } from '../constants';
 import { primaryGreen } from '../../../utils/colours';
 import { useMemo } from 'react';
-import { useAuth } from '../../../authorisation/AuthProvider';
-import { ListItem } from '../../../utils/abstractTypes';
 import { ItemStyleOptions } from './Item';
 import { AnimatedCheck } from '../../general/AnimatedCheck';
 import { useSharedValue } from 'react-native-reanimated';

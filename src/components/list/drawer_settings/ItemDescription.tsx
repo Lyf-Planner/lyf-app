@@ -5,7 +5,6 @@ import {
   StyleSheet,
   TouchableHighlight
 } from 'react-native';
-import { sleep } from 'utils/misc';
 import { offWhite } from 'utils/colours';
 import { useEffect, useState } from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';

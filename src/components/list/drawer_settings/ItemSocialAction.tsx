@@ -11,8 +11,8 @@ import {
   primaryGreen
 } from '../../../utils/colours';
 import { useMemo, useRef, useState } from 'react';
-import { useAuth } from '../../../authorisation/AuthProvider';
-import { useTimetable } from '../../../providers/useTimetable';
+import { useAuth } from 'providers/cloud/useAuth';
+import { useTimetable } from 'providers/cloud/useTimetable';
 import { ActionButton } from '../../pressables/AsyncAction';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { ItemRelatedUser, LocalItem } from '../../../schema/items';

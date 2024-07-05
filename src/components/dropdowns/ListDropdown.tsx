@@ -8,7 +8,7 @@ import Animated, {
   FadeIn
 } from 'react-native-reanimated';
 import { deepBlue, eventsBadgeColor } from '../../utils/colours';
-import { useTimetable } from '../../providers/useTimetable';
+import { useTimetable } from 'providers/cloud/useTimetable';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { ItemType } from 'schema/database/items';
 import { LocalItem } from 'schema/items';
@@ -67,7 +67,9 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
       >
         {icon}
         <Text style={styles.listTitle}>{name}</Text>
-        <Text style={styles.listSize}>{`(${items.length})`}</Text>
+        {items.length > 0 && 
+          <Text style={styles.listSize}>{`(${items.length})`}</Text>
+        }
         <View style={styles.headerLeft}>
           <Animated.View style={[styles.animatedChevron, chevronRotationAnimation]}>
             <Entypo name="chevron-right" size={25} />

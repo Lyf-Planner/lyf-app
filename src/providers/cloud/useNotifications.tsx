@@ -5,9 +5,9 @@ import {
 } from 'expo-notifications';
 import { isDevice } from 'expo-device';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { useAuth } from '../authorisation/AuthProvider';
-import { getAsyncData, storeAsyncData } from '../utils/asyncStorage';
-import env from '../envManager';
+import { useAuth } from 'providers/cloud/useAuth';
+import { getAsyncData, storeAsyncData } from 'utils/asyncStorage';
+import env from 'envManager';
 
 type Props = {
   children: JSX.Element;
@@ -97,8 +97,8 @@ async function registerForPushNotificationsAsync() {
   return token.data;
 }
 
-const NotificationContext = createContext<NotificationHooks | undefined>(undefined);
+const NotificationContext = createContext<NotificationHooks>(undefined as any);
 
 export const useNotifications = () => {
-  return useContext(NotificationContext) as NotificationHooks;
+  return useContext(NotificationContext);
 };

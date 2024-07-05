@@ -4,7 +4,7 @@ const { manifest, manifest2 } = Constants;
 // With expo constants, once Constants.manifest is null, Constants.manifest2 contains the env vars
 // Which of these contains data depends on environments
 // This unifies them into one function call so we don't have to worry about distinguishing elsewhere
-function envVar(varName: string, subvar_name: string = null) {
+function envVar(varName: string, subvar_name?: string) {
   // Slower but more robust method of finding env var
   for (const extra of [manifest?.extra, manifest2?.extra]) {
     let c;
@@ -45,7 +45,7 @@ function parseBackendUrl() {
   // Which one is present depends on which of manifest or manifest2 is null - which varies across environments
   const debuggerUrl = manifest
     ? manifest.debuggerHost
-    : manifest2.launchAsset.url;
+    : manifest2?.launchAsset.url;
 
   // Retrieve IP from URL
   const ip = extractIPfromURL(debuggerUrl);

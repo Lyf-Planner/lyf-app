@@ -7,30 +7,34 @@ import {
   MenuTrigger,
   renderers
 } from 'react-native-popup-menu';
-import { Horizontal } from '../../components/general/MiscComponents';
-import { NoteTypes } from './TypesAndHelpers';
+import { Horizontal } from 'components/general/MiscComponents';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { NoteType } from 'schema/database/notes';
+import { useNotes } from 'providers/cloud/useNotes';
 
-const NewNoteButton = () => {
-  return (
-    <View style={{ padding: 4, borderRadius: 5 }}>
-      <MaterialCommunityIcons name="note-plus-outline" size={30} />
-    </View>
-  );
-};
+type Props = {
+  newNote: (type: NoteType) => void;
+}
 
-export const NewNoteMenu = ({ addNote }) => {
-  const onOptionSelect = (type: NoteTypes) => {
-    addNote(`New ${type}`, type);
+export const NewNoteMenu = ({ newNote }: Props) => {
+  const onOptionSelect = (type: NoteType) => {
+    newNote(type);
     return false;
   };
 
   const menu = useRef<any>();
 
+  const optionsContainerStyles = { 
+    optionsContainer: styles.optionsContainer 
+  }
+  const optionStyles = {
+    optionWrapper: styles.optionWrapper,
+    optionText: styles.optionText
+  }
+
   return (
     <View>
       <Menu
-        onSelect={(value) => onOptionSelect(value)}
         name="new-note-menu"
         ref={menu}
         renderer={renderers.Popover}
@@ -39,33 +43,36 @@ export const NewNoteMenu = ({ addNote }) => {
           anchorStyle: { backgroundColor: '#bababa' }
         }}
       >
-        <MenuOptions
-          customStyles={{ optionsContainer: styles.optionsContainer }}
-        >
+        <MenuOptions customStyles={optionsContainerStyles}>
           <MenuOption
             value={1}
             text="+ New List"
-            customStyles={{
-              optionWrapper: styles.optionWrapper,
-              optionText: styles.optionText
-            }}
-            onSelect={() => addNote(NoteTypes.List)}
+            customStyles={optionStyles}
+            onSelect={() => onOptionSelect(NoteType.ListOnly)}
           />
+
           <Horizontal style={styles.optionSeperator} />
+
           <MenuOption
             value={2}
             text="+ New Note"
-            customStyles={{
-              optionWrapper: styles.optionWrapper,
-              optionText: styles.optionText
-            }}
-            onSelect={() => addNote(NoteTypes.Text)}
+            customStyles={optionStyles}
+            onSelect={() => onOptionSelect(NoteType.NoteOnly)}
           />
         </MenuOptions>
+
         <MenuTrigger>
           <NewNoteButton />
         </MenuTrigger>
       </Menu>
+    </View>
+  );
+};
+
+const NewNoteButton = () => {
+  return (
+    <View style={styles.newNoteContainer}>
+      <MaterialCommunityIcons name="note-plus-outline" size={30} />
     </View>
   );
 };
@@ -81,5 +88,7 @@ const styles = StyleSheet.create({
   },
   optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
   optionText: { fontSize: 18 },
-  optionSeperator: { marginHorizontal: 5 }
+  optionSeperator: { marginHorizontal: 5 },
+
+  newNoteContainer: { padding: 4, borderRadius: 5 }
 });

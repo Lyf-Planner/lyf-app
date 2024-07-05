@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
-import { TutorialOverlay } from '../pages/tutorial/TutorialOverlay';
-import { useAuth } from '../authorisation/AuthProvider';
+import { TutorialOverlay } from 'pages/tutorial/TutorialOverlay';
+import { useAuth } from 'providers/cloud/useAuth';
 
 type Props = {
   children: JSX.Element;
@@ -25,8 +25,8 @@ export const TutorialProvider = ({ children }: Props) => {
   );
 };
 
-const TutorialContext = createContext<TutorialHooks | undefined>(undefined);
+const TutorialContext = createContext<TutorialHooks>(undefined as any);
 
 export const useTutorial = () => {
-  return useContext(TutorialContext) as TutorialHooks;
+  return useContext(TutorialContext);
 };

@@ -6,8 +6,9 @@ import { DayDisplay } from './containers/DayDisplay';
 import { WeekDays } from 'schema/util/dates';
 import { LocalItem } from 'schema/items';
 import { useMemo } from 'react';
-import { useTimetable } from 'providers/useTimetable';
+import { useTimetable } from 'providers/cloud/useTimetable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Loader } from 'components/general/MiscComponents';
 
 
 type Props = {
@@ -15,7 +16,7 @@ type Props = {
 }
 
 export const Routine = () => {
-  const { items } = useTimetable();
+  const { loading, items } = useTimetable();
   const routineItems = useMemo(() => (
     items
     .filter((item) => item.day && !item.date)
@@ -39,16 +40,27 @@ export const Routine = () => {
               </Native.Pressable>
           </CalendarRange> */}
 
-          <Native.View style={styles.weekDaysWrapperView}>
-            {WeekDays.map((x) => (
-              <DayDisplay
-                key={x}
-                day={x}
-                date={null}
-                items={items.filter((y) => (y.day && x === y.day))}
-              />
-            ))}
-          </Native.View>
+          {!loading &&
+            <Native.View style={styles.weekDaysWrapperView}>
+              {WeekDays.map((x) => (
+                <DayDisplay
+                  key={x}
+                  day={x}
+                  date={null}
+                  items={items.filter((y) => (y.day && x === y.day))}
+                />
+              ))}
+            </Native.View>
+          }
+
+          {loading && 
+            <Native.View style={styles.loadingContainer}>
+              <Loader />
+              <Native.Text style={styles.loadingText}>
+                Organizing...
+              </Native.Text>
+            </Native.View>
+          }
         </Native.View>
     </KeyboardAwareScrollView>
   )
@@ -76,5 +88,17 @@ const styles = Native.StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 3
-  }
+  },
+
+  loadingContainer: {
+    marginTop: 20,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 10,
+  },
+  loadingText: {
+    fontFamily: 'Lexend',
+    fontSize: 20
+  },
 })

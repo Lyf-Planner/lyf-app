@@ -1,7 +1,5 @@
 import { StyleSheet, TouchableHighlight, Text } from 'react-native';
 import { eventsBadgeColor } from '../../../utils/colours';
-import { LocalItem } from 'schema/items';
-import { UpdateItem } from 'providers/useTimetable';
 import { ItemType } from 'schema/database/items';
 import { useCallback } from 'react';
 import { ItemDrawerProps } from '../ItemDrawer';

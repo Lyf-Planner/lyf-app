@@ -6,8 +6,8 @@ import {
   StyleSheet,
   TouchableHighlight
 } from 'react-native';
-import { useAuth } from '../../../authorisation/AuthProvider';
-import { useNotifications } from '../../../providers/useNotifications';
+import { useAuth } from 'providers/cloud/useAuth';
+import { useNotifications } from 'providers/cloud/useNotifications';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { ItemDrawerProps } from '../ItemDrawer';

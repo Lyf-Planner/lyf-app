@@ -12,7 +12,7 @@ import { BouncyPressable } from '../pressables/BouncyPressable';
 export type LyfMenuProps = {
   name: string;
   placement: MenuPopoverPlacement;
-  children: JSX.Element;
+  children: JSX.Element; // The menu will display when this is pressed!
   options: PopoverMenuOption[];
 };
 
@@ -30,7 +30,6 @@ export enum MenuPopoverPlacement {
 }
 
 export const LyfMenu = (props: LyfMenuProps) => {
-  const menu = useRef<Menu>();
   const rendererProps = {
     placement: props.placement,
     anchorStyle: { backgroundColor: '#bababa' }
@@ -39,7 +38,6 @@ export const LyfMenu = (props: LyfMenuProps) => {
   return (
     <Menu
       name={props.name}
-      ref={menu}
       renderer={renderers.Popover}
       rendererProps={rendererProps}
     >

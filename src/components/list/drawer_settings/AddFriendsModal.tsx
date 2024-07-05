@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import { useModal } from '../../../providers/useModal';
-import { useAuth } from '../../../authorisation/AuthProvider';
-import { useMemo, useState } from 'react';
+import { useModal } from 'providers/overlays/useModal';
+import { useAuth } from 'providers/cloud/useAuth';
+import { useState } from 'react';
 import { Horizontal } from '../../general/MiscComponents';
 import { FetchUserList } from '../../users/UserList';
 import { UserListContext } from '../../../utils/constants';

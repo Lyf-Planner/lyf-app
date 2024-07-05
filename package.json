@@ -9,6 +9,7 @@
     "build:ios-sim": "eas build --platform ios --profile sim-dev",
     "build:ios": "eas build --platform ios --profile dev",
     "prodbuild:ios": "eas build --platform ios --profile production",
+    "schema:sync": "cd src/schema && git checkout main && git pull && cd ../..",
     "use-build": "eas build:run",
     "android": "expo run:android",
     "ios": "expo run:ios"

@@ -5,7 +5,7 @@ import { AccountInfo } from './profile/AccountInfo';
 import { NotificationSettings } from './notifications/Notifications';
 import { SettingDropdown } from '../../components/dropdowns/SettingDropdown';
 import { FindUsers } from './friends/FindUsers';
-import { useAuth } from '../../authorisation/AuthProvider';
+import { useAuth } from 'providers/cloud/useAuth';
 import { FetchUserList } from '../../components/users/UserList';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
