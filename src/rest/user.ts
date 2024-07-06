@@ -5,10 +5,12 @@ import env from '../envManager';
 import { User } from '../schema/user';
 import { FriendshipAction } from '../schema/util/social';
 
-export async function saveUser(changes: Partial<User>) {
-  const url = `${env.BACKEND_URL}/user/update`;
+const usersEndpoint = (req: string) => `/users/${req}`;
 
-  const result = await post(url, changes);
+export async function saveUser(changes: Partial<User>) {
+  const endpoint = usersEndpoint('update')
+
+  const result = await post(endpoint, changes);
 
   if (result?.status === 200) {
     return true;
@@ -22,14 +24,14 @@ export async function saveUser(changes: Partial<User>) {
 }
 
 export async function createUser(username: string, password: string) {
-  const url = `${env.BACKEND_URL}/user/create`;
+  const endpoint = usersEndpoint('create');
   const body = {
     user_id: username,
     password,
     timezone: getCalendars()[0].timeZone
   };
 
-  const result = await post(url, body);
+  const result = await post(endpoint, body);
   if (result?.status === 200) {
     console.log('User creation successful', result.data);
     storeAsyncData('token', result.data.token);
@@ -43,9 +45,9 @@ export async function createUser(username: string, password: string) {
 }
 
 export async function deleteMe(password: string) {
-  const url = `${env.BACKEND_URL}/user/delete`;
+  const endpoint = usersEndpoint('delete')
 
-  const result = await post(url, { password });
+  const result = await post(endpoint, { password });
   if (result?.status === 200) {
     return true;
   } else {
@@ -54,9 +56,9 @@ export async function deleteMe(password: string) {
 }
 
 export async function getUser(user_id: string, include: string) {
-  const url = `${env.BACKEND_URL}/user/get?user_id=${user_id}&include=${include}`;
+  const endpoint = usersEndpoint(`get?user_id=${user_id}&include=${include}`)
 
-  const result = await get(url);
+  const result = await get(endpoint);
   // We use this to check result is a user and not an error object
   if (result?.status === 200) {
     return result.data;
@@ -67,13 +69,13 @@ export async function updateFriendship(
   user_id: string,
   action: FriendshipAction
 ) {
-  const url = `${env.BACKEND_URL}/user/updateFriendship`;
+  const endpoint = usersEndpoint('updateFriendship')
   const body = {
     user_id,
     action
   };
 
-  const result = await post(url, body);
+  const result = await post(endpoint, body);
   if (result?.status === 200) {
     return result.data;
   } else {

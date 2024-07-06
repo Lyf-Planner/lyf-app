@@ -5,11 +5,13 @@ import { Permission } from '../schema/database/items_on_users';
 import { ID } from '../schema/database/abstract';
 import { UserRelatedItem } from '../schema/user';
 
+const itemsEndpoint = (req: string) => `/items/${req}`;
+
 export async function getTimetable(user_id: string, start_date: string) {
   console.log('getting timetable of', user_id)
-  const url = `${env.BACKEND_URL}/item/timetable?user_id=${user_id}&start_date=${start_date}`;
+  const endpoint = itemsEndpoint(`timetable?user_id=${user_id}&start_date=${start_date}`);
 
-  const result = await get(url);
+  const result = await get(endpoint);
   const items = result.data;
   if (result?.status === 200) {
     return items;
@@ -19,9 +21,9 @@ export async function getTimetable(user_id: string, start_date: string) {
 }
 
 export async function getItem(id: string, include: string) {
-  const url = `${env.BACKEND_URL}/item/get?id=${id}&include=${include}`;
+  const endpoint = itemsEndpoint(`get?id=${id}&include=${include}`);
 
-  const result = await get(url);
+  const result = await get(endpoint);
   const item = result.data;
   if (result?.status === 200) {
     return item;
@@ -31,10 +33,9 @@ export async function getItem(id: string, include: string) {
 }
 
 export async function updateItem(changes: Partial<UserRelatedItem>) {
-  const url = `${env.BACKEND_URL}/item/update`;
+  const endpoint = itemsEndpoint('update');
 
-  console.log("posting changes", changes);
-  const result = await post(url, changes);
+  const result = await post(endpoint, changes);
   if (result?.status === 200) {
     return result;
   } else {
@@ -45,11 +46,11 @@ export async function updateItem(changes: Partial<UserRelatedItem>) {
 }
 
 export async function createItem(item: UserRelatedItem) {
-  const url = `${env.BACKEND_URL}/item/create`;
+  const endpoint = itemsEndpoint('create');
 
   console.log('creating item', item, typeof item.sorting_rank);
 
-  const result = await post(url, item);
+  const result = await post(endpoint, item);
   if (result?.status === 201) {
     return result.data;
   } else {
@@ -60,9 +61,9 @@ export async function createItem(item: UserRelatedItem) {
 }
 
 export async function deleteItem(id: ID) {
-  const url = `${env.BACKEND_URL}/item/delete?item_id=${id}`;
+  const endpoint = itemsEndpoint(`delete?item_id=${id}`)
 
-  const result = await get(url);
+  const result = await get(endpoint);
   if (result?.status === 204) {
     return;
   } else {

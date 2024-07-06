@@ -1,11 +1,15 @@
+import env from 'envManager';
 import { getAsyncData } from '../utils/asyncStorage';
 import Axios from 'axios';
 
+const backendUrl = `${env.BACKEND_URL}/api/v1`
+
 // Get request
-export async function get(url: string) {
+export async function get(endpoint: string) {
   try {
     const token = await getAsyncData('token');
-    return await Axios.get(url, {
+    ;
+    return await Axios.get(backendUrl + endpoint, {
       headers: { 
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json;charset=utf-8'
@@ -18,10 +22,10 @@ export async function get(url: string) {
 }
 
 // Post request
-export async function post(url: string, body: unknown) {
+export async function post(endpoint: string, body: unknown) {
   try {
     const token = await getAsyncData('token');
-    return await Axios.post(url, body, {
+    return await Axios.post(backendUrl + endpoint, body, {
       headers: { 
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json;charset=utf-8'

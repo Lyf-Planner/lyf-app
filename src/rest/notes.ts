@@ -4,10 +4,12 @@ import { Note } from 'schema/notes';
 import { NoteDbObject } from 'schema/database/notes';
 import { ID } from 'schema/database/abstract';
 
-export async function myNotes() {
-  const url = `${env.BACKEND_URL}/note/myNotes`;
+const notesEndpoint = (req: string) => `/notes/${req}`;
 
-  const result = await get(url);
+export async function myNotes() {
+  const endpoint = notesEndpoint('myNotes');
+
+  const result = await get(endpoint);
   const notes = result.data;
   if (result?.status === 200) {
     return notes;
@@ -17,9 +19,9 @@ export async function myNotes() {
 }
 
 export async function getNote(id: string) {
-  const url = `${env.BACKEND_URL}/note/get?id=${id}`;
+  const endpoint = notesEndpoint(`get?id=${id}`)
 
-  const result = await get(url);
+  const result = await get(endpoint);
   const note = result.data;
   if (result?.status === 200) {
     return note;
@@ -29,9 +31,9 @@ export async function getNote(id: string) {
 }
 
 export async function updateNote(changes: Partial<Note>) {
-  const url = `${env.BACKEND_URL}/note/update`;
+  const endpoint = notesEndpoint('update');
 
-  const result = await post(url, changes);
+  const result = await post(endpoint, changes);
   if (result?.status === 200) {
     return result.data;
   } else {
@@ -40,9 +42,9 @@ export async function updateNote(changes: Partial<Note>) {
 }
 
 export async function createNote(note: NoteDbObject) {
-  const url = `${env.BACKEND_URL}/note/create`;
+  const endpoint = notesEndpoint('create');
 
-  const result = await post(url, note);
+  const result = await post(endpoint, note);
   if (result?.status === 200) {
     return result.data;
   } else {
@@ -52,9 +54,9 @@ export async function createNote(note: NoteDbObject) {
 }
 
 export async function deleteNote(id: ID) {
-  const url = `${env.BACKEND_URL}/note/delete?note_id=${id}`;
+  const endpoint = notesEndpoint(`delete?note_id=${id}`)
 
-  const result = await get(url);
+  const result = await get(endpoint);
   if (result?.status === 200) {
     return;
   } else {
