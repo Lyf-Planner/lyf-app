@@ -59,11 +59,15 @@ const styles = Native.StyleSheet.create({
     gap: 8,
     height: 40,
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: 10,
     marginBottom: 2
   },
 
-  noteTitle: { fontSize: 22, fontWeight: '700' },
+  noteTitle: { 
+    fontSize: 24,
+    fontWeight: '500',
+    fontFamily: 'Lexend' 
+  },
 
   subtitle: {
     marginLeft: 'auto',

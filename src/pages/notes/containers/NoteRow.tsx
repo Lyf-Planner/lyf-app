@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
   main: {
     width: '100%',
     overflow: 'hidden',
-    zIndex: -5
   },
   bannerView: {
     flexDirection: 'row',

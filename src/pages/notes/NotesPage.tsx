@@ -8,6 +8,8 @@ import { useNotes } from 'providers/cloud/useNotes';
 import { NoteType } from 'schema/database/notes';
 import { UserRelatedNote } from 'schema/user';
 import { ID } from 'schema/database/abstract';
+import { primaryGreen, white } from 'utils/colours';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 export const Notes = () => {
   // Can be the ID of a folder or note, the manager will figure it out
@@ -33,16 +35,17 @@ export const Notes = () => {
     );
   } else {
     return (
-      <View>
+      <View style={styles.main}>
         <View style={styles.myNotesHeader}>
+          <Entypo name='list' size={28} color={white} />
           <Text style={styles.myNotesTitle}>My Notes</Text>
-          <View style={styles.newNoteContainer}>
+          <View 
+            style={styles.newNoteContainer} 
+          >
             <NewNoteMenu newNote={newNote} />
           </View>
         </View>
-        <Horizontal
-          style={styles.headerSeperator}
-        />
+
         <View style={styles.noteBannersContainer}>
           {!loading &&
             <View>
@@ -65,6 +68,9 @@ export const Notes = () => {
           {loading &&
             <View style={styles.loadingContainer}>
               <Loader size={50} />
+              <Text style={styles.loadingText}>
+                Organizing...
+              </Text>
             </View>
           }
         </View>
@@ -74,34 +80,60 @@ export const Notes = () => {
 };
 
 const styles = StyleSheet.create({
+  main: {
+    backgroundColor: "#EEE",
+    flex: 1,
+  },
   myNotesHeader: {
     flexDirection: 'row',
-    height: 40,
+    gap: 12,
     alignItems: 'center',
+    height: 65,
     paddingHorizontal: 16,
-    marginTop: 8,
-    marginBottom: 8
+    overflow: 'visible',
+
+    backgroundColor: primaryGreen, 
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2
   },
-  myNotesTitle: { fontSize: 24, fontWeight: '700', fontFamily: 'InterSemi' },
-  newNoteContainer: { marginLeft: 'auto', marginRight: 5 },
-  headerSeperator: { borderWidth: 2, opacity: 0.6, marginHorizontal: 12 },
-  
+  myNotesTitle: { 
+    fontSize: 22, 
+    textAlignVertical: 'top',
+    color: white, 
+    fontFamily: "Lexend", 
+    fontWeight: '400',
+    position: 'relative',
+    bottom: 1
+   },
+  newNoteContainer: { 
+    marginLeft: 'auto', 
+    marginRight: 5,
+  },
+  headerSeperator: { borderWidth: 2, opacity: 0.6, marginHorizontal: 14 },
+
   noteBannersContainer: {
-    paddingHorizontal: 12,
     minHeight: 100
   },
   noNotesText: {
-    paddingTop: 45,
+    marginTop: 50,
     paddingHorizontal: 12,
     textAlign: 'center',
     opacity: 0.4,
-    fontWeight: '600',
-    fontSize: 16
+    fontSize: 18,
+    fontFamily: 'Lexend'
   },
+
   loadingContainer: {
-    flexDirection: 'row',
+    marginTop: 50,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1
-  }
+    gap: 10,
+  },
+  loadingText: {
+    fontFamily: 'Lexend',
+    fontSize: 20
+  },
 });

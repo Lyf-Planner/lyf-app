@@ -41,13 +41,13 @@ export const NotificationSettings = () => {
     updateNotificationSettings({
       ...premium.notifications,
       event_notifications_enabled: enabled,
-      event_notification_minutes_before:
-        premium.notifications.event_notification_minutes_before || '5'
+      event_notification_mins:
+        premium.notifications.event_notification_mins || '5'
     });
   const eventNotificationMinutesBefore = (time: number) =>
     updateNotificationSettings({
       ...premium.notifications,
-      event_notification_minutes_before: time
+      event_notification_mins: time
     });
 
   return (
@@ -84,7 +84,7 @@ export const NotificationSettings = () => {
               <EventNotificationDesc
                 updateMinutes={eventNotificationMinutesBefore}
                 minutesBefore={
-                  premium.notifications?.event_notification_minutes_before
+                  premium.notifications?.event_notification_mins
                 }
               />
             }

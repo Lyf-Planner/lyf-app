@@ -7,12 +7,14 @@ import {
   MenuTrigger,
   renderers
 } from 'react-native-popup-menu';
-import { BouncyPressable } from '../pressables/BouncyPressable';
+import { BouncyPressable, BouncyPressableOptions } from '../pressables/BouncyPressable';
+import { LyfElement } from 'utils/abstractTypes';
 
 export type LyfMenuProps = {
   name: string;
   placement: MenuPopoverPlacement;
   children: JSX.Element; // The menu will display when this is pressed!
+  pressableOptions?: BouncyPressableOptions
   options: PopoverMenuOption[];
 };
 
@@ -29,15 +31,24 @@ export enum MenuPopoverPlacement {
   Auto = 'auto',
 }
 
-export const LyfMenu = (props: LyfMenuProps) => {
+export const LyfMenu = ({
+  name,
+  placement,
+  options,
+  pressableOptions,
+  children
+}: LyfMenuProps) => {
   const rendererProps = {
-    placement: props.placement,
+    placement: placement,
     anchorStyle: { backgroundColor: '#bababa' }
   };
 
+  const ref = useRef<Menu | null>(null)
+
   return (
     <Menu
-      name={props.name}
+      name={name}
+      ref={ref}
       renderer={renderers.Popover}
       rendererProps={rendererProps}
     >
@@ -47,7 +58,7 @@ export const LyfMenu = (props: LyfMenuProps) => {
           optionsWrapper: styles.optionsWrapper
         }}
       >
-        {props.options.map((option, i) => (
+        {options.map((option, i) => (
           <MenuOption
             value={i}
             key={i}
@@ -65,7 +76,7 @@ export const LyfMenu = (props: LyfMenuProps) => {
           TriggerTouchableComponent: BouncyPressable
         }}
       >
-        {props.children}
+        {children}
       </MenuTrigger>
     </Menu>
   );

@@ -4,10 +4,11 @@ import env from '../envManager';
 
 export const USER_NOT_FOUND = 'Not found';
 
-export async function login(username: string, password: string) {
-  const url = `${env.BACKEND_URL}/user/login?user_id=${username}&password=${password}`;
+const usersEndpoint = (req: string) => `/users/${req}`;
 
-  const result = await get(url);
+export async function login(username: string, password: string) {
+  const endpoint = usersEndpoint(`login?user_id=${username}&password=${password}`)
+  const result = await get(endpoint);
 
   console.log("login result was", result);
   if (result?.status === 200) {
@@ -23,9 +24,9 @@ export async function login(username: string, password: string) {
 }
 
 export async function autologin() {
-  const url = `${env.BACKEND_URL}/user/autoLogin`;
+  const endpoint = usersEndpoint('autologin');
 
-  const result = (await get(url)) as any;
+  const result = (await get(endpoint)) as any;
   if (result?.status === 200) {
     return result.data;
   } else {

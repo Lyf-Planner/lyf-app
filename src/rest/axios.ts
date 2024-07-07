@@ -8,8 +8,10 @@ const backendUrl = `${env.BACKEND_URL}/api/v1`
 export async function get(endpoint: string) {
   try {
     const token = await getAsyncData('token');
-    ;
-    return await Axios.get(backendUrl + endpoint, {
+    const requestUrl = backendUrl + endpoint;
+    console.debug('hitting', requestUrl);
+
+    return await Axios.get(requestUrl, {
       headers: { 
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json;charset=utf-8'
@@ -25,7 +27,10 @@ export async function get(endpoint: string) {
 export async function post(endpoint: string, body: unknown) {
   try {
     const token = await getAsyncData('token');
-    return await Axios.post(backendUrl + endpoint, body, {
+    const requestUrl = backendUrl + endpoint;
+    console.debug('hitting', requestUrl);
+
+    return await Axios.post(requestUrl, body, {
       headers: { 
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json;charset=utf-8'

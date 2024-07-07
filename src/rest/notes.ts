@@ -45,7 +45,7 @@ export async function createNote(note: NoteDbObject) {
   const endpoint = notesEndpoint('create');
 
   const result = await post(endpoint, note);
-  if (result?.status === 200) {
+  if (result?.status === 201) {
     return result.data;
   } else {
     alert(result.data);
@@ -57,7 +57,7 @@ export async function deleteNote(id: ID) {
   const endpoint = notesEndpoint(`delete?note_id=${id}`)
 
   const result = await get(endpoint);
-  if (result?.status === 200) {
+  if (result?.status === 204) {
     return;
   } else {
     alert(result.data);

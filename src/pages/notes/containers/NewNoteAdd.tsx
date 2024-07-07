@@ -11,9 +11,17 @@ import { Horizontal } from 'components/general/MiscComponents';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NoteType } from 'schema/database/notes';
 import { useNotes } from 'providers/cloud/useNotes';
+import { white } from 'utils/colours';
+import { LyfElement } from 'utils/abstractTypes';
+import { BouncyPressable } from 'components/pressables/BouncyPressable';
 
 type Props = {
   newNote: (type: NoteType) => void;
+}
+
+type MenuTriggerProps = { 
+  children: LyfElement, 
+  onPress: () => void
 }
 
 export const NewNoteMenu = ({ newNote }: Props) => {
@@ -46,22 +54,28 @@ export const NewNoteMenu = ({ newNote }: Props) => {
         <MenuOptions customStyles={optionsContainerStyles}>
           <MenuOption
             value={1}
-            text="+ New List"
+            text="🗒 New Note"
             customStyles={optionStyles}
-            onSelect={() => onOptionSelect(NoteType.ListOnly)}
+            onSelect={() => onOptionSelect(NoteType.NoteOnly)}
           />
 
           <Horizontal style={styles.optionSeperator} />
 
           <MenuOption
-            value={2}
-            text="+ New Note"
+            value={1}
+            text="🖊️ New List"
             customStyles={optionStyles}
-            onSelect={() => onOptionSelect(NoteType.NoteOnly)}
+            onSelect={() => onOptionSelect(NoteType.ListOnly)}
           />
         </MenuOptions>
 
-        <MenuTrigger>
+        <MenuTrigger  customStyles={{
+          TriggerTouchableComponent: ({ children, onPress }: MenuTriggerProps) => (
+            <BouncyPressable withShadow onPress={onPress} shadowOptions={{ shadowOffset: 2 }}>
+              {children}
+            </BouncyPressable>
+          )
+        }}>
           <NewNoteButton />
         </MenuTrigger>
       </Menu>
@@ -72,7 +86,7 @@ export const NewNoteMenu = ({ newNote }: Props) => {
 const NewNoteButton = () => {
   return (
     <View style={styles.newNoteContainer}>
-      <MaterialCommunityIcons name="note-plus-outline" size={30} />
+      <MaterialCommunityIcons name="note-plus-outline" size={28} />
     </View>
   );
 };
@@ -87,8 +101,12 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.5)'
   },
   optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
-  optionText: { fontSize: 18 },
+  optionText: { fontSize: 18, fontFamily: 'Lexend', fontWeight: '200' },
   optionSeperator: { marginHorizontal: 5 },
 
-  newNoteContainer: { padding: 4, borderRadius: 5 }
+  newNoteContainer: { 
+    padding: 4, 
+    borderRadius: 5,
+    backgroundColor: white,
+  }
 });

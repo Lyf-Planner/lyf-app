@@ -20,12 +20,12 @@ export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
     
     const changeSet: Partial<LocalItem> = { time: time || undefined };
 
-    if (time && user?.event_notification_minutes_before) {
-      changeSet.notification_mins_before = user.event_notification_minutes_before
+    if (time && user?.event_notification_mins) {
+      changeSet.notification_mins = user.event_notification_mins
     }
 
-    if (!time && item.notification_mins_before) {
-      changeSet.notification_mins_before = undefined
+    if (!time && item.notification_mins) {
+      changeSet.notification_mins = undefined
     }
 
     changeSet.end_time = getAdjustedEndTime(time);

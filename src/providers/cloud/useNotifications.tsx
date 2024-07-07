@@ -49,8 +49,8 @@ export const NotificationsLayer = ({ children }: Props) => {
   }, []);
 
   const getDefaultNotificationMins = () => {
-    if (user?.event_notification_minutes_before) {
-      return user?.event_notification_minutes_before;
+    if (user?.event_notification_mins) {
+      return user?.event_notification_mins;
     }
 
     return DEFAULT_NOTIFICATION_MINS;

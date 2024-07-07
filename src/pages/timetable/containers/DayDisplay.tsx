@@ -36,6 +36,7 @@ import { LocalItem } from 'schema/items';
 import { DateString, DayOfWeek } from 'schema/util/dates';
 import { ItemStatus, ItemType } from 'schema/database/items';
 import { NewItem } from 'components/list/NewItem';
+import { MultiTypeNewItem } from 'components/list/MultiTypeNewItem';
 
 type Props = {
   items: LocalItem[],
@@ -46,10 +47,8 @@ type Props = {
 
 export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
   const [sorting, setSorting] = useState(false);
-  const [newItemType, setNewItemType] = useState<ItemType | null>(null);
 
   const { user, updateUser } = useAuth();
-  const { addItem } = useTimetable();
   const allDone = useMemo(
     () =>
       !items.find(
@@ -266,32 +265,13 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
           )}
         </View>
 
-        <View style={styles.addItemSection}>
-          {newItemType !== ItemType.Task &&
-            <NewItem 
-              addItemByTitle={(title: string) => addItem(ItemType.Event, items.length, {
-                title,
-                date: date || undefined,
-                day: day || undefined
-              })}
-              type={ItemType.Event} 
-              onBlur={() => setNewItemType(null)}
-              onFocus={() => setNewItemType(ItemType.Event)}
-            />
-          }
-          {newItemType !== ItemType.Event &&
-            <NewItem
-              type={ItemType.Task} 
-              addItemByTitle={(title: string) => addItem(ItemType.Task, items.length, {
-                title,
-                date: date || undefined,
-                day: day || undefined
-              })}  
-              onBlur={() => setNewItemType(null)}
-              onFocus={() => setNewItemType(ItemType.Task)}
-            />
-          }
-        </View>
+        <MultiTypeNewItem 
+          commonData={{
+            date: date || undefined,
+            day: day || undefined
+          }} 
+          newRank={items.length}
+        />
       </Animated.View>
     </View>
   );
@@ -305,6 +285,7 @@ const styles = StyleSheet.create({
     padding: 10,
     zIndex: 10,
     flexDirection: 'column',
+    gap: 4,
 
     shadowColor: 'black',
     shadowOffset: { width: 5, height: 5 },
@@ -359,8 +340,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500'
   },
-  addItemSection: {
-    flexDirection: 'row',
-    gap: 4,
-  }
+  
 });

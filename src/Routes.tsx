@@ -9,6 +9,7 @@ import { TabBar } from "components/navigation/TabBar";
 import { defaultTabHeader } from "components/navigation/Header";
 import { offWhite } from "utils/colours";
 import { Timetable } from 'pages/timetable/TimetablePage';
+import { Notes } from 'pages/notes/NotesPage';
 
 export const appTheme: Theme = {
   dark: false,
@@ -27,27 +28,27 @@ export const routes = Object.freeze({
   timetable: {
     label: "Timetable",
     icon: (color: string) => <MaterialCommunityIcons name='calendar' size={30} color={color}/>,
-    root: <Native.View><Native.Text>HELLO WORLD</Native.Text></Native.View>
+    root: Timetable
   },
   lists: {
     label: "Notes",
     icon: (color: string) => <Entypo name='list' size={30} color={color} />,
-    root: <Native.View></Native.View> // <Notes />
+    root: Notes
   },
   create: {
     label: "New Plan",
     icon: (color: string) => <AntDesign name='pluscircleo' size={40} color={color}/>,
-    root: <Native.View></Native.View> // TODO: Add Planning page
+    root: Timetable
   },
   friends: {
     label: "Friends",
     icon: (color: string) => <FontAwesome5 name="user-friends" size={27} color={color} />,
-    root: <Native.View></Native.View> // TODO: Add Friends page
+    root:  Timetable
   },
   profile: {
     label: "Me",
     icon: (color: string) => <FontAwesome5 name="user-alt" size={25} color={color} />,
-    root: <Native.View></Native.View> // <AccountWidget />
+    root: Timetable
   }
 });
 
@@ -68,7 +69,7 @@ export default function Routes() {
           <Tab.Screen
             name={key}
             key={route.label}
-            component={Timetable}
+            component={route.root}
             options={defaultTabHeader(route.label)}
           />
         ))}

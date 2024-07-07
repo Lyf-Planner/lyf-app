@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   headerLeft: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   listTitle: {
     fontSize: 22,
@@ -144,6 +144,8 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   listWrapper: {
-    flexDirection: 'column'
+    flexDirection: 'column',
+    gap: 4,
+    marginTop: 8,
   }
 });

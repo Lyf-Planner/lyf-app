@@ -1,6 +1,6 @@
 import * as Native from 'react-native';
 import { CalendarRange } from './containers/CalendarRange';
-import { deepBlue } from 'utils/colours';
+import { deepBlue, primaryGreen, white } from 'utils/colours';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { DayDisplay } from './containers/DayDisplay';
 import { WeekDays } from 'schema/util/dates';
@@ -26,19 +26,19 @@ export const Routine = () => {
   return (
     <KeyboardAwareScrollView>
       <Native.View style={styles.main}>
-        {/* <CalendarRange>
+        <Native.View style={styles.header}>
             <Native.Text style={styles.weekDateText}>Every Week</Native.Text>
               <Native.Pressable
                 onPress={() => {
                   Native.Alert.alert(
-                    'Routine',
-                    'Everything in your routine will be copied into your timetable each week :)'
+                    'Your Routine',
+                    'Everything here will be copied into your timetable each week :)'
                   );
                 }}
               >
-                <Entypo name="info-with-circle" color={'black'} size={18} />
+                <Entypo name="info-with-circle" color={white} size={18} />
               </Native.Pressable>
-          </CalendarRange> */}
+          </Native.View>
 
           {!loading &&
             <Native.View style={styles.weekDaysWrapperView}>
@@ -69,18 +69,29 @@ export const Routine = () => {
 const styles = Native.StyleSheet.create({
   main: {
     marginBottom: 125,
+    marginTop: 15,
+    paddingHorizontal: 14,
+  },
+
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    padding: 12,
+    borderWidth: 2,
+    borderRadius: 10,
+    backgroundColor: primaryGreen,
   },
 
   weekDateText: {
-    fontWeight: '600',
-    color: deepBlue,
-    fontSize: 18,
-    fontFamily: 'InterSemi'
+    color: 'white',
+    fontSize: 20,
+    fontFamily: 'Lexend',
   },
 
   weekDaysWrapperView: {
     flexDirection: 'column',
-    paddingHorizontal: 12,
     gap: 14,
     marginTop: 16,
 

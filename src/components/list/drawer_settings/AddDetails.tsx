@@ -85,7 +85,7 @@ export const AddDetails = ({
           </TouchableHighlight>
         )}
 
-        {!item.notification_mins_before && (
+        {!item.notification_mins && (
           <TouchableHighlight
             style={styles.addNotificationContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
@@ -107,7 +107,7 @@ export const AddDetails = ({
                 return;
               } 
             
-              updateItem(item, { notification_mins_before: getDefaultNotificationMins() })
+              updateItem(item, { notification_mins: getDefaultNotificationMins() })
             }}
           >
             <View style={styles.addFieldContent}>

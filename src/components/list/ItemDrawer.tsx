@@ -80,7 +80,7 @@ export const ItemDrawer = ({
   const [locationOpen, setLocationOpen] = useState(!!item?.location);
 
   const noDetails = useMemo(
-    () => item && !item.date && !item.time && !descOpen && !item.notification_mins_before,
+    () => item && !item.date && !item.time && !descOpen && !item.notification_mins,
     [item]
   );
 
@@ -132,7 +132,7 @@ export const ItemDrawer = ({
             <ItemTime {...props} />
           )}
 
-          {item.notification_mins_before && (
+          {item.notification_mins && (
             <ItemNotification {...props} />
           )}
 

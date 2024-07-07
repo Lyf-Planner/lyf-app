@@ -84,8 +84,6 @@ const establishFirstDay = (first_day: DateString) => {
   const oneWeekAgo = localisedMoment().add(-1, 'weeks').toDate();
   const startDate = parseDateString(first_day);
 
-  console.log("establishing first day", startDate, oneWeekAgo)
-
   if (startDate < oneWeekAgo) {
     return formatDateData(getStartOfCurrentWeek());
   }

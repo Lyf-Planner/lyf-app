@@ -42,9 +42,9 @@ export const CloudProvider = ({ children }: Props) => {
       <AuthGateway>
         <NotificationsLayer>
           <TimetableProvider>
-            {/* <NotesProvider> */}
+            <NotesProvider>
               {children}
-            {/* </NotesProvider> */}
+            </NotesProvider>
           </TimetableProvider>
         </NotificationsLayer>
       </AuthGateway>

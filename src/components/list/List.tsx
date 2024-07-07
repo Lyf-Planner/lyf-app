@@ -35,7 +35,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 2,
     width: '100%',
-    marginTop: 6,
-    padding: 2
   }
 });

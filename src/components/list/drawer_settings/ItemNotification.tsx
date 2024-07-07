@@ -22,7 +22,7 @@ export const ItemNotification = ({
   updateSheetMinHeight
 }: Props) => {
   const { enabled } = useNotifications();
-  const [mins, setMins] = useState(`${item.notification_mins_before}`);
+  const [mins, setMins] = useState(`${item.notification_mins}`);
 
   const uploadMinutesFromInput = (minsOverride?: string | null) => {
     if (item.invite_pending) {
@@ -30,7 +30,7 @@ export const ItemNotification = ({
     }
 
     if (minsOverride === null) {
-      updateItem(item, { notification_mins_before: undefined });
+      updateItem(item, { notification_mins: undefined });
       return;
     }
     
@@ -44,7 +44,7 @@ export const ItemNotification = ({
     }
 
     setMins(parsed);
-    updateItem(item, { notification_mins_before: parseInt(parsed) });
+    updateItem(item, { notification_mins: parseInt(parsed) });
   };
 
   return (
