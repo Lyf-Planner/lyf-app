@@ -38,7 +38,7 @@ export const Notes = () => {
       <View style={styles.main}>
         <View style={styles.myNotesHeader}>
           <Entypo name='list' size={28} color={white} />
-          <Text style={styles.myNotesTitle}>My Notes</Text>
+          <Text style={styles.myNotesTitle}>All Notes</Text>
           <View 
             style={styles.newNoteContainer} 
           >
@@ -85,12 +85,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   myNotesHeader: {
+    zIndex: 50,
     flexDirection: 'row',
     gap: 12,
     alignItems: 'center',
     height: 65,
     paddingHorizontal: 16,
-    overflow: 'visible',
 
     backgroundColor: primaryGreen, 
     shadowColor: 'black',
@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
   headerSeperator: { borderWidth: 2, opacity: 0.6, marginHorizontal: 14 },
 
   noteBannersContainer: {
-    minHeight: 100
+    minHeight: 100,
+    marginTop: 2,
   },
   noNotesText: {
     marginTop: 50,

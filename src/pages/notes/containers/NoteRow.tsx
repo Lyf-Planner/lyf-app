@@ -91,34 +91,36 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
-    height: 55
+    height: 60
   },
   bannerHiddenBackground: {
-    height: 54.9,
+    height: 60,
     right: 0,
     flexDirection: 'row',
     alignItems: 'center',
     position: 'absolute',
     zIndex: -1,
     backgroundColor: 'red',
-    width: 55
+    width: 60
   },
   touchableHighlight: {
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    paddingLeft: 6,
-    paddingRight: 15
+    paddingHorizontal: 15
   },
   titleText: {
     fontSize: 20,
     color: 'rgba(0,0,0,0.75)',
-    fontWeight: '400'
+    fontWeight: '400',
+    fontFamily: 'Lexend'
   },
   editIcon: { marginLeft: 'auto', marginRight: 17.5 },
   animatedChevron: {
     marginLeft: 'auto',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    gap: 4,
+    alignItems: 'center'
   }
 });

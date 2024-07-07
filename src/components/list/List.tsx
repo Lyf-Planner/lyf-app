@@ -15,8 +15,6 @@ export const List = ({
   listWrapperStyles = {},
   fromNote = false
 }: Props) => {
-  console.log('list items:', JSON.stringify(items));
-
   return (
     <View style={[styles.listContainer, listWrapperStyles]}>
       {items.map((x) => (

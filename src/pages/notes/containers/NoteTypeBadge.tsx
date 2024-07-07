@@ -5,19 +5,19 @@ import { black, eventsBadgeColor, primaryGreen, white } from 'utils/colours';
 const TYPES_TO_COLOR = Object.freeze({
   "Multiple": primaryGreen,
   "List Only": eventsBadgeColor,
-  "Note Only": white,
+  "Note Only": primaryGreen,
 });
 
 const TYPES_TO_TEXT = Object.freeze({
   "Multiple": white,
   "List Only": black,
-  "Note Only": black
+  "Note Only": white
 });
 
 export const TYPE_TO_DISPLAY_NAME = Object.freeze({
   "Multiple": "Multi",
-  "Note Only": "Text",
-  "List Only": "List"
+  "Note Only": "🗒 Text",
+  "List Only": "🖊️ List"
 })
 
 type Props = {
@@ -32,7 +32,7 @@ export const NoteTypeBadge = ({ type }: Props) => {
 
   return (
     <View style={[styles.main, conditionalStyles.main]}>
-      <Text style={[styles.main, styles.text]}>
+      <Text style={[conditionalStyles.text, styles.text]}>
         {TYPE_TO_DISPLAY_NAME[type]}
       </Text>
     </View>
@@ -42,11 +42,15 @@ export const NoteTypeBadge = ({ type }: Props) => {
 const styles = StyleSheet.create({
   main: {
     flexDirection: 'row',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 20
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    width: 90
   },
   text: {
-    fontSize: 15,
+    fontSize: 18,
+    fontFamily: 'Lexend',
+    paddingVertical: 8,
+    paddingHorizontal: 8,
   }
 });
