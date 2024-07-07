@@ -21,6 +21,7 @@ import { SocialAction } from 'schema/util/social';
 import { ID } from 'schema/database/abstract';
 import { DateString } from 'schema/util/dates';
 import { useCloud } from './cloudProvider';
+import { useNotes } from './useNotes';
 
 export type TimetableHooks = {
   loading: boolean,
@@ -57,6 +58,7 @@ type Props = {
  */
 export const TimetableProvider = ({ children }: Props) => {
   const { user } = useAuth()
+  const { handleNoteItemUpdate } = useNotes();
   const { setSyncing } = useCloud();
 
   const [initialised, setInitialised] = useState(false);
@@ -97,33 +99,36 @@ export const TimetableProvider = ({ children }: Props) => {
   }, [user])
 
   const updateItem = async (item: LocalItem, changes: Partial<UserRelatedItem>, updateRemote = true) => {
-    // We create localised instances of templates in the planner - if this is one of those then create it
-    console.log("updating item", item);
-    if (item.localised) {
-      console.log('Local item will be created instead of updated');
-      await addItem(item.type, item.sorting_rank, { ...item, ...changes});
-      return;
-    }
+    if (item.note_id) {
+      // Item lives in a different store, send it there for it's local update
+      handleNoteItemUpdate(item, changes)
+    } else {
+      // We create localised instances of templates in the planner - if this is one of those then create it
+      if (item.localised) {
+        console.log('Local item will be created instead of updated');
+        await addItem(item.type, item.sorting_rank, { ...item, ...changes});
+        return;
+      }
 
-    const inStoreItem = items.find((x) => x.id === item.id);
-    if (!inStoreItem) {
-      console.error("Cannot update item not held in store ?")
-      return;
-    }
+      const inStoreItem = items.find((x) => x.id === item.id);
+      if (!inStoreItem) {
+        console.error("Cannot update item not held in store ?")
+        return;
+      }
 
-    // Update store
-    const tmp = [...items];
-    const i = tmp.findIndex((x) => x.id === item.id);
-    tmp[i] = { ...item, ...changes };
-  
-    setItems(tmp);
+      // Update store
+      const tmp = [...items];
+      const i = tmp.findIndex((x) => x.id === item.id);
+      tmp[i] = { ...item, ...changes };
+    
+      setItems(tmp);
+    }
 
     if (updateRemote) {
       const success = await updateRemoteItem({ id: item.id, ...changes });
       if (!success) {
         // Fallback to handle failed remote updates
-        tmp[i] = item;
-        setItems(tmp);
+        updateItem(item, item, false);
       }
     }
   };
@@ -133,8 +138,6 @@ export const TimetableProvider = ({ children }: Props) => {
     rank: number,
     initial: Partial<LocalItem>,
   ) => {
-    console.log('creating item with overridden values:', initial);
-
     const newItem: LocalItem = {
       // Set defaults
       id: uuid(),
@@ -160,7 +163,12 @@ export const TimetableProvider = ({ children }: Props) => {
       newItem.status = ItemStatus.Tentative;
     }
 
-    setItems([...items, newItem]);
+    if (newItem.note_id) {
+      // Item lives in a different store, send it there for it's local update
+      handleNoteItemUpdate(newItem, {})
+    } else {
+      setItems([...items, newItem]);
+    }
 
     // Upload in background
     createItem(newItem);
@@ -202,9 +210,14 @@ export const TimetableProvider = ({ children }: Props) => {
     }
 
     const { id } = item;
-    // Remove from this store
-    let tmp = items.filter((x) => x.id !== id) as any;
-    setItems(tmp);
+
+    if (item.note_id) {
+      handleNoteItemUpdate(item, {}, true)
+    } else {
+      // Remove from this store
+      let tmp = items.filter((x) => x.id !== id) as any;
+      setItems(tmp);
+    }
 
     if (deleteRemote) {
       await deleteItem(id);

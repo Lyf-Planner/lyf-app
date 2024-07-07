@@ -21,7 +21,6 @@ const debounceSignature = "NoteContent"
 
 export const NoteBody = ({ note }: Props) => {
   const { updateNote } = useNotes();
-  const { addItem } = useTimetable();
   const [content, setContent] = useState(note.content);
 
   const updateContent = () => updateNote(note, { content });
@@ -73,7 +72,7 @@ export const NoteBody = ({ note }: Props) => {
         sorting_rank: item.default_sorting_rank || i,
         relations: {}
       })).sort((a, b) => a.sorting_rank - b.sorting_rank) : [],
-      []
+      [note]
     )
 
     return (

@@ -41,11 +41,11 @@ export const CloudProvider = ({ children }: Props) => {
     <CloudContext.Provider value={exposed}>
       <AuthGateway>
         <NotificationsLayer>
-          <TimetableProvider>
-            <NotesProvider>
+          <NotesProvider>
+            <TimetableProvider>
               {children}
-            </NotesProvider>
-          </TimetableProvider>
+            </TimetableProvider>
+          </NotesProvider>
         </NotificationsLayer>
       </AuthGateway>
     </CloudContext.Provider>
