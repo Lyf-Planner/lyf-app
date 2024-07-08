@@ -68,15 +68,14 @@ const styles = Native.StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 12,
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 10,
     backgroundColor: primaryGreen,
 
-    // shadowColor: 'black',
-    // shadowOffset: { width: 3, height: 3 },
-    // shadowOpacity: 0.5,
-    // shadowRadius: 0.5,
-    // overflow: 'visible'
+    shadowColor: 'black',
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 1
   },
   weekDateText: {
     color: 'white',

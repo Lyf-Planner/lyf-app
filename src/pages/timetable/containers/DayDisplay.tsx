@@ -281,6 +281,7 @@ const styles = StyleSheet.create({
   dayRootView: {
     backgroundColor: deepBlue,
     width: '100%',
+    borderWidth: 1,
     borderRadius: 10,
     padding: 10,
     zIndex: 10,
@@ -288,9 +289,14 @@ const styles = StyleSheet.create({
     gap: 4,
 
     shadowColor: 'black',
-    shadowOffset: { width: 5, height: 5 },
-    shadowOpacity: 0.5,
-    shadowRadius: 0.5
+    shadowOffset: { width: 5, height: 6 },
+    shadowOpacity: 0.75,
+    shadowRadius: 3
+
+    // shadowColor: 'black',
+    // shadowOffset: { width: 5, height: 5 },
+    // shadowOpacity: 0.5,
+    // shadowRadius: 0.5
   },
   dayHeaderView: {
     backgroundColor: secondaryGreen,

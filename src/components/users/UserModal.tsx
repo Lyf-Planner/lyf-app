@@ -82,13 +82,11 @@ export const UserDetailField = ({ title, value }: DetailsProps) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
+    width: 300,
+    height: 400,
     backgroundColor: 'white',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 25,
-    paddingHorizontal: 20,
-    marginHorizontal: 20,
+    padding: 25,
+
     borderColor: 'rgba(0,0,0,0.5)',
     borderWidth: 1,
     borderRadius: 10,
@@ -99,15 +97,15 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: -8,
+    top: -4,
     right: 0,
     padding: 4,
     borderRadius: 8
   },
   columnContainer: {
-    gap: 10,
+    flex: 1,
     flexDirection: 'column',
-    alignItems: 'center'
+
   },
   nameRow: { flexDirection: 'row', alignItems: 'center' },
   bothNames: { flexDirection: 'column', gap: 4, alignItems: 'center' },
@@ -135,7 +133,7 @@ const styles = StyleSheet.create({
   mainAliasText: { fontSize: 22, fontWeight: '500' },
   subAliasText: { fontSize: 14, color: 'rgba(0,0,0,0.5)' },
   fieldSectionWrapper: { gap: 6, marginTop: 8 },
-  fieldWrapper: { flexDirection: 'row', justifyContent: 'center' },
+  fieldWrapper: { flexDirection: 'row', justifyContent: 'flex-start' },
   fieldNameText: {
     opacity: 0.6,
     fontWeight: '600',

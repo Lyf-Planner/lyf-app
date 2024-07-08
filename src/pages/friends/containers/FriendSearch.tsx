@@ -6,12 +6,19 @@ import { getUser } from 'rest/user';
 import { UserBanner } from 'components/users/UserBanner';
 import { primaryGreen } from 'utils/colours';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { UserList } from 'components/users/UserList';
+import { useFriends } from 'providers/cloud/useFriends';
+import { BouncyPressable } from 'components/pressables/BouncyPressable';
 
 export const FriendSearch = () => {
+  const { friends } = useFriends();
+
+
   const [retrievedUser, updateRetrievedUser] = useState<any>();
   const [searching, updateSearching] = useState(false);
   const [searched, updateSearched] = useState(false);
   const [username, updateUsername] = useState('');
+  const [focussed, setFocussed] = useState(false);
   const textRef = useRef<any>();
 
   const findUser = async () => {
@@ -32,18 +39,23 @@ export const FriendSearch = () => {
 
   return (
     <View style={styles.main}>
-      <Pressable
-        style={styles.searchBarPressable}
+      <Text style={styles.hintText}>Ask your friends for their usernames!</Text>
+      <BouncyPressable
+        style={[styles.searchBarPressable, { borderColor: focussed ? 'white' : 'black'}]}
         onPress={() => textRef.current.focus()}
+        bounceScale={0.95}
       >
-        <FontAwesome name="search" color="white" size={20} />
+        <FontAwesome name="search" color="white" size={24} />
         <TextInput
           ref={textRef}
           value={username}
+          returnKeyType='go'
           selectionColor={'white'}
           style={styles.searchInput}
           onChangeText={updateUsername}
           onSubmitEditing={findUser}
+          onFocus={() => setFocussed(true)}
+          onBlur={() => setFocussed(false)}
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
@@ -54,23 +66,32 @@ export const FriendSearch = () => {
           </View>
         )}
         {searched && <Text style={styles.notFoundText}>Not found</Text>}
-      </Pressable>
+      </BouncyPressable>
       {retrievedUser && <UserBanner user={retrievedUser} />}
+      <UserList 
+        users={friends} 
+        emptyText={"No friends added yet... 😎"}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  main: { flexDirection: 'column', gap: 8 },
+  main: { flexDirection: 'column', gap: 10 },
   searchBarPressable: {
     flexDirection: 'row',
     backgroundColor: primaryGreen,
     borderWidth: 1,
     borderRadius: 10,
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
     alignItems: 'center',
-    gap: 4,
-    marginHorizontal: 4
+    gap: 7,
+
+    shadowColor: 'black',
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 1
   },
   searchInput: { padding: 4, color: 'white', fontSize: 22 },
   loaderWrapper: { marginLeft: 'auto', marginRight: 8 },
@@ -79,5 +100,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 'auto',
     marginRight: 4
+  },
+  hintText: {
+    width: '100%',
+    textAlign: 'center',
+    fontSize: 18,
+    marginVertical: 8,
+    fontFamily: 'Inter',
+    opacity: 0.7,
+    fontWeight: '600'
   }
 });

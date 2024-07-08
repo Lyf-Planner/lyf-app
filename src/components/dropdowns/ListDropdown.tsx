@@ -112,11 +112,11 @@ const styles = StyleSheet.create({
     padding: 14,
     justifyContent: 'flex-start',
     marginVertical: 1,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: 'rgba(0, 0, 0, 0.2)',
 
     shadowColor: 'black',
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.25,
     shadowRadius: 0.5
   },
   dropdownTextContainer: {

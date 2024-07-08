@@ -6,7 +6,7 @@ import { useEffect } from "react"
 import { PageLoader } from "components/general/MiscComponents"
 
 export const Friends = () => {
-  const { friends, loading, reload } = useFriends();
+  const { loading, reload } = useFriends();
 
   useEffect(() => {
     if (loading) {
@@ -18,10 +18,6 @@ export const Friends = () => {
     <View style={styles.main}>
       <FriendSearch />
       {loading && <PageLoader />}
-      <UserList 
-        users={friends} 
-        emptyText={"No friends added yet... 😎"}
-      />
     </View>
   )
 }
