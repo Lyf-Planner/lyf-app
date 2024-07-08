@@ -2,9 +2,9 @@ import { StyleSheet, View } from 'react-native';
 import { useAuth } from 'providers/cloud/useAuth';
 import { primaryGreen } from 'utils/colours';
 import { useState } from 'react';
-import { ActionButton } from '../../../components/pressables/AsyncAction';
-import { BouncyPressable } from '../../../components/pressables/BouncyPressable';
-import { Loader } from '../../../components/general/MiscComponents';
+import { ActionButton } from '../../components/pressables/AsyncAction';
+import { BouncyPressable } from '../../components/pressables/BouncyPressable';
+import { Loader } from '../../components/general/MiscComponents';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -13,11 +13,12 @@ import {
   LyfMenu,
   MenuPopoverPlacement,
   PopoverMenuOption
-} from '../../../components/menus/LyfMenu';
-import { UserFriend } from '../../../schema/user';
-import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingBFFRequest, hasOutgoingRequest } from '../../../schema/util/social';
+} from '../../components/menus/LyfMenu';
+import { UserFriend } from '../../schema/user';
+import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingBFFRequest, hasOutgoingRequest } from '../../schema/util/social';
 import { routes } from 'Routes';
 import { useNavigation } from '@react-navigation/native';
+import { useFriends } from 'providers/cloud/useFriends';
 
 type Props = {
   friend: UserFriend
@@ -66,7 +67,7 @@ export const FriendAction = ({ friend }: Props) => {
 
 export const Friend = ({ friend }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { updateFriendship } = useAuth();
+  const { updateFriendship } = useFriends();
   const removeFriend = async () => {
     setLoading(true);
     await updateFriendship(friend.id, FriendshipAction.Remove);
@@ -100,7 +101,7 @@ export const Friend = ({ friend }: Props) => {
 
 export const Requested = ({ friend }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { updateFriendship } = useAuth();
+  const { updateFriendship } = useFriends();
   const cancelRequest = async () => {
     setLoading(true);
     await updateFriendship(friend.id, FriendshipAction.Cancel);
@@ -133,7 +134,7 @@ export const Requested = ({ friend }: Props) => {
 };
 
 export const AddFriend = ({ friend }: Props) => {
-  const { updateFriendship } = useAuth();
+  const { updateFriendship } = useFriends();
   const addFriend = async () => {
     await updateFriendship(friend.id, FriendshipAction.Request);
   };
@@ -149,7 +150,7 @@ export const AddFriend = ({ friend }: Props) => {
 };
 
 export const HandleRequest = ({ friend }: Props) => {
-  const { updateFriendship } = useAuth();
+  const { updateFriendship } = useFriends();
   const [accepting, setAccepting] = useState(false);
   const [declining, setDeclining] = useState(false);
   const acceptRequest = async () => {

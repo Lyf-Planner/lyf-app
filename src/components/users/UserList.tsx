@@ -1,62 +1,39 @@
-import { useEffect, useState } from 'react';
-import { getUsers } from '../../rest/user';
 import { StyleSheet, View, Text } from 'react-native';
 import { UserBanner } from './UserBanner';
 import { Loader } from '../general/MiscComponents';
-import { UserListContext } from '../../utils/constants';
+import { PublicUser, UserFriend } from 'schema/user';
+import { ItemRelatedUser, LocalItem } from 'schema/items';
+import { NoteRelatedUser } from 'schema/notes';
+
+export enum UserListContext {
+  Friends = 'Friends',
+  Item = 'Item',
+}
+
+type Props = {
+  users: (UserFriend | ItemRelatedUser | NoteRelatedUser)[],
+  emptyText: string,
+  context?: UserListContext,
+  item?: LocalItem
+
+}
 
 export const UserList = ({
   users,
   emptyText,
   context = UserListContext.Friends,
-  item = null
-}) => {
+  item
+}: Props) => {
   return (
     <View style={styles.main}>
-      {users ? (
-        users.length ? (
+      {users.length ? (
           users.map((x) => (
             <UserBanner user={x} context={context} item={item} key={x.id} />
           ))
         ) : (
           <Text style={styles.emptyText}>{emptyText}</Text>
         )
-      ) : (
-        <Loader size={30} />
-      )}
-    </View>
-  );
-};
-
-export const FetchUserList = ({
-  users,
-  emptyText,
-  context = UserListContext.Friends,
-  item = null
-}) => {
-  const [loadedUsers, setLoadedUsers] = useState<any>(null);
-
-  useEffect(() => {
-    !loadedUsers && getUsers(users).then((res) => setLoadedUsers(res));
-  }, [users]);
-
-  return loadedUsers ? (
-    <UserList
-      users={loadedUsers}
-      emptyText={emptyText}
-      context={context}
-      item={item}
-    />
-  ) : (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginVertical: 8
-      }}
-    >
-      <Loader />
+      }
     </View>
   );
 };

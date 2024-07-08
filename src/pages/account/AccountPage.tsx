@@ -4,7 +4,7 @@ import { DeleteButton } from './buttons/DeleteMeButton';
 import { AccountInfo } from './profile/AccountInfo';
 import { NotificationSettings } from './notifications/Notifications';
 import { SettingDropdown } from '../../components/dropdowns/SettingDropdown';
-import { FindUsers } from './friends/FindUsers';
+import { FindUsers } from '../friends/FindUsers';
 import { useAuth } from 'providers/cloud/useAuth';
 import { FetchUserList } from '../../components/users/UserList';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';

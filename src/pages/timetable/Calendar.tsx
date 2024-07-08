@@ -15,7 +15,7 @@ import { isTemplate } from 'components/list/constants';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useTimetable } from 'providers/cloud/useTimetable';
 import { DateString } from 'schema/util/dates';
-import { Loader } from 'components/general/MiscComponents';
+import { Loader, PageLoader } from 'components/general/MiscComponents';
 
 export const Calendar = () => {
   const { loading, items, reload } = useTimetable();
@@ -134,14 +134,7 @@ export const Calendar = () => {
           updateDisplayedDays={updateDisplayedDays}
         />
 
-        {loading && 
-          <Native.View style={styles.loadingContainer}>
-            <Loader />
-            <Native.Text style={styles.loadingText}>
-              Organizing...
-            </Native.Text>
-          </Native.View>
-        }
+        {loading && <PageLoader />}
 
         {!loading &&
           <Native.View style={styles.calendarWrapper}>

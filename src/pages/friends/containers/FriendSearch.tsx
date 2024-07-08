@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, View, Text } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { Loader } from '../../../components/general/MiscComponents';
-import { getUser } from '../../../rest/user';
-import { UserBanner } from '../../../components/users/UserBanner';
-import { primaryGreen } from '../../../utils/colours';
+import { Loader } from 'components/general/MiscComponents';
+import { getUser } from 'rest/user';
+import { UserBanner } from 'components/users/UserBanner';
+import { primaryGreen } from 'utils/colours';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export const FindUsers = () => {
+export const FriendSearch = () => {
   const [retrievedUser, updateRetrievedUser] = useState<any>();
   const [searching, updateSearching] = useState(false);
   const [searched, updateSearched] = useState(false);

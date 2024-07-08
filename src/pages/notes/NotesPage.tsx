@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { Horizontal, Loader } from '../../components/general/MiscComponents';
+import { Horizontal, Loader, PageLoader } from '../../components/general/MiscComponents';
 import { useEffect, useState } from 'react';
 import { NewNoteMenu } from './containers/NewNoteAdd';
 import { NoteView } from './NoteView';
@@ -65,14 +65,7 @@ export const Notes = () => {
             </View>
           }
 
-          {loading &&
-            <View style={styles.loadingContainer}>
-              <Loader size={50} />
-              <Text style={styles.loadingText}>
-                Organizing...
-              </Text>
-            </View>
-          }
+          {loading && <PageLoader />}
         </View>
       </View>
     );

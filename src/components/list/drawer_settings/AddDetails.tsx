@@ -9,7 +9,7 @@ import { primaryGreen } from '../../../utils/colours';
 import { formatDateData } from '../../../utils/dates';
 import { useNotifications } from 'providers/cloud/useNotifications';
 import { useModal } from 'providers/overlays/useModal';
-import { AddFriendsModal } from './AddFriendsModal';
+// import { AddFriendsModal } from './AddFriendsModal';
 import { isTemplate } from '../constants';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
@@ -43,7 +43,7 @@ export const AddDetails = ({
   return (
     <View style={styles.mainContainer}>
       <View style={styles.detailsListWrapper}>
-        {!item.note_id && (
+        {/* {!item.note_id && (
           <TouchableHighlight
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
@@ -55,7 +55,7 @@ export const AddDetails = ({
               <Text style={styles.addFieldText}>Add Friends +</Text>
             </View>
           </TouchableHighlight>
-        )}
+        )} */}
 
         {!item.date && !isTemplate(item) && (
           <TouchableHighlight

@@ -32,11 +32,9 @@ type Props = {
 type AuthExposed = {
   user: ExposedUser | null,
   updateUser: (changes: Partial<User>) => Promise<void>,
-  updateFriendship: (user_id: ID, action: FriendshipAction) => Promise<void>;
   deleteMe: (password: string) => Promise<true | undefined>,
   logout: () => void,
   lastUpdated: Date,
-  refreshWithFriends: () => Promise<void>
 }
 
 export const AuthGateway = ({ children }: Props) => {
@@ -80,30 +78,6 @@ export const AuthGateway = ({ children }: Props) => {
     deleteAsyncData('token');
     clearUser();
   };
-
-  const updateFriendship = useCallback(
-    async (user_id, action) => {
-      if (!user) {
-        return;
-      }
-
-      const friends = await updateRemoteFriendship(user_id, action);
-      updateUser({ relations: { ...user.relations, users: friends } });
-    },
-    [user]
-  );
-
-  const refreshWithFriends = useCallback(
-    async () => {
-      if (!user) {
-        return
-      }
-
-      const freshUser = await getUser(user.id, "users");
-      updateUser(freshUser);
-    },
-    [user?.id]
-  );
 
   // --- Sync --- //
 
@@ -161,14 +135,12 @@ export const AuthGateway = ({ children }: Props) => {
 
   // --- Provider --- //
 
-  const EXPOSED = {
+  const exposed = {
     user,
     updateUser,
-    updateFriendship,
     deleteMe,
     logout,
     lastUpdated,
-    refreshWithFriends
   };
 
   if (loggingIn) {
@@ -186,7 +158,7 @@ export const AuthGateway = ({ children }: Props) => {
   }
 
   return (
-    <AuthContext.Provider value={EXPOSED}>
+    <AuthContext.Provider value={exposed}>
       {children}
     </AuthContext.Provider>
   );

@@ -10,6 +10,7 @@ import { defaultTabHeader } from "components/navigation/Header";
 import { offWhite } from "utils/colours";
 import { Timetable } from 'pages/timetable/TimetablePage';
 import { Notes } from 'pages/notes/NotesPage';
+import { Friends } from 'pages/friends/FriendsPage';
 
 export const appTheme: Theme = {
   dark: false,
@@ -43,7 +44,7 @@ export const routes = Object.freeze({
   friends: {
     label: "Friends",
     icon: (color: string) => <FontAwesome5 name="user-friends" size={27} color={color} />,
-    root:  Timetable
+    root:  Friends
   },
   profile: {
     label: "Me",

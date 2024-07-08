@@ -13,6 +13,7 @@ import { AuthGateway } from './useAuth';
 import { NotificationsLayer } from './useNotifications';
 import { TimetableProvider } from './useTimetable';
 import { NotesProvider } from './useNotes';
+import { FriendsProvider } from './useFriends';
 
 type Props = {
   children: JSX.Element;
@@ -43,7 +44,9 @@ export const CloudProvider = ({ children }: Props) => {
         <NotificationsLayer>
           <NotesProvider>
             <TimetableProvider>
-              {children}
+              <FriendsProvider>
+                {children}
+              </FriendsProvider>
             </TimetableProvider>
           </NotesProvider>
         </NotificationsLayer>

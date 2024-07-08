@@ -35,13 +35,10 @@ export const NotesProvider = ({ children }: Props) => {
   const { setSyncing } = useCloud();
 
   const [initialised, setInitialised] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [notes, setNotes] = useState<UserRelatedNote[]>([]);
 
   const reload = useCallback(async () => {
-    if (!initialised) {
-      setLoading(true);
-    } else {
+    if (initialised) {
       setSyncing(true);
     }
    
@@ -49,12 +46,10 @@ export const NotesProvider = ({ children }: Props) => {
     setNotes(notes);
 
     if (!initialised) {
-      setLoading(false);
       setInitialised(true);
     } else {
       setSyncing(false);
     }
-    setLoading(false);
   }, [])
 
   const loadNote = async (id: ID) => {
@@ -148,7 +143,7 @@ export const NotesProvider = ({ children }: Props) => {
   }
 
   const exposed: NoteHooks = {
-    loading,
+    loading: !initialised,
     reload,
     notes,
     handleNoteItemUpdate,

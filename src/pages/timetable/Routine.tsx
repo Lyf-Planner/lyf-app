@@ -8,7 +8,7 @@ import { LocalItem } from 'schema/items';
 import { useMemo } from 'react';
 import { useTimetable } from 'providers/cloud/useTimetable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Loader } from 'components/general/MiscComponents';
+import { Loader, PageLoader } from 'components/general/MiscComponents';
 
 
 type Props = {
@@ -53,14 +53,7 @@ export const Routine = () => {
             </Native.View>
           }
 
-          {loading && 
-            <Native.View style={styles.loadingContainer}>
-              <Loader />
-              <Native.Text style={styles.loadingText}>
-                Organizing...
-              </Native.Text>
-            </Native.View>
-          }
+          {loading && <PageLoader />}
         </Native.View>
     </KeyboardAwareScrollView>
   )

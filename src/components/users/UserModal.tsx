@@ -2,18 +2,24 @@ import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Loader } from '../../components/general/MiscComponents';
 import { getUser } from '../../rest/user';
-import { FriendAction } from '../../pages/account/friends/FriendActions';
+import { FriendAction } from '../../pages/friends/FriendActions';
 import { useModal } from 'providers/overlays/useModal';
 import { localisedMoment } from '../../utils/dates';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { ID } from 'schema/database/abstract';
+import { PublicUser, UserFriend } from 'schema/user';
 
-export const UserModal = ({ user_id }) => {
-  const [user, setUser] = useState<any>(null);
+type Props = {
+  user_id: ID
+}
+
+export const UserModal = ({ user_id }: Props) => {
+  const [user, setUser] = useState<UserFriend>();
   const { updateModal } = useModal();
 
   useEffect(() => {
-    !user && getUser(user_id).then((res) => setUser(res));
+    !user && getUser(user_id, "users").then((res) => setUser(res));
   }, [user_id]);
 
   return (
@@ -22,25 +28,21 @@ export const UserModal = ({ user_id }) => {
         <View style={styles.columnContainer}>
           <TouchableHighlight
             style={styles.closeButton}
-            onPress={() => updateModal(null)}
+            onPress={() => updateModal(undefined)}
             underlayColor={'rgba(0,0,0,0.5)'}
           >
             <AntDesign name="close" color="rgba(0,0,0,0.5)" size={18} />
           </TouchableHighlight>
           <FontAwesome name="user" size={50} />
           <View style={styles.nameRow}>
-            {user.name ? (
-              <View style={styles.bothNames}>
-                <Text style={styles.mainAliasText}>{user.name}</Text>
-                <Text style={styles.subAliasText}>{user.id}</Text>
-              </View>
-            ) : (
-              <Text style={styles.mainAliasText}>{user.id}</Text>
-            )}
+            <View style={styles.bothNames}>
+              {user.display_name && <Text style={styles.mainAliasText}>{user.display_name}</Text>}
+              <Text style={user.display_name ? styles.subAliasText : styles.mainAliasText}>{user.id}</Text>
+            </View>
           </View>
 
           <View style={{ height: 50 }}>
-            <FriendAction user_id={user.id} />
+            <FriendAction friend={user} />
           </View>
 
           <View style={styles.fieldSectionWrapper}>
@@ -61,7 +63,12 @@ export const UserModal = ({ user_id }) => {
   );
 };
 
-export const UserDetailField = ({ title, value }) => {
+type DetailsProps = {
+  title: string,
+  value: string
+}
+
+export const UserDetailField = ({ title, value }: DetailsProps) => {
   return (
     <View style={styles.fieldWrapper}>
       <Text style={styles.fieldNameText}>
