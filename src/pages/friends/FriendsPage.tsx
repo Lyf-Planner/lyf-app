@@ -17,7 +17,6 @@ export const Friends = () => {
   return (
     <View style={styles.main}>
       <FriendSearch />
-      {loading && <PageLoader />}
     </View>
   )
 }
@@ -26,7 +25,6 @@ const styles = StyleSheet.create({
   main: {
     backgroundColor: "#EEE",
     flex: 1,
-    padding: 12,
     flexDirection: 'column',
     gap: 12,
   },

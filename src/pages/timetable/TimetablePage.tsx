@@ -10,7 +10,7 @@ import { Routine } from './Routine';
 const Tab = createMaterialTopTabNavigator();
 
 export const Timetable = () => {
-  const { loading, reload } = useTimetable();
+  const { reload } = useTimetable();
 
   useEffect(() => {
     reload();

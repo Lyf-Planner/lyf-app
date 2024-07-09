@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { eventsBadgeColor } from 'utils/colours';
+import { eventsBadgeColor, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
 import { FriendAction } from '../../pages/friends/FriendActions';
 import { BouncyPressable } from '../pressables/BouncyPressable';
 import { ItemSocialAction } from '../list/drawer_settings/ItemSocialAction';
@@ -11,15 +11,18 @@ import { ItemRelatedUser, LocalItem } from 'schema/items';
 import { useMemo } from 'react';
 import { NoteRelatedUser } from 'schema/notes';
 import { UserListContext } from './UserList';
+import { useFriends } from 'providers/cloud/useFriends';
 
 type Props = {
   user: UserFriend | ItemRelatedUser | NoteRelatedUser,
+  callback?: () => void,
   context?: UserListContext,
   item?: LocalItem
 }
 
 export const UserBanner = ({
   user,
+  callback,
   context = UserListContext.Friends,
   item
 }: Props) => {
@@ -32,7 +35,7 @@ export const UserBanner = ({
       style={styles.main}
       onPress={() => updateModal(<UserModal user_id={user.id} />)}
     >
-      <FontAwesome name="user" size={24} />
+      <FontAwesome name="user" size={32} style={{ width: 32, height: 32 }}/>
       <View style={styles.nameRow}>
         {userHasDisplayName &&
           <Text
@@ -54,7 +57,7 @@ export const UserBanner = ({
 
       <View style={styles.actionWrapper}>
         {context === UserListContext.Friends ? (
-          <FriendAction friend={user as UserFriend} /> // This is an indicator of a poorly written component. Should really be factoring out this logic
+          <FriendAction friend={user as UserFriend} callback={callback} /> // This is an indicator of a poorly written component. Should really be factoring out this logic
         ) : (
           <ItemSocialAction item={item!} item_user={user as ItemRelatedUser} />
         )}
@@ -68,27 +71,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
-    height: 70,
+    height: 80,
     gap: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    backgroundColor: eventsBadgeColor,
+    padding: 16,
+    backgroundColor: white,
     borderRadius: 10,
+    borderWidth: 2,
+    borderColor: 'rgba(0,0,0,0.2)',
 
     shadowColor: 'black',
-    shadowOffset: { width: 1, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 1
-  },
-  nameRow: { flexDirection: 'column', gap: 2, width: '55%' },
-  actionWrapper: {
-    marginLeft: 'auto',
-    width: 110,
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 0 },
+    shadowOffset: { width: 3, height: 3 },
     shadowOpacity: 0.5,
     shadowRadius: 1
   },
-  mainAliasText: { fontSize: 22, fontWeight: '500' },
-  subAliasText: { fontSize: 14, color: 'rgba(0,0,0,0.5)' }
+  nameRow: { flexDirection: 'column', gap: 2, width: 'auto' },
+  actionWrapper: {
+    marginLeft: 'auto',
+    width: 100,
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2
+  },
+  mainAliasText: { fontWeight: '500', color: 'black', fontSize: 18 },
+  subAliasText: { color: 'rgba(0,0,0,0.5)' }
 });

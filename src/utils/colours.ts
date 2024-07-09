@@ -15,4 +15,6 @@ export const gentleBlack = '#AAA';
 export const black = "rgb(0,0,0)";
 export const blackWithOpacity = (a: number) => `rgba(0,0,0,${a})`
 
+export const darkCyan = '#158073';
+
 export const transparent = 'rgba(0,0,0,0)';

@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, StyleSheet, View, Text } from 'react-native';
+import { Pressable, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { Loader } from 'components/general/MiscComponents';
+import { Loader, PageLoader } from 'components/general/MiscComponents';
 import { getUser } from 'rest/user';
 import { UserBanner } from 'components/users/UserBanner';
-import { primaryGreen } from 'utils/colours';
+import { eventsBadgeColor, primaryGreen, white } from 'utils/colours';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { UserList } from 'components/users/UserList';
 import { useFriends } from 'providers/cloud/useFriends';
 import { BouncyPressable } from 'components/pressables/BouncyPressable';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export const FriendSearch = () => {
-  const { friends } = useFriends();
-
+  const { friends, loading } = useFriends();
 
   const [retrievedUser, updateRetrievedUser] = useState<any>();
   const [searching, updateSearching] = useState(false);
@@ -34,22 +34,24 @@ export const FriendSearch = () => {
   useEffect(() => {
     // If the username changes, we cannot say we searched
     searched && updateSearched(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username]);
 
   return (
     <View style={styles.main}>
-      <Text style={styles.hintText}>Ask your friends for their usernames!</Text>
-      <BouncyPressable
+      <Pressable
         style={[styles.searchBarPressable, { borderColor: focussed ? 'white' : 'black'}]}
         onPress={() => textRef.current.focus()}
-        bounceScale={0.95}
       >
-        <FontAwesome name="search" color="white" size={24} />
+        {searching
+          ? <Loader size={23} color="white" />
+          : <FontAwesome name="search" color="white" size={25} />
+        }
         <TextInput
           ref={textRef}
           value={username}
           returnKeyType='go'
+          placeholder='Search Users...'
+          placeholderTextColor={'white'}
           selectionColor={'white'}
           style={styles.searchInput}
           onChangeText={updateUsername}
@@ -60,18 +62,36 @@ export const FriendSearch = () => {
           autoComplete="off"
           autoCorrect={false}
         />
-        {searching && (
-          <View style={styles.loaderWrapper}>
-            <Loader size={25} color="white" />
-          </View>
-        )}
+
+        {username && 
+          <TouchableOpacity style={styles.cancelSearch} onPress={() => {
+            updateUsername('');
+            textRef.current.focus()
+          }}>
+            <AntDesign name="close" color={primaryGreen} size={18} />
+          </TouchableOpacity>
+        }
+    </Pressable>
+
+      <View style={styles.pageContent}>
         {searched && <Text style={styles.notFoundText}>Not found</Text>}
-      </BouncyPressable>
-      {retrievedUser && <UserBanner user={retrievedUser} />}
-      <UserList 
-        users={friends} 
-        emptyText={"No friends added yet... 😎"}
-      />
+        {retrievedUser && <UserBanner user={retrievedUser} callback={() => updateRetrievedUser(null)} />}
+        
+        {!loading && 
+          <UserList 
+            users={friends.filter((x) => x.id !== retrievedUser?.id)} 
+            emptyText={"No friends added yet... 😎"}
+            onAction={() => updateRetrievedUser(null)}
+          />
+        }
+        {!loading && 
+          <Text style={styles.hintText}>Ask your friends for their usernames!</Text>
+        }
+
+        {loading &&
+          <PageLoader />
+        }
+      </View>
     </View>
   );
 };
@@ -79,35 +99,56 @@ export const FriendSearch = () => {
 const styles = StyleSheet.create({
   main: { flexDirection: 'column', gap: 10 },
   searchBarPressable: {
+    zIndex: 50,
     flexDirection: 'row',
-    backgroundColor: primaryGreen,
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
+    gap: 12,
     alignItems: 'center',
-    gap: 7,
+    height: 65,
+    paddingHorizontal: 20,
 
+    backgroundColor: primaryGreen, 
     shadowColor: 'black',
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 1
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2
   },
-  searchInput: { padding: 4, color: 'white', fontSize: 22 },
+  headerEnd: {
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    alignItems: 'center', 
+    gap: 4,
+  },
+  searchInput: { padding: 4, color: 'white', fontSize: 22, fontFamily: 'Lexend' },
+  cancelSearch: {
+    backgroundColor: white,
+    marginLeft: 'auto',
+    padding: 2,
+    borderRadius: 20,
+    marginRight: 20,
+  },
+  pageContent: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    flexDirection: 'column',
+    gap: 8,
+  },
   loaderWrapper: { marginLeft: 'auto', marginRight: 8 },
   notFoundText: {
-    color: 'white',
-    fontSize: 16,
-    marginLeft: 'auto',
-    marginRight: 4
+    fontSize: 18,
+    fontWeight: '500',
+    fontFamily: 'Lexend',
+    width: '100%',
+    marginTop: 4,
+    marginBottom: 8,
+    textAlign: 'center'
   },
   hintText: {
     width: '100%',
     textAlign: 'center',
     fontSize: 18,
-    marginVertical: 8,
+    marginVertical: 16,
     fontFamily: 'Inter',
-    opacity: 0.7,
+    opacity: 0.5,
     fontWeight: '600'
   }
 });

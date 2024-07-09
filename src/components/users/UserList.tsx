@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text } from 'react-native';
 import { UserBanner } from './UserBanner';
-import { Loader } from '../general/MiscComponents';
+import { Loader, PageLoader } from '../general/MiscComponents';
 import { PublicUser, UserFriend } from 'schema/user';
 import { ItemRelatedUser, LocalItem } from 'schema/items';
 import { NoteRelatedUser } from 'schema/notes';
@@ -13,6 +13,7 @@ export enum UserListContext {
 type Props = {
   users: (UserFriend | ItemRelatedUser | NoteRelatedUser)[],
   emptyText: string,
+  onAction: () => void,
   context?: UserListContext,
   item?: LocalItem
 
@@ -21,18 +22,26 @@ type Props = {
 export const UserList = ({
   users,
   emptyText,
+  onAction,
   context = UserListContext.Friends,
   item
 }: Props) => {
   return (
     <View style={styles.main}>
-      {users.length ? (
-          users.map((x) => (
-            <UserBanner user={x} context={context} item={item} key={x.id} />
-          ))
-        ) : (
-          <Text style={styles.emptyText}>{emptyText}</Text>
-        )
+      {users.length && 
+        users.map((x) => (
+          <UserBanner 
+            user={x}
+            context={context}
+            callback={onAction}
+            item={item}
+            key={x.id}
+          />
+        ))
+      }
+
+      {users.length === 0 &&
+        <Text style={styles.emptyText}>{emptyText}</Text>
       }
     </View>
   );

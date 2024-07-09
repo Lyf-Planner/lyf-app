@@ -52,6 +52,7 @@ export const FriendsProvider = ({ children }: Props) => {
     }
 
     const friends = await updateRemoteFriendship(user_id, action);
+    console.log('friends', friends);
     setFriends(friends);
   }
 

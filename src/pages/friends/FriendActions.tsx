@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import { useAuth } from 'providers/cloud/useAuth';
-import { primaryGreen } from 'utils/colours';
-import { useState } from 'react';
+import { black, darkCyan, eventsBadgeColor, primaryGreen, secondaryGreen, white } from 'utils/colours';
+import { useMemo, useState } from 'react';
 import { ActionButton } from '../../components/pressables/AsyncAction';
 import { BouncyPressable } from '../../components/pressables/BouncyPressable';
 import { Loader } from '../../components/general/MiscComponents';
@@ -21,15 +21,17 @@ import { useNavigation } from '@react-navigation/native';
 import { useFriends } from 'providers/cloud/useFriends';
 
 type Props = {
-  friend: UserFriend
+  friend: UserFriend,
+  callback?: () => void
 }
 
-export const FriendAction = ({ friend }: Props) => {
+export const FriendAction = ({ friend, callback }: Props) => {
   const { user } = useAuth();
+  const { friends } = useFriends();
   if (!user) {
     return null;
   }
-
+  
   const { updateModal } = useModal();
 
   if (friend.id === user.id) {
@@ -40,37 +42,38 @@ export const FriendAction = ({ friend }: Props) => {
           useNavigation().navigate(routes.profile.label as never) // TODO: Fix this (RN 0.65> bug), anticipate fix!
           updateModal(undefined);
         }}
-        icon={null}
-        color={primaryGreen}
+        color={white}
+        textColor={black}
       />
     );
   }
 
-  const friends = hasFriendship(friend);
-  const outgoing = hasOutgoingRequest(user.id, friend);
-  const bff_outgoing = hasOutgoingBFFRequest(user.id, friend)
-  const incoming = hasIncomingRequest(user.id, friend);
-  const blocked = hasBlock(friend);
+  const isFriends = friends.some((x) => x.id === friend.id && hasFriendship(x))
+  const isOutgoing = friends.some((x) => x.id === friend.id && hasOutgoingRequest(user.id, x))
+  const isBffOutgoing = friends.some((x) => x.id === friend.id && hasOutgoingBFFRequest(user.id, x))
+  const isIncoming = friends.some((x) => x.id === friend.id && hasIncomingRequest(user.id, x))
+  const isBlocked = friends.some((x) => x.id === friend.id && hasBlock(x))
 
-  if (friends) {
+  if (isFriends) {
     return <Friend friend={friend} />;
-  } else if (outgoing) {
+  } else if (isOutgoing) {
     return <Requested friend={friend} />;
-  } else if (incoming) {
+  } else if (isIncoming) {
     return <HandleRequest friend={friend} />;
-  } else if (blocked) {
+  } else if (isBlocked) {
     return null;
   } else {
     return <AddFriend friend={friend} />;
   }
 };
 
-export const Friend = ({ friend }: Props) => {
+export const Friend = ({ friend, callback }: Props) => {
   const [loading, setLoading] = useState(false);
   const { updateFriendship } = useFriends();
   const removeFriend = async () => {
     setLoading(true);
     await updateFriendship(friend.id, FriendshipAction.Remove);
+    callback && callback();
     setLoading(false);
   };
 
@@ -90,8 +93,8 @@ export const Friend = ({ friend }: Props) => {
       <ActionButton
         title="Friends"
         func={() => {}}
-        icon={<AntDesign name="check" color="white" size={20} />}
         color={primaryGreen}
+        textColor={white}
         loadingOverride={loading}
         notPressable
       />
@@ -99,12 +102,13 @@ export const Friend = ({ friend }: Props) => {
   );
 };
 
-export const Requested = ({ friend }: Props) => {
+export const Requested = ({ friend, callback }: Props) => {
   const [loading, setLoading] = useState(false);
   const { updateFriendship } = useFriends();
   const cancelRequest = async () => {
     setLoading(true);
     await updateFriendship(friend.id, FriendshipAction.Cancel);
+    callback && callback();
     setLoading(false);
   };
 
@@ -122,10 +126,10 @@ export const Requested = ({ friend }: Props) => {
       name={`requested-menu-${friend.id}`}
     >
       <ActionButton
-        title="Sent"
+        title="Requested"
         func={() => {}}
-        icon={<FontAwesome5Icon name="arrow-right" color="white" size={18} />}
-        color={'rgba(0,0,0,0.5)'}
+        color={eventsBadgeColor}
+        textColor={black}
         loadingOverride={loading}
         notPressable
       />
@@ -133,34 +137,37 @@ export const Requested = ({ friend }: Props) => {
   );
 };
 
-export const AddFriend = ({ friend }: Props) => {
+export const AddFriend = ({ friend, callback }: Props) => {
   const { updateFriendship } = useFriends();
   const addFriend = async () => {
     await updateFriendship(friend.id, FriendshipAction.Request);
+    callback && callback();
   };
 
   return (
     <ActionButton
-      title="Add"
+      title="Add +"
       func={addFriend}
-      icon={<FontAwesome5Icon name="plus" color="white" size={18} />}
       color={primaryGreen}
+      textColor={white}
     />
   );
 };
 
-export const HandleRequest = ({ friend }: Props) => {
+export const HandleRequest = ({ friend, callback }: Props) => {
   const { updateFriendship } = useFriends();
   const [accepting, setAccepting] = useState(false);
   const [declining, setDeclining] = useState(false);
   const acceptRequest = async () => {
     setAccepting(true);
     await updateFriendship(friend.id, FriendshipAction.Accept);
+    callback && callback();
     setAccepting(false);
   };
   const declineRequest = async () => {
     setDeclining(true);
     await updateFriendship(friend.id, FriendshipAction.Decline);
+    callback && callback();
     setDeclining(false);
   };
 

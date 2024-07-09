@@ -41,7 +41,11 @@ export const UserModal = ({ user_id }: Props) => {
             </View>
           </View>
 
-          <View style={{ height: 50 }}>
+          <View>
+            
+          </View>
+
+          <View style={styles.actionButton}>
             <FriendAction friend={user} />
           </View>
 
@@ -105,7 +109,9 @@ const styles = StyleSheet.create({
   columnContainer: {
     flex: 1,
     flexDirection: 'column',
-
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
   },
   nameRow: { flexDirection: 'row', alignItems: 'center' },
   bothNames: { flexDirection: 'column', gap: 4, alignItems: 'center' },
@@ -116,6 +122,12 @@ const styles = StyleSheet.create({
     gap: 4,
     marginBottom: 4
   },
+
+  actionButton: { 
+    height: 50, 
+    width: '100%' 
+  },
+
   firstSeperator: {
     opacity: 0.25,
     marginTop: 10,
