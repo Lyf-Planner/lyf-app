@@ -21,9 +21,6 @@ import {
 import { AppState } from 'react-native';
 import { Background } from 'components/general/Background';
 import { ExposedUser, User } from 'schema/user';
-import { updateFriendship as updateRemoteFriendship, getUser } from 'rest/user';
-import { ID } from 'schema/database/abstract';
-import { FriendshipAction } from 'schema/util/social';
 
 type Props = {
   children: JSX.Element;

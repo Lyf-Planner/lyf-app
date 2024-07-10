@@ -42,8 +42,8 @@ export const FriendAction = ({ friend, callback }: Props) => {
           useNavigation().navigate(routes.profile.label as never) // TODO: Fix this (RN 0.65> bug), anticipate fix!
           updateModal(undefined);
         }}
-        color={white}
-        textColor={black}
+        color={primaryGreen}
+        textColor={white}
       />
     );
   }

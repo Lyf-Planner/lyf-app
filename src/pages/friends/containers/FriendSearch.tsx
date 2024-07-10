@@ -112,19 +112,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2
   },
-  headerEnd: {
-    marginLeft: 'auto',
-    flexDirection: 'row',
-    alignItems: 'center', 
-    gap: 4,
-  },
   searchInput: { padding: 4, color: 'white', fontSize: 22, fontFamily: 'Lexend' },
   cancelSearch: {
     backgroundColor: white,
     marginLeft: 'auto',
     padding: 2,
     borderRadius: 20,
-    marginRight: 20,
+    marginRight: 6,
   },
   pageContent: {
     paddingVertical: 6,

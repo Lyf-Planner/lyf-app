@@ -51,9 +51,22 @@ export const FriendsProvider = ({ children }: Props) => {
       return;
     }
 
-    const friends = await updateRemoteFriendship(user_id, action);
-    console.log('friends', friends);
-    setFriends(friends);
+    const i = friends.findIndex((x) => x.id === user_id);
+    const localFriendExists = i !== -1;
+
+    const friend = await updateRemoteFriendship(user_id, action);
+    console.log(friend, !!friend)
+    const tmp = [...friends];
+    if (localFriendExists && friend) {
+      tmp[i] = friend;
+    } else if (!!friend) {
+      tmp.push(friend);
+    } else if (localFriendExists) {
+      tmp.splice(i, 1);
+    } else {
+    }
+
+    setFriends(tmp);
   }
 
   const exposed = {
