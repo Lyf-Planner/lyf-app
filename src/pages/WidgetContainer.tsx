@@ -2,12 +2,12 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Timetable } from './timetable/TimetableWidget';
 import { useAuth } from '../authorisation/AuthProvider';
 import { Horizontal } from '../components/general/MiscComponents';
-import { AccountWidget } from './account/AccountWidget';
+import { AccountWidget } from './profile/AccountWidget';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Notes } from './notes/NotesWidget';
 import { BouncyPressable } from '../components/pressables/BouncyPressable';
 import { deepBlue } from '../utils/constants';
-import { AccountHeaderButton } from './account/AccountHeaderButton';
+import { AccountHeaderButton } from './profile/AccountHeaderButton';
 import { TutorialHeaderButton } from './tutorial/TutorialHeaderButton';
 import { useTutorial } from '../providers/useTutorial';
 import {

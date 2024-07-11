@@ -8,27 +8,31 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { LyfElement } from 'utils/abstractTypes';
+
+type Props = {
+  name: string,
+  children: LyfElement,
+  icon: JSX.Element,
+  startOpen?: boolean,
+  bgColor?: string
+}
 
 export const SettingDropdown = ({
   name,
   children,
   icon,
   startOpen = false,
-  bgColor = null
-}) => {
+  bgColor
+}: Props) => {
   const [open, setOpen] = useState(startOpen);
   const chevronAngle = useSharedValue(0);
-  const rotationAnimation = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          rotateZ: withTiming(`${chevronAngle.value}deg`, {
-            duration: 200
-          })
-        }
-      ]
-    } as any;
-  });
+  const rotationAnimation = useAnimatedStyle(() => ({
+      transform: [{ 
+        rotateZ: withTiming(`${chevronAngle.value}deg`, { duration: 200 })
+      }]
+    })
+  );
 
   useEffect(() => {
     chevronAngle.value = open ? 90 : 0;

@@ -11,6 +11,7 @@ import { offWhite } from "utils/colours";
 import { Timetable } from 'pages/timetable/TimetablePage';
 import { Notes } from 'pages/notes/NotesPage';
 import { Friends } from 'pages/friends/FriendsPage';
+import { Profile } from 'pages/profile/ProfilePage';
 
 export const appTheme: Theme = {
   dark: false,
@@ -47,9 +48,9 @@ export const routes = Object.freeze({
     root:  Friends
   },
   profile: {
-    label: "Me",
+    label: "Profile",
     icon: (color: string) => <FontAwesome5 name="user-alt" size={25} color={color} />,
-    root: Timetable
+    root: Profile
   }
 });
 

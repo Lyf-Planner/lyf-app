@@ -288,10 +288,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 4,
 
-    shadowColor: 'black',
+  
     shadowOffset: { width: 5, height: 6 },
-    shadowOpacity: 0.75,
-    shadowRadius: 3
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
+    shadowRadius: 0.5
 
     // shadowColor: 'black',
     // shadowOffset: { width: 5, height: 5 },

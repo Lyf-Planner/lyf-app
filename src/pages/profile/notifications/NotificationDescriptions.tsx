@@ -5,22 +5,30 @@ import {
   TextInput,
   StyleSheet
 } from 'react-native';
-import { localisedMoment } from '../../../utils/dates';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { localisedMoment } from 'utils/dates';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { TimeString } from 'schema/util/dates';
+
+type Props = {
+  updateTime: (time?: TimeString) => void,
+  notificationTime: TimeString,
+  updatePersistent: (enabled?: boolean) => void,
+  persistent?: boolean
+}
 
 export const DailyNotificationDesc = ({
   updateTime,
   notificationTime = '08:00',
   updatePersistent,
   persistent = false
-}) => {
+}: Props) => {
   const today = new Date();
   // Component needs a JS date, even though we only use time (just take any date)
   const datePickerValue = new Date(
     `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${notificationTime}`
   );
 
-  const updateTimeFromPicker = (time) => {
+  const updateTimeFromPicker = (time: DateTimePickerEvent) => {
     // Picker gives us a timestamp, that we need to convert to 24 hr time
     const dateTime = new Date(time.nativeEvent.timestamp);
     updateTime(localisedMoment(dateTime).format('HH:mm'));
@@ -59,23 +67,28 @@ export const DailyNotificationDesc = ({
   );
 };
 
+type EventProps = {
+  updateMins: (mins?: number) => void;
+  minsBefore: number
+}
+
 export const EventNotificationDesc = ({
-  updateMinutes,
-  minutesBefore = '5'
-}) => {
-  const updateMinutesFromInput = (text) => {
+  updateMins,
+  minsBefore
+}: EventProps) => {
+  const updateMinutesFromInput = (text: string) => {
     text.replace(/[^0-9]/g, '');
     const val = Number(text);
-    val < 1000 && updateMinutes(text);
+    val < 1000 && updateMins(val);
   };
 
-  const replaceEmptyWithZero = () => !minutesBefore && updateMinutes('0');
+  const replaceEmptyWithZero = () => !minsBefore && updateMins(0);
 
   return (
     <View style={eventStyles.mainContainer}>
       <Text style={eventStyles.firstText}>Receive reminders </Text>
       <TextInput
-        value={minutesBefore}
+        value={minsBefore.toString()}
         onEndEditing={replaceEmptyWithZero}
         returnKeyType="done"
         keyboardType="numeric"

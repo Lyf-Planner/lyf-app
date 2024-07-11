@@ -5,50 +5,20 @@ import {
   EventNotificationDesc
 } from './NotificationDescriptions';
 import { useNotifications } from 'providers/cloud/useNotifications';
-import { primaryGreen } from '../../../utils/colours';
+import { primaryGreen } from 'utils/colours';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import { LyfElement } from 'utils/abstractTypes';
 
 export const NotificationSettings = () => {
   const { user, updateUser } = useAuth();
   const { enabled } = useNotifications();
-  const { premium } = user;
-
-  const updatePremium = (premium) => updateUser({ ...user, premium });
-  const updateNotificationSettings = (notifications) =>
-    updatePremium({ ...premium, notifications });
 
   // DAILY NOTIFICATIONS
-  const dailyNotifications = (enabled: boolean) =>
-    updateNotificationSettings({
-      ...premium.notifications,
-      daily_notifications: enabled,
-      daily_notification_time:
-        premium.notifications?.daily_notification_time || '08:00'
-    });
-  const dailyNotificationTime = (time: string) =>
-    updateNotificationSettings({
-      ...premium.notifications,
-      daily_notification_time: time
-    });
-  const persistentDailyNotifications = (enabled: boolean) =>
-    updateNotificationSettings({
-      ...premium.notifications,
-      persistent_daily_notification: enabled
-    });
+  const dailyNotificationTime = (time?: string) => updateUser({ daily_notification_time: time });
+  const persistentDailyNotifications = (enabled?: boolean) => updateUser({ persistent_daily_notification: enabled });
 
   // EVENT NOTIFICATIONS
-  const eventNotifications = (enabled: boolean) =>
-    updateNotificationSettings({
-      ...premium.notifications,
-      event_notifications_enabled: enabled,
-      event_notification_mins:
-        premium.notifications.event_notification_mins || '5'
-    });
-  const eventNotificationMinutesBefore = (time: number) =>
-    updateNotificationSettings({
-      ...premium.notifications,
-      event_notification_mins: time
-    });
+  const eventNotificationMins = (time?: number) => updateUser({ event_notification_mins: time });
 
   return (
     <View style={styles.mainContainer}>
@@ -58,34 +28,28 @@ export const NotificationSettings = () => {
         </Text>
       )}
       {enabled && (
-        <View style={[styles.settingsContainer]}>
+        <View style={styles.settingsContainer}>
           <Setting
-            updateFunc={dailyNotifications}
-            enabled={premium.notifications?.daily_notifications}
+            updateFunc={() => dailyNotificationTime(user?.daily_notification_time ? undefined : '5')}
+            enabled={!!user?.daily_notification_time}
             name="Daily Notifications"
             desc={
               <DailyNotificationDesc
                 updateTime={dailyNotificationTime}
-                notificationTime={
-                  premium.notifications?.daily_notification_time
-                }
+                notificationTime={user?.daily_notification_time || '08:30'}
                 updatePersistent={persistentDailyNotifications}
-                persistent={
-                  premium.notifications?.persistent_daily_notification
-                }
+                persistent={user?.persistent_daily_notification}
               />
             }
           />
           <Setting
-            updateFunc={eventNotifications}
-            enabled={premium.notifications?.event_notifications_enabled}
+            updateFunc={() => eventNotificationMins(user?.event_notification_mins ? undefined : 5)}
+            enabled={!!user?.event_notification_mins}
             name="Event Notifications"
             desc={
               <EventNotificationDesc
-                updateMinutes={eventNotificationMinutesBefore}
-                minutesBefore={
-                  premium.notifications?.event_notification_mins
-                }
+                updateMins={eventNotificationMins}
+                minsBefore={user?.event_notification_mins || 5}
               />
             }
           />
@@ -95,7 +59,14 @@ export const NotificationSettings = () => {
   );
 };
 
-const Setting = ({ updateFunc, enabled, name, desc }) => {
+type SettingProps = {
+  updateFunc: () => void,
+  enabled: boolean,
+  name: string,
+  desc: LyfElement
+}
+
+const Setting = ({ updateFunc, enabled, name, desc }: SettingProps) => {
   return (
     <View>
       <View style={styles.settingContainer}>

@@ -1,3 +1,4 @@
+import { useAuth } from 'providers/cloud/useAuth';
 import {
   TouchableHighlight,
   View,
@@ -7,7 +8,9 @@ import {
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export const DeleteButton = ({ deleteMe, logout }) => {
+export const DeleteButton = () => {
+  const { deleteMe, logout } = useAuth();
+
   return (
     <TouchableHighlight
       onPress={() => {

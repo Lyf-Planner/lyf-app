@@ -1,7 +1,10 @@
+import { useAuth } from 'providers/cloud/useAuth';
 import { View, TouchableHighlight, Text, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export const LogoutButton = ({ logout }) => {
+export const LogoutButton = () => {
+  const { logout } = useAuth();
+
   return (
     <TouchableHighlight onPress={logout}>
       <View style={styles.buttonView}>
