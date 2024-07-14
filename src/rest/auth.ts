@@ -10,7 +10,6 @@ export async function login(username: string, password: string) {
   const endpoint = usersEndpoint(`login?user_id=${username}&password=${password}`)
   const result = await get(endpoint);
 
-  console.log("login result was", result);
   if (result?.status === 200) {
     storeAsyncData('token', result.data.token);
     return result.data.user;

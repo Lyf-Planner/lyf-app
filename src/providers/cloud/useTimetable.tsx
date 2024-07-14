@@ -188,7 +188,6 @@ export const TimetableProvider = ({ children }: Props) => {
 
     const leavingItem = user_id === user?.id && action === SocialAction.Remove;
     if (leavingItem) {
-      console.log('removing local item');
       await removeItem(item, false);
       return;
     }
@@ -245,7 +244,6 @@ export const TimetableProvider = ({ children }: Props) => {
     } else {
       // Remove from this store
       const tmp = items.filter((x) => x.id !== id);
-      console.log('tmp', tmp);
       setItems(tmp);
     }
 

@@ -55,7 +55,6 @@ export const FriendsProvider = ({ children }: Props) => {
     const localFriendExists = i !== -1;
 
     const friend = await updateRemoteFriendship(user_id, action);
-    console.log(friend, !!friend)
     const tmp = [...friends];
     if (localFriendExists && friend) {
       tmp[i] = friend;

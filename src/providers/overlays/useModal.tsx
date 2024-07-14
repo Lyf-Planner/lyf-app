@@ -19,8 +19,6 @@ export const ModalProvider = ({ children }: Props) => {
     updateModal
   };
 
-  console.log('modal updated to', modal);
-
   return (
     <ModalContext.Provider value={exposed}>
       {children}

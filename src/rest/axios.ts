@@ -18,7 +18,7 @@ export async function get(endpoint: string) {
       }
     });
   } catch (err: any) {
-    console.log("error", err);
+    console.error("error", err);
     return err.response;
   }
 }
@@ -40,6 +40,7 @@ export async function post(endpoint: string, body: unknown) {
       transformRequest: [data => JSON.stringify(data, (_k, v) => v === void 0 ? null : v)],
     });
   } catch (err: any) {
+    console.error("error", err);
     return err.response;
   }
 }
