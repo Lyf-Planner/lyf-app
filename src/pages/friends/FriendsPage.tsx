@@ -1,24 +1,71 @@
-import { StyleSheet, View } from "react-native"
-import { FriendSearch } from "pages/friends/containers/FriendSearch"
 import { UserList } from "components/users/UserList"
 import { useFriends } from "providers/cloud/useFriends"
-import { useEffect } from "react"
-import { PageLoader } from "components/general/MiscComponents"
+import { useEffect, useRef, useState } from 'react';
+import { Pressable, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
+import { Loader, PageLoader } from 'components/general/MiscComponents';
+import { UserBanner } from 'components/users/UserBanner';
+import { primaryGreen, white } from 'utils/colours';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { getUser } from "rest/user";
+import { SearchHeader } from "./containers/SearchHeader";
 
 export const Friends = () => {
-  const { loading, reload } = useFriends();
+  const { friends, loading, reload } = useFriends();
+
+  const [searchedUser, setSearchedUser] = useState<any>();
+  const [searched, setSearched] = useState(false);
 
   useEffect(() => {
     if (loading) {
       reload();
     }
   })
-  
+
   return (
     <View style={styles.main}>
-      <FriendSearch />
+      <SearchHeader 
+        searched={searched}
+        setSearched={setSearched}
+        setSearchedUser={setSearchedUser}
+      />
+
+      <View style={styles.pageContent}>
+        {searched && 
+          <Text style={styles.notFoundText}>
+            Not found
+          </Text>
+        }
+        {searchedUser && 
+          <UserBanner 
+            user={searchedUser} 
+            // We clear the searched user whenever any action is made (to any user!)
+            // As the user we action may not be in the friends store
+            // - Update will simply modify the friends store, showing the user via the friends list instead of this
+            // - Addition will remove searched user, add to the user list via friends
+            // - Removal will clear this and the duplicate in the user list
+            callback={() => setSearchedUser(null)} 
+          />
+        }
+        
+        {!loading && 
+          <UserList 
+            users={friends.filter((x) => x.id !== searchedUser?.id)} 
+            emptyText={"No friends added yet... 😎"}
+            callback={() => setSearchedUser(null)}
+          />
+        }
+        {!loading && 
+          <Text style={styles.hintText}>Ask your friends for their usernames!</Text>
+        }
+
+        {loading &&
+          <PageLoader />
+        }
+      </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -28,4 +75,30 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 12,
   },
+
+  pageContent: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    flexDirection: 'column',
+    gap: 8,
+  },
+  loaderWrapper: { marginLeft: 'auto', marginRight: 8 },
+  notFoundText: {
+    fontSize: 18,
+    fontWeight: '500',
+    fontFamily: 'Lexend',
+    width: '100%',
+    marginTop: 4,
+    marginBottom: 8,
+    textAlign: 'center'
+  },
+  hintText: {
+    width: '100%',
+    textAlign: 'center',
+    fontSize: 18,
+    marginVertical: 16,
+    fontFamily: 'Inter',
+    opacity: 0.5,
+    fontWeight: '600'
+  }
 })

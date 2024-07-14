@@ -77,7 +77,7 @@ export const ListItemGestureWrapper = ({
   //   .runOnJS(true)
   //   .onEnd(() => handleFlingRight());
 
-  const gestures = Gesture.Simultaneous(tap, longPress, fling);
+  const gestures = Gesture.Race(tap, longPress, fling);
 
   // GESTURE HANDLERS
 

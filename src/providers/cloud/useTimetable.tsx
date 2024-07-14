@@ -4,6 +4,7 @@ import { getCalendars } from 'expo-localization';
 import {
   createItem,
   deleteItem,
+  getItem,
   getTimetable,
   updateItem as updateRemoteItem,
   updateItemSocial as updateRemoteItemSocial
@@ -41,12 +42,12 @@ export type AddItem = (
 ) => Promise<void>;
 export type UpdateItem = (item: LocalItem, changes: Partial<UserRelatedItem>, updateRemote?: boolean) => Promise<void>;
 export type UpdateItemSocial = (
-  item: ListItem,
+  item: LocalItem,
   user_id: string,
   action: SocialAction,
-  permission?: Permission
+  permission: Permission
 ) => Promise<void>;
-export type RemoveItem = (item: ListItem, deleteRemote?: boolean) => Promise<void>;
+export type RemoveItem = (item: LocalItem, deleteRemote?: boolean) => Promise<void>;
 export type ResortItems = (priorities: ID[]) => void;
 
 type Props = {
@@ -175,25 +176,53 @@ export const TimetableProvider = ({ children }: Props) => {
   };
 
   const updateItemSocial: UpdateItemSocial = async (
-    item: UserRelatedItem, 
+    item: LocalItem, 
     user_id: string, 
     action: SocialAction, 
-    permission?: Permission
+    permission: Permission
   ) => {
     const result = await updateRemoteItemSocial(item.id, user_id, action, permission);
-    if (!result) {
+    if (result === false) {
       return;
     }
 
-    // If user removed themselves, delete from linked items
-    const destructiveAction = action === SocialAction.Remove || action === SocialAction.Decline
-    if (destructiveAction && user_id === user!.id
-    ) {
-      // Remove from items and user
-      removeItem(item, false);
+    const leavingItem = user_id === user?.id && action === SocialAction.Remove;
+    if (leavingItem) {
+      console.log('removing local item');
+      await removeItem(item, false);
+      return;
     }
 
-    return result;
+    const destructiveAction = 
+      action === SocialAction.Remove || 
+      action === SocialAction.Decline ||
+      action === SocialAction.Cancel;
+
+    const i = items.findIndex((x) => x.id === item.id);
+
+    const storeItem = items[i];
+    const itemUsers = storeItem.relations.users || [];
+    const j = itemUsers.findIndex((x) => x.id === user_id);
+
+    if (j === -1 && !destructiveAction) {
+      // Create
+      itemUsers.push(result);
+    } else if (destructiveAction) {
+      // Delete
+      itemUsers.splice(j, 1);
+    } else {
+      // Update
+      itemUsers[j] = { ...itemUsers[j], ...result };
+    }
+
+    const itemChanges: Partial<LocalItem> = { 
+      relations: { ...item.relations, users: itemUsers },
+      // Some manual sneakys for local state
+      collaborative: itemUsers.length > 1,
+      invite_pending: false
+    }
+
+    updateItem(item, itemChanges, false)
   };
 
   const removeItem: RemoveItem = async (item: LocalItem, deleteRemote = true) => {
@@ -215,7 +244,8 @@ export const TimetableProvider = ({ children }: Props) => {
       handleNoteItemUpdate(item, {}, true)
     } else {
       // Remove from this store
-      let tmp = items.filter((x) => x.id !== id) as any;
+      const tmp = items.filter((x) => x.id !== id);
+      console.log('tmp', tmp);
       setItems(tmp);
     }
 

@@ -4,6 +4,7 @@ import { Loader, PageLoader } from '../general/MiscComponents';
 import { PublicUser, UserFriend } from 'schema/user';
 import { ItemRelatedUser, LocalItem } from 'schema/items';
 import { NoteRelatedUser } from 'schema/notes';
+import { useMemo } from 'react';
 
 export enum UserListContext {
   Friends = 'Friends',
@@ -13,36 +14,36 @@ export enum UserListContext {
 type Props = {
   users: (UserFriend | ItemRelatedUser | NoteRelatedUser)[],
   emptyText: string,
-  onAction: () => void,
   context?: UserListContext,
-  item?: LocalItem
-
+  callback?: () => void,
+  item?: LocalItem,
+  menuContext?: string
 }
 
 export const UserList = ({
   users,
   emptyText,
-  onAction,
   context = UserListContext.Friends,
-  item
+  callback,
+  item,
+  menuContext
 }: Props) => {
   return (
     <View style={styles.main}>
-      {users.length && 
+      {users.length === 0 ? (
+        <Text style={styles.emptyText}>{emptyText}</Text>
+      ) : (
         users.map((x) => (
-          <UserBanner 
+          <UserBanner
             user={x}
             context={context}
-            callback={onAction}
+            callback={callback}
             item={item}
             key={x.id}
+            menuContext={menuContext}
           />
         ))
-      }
-
-      {users.length === 0 &&
-        <Text style={styles.emptyText}>{emptyText}</Text>
-      }
+      )}
     </View>
   );
 };
@@ -50,7 +51,7 @@ export const UserList = ({
 const styles = StyleSheet.create({
   main: {
     flexDirection: 'column',
-    gap: 8,
+    gap: 10,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',

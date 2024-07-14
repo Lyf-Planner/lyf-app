@@ -44,26 +44,26 @@ export const ItemDrawer = ({
   // Establish item from store
   const { items, updateItem } = useTimetable();
   const item = useMemo(() => items.find((x) => x.id === id), [items]);
-  if (!item) {
-    return null;
-  }
 
-  // Establish props passed to children
-  const props: ItemDrawerProps = {
-    item,
-    updateItem,
-    updateDrawer,
-    updateSheetMinHeight
-  }
+  const [descOpen, setDescOpen] = useState(!!item?.desc);
+  const [linkOpen, setLinkOpen] = useState(!!item?.url);
+  const [locationOpen, setLocationOpen] = useState(!!item?.location);
 
-  const [loadingUsers, setLoadingUsers] = useState(!!item.relations?.users);
+  const noDetails = useMemo(
+    () => item && !item.date && !item.time && !descOpen && !item.notification_mins,
+    [item]
+  );
 
   useEffect(() => {
-    if (loadingUsers) {
-      getItem(item.id, "users").then((item) => {
-        if (item) {
-          updateItem(item, item, false)
-          setLoadingUsers(false);
+    if (item) {
+      getItem(item.id, "users").then((updatedItem) => {
+        if (updatedItem) {
+          // We do this to keep the item as a UserRelatedItem
+          const mergedData = {
+            ...item,
+            ...updatedItem
+          }
+          updateItem(item, mergedData, false)
         }
       })
     }
@@ -75,14 +75,13 @@ export const ItemDrawer = ({
     return null;
   }
 
-  const [descOpen, setDescOpen] = useState(!!item?.desc);
-  const [linkOpen, setLinkOpen] = useState(!!item?.url);
-  const [locationOpen, setLocationOpen] = useState(!!item?.location);
-
-  const noDetails = useMemo(
-    () => item && !item.date && !item.time && !descOpen && !item.notification_mins,
-    [item]
-  );
+  // Establish props passed to children
+  const props: ItemDrawerProps = {
+    item,
+    updateItem,
+    updateDrawer,
+    updateSheetMinHeight
+  }
 
   const conditionalStyles = {
     detailsContainer: {
@@ -90,7 +89,7 @@ export const ItemDrawer = ({
     }
   }
 
-  console.log("item.time", item.time)
+  console.log("item users", item.relations.users?.map((x) => x.id));
 
   // Pass "invited" to block any input component with a localised value
   return (
@@ -107,7 +106,12 @@ export const ItemDrawer = ({
               <ItemTypeBadge {...props} />
             </View>
             <ItemTitle {...props} />
-            {!item.invite_pending && <OptionsMenu item={item} />}
+            {!item.invite_pending && 
+              <OptionsMenu 
+                item={item} 
+                closeDrawer={() => updateDrawer(undefined)}
+              />
+            }
           </View>
 
           {item.invite_pending ? (
@@ -120,9 +124,11 @@ export const ItemDrawer = ({
         <Horizontal style={styles.firstSeperator} />
 
         <View style={[styles.detailsContainer, conditionalStyles.detailsContainer]}>
-          {/* {item.collaborative && (
-            <ItemUsers item={item} loading={loadingUsers} />
-          )} */}
+          <ItemUsers 
+            item={item}
+            loading={!item.relations?.users}
+            closeDrawer={() => updateDrawer(undefined)}
+          />
 
           {(item.date || isTemplate(item)) && (
             <ItemDate {...props} />

@@ -11,24 +11,29 @@ import { ItemRelatedUser, LocalItem } from 'schema/items';
 import { useMemo } from 'react';
 import { NoteRelatedUser } from 'schema/notes';
 import { UserListContext } from './UserList';
-import { useFriends } from 'providers/cloud/useFriends';
 
 type Props = {
   user: UserFriend | ItemRelatedUser | NoteRelatedUser,
   callback?: () => void,
   context?: UserListContext,
-  item?: LocalItem
+  item?: LocalItem,
+  menuContext?: string,
 }
 
 export const UserBanner = ({
   user,
   callback,
   context = UserListContext.Friends,
-  item
+  item,
+  menuContext,
 }: Props) => {
   const { updateModal } = useModal();
 
-  const userHasDisplayName = useMemo(() => user.display_name && user.display_name !== user.id, [user]);
+  const userHasDisplayName = useMemo(() => 
+    user.display_name && 
+    user.display_name !== user.id,
+    [user]
+  );
 
   return (
     <BouncyPressable
@@ -59,7 +64,11 @@ export const UserBanner = ({
         {context === UserListContext.Friends ? (
           <FriendAction friend={user as UserFriend} callback={callback} /> // This is an indicator of a poorly written component. Should really be factoring out this logic
         ) : (
-          <ItemSocialAction item={item!} item_user={user as ItemRelatedUser} />
+          <ItemSocialAction 
+            item={item!} 
+            item_user={user} 
+            menuContext={menuContext} 
+          />
         )}
       </View>
     </BouncyPressable>
@@ -71,20 +80,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     alignItems: 'center',
-    height: 80,
-    gap: 8,
+    height: 75,
+    gap: 4,
     padding: 16,
-    backgroundColor: white,
+    backgroundColor: eventsBadgeColor,
     borderRadius: 10,
-    borderWidth: 2,
-    borderColor: 'rgba(0,0,0,0.2)',
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.1)',
 
     shadowColor: 'black',
-    shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 0.5,
-    shadowRadius: 1
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.6,
+    shadowRadius: 2
   },
-  nameRow: { flexDirection: 'column', gap: 2, flex: 1 },
+  nameRow: { 
+    flexDirection: 'column', 
+    gap: 2, 
+    flex: 1, 
+    paddingRight: 10 
+  },
   actionWrapper: {
     marginLeft: 'auto',
     width: 100,
@@ -93,6 +107,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2
   },
-  mainAliasText: { fontWeight: '500', color: 'black', fontSize: 18 },
+  mainAliasText: { fontWeight: '500', color: 'black', fontSize: 20 },
   subAliasText: { color: 'rgba(0,0,0,0.5)' }
 });

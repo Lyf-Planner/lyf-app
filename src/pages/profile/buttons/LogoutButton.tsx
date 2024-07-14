@@ -1,12 +1,13 @@
 import { useAuth } from 'providers/cloud/useAuth';
 import { View, TouchableHighlight, Text, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { white } from 'utils/colours';
 
 export const LogoutButton = () => {
   const { logout } = useAuth();
 
   return (
-    <TouchableHighlight onPress={logout}>
+    <TouchableHighlight onPress={logout} style={styles.touchable}>
       <View style={styles.buttonView}>
         <Text style={styles.logoutText}>Logout</Text>
         <MaterialCommunityIcons name="logout" size={18} />
@@ -16,8 +17,12 @@ export const LogoutButton = () => {
 };
 
 const styles = StyleSheet.create({
+  touchable: {
+    borderRadius: 5,
+  },
   buttonView: {
     flexDirection: 'row',
+    backgroundColor: white,
     justifyContent: 'center',
     borderWidth: 0.5,
     padding: 10,

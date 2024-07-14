@@ -9,6 +9,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { LocalItem } from 'schema/items';
 import { SocialAction } from 'schema/util/social';
+import { useModal } from 'providers/overlays/useModal';
 
 type Props = {
   item: LocalItem
@@ -16,17 +17,20 @@ type Props = {
 
 export const InviteHandler = ({ item }: Props) => {
   const { user } = useAuth();
-  const { updateItemSocial } = useTimetable();
+  const { updateItemSocial, removeItem } = useTimetable();
+  const { updateModal } = useModal();
 
   const acceptInvite = async () => {
     if (user) {
-      await updateItemSocial(item, user.id, SocialAction.Accept);
+      await updateItemSocial(item, user.id, SocialAction.Accept, item.permission);
     }
   };
 
   const rejectInvite = async () => {
     if (user) {
-      await updateItemSocial(item, user.id, SocialAction.Decline);
+      await updateItemSocial(item, user.id, SocialAction.Decline, item.permission);
+      await removeItem(item, false);
+      updateModal(undefined);
     }
   };
 

@@ -72,7 +72,7 @@ async function registerForPushNotificationsAsync() {
   console.log('Registering ExpoPushToken');
 
   if (!isDevice) {
-    alert('Must use physical device for Push Notifications');  
+    console.warn('Must use physical device for Push Notifications');  
     return;
   }
 

@@ -19,7 +19,9 @@ export type BouncyPressableOptions = {
 
 type ShadowOptions = {
   shadowOptions?: {
-    shadowOffset: number
+    shadowOffset?: number,
+    shadowOpacity?: number,
+    shadowRadius?: number
   }
 }
 
@@ -71,7 +73,8 @@ export const BouncyPressable = ({
   const shadowStyle = {
     shadowColor: 'black',
     shadowOpacity: 0.5,
-    shadowRadius: 1
+    shadowRadius: 1,
+    ...shadowOptions
   }
 
   const animatedStyle = [scaleAnimation, containerStyle];

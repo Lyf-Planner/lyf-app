@@ -16,10 +16,11 @@ import { SocialAction } from '../../../schema/util/social';
 import { Permission } from '../../../schema/database/items_on_users';
 
 type Props = {
-  item: LocalItem
+  item: LocalItem,
+  closeDrawer: () => void,
 }
 
-export const OptionsMenu = ({ item }: Props) => {
+export const OptionsMenu = ({ item, closeDrawer }: Props) => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const { updateItemSocial, removeItem } = useTimetable();
@@ -34,7 +35,8 @@ export const OptionsMenu = ({ item }: Props) => {
 
   const leaveItem = async () => {
     setLoading(true);
-    await updateItemSocial(item, user.id, SocialAction.Remove);
+    closeDrawer();
+    await updateItemSocial(item, user.id, SocialAction.Remove, item.permission);
     setLoading(false);
   };
 

@@ -15,6 +15,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { ItemDrawerProps } from '../ItemDrawer';
 import { ItemType } from 'schema/database/items';
+import { AddFriendsModal } from './AddFriendsModal';
 
 // The button component can definitely be abstracted here
 
@@ -43,7 +44,7 @@ export const AddDetails = ({
   return (
     <View style={styles.mainContainer}>
       <View style={styles.detailsListWrapper}>
-        {/* {!item.note_id && (
+        {!item.note_id && (
           <TouchableHighlight
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
@@ -55,7 +56,7 @@ export const AddDetails = ({
               <Text style={styles.addFieldText}>Add Friends +</Text>
             </View>
           </TouchableHighlight>
-        )} */}
+        )}
 
         {!item.date && !isTemplate(item) && (
           <TouchableHighlight

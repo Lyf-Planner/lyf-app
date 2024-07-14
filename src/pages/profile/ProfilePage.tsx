@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'column',
     gap: 8,
-    marginTop: 'auto'
+    overflow: 'visible'
   },
   subtitle: {
     opacity: 0.4,

@@ -4,6 +4,7 @@ import { SocialAction } from '../schema/util/social';
 import { Permission } from '../schema/database/items_on_users';
 import { ID } from '../schema/database/abstract';
 import { UserRelatedItem } from '../schema/user';
+import { ItemRelatedUser } from 'schema/items';
 
 const itemsEndpoint = (req: string) => `/items/${req}`;
 
@@ -72,17 +73,17 @@ export async function deleteItem(id: ID) {
   }
 }
 
-export async function updateItemSocial(item_id: ID, user_id: ID, action: SocialAction, permission?: Permission) {
-  const url = `${env.BACKEND_URL}/item/updateSocial`;
+export async function updateItemSocial(entity_id: ID, user_id: ID, action: SocialAction, permission?: Permission) {
+  const endpoint = itemsEndpoint('updateSocial')
 
-  const result = await post(url, { 
-    item_id, 
+  const result = await post(endpoint, { 
+    entity_id, 
     user_id, 
     action, 
     permission
   });
   if (result?.status === 200) {
-    return result.data;
+    return result.data as ItemRelatedUser;
   } else {
     alert(JSON.stringify(result.data));
     return false;

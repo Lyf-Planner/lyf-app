@@ -72,9 +72,14 @@ const styles = Native.StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
     padding: 12,
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 10,
     backgroundColor: primaryGreen,
+
+    shadowOffset: { width: 2, height: 2 },
+    shadowColor: 'black',
+    shadowOpacity: 1,
+    shadowRadius: 3
   },
 
   weekDateText: {

@@ -61,10 +61,6 @@ export const NotesProvider = ({ children }: Props) => {
 
   const handleNoteItemUpdate = (item: LocalItem, changes: Partial<LocalItem>, remove = false) => {
     const i = notes.findIndex((note) => note.id === item.note_id);
-    if (i === -1) {
-      console.warn('Item update passed without known note id, nothing to handle');
-      return
-    }
 
     const note = notes[i];
     const noteItems = note.relations.items || [];
