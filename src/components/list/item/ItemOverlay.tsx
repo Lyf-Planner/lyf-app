@@ -56,8 +56,6 @@ export const ListItemOverlay = ({
     [item, itemStyleOptions]
   );
 
-  const showTime = useMemo(() => !!item.time, [item]);
-
   const conditionalStyles = {
     listItem: {
       backgroundColor: primaryColor,
@@ -76,7 +74,7 @@ export const ListItemOverlay = ({
 
         <ItemTitleFormatter item={item} textColor={secondaryColor} />
 
-        {showTime && (
+        {item.time && (
           <View style={styles.listItemTimeSection}>
             <Vertical style={styles.diagLines} />
             <ItemTimeFormatter item={item} textColor={secondaryColor} />

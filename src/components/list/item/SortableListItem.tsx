@@ -3,7 +3,7 @@ import {
   getItemPrimaryColor,
   getItemSecondaryColor
 } from '../constants';
-import { primaryGreen } from '../../../utils/colours';
+import { deepBlue, primaryGreen } from '../../../utils/colours';
 import { useMemo } from 'react';
 import { ItemStyleOptions } from './Item';
 import { AnimatedCheck } from '../../general/AnimatedCheck';
@@ -13,6 +13,8 @@ import { SortingHandle } from '../../general/SortingHandle';
 import { CollaborativeIcon } from 'components/general/CollaborativeIcon';
 import { ItemStatus, ItemType } from 'schema/database/items';
 import { LocalItem } from 'schema/items';
+import { Vertical } from 'components/general/MiscComponents';
+import { ItemTimeFormatter } from 'components/text/ItemTimeFormatter';
 
 type Props = {
   item: LocalItem;
@@ -40,7 +42,7 @@ export const SortableListItem = ({
   const conditionalStyles = {
     listItem: {
       backgroundColor: primaryColor,
-      borderRadius: item.type !== ItemType.Task ? 5 : 15,
+      borderRadius: item.type === ItemType.Event ? 5 : 10,
       opacity: item.status === ItemStatus.Cancelled || item.invite_pending ? 0.7 : 1
     },
     sortHandleIconColor:
@@ -57,13 +59,23 @@ export const SortableListItem = ({
 
       <ItemTitleFormatter item={item} textColor={secondaryColor} />
 
+      {item.time && (
+        <View style={styles.listItemTimeSection}>
+          <Vertical style={styles.diagLines} />
+          <ItemTimeFormatter item={item} textColor={secondaryColor} />
+        </View>
+      )}
+
+
       {item.collaborative && <CollaborativeIcon item={item} />}
-      <SortingHandle
-        dragFunc={dragFunc}
-        disabled={isActive}
-        backgroundColor={secondaryColor}
-        iconColor={conditionalStyles.sortHandleIconColor}
-      />
+      {!item.time &&
+        <SortingHandle
+          dragFunc={dragFunc}
+          disabled={isActive}
+          backgroundColor={secondaryColor}
+          iconColor={conditionalStyles.sortHandleIconColor}
+        />
+      }
     </View>
   );
 };
@@ -78,5 +90,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     gap: 4,
     alignItems: 'center'
+  },
+  listItemTimeSection: {
+    minWidth: '30%',
+    flexDirection: 'row',
+    height: '100%',
+    alignItems: 'center',
+    marginLeft: 'auto',
+    justifyContent: 'flex-end'
+  },
+  diagLines: {
+    borderColor: deepBlue,
+    opacity: 0.2,
+    marginLeft: 8,
+    height: '200%',
+    borderLeftWidth: 2,
+    transform: [{ rotateZ: '-20deg' }]
   }
 });

@@ -36,10 +36,8 @@ export const CalendarRange = ({ updateDisplayedDays, startDate, endDate }: Calen
 
   const shift = (direction: ShiftDirection) => {
     const range = daysDifferenceBetween(startDate, endDate);
-    console.log({ range });
     const newStart = formatDateData(localisedMoment(startDate).add(direction * range, 'days').toDate())
     const newEnd = formatDateData(localisedMoment(endDate).add(direction * range, 'days').toDate())
-    console.log({ newStart, newEnd });
 
     updateDisplayedDays(newStart, newEnd);
   }

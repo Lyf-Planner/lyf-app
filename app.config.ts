@@ -11,7 +11,7 @@ export default {
     currentFullName: "@ethanhusband/lyf",
     originalFullName: "@ethanhusband/lyf",
     version: "1.5.12",
-    icon: "./assets/images/bg-icon.png",
+    icon: "./assets/images/inverted-icon.png",
     orientation: "portrait",
     userInterfaceStyle: "light",
     runtimeVersion: {

@@ -1,13 +1,13 @@
 import { ITEM_STATUS_TO_COLOR, ItemStatus } from '../constants';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet } from 'react-native';
-import { ListItem } from '../../../utils/abstractTypes';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { ItemType } from 'schema/database/items';
+import { LocalItem } from 'schema/items';
 
 type Props = {
-  item: ListItem;
+  item: LocalItem;
 };
 
 export const ListItemUnderlay = ({ item }: Props) => {

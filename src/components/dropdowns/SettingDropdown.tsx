@@ -81,15 +81,15 @@ const styles = StyleSheet.create({
   pressableDropdown: {
     flexDirection: 'row',
     gap: 10,
-    paddingHorizontal: 2,
+    paddingHorizontal: 16,
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'white'
   },
   touchableHighlight: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    height: 60
+    height: 60,
   },
   titleText: {
     fontSize: 22,
@@ -103,6 +103,6 @@ const styles = StyleSheet.create({
   },
   dropdownContent: {
     marginVertical: 8,
-    paddingLeft: 4
+    paddingHorizontal: 12,
   }
 });

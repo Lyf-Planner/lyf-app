@@ -13,7 +13,6 @@ import { ItemStatus } from 'components/list/constants';
 import { v4 as uuid } from 'uuid';
 import { addWeekToStringDate, formatDateData } from 'utils/dates';
 import 'react-native-get-random-values';
-import { ListItem } from 'utils/abstractTypes';
 import { PublicUser, UserRelatedItem } from 'schema/user';
 import { Item, LocalItem } from 'schema/items';
 import { ItemDbObject, ItemType } from 'schema/database/items';
@@ -48,7 +47,7 @@ export type UpdateItemSocial = (
   permission: Permission
 ) => Promise<void>;
 export type RemoveItem = (item: LocalItem, deleteRemote?: boolean) => Promise<void>;
-export type ResortItems = (priorities: ID[]) => void;
+export type ResortItems = (priorities: LocalItem[], moved_index: number) => void;
 
 type Props = {
   children: JSX.Element;
@@ -252,13 +251,23 @@ export const TimetableProvider = ({ children }: Props) => {
     }
   };
 
-  const resortItems: ResortItems = (priorities: ID[]) => {
-    for (const i in priorities) {
-      const item = items.find((x) => x.id === priorities[i]);
-      
-      if (item) {
-        updateItem(item, { sorting_rank: parseInt(i) }, true)
+  const resortItems: ResortItems = (priorities: LocalItem[], moved_index: number) => {
+    if (priorities.length === 0) {
+      return;
+    }
+
+    const tmp = [...items];
+    for (const item of tmp) {
+      const prioritiesIndex = priorities.findIndex((x) => x.id === item.id)
+
+      if (prioritiesIndex !== -1) {
+        item.sorting_rank = prioritiesIndex
       }
+    }
+    setItems(tmp);
+  
+    for (const i in priorities) {
+      updateRemoteItem({ id: priorities[i].id, sorting_rank: parseInt(i) });
     }
   };
 

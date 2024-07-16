@@ -1,33 +1,39 @@
 import { View, StyleSheet, Text } from 'react-native';
-import DraggableFlatlist from 'react-native-draggable-flatlist';
+import DraggableFlatlist, { RenderItemParams } from 'react-native-draggable-flatlist';
 import { useTimetable } from 'providers/cloud/useTimetable';
 import { secondaryGreen } from '../../utils/colours';
 import { SortableListItem } from './item/SortableListItem';
 import { BouncyPressable } from '../pressables/BouncyPressable';
-import { ListItem as ListItemAsType } from '../../utils/abstractTypes';
 import { ItemStyleOptions } from './item/Item';
 import { Identifiable } from 'schema/database/abstract';
+import { LocalItem } from 'schema/items';
 
 type Props = {
-  items: ListItemAsType[];
-  doneSorting: () => void;
+  items: LocalItem[];
   itemStyleOptions: ItemStyleOptions;
   listWrapperStyles?: Object;
 };
 
+type DragEndProps = {
+  data: LocalItem[],
+  from: number,
+  to: number,
+}
+
 export const SortableList = ({
   items,
-  doneSorting,
   itemStyleOptions,
   listWrapperStyles = {}
 }: Props) => {
   const { resortItems } = useTimetable();
 
-  const onDragEnd = ({ data }: { data: Identifiable[] }) => {
-    resortItems(data.map((x) => x.id));
+  const onDragEnd = ({ data, from, to }: DragEndProps) => {
+    resortItems(data, to);
   };
 
-  const renderItem = (x: ListItemAsType) => {
+  console.log('item order', items.map(({ title, sorting_rank }) => ({ title, sorting_rank })))
+
+  const renderItem = (x: RenderItemParams<LocalItem>) => {
     return (
       <SortableListItem
         key={x.item.template_id || x.item.id}
@@ -40,56 +46,28 @@ export const SortableList = ({
   };
 
   return (
-    <View style={styles.main}>
-      <DraggableFlatlist
-        containerStyle={[styles.listContainer, listWrapperStyles]}
-        style={styles.flatlistInternal}
-        data={items}
-        onDragEnd={onDragEnd}
-        keyExtractor={(item: ListItemAsType) => item.id}
-        renderItem={renderItem}
-      />
-      <DoneButton doneSorting={doneSorting} />
-    </View>
-  );
-};
-
-const DoneButton = ({ doneSorting }: { doneSorting: () => void }) => {
-  return (
-    <BouncyPressable style={styles.doneButton} onPress={doneSorting}>
-      <Text style={styles.doneText}>Done</Text>
-    </BouncyPressable>
+    <DraggableFlatlist
+      containerStyle={[styles.listContainer, listWrapperStyles]}
+      contentContainerStyle={{ gap: 2 }}
+      style={styles.flatlistInternal}
+      data={items}
+      onDragEnd={onDragEnd}
+      keyExtractor={(item: LocalItem) => item.id}
+      renderItem={renderItem}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  main: { gap: 2 },
   listContainer: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
     overflow: 'visible',
     width: '100%',
-    marginTop: 4,
-    padding: 2
+    gap: 8
   },
-  flatlistInternal: { overflow: 'visible' },
-  doneButton: {
-    height: 55,
-    borderRadius: 10,
-    backgroundColor: secondaryGreen,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-    width: '100%',
-    borderColor: 'rgb(156 163 175)',
-    borderWidth: 1
+  flatlistInternal: { 
+    flexDirection: 'column',
+    overflow: 'visible',
+    gap: 4,
   },
-  doneText: {
-    fontFamily: 'InterMed',
-    fontSize: 17,
-    color: 'black',
-    fontWeight: 'bold'
-  }
+  
 });

@@ -95,21 +95,17 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
   const SHAKE_TIME = 30;
   const DELAY = 400;
 
-  const exitingAnimation = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: withTiming(scale.value, {
-            duration: DELAY
-          })
-        },
-        { translateX: offset.value }
-      ],
-      opacity: withTiming(opacity.value, {
-        duration: 500
-      })
-    } as any;
-  });
+  const exitingAnimation = useAnimatedStyle(() => ({
+    transform: [{
+      scale: withTiming(scale.value, {
+        duration: DELAY
+      })}, { 
+      translateX: offset.value 
+    }],
+    opacity: withTiming(opacity.value, {
+      duration: 500
+    })
+  }));
 
   const finishDay = async () => {
     if (canDelete) {
@@ -144,17 +140,13 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
   // Day handle bounce animation
 
   const dayHandleScale = useSharedValue(1);
-  const smallScaleAnimation = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: withTiming(dayHandleScale.value, {
-            duration: 250
-          })
-        }
-      ]
-    } as any;
-  });
+  const smallScaleAnimation = useAnimatedStyle(() => ({
+    transform: [{
+      scale: withTiming(dayHandleScale.value, {
+        duration: 250
+      })
+    }]
+  }));
 
   const bounceHandle = async () => {
     const bounceDuration = 250;
@@ -195,15 +187,6 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
     return menuOptions;
   };
 
-  const conditionalStyles = {
-    dayRootView: allDone ? {
-      
-    } : {
-
-    }
-  }
-
-
   return (
     <View>
       <Animated.View style={[styles.dayRootView, exitingAnimation]}>
@@ -225,7 +208,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
                 <Vertical style={styles.diagLines} />
 
                 {date && (
-                  <Text style={styles.dayDateText}>{formatDate(date)}</Text>
+                  <Text style={styles.dayDateText}>{formatDate(date, true)}</Text>
                 )}
               </View>
             </Animated.View>
@@ -235,27 +218,20 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
         <View style={styles.listWrapperView}>
           {sorting ? (
             <SortableList
-              items={items.filter((x) => x.type === ItemType.Task)}
+              items={items.sort((a, b) => 
+                a.sorting_rank - b.sorting_rank
+              )}
               itemStyleOptions={{
                 itemColor: 'rgb(241 245 249)',
                 itemTextColor: 'black'
               }}
               listWrapperStyles={{ backgroundColor: deepBlue }}
-              doneSorting={() => setSorting(false)}
             />
           ) : (
             <List
-              items={items.sort((a, b) => {
-                if (a.time && b.time) {
-                  return a.time.localeCompare(b.time)
-                }
-
-                if (a.time) {
-                  return -1;
-                }
-
-                return 1;
-              })}
+              items={items.sort((a, b) => 
+                a.sorting_rank - b.sorting_rank
+              )}
               itemStyleOptions={{
                 itemColor: eventsBadgeColor,
                 itemTextColor: 'black'
@@ -265,13 +241,19 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
           )}
         </View>
 
-        <MultiTypeNewItem 
-          commonData={{
-            date: date || undefined,
-            day: day || undefined
-          }} 
-          newRank={items.length}
-        />
+        {sorting ? (
+          <BouncyPressable style={styles.doneButton} onPress={() => setSorting(false)}>
+            <Text style={styles.doneText}>Done</Text>
+          </BouncyPressable>
+        ) : (
+          <MultiTypeNewItem 
+            commonData={{
+              date: date || undefined,
+              day: day || undefined
+            }} 
+            newRank={items.length}
+          />
+        )}
       </Animated.View>
     </View>
   );
@@ -287,17 +269,11 @@ const styles = StyleSheet.create({
     zIndex: 10,
     flexDirection: 'column',
     gap: 4,
-
   
     shadowOffset: { width: 5, height: 6 },
     shadowColor: 'black',
     shadowOpacity: 0.5,
     shadowRadius: 1
-
-    // shadowColor: 'black',
-    // shadowOffset: { width: 5, height: 5 },
-    // shadowOpacity: 0.5,
-    // shadowRadius: 0.5
   },
   dayHeaderView: {
     backgroundColor: secondaryGreen,
@@ -342,10 +318,25 @@ const styles = StyleSheet.create({
   listWrapperView: {
     flexDirection: 'column'
   },
-  listTopicText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '500'
+
+  doneButton: {
+    height: 55,
+    borderRadius: 10,
+    backgroundColor: secondaryGreen,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 8,
+    width: '100%',
+    borderColor: 'rgb(156 163 175)',
+    borderWidth: 1
   },
+  doneText: {
+    fontFamily: 'InterMed',
+    fontSize: 17,
+    color: 'black',
+    fontWeight: 'bold'
+  }
   
 });

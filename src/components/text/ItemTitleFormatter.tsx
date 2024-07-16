@@ -1,9 +1,9 @@
 import { StyleSheet, Text } from 'react-native';
-import { ListItem } from '../../utils/abstractTypes';
 import { ItemType } from 'schema/database/items';
+import { LocalItem } from 'schema/items';
 
 type Props = {
-  item: ListItem;
+  item: LocalItem;
   textColor: string;
 };
 

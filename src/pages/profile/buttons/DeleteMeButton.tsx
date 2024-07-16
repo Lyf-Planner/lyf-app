@@ -28,7 +28,7 @@ export const DeleteButton = () => {
     >
       <View style={[styles.buttonView, styles.deleteView]}>
         <Text style={styles.deleteText}>Delete Account</Text>
-        <MaterialCommunityIcons name="delete-circle" size={20} />
+        <MaterialCommunityIcons name="delete-circle" size={20} color='white' />
       </View>
     </TouchableHighlight>
   );
@@ -49,7 +49,9 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   deleteText: {
-    fontSize: 16
+    fontSize: 16,
+    color: 'white',
+    fontFamily: 'Lexend'
   },
   deleteView: {
     backgroundColor: 'red'

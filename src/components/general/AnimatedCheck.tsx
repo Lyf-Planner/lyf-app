@@ -5,11 +5,11 @@ import Animated, {
 } from 'react-native-reanimated';
 import { SCALE_MS } from '../list/item/ItemGestureWrapper';
 import { ItemStatus } from '../list/constants';
-import { ListItem } from '../../utils/abstractTypes';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { LocalItem } from 'schema/items';
 
 type Props = {
-  item: ListItem;
+  item: LocalItem;
   checkScale: SharedValue<number>;
   color: string;
 };

@@ -3,7 +3,12 @@ import { Pressable, TextInput, View, StyleSheet } from 'react-native';
 import { appleGray } from 'utils/colours';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export const SimpleSearch = ({ search, setSearch }) => {
+type Props = {
+  search: string,
+  setSearch: (search: string) => void,
+}
+
+export const SimpleSearch = ({ search, setSearch }: Props) => {
   const textRef = useRef<any>();
 
   return (

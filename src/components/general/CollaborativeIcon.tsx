@@ -1,12 +1,12 @@
 import { View } from 'react-native';
-import { ListItem } from '../../utils/abstractTypes';
 import { StyleSheet } from 'react-native';
 import { primaryGreen } from 'utils/colours';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { ItemStatus } from 'schema/database/items';
+import { LocalItem } from 'schema/items';
 
 type Props = {
-  item: ListItem;
+  item: LocalItem;
 };
 
 export const CollaborativeIcon = ({ item }: Props) => {

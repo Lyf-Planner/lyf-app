@@ -5,6 +5,7 @@ import { AccountInfo } from './account/AccountInfo';
 import { NotificationSettings } from 'pages/profile/notifications/Notifications';
 import { SettingDropdown } from 'components/dropdowns/SettingDropdown';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export const Profile = () => {
   return (
@@ -33,7 +34,7 @@ export const Profile = () => {
         </SettingDropdown>
         <SettingDropdown
           name="Danger Zone"
-          icon={<MaterialIcons name="notifications-active" size={22} />}
+          icon={<AntDesign name="warning" size={20} color='red' />}
           bgColor={'rgba(0,0,0,0.05)'}
         >
           <DeleteButton />
@@ -52,8 +53,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEE',
     flex: 1,
     gap: 4,
-    paddingHorizontal: 12,
-    marginTop: 2,
     minHeight: 500
   },
   mainColumn: { 
@@ -63,6 +62,7 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'column',
     gap: 8,
+    paddingHorizontal: 12,
     overflow: 'visible'
   },
   subtitle: {

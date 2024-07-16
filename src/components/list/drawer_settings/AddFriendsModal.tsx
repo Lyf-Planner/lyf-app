@@ -41,7 +41,7 @@ export const AddFriendsModal = ({ item_id }: Props) => {
     return friend;
   }), [item, friends])
 
-  const [filter, setFilter] = useState(null);
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     if (loading) {

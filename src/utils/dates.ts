@@ -106,9 +106,9 @@ export const dateWithTime = (time: TimeString) => {
   return date;
 }
 
-export function formatDate(date: string) {
+export function formatDate(date: string, abbreviate = false) {
   const time = parseDateString(date);
-  return localisedMoment(time).format('MMMM D');
+  return localisedMoment(time).format(abbreviate ? 'MMM D' : 'MMMM D');
 }
 
 export function dateFromDay(day: DayOfWeek, dates: string[]) {

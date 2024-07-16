@@ -1,5 +1,4 @@
 import { LocalItem } from 'schema/items';
-import { ListItem } from '../../utils/abstractTypes';
 import { eventsBadgeColor, offWhite, primaryGreen, white } from '../../utils/colours';
 import { ItemType } from 'schema/database/items';
 
@@ -31,7 +30,7 @@ export const ITEM_STATUS_TO_COLOR = {
 } as any;
 
 // Used by background
-export const getItemPrimaryColor = (item: ListItem) => {
+export const getItemPrimaryColor = (item: LocalItem) => {
   if (!item.status || item.status === ItemStatus.Upcoming) {
     return item.type === ItemType.Event ? eventsBadgeColor : white;
   }
@@ -40,7 +39,7 @@ export const getItemPrimaryColor = (item: ListItem) => {
 };
 
 // Used by text and icons etc
-export const getItemSecondaryColor = (item: ListItem, defaultColor: string) => {
+export const getItemSecondaryColor = (item: LocalItem, defaultColor: string) => {
   if (item.status === ItemStatus.Done) {
     return 'white';
   }

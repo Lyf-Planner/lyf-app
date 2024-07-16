@@ -11,14 +11,15 @@ import {
   Gesture,
   GestureDetector
 } from 'react-native-gesture-handler';
-import { ListItem, LyfElement } from '../../../utils/abstractTypes';
+import { LyfElement } from '../../../utils/abstractTypes';
 import * as Haptics from 'expo-haptics';
 import { ListItemAnimatedValues } from './Item';
 import { RemoveItem, UpdateItem } from 'providers/cloud/useTimetable';
+import { LocalItem } from 'schema/items';
 
 type Props = {
   children: LyfElement;
-  item: ListItem;
+  item: LocalItem;
   invited: boolean; // Should be deprecated
   animatedValues: ListItemAnimatedValues;
   openModal: () => void;
