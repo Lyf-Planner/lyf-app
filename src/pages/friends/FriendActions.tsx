@@ -31,17 +31,12 @@ export const FriendAction = ({ friend, callback }: Props) => {
   if (!user) {
     return null;
   }
-  
-  const { updateModal } = useModal();
 
   if (friend.id === user.id) {
     return (
       <ActionButton
         title="You"
-        func={() => {
-          useNavigation().navigate(routes.profile.label as never) // TODO: Fix this (RN 0.65> bug), anticipate fix!
-          updateModal(undefined);
-        }}
+        func={() => null}
         color={primaryGreen}
         textColor={white}
       />
@@ -79,7 +74,7 @@ export const Friend = ({ friend, callback }: Props) => {
 
   const menuOptions: PopoverMenuOption[] = [
     {
-      text: '❌ Remove',
+      text: 'Remove',
       onSelect: () => removeFriend()
     }
   ];
@@ -114,7 +109,7 @@ export const Requested = ({ friend, callback }: Props) => {
 
   const menuOptions: PopoverMenuOption[] = [
     {
-      text: '❌ Cancel',
+      text: 'Cancel',
       onSelect: () => cancelRequest()
     }
   ];

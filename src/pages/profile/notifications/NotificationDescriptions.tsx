@@ -5,9 +5,11 @@ import {
   TextInput,
   StyleSheet
 } from 'react-native';
-import { localisedMoment } from 'utils/dates';
+import { dateWithTime, localisedMoment } from 'utils/dates';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { TimeString } from 'schema/util/dates';
+import { useEffect, useRef, useState } from 'react';
+import debouncer from 'signature-debouncer';
 
 type Props = {
   updateTime: (time?: TimeString) => void,
@@ -18,21 +20,20 @@ type Props = {
 
 export const DailyNotificationDesc = ({
   updateTime,
-  notificationTime = '08:00',
+  notificationTime = '08:30',
   updatePersistent,
   persistent = false
 }: Props) => {
-  const today = new Date();
   // Component needs a JS date, even though we only use time (just take any date)
-  const datePickerValue = new Date(
-    `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${notificationTime}`
-  );
+  const datePickerValue = dateWithTime(notificationTime)
 
   const updateTimeFromPicker = (time: DateTimePickerEvent) => {
     // Picker gives us a timestamp, that we need to convert to 24 hr time
     const dateTime = new Date(time.nativeEvent.timestamp);
     updateTime(localisedMoment(dateTime).format('HH:mm'));
   };
+
+  console.log('date picker value', datePickerValue)
 
   return (
     <View style={dailyStyles.mainContainer}>
@@ -49,7 +50,7 @@ export const DailyNotificationDesc = ({
       </View>
 
       <Text style={dailyStyles.secondText}>
-        about your schedule for today.{' '}
+        about your schedule for the day.{' '}
       </Text>
       <TouchableHighlight
         onPress={() => updatePersistent(!persistent)}
@@ -76,26 +77,46 @@ export const EventNotificationDesc = ({
   updateMins,
   minsBefore
 }: EventProps) => {
-  const updateMinutesFromInput = (text: string) => {
-    text.replace(/[^0-9]/g, '');
-    const val = Number(text);
-    val < 1000 && updateMins(val);
-  };
+  const [mins, setMins] = useState(minsBefore.toString())
+  const debounceSignature = "EventNotificationMins"
 
-  const replaceEmptyWithZero = () => !minsBefore && updateMins(0);
+  const resetToDefaultIfEmpty = () => {
+    if (!mins) {
+      setMins('5');
+      updateMins(5);
+    }
+  }
+
+  const initialUpdate = useRef(true);
+  useEffect(() => {
+    console.log('set mins to', mins);
+    if (initialUpdate.current) {
+      initialUpdate.current = false;
+      return;
+    }
+
+    debouncer.run(() => {
+      if (mins) {
+        const digitsOnly = mins.replace(/[^0-9]/g, '');
+        const val = Number(digitsOnly);
+        console.log('updating mins to', val)
+        updateMins(val);
+      }
+    }, debounceSignature, 1000)
+  }, [mins])
 
   return (
     <View style={eventStyles.mainContainer}>
       <Text style={eventStyles.firstText}>Receive reminders </Text>
       <TextInput
-        value={minsBefore.toString()}
-        onEndEditing={replaceEmptyWithZero}
+        value={mins}
+        onEndEditing={resetToDefaultIfEmpty}
         returnKeyType="done"
         keyboardType="numeric"
-        onChangeText={updateMinutesFromInput}
+        onChangeText={setMins}
         style={eventStyles.minutesInput}
       />
-      <Text style={eventStyles.secondText}> minutes before</Text>
+      <Text style={eventStyles.secondText}> minutes before all</Text>
       <Text style={eventStyles.secondText}>events as a default</Text>
     </View>
   );
@@ -108,13 +129,19 @@ const dailyStyles = StyleSheet.create({
     alignItems: 'center',
     gap: 2
   },
-  firstText: { fontSize: 16, fontWeight: '300' },
+  firstText: {
+    opacity: 0.6,
+    fontSize: 16,
+  },
   dateTimeWrapper: { borderRadius: 10, overflow: 'hidden' },
   dateTimeDimensions: {
     width: 85,
     height: 30
   },
-  secondText: { fontSize: 16, fontWeight: '300' },
+  secondText: {
+    opacity: 0.6,
+    fontSize: 16,
+  },
   persistentTouchable: {
     backgroundColor: 'rgba(0,0,0,0.08)',
     paddingVertical: 5,
@@ -126,7 +153,11 @@ const dailyStyles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center'
   },
-  thirdText: { fontSize: 16, lineHeight: 28, fontWeight: '300' }
+  thirdText: {
+    opacity: 0.6,
+    fontSize: 16,
+    lineHeight: 28
+  }
 });
 
 const eventStyles = StyleSheet.create({
@@ -135,7 +166,10 @@ const eventStyles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'center'
   },
-  firstText: { fontSize: 16, lineHeight: 30, fontWeight: '300' },
+  firstText: {
+    opacity: 0.6,
+    fontSize: 16,
+  },
   minutesInput: {
     backgroundColor: 'rgba(0,0,0,0.08)',
     paddingVertical: 4,
@@ -145,5 +179,9 @@ const eventStyles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center'
   },
-  secondText: { fontSize: 16, lineHeight: 30, fontWeight: '300' }
+  secondText: {
+    opacity: 0.6,
+    fontSize: 16,
+    lineHeight: 28,
+  }
 });

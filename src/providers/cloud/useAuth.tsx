@@ -51,6 +51,7 @@ export const AuthGateway = ({ children }: Props) => {
         newUser = changes as ExposedUser;
       }
 
+      console.log('setting user to', user);
       setUser({ ...newUser });
       setLastUpdated(new Date());
       updateLoggingIn(false);
@@ -153,6 +154,8 @@ export const AuthGateway = ({ children }: Props) => {
       </Background>
     );
   }
+
+  console.log('user is', user)
 
   return (
     <AuthContext.Provider value={exposed}>

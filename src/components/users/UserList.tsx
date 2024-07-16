@@ -1,10 +1,8 @@
 import { StyleSheet, View, Text } from 'react-native';
 import { UserBanner } from './UserBanner';
-import { Loader, PageLoader } from '../general/MiscComponents';
 import { PublicUser, UserFriend } from 'schema/user';
 import { ItemRelatedUser, LocalItem } from 'schema/items';
 import { NoteRelatedUser } from 'schema/notes';
-import { useMemo } from 'react';
 
 export enum UserListContext {
   Friends = 'Friends',

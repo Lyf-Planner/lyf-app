@@ -49,9 +49,10 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   deleteText: {
-    fontSize: 16,
+    fontSize: 18,
     color: 'white',
-    fontFamily: 'Lexend'
+    fontFamily: 'Lexend',
+    fontWeight: '700',
   },
   deleteView: {
     backgroundColor: 'red'

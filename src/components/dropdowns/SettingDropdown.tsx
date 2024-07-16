@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { Horizontal } from '../general/MiscComponents';
 import Animated, {
@@ -9,13 +9,15 @@ import Animated, {
 } from 'react-native-reanimated';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { LyfElement } from 'utils/abstractTypes';
+import { eventsBadgeColor, primaryGreen, white } from 'utils/colours';
 
 type Props = {
   name: string,
   children: LyfElement,
   icon: JSX.Element,
   startOpen?: boolean,
-  bgColor?: string
+  bgColor?: string,
+  textColor?: string
 }
 
 export const SettingDropdown = ({
@@ -23,16 +25,16 @@ export const SettingDropdown = ({
   children,
   icon,
   startOpen = false,
-  bgColor
+  bgColor,
+  textColor
 }: Props) => {
   const [open, setOpen] = useState(startOpen);
   const chevronAngle = useSharedValue(0);
   const rotationAnimation = useAnimatedStyle(() => ({
-      transform: [{ 
-        rotateZ: withTiming(`${chevronAngle.value}deg`, { duration: 200 })
-      }]
-    })
-  );
+    transform: [{ 
+      rotateZ: withTiming(`${chevronAngle.value}deg`, { duration: 200 })
+    }]
+  }));
 
   useEffect(() => {
     chevronAngle.value = open ? 90 : 0;
@@ -40,35 +42,28 @@ export const SettingDropdown = ({
 
   return (
     <View style={[styles.main]}>
-      <TouchableHighlight
+      <TouchableOpacity
         style={[
           styles.touchableHighlight,
           { backgroundColor: bgColor || 'white' }
         ]}
-        underlayColor={'rgba(0,0,0,0.3)'}
         onPress={() => setOpen(!open)}
+        activeOpacity={0.5}
       >
         <View style={{ width: '100%' }}>
           <View style={[styles.pressableDropdown]}>
             <View style={{ width: 20 }}>{icon}</View>
-            <Text style={[styles.titleText]}>{name}</Text>
+            <Text style={[styles.titleText, { color: textColor }]}>{name}</Text>
             <Animated.View style={[styles.animatedChevron, rotationAnimation]}>
-              <Entypo name={'chevron-right'} size={25} />
+              <Entypo name={'chevron-right'} size={25} color={textColor} />
             </Animated.View>
           </View>
         </View>
-      </TouchableHighlight>
-      <Horizontal
-        style={{
-          borderWidth: 1,
-          opacity: 0.2
-        }}
-      />
+      </TouchableOpacity>
+      
 
       {open && (
-        <View>
-          <View style={styles.dropdownContent}>{children}</View>
-        </View>
+        <View style={styles.dropdownContent}>{children}</View>
       )}
     </View>
   );
@@ -84,16 +79,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flex: 1,
     alignItems: 'center',
-    backgroundColor: 'white'
   },
   touchableHighlight: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 60,
+    height: 65,
+
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2
   },
   titleText: {
-    fontSize: 22,
-    fontFamily: 'InterMed',
+    fontSize: 20,
+    fontFamily: 'Lexend',
     flexDirection: 'row',
     alignItems: 'center'
   },

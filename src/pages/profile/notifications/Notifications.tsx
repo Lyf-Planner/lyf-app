@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Switch } from 'react-native';
 import { useAuth } from 'providers/cloud/useAuth';
 import {
   DailyNotificationDesc,
@@ -6,7 +6,6 @@ import {
 } from './NotificationDescriptions';
 import { useNotifications } from 'providers/cloud/useNotifications';
 import { primaryGreen } from 'utils/colours';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { LyfElement } from 'utils/abstractTypes';
 
 export const NotificationSettings = () => {
@@ -22,15 +21,15 @@ export const NotificationSettings = () => {
 
   return (
     <View style={styles.mainContainer}>
-      {!enabled && (
-        <Text style={[styles.subtitle, { marginTop: 12 }]}>
+      {enabled && (
+        <Text style={[styles.subtitle]}>
           Your device has Notifications disabled for Lyf
         </Text>
       )}
-      {enabled && (
+      {!enabled && (
         <View style={styles.settingsContainer}>
           <Setting
-            updateFunc={() => dailyNotificationTime(user?.daily_notification_time ? undefined : '5')}
+            updateFunc={() => dailyNotificationTime(user?.daily_notification_time ? undefined : '08:30')}
             enabled={!!user?.daily_notification_time}
             name="Daily Notifications"
             desc={
@@ -68,19 +67,16 @@ type SettingProps = {
 
 const Setting = ({ updateFunc, enabled, name, desc }: SettingProps) => {
   return (
-    <View>
+    <View style={styles.settingMain}>
       <View style={styles.settingContainer}>
-        <BouncyCheckbox
-          isChecked={enabled}
-          onPress={updateFunc}
-          textComponent={
-            <Text style={[styles.settingTitle, { opacity: enabled ? 1 : 0.5 }]}>
-              {name}
-            </Text>
-          }
+        <Text style={styles.settingText}>{name}</Text>
+        <Switch 
+          style={styles.settingToggle} 
+          onValueChange={updateFunc}
+          value={enabled}
         />
       </View>
-      <View style={[styles.settingDescWrapper, { opacity: enabled ? 1 : 0.5 }]}>
+      <View style={{ opacity: enabled ? 1 : 0.5 }}>
         {desc}
       </View>
     </View>
@@ -88,20 +84,25 @@ const Setting = ({ updateFunc, enabled, name, desc }: SettingProps) => {
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {},
-  header: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 4,
-    marginBottom: 4
+  mainContainer: {
+    paddingVertical: 14,
   },
-  premiumTitle: { fontSize: 22, fontWeight: '700' },
+  settingMain: {
+    flexDirection: 'column',
+    gap: 4,
+  },
+
   subtitle: {
-    textAlign: 'center',
     opacity: 0.6,
     fontWeight: '600',
     fontSize: 16
+  },
+  settingText: {
+    fontFamily: 'Lexend',
+    fontSize: 20,
+  },
+  settingToggle: {
+    marginLeft: 'auto',
   },
 
   firstSeperator: {
@@ -114,34 +115,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 16,
     paddingHorizontal: 4,
-    marginTop: 14
   },
-  settingContainer: { flexDirection: 'row', alignItems: 'center' },
+  settingContainer: { 
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   settingDescText: { fontSize: 16, lineHeight: 30, fontWeight: '300' },
   settingTitle: { fontSize: 18, fontWeight: '600', marginLeft: 8 },
-  settingDescWrapper: { marginTop: 4, marginLeft: 34 },
-
-  secondSeperator: {
-    opacity: 0.2,
-    marginTop: 20,
-    borderWidth: 2,
-    marginBottom: 8
-  },
-  bottomButtonsContainer: { flexDirection: 'row', gap: 5, marginTop: 8 },
-  disablePremiumButton: { opacity: 0.8 },
-  bottomButton: {
-    padding: 12,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 0.5,
-    borderRadius: 10
-  },
-  doneButton: { backgroundColor: primaryGreen },
-  disablePremiumText: { fontSize: 15 },
-  doneText: { fontSize: 16, color: 'white', fontWeight: '600' },
-  bottomButtonText: {
-    textAlign: 'center'
-  }
 });

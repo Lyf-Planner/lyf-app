@@ -121,7 +121,7 @@ export const ItemSocialAction = ({ item, item_user, menuContext }: Props) => {
           {(item.permission === Permission.Owner && item_user.id !== user?.id) &&
             <MenuOption
               value={1}
-              text={'Remove'}
+              text={item_user.invite_pending ? 'Cancel' : 'Remove'}
               customStyles={{
                 optionWrapper: styles.optionWrapper,
                 optionText: styles.optionText
@@ -170,6 +170,6 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.5)'
   },
   optionWrapper: { marginVertical: 4, marginHorizontal: 8, flexDirection: 'row', justifyContent: 'center' },
-  optionText: { fontSize: 18, color: 'rgba(0,0,0,0.7)' },
+  optionText: { fontSize: 18, color: 'rgba(0,0,0,0.7)', fontFamily: 'Lexend' },
   optionSeperator: { marginHorizontal: 5 }
 });

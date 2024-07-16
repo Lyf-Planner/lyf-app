@@ -1,25 +1,15 @@
-import DateTimePicker from '@react-native-community/datetimepicker';
 import Entypo from 'react-native-vector-icons/Entypo';
-import Swiper from 'react-native-swiper';
 
 import { BouncyPressable } from "components/pressables/BouncyPressable";
 import * as Native from 'react-native';
 import { primaryGreen, secondaryGreen } from "utils/colours";
 import { addWeekToStringDate, daysDifferenceBetween, formatDate, formatDateData, localisedMoment } from 'utils/dates';
-import { ScrollView } from 'react-native-gesture-handler';
-import { SwipeableList } from 'components/general/SwipeableList';
-import { useMemo, useState } from 'react';
 import { DateString } from 'schema/util/dates';
 
 type CalendarProps = {
   updateDisplayedDays: (start: DateString, end: DateString) => void;
   startDate: string;
   endDate: string;
-}
-
-type DateRangeOption = {
-  start: DateString,
-  end: DateString
 }
 
 enum ShiftDirection {

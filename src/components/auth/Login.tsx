@@ -30,6 +30,7 @@ export const Login = ({ updateUser }: Props) => {
     let user = await login(uid, pass);
 
     if (user === USER_NOT_FOUND) {
+      console.log('user not found, creating account')
       if (!validateUsername(uid) || !validatePassword(pass)) {
         updateLoggingIn(false);
         return;

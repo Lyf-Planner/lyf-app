@@ -102,6 +102,8 @@ export const dateWithTime = (time: TimeString) => {
   const [hours, mins] = time.split(':');
   const date = new Date();
   date.setHours(parseInt(hours), parseInt(mins));
+
+  console.log('date with time:', time, date);
   
   return date;
 }

@@ -92,6 +92,6 @@ const styles = StyleSheet.create({
   },
   optionsWrapper: { marginVertical: 4 },
   optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
-  optionText: { fontSize: 18, color: 'rgba(0,0,0,0.7)', textAlign: 'right' },
+  optionText: { fontSize: 18, color: 'rgba(0,0,0,0.7)', textAlign: 'right', fontFamily: 'Lexend' },
   optionSeperator: { marginHorizontal: 5 }
 });

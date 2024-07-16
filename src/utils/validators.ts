@@ -1,3 +1,4 @@
+import env from 'envManager';
 import { Alert } from 'react-native';
 
 export const validateUsername = (username: string) => {
@@ -19,7 +20,7 @@ export const validateUsername = (username: string) => {
 };
 
 export const validatePassword = (password: string) => {
-  if (password.length < 8) {
+  if (password.length < 8 && env.APP_ENV === 'production') {
     Alert.alert('Try Again', 'Password must be at least 8 characters');
     return false;
   }
@@ -28,8 +29,8 @@ export const validatePassword = (password: string) => {
 };
 
 export const validateDisplayName = (name: string) => {
-  if (name.length > 20) {
-    Alert.alert('Try Again', 'Name must be less than 20 characters');
+  if (name.length > 25) {
+    Alert.alert('Try Again', 'Name must be less than 25 characters');
     return false;
   }
 

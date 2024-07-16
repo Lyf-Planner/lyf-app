@@ -28,13 +28,12 @@ export async function createUser(username: string, password: string) {
   const body = {
     user_id: username,
     password,
-    timezone: getCalendars()[0].timeZone
+    tz: getCalendars()[0].timeZone || 'Australia/Melbourne'
   };
 
   const result = await post(endpoint, body);
-  if (result?.status === 200) {
-    console.log('User creation successful', result.data);
-    storeAsyncData('token', result.data.token);
+  if (result?.status === 201) {
+    await storeAsyncData('token', result.data.token);
     return result.data.user;
   } else if (result?.status === 400) {
     // While login and creation come from the same function, this won't (shouldn't) happen
@@ -48,7 +47,7 @@ export async function deleteMe(password: string) {
   const endpoint = usersEndpoint('delete')
 
   const result = await post(endpoint, { password });
-  if (result?.status === 200) {
+  if (result?.status === 204) {
     return true;
   } else {
     alert(result.data);
