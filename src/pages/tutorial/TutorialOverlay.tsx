@@ -3,6 +3,7 @@ import { deepBlueOpacity, primaryGreen } from '../../utils/colours';
 import { useTutorial } from 'providers/overlays/useTutorial';
 import { SaveTooltip } from '../../components/general/Icons';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import { Background } from 'components/general/Background';
 
 const SLIDE_1_IMAGE = require('../../../assets/images/tutorial/slide1.png');
 const SLIDE_2_IMAGE = require('../../../assets/images/tutorial/slide2.png');
@@ -15,18 +16,20 @@ export const TutorialOverlay = () => {
   const { updateTutorial } = useTutorial();
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <AppIntroSlider
-        data={slides}
-        renderItem={IntroSlideItem}
-        showSkipButton
-        renderSkipButton={() => <NavigationButton text="Skip" />}
-        renderNextButton={() => <NavigationButton text="Next" />}
-        renderDoneButton={() => <NavigationButton text="Done" />}
-        onSkip={() => updateTutorial(false)}
-        onDone={() => updateTutorial(false)}
-      />
-    </View>
+    <Background>
+      <View style={{ flex: 1, padding: 20 }}>
+        <AppIntroSlider
+          data={slides}
+          renderItem={IntroSlideItem}
+          showSkipButton
+          renderSkipButton={() => <NavigationButton text="Skip" />}
+          renderNextButton={() => <NavigationButton text="Next" />}
+          renderDoneButton={() => <NavigationButton text="Done" />}
+          onSkip={() => updateTutorial(false)}
+          onDone={() => updateTutorial(false)}
+        />
+      </View>
+    </Background>
   );
 };
 

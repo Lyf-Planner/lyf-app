@@ -4,15 +4,17 @@
 
 import * as Native from 'react-native'
 import { Image, Pressable, StyleSheet, TouchableHighlight } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { gentleBlack, primaryGreen, white } from "utils/colours";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
+import { useTutorial } from 'providers/overlays/useTutorial';
 
 
 const LyfIcon = require("../../../assets/images/icon.png")
 
 export function defaultTabHeader(label: string): BottomTabNavigationOptions  {
+  const { updateTutorial } = useTutorial();
+
   return {
     headerShown: true,
     headerStyle: headerStyles.header,
@@ -22,7 +24,7 @@ export function defaultTabHeader(label: string): BottomTabNavigationOptions  {
       </Native.View>
     ),
     headerLeft: () => (
-      <Native.TouchableOpacity style={headerStyles.tutorialContent} onPress={() => null}>
+      <Native.TouchableOpacity style={headerStyles.tutorialContent} onPress={() => updateTutorial(true)}>
         <Image source={LyfIcon} style={headerStyles.icon} resizeMode="contain"/>
       </Native.TouchableOpacity>
     ),

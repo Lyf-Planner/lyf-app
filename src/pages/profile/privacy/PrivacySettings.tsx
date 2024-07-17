@@ -16,7 +16,7 @@ export const PrivacySettings = () => {
           value={user?.private}
         />
       </View>
-      <Text style={styles.hint}>Private Mode makes you undiscoverable to other users</Text>
+      <Text style={styles.hint}>Private Mode makes you undiscoverable to all users</Text>
     </View>
   )
 }

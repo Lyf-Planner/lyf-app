@@ -74,7 +74,9 @@ export const Item = ({
         animatedValues={animatedValues}
         itemStyleOptions={itemStyleOptions}
       />
-      <ListItemUnderlay item={item} />
+      <ListItemUnderlay 
+        item={item} 
+      />
     </ListItemGestureWrapper>
   );
 };

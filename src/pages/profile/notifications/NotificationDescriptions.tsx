@@ -89,7 +89,6 @@ export const EventNotificationDesc = ({
 
   const initialUpdate = useRef(true);
   useEffect(() => {
-    console.log('set mins to', mins);
     if (initialUpdate.current) {
       initialUpdate.current = false;
       return;
@@ -99,7 +98,6 @@ export const EventNotificationDesc = ({
       if (mins) {
         const digitsOnly = mins.replace(/[^0-9]/g, '');
         const val = Number(digitsOnly);
-        console.log('updating mins to', val)
         updateMins(val);
       }
     }, debounceSignature, 1000)

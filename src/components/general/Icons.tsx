@@ -11,7 +11,7 @@ const LOGO = require('../../../assets/images/icon.png');
 // };
 
 type Props = {
-  style: {},
+  style?: {},
   size: number
 }
 

@@ -15,7 +15,8 @@ type Props = {
   context?: UserListContext,
   callback?: () => void,
   item?: LocalItem,
-  menuContext?: string
+  menuContext?: string,
+  bannerColor?: string
 }
 
 export const UserList = ({
@@ -24,7 +25,8 @@ export const UserList = ({
   context = UserListContext.Friends,
   callback,
   item,
-  menuContext
+  menuContext,
+  bannerColor,
 }: Props) => {
   return (
     <View style={styles.main}>
@@ -39,6 +41,7 @@ export const UserList = ({
             item={item}
             key={x.id}
             menuContext={menuContext}
+            bannerColor={bannerColor}
           />
         ))
       )}
@@ -53,7 +56,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    minHeight: 50
+    minHeight: 50,
+    marginBottom: 20,
   },
   emptyText: {
     fontSize: 18,

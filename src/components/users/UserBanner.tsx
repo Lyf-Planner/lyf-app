@@ -18,6 +18,7 @@ type Props = {
   context?: UserListContext,
   item?: LocalItem,
   menuContext?: string,
+  bannerColor?: string,
 }
 
 export const UserBanner = ({
@@ -26,6 +27,7 @@ export const UserBanner = ({
   context = UserListContext.Friends,
   item,
   menuContext,
+  bannerColor,
 }: Props) => {
   const { updateModal } = useModal();
 
@@ -35,10 +37,16 @@ export const UserBanner = ({
     [user]
   );
 
+  const conditionalStyles = {
+    main: {
+      backgroundColor: bannerColor || eventsBadgeColor,
+    }
+  }
+
   return (
     <BouncyPressable
-      style={styles.main}
-      onPress={() => updateModal(<UserModal user_id={user.id} />)}
+      style={[conditionalStyles.main, styles.main]}
+      onPress={() => updateModal(<UserModal user_id={user.id} key={user.id} />)}
     >
       <FontAwesome name="user" size={32} style={{ width: 32, height: 32 }}/>
       <View style={styles.nameRow}>
@@ -83,7 +91,6 @@ const styles = StyleSheet.create({
     height: 75,
     gap: 4,
     padding: 16,
-    backgroundColor: eventsBadgeColor,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.1)',

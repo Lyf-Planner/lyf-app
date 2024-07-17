@@ -30,9 +30,9 @@ export const ITEM_STATUS_TO_COLOR = {
 } as any;
 
 // Used by background
-export const getItemPrimaryColor = (item: LocalItem) => {
+export const getItemPrimaryColor = (item: LocalItem, defaultColor?: string) => {
   if (!item.status || item.status === ItemStatus.Upcoming) {
-    return item.type === ItemType.Event ? eventsBadgeColor : white;
+    return defaultColor || (item.type === ItemType.Event ? eventsBadgeColor : white);
   }
     
   return ITEM_STATUS_TO_COLOR[item.status];

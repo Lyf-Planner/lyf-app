@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Loader } from '../../components/general/MiscComponents';
 import { getUser } from '../../rest/user';
@@ -9,6 +9,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { ID } from 'schema/database/abstract';
 import { PublicUser, UserFriend } from 'schema/user';
+import { eventsBadgeColor, white } from 'utils/colours';
+import { UserFriendsList } from './UserFriendsList';
 
 type Props = {
   user_id: ID
@@ -16,53 +18,85 @@ type Props = {
 
 export const UserModal = ({ user_id }: Props) => {
   const [user, setUser] = useState<UserFriend>();
+  const [friendsListOpen, setFriendsListOpen] = useState(false);
   const { updateModal } = useModal();
 
   useEffect(() => {
     !user && getUser(user_id, "users").then((res) => setUser(res));
   }, [user_id]);
 
-  return (
-    <View style={styles.mainContainer}>
-      {user ? (
-        <View style={styles.columnContainer}>
-          <TouchableHighlight
-            style={styles.closeButton}
-            onPress={() => updateModal(undefined)}
-            underlayColor={'rgba(0,0,0,0.5)'}
-          >
-            <AntDesign name="close" color="rgba(0,0,0,0.5)" size={18} />
-          </TouchableHighlight>
+  let body = (
+    <View style={styles.loaderContainer}>
+      <Loader />
+    </View>
+  )
+
+  if (user?.relations?.users && friendsListOpen) {
+    body = (
+      <View style={styles.openUserListContainer}>
+        <UserFriendsList 
+          open={friendsListOpen}
+          setOpen={setFriendsListOpen}
+          friends={user.relations.users}
+          maxHeight={285}
+        />
+      </View>
+    )
+  } else if (user) {
+    body = (
+      <View style={styles.columnContainer}>
+        <View style={styles.userDetails}>
           <FontAwesome name="user" size={50} />
-          <View style={styles.nameRow}>
             <View style={styles.bothNames}>
-              {user.display_name && <Text style={styles.mainAliasText}>{user.display_name}</Text>}
-              <Text style={user.display_name ? styles.subAliasText : styles.mainAliasText}>{user.id}</Text>
+              <Text style={styles.mainAliasText}>{user.display_name || user.id}</Text>
+              <Text style={styles.subAliasText}>{user.id}</Text>
             </View>
-          </View>
-
-          <View>
-            
-          </View>
-
-          <View style={styles.actionButton}>
-            <FriendAction friend={user} />
-          </View>
-
-          <View style={styles.fieldSectionWrapper}>
-            <UserDetailField
-              title="Last Active"
-              value={localisedMoment(user.last_updated).format('MMM D YYYY')}
-            />
-            <UserDetailField
-              title="Joined"
-              value={localisedMoment(user.created).format('MMM D YYYY')}
-            />
-          </View>
         </View>
-      ) : (
-        <Loader />
-      )}
+
+        <View style={styles.fieldSectionWrapper}>
+          <UserDetailField
+            title="Last Active"
+            value={localisedMoment(user.last_updated).format('MMM D YYYY')}
+          />
+          <UserDetailField
+            title="Joined"
+            value={localisedMoment(user.created).format('MMM D YYYY')}
+          />
+        </View>
+
+        {user.relations?.users && user.relations?.users.length > 0 &&
+          <UserFriendsList 
+            open={friendsListOpen}
+            setOpen={setFriendsListOpen}
+            friends={user.relations.users}
+            maxHeight={50}
+          />
+        }
+
+        <View style={styles.actionButton}>
+          <FriendAction friend={user} />
+        </View>
+      </View>
+    )
+  }
+
+  const conditionalStyles = {
+    mainContainer: {
+      height: friendsListOpen ? 350 : 300
+    }
+  }
+
+  return (
+    <View style={[styles.mainContainer, conditionalStyles.mainContainer]} key={user_id}>
+      <TouchableHighlight
+        style={styles.closeButton}
+        onPress={() => updateModal(undefined)}
+        underlayColor={'rgba(0,0,0,0.5)'}
+      >
+        <AntDesign name="close" color="rgba(0,0,0,0.5)" size={18} />
+      </TouchableHighlight>
+
+      {body}
     </View>
   );
 };
@@ -77,7 +111,6 @@ export const UserDetailField = ({ title, value }: DetailsProps) => {
     <View style={styles.fieldWrapper}>
       <Text style={styles.fieldNameText}>
         {title}
-        {' > '}
       </Text>
       <Text style={styles.fieldValueText}>{value}</Text>
     </View>
@@ -86,10 +119,10 @@ export const UserDetailField = ({ title, value }: DetailsProps) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    width: 300,
-    height: 400,
-    backgroundColor: 'white',
-    padding: 25,
+    width: 350,
+    backgroundColor: white,
+    paddingVertical: 25,
+    paddingHorizontal: 15,
 
     borderColor: 'rgba(0,0,0,0.5)',
     borderWidth: 1,
@@ -101,8 +134,8 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: -4,
-    right: 0,
+    top: 8,
+    right: 8,
     padding: 4,
     borderRadius: 8
   },
@@ -111,10 +144,19 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 10,
+    gap: 14,
+    paddingHorizontal: 10,
+    overflow: 'visible',
   },
-  nameRow: { flexDirection: 'row', alignItems: 'center' },
-  bothNames: { flexDirection: 'column', gap: 4, alignItems: 'center' },
+  userDetails: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'flex-start',
+    gap: 16,
+    paddingHorizontal: 8,
+  },
+  nameRow: { flexDirection: 'column', alignItems: 'center' },
+  bothNames: { flexDirection: 'column', gap: 2, alignItems: 'flex-start', justifyContent: 'center' },
   header: {
     flexDirection: 'column',
     justifyContent: 'center',
@@ -123,33 +165,36 @@ const styles = StyleSheet.create({
     marginBottom: 4
   },
 
-  actionButton: { 
-    height: 50, 
-    width: '100%' 
+  openUserListContainer: {
+    paddingVertical: 18,
+    height: 300,
   },
 
-  firstSeperator: {
-    opacity: 0.25,
-    marginTop: 10,
+  actionButton: { 
+    height: 50, 
     width: '100%',
-    marginBottom: 4,
-    borderWidth: 2
+
+    shadowColor: 'black',
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2
   },
-  title: { fontSize: 22, fontWeight: '700' },
-  subtitle: {
-    textAlign: 'center',
-    opacity: 0.6,
-    fontWeight: '600',
-    fontSize: 15
-  },
-  mainAliasText: { fontSize: 22, fontWeight: '500' },
+
+  mainAliasText: { fontSize: 22, fontFamily: 'Lexend' },
   subAliasText: { fontSize: 14, color: 'rgba(0,0,0,0.5)' },
-  fieldSectionWrapper: { gap: 6, marginTop: 8 },
-  fieldWrapper: { flexDirection: 'row', justifyContent: 'flex-start' },
+  fieldSectionWrapper: { gap: 4, width: '100%', paddingHorizontal: 8 },
+  fieldWrapper: { flexDirection: 'row', justifyContent: 'flex-start', width: '100%' },
   fieldNameText: {
     opacity: 0.6,
-    fontWeight: '600',
-    fontSize: 16
+    fontSize: 16,
+    fontFamily: 'Lexend'
   },
-  fieldValueText: { opacity: 0.4, fontSize: 16 }
+  fieldValueText: { opacity: 0.4, fontSize: 16, marginLeft: 'auto', marginRight: 8, },
+
+  loaderContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });

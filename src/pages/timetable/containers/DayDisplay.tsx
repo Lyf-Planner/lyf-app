@@ -9,7 +9,9 @@ import {
   parseDateString
 } from '../../../utils/dates';
 import {
+  black,
   deepBlue,
+  deepBlueOpacity,
   eventsBadgeColor,
   secondaryGreen,
 } from '../../../utils/colours';
@@ -187,6 +189,12 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
     return menuOptions;
   };
 
+  const conditionalStyles = {
+    diagLines: {
+      borderColor: canDelete ? deepBlueOpacity(0.6) : 'rgba(0,0,0,0.2)',
+    }
+  }
+
   return (
     <View>
       <Animated.View style={[styles.dayRootView, exitingAnimation]}>
@@ -204,8 +212,8 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
                 </Text>
               </View>
               <View style={styles.headerEnd}>
-                <Vertical style={styles.diagLines} />
-                <Vertical style={styles.diagLines} />
+                <Vertical style={[styles.diagLines, conditionalStyles.diagLines]} />
+                <Vertical style={[styles.diagLines, conditionalStyles.diagLines]} />
 
                 {date && (
                   <Text style={styles.dayDateText}>{formatDate(date, true)}</Text>
@@ -280,7 +288,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'row',
     paddingHorizontal: 8,
-    alignItems: 'center'
+    alignItems: 'center',
+    overflow: 'hidden'
   },
   headerEnd: {
     flexDirection: 'row',
@@ -291,10 +300,8 @@ const styles = StyleSheet.create({
     marginRight: 2
   },
   diagLines: {
-    borderColor: deepBlue,
-    opacity: 0.2,
     borderLeftWidth: 2,
-    height: '140%',
+    height: '100%',
     transform: [{ rotateZ: '-20deg' }],
     marginLeft: 'auto'
   },

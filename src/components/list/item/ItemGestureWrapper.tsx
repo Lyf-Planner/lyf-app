@@ -174,22 +174,20 @@ export const ListItemGestureWrapper = ({
     }, 500);
   };
 
-  const scaleAnimation = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: withTiming(animatedValues.scale.value, {
-            duration: SCALE_MS
-          })
-        }
-      ]
-    };
-  });
+  const scaleAnimation = useAnimatedStyle(() => ({
+    transform: [{
+      scale: withTiming(animatedValues.scale.value, {
+        duration: SCALE_MS
+      })}
+  ]}));
 
   const conditionalStyles = {
     listItemWrapper: {
       // Dim the opacity if a task is cancelled or a user is only invited
-      opacity: item.status === ItemStatus.Cancelled || invited ? 0.7 : 1
+      opacity: 
+        item.status === ItemStatus.Cancelled || 
+        item.status === ItemStatus.Tentative ||
+        invited ? 0.75 : 1
     }
   };
 

@@ -48,7 +48,7 @@ export const ListItemOverlay = ({
   // STYLING
 
   const primaryColor = useMemo(
-    () => getItemPrimaryColor(item),
+    () => getItemPrimaryColor(item, itemStyleOptions.itemColor),
     [item, itemStyleOptions]
   );
   const secondaryColor = useMemo(
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     borderColor: deepBlue,
     opacity: 0.2,
     marginLeft: 8,
-    height: '200%',
+    height: '150%',
     borderLeftWidth: 2,
     transform: [{ rotateZ: '-20deg' }]
   }

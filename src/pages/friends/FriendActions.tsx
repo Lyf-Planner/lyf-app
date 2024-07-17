@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import { useAuth } from 'providers/cloud/useAuth';
 import { black, darkCyan, eventsBadgeColor, primaryGreen, secondaryGreen, white } from 'utils/colours';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ActionButton } from '../../components/pressables/AsyncAction';
 import { BouncyPressable } from '../../components/pressables/BouncyPressable';
 import { Loader } from '../../components/general/MiscComponents';
@@ -27,7 +27,14 @@ type Props = {
 
 export const FriendAction = ({ friend, callback }: Props) => {
   const { user } = useAuth();
-  const { friends } = useFriends();
+  const { friends, loading, reload } = useFriends();
+
+  useEffect(() => {
+    if (loading) {
+      reload();
+    }
+  })
+
   if (!user) {
     return null;
   }
@@ -41,6 +48,18 @@ export const FriendAction = ({ friend, callback }: Props) => {
         textColor={white}
       />
     );
+  }
+
+  if (loading) {
+    return (
+      <ActionButton
+        title="Loading"
+        func={() => null}
+        color={primaryGreen}
+        textColor={white}
+        loadingOverride
+      />
+    )
   }
 
   const isFriends = friends.some((x) => x.id === friend.id && hasFriendship(x))
@@ -123,7 +142,7 @@ export const Requested = ({ friend, callback }: Props) => {
       <ActionButton
         title="Requested"
         func={() => {}}
-        color={eventsBadgeColor}
+        color={white}
         textColor={black}
         loadingOverride={loading}
         notPressable
