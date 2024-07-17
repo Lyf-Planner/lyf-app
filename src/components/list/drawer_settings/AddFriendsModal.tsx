@@ -77,12 +77,12 @@ export const AddFriendsModal = ({ item_id }: Props) => {
         <ScrollView style={styles.userScroll} contentContainerStyle={styles.scrollContainer}>
           <UserList 
             users={friendsOnItem} 
-            emptyText={''}
+            emptyText={'No friends added yet'}
             context={UserListContext.Item} 
             item={item}
             menuContext={'in-modal'}
           />
-      </ScrollView>
+        </ScrollView>
       )}
     </View>
   );

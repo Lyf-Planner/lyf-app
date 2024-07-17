@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Pressable, TextInput, View, StyleSheet } from 'react-native';
-import { appleGray } from 'utils/colours';
+import { appleGray, primaryGreen, whiteWithOpacity } from 'utils/colours';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 type Props = {
@@ -17,12 +17,14 @@ export const SimpleSearch = ({ search, setSearch }: Props) => {
         style={styles.searchBarPressable}
         onPress={() => textRef.current.focus()}
       >
-        <FontAwesome name="search" color="black" size={20} />
+        <FontAwesome name="search" color="white" size={20} />
         <TextInput
           ref={textRef}
+          placeholder='Search Friends...'
+          placeholderTextColor={whiteWithOpacity(0.75)}
           value={search}
           returnKeyType="done"
-          selectionColor={'blackr'}
+          selectionColor={'white'}
           style={styles.searchInput}
           onChangeText={setSearch}
           autoCapitalize="none"
@@ -39,14 +41,20 @@ const styles = StyleSheet.create({
   searchBarPressable: {
     flexDirection: 'row',
     width: '100%',
-    backgroundColor: appleGray,
+    backgroundColor: primaryGreen,
     borderWidth: 1,
     borderRadius: 10,
-    padding: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
     alignItems: 'center',
     gap: 4,
-    marginHorizontal: 4
+    marginHorizontal: 4,
+
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
+    shadowRadius: 2
   },
-  searchInput: { padding: 4, color: 'black', fontSize: 22 },
+  searchInput: { padding: 4, color: 'white', fontSize: 20 },
   loaderWrapper: { marginLeft: 'auto', marginRight: 8 }
 });

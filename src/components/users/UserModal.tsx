@@ -47,10 +47,10 @@ export const UserModal = ({ user_id }: Props) => {
       <View style={styles.columnContainer}>
         <View style={styles.userDetails}>
           <FontAwesome name="user" size={50} />
-            <View style={styles.bothNames}>
-              <Text style={styles.mainAliasText}>{user.display_name || user.id}</Text>
-              <Text style={styles.subAliasText}>{user.id}</Text>
-            </View>
+          <View style={styles.bothNames}>
+            <Text style={styles.mainAliasText}>{user.display_name || user.id}</Text>
+            <Text style={styles.subAliasText}>{user.id}</Text>
+          </View>
         </View>
 
         <View style={styles.fieldSectionWrapper}>

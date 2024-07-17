@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { UserList, UserListContext } from '../../users/UserList';
 import { useEffect, useMemo, useState } from 'react';
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
@@ -21,10 +21,10 @@ export const ItemUsers = ({ item, loading, closeDrawer }: Props) => {
 
   return (
     <View style={styles.mainContainer}>
-      <TouchableHighlight
+      <TouchableOpacity
         onPress={() => setOpen(!open)}
         style={styles.pressable}
-        underlayColor={'rgba(0,0,0,0.5)'}
+
       >
         <View
           style={{
@@ -52,7 +52,7 @@ export const ItemUsers = ({ item, loading, closeDrawer }: Props) => {
             size={16}
           />          
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
 
       {open && (
         <ScrollView style={styles.userList}>
