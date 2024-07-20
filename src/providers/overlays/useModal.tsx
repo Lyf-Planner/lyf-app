@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 type Props = {
   children: JSX.Element;
@@ -22,7 +23,14 @@ export const ModalProvider = ({ children }: Props) => {
   return (
     <ModalContext.Provider value={exposed}>
       {children}
-      {!!modal && <View style={styles.modalPositioning}>{modal}</View>}
+      {!!modal && (
+        <Animated.View 
+          style={styles.modalPositioning}
+          entering={FadeIn.duration(150)}
+        >
+          {modal}
+        </Animated.View>
+      )}
     </ModalContext.Provider>
   );
 };

@@ -8,12 +8,17 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { gentleBlack, primaryGreen, white } from "utils/colours";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 import { useTutorial } from 'providers/overlays/useTutorial';
+import { useNotifications } from 'providers/cloud/useNotifications';
+import { useModal } from 'providers/overlays/useModal';
+import { NotificationModal } from 'components/notifications/NotificationModal';
 
 
 const LyfIcon = require("../../../assets/images/icon.png")
 
 export function defaultTabHeader(label: string): BottomTabNavigationOptions  {
   const { updateTutorial } = useTutorial();
+  const { notifications } = useNotifications();
+  const { updateModal } = useModal(); 
 
   return {
     headerShown: true,
@@ -29,8 +34,18 @@ export function defaultTabHeader(label: string): BottomTabNavigationOptions  {
       </Native.TouchableOpacity>
     ),
     headerRight: () => (
-      <Native.TouchableOpacity style={headerStyles.settingsContent} onPress={() => null}>
+      <Native.TouchableOpacity 
+        style={headerStyles.settingsContent} 
+        onPress={() => updateModal(<NotificationModal />)}
+      >
         <MaterialCommunityIcons name="bell" style={headerStyles.notifications} size={30} />
+        {notifications.filter((x) => !x.seen).length > 0 &&
+            <Native.View style={headerStyles.notificationTally}>
+              <Native.Text style={headerStyles.notificationTallyText}>
+                {notifications.filter((x) => !x.seen).length}
+              </Native.Text>
+            </Native.View>
+        }
       </Native.TouchableOpacity>
     ),
     headerTitleStyle: headerStyles.title,
@@ -91,5 +106,23 @@ const headerStyles = StyleSheet.create({
   notifications: {
     position: 'relative',
     bottom: 2
+  },
+  notificationTally: { 
+    position: 'absolute', 
+    justifyContent: 'center', 
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    borderRadius: 10, 
+    backgroundColor: 'red',
+    width: 20,
+    height: 20,
+    right: -6,
+    top: -8,
+    borderWidth: 1,
+    borderColor: 'white'
+  },
+  notificationTallyText: {
+    color: 'white', 
+    fontFamily: 'Lexend'
   }
 });

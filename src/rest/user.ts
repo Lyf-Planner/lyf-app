@@ -4,6 +4,8 @@ import { getCalendars } from 'expo-localization';
 import env from '../envManager';
 import { User } from '../schema/user';
 import { FriendshipAction } from '../schema/util/social';
+import { ID } from 'schema/database/abstract';
+import { Notification } from 'schema/notifications';
 
 const usersEndpoint = (req: string) => `/users/${req}`;
 
@@ -58,6 +60,29 @@ export async function getUser(user_id: string, include: string) {
   const endpoint = usersEndpoint(`get?user_id=${user_id}&include=${include}`)
 
   const result = await get(endpoint);
+  // We use this to check result is a user and not an error object
+  if (result?.status === 200) {
+    return result.data;
+  }
+}
+
+export async function getNotifications(limit: number) {
+  const endpoint = usersEndpoint(`notifications?&limit=${limit}`)
+
+  const result = await get(endpoint);
+  // We use this to check result is a user and not an error object
+  if (result?.status === 200) {
+    return result.data;
+  }
+}
+
+export async function updateNotification(id: ID, changes: Partial<Notification>) {
+  const endpoint = usersEndpoint(`updateNotification`)
+
+  const result = await post(endpoint, {
+    id,
+    ...changes
+  });
   // We use this to check result is a user and not an error object
   if (result?.status === 200) {
     return result.data;

@@ -8,12 +8,17 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from 'providers/cloud/useAuth';
 import { getAsyncData, storeAsyncData } from 'utils/asyncStorage';
 import env from 'envManager';
+import { Notification } from 'schema/notifications';
+import { ID } from 'schema/database/abstract';
+import { getNotifications, updateNotification } from 'rest/user';
 
 type Props = {
   children: JSX.Element;
 }
 
 type NotificationHooks = {
+  notifications: Notification[];
+  readNotification: (id: ID) => void; 
   enabled: boolean;
   getDefaultNotificationMins: () => number;
 }
@@ -22,6 +27,7 @@ const DEFAULT_NOTIFICATION_MINS = 5;
 
 export const NotificationsLayer = ({ children }: Props) => {
   const [enabled, setEnabled] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const { user, updateUser } = useAuth();
 
   useEffect(() => {
@@ -44,9 +50,26 @@ export const NotificationsLayer = ({ children }: Props) => {
         });
 
         storeAsyncData('expo_token', token);
+      }).then(async (x) => {
+        const firstNotifs = await getNotifications(10);
+        setNotifications(firstNotifs);
       });
     });
   }, []);
+
+  const readNotification = async (id: ID) => {
+    const tmp = notifications;
+    const i = tmp.findIndex((x) => x.id === id);
+    if (i === -1) {
+      console.error('Notification does not exist in store');
+      return;
+    }
+
+    tmp[i].seen = true;
+    setNotifications(tmp);
+
+    await updateNotification(id, { seen: true })
+  }
 
   const getDefaultNotificationMins = () => {
     if (user?.event_notification_mins) {
@@ -57,7 +80,9 @@ export const NotificationsLayer = ({ children }: Props) => {
   }
 
   const exposed: NotificationHooks = {
+    notifications,
     enabled,
+    readNotification,
     getDefaultNotificationMins
   };
 
