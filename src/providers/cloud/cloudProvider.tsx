@@ -33,6 +33,8 @@ export type CloudHooks = {
 export const CloudProvider = ({ children }: Props) => {
   const [syncing, setSyncing] = useState(false);
 
+  console.log('rendered cloud provider')
+
   const exposed: CloudHooks = {
     syncing,
     setSyncing

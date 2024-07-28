@@ -241,7 +241,6 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
                 a.sorting_rank - b.sorting_rank
               )}
               itemStyleOptions={{
-                itemColor: eventsBadgeColor,
                 itemTextColor: 'black'
               }}
               listWrapperStyles={{ backgroundColor: deepBlue }}

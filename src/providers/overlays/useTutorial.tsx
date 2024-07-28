@@ -1,9 +1,10 @@
 import { createContext, useContext, useState } from 'react';
 import { TutorialOverlay } from 'pages/tutorial/TutorialOverlay';
 import { useAuth } from 'providers/cloud/useAuth';
+import { LyfElement } from 'utils/abstractTypes';
 
 type Props = {
-  children: JSX.Element;
+  children: LyfElement;
 }
 
 type TutorialHooks = {
@@ -12,6 +13,8 @@ type TutorialHooks = {
 
 // Component provider
 export const TutorialProvider = ({ children }: Props) => {
+  console.log('rendeirng tutorial provider');
+  
   const [tutorial, updateTutorial] = useState(false);
 
   const exposed = {

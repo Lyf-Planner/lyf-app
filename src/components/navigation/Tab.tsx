@@ -1,5 +1,5 @@
-import { routes } from 'Routes';
 import { LinearGradient } from 'expo-linear-gradient';
+import { routes } from 'providers/routes';
 import { useMemo } from 'react';
 import * as Native from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
@@ -26,7 +26,7 @@ export const Tab = ({ isFocused, index, onPress, route }: Props) => {
     return 85;
   }
 
-    const gradientStart = { x: 0, y: 1 };
+  const gradientStart = { x: 0, y: 1 };
   const gradientEnd = { x: 0, y: 0 };
   const gradientColors = isFocused ? [secondaryGreen, primaryGreen, primaryGreen] : [white, white]
 

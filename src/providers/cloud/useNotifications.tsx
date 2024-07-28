@@ -58,17 +58,19 @@ export const NotificationsLayer = ({ children }: Props) => {
   }, []);
 
   const readNotification = async (id: ID) => {
-    const tmp = notifications;
+    const tmp = [...notifications];
     const i = tmp.findIndex((x) => x.id === id);
     if (i === -1) {
       console.error('Notification does not exist in store');
       return;
     }
 
-    tmp[i].seen = true;
-    setNotifications(tmp);
-
-    await updateNotification(id, { seen: true })
+    if (!tmp[i].seen) {
+      tmp[i].seen = true;
+      setNotifications(tmp);
+  
+      await updateNotification(id, { seen: true });
+    }
   }
 
   const getDefaultNotificationMins = () => {

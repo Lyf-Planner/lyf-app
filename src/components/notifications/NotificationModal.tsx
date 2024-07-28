@@ -7,13 +7,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { NotificationBanner } from './NotificationBanner';
 import { Horizontal } from 'components/general/MiscComponents';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useMemo } from 'react';
 
 
 export const NotificationModal = () => {
   const { notifications } = useNotifications();
   const { updateModal } = useModal();
 
-  console.log('notifications', notifications);
+  const allSeen = useMemo(() => notifications.every((x) => x.seen), notifications);
 
   return (
     <Native.View style={styles.main}>
@@ -32,6 +33,9 @@ export const NotificationModal = () => {
 
         <Horizontal />
 
+        {allSeen &&
+          <Native.Text style={{alignSelf: 'center', marginTop: 16, opacity: 0.7, fontFamily: 'Lexend', fontSize: 18}}>All up to date :)</Native.Text>
+        }
         <Native.ScrollView contentContainerStyle={styles.scrollWrapper}>
           {notifications.map((x) => (
             <NotificationBanner notification={x} key={x.id} />
@@ -46,11 +50,12 @@ export const NotificationModal = () => {
 const styles = Native.StyleSheet.create({
   main: {
     width: 350,
+    maxHeight: 500,
 
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
-    shadowRadius: 2
+    shadowRadius: 10
   },
   mainInternal: {
     backgroundColor: white,

@@ -23,6 +23,8 @@ type FriendHooks = {
 }
 
 export const FriendsProvider = ({ children }: Props) => {
+  console.log('rendered friends provider')
+
   const { user } = useAuth();
   const { setSyncing } = useCloud();
 

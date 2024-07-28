@@ -155,8 +155,6 @@ export const AuthGateway = ({ children }: Props) => {
     );
   }
 
-  console.log('user is', user)
-
   return (
     <AuthContext.Provider value={exposed}>
       {children}

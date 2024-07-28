@@ -129,7 +129,8 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     borderWidth: 2
   },
-  userScroll: { 
+  userScroll: {
+    marginTop: 8,
     maxHeight: 350, 
     overflow: 'visible',
   },

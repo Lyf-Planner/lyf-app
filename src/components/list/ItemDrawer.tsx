@@ -22,6 +22,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { LocalItem } from 'schema/items';
 import { getItem, updateItemSocial } from 'rest/items';
 import { ID } from 'schema/database/abstract';
+import { useDrawer } from 'providers/overlays/useDrawer';
 
 export type ItemDrawerProps = {
   item: LocalItem,
@@ -31,17 +32,14 @@ export type ItemDrawerProps = {
 }
 
 type Props = {
-  id: ID,
-  updateDrawer: (drawer: JSX.Element | undefined) => void;
-  updateSheetMinHeight: (height: number) => void;
+  id: ID
 }
 
 export const ItemDrawer = ({
-  id,
-  updateDrawer,
-  updateSheetMinHeight
+  id
 }: Props) => {
   // Establish item from store
+  const { updateDrawer, updateSheetMinHeight } = useDrawer();
   const { items, updateItem } = useTimetable();
   const item = useMemo(() => items.find((x) => x.id === id), [items]);
 

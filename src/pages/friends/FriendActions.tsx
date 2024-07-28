@@ -16,7 +16,6 @@ import {
 } from '../../components/menus/LyfMenu';
 import { UserFriend } from '../../schema/user';
 import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingBFFRequest, hasOutgoingRequest } from '../../schema/util/social';
-import { routes } from 'Routes';
 import { useNavigation } from '@react-navigation/native';
 import { useFriends } from 'providers/cloud/useFriends';
 

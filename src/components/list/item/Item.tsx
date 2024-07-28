@@ -14,7 +14,7 @@ export type ListItemAnimatedValues = {
 };
 
 export type ItemStyleOptions = {
-  itemColor: string;
+  itemColor?: string;
   itemTextColor: string;
 };
 
@@ -46,8 +46,6 @@ export const Item = ({
       <ItemDrawer
         // Invites to templates should open the template!
         id={item.id}
-        updateDrawer={updateDrawer}
-        updateSheetMinHeight={updateSheetMinHeight}
       />
     );
   };

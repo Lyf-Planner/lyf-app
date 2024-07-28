@@ -1,17 +1,10 @@
 import * as Native from 'react-native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer, Theme } from "@react-navigation/native"
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import AntDesign from 'react-native-vector-icons/AntDesign'
-import Entypo from 'react-native-vector-icons/Entypo'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { NavigationContainer, NavigationProp, Theme } from "@react-navigation/native"
 import { TabBar } from "components/navigation/TabBar";
 import { defaultTabHeader } from "components/navigation/Header";
 import { offWhite } from "utils/colours";
-import { Timetable } from 'pages/timetable/TimetablePage';
-import { Notes } from 'pages/notes/NotesPage';
-import { Friends } from 'pages/friends/FriendsPage';
-import { Profile } from 'pages/profile/ProfilePage';
+import { RootStackParamList, routes } from 'providers/routes';
 
 export const appTheme: Theme = {
   dark: false,
@@ -25,57 +18,29 @@ export const appTheme: Theme = {
   }
 };
 
-// TODO: Wire up 
-export const routes = Object.freeze({
-  timetable: {
-    label: "Timetable",
-    icon: (color: string) => <MaterialCommunityIcons name='calendar' size={30} color={color}/>,
-    root: Timetable
-  },
-  lists: {
-    label: "Notes",
-    icon: (color: string) => <Entypo name='list' size={30} color={color} />,
-    root: Notes
-  },
-  create: {
-    label: "New Plan",
-    icon: (color: string) => <AntDesign name='pluscircleo' size={40} color={color}/>,
-    root: Timetable
-  },
-  friends: {
-    label: "Friends",
-    icon: (color: string) => <FontAwesome5 name="user-friends" size={27} color={color} />,
-    root:  Friends
-  },
-  profile: {
-    label: "Profile",
-    icon: (color: string) => <FontAwesome5 name="user-alt" size={25} color={color} />,
-    root: Profile
-  }
-});
-
 export default function Routes() {
-  const Tab = createBottomTabNavigator();
+  const Tab = createBottomTabNavigator<RootStackParamList>();
 
-  const initialRoute = routes.timetable;
+  const initialRoute = routes['Timetable'];
 
   return (
-    <NavigationContainer theme={appTheme}>
-      <Tab.Navigator
-        initialRouteName={initialRoute.label}
-        id="BottomTab"
-        backBehavior="none"
-        tabBar={(props) => <TabBar {...props} />}
-      >
-        {Object.entries(routes).map(([key, route]) => (
-          <Tab.Screen
-            name={key}
-            key={route.label}
-            component={route.root}
-            options={defaultTabHeader(route.label)}
-          />
-        ))}
+    <Tab.Navigator
+      initialRouteName={initialRoute.label}
+      id="BottomTab"
+      backBehavior="none"
+      tabBar={(props) => {
+
+      return <TabBar {...props} />
+      }}
+    >
+      {Object.values(routes).map((route) => (
+        <Tab.Screen
+          name={route.label}
+          key={route.label}
+          component={route.root}
+          options={defaultTabHeader(route.label)}
+        />
+      ))}
       </Tab.Navigator>
-    </NavigationContainer>
   );
 }

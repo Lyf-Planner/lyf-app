@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Pressable, TextInput, View, StyleSheet } from 'react-native';
-import { appleGray, primaryGreen, whiteWithOpacity } from 'utils/colours';
+import { appleGray, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 type Props = {
@@ -21,7 +21,7 @@ export const SimpleSearch = ({ search, setSearch }: Props) => {
         <TextInput
           ref={textRef}
           placeholder='Search Friends...'
-          placeholderTextColor={whiteWithOpacity(0.75)}
+          placeholderTextColor={white}
           value={search}
           returnKeyType="done"
           selectionColor={'white'}
@@ -55,6 +55,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2
   },
-  searchInput: { padding: 4, color: 'white', fontSize: 20 },
+  searchInput: { padding: 4, color: 'white', fontSize: 22 },
   loaderWrapper: { marginLeft: 'auto', marginRight: 8 }
 });

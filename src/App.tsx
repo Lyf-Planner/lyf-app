@@ -7,6 +7,7 @@ import 'expo-dev-client';
 import Routes from 'Routes';
 import { CloudProvider } from 'providers/cloud/cloudProvider';
 import { OverlayProvider } from 'providers/overlays/overlayProvider';
+import { RouteProvider } from 'providers/routes';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -27,11 +28,13 @@ export default function App() {
   return (
     <GestureHandlerRootView>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <CloudProvider>
-          <OverlayProvider>
-            <Routes />
-          </OverlayProvider>
-        </CloudProvider>
+        <RouteProvider>
+          <CloudProvider>
+            <OverlayProvider>
+              <Routes />
+            </OverlayProvider>
+          </CloudProvider>
+        </RouteProvider>
       </TouchableWithoutFeedback>
     </GestureHandlerRootView>
   );

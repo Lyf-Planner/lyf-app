@@ -20,7 +20,7 @@ export const validateUsername = (username: string) => {
 };
 
 export const validatePassword = (password: string) => {
-  if (password.length < 8 && env.APP_ENV === 'production') {
+  if (password.length < 8) {
     Alert.alert('Try Again', 'Password must be at least 8 characters');
     return false;
   }

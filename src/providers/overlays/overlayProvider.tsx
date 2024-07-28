@@ -1,25 +1,23 @@
 import { MenuProvider } from 'react-native-popup-menu';
 import { ModalProvider } from './useModal';
 import { DrawerProvider } from './useDrawer';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { TutorialProvider } from './useTutorial';
+import { OverlayInjectionLayer } from './overlayInjectionLayer';
 
 type Props = {
   children: JSX.Element;
 }
 
-export const OverlayProvider = ({ children }: Props) => {
-  return (
+export const OverlayProvider = ({ children }: Props) => (
     <MenuProvider>
-      <ModalProvider>
-        <BottomSheetModalProvider>
-          <DrawerProvider>
+      <DrawerProvider>
+        <ModalProvider>
             <TutorialProvider>
-              {children}
+              <OverlayInjectionLayer>
+                {children}
+              </OverlayInjectionLayer>
             </TutorialProvider>
-          </DrawerProvider>
-        </BottomSheetModalProvider>
-      </ModalProvider>
+        </ModalProvider>
+      </DrawerProvider>
     </MenuProvider>
   );
-};

@@ -39,7 +39,7 @@ export const UserBanner = ({
 
   const conditionalStyles = {
     main: {
-      backgroundColor: bannerColor || eventsBadgeColor,
+      backgroundColor: bannerColor || 'white',
     }
   }
 
@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.1)',
+    backgroundColor: '#AFE1AF',
+    borderColor: 'rgba(0,0,0,0.3)',
 
     shadowColor: 'black',
     shadowOffset: { width: 2, height: 2 },

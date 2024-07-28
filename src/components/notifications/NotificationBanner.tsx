@@ -1,20 +1,25 @@
 import * as Native from 'react-native';
 import { BouncyPressable } from "components/pressables/BouncyPressable";
 import { Notification } from "schema/notifications"
-import { NotificationType } from 'schema/database/notifications';
+import { NotificationRelatedData, NotificationType } from 'schema/database/notifications';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Octicons from 'react-native-vector-icons/Octicons';
-import { eventsBadgeColor, primaryGreen } from 'utils/colours';
+import { eventsBadgeColor } from 'utils/colours';
 import { useNotifications } from 'providers/cloud/useNotifications';
+import { useNavigation } from '@react-navigation/native';
+import { ItemDrawer } from 'components/list/ItemDrawer';
+import { useDrawer } from 'providers/overlays/useDrawer';
+import { StackNavigation, routes } from 'providers/routes';
+import { useModal } from 'providers/overlays/useModal';
+import { UserModal } from 'components/users/UserModal';
 
 const notificationTypeIcon: Record<NotificationType, JSX.Element> = Object.freeze({
   'ItemReminder': <Feather name="clock" />,
   'ItemSocial': <MaterialCommunityIcons name='calendar' size={30} />,
   'NoteSocial': <Entypo name='list' size={30} />,
-  'UserSocial': <FontAwesome5 name="user-friends" size={27} />,
+  'UserSocial': <FontAwesome5 name="user-friends" size={24} />,
 })
 
 type Props = {
@@ -23,34 +28,79 @@ type Props = {
 
 export const NotificationBanner = ({ notification }: Props) => {
   const { readNotification } = useNotifications();
+  const { navigate } = useNavigation<StackNavigation>();
+  const { updateDrawer, updateSheetMinHeight } = useDrawer();
+  const { updateModal } = useModal();
+
+  const actionNotification = () => {
+    readNotification(notification.id);
+
+    console.log("Actioning notification with", notification.related_data, notification.related_id);
+
+    switch (notification.related_data) {
+      case NotificationRelatedData.User:
+        navigate(routes['Friends'].label);
+        updateDrawer(undefined);
+        if (notification.related_id) {
+          updateModal(
+            <UserModal user_id={notification.related_id} />
+          );
+        }
+        break;
+      case NotificationRelatedData.Item:
+        navigate(routes['Timetable'].label);
+        updateModal(undefined);
+        if (notification.related_id) {
+          updateDrawer(
+            <ItemDrawer id={notification.related_id} />
+          );
+        }
+        break;
+      case NotificationRelatedData.Note:
+        navigate(routes['Notes'].label);
+        break;
+      default:
+        null;
+    }
+  }
+
+  const conditionalStyles = {
+    pressable: notification.seen ? {
+      opacity: 0.6,
+    } : {
+      shadowColor: 'black',
+      shadowOpacity: 1,
+      shadowRadius: 2,
+      shadowOffset: { 
+        width: 0, 
+        height: 0
+      }
+    }
+  }
 
   return (
-    <BouncyPressable onPress={() => readNotification(notification.id)}>
+    <BouncyPressable 
+      onPress={() => actionNotification()} 
+      style={[conditionalStyles.pressable, styles.pressable]}
+    >
       <Native.View style={styles.main}>
-        <Native.View>{notificationTypeIcon[notification.type]}</Native.View>
+        <Native.View style={styles.icon}>{notificationTypeIcon[notification.type]}</Native.View>
 
         <Native.View style={styles.content}>
           <Native.Text style={styles.title}>{notification.title}</Native.Text>
           {notification.message && 
-         
               <Native.Text style={styles.body}>{notification.message}</Native.Text>
-
           }
         </Native.View>
-
-
-        <Octicons
-          name="dot-fill"
-          color={notification.seen ? 'black' : 'white'}
-          style={styles.unread}
-        />
-
       </Native.View>
     </BouncyPressable>
   )
 }
 
 const styles = Native.StyleSheet.create({
+  pressable: {
+    borderRadius: 10
+  },
   main: { 
     flexDirection: 'row', 
     alignItems: 'center',
@@ -58,7 +108,14 @@ const styles = Native.StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     overflow: 'hidden',
-    backgroundColor: eventsBadgeColor
+    backgroundColor: eventsBadgeColor,
+  },
+  icon: {
+    width: 35,
+    height: 35,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   content: {
     height: 'auto'

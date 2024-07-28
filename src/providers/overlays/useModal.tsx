@@ -13,6 +13,8 @@ type ModalHooks = {
 
 // Component provider
 export const ModalProvider = ({ children }: Props) => {
+  console.log('rendering modal provider');
+
   const [modal, updateModal] = useState<JSX.Element | undefined>(undefined);
 
   const exposed = {
@@ -23,14 +25,6 @@ export const ModalProvider = ({ children }: Props) => {
   return (
     <ModalContext.Provider value={exposed}>
       {children}
-      {!!modal && (
-        <Animated.View 
-          style={styles.modalPositioning}
-          entering={FadeIn.duration(150)}
-        >
-          {modal}
-        </Animated.View>
-      )}
     </ModalContext.Provider>
   );
 };
@@ -41,16 +35,3 @@ export const useModal = () => {
   return useContext(ModalContext);
 };
 
-const styles = StyleSheet.create({
-  modalPositioning: {
-    zIndex: 50,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)'
-  }
-});

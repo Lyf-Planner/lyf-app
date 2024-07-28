@@ -55,12 +55,12 @@ export const UserModal = ({ user_id }: Props) => {
 
         <View style={styles.fieldSectionWrapper}>
           <UserDetailField
-            title="Last Active"
-            value={localisedMoment(user.last_updated).format('MMM D YYYY')}
-          />
-          <UserDetailField
             title="Joined"
             value={localisedMoment(user.created).format('MMM D YYYY')}
+          />
+          <UserDetailField
+            title="Last Active"
+            value={localisedMoment(user.last_updated).format('MMM D YYYY')}
           />
         </View>
 
