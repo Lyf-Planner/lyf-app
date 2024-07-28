@@ -29,13 +29,11 @@ type Props = {
 export const NotificationBanner = ({ notification }: Props) => {
   const { readNotification } = useNotifications();
   const { navigate } = useNavigation<StackNavigation>();
-  const { updateDrawer, updateSheetMinHeight } = useDrawer();
+  const { updateDrawer } = useDrawer();
   const { updateModal } = useModal();
 
   const actionNotification = () => {
     readNotification(notification.id);
-
-    console.log("Actioning notification with", notification.related_data, notification.related_id);
 
     switch (notification.related_data) {
       case NotificationRelatedData.User:

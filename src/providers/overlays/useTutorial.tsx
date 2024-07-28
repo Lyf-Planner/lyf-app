@@ -12,9 +12,7 @@ type TutorialHooks = {
 }
 
 // Component provider
-export const TutorialProvider = ({ children }: Props) => {
-  console.log('rendeirng tutorial provider');
-  
+export const TutorialProvider = ({ children }: Props) => {  
   const [tutorial, updateTutorial] = useState(false);
 
   const exposed = {

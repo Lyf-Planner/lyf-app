@@ -49,8 +49,10 @@ export const NotificationModal = () => {
 
 const styles = Native.StyleSheet.create({
   main: {
+    position: 'absolute',
+    top: 175,
     width: 350,
-    maxHeight: 500,
+    maxHeight: 400,
 
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },

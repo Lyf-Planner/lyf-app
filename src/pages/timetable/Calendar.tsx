@@ -14,7 +14,6 @@ import { v4 as uuid } from 'uuid';
 import { isTemplate } from 'components/list/constants';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useTimetable } from 'providers/cloud/useTimetable';
-import { DateString } from 'schema/util/dates';
 import { Loader, PageLoader } from 'components/general/MiscComponents';
 
 export const Calendar = () => {
@@ -30,6 +29,30 @@ export const Calendar = () => {
   useEffect(() => {
     // TODO: Function to adjust displayedDays in response to first_day changes
   }, [user?.first_day]);
+
+  const unshiftFirst = async () => {
+    const first = user?.first_day || formatDateData(new Date());
+    const prev = formatDateData(
+      localisedMoment(parseDateString(first)).add(-1, 'day').toDate()
+    );
+
+    if (prev.localeCompare(firstDay) >= 0) {
+      updateUser({
+        ...user,
+        first_day: prev
+      });
+    }
+  };
+
+  const addWeek = () => setDisplayedDays(extendByWeek(displayedDays));
+
+  const updateDisplayedDays = async (start?: string, end?: string) => {
+    setDisplayedDays(allDatesBetween(
+      start || displayedDays[0],
+      end || displayedDays[displayedDays.length - 1]
+    ));
+    await reload(start, end)
+  }
 
   const calendarItems = useMemo(() => {
     const localItems: LocalItem[] = [];
@@ -60,7 +83,7 @@ export const Calendar = () => {
     }
 
     return localItems;
-  }, [items])
+  }, [items, displayedDays])
 
   const upcomingEvents = useMemo(() => (
     items
@@ -81,34 +104,6 @@ export const Calendar = () => {
     )
     .map((item) => ({ ...item, localised: false }))
   ), [items]);
-
-  const unshiftFirst = async () => {
-    const first = user?.first_day || formatDateData(new Date());
-    const prev = formatDateData(
-      localisedMoment(parseDateString(first)).add(-1, 'day').toDate()
-    );
-
-    if (prev.localeCompare(firstDay) >= 0) {
-      updateUser({
-        ...user,
-        first_day: prev
-      });
-    }
-  };
-
-  useEffect(() => {
-    console.log('displayed days updated')
-  }, [displayedDays])
-
-  const addWeek = () => setDisplayedDays(extendByWeek(displayedDays));
-
-  const updateDisplayedDays = async (start?: string, end?: string) => {
-    setDisplayedDays(allDatesBetween(
-      start || displayedDays[0],
-      end || displayedDays[displayedDays.length - 1]
-    ));
-    await reload(start, end)
-  }
 
   return (
     <KeyboardAwareScrollView enableResetScrollToCoords={false} style={styles.scroll}>

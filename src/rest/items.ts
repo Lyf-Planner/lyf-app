@@ -9,7 +9,6 @@ import { ItemRelatedUser } from 'schema/items';
 const itemsEndpoint = (req: string) => `/items/${req}`;
 
 export async function getTimetable(user_id: string, start_date: string) {
-  console.log('getting timetable of', user_id)
   const endpoint = itemsEndpoint(`timetable?user_id=${user_id}&start_date=${start_date}`);
 
   const result = await get(endpoint);

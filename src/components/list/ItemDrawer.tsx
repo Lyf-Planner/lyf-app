@@ -47,6 +47,8 @@ export const ItemDrawer = ({
   const [linkOpen, setLinkOpen] = useState(!!item?.url);
   const [locationOpen, setLocationOpen] = useState(!!item?.location);
 
+  console.log({ item });
+
   const noDetails = useMemo(
     () => item && !item.date && !item.time && !descOpen && !item.notification_mins,
     [item]

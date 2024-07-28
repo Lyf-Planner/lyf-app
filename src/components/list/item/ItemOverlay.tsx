@@ -59,7 +59,7 @@ export const ListItemOverlay = ({
   const conditionalStyles = {
     listItem: {
       backgroundColor: primaryColor,
-      borderRadius: item.type === ItemType.Event ? 5 : 10
+      borderRadius: item.type === ItemType.Event ? 5 : 15
     }
   };
 

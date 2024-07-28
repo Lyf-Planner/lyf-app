@@ -11,18 +11,12 @@ import { TimeString } from 'schema/util/dates';
 import { LocalItem } from 'schema/items';
 
 export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
-  const { user } = useAuth();
-
   const uploadTime = (time: TimeString|null) => {
     if (item.invite_pending) {
       return;
     }
     
     const changeSet: Partial<LocalItem> = { time: time || undefined };
-
-    if (time && user?.event_notification_mins) {
-      changeSet.notification_mins = user.event_notification_mins
-    }
 
     if (!time && item.notification_mins) {
       changeSet.notification_mins = undefined

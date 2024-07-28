@@ -13,8 +13,6 @@ type ModalHooks = {
 
 // Component provider
 export const ModalProvider = ({ children }: Props) => {
-  console.log('rendering modal provider');
-
   const [modal, updateModal] = useState<JSX.Element | undefined>(undefined);
 
   const exposed = {

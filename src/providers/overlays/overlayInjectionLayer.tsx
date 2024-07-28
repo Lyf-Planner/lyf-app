@@ -11,8 +11,6 @@ type Props = {
 }
 
 export const OverlayInjectionLayer = ({ children }: Props) => {
-  console.log('rendering overlay injection...')
-
   const { drawer, minHeight } = useDrawer();
   const { modal } = useModal();
 
@@ -30,8 +28,6 @@ export const OverlayInjectionLayer = ({ children }: Props) => {
     }
     Keyboard.dismiss();
   }, [drawer]);
-
-  console.log('rendered injection layer')
 
   return (
     <BottomSheetModalProvider>

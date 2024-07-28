@@ -23,9 +23,7 @@ export type DrawerHooks = {
 }
 
 // Component provider
-export const DrawerProvider = ({ children }: Props) => {
-  console.log('rendering drawer provider');
-  
+export const DrawerProvider = ({ children }: Props) => {  
   const [drawer, updateDrawer] = useState<JSX.Element | undefined>(undefined);
   const [minHeight, updateMinHeight] = useState<number>(100);
 

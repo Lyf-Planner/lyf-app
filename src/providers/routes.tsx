@@ -49,8 +49,6 @@ export type StackNavigation = NavigationProp<RootStackParamList>;
 
 // Component provider
 export const RouteProvider = ({ children }: Props) => {
-  console.log('rendered route provider')
-
   return (
     <NavigationContainer>
       {children}

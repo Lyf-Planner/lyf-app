@@ -39,7 +39,8 @@ export const ItemTimeFormatter = ({ item, textColor }: Props) => {
   const conditionalStyles = {
     listItemTimeText: {
       color: textColor,
-      fontFamily: item.type !== ItemType.Task ? 'InterMed' : 'Inter'
+      fontSize: 16,
+      fontFamily: 'Lexend'
     }
   };
 

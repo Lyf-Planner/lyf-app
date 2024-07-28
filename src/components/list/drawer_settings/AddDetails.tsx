@@ -16,6 +16,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { ItemDrawerProps } from '../ItemDrawer';
 import { ItemType } from 'schema/database/items';
 import { AddFriendsModal } from './AddFriendsModal';
+import { useAuth } from 'providers/cloud/useAuth';
 
 // The button component can definitely be abstracted here
 
@@ -38,6 +39,7 @@ export const AddDetails = ({
   setLocationOpen,
   locationOpen,
 }: Props) => {
+  const { user } = useAuth();
   const { enabled, getDefaultNotificationMins } = useNotifications();
   const { updateModal } = useModal();
 
@@ -77,7 +79,7 @@ export const AddDetails = ({
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
             disabled={item.invite_pending}
-            onPress={() => updateItem(item, { time: '09:00' })}
+            onPress={() => updateItem(item, { time: '09:00', notification_mins: user?.event_notification_mins })}
           >
             <View style={styles.addFieldContent}>
               <MaterialIcons name="access-time" color={'white'} size={18} />
