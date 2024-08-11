@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { eventsBadgeColor, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
+import { eventsBadgeColor, lightGreen, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
 import { FriendAction } from '../../pages/friends/FriendActions';
 import { BouncyPressable } from '../pressables/BouncyPressable';
 import { ItemSocialAction } from '../list/drawer_settings/ItemSocialAction';
@@ -92,14 +92,14 @@ const styles = StyleSheet.create({
     gap: 4,
     padding: 16,
     borderRadius: 10,
-    borderWidth: 1,
-    backgroundColor: '#AFE1AF',
+    borderWidth: 0.5,
+    backgroundColor: lightGreen,
     borderColor: 'rgba(0,0,0,0.3)',
 
     shadowColor: 'black',
     shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.6,
-    shadowRadius: 2
+    shadowOpacity: 0.5,
+    shadowRadius: 1
   },
   nameRow: { 
     flexDirection: 'column', 

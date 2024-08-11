@@ -107,7 +107,7 @@ export const ItemLink = ({
               updateSheetMinHeight(100);
               uploadUrl();
             }}
-            placeholder="Type Link"
+            placeholder="Enter Link"
             onFocus={() => updateSheetMinHeight(700)}
             onBlur={() => updateSheetMinHeight(100)}
             returnKeyType="done"
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   closeTouchable: { borderRadius: 5 },
   input: {
     backgroundColor: 'rgba(0,0,0,0.08)',
-    padding: 6,
+    paddingVertical: 8,
     width: 200,
     borderRadius: 8,
     fontSize: 16,

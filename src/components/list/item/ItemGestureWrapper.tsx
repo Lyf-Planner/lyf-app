@@ -58,12 +58,16 @@ export const ListItemGestureWrapper = ({
   // The solution was to use pager-view prerelease as per https://github.com/callstack/react-native-pager-view/issues/713
   // and manually adjust this to track the value and arbitrary lower the drag threshold (typically 20px)
   let flingStartX: number;
+  let flingStartY: number;
   const fling = Gesture.Fling()
     .direction(Directions.LEFT)
-    .onBegin((event) => flingStartX = event.absoluteX)
+    .onBegin((event) => {
+      flingStartX = event.absoluteX;
+      flingStartY = event.absoluteY;
+    })
     .onFinalize((event) => {
       console.log("diff is", event.absoluteX - flingStartX)
-      if (event.absoluteX - flingStartX > 5) {
+      if (event.absoluteX - flingStartX > 5 && event.absoluteY - flingStartY < 5) {
         handleFlingRight();
       }
       if (event.absoluteX - flingStartX < -10) {

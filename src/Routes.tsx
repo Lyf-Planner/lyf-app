@@ -25,6 +25,7 @@ export default function Routes() {
 
   return (
     <Tab.Navigator
+      sceneContainerStyle={styles.aboveBackground}
       initialRouteName={initialRoute.label}
       id="BottomTab"
       backBehavior="none"
@@ -44,3 +45,14 @@ export default function Routes() {
       </Tab.Navigator>
   );
 }
+
+const styles = Native.StyleSheet.create({
+  aboveBackground: {
+    position: 'absolute',
+    zIndex: 100,
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0
+  }
+})

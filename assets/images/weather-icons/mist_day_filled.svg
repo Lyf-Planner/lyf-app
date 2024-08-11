@@ -1,0 +1,6 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<line x1="24" y1="44" x2="40" y2="44" stroke="white" stroke-width="4" stroke-linecap="round"/>
+<line x1="11" y1="52" x2="53" y2="52" stroke="white" stroke-width="4" stroke-linecap="round"/>
+<line x1="10" y1="60" x2="55" y2="60" stroke="white" stroke-width="4" stroke-linecap="round"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M50 40C56.6274 40 62 34.6274 62 28C62 21.6262 57.0307 16.413 50.7551 16.0234C49.3365 7.49874 41.9272 1 33.0001 1C25.5395 1 19.139 5.53888 16.4094 12.0059C16.2734 12.002 16.1369 12 16 12C8.26801 12 2 18.268 2 26C2 33.732 8.26801 40 16 40C16.0049 40 16.0099 40 16.0148 40L50 40Z" fill="white"/>
+</svg>

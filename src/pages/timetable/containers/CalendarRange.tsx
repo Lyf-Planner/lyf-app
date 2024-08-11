@@ -5,19 +5,16 @@ import * as Native from 'react-native';
 import { primaryGreen, secondaryGreen } from "utils/colours";
 import { addWeekToStringDate, daysDifferenceBetween, formatDate, formatDateData, localisedMoment } from 'utils/dates';
 import { DateString } from 'schema/util/dates';
-
-type CalendarProps = {
-  updateDisplayedDays: (start: DateString, end: DateString) => void;
-  startDate: string;
-  endDate: string;
-}
+import { useTimetable } from 'providers/cloud/useTimetable';
 
 enum ShiftDirection {
   BACK = -1,
   FORWARD = 1
 }
 
-export const CalendarRange = ({ updateDisplayedDays, startDate, endDate }: CalendarProps) => {
+export const CalendarRange = () => {
+  const { reload, startDate, endDate } = useTimetable();
+
   // const dateOptions = useMemo(() => [
   //   { start: addWeekToStringDate(startDate, -1), end: addWeekToStringDate(endDate, -1) },
   //   { start: startDate, end: endDate },
@@ -29,7 +26,7 @@ export const CalendarRange = ({ updateDisplayedDays, startDate, endDate }: Calen
     const newStart = formatDateData(localisedMoment(startDate).add(direction * range, 'days').toDate())
     const newEnd = formatDateData(localisedMoment(endDate).add(direction * range, 'days').toDate())
 
-    updateDisplayedDays(newStart, newEnd);
+    reload(newStart, newEnd);
   }
 
   return (
@@ -55,7 +52,8 @@ const styles = Native.StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 14,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: primaryGreen,
@@ -67,7 +65,7 @@ const styles = Native.StyleSheet.create({
   },
   weekDateText: {
     color: 'white',
-    fontSize: 20,
+    fontSize: 19,
     fontFamily: 'Lexend',
   },
 })

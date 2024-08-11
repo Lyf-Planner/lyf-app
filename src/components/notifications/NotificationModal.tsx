@@ -31,12 +31,10 @@ export const NotificationModal = () => {
           </Native.TouchableHighlight>
         </Native.View>
 
-        <Horizontal />
-
-        {allSeen &&
-          <Native.Text style={{alignSelf: 'center', marginTop: 16, opacity: 0.7, fontFamily: 'Lexend', fontSize: 18}}>All up to date :)</Native.Text>
-        }
         <Native.ScrollView contentContainerStyle={styles.scrollWrapper}>
+          {allSeen &&
+            <Native.Text style={styles.upToDateText}>All up to date :)</Native.Text>
+          }
           {notifications.map((x) => (
             <NotificationBanner notification={x} key={x.id} />
           ))}
@@ -50,7 +48,6 @@ export const NotificationModal = () => {
 const styles = Native.StyleSheet.create({
   main: {
     position: 'absolute',
-    top: 175,
     width: 350,
     maxHeight: 400,
 
@@ -62,6 +59,7 @@ const styles = Native.StyleSheet.create({
   mainInternal: {
     backgroundColor: white,
     flexDirection: 'column',
+    gap: 8,
     overflow: 'hidden',
     borderRadius: 10,
     borderWidth: 3,
@@ -98,5 +96,13 @@ const styles = Native.StyleSheet.create({
     gap: 8,
     paddingVertical: 10,
     paddingHorizontal: 10,
+  },
+  upToDateText: {
+    alignSelf: 'center',  
+    opacity: 0.6, 
+    fontFamily: 'Lexend',
+    marginBottom: 8,
+    fontWeight: '600', 
+    fontSize: 18
   }
 })

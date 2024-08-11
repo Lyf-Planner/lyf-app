@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     minHeight: 50,
-    marginBottom: 20,
   },
   emptyText: {
     fontSize: 18,

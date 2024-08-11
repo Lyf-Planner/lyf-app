@@ -92,5 +92,7 @@ const styles = StyleSheet.create({
     borderRadius: 8
   },
   eventText: { fontSize: 20, fontWeight: '500', fontFamily: 'InterSemi' },
-  pickerContainer: { marginLeft: 'auto' }
+  pickerContainer: {
+    marginLeft: 'auto'
+  }
 });

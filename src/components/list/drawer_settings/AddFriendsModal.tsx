@@ -12,6 +12,8 @@ import { useFriends } from 'providers/cloud/useFriends';
 import { UserList, UserListContext } from 'components/users/UserList';
 import { LocalItem } from 'schema/items';
 import { useTimetable } from 'providers/cloud/useTimetable';
+import { UserFriendshipStatus } from 'schema/database/user_friendships';
+import { UserFriend } from 'schema/user';
 
 type Props = {
   item_id: ID,
@@ -27,19 +29,22 @@ export const AddFriendsModal = ({ item_id }: Props) => {
     return null;
   }
 
-  const friendsOnItem = useMemo(() => friends.map((friend) => {
-    // Return the item version of the user if possible, to reflect their relation to it.
-    if (item.relations?.users) {
-      const itemRelatedFriend = item.relations.users.find((itemUser) => itemUser.id === friend.id);
-      if (itemRelatedFriend) {
-        // We add this fromModal so we can change the menu name we technically display twice
-        // Really annoying package
-        return { ...itemRelatedFriend, fromModal: true };
+  const friendsOnItem = useMemo(() => friends
+    .filter((otherUser) => otherUser.status === UserFriendshipStatus.Friends)
+    .map((friend) => {
+      // Return the item version of the user if possible, to reflect their relation to it.
+      if (item.relations?.users) {
+        const itemRelatedFriend = item.relations.users.find((itemUser) => itemUser.id === friend.id);
+        if (itemRelatedFriend) {
+          // We add this fromModal so we can change the menu name we technically display twice
+          // Really annoying package
+          return { ...itemRelatedFriend, fromModal: true };
+        }
       }
-    }
 
-    return friend;
-  }), [item, friends])
+      return friend; 
+    }), 
+  [item, friends]);
 
   const [filter, setFilter] = useState('');
 

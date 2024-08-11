@@ -5,6 +5,7 @@ import { Permission } from '../schema/database/items_on_users';
 import { ID } from '../schema/database/abstract';
 import { UserRelatedItem } from '../schema/user';
 import { ItemRelatedUser } from 'schema/items';
+import { LocationObject } from 'expo-location';
 
 const itemsEndpoint = (req: string) => `/items/${req}`;
 
@@ -15,6 +16,25 @@ export async function getTimetable(user_id: string, start_date: string) {
   const items = result.data;
   if (result?.status === 200) {
     return items;
+  } else {
+    alert(result.data);
+  }
+}
+
+export async function getWeather(start_date: string, end_date: string, location?: LocationObject) {
+  if (!location) {
+    return [];
+  }
+
+  const lat = location.coords.latitude;
+  const lon = location.coords.longitude;
+  const endpoint = itemsEndpoint(`timetableWeather?start_date=${start_date}&end_date=${end_date}&lat=${lat}&lon=${lon}`);
+
+  const result = await get(endpoint);
+
+  const weatherData = result.data;
+  if (result?.status === 200) {
+    return weatherData;
   } else {
     alert(result.data);
   }

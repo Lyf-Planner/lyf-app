@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   listContainer: {
     flexWrap: 'wrap',
     flexDirection: 'row',
-    gap: 2,
+    gap: 1,
     width: '100%',
   }
 });

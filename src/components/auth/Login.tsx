@@ -12,6 +12,7 @@ import { USER_NOT_FOUND, login } from '../../rest/auth';
 import { createUser } from '../../rest/user';
 import { validatePassword, validateUsername } from '../../utils/validators';
 import { ExposedUser } from 'schema/user';
+import { lightGreen } from 'utils/colours';
 
 type Props = {
   updateUser: (changes: Partial<ExposedUser>) => void;
@@ -137,7 +138,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 0
+    zIndex: 0,
+
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 0},
+    shadowOpacity: 1,
+    shadowRadius: 5
   },
   container: {
     backgroundColor: 'white',

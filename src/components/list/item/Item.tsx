@@ -11,6 +11,7 @@ export type ListItemAnimatedValues = {
   scale: SharedValue<number>;
   offsetX: SharedValue<number>;
   checkScale: SharedValue<number>;
+  checkRotation: SharedValue<string>;
 };
 
 export type ItemStyleOptions = {
@@ -55,7 +56,8 @@ export const Item = ({
   const animatedValues: ListItemAnimatedValues = {
     scale: useSharedValue(1),
     offsetX: useSharedValue(0),
-    checkScale: useSharedValue(1)
+    checkScale: useSharedValue(1),
+    checkRotation: useSharedValue('0deg'),
   };
 
   return (

@@ -21,7 +21,7 @@ export default {
     splash: {
       image: "./assets/images/splash.png",
       resizeMode: "contain",
-      backgroundColor: "#fff",
+      backgroundColor: "white",
     },
     packagerOpts: {
       sourceExts: ["cjs"],
@@ -49,7 +49,12 @@ export default {
       bundleIdentifier: "com.lyfplanner",
       buildNumber: "1.5.12",
     },
-    plugins: ["expo-localization", "expo-font", "expo-asset"],
+    plugins: [
+      "expo-localization",
+      "expo-font",
+      "expo-asset",
+      ['expo-location', { locationWhenInUsePermission: "Allow Lyf to use your location for weather data."}]
+    ],
     extra: {
       backendUrl: process.env.BACKEND_URL,
       localBackendPort: process.env.LOCAL_BACKEND_PORT,

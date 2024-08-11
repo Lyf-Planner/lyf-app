@@ -86,6 +86,7 @@ const Setting = ({ updateFunc, enabled, name, desc }: SettingProps) => {
 const styles = StyleSheet.create({
   mainContainer: {
     paddingVertical: 14,
+    paddingHorizontal: 6
   },
   settingMain: {
     flexDirection: 'column',

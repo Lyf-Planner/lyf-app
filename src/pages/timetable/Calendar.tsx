@@ -1,9 +1,9 @@
 import * as Native from 'react-native';
-import { allDatesBetween, dayFromDateString, extendByWeek, formatDate, formatDateData, getStartOfCurrentWeek, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
+import { addWeekToStringDate, allDatesBetween, dayFromDateString, extendByWeek, formatDate, formatDateData, getStartOfCurrentWeek, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
 import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from 'providers/cloud/useAuth';
 import { CalendarRange } from './containers/CalendarRange';
-import { blackWithOpacity, deepBlue, white } from 'utils/colours';
+import { blackWithOpacity, deepBlue, eventsBadgeColor, sun, white } from 'utils/colours';
 import { DayDisplay } from './containers/DayDisplay';
 import { LocalItem } from 'schema/items';
 import { BouncyPressable } from 'components/pressables/BouncyPressable';
@@ -11,48 +11,37 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { ListDropdown } from 'components/dropdowns/ListDropdown';
 import { ItemType } from 'schema/database/items';
 import { v4 as uuid } from 'uuid';
-import { isTemplate } from 'components/list/constants';
+import { inProgressColor, isTemplate } from 'components/list/constants';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useTimetable } from 'providers/cloud/useTimetable';
-import { Loader, PageLoader } from 'components/general/MiscComponents';
+import { PageLoader } from 'components/general/MiscComponents';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export const Calendar = () => {
-  const { loading, items, reload } = useTimetable();
+  const { loading, items, reload, startDate, endDate } = useTimetable();
   const { user, updateUser } = useAuth()
-  const firstDay = useMemo(() => 
-    user?.first_day || formatDateData(getStartOfCurrentWeek()), 
-    [user?.first_day]
-  )
 
-  const [displayedDays, setDisplayedDays] = useState(upcomingWeek(firstDay));
+  const displayedDays = useMemo(() => allDatesBetween(startDate, endDate), [startDate, endDate]);
 
   useEffect(() => {
     // TODO: Function to adjust displayedDays in response to first_day changes
   }, [user?.first_day]);
 
-  const unshiftFirst = async () => {
-    const first = user?.first_day || formatDateData(new Date());
-    const prev = formatDateData(
-      localisedMoment(parseDateString(first)).add(-1, 'day').toDate()
-    );
+  // const unshiftFirst = async () => {
+  //   const first = user?.first_day || formatDateData(new Date());
+  //   const prev = formatDateData(
+  //     localisedMoment(parseDateString(first)).add(-1, 'day').toDate()
+  //   );
 
-    if (prev.localeCompare(firstDay) >= 0) {
-      updateUser({
-        ...user,
-        first_day: prev
-      });
-    }
-  };
+  //   if (prev.localeCompare(firstDay) >= 0) {
+  //     updateUser({
+  //       ...user,
+  //       first_day: prev
+  //     });
+  //   }
+  // };
 
-  const addWeek = () => setDisplayedDays(extendByWeek(displayedDays));
-
-  const updateDisplayedDays = async (start?: string, end?: string) => {
-    setDisplayedDays(allDatesBetween(
-      start || displayedDays[0],
-      end || displayedDays[displayedDays.length - 1]
-    ));
-    await reload(start, end)
-  }
+  const addWeek = () => reload(startDate, addWeekToStringDate(endDate));
 
   const calendarItems = useMemo(() => {
     const localItems: LocalItem[] = [];
@@ -105,84 +94,107 @@ export const Calendar = () => {
     .map((item) => ({ ...item, localised: false }))
   ), [items]);
 
+  const gradientColors = [eventsBadgeColor, inProgressColor, 'blue'];
+
   return (
-    <KeyboardAwareScrollView enableResetScrollToCoords={false} style={styles.scroll}>
-      <Native.View style={styles.main}>
-        <Native.View style={styles.dropdowns}>
-          <ListDropdown
-            items={upcomingEvents}
-            name="Upcoming Events"
-            icon={<Entypo name="calendar" size={22} />}
-            listType={ItemType.Event}
-          />
-          <ListDropdown
-            items={toDoList}
-            name="To Do List"
-            icon={<Entypo name="list" size={22} />}
-            listType={ItemType.Task}
-          />
-        </Native.View>
-
-        <CalendarRange
-          startDate={displayedDays[0]}
-          endDate={displayedDays[displayedDays.length - 1]}
-          updateDisplayedDays={updateDisplayedDays}
-        />
-
-        {loading && <PageLoader />}
-
-        {!loading &&
-          <Native.View style={styles.calendarWrapper}>
-            {displayedDays.map((x) => (
-              <DayDisplay
-                key={x}
-                date={x}
-                day={null}
-                items={calendarItems.filter((y) => y.date === x)}
-              />
-            ))}
-
-            <Native.View style={styles.addWeekButton}>
-              <BouncyPressable
-                onPress={() => addWeek()}
-                style={styles.addWeekTouchable}
-                useTouchableHighlight
-              >
-                <Native.View style={styles.addWeekView}>
-                  <Entypo name="chevron-down" size={20} />
-                  <Native.Text style={styles.addWeekText}>Add Week</Native.Text>
-                  <Entypo name="chevron-down" size={20} />
-                </Native.View>
-              </BouncyPressable>
-            </Native.View>
+    <LinearGradient
+      colors={gradientColors}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+      locations={[0,0.75,0.9]}
+      style={styles.main}
+    >
+      <Native.View
+        style={{
+          position: 'absolute',
+          backgroundColor: sun,
+          width: 150,
+          borderRadius: 100,
+          height: 150,
+          zIndex: 0,
+          top: -75,
+          left: -75,
+        }}
+      />
+      <KeyboardAwareScrollView enableResetScrollToCoords={false} style={styles.scroll}>
+        <Native.View style={styles.scrollContainer}>
+          <Native.View style={styles.dropdowns}>
+            <ListDropdown
+              items={upcomingEvents}
+              name="Upcoming Events"
+              icon={<Entypo name="calendar" color={eventsBadgeColor} size={22} />}
+              listType={ItemType.Event}
+            />
+            <ListDropdown
+              items={toDoList}
+              name="To Do List"
+              icon={<Entypo name="list" color={eventsBadgeColor} size={22} />}
+              listType={ItemType.Task}
+            />
           </Native.View>
-        }
-      </Native.View>
-    </KeyboardAwareScrollView>
+
+          <CalendarRange />
+
+          {loading && <PageLoader />}
+
+          {!loading &&
+            <Native.View style={styles.calendarWrapper}>
+              {displayedDays.map((x) => (
+                <DayDisplay
+                  key={x}
+                  date={x}
+                  day={null}
+                  items={calendarItems.filter((y) => y.date === x)}
+                />
+              ))}
+
+              <Native.View style={styles.addWeekButton}>
+                <BouncyPressable
+                  onPress={() => addWeek()}
+                  style={styles.addWeekTouchable}
+                  useTouchableHighlight
+                >
+                  <Native.View style={styles.addWeekView}>
+                    <Entypo name="chevron-down" size={20} />
+                    <Native.Text style={styles.addWeekText}>Add Week</Native.Text>
+                    <Entypo name="chevron-down" size={20} />
+                  </Native.View>
+                </BouncyPressable>
+              </Native.View>
+            </Native.View>
+          }
+        </Native.View>
+      </KeyboardAwareScrollView>
+    </LinearGradient>
   )
 }
 
 const styles = Native.StyleSheet.create({
   scroll: {
-    backgroundColor: "#EEE"
+    overflow: 'visible'
   },
 
   main: {
-    marginBottom: 125,
+    minHeight: '100%',
+    paddingBottom: 125,
     paddingHorizontal: 14,
-    marginTop: 15,
+    paddingTop: 15,
+  },
+
+  scrollContainer: {
     flexDirection: "column",
-    gap: 20
+    gap: 14,
+    backgroundColor: 'transparent'
   },
 
   dropdowns: {
     flexDirection: 'column',
-    gap: 8
+    gap: 4,
   },
 
   calendarWrapper: {
     flexDirection: 'column',
-    gap: 20,
+    gap: 10,
     borderRadius: 10
   },
 
@@ -204,7 +216,7 @@ const styles = Native.StyleSheet.create({
     alignItems: 'center',
     gap: 5,
     padding: 15,
-    backgroundColor: "rgba(0,0,0,0.2)",
+    backgroundColor: "white",
     width: 250,
     borderRadius: 10
   },

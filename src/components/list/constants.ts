@@ -22,7 +22,7 @@ export const cancelledColor = 'rgb(252 165 165)';
 export const ITEM_STATUS_TO_COLOR = {
   // Values taken from the corresponding bg's in tailwind
   Tentative: tentativeColor,
-  Upcoming: upcomingColor,
+  Upcoming: eventsBadgeColor,
   'To Do': todoColor,
   'In Progress': inProgressColor,
   Done: doneColor,

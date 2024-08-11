@@ -55,7 +55,7 @@ export const upcomingWeek = (date: DateString) => {
   return allDatesBetween(start, end);
 };
 
-export const allDatesBetween = (start: DateString, end: DateString) => {
+export const allDatesBetween = (start: DateString, end: DateString, excludeFinal = false) => {
   // Note: is inclusive of both start and end date
 
   if (end.localeCompare(start) < 0) { 

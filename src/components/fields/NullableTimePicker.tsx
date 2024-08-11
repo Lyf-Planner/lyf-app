@@ -6,7 +6,7 @@ import { TimeString } from 'schema/util/dates';
 
 export enum NullTimeTextOptions {
   AddTime = 'Add Time +',
-  EndTime = 'End Time?',
+  EndTime = '+ End Time',
 }
 
 type Props = {

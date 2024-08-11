@@ -1,9 +1,11 @@
 import { View, Image, StyleSheet } from 'react-native';
 import { LyfElement } from 'utils/abstractTypes';
+import { lightGreen, primaryGreen } from 'utils/colours';
 
+const WORLD = require('../../../assets/images/background/sams-world.png');
 const TREE = require('../../../assets/images/background/tree.png');
 const ROUND_TREE = require('../../../assets/images/background/roundtree.png');
-const BRANCH = require('../../../assets/images/background/branch.png');
+const BRANCH = require('../../../assets/images/background/branch-transparent.png');
 
 type Props = {
   children: LyfElement
@@ -12,16 +14,25 @@ type Props = {
 export const Background = ({ children }: Props) => {
   return (
     <View style={styles.page}>
-      <Image
-        source={TREE}
-        alt="tree"
-        style={styles.bigTree}
-        resizeMode="contain"
-      />
+
       <Image
         source={BRANCH}
         alt="tree"
         style={styles.branch}
+        resizeMode="contain"
+      />
+
+      <Image
+        source={WORLD}
+        alt="world"
+        style={styles.world}
+        resizeMode="contain"
+      />
+
+      <Image
+        source={TREE}
+        alt="tree"
+        style={styles.bigTree}
         resizeMode="contain"
       />
       <Image
@@ -44,7 +55,7 @@ export const Background = ({ children }: Props) => {
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: 'rgb(21, 128, 61)',
+    backgroundColor: primaryGreen,
     zIndex: 0,
     flex: 1
   },
@@ -56,21 +67,31 @@ const styles = StyleSheet.create({
   },
   bigTree: {
     position: 'absolute',
+    zIndex: 40,
     height: '30%',
     bottom: -10,
     right: -40
   },
   smallTree: {
     position: 'absolute',
+    zIndex: 50,
     bottom: 0,
     right: 50,
     height: '15%'
   },
   branch: {
     position: 'absolute',
-    top: 110,
-    left: -130,
+    zIndex: 60,
+    top: 120,
+    right: -130,
     width: '80%',
-    transform: [{ rotate: '105deg' }]
-  }
+    transform: [{ rotate: '70deg' }, { rotateX: '180deg' }]
+  },
+  world: {
+    position: 'absolute',
+    zIndex: 0,
+    top: -100,
+    right: -200,
+    height: '50%'
+  },
 });

@@ -16,10 +16,10 @@ import { useModal } from 'providers/overlays/useModal';
 import { UserModal } from 'components/users/UserModal';
 
 const notificationTypeIcon: Record<NotificationType, JSX.Element> = Object.freeze({
-  'ItemReminder': <Feather name="clock" />,
-  'ItemSocial': <MaterialCommunityIcons name='calendar' size={30} />,
+  'ItemReminder': <Feather name="clock" size={24} />,
+  'ItemSocial': <MaterialCommunityIcons name='calendar' size={28} />,
   'NoteSocial': <Entypo name='list' size={30} />,
-  'UserSocial': <FontAwesome5 name="user-friends" size={24} />,
+  'UserSocial': <FontAwesome5 name="user-friends" size={22} />,
 })
 
 type Props = {

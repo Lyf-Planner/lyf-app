@@ -34,6 +34,7 @@
     "expo-haptics": "~13.0.1",
     "expo-linear-gradient": "~13.0.2",
     "expo-localization": "~15.0.3",
+    "expo-location": "^17.0.1",
     "expo-notifications": "~0.28.9",
     "expo-splash-screen": "~0.27.5",
     "expo-status-bar": "~1.12.1",
@@ -75,6 +76,7 @@
     "eslint-plugin-react": "^7.34.2",
     "eslint-plugin-react-native": "^4.1.0",
     "globals": "^15.4.0",
+    "openweather-api-node": "^3.1.4",
     "typescript-eslint": "^7.12.0"
   },
   "private": true

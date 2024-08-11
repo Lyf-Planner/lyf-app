@@ -147,7 +147,9 @@ export const AuthGateway = ({ children }: Props) => {
         <LoadingScreen text={'Signing In Securely...'} />
       </Background>
     );
-  } else if (!user) {
+  } 
+  
+  if (!user) {
     return (
       <Background>
         <Login updateUser={updateUserInternal} />

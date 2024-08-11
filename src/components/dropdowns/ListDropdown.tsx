@@ -13,6 +13,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { ItemType } from 'schema/database/items';
 import { LocalItem } from 'schema/items';
 import { NewItem } from 'components/list/NewItem';
+import { upcomingColor } from 'components/list/constants';
 
 type Props = {
   items: LocalItem[],
@@ -72,7 +73,7 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
         }
         <View style={styles.headerLeft}>
           <Animated.View style={[styles.animatedChevron, chevronRotationAnimation]}>
-            <Entypo name="chevron-right" size={25} />
+            <Entypo name="chevron-right" color={eventsBadgeColor} size={25} />
           </Animated.View>
         </View>
       </Pressable>
@@ -85,10 +86,10 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
           <List
             items={items}
             itemStyleOptions={{
-              itemColor: deepBlue,
-              itemTextColor: 'rgb(203 213 225)'
+              itemColor: eventsBadgeColor,
+              itemTextColor: deepBlue
             }}
-            listWrapperStyles={{ backgroundColor: eventsBadgeColor }}
+            listWrapperStyles={{ backgroundColor: deepBlue }}
           />
           <NewItem 
             addItemByTitle={(title: string) => addItem(
@@ -107,17 +108,17 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
 const styles = StyleSheet.create({
   dropdownContainer: {
     flexDirection: 'column',
-    backgroundColor: eventsBadgeColor,
+    backgroundColor: deepBlue,
     borderRadius: 10,
-    padding: 14,
+    padding: 12,
     justifyContent: 'flex-start',
-    marginVertical: 1,
-    borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.2)',
+    borderWidth: 2,
+    borderColor: 'rgba(0, 0, 0, 0.3)',
 
     shadowColor: 'black',
     shadowOpacity: 0.25,
-    shadowRadius: 0.5
+    shadowRadius: 0.5,
+    shadowOffset: { width: 4, height: 2 },
   },
   dropdownTextContainer: {
     flexDirection: 'row',
@@ -130,15 +131,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listTitle: {
-    fontSize: 22,
+    fontSize: 20,
     paddingVertical: 2,
-    fontFamily: 'Lexend'
+    fontFamily: 'Lexend',
+    color: eventsBadgeColor
   },
   listSize: {
     paddingVertical: 4,
     fontSize: 16,
     marginLeft: 'auto',
-    fontFamily: 'Lexend'
+    fontFamily: 'Lexend',
+    color: eventsBadgeColor
   },
   animatedChevron: {
     marginRight: 5
@@ -146,6 +149,6 @@ const styles = StyleSheet.create({
   listWrapper: {
     flexDirection: 'column',
     gap: 4,
-    marginTop: 8,
+    marginTop: 12,
   }
 });

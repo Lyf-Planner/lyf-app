@@ -5,12 +5,13 @@
 import * as Native from 'react-native'
 import { Image, Pressable, StyleSheet, TouchableHighlight } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { gentleBlack, primaryGreen, white } from "utils/colours";
+import { deepBlue, eventsBadgeColor, gentleBlack, primaryGreen, white } from "utils/colours";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 import { useTutorial } from 'providers/overlays/useTutorial';
 import { useNotifications } from 'providers/cloud/useNotifications';
 import { useModal } from 'providers/overlays/useModal';
 import { NotificationModal } from 'components/notifications/NotificationModal';
+import { inProgressColor } from 'components/list/constants';
 
 
 const LyfIcon = require("../../../assets/images/icon.png")
@@ -55,7 +56,6 @@ export function defaultTabHeader(label: string): BottomTabNavigationOptions  {
 
 const headerStyles = StyleSheet.create({
   header: {
-    borderBottomWidth: 0.5,
     borderBottomColor: gentleBlack,
     backgroundColor: white,
     height: 100

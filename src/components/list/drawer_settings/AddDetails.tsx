@@ -54,8 +54,9 @@ export const AddDetails = ({
             onPress={() => updateModal(<AddFriendsModal item_id={item.id} />)}
           >
             <View style={styles.addFieldContent}>
+              <Text style={styles.addFieldText}>+</Text>
               <FontAwesome5Icon name="users" color={'white'} size={16} />
-              <Text style={styles.addFieldText}>Add Friends +</Text>
+              <Text style={styles.addFieldText}>Add Friends</Text>
             </View>
           </TouchableHighlight>
         )}
@@ -68,8 +69,9 @@ export const AddDetails = ({
             onPress={() => updateItem(item, { date: formatDateData(new Date()) })}
           >
             <View style={styles.addFieldContent}>
+              <Text style={styles.addFieldText}>+</Text>
               <MaterialIcons name="date-range" color={'white'} size={18} />
-              <Text style={styles.addFieldText}>Add Date +</Text>
+              <Text style={styles.addFieldText}>Add Date</Text>
             </View>
           </TouchableHighlight>
         )}
@@ -82,8 +84,9 @@ export const AddDetails = ({
             onPress={() => updateItem(item, { time: '09:00', notification_mins: user?.event_notification_mins })}
           >
             <View style={styles.addFieldContent}>
+              <Text style={styles.addFieldText}>+</Text>
               <MaterialIcons name="access-time" color={'white'} size={18} />
-              <Text style={styles.addFieldText}>Add Time +</Text>
+              <Text style={styles.addFieldText}>Add Time</Text>
             </View>
           </TouchableHighlight>
         )}
@@ -114,12 +117,13 @@ export const AddDetails = ({
             }}
           >
             <View style={styles.addFieldContent}>
+              <Text style={styles.addNotificationText}>+</Text>
               <MaterialIcons
                 name="notifications-active"
                 color={'white'}
                 size={18}
               />
-              <Text style={styles.addNotificationText}>Add Reminder +</Text>
+              <Text style={styles.addNotificationText}>Add Reminder</Text>
             </View>
           </TouchableHighlight>
         )}
@@ -135,8 +139,9 @@ export const AddDetails = ({
             }}
           >
             <View style={styles.addFieldContent}>
+              <Text style={styles.addFieldText}>+</Text>
               <MaterialIcons name="link" color={'white'} size={18} />
-              <Text style={styles.addFieldText}>Add Link +</Text>
+              <Text style={styles.addFieldText}>Add Link</Text>
             </View>
           </TouchableHighlight>
         )}
@@ -152,8 +157,9 @@ export const AddDetails = ({
             }}
           >
             <View style={styles.addFieldContent}>
+              <Text style={styles.addFieldText}>+</Text>
               <MaterialIcons name="location-pin" color={'white'} size={18} />
-              <Text style={styles.addFieldText}>Add Location +</Text>
+              <Text style={styles.addFieldText}>Add Location</Text>
             </View>
           </TouchableHighlight>
         )}
@@ -168,8 +174,9 @@ export const AddDetails = ({
             }}
           >
             <View style={styles.addFieldContent}>
+              <Text style={styles.addFieldText}>+</Text>
               <MaterialIcons name="edit" color={'white'} size={18} />
-              <Text style={styles.addFieldText}>Add Description +</Text>
+              <Text style={styles.addFieldText}>Add Description</Text>
             </View>
           </TouchableHighlight>
         )}

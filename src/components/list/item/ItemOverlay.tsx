@@ -69,6 +69,7 @@ export const ListItemOverlay = ({
         <AnimatedCheck
           item={item}
           checkScale={animatedValues.checkScale}
+          checkRotation={animatedValues.checkRotation}
           color={secondaryColor}
         />
 

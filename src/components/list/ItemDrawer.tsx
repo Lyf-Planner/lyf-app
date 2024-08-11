@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
   header: { 
     gap: 8, 
-    zIndex: 10 
+    zIndex: 10,
   },
   itemType: { 
     marginLeft: 'auto',
@@ -220,24 +220,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     borderRadius: 5,
+
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2
+    shadowOpacity: 0.7,
+    shadowRadius: 3
   },
   subtitle: {
     textAlign: 'center',
     opacity: 0.4,
     fontWeight: '600',
-    fontSize: 15
+    fontSize: 16,
+    fontFamily: 'Lexend'
   },
 
   secondSeperator: { opacity: 0.2, marginTop: 16, borderWidth: 2 },
   footer: {
     gap: 12,
     position: 'relative',
-    bottom: 10,
-    marginTop: 20,
+    marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'

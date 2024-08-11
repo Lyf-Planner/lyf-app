@@ -30,6 +30,7 @@ export const SortableListItem = ({
   isActive = false
 }: Props) => {
   const checkScale = useSharedValue(1);
+  const checkRotation = useSharedValue('0deg');
   const primaryColor = useMemo(
     () => getItemPrimaryColor(item),
     [item, itemStyleOptions]
@@ -54,6 +55,7 @@ export const SortableListItem = ({
       <AnimatedCheck
         item={item}
         checkScale={checkScale}
+        checkRotation={checkRotation}
         color={secondaryColor}
       />
 
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 10,
     flex: 1,
-    height: 55,
+    height: 50,
     borderWidth: 1,
     gap: 4,
     alignItems: 'center'

@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useAuth } from 'providers/cloud/useAuth';
 import { getCalendars } from 'expo-localization';
 import {
@@ -6,12 +6,13 @@ import {
   deleteItem,
   getItem,
   getTimetable,
+  getWeather,
   updateItem as updateRemoteItem,
   updateItemSocial as updateRemoteItemSocial
 } from 'rest/items';
 import { ItemStatus } from 'components/list/constants';
 import { v4 as uuid } from 'uuid';
-import { addWeekToStringDate, formatDateData } from 'utils/dates';
+import { addWeekToStringDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek } from 'utils/dates';
 import 'react-native-get-random-values';
 import { PublicUser, UserRelatedItem } from 'schema/user';
 import { Item, LocalItem } from 'schema/items';
@@ -22,10 +23,15 @@ import { ID } from 'schema/database/abstract';
 import { DateString } from 'schema/util/dates';
 import { useCloud } from './cloudProvider';
 import { useNotes } from './useNotes';
+import { DailyWeather, HistoricalWeather } from 'openweather-api-node';
+import { useLocation } from './useLocation';
 
 export type TimetableHooks = {
+  startDate: DateString,
+  endDate: DateString,
   loading: boolean,
   items: LocalItem[],
+  weather: (DailyWeather | HistoricalWeather)[],
   updateItem: UpdateItem,
   updateItemSocial: UpdateItemSocial,
   addItem: AddItem,
@@ -58,14 +64,27 @@ type Props = {
  */
 export const TimetableProvider = ({ children }: Props) => {
   const { user } = useAuth()
+  const { location } = useLocation();
   const { handleNoteItemUpdate } = useNotes();
   const { setSyncing } = useCloud();
 
   const [initialised, setInitialised] = useState(false);
   const [loading, setLoading] = useState(true);
+
   const [items, setItems] = useState<LocalItem[]>([]);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("")
+  const [weather, setWeather] = useState<(HistoricalWeather | DailyWeather)[]>([]);
+
+  const [startDate, setStartDate] = useState(formatDateData(getStartOfCurrentWeek()));
+  const [endDate, setEndDate] = useState(formatDateData(getEndOfCurrentWeek()));
+
+  useEffect(() => {
+    if (location && user) {
+      console.log('requesting weather with loc', { location });
+      getWeather(startDate, endDate, location).then((data) => {
+        setWeather(data)
+      })
+    }
+  }, [startDate, endDate, location])
 
   // Timetable needs to fetch all the list item ids before anything else
   const reload = useCallback(async (start_date?: string, end_date?: string) => {
@@ -80,12 +99,14 @@ export const TimetableProvider = ({ children }: Props) => {
       setSyncing(true);
     }
 
-    const start = start_date || startDate || user.first_day || formatDateData(new Date());
-    const end = end_date || endDate || addWeekToStringDate(start);
+    const start = start_date || startDate;
+    const end = end_date || endDate;
+
     setStartDate(start)
     setEndDate(end);
   
-    const items = await getTimetable(user.id, start);
+    const items = await getTimetable(user.id, start)
+
     setItems(items);
 
     if (!initialised) {
@@ -272,8 +293,11 @@ export const TimetableProvider = ({ children }: Props) => {
   };
 
   const exposed: TimetableHooks = {
+    startDate,
+    endDate,
     loading,
     items,
+    weather,
     updateItem,
     updateItemSocial,
     addItem,

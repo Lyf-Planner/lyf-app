@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Vibration, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Vibration, Image, Pressable } from 'react-native';
 import { Horizontal, Vertical } from '../../../components/general/MiscComponents';
 import { List } from '../../../components/list/List';
 import {
@@ -13,6 +13,8 @@ import {
   deepBlue,
   deepBlueOpacity,
   eventsBadgeColor,
+  lightGreen,
+  primaryGreenWithOpacity,
   secondaryGreen,
 } from '../../../utils/colours';
 import { sleep } from 'utils/misc';
@@ -37,8 +39,8 @@ import * as Haptics from 'expo-haptics';
 import { LocalItem } from 'schema/items';
 import { DateString, DayOfWeek } from 'schema/util/dates';
 import { ItemStatus, ItemType } from 'schema/database/items';
-import { NewItem } from 'components/list/NewItem';
 import { MultiTypeNewItem } from 'components/list/MultiTypeNewItem';
+import { WeatherWidget } from 'components/weather/WeatherWidget';
 
 type Props = {
   items: LocalItem[],
@@ -46,6 +48,8 @@ type Props = {
   day: DayOfWeek | null,
   useRoutine?: boolean
 }
+
+
 
 export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
   const [sorting, setSorting] = useState(false);
@@ -189,15 +193,25 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
     return menuOptions;
   };
 
+  const isSunday = date ? dayFromDateString(date) === 'Sunday' : day === 'Sunday';
+
   const conditionalStyles = {
     diagLines: {
       borderColor: canDelete ? deepBlueOpacity(0.6) : 'rgba(0,0,0,0.2)',
+    },
+    dayRootView: isSunday ? {
+      marginBottom: 8,
+    } : {
+      shadowOffset: { width: 0, height: 0 },
+      shadowColor: 'black',
+      shadowOpacity: 0.5,
+      shadowRadius: 2
     }
   }
 
   return (
     <View>
-      <Animated.View style={[styles.dayRootView, exitingAnimation]}>
+      <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
         <LyfMenu
         // TODO: This sucks
           name={(date ? date : day) + "-menu"} 
@@ -206,10 +220,12 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
         >
           <BouncyPressable onPress={() => console.log('opening menu')} disabled>
             <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
+              <WeatherWidget date={date || day || ''} />
               <View style={styles.dayOfWeekPressable}>
                 <Text style={styles.dayOfWeekText}>
                   {day || (date && dayFromDateString(date))}
                 </Text>
+                
               </View>
               <View style={styles.headerEnd}>
                 <Vertical style={[styles.diagLines, conditionalStyles.diagLines]} />
@@ -233,7 +249,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
                 itemColor: 'rgb(241 245 249)',
                 itemTextColor: 'black'
               }}
-              listWrapperStyles={{ backgroundColor: deepBlue }}
+              listWrapperStyles={{ backgroundColor: 'transparent' }}
             />
           ) : (
             <List
@@ -243,7 +259,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
               itemStyleOptions={{
                 itemTextColor: 'black'
               }}
-              listWrapperStyles={{ backgroundColor: deepBlue }}
+              listWrapperStyles={{ backgroundColor: 'transparent' }}
             />
           )}
         </View>
@@ -268,7 +284,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
 
 const styles = StyleSheet.create({
   dayRootView: {
-    backgroundColor: deepBlue,
+    backgroundColor: deepBlueOpacity(0.6),
     width: '100%',
     borderWidth: 1,
     borderRadius: 10,
@@ -276,11 +292,6 @@ const styles = StyleSheet.create({
     zIndex: 10,
     flexDirection: 'column',
     gap: 4,
-  
-    shadowOffset: { width: 5, height: 6 },
-    shadowColor: 'black',
-    shadowOpacity: 0.5,
-    shadowRadius: 1
   },
   dayHeaderView: {
     backgroundColor: secondaryGreen,
@@ -288,7 +299,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 8,
     alignItems: 'center',
-    overflow: 'hidden'
+    overflow: 'visible',
+
+    shadowOffset: { width: 0, height: 0 },
+    shadowColor: 'black',
+    shadowOpacity: 0.7,
+    shadowRadius: 3
   },
   headerEnd: {
     flexDirection: 'row',
@@ -308,12 +324,12 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     paddingRight: 2,
     marginLeft: 16,
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Lexend'
   },
   dayOfWeekText: {
     fontFamily: 'Lexend-Semibold',
-    fontSize: 20,
+    fontSize: 18,
     padding: 2
   },
   dayOfWeekPressable: {
@@ -322,7 +338,8 @@ const styles = StyleSheet.create({
     paddingVertical: 14
   },
   listWrapperView: {
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginTop: 2
   },
 
   doneButton: {

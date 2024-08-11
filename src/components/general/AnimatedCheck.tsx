@@ -11,10 +11,11 @@ import { LocalItem } from 'schema/items';
 type Props = {
   item: LocalItem;
   checkScale: SharedValue<number>;
+  checkRotation: SharedValue<string>;
   color: string;
 };
 
-export const AnimatedCheck = ({ item, checkScale, color }: Props) => {
+export const AnimatedCheck = ({ item, checkScale, checkRotation, color }: Props) => {
   const iconType =
     item.status === ItemStatus.Done ? 'checkcircle' : 'checkcircleo';
 
@@ -22,6 +23,11 @@ export const AnimatedCheck = ({ item, checkScale, color }: Props) => {
     transform: [
       {
         scale: withTiming(checkScale.value, {
+          duration: SCALE_MS
+        })
+      },
+      {
+        rotateZ: withTiming(checkRotation.value, {
           duration: SCALE_MS
         })
       }

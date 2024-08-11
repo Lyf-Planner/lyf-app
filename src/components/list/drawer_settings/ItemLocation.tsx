@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -9,11 +9,14 @@ import {
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { ItemDrawerProps } from '../ItemDrawer';
+import debouncer from 'signature-debouncer';
 
 type Props = ItemDrawerProps & {
   setLocationOpen: (open: boolean) => void;
   updateSheetMinHeight: (height: number) => void;
 }
+
+const debounceSignature = 'UpdateLocation';
 
 export const ItemLocation = ({
   item,
@@ -31,6 +34,8 @@ export const ItemLocation = ({
     updateItem(item, { location });
   };
 
+  const clearField = () => updateItem(item, { location: undefined });
+
   return (
     <View style={[styles.mainContainer]}>
       <MaterialIcons name="location-pin" size={20} />
@@ -39,6 +44,7 @@ export const ItemLocation = ({
         <TouchableHighlight
           onPress={() => {
             setLocation(undefined);
+            clearField();
             setLocationOpen(false);
           }}
           underlayColor={'rgba(0,0,0,0.5)'}
@@ -50,7 +56,7 @@ export const ItemLocation = ({
         <TextInput
           value={location}
           onEndEditing={() => {
-            updateSheetMinHeight(100);
+            updateSheetMinHeight(100)
             uploadLocation();
           }}
           placeholder="Enter Location"

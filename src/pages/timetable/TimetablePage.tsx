@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useTimetable } from 'providers/cloud/useTimetable';
-import { black, primaryGreen, white } from 'utils/colours';
+import { deepBlue, primaryGreen, sun, white } from 'utils/colours';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Calendar } from './Calendar';
@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
     shadowRadius: 2
   },
   tabBarIndicatorStyle: {
-    backgroundColor: black
+    backgroundColor: deepBlue
   }
 });
