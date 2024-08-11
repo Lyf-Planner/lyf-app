@@ -11,7 +11,7 @@ import { NoteType } from "schema/database/notes"
 import { LocalItem } from 'schema/items';
 import { UserRelatedNote } from 'schema/user';
 import debouncer from 'signature-debouncer';
-import { eventsBadgeColor } from 'utils/colours';
+import { deepBlue, deepBlueOpacity, eventsBadgeColor, white } from 'utils/colours';
 
 type Props = {
   note: UserRelatedNote
@@ -35,12 +35,6 @@ export const NoteBody = ({ note }: Props) => {
     debouncer.run(updateContent, debounceSignature, 1000)
   }, [content])
 
-  const conditionalStyles = {
-    listWrapper: {
-      backgroundColor: eventsBadgeColor
-    }
-  }
-
   const itemStyle = {
     itemColor: 'rgb(30 41 59)',
     itemTextColor: 'rgb(203 213 225)'
@@ -53,6 +47,7 @@ export const NoteBody = ({ note }: Props) => {
         multiline={true}
         value={content}
         style={styles.noteText}
+        selectionColor={white}
         onChangeText={setContent}
         onEndEditing={updateContent}
         onSubmitEditing={updateContent}
@@ -76,7 +71,7 @@ export const NoteBody = ({ note }: Props) => {
     )
 
     return (
-      <Native.View style={[conditionalStyles.listWrapper, styles.listWrapper]}>
+      <Native.View style={[styles.listWrapper]}>
         <List
           items={noteItems}
           itemStyleOptions={itemStyle}
@@ -88,6 +83,7 @@ export const NoteBody = ({ note }: Props) => {
             default_sorting_rank: noteItems.length
           }}
           newRank={noteItems.length}
+          whiteShadow={false}
         />
       </Native.View>
     )
@@ -98,20 +94,24 @@ export const NoteBody = ({ note }: Props) => {
 
 const styles = Native.StyleSheet.create({
   listWrapper: {
-    marginTop: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 12,
+    marginVertical: 12,
+    marginHorizontal: 8,
+    padding: 8,
     borderRadius: 10,
+    flexDirection: 'column',
+    backgroundColor: deepBlueOpacity(0.2),
+    gap: 4
   },
   noteText: {
-    borderWidth: 1,
-    marginTop: 6,
-    borderColor: 'rgba(0,0,0,0.3)',
-    backgroundColor: 'rgba(0,0,0,0.07)',
-    borderRadius: 5,
+    borderWidth: 2,
+    marginHorizontal: 8,
+    marginVertical: 16,
+    borderColor: deepBlue,
+    backgroundColor: deepBlueOpacity(0.8),
+    borderRadius: 10,
     fontSize: 16,
-    height: 375,
+    height: 400,
     padding: 8,
-    marginBottom: 8
+    color: white
   },
 })

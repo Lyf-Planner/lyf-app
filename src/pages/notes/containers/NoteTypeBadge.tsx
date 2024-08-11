@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { NoteType } from 'schema/database/notes';
-import { black, eventsBadgeColor, primaryGreen, white } from 'utils/colours';
+import { black, deepBlue, eventsBadgeColor, primaryGreen, white } from 'utils/colours';
 
 const TYPES_TO_COLOR = Object.freeze({
   "Multiple": primaryGreen,
@@ -16,8 +17,8 @@ const TYPES_TO_TEXT = Object.freeze({
 
 export const TYPE_TO_DISPLAY_NAME = Object.freeze({
   "Multiple": "Multi",
-  "Note Only": "🗒 Text",
-  "List Only": "🖊️ List"
+  "Note Only": <FontAwesome5 name='sticky-note' size={20} />,
+  "List Only": <FontAwesome5 name='list-ul' size={18} />
 })
 
 type Props = {
@@ -25,14 +26,9 @@ type Props = {
 }
 
 export const NoteTypeBadge = ({ type }: Props) => {
-  const conditionalStyles = {
-    main: { backgroundColor: TYPES_TO_COLOR[type] },
-    text: { color: TYPES_TO_TEXT[type] }
-  }
-
   return (
-    <View style={[styles.main, conditionalStyles.main]}>
-      <Text style={[conditionalStyles.text, styles.text]}>
+    <View style={[styles.main]}>
+      <Text style={[styles.text]}>
         {TYPE_TO_DISPLAY_NAME[type]}
       </Text>
     </View>
@@ -44,13 +40,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 20,
-    width: 90
+    borderRadius: 25,
+    backgroundColor: eventsBadgeColor,
+    width: 40,
+    height: 40
   },
   text: {
     fontSize: 18,
     fontFamily: 'Lexend',
-    paddingVertical: 8,
-    paddingHorizontal: 8,
+    textAlign: 'center'
   }
 });

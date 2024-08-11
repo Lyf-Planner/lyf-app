@@ -11,9 +11,10 @@ import { Horizontal } from 'components/general/MiscComponents';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NoteType } from 'schema/database/notes';
 import { useNotes } from 'providers/cloud/useNotes';
-import { white } from 'utils/colours';
+import { deepBlue, white } from 'utils/colours';
 import { LyfElement } from 'utils/abstractTypes';
 import { BouncyPressable } from 'components/pressables/BouncyPressable';
+import { inProgressColor } from 'components/list/constants';
 
 type Props = {
   newNote: (type: NoteType) => void;
@@ -86,7 +87,7 @@ export const NewNoteMenu = ({ newNote }: Props) => {
 const NewNoteButton = () => {
   return (
     <View style={styles.newNoteContainer}>
-      <MaterialCommunityIcons name="note-plus-outline" size={28} />
+      <MaterialCommunityIcons name="note-plus-outline" size={28} color={inProgressColor} />
     </View>
   );
 };
@@ -107,6 +108,6 @@ const styles = StyleSheet.create({
   newNoteContainer: { 
     padding: 4, 
     borderRadius: 5,
-    backgroundColor: white,
+    backgroundColor: deepBlue,
   }
 });

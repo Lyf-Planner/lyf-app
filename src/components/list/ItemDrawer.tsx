@@ -124,11 +124,13 @@ export const ItemDrawer = ({
         <Horizontal style={styles.firstSeperator} />
 
         <View style={[styles.detailsContainer, conditionalStyles.detailsContainer]}>
-          <ItemUsers 
-            item={item}
-            loading={!item.relations?.users}
-            closeDrawer={() => updateDrawer(undefined)}
-          />
+          {!item.note_id &&
+            <ItemUsers 
+              item={item}
+              loading={!item.relations?.users}
+              closeDrawer={() => updateDrawer(undefined)}
+            />
+          }
 
           {(item.date || isTemplate(item)) && (
             <ItemDate {...props} />

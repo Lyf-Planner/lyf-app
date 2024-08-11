@@ -1,6 +1,6 @@
 import { inProgressColor } from "components/list/constants";
 import { LinearGradient } from "expo-linear-gradient"
-import { View, StyleSheet } from "react-native"
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard } from "react-native"
 import { LyfElement } from "utils/abstractTypes";
 import { eventsBadgeColor, sun } from "utils/colours"
 
@@ -9,21 +9,22 @@ type Props = {
   locations?: number[]
   sunRight?: boolean;
   accountForHeader?: boolean;
+  noPadding?: boolean;
 }
 
-export const PageBackground = ({ children, locations, sunRight = false, accountForHeader = false }: Props) => {
+export const PageBackground = ({ children, locations, sunRight = false, accountForHeader = false, noPadding = false }: Props) => {
+  const gradientColors = [eventsBadgeColor, inProgressColor, 'blue'];
 
-const gradientColors = [eventsBadgeColor, inProgressColor, 'blue'];
-
-const conditionalStyles = {
-  main: {
-    paddingHorizontal: accountForHeader ? 0 : 14,
-    paddingTop: accountForHeader ? 0 : 15,
-    flex: 1
+  const conditionalStyles = {
+    main: {
+      paddingHorizontal: accountForHeader || noPadding ? 0 : 14,
+      paddingTop: accountForHeader || noPadding ? 0 : 15,
+      flex: 1
+    }
   }
-}
 
   return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <LinearGradient
         colors={gradientColors}
         start={{ x: 0.5, y: 0 }}
@@ -46,6 +47,7 @@ const conditionalStyles = {
         />
         {children}
     </LinearGradient>
+    </TouchableWithoutFeedback>
   );
 }
 

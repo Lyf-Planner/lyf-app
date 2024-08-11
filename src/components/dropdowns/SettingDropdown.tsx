@@ -103,6 +103,6 @@ const styles = StyleSheet.create({
   dropdownContent: {
     paddingVertical: 8,
     paddingHorizontal: 12,
-    backgroundColor: deepBlueOpacity(0.6)
+    backgroundColor: deepBlueOpacity(0.7)
   }
 });

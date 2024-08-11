@@ -11,9 +11,10 @@ type Props = {
   onBlur?: () => void;
   onFocus?: () => void;
   type: ItemType;
+  whiteShadow?: boolean;
 };
 
-export const NewItem = ({ addItemByTitle, onBlur, onFocus, type }: Props) => {
+export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, whiteShadow = true }: Props) => {
   const [newItem, updateNewItem] = useState<string>('');
   const inputRef = useRef<TextInput>(null);
   const placeholderText = `+ Add ${type}`;
@@ -26,13 +27,22 @@ export const NewItem = ({ addItemByTitle, onBlur, onFocus, type }: Props) => {
 
   const onChangeText = (text: string) => updateNewItem(text);
 
+  const conditionalStyles = {
+    listNewItem: whiteShadow ? {
+      shadowOffset: { width: 0, height: 0 },
+      shadowColor: 'white',
+      shadowOpacity: 1,
+      shadowRadius: 1
+    } : {}
+  }
+
   return (
     <TextInput
       ref={inputRef}
       returnKeyType="done"
       placeholder={placeholderText}
       placeholderTextColor={inProgressColor}
-      style={styles.listNewItem}
+      style={[styles.listNewItem, conditionalStyles.listNewItem]}
       blurOnSubmit={false}
       onBlur={onBlur}
       onFocus={onFocus}
@@ -56,9 +66,6 @@ const styles = StyleSheet.create({
     color: 'rgb(203 213 225)',
     fontSize: 16,
 
-    shadowOffset: { width: 0, height: 0 },
-    shadowColor: 'white',
-    shadowOpacity: 1,
-    shadowRadius: 1
+    
   }
 });

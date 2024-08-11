@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Horizontal, Loader, PageLoader } from '../../components/general/MiscComponents';
 import { useEffect, useState } from 'react';
 import { NewNoteMenu } from './containers/NewNoteAdd';
@@ -11,6 +11,7 @@ import { ID } from 'schema/database/abstract';
 import { primaryGreen, white } from 'utils/colours';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { PageBackground } from 'components/general/PageBackground';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const Notes = () => {
   // Can be the ID of a folder or note, the manager will figure it out
@@ -38,7 +39,7 @@ export const Notes = () => {
     return (
       <View style={styles.main}>
         <View style={styles.myNotesHeader}>
-          <Entypo name='list' size={28} color={white} />
+          <MaterialCommunityIcons name='note-multiple' size={28} color={white} />
           <Text style={styles.myNotesTitle}>All Notes</Text>
           <View 
             style={styles.newNoteContainer} 
@@ -47,28 +48,28 @@ export const Notes = () => {
           </View>
         </View>
 
-        <PageBackground>
-        <View style={styles.noteBannersContainer}>
-          {!loading &&
-            <View>
-              {notes.length > 0 &&
-                notes.map((x) => (
-                  <NoteRow
-                    note={x}
-                    onSelect={() => setSelectedId(x.id)}
-                    key={x.id}
-                  />
-                ))
-              } 
+        <PageBackground noPadding>
+          <ScrollView style={styles.noteBannersContainer}>
+            {!loading &&
+              <View style={styles.noteRowWrapper}>
+                {notes.length > 0 &&
+                  notes.map((x) => (
+                    <NoteRow
+                      note={x}
+                      onSelect={() => setSelectedId(x.id)}
+                      key={x.id}
+                    />
+                  ))
+                } 
 
-              {notes.length === 0 &&
-                <Text style={styles.noNotesText}>No notes created yet :)</Text>
-              }
-            </View>
-          }
+                {notes.length === 0 &&
+                  <Text style={styles.noNotesText}>No notes created yet :)</Text>
+                }
+              </View>
+            }
 
-          {loading && <PageLoader />}
-        </View>
+            {loading && <PageLoader />}
+          </ScrollView>
         </PageBackground>
       </View>
     );
@@ -96,12 +97,9 @@ const styles = StyleSheet.create({
   },
   myNotesTitle: { 
     fontSize: 22, 
-    textAlignVertical: 'top',
     color: white, 
     fontFamily: "Lexend", 
     fontWeight: '400',
-    position: 'relative',
-    bottom: 1
    },
   newNoteContainer: { 
     marginLeft: 'auto', 
@@ -111,7 +109,9 @@ const styles = StyleSheet.create({
 
   noteBannersContainer: {
     minHeight: 100,
-    marginTop: 2,
+  },
+  noteRowWrapper: {
+    flexDirection: 'column',
   },
   noNotesText: {
     marginTop: 50,

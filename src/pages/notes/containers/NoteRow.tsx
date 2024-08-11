@@ -16,6 +16,7 @@ import { useNotes } from 'providers/cloud/useNotes';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { ID } from 'schema/database/abstract';
 import { UserRelatedNote } from 'schema/user';
+import { deepBlueOpacity, white } from 'utils/colours';
 
 type Props = {
   note: UserRelatedNote,
@@ -47,51 +48,30 @@ export const NoteRow = ({
   }));
 
   return (
-    <View style={[styles.main]}>
-      <TouchableOpacity
-        style={[styles.bannerHiddenBackground]}
-        onPress={() => removeNote(note.id)}
-      >
-        <Entypo name="trash" style={styles.editIcon} size={20} color="white" />
-      </TouchableOpacity>
-
-      <Animated.View style={[styles.bannerView, flingAnimation]}>
-        <GestureDetector gesture={composed}>
-          <TouchableHighlight
-            underlayColor={'rgb(150,150,150)'}
-            onPress={onSelect}
-          >
-            <View style={styles.touchableHighlight}>
-              <Text style={[styles.titleText]}>{note.title}</Text>
-              <View style={[styles.animatedChevron]}>
-                <NoteTypeBadge type={note.type} />
-                <Entypo name={'chevron-right'} size={25} />
-              </View>
-            </View>
-          </TouchableHighlight>
-        </GestureDetector>
-      </Animated.View>
-
-      <Horizontal
-        style={{
-          opacity: 0.1,
-          borderBottomWidth: 0.5
-        }}
-      />
-    </View>
+    <TouchableHighlight
+      underlayColor={'rgb(150,150,150)'}
+      onPress={onSelect}
+      style={[styles.bannerView]}
+    >
+      <View style={styles.touchableHighlight}>
+        <NoteTypeBadge type={note.type} />
+        <Text style={[styles.titleText]}>{note.title}</Text>
+        <View style={[styles.animatedChevron]}>
+          <Entypo name={'chevron-right'} size={25} color='white' />
+        </View>
+      </View>
+    </TouchableHighlight>
   );
 };
 
 const styles = StyleSheet.create({
-  main: {
-    width: '100%',
-    overflow: 'hidden',
-  },
   bannerView: {
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
-    height: 60
+    backgroundColor: deepBlueOpacity(0.9),
+    height: 65,
+    borderTopWidth: 1
   },
   bannerHiddenBackground: {
     height: 60,
@@ -108,11 +88,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    paddingHorizontal: 15
+    paddingHorizontal: 12,
+    gap: 12
   },
   titleText: {
     fontSize: 20,
-    color: 'rgba(0,0,0,0.75)',
+    color: white,
     fontWeight: '400',
     fontFamily: 'Lexend'
   },

@@ -7,10 +7,11 @@ import { useTimetable } from "providers/cloud/useTimetable";
 
 type Props = {
   newRank: number,
-  commonData: Partial<LocalItem>
+  commonData: Partial<LocalItem>,
+  whiteShadow?: boolean
 }
 
-export const MultiTypeNewItem = ({ newRank, commonData }: Props) => {
+export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true }: Props) => {
   const { addItem } = useTimetable();
   const [newItemType, setNewItemType] = useState<ItemType | null>(null);
 
@@ -27,6 +28,7 @@ export const MultiTypeNewItem = ({ newRank, commonData }: Props) => {
           type={ItemType.Event} 
           onBlur={() => setNewItemType(null)}
           onFocus={() => setNewItemType(ItemType.Event)}
+          whiteShadow={whiteShadow}
         />
       }
       {newItemType !== ItemType.Event &&
@@ -35,6 +37,7 @@ export const MultiTypeNewItem = ({ newRank, commonData }: Props) => {
           addItemByTitle={(title: string) => addItemByTitleTyped(title, ItemType.Task)}
           onBlur={() => setNewItemType(null)}
           onFocus={() => setNewItemType(ItemType.Task)}
+          whiteShadow={whiteShadow}
         />
       }
     </View>

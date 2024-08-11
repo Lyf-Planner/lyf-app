@@ -5,6 +5,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { NoteType } from 'schema/database/notes';
 import { useMemo, useState } from 'react';
 import { useNotes } from 'providers/cloud/useNotes';
+import { primaryGreen, white } from 'utils/colours';
 
 type Props = {
   note: UserRelatedNote,
@@ -22,7 +23,7 @@ export const NoteHeader = ({ note, onBack }: Props) => {
   return (
     <Native.View style={styles.noteHeader}>
       <Native.TouchableOpacity onPress={onBack}>
-        <Entypo name={'chevron-left'} size={30} />
+        <Entypo name={'chevron-left'} size={30} color='white' />
       </Native.TouchableOpacity>
   
       <Native.TextInput
@@ -41,39 +42,57 @@ export const NoteHeader = ({ note, onBack }: Props) => {
         returnKeyType="done"
       />
 
-      {note.type === NoteType.ListOnly && (
-        <Native.Text style={styles.subtitle}>
-          ({note.relations.items?.length || 0} Items)
-        </Native.Text>
-      )}
+      <Native.View style={styles.headerLeft}>
+        {note.type === NoteType.ListOnly && (
+          <Native.Text style={styles.subtitle}>
+            ({note.relations.items?.length || 0} Items)
+          </Native.Text>
+        )}
 
-      <NoteTypeBadge type={note.type} />
+        <NoteTypeBadge type={note.type} />
+      </Native.View>
     </Native.View>
   )
 }
 
 const styles = Native.StyleSheet.create({
   noteHeader: {
+    backgroundColor: primaryGreen,
     flexDirection: 'row',
-    paddingRight: 8,
+    paddingHorizontal: 10,
     gap: 8,
-    height: 40,
+    height: 65,
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 2
+
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2
+  },
+
+  headerLeft: {
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    gap: 8,
+    alignItems: 'center'
   },
 
   noteTitle: { 
-    fontSize: 24,
-    fontWeight: '500',
-    fontFamily: 'Lexend' 
+    fontSize: 22, 
+    color: white, 
+    fontFamily: "Lexend", 
+    fontWeight: '400',
+    
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    padding: 8,
+    borderRadius: 4,
   },
 
   subtitle: {
-    marginLeft: 'auto',
     textAlign: 'center',
     opacity: 0.6,
     fontWeight: '600',
-    fontSize: 15
+    fontSize: 15,
+    color: 'white'
   }
 })

@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import { useAuth } from 'providers/cloud/useAuth';
-import { black, darkCyan, eventsBadgeColor, primaryGreen, secondaryGreen, white } from 'utils/colours';
+import { black, darkCyan, deepBlue, eventsBadgeColor, primaryGreen, secondaryGreen, white } from 'utils/colours';
 import { useEffect, useMemo, useState } from 'react';
 import { ActionButton } from '../../components/pressables/AsyncAction';
 import { BouncyPressable } from '../../components/pressables/BouncyPressable';
@@ -18,6 +18,7 @@ import { UserFriend } from '../../schema/user';
 import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingBFFRequest, hasOutgoingRequest } from '../../schema/util/social';
 import { useNavigation } from '@react-navigation/native';
 import { useFriends } from 'providers/cloud/useFriends';
+import { inProgressColor } from 'components/list/constants';
 
 type Props = {
   friend: UserFriend,
@@ -161,8 +162,8 @@ export const AddFriend = ({ friend, callback }: Props) => {
     <ActionButton
       title="Add +"
       func={addFriend}
-      color={primaryGreen}
-      textColor={white}
+      color={inProgressColor}
+      textColor={deepBlue}
     />
   );
 };
