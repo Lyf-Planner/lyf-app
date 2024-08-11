@@ -21,6 +21,7 @@ export const NoteHeader = ({ note, onBack }: Props) => {
   const updateTitle = () => updateNote(note, { title });
 
   return (
+    <Native.TouchableWithoutFeedback onPress={() => Native.Keyboard.dismiss()}>
     <Native.View style={styles.noteHeader}>
       <Native.TouchableOpacity onPress={onBack}>
         <Entypo name={'chevron-left'} size={30} color='white' />
@@ -52,6 +53,7 @@ export const NoteHeader = ({ note, onBack }: Props) => {
         <NoteTypeBadge type={note.type} />
       </Native.View>
     </Native.View>
+    </Native.TouchableWithoutFeedback>
   )
 }
 

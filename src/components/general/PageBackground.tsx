@@ -24,7 +24,6 @@ export const PageBackground = ({ children, locations, sunRight = false, accountF
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <LinearGradient
         colors={gradientColors}
         start={{ x: 0.5, y: 0 }}
@@ -47,7 +46,6 @@ export const PageBackground = ({ children, locations, sunRight = false, accountF
         />
         {children}
     </LinearGradient>
-    </TouchableWithoutFeedback>
   );
 }
 
