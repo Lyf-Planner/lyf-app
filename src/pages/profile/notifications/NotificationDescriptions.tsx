@@ -1,10 +1,10 @@
 import {
   View,
   Text,
-  TouchableHighlight,
   TextInput,
   StyleSheet
 } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler'
 import { dateWithTime, localisedMoment } from 'utils/dates';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { TimeString } from 'schema/util/dates';

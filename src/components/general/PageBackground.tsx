@@ -1,6 +1,6 @@
 import { inProgressColor } from "components/list/constants";
 import { LinearGradient } from "expo-linear-gradient"
-import { View, StyleSheet, TouchableWithoutFeedback, Keyboard } from "react-native"
+import { View, StyleSheet, Keyboard } from "react-native"
 import { LyfElement } from "utils/abstractTypes";
 import { eventsBadgeColor, sun } from "utils/colours"
 

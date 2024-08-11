@@ -1,4 +1,4 @@
-import { Pressable, StyleSheetProperties, TouchableHighlight } from 'react-native';
+import { TouchableWithoutFeedback, TouchableHighlight } from 'react-native-gesture-handler';
 import Animated, {
   ReduceMotion,
   useAnimatedStyle,
@@ -47,7 +47,7 @@ export const BouncyPressable = ({
 }: Props) => {
   const WrappingPressable = useTouchableHighlight
   ? TouchableHighlight
-  : Pressable;
+  : TouchableWithoutFeedback;
 
   const scale = useSharedValue(1);
   const scaleAnimation = useAnimatedStyle(() => {

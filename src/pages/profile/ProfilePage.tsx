@@ -1,4 +1,5 @@
-import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
+import { View, StyleSheet, Text, Image } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { LogoutButton } from 'components/auth/LogoutButton';
 import { DeleteButton } from 'components/auth/DeleteMeButton';
 import { AccountInfo } from './account/AccountInfo';

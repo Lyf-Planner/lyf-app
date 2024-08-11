@@ -1,6 +1,8 @@
 import { Loader } from "components/general/MiscComponents";
+import { BouncyPressable } from "components/pressables/BouncyPressable";
 import { useEffect, useRef, useState } from "react";
-import { Pressable, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { TextInput, StyleSheet } from "react-native";
+import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { getUser } from "rest/user";
@@ -52,7 +54,7 @@ export const SearchHeader = ({
   }
 
   return (
-    <Pressable
+    <TouchableWithoutFeedback
       style={[styles.searchBarPressable, conditionalStyles.searchBarPressable]}
       onPress={() => textRef.current.focus()}
     >
@@ -82,13 +84,12 @@ export const SearchHeader = ({
           <AntDesign name="close" color={primaryGreen} size={18} />
         </TouchableOpacity>
       }
-    </Pressable>
+    </TouchableWithoutFeedback>
   )
 };
 
 const styles = StyleSheet.create({
   searchBarPressable: {
-    zIndex: 50,
     flexDirection: 'row',
     gap: 12,
     alignItems: 'center',

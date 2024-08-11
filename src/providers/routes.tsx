@@ -1,7 +1,4 @@
 import { NavigationContainer, NavigationProp } from '@react-navigation/native';
-import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Entypo from 'react-native-vector-icons/Entypo'

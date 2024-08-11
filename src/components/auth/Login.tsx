@@ -4,8 +4,8 @@ import {
   StyleSheet,
   TextInput,
   Keyboard,
-  TouchableWithoutFeedback
 } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Horizontal, Loader } from '../general/MiscComponents';
 import { useRef, useState } from 'react';
 import { USER_NOT_FOUND, login } from '../../rest/auth';

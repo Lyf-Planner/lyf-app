@@ -1,4 +1,5 @@
-import { Alert, TouchableHighlight, Text, View, StyleSheet } from "react-native";
+import { Alert, Text, View, StyleSheet } from "react-native";
+import { TouchableHighlight } from 'react-native-gesture-handler'
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { primaryGreen } from "utils/colours";
 import { fieldPrompt } from "pages/profile/account/AccountInfo";

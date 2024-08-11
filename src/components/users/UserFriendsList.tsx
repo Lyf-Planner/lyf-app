@@ -1,5 +1,6 @@
 import { BouncyPressable } from "components/pressables/BouncyPressable"
-import { View, Text, ScrollView, StyleSheet, DimensionValue } from "react-native"
+import { ScrollView } from "react-native-gesture-handler"
+import { View, Text, StyleSheet, DimensionValue } from "react-native"
 import Entypo from "react-native-vector-icons/Entypo"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import { UserList, UserListContext } from "./UserList"

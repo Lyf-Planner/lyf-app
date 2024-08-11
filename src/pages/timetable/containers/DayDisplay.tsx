@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Vibration, Image, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Vibration } from 'react-native';
 import { Horizontal, Vertical } from '../../../components/general/MiscComponents';
 import { List } from '../../../components/list/List';
 import {

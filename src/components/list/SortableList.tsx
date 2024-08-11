@@ -3,7 +3,6 @@ import DraggableFlatlist, { RenderItemParams } from 'react-native-draggable-flat
 import { useTimetable } from 'providers/cloud/useTimetable';
 import { secondaryGreen } from '../../utils/colours';
 import { SortableListItem } from './item/SortableListItem';
-import { BouncyPressable } from '../pressables/BouncyPressable';
 import { ItemStyleOptions } from './item/Item';
 import { Identifiable } from 'schema/database/abstract';
 import { LocalItem } from 'schema/items';

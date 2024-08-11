@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { List } from '../list/List';
 import Animated, {
   useAnimatedStyle,
@@ -13,7 +14,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { ItemType } from 'schema/database/items';
 import { LocalItem } from 'schema/items';
 import { NewItem } from 'components/list/NewItem';
-import { upcomingColor } from 'components/list/constants';
 
 type Props = {
   items: LocalItem[],
@@ -52,7 +52,7 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
 
   return (
     <Animated.View style={[styles.dropdownContainer, scaleAnimation]}>
-      <Pressable
+      <TouchableWithoutFeedback
         style={styles.dropdownTextContainer}
         onPressIn={() => {
           shadowOffsetX.value = 0;
@@ -76,7 +76,7 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
             <Entypo name="chevron-right" color={eventsBadgeColor} size={25} />
           </Animated.View>
         </View>
-      </Pressable>
+      </TouchableWithoutFeedback>
       
       {!hide && (
         <Animated.View

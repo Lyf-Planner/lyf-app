@@ -1,7 +1,8 @@
 import { useAuth } from "providers/cloud/useAuth";
 import { validateDisplayName } from "utils/validators";
 import { DetailsField } from "pages/profile/account/DetailsField";
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { TouchableHighlight } from 'react-native-gesture-handler'
 import { AddField } from "pages/profile/account/AddField";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { fieldPrompt } from "pages/profile/account/AccountInfo";

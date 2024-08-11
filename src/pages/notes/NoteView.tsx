@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, TextInput, Text } from 'react-native';
 
 import { ID } from 'schema/database/abstract';
 import { useNotes } from 'providers/cloud/useNotes';

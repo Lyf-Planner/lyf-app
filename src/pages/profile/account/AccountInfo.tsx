@@ -1,7 +1,6 @@
 import {
   View,
   StyleSheet,
-  TouchableHighlight,
   Text,
   Alert
 } from 'react-native';

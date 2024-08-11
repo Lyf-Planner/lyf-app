@@ -4,9 +4,9 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  TouchableHighlight,
   Linking
 } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { ItemDrawerProps } from '../ItemDrawer';

@@ -1,5 +1,6 @@
 import { useRef } from 'react';
-import { Pressable, TextInput, View, StyleSheet } from 'react-native';
+import { TextInput, View, StyleSheet } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { appleGray, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -13,7 +14,7 @@ export const SimpleSearch = ({ search, setSearch }: Props) => {
 
   return (
     <View style={styles.main}>
-      <Pressable
+      <TouchableWithoutFeedback
         style={styles.searchBarPressable}
         onPress={() => textRef.current.focus()}
       >
@@ -31,7 +32,7 @@ export const SimpleSearch = ({ search, setSearch }: Props) => {
           autoComplete="off"
           autoCorrect={false}
         />
-      </Pressable>
+      </TouchableWithoutFeedback>
     </View>
   );
 };

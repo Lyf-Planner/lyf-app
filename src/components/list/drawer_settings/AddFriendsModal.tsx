@@ -1,10 +1,9 @@
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useModal } from 'providers/overlays/useModal';
-import { useAuth } from 'providers/cloud/useAuth';
 import { useEffect, useMemo, useState } from 'react';
 import { Horizontal, Loader } from '../../general/MiscComponents';
 import { SimpleSearch } from '../../fields/SimpleSearch';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { ID } from 'schema/database/abstract';

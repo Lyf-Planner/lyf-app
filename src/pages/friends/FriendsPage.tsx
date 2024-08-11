@@ -1,7 +1,8 @@
 import { UserList } from "components/users/UserList"
 import { useFriends } from "providers/cloud/useFriends"
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import { ScrollView } from "react-native-gesture-handler";
 import { TextInput } from 'react-native-gesture-handler';
 import { Loader, PageLoader } from 'components/general/MiscComponents';
 import { UserBanner } from 'components/users/UserBanner';
@@ -32,42 +33,42 @@ export const Friends = () => {
         setSearchedUser={setSearchedUser}
       />
 
-    <PageBackground>
-      <ScrollView style={styles.pageContent}>
-        {searched && 
-          <Text style={styles.notFoundText}>
-            Not found
-          </Text>
-        }
-        {searchedUser && 
-          <View style={styles.foundUserWrapper}>
-            <UserBanner 
-              user={searchedUser} 
-              // We clear the searched user whenever any action is made (to any user!)
-              // As the user we action may not be in the friends store
-              // - Update will simply modify the friends store, showing the user via the friends list instead of this
-              // - Addition will remove searched user, add to the user list via friends
-              // - Removal will clear this and the duplicate in the user list
-              callback={() => setSearchedUser(null)} 
+      <PageBackground>
+        <ScrollView style={styles.pageContent}>
+          {searched && 
+            <Text style={styles.notFoundText}>
+              Not found
+            </Text>
+          }
+          {searchedUser && 
+            <View style={styles.foundUserWrapper}>
+              <UserBanner 
+                user={searchedUser} 
+                // We clear the searched user whenever any action is made (to any user!)
+                // As the user we action may not be in the friends store
+                // - Update will simply modify the friends store, showing the user via the friends list instead of this
+                // - Addition will remove searched user, add to the user list via friends
+                // - Removal will clear this and the duplicate in the user list
+                callback={() => setSearchedUser(null)} 
+              />
+            </View>
+          }
+          
+          {!loading && 
+            <UserList 
+              users={friends.filter((x) => x.id !== searchedUser?.id)} 
+              emptyText={"No friends added yet 😎"}
+              callback={() => setSearchedUser(null)}
             />
-          </View>
-        }
-        
-        {!loading && 
-          <UserList 
-            users={friends.filter((x) => x.id !== searchedUser?.id)} 
-            emptyText={"No friends added yet 😎"}
-            callback={() => setSearchedUser(null)}
-          />
-        }
-        {!loading && 
-          <Text style={styles.hintText}>Ask your friends for their usernames!</Text>
-        }
+          }
+          {!loading && 
+            <Text style={styles.hintText}>Ask your friends for their usernames!</Text>
+          }
 
-        {loading &&
-          <PageLoader />
-        }
-      </ScrollView>
+          {loading &&
+            <PageLoader />
+          }
+        </ScrollView>
       </PageBackground>
     </View>
   );

@@ -1,11 +1,11 @@
 import { useAuth } from 'providers/cloud/useAuth';
 import {
-  TouchableHighlight,
   View,
   Text,
   Alert,
   StyleSheet
 } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const DeleteButton = () => {

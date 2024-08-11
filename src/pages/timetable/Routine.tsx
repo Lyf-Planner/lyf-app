@@ -10,6 +10,7 @@ import { useTimetable } from 'providers/cloud/useTimetable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Loader, PageLoader } from 'components/general/MiscComponents';
 import { PageBackground } from 'components/general/PageBackground';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
 type Props = {
@@ -29,7 +30,7 @@ export const Routine = () => {
     <KeyboardAwareScrollView style={styles.scroll}>
         <Native.View style={styles.header}>
             <Native.Text style={styles.weekDateText}>Every Week</Native.Text>
-              <Native.Pressable
+              <TouchableWithoutFeedback
                 onPress={() => {
                   Native.Alert.alert(
                     'Your Routine',
@@ -38,7 +39,7 @@ export const Routine = () => {
                 }}
               >
                 <Entypo name="info-with-circle" color={white} size={18} />
-              </Native.Pressable>
+              </TouchableWithoutFeedback>
           </Native.View>
 
           {!loading &&

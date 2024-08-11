@@ -7,8 +7,6 @@ import {
   useRef,
   useState
 } from 'react';
-import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
-import { Keyboard, StyleSheet } from 'react-native';
 
 type Props = {
   children: JSX.Element;

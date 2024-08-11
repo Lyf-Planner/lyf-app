@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View, TouchableHighlight, ScrollView } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useEffect, useState } from 'react';
 import { Loader } from '../../components/general/MiscComponents';
 import { getUser } from '../../rest/user';

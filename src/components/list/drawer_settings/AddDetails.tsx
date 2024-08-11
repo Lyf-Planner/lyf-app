@@ -2,9 +2,9 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableHighlight,
   Alert
 } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 import { primaryGreen } from '../../../utils/colours';
 import { formatDateData } from '../../../utils/dates';
 import { useNotifications } from 'providers/cloud/useNotifications';

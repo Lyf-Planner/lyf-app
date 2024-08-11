@@ -1,7 +1,7 @@
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { UserList, UserListContext } from '../../users/UserList';
 import { useEffect, useMemo, useState } from 'react';
-import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { LocalItem } from 'schema/items';
 import { useTimetable } from 'providers/cloud/useTimetable';

@@ -3,9 +3,9 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
-  TouchableHighlight
+  StyleSheet
 } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 import { useAuth } from 'providers/cloud/useAuth';
 import { useNotifications } from 'providers/cloud/useNotifications';
 import Entypo from 'react-native-vector-icons/Entypo';

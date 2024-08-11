@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Horizontal } from '../general/MiscComponents';
 import { deepBlue } from '../../utils/colours';
-import { Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Keyboard } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { ItemStatusDropdown } from './drawer_settings/ItemStatusDropdown';
 import { useEffect, useMemo, useState } from 'react';
 import { ItemTime } from './drawer_settings/ItemTime';

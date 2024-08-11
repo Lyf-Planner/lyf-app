@@ -2,9 +2,9 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
-  TouchableHighlight
+  StyleSheet
 } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 import { offWhite } from 'utils/colours';
 import { useEffect, useState } from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';

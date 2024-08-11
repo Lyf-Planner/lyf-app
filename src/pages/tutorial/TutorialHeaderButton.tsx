@@ -1,4 +1,5 @@
-import { StyleSheet, TouchableHighlight } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 import { deepBlue } from '../../utils/colours';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
