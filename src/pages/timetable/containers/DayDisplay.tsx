@@ -199,19 +199,11 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
     diagLines: {
       borderColor: canDelete ? deepBlueOpacity(0.6) : 'rgba(0,0,0,0.2)',
     },
-    dayRootView: isSunday ? {
-      marginBottom: 8,
-    } : {
-      shadowOffset: { width: 0, height: 0 },
-      shadowColor: 'black',
-      shadowOpacity: 0.5,
-      shadowRadius: 2
-    }
   }
 
   return (
     <View>
-      <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
+      <Animated.View style={[styles.dayRootView, exitingAnimation]}>
         <LyfMenu
         // TODO: This sucks
           name={(date ? date : day) + "-menu"} 
@@ -284,7 +276,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
 
 const styles = StyleSheet.create({
   dayRootView: {
-    backgroundColor: deepBlueOpacity(0.6),
+    backgroundColor: deepBlueOpacity(0.7),
     width: '100%',
     borderWidth: 1,
     borderRadius: 10,
@@ -292,6 +284,11 @@ const styles = StyleSheet.create({
     zIndex: 10,
     flexDirection: 'column',
     gap: 4,
+
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: 'black',
+    shadowOpacity: 0.7,
+    shadowRadius: 2
   },
   dayHeaderView: {
     backgroundColor: secondaryGreen,
@@ -300,11 +297,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     alignItems: 'center',
     overflow: 'visible',
-
-    shadowOffset: { width: 0, height: 0 },
-    shadowColor: 'black',
-    shadowOpacity: 0.7,
-    shadowRadius: 3
   },
   headerEnd: {
     flexDirection: 'row',

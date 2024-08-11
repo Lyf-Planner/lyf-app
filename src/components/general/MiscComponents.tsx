@@ -1,5 +1,6 @@
 import { View, StyleSheet, Text } from 'react-native';
 import * as Progress from 'react-native-progress';
+import { deepBlue } from 'utils/colours';
 
 export const Horizontal = ({ style = {} }) => {
   return (
@@ -43,7 +44,7 @@ export const Loader = ({ size = 50, color = 'black' }) => {
 export const PageLoader = () => {
   return (
     <View style={styles.loadingContainer}>
-      <Loader size={50} />
+      <Loader size={50} color={deepBlue} />
       <Text style={styles.loadingText}>
         Organizing...
       </Text>
@@ -68,6 +69,7 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     fontFamily: 'Lexend',
-    fontSize: 20
+    fontSize: 20,
+    color: deepBlue
   },
 });

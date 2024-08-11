@@ -6,6 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Calendar } from './Calendar';
 import { Routine } from './Routine';
+import { PageBackground } from 'components/general/PageBackground';
  
 const Tab = createMaterialTopTabNavigator();
 
@@ -28,13 +29,14 @@ export const Timetable = () => {
           tabBarStyle: styles.tabBarStyle,
           tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
         }}
+        sceneContainerStyle={{ flex : 1, height: '100%'}}
       >
         <Tab.Screen 
           name="Calendar" 
           component={Calendar} 
           options={{
             tabBarIcon: () => <MaterialCommunityIcons name="table" size={24} color="white" />,
-            tabBarLabel: "Calendar"
+            tabBarLabel: "Calendar",
           }}
         />
         <Tab.Screen 
@@ -52,9 +54,7 @@ export const Timetable = () => {
 
 const styles = StyleSheet.create({
   main: {
-    flexDirection: 'column',
     flex: 1,
-    gap: 2
   },
   tabBarLabelStyle: { 
     fontSize: 20, 

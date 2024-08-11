@@ -23,6 +23,7 @@ export const WeatherSettings = () => {
           style={styles.privacyModeToggle} 
           onValueChange={updateWeather}
           value={!!user?.weather_data}
+          ios_backgroundColor={'gray'}
         />
       </View>
       <Text style={styles.hint}>This requires your geolocation data. Lyf will never store any of this information.</Text>
@@ -45,6 +46,7 @@ const styles = StyleSheet.create({
   privateModeText: {
     fontFamily: 'Lexend',
     fontSize: 20,
+    color: 'white'
   },
   privacyModeToggle: {
     marginLeft: 'auto',
@@ -52,5 +54,6 @@ const styles = StyleSheet.create({
   hint: {
     opacity: 0.6,
     fontSize: 16,
+    color: 'white'
   },
 })

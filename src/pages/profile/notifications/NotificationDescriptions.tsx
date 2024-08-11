@@ -55,7 +55,7 @@ export const DailyNotificationDesc = ({
       <TouchableHighlight
         onPress={() => updatePersistent(!persistent)}
         style={dailyStyles.persistentTouchable}
-        underlayColor={'rgba(0,0,0,0.5)'}
+        underlayColor={'rgba(255,255,255,0.5)'}
       >
         <Text style={dailyStyles.persistentText}>
           {persistent ? 'Will' : "Won't"}
@@ -130,6 +130,7 @@ const dailyStyles = StyleSheet.create({
   firstText: {
     opacity: 0.6,
     fontSize: 16,
+    color: 'white'
   },
   dateTimeWrapper: { borderRadius: 10, overflow: 'hidden' },
   dateTimeDimensions: {
@@ -139,6 +140,7 @@ const dailyStyles = StyleSheet.create({
   secondText: {
     opacity: 0.6,
     fontSize: 16,
+    color: 'white'
   },
   persistentTouchable: {
     backgroundColor: 'rgba(0,0,0,0.08)',
@@ -154,7 +156,8 @@ const dailyStyles = StyleSheet.create({
   thirdText: {
     opacity: 0.6,
     fontSize: 16,
-    lineHeight: 28
+    lineHeight: 28,
+    color: 'white'
   }
 });
 
@@ -167,9 +170,10 @@ const eventStyles = StyleSheet.create({
   firstText: {
     opacity: 0.6,
     fontSize: 16,
+    color: 'white'
   },
   minutesInput: {
-    backgroundColor: 'rgba(0,0,0,0.08)',
+    backgroundColor: 'rgba(255,255,255,0.08)',
     paddingVertical: 4,
     paddingHorizontal: 6,
     width: 40,
@@ -181,5 +185,6 @@ const eventStyles = StyleSheet.create({
     opacity: 0.6,
     fontSize: 16,
     lineHeight: 28,
+    color: 'white'
   }
 });

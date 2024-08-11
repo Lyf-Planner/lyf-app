@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { eventsBadgeColor, lightGreen, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
+import { deepBlueOpacity, eventsBadgeColor, lightGreen, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
 import { FriendAction } from '../../pages/friends/FriendActions';
 import { BouncyPressable } from '../pressables/BouncyPressable';
 import { ItemSocialAction } from '../list/drawer_settings/ItemSocialAction';
@@ -48,7 +48,7 @@ export const UserBanner = ({
       style={[conditionalStyles.main, styles.main]}
       onPress={() => updateModal(<UserModal user_id={user.id} key={user.id} />)}
     >
-      <FontAwesome name="user" size={32} style={{ width: 32, height: 32 }}/>
+      <FontAwesome name="user" size={32} style={{ width: 32, height: 32 }} color='white' />
       <View style={styles.nameRow}>
         {userHasDisplayName &&
           <Text
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 10,
     borderWidth: 0.5,
-    backgroundColor: lightGreen,
+    backgroundColor: deepBlueOpacity(0.8),
     borderColor: 'rgba(0,0,0,0.3)',
 
     shadowColor: 'black',
@@ -115,6 +115,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2
   },
-  mainAliasText: { fontWeight: '500', color: 'black', fontSize: 20 },
-  subAliasText: { color: 'rgba(0,0,0,0.5)' }
+  mainAliasText: { fontWeight: '500', fontSize: 20, color: 'white' },
+  subAliasText: { color: 'rgba(255,255,255,0.5)' }
 });

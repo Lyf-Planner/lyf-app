@@ -46,11 +46,12 @@ const styles = StyleSheet.create({
     gap: 8
   },
   detailsFieldView: { flexDirection: 'row', alignItems: 'center', height: 25 },
-  detailsFieldNameText: { fontSize: 16, fontFamily: 'InterSemi', width: 120 },
+  detailsFieldNameText: { fontSize: 16, fontFamily: 'InterSemi', width: 120, color: 'white' },
   detailsFieldValueText: {
     fontSize: 16,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    color: 'white',
   },
   detailsColumn: { flexDirection: 'column', gap: 8 },
 });

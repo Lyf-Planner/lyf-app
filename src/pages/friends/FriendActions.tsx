@@ -141,7 +141,7 @@ export const Requested = ({ friend, callback }: Props) => {
       <ActionButton
         title="Requested"
         func={() => {}}
-        color={white}
+        color={eventsBadgeColor}
         textColor={black}
         loadingOverride={loading}
         notPressable

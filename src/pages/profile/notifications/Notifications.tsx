@@ -94,13 +94,17 @@ const styles = StyleSheet.create({
   },
 
   subtitle: {
-    opacity: 0.6,
     fontWeight: '600',
-    fontSize: 16
+    fontSize: 16,
+    color: 'white',
+    width: '100%',
+    textAlign: 'center'
+
   },
   settingText: {
     fontFamily: 'Lexend',
     fontSize: 20,
+    color: 'white'
   },
   settingToggle: {
     marginLeft: 'auto',

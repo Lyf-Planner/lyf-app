@@ -15,7 +15,7 @@ import { inProgressColor, isTemplate } from 'components/list/constants';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useTimetable } from 'providers/cloud/useTimetable';
 import { PageLoader } from 'components/general/MiscComponents';
-import { LinearGradient } from 'expo-linear-gradient';
+import { PageBackground } from 'components/general/PageBackground';
 
 export const Calendar = () => {
   const { loading, items, reload, startDate, endDate } = useTimetable();
@@ -94,28 +94,8 @@ export const Calendar = () => {
     .map((item) => ({ ...item, localised: false }))
   ), [items]);
 
-  const gradientColors = [eventsBadgeColor, inProgressColor, 'blue'];
-
   return (
-    <LinearGradient
-      colors={gradientColors}
-      start={{ x: 0.5, y: 0 }}
-      end={{ x: 0.5, y: 1 }}
-      locations={[0,0.75,0.9]}
-      style={styles.main}
-    >
-      <Native.View
-        style={{
-          position: 'absolute',
-          backgroundColor: sun,
-          width: 150,
-          borderRadius: 100,
-          height: 150,
-          zIndex: 0,
-          top: -75,
-          left: -75,
-        }}
-      />
+    <PageBackground locations={[0,0.82,1]}>
       <KeyboardAwareScrollView enableResetScrollToCoords={false} style={styles.scroll}>
         <Native.View style={styles.scrollContainer}>
           <Native.View style={styles.dropdowns}>
@@ -165,7 +145,7 @@ export const Calendar = () => {
           }
         </Native.View>
       </KeyboardAwareScrollView>
-    </LinearGradient>
+    </PageBackground>
   )
 }
 
@@ -184,7 +164,6 @@ const styles = Native.StyleSheet.create({
   scrollContainer: {
     flexDirection: "column",
     gap: 14,
-    backgroundColor: 'transparent'
   },
 
   dropdowns: {

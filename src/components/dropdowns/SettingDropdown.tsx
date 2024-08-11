@@ -9,7 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { LyfElement } from 'utils/abstractTypes';
-import { eventsBadgeColor, primaryGreen, white } from 'utils/colours';
+import { deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from 'utils/colours';
 
 type Props = {
   name: string,
@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
     marginLeft: 'auto'
   },
   dropdownContent: {
-    marginVertical: 8,
+    paddingVertical: 8,
     paddingHorizontal: 12,
+    backgroundColor: deepBlueOpacity(0.6)
   }
 });

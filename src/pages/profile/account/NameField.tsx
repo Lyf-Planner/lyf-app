@@ -47,18 +47,19 @@ const styles = StyleSheet.create({
   detailsFieldValueText: {
     fontSize: 16,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    color: 'white'
   },
 
   occupiedFieldRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: 220
+    width: 220,
+    gap: 8
   },
   editPressable: {
-    marginLeft: 'auto',
     padding: 4,
-    backgroundColor: 'rgba(0,0,0,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.5)',
     borderRadius: 4
   },
 })

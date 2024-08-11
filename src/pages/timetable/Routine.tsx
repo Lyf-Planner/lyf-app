@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 import { useTimetable } from 'providers/cloud/useTimetable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Loader, PageLoader } from 'components/general/MiscComponents';
+import { PageBackground } from 'components/general/PageBackground';
 
 
 type Props = {
@@ -24,8 +25,8 @@ export const Routine = () => {
   ), [items]);
 
   return (
-    <KeyboardAwareScrollView>
-      <Native.View style={styles.main}>
+    <PageBackground sunRight locations={[0,0.82,1]}>
+    <KeyboardAwareScrollView style={styles.scroll}>
         <Native.View style={styles.header}>
             <Native.Text style={styles.weekDateText}>Every Week</Native.Text>
               <Native.Pressable
@@ -54,8 +55,10 @@ export const Routine = () => {
           }
 
           {loading && <PageLoader />}
-        </Native.View>
+          
+        
     </KeyboardAwareScrollView>
+    </PageBackground>
   )
 }
 
@@ -64,6 +67,10 @@ const styles = Native.StyleSheet.create({
     marginBottom: 125,
     marginTop: 15,
     paddingHorizontal: 14,
+  },
+
+  scroll: {
+    overflow: 'visible'
   },
 
   header: {

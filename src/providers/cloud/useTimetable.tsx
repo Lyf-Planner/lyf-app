@@ -78,8 +78,7 @@ export const TimetableProvider = ({ children }: Props) => {
   const [endDate, setEndDate] = useState(formatDateData(getEndOfCurrentWeek()));
 
   useEffect(() => {
-    if (location && user) {
-      console.log('requesting weather with loc', { location });
+    if (location && user && user.weather_data) {
       getWeather(startDate, endDate, location).then((data) => {
         setWeather(data)
       })

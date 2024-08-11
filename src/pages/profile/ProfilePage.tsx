@@ -10,22 +10,28 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { black, primaryGreen } from 'utils/colours';
 import { PrivacySettings } from './privacy/PrivacySettings';
 import { WeatherSettings } from './weather/WeatherSettings';
+import { PageBackground } from 'components/general/PageBackground';
 
 const weatherIcon = require('../../../assets/images/weather.webp');
 
 export const Profile = () => {
   return (
+
+    <PageBackground accountForHeader locations={[0,0.738,0.87]}>
+    <SettingDropdown
+        name="Account Details"
+        icon={<FontAwesome5 name="user-alt" size={20} color='white' />}
+        bgColor={primaryGreen}
+        textColor='white'
+        startOpen
+      >
+        <AccountInfo />
+      </SettingDropdown>
+    
     <ScrollView style={styles.main}>
+
       <View style={styles.mainColumn}>
-        <SettingDropdown
-          name="Account Details"
-          icon={<FontAwesome5 name="user-alt" size={20} color='white' />}
-          bgColor={primaryGreen}
-          textColor='white'
-          startOpen
-        >
-          <AccountInfo />
-        </SettingDropdown>
+        
         <SettingDropdown
           name="Notification Settings"
           icon={<MaterialIcons name="notifications-active" size={22} />}
@@ -58,18 +64,21 @@ export const Profile = () => {
       <View style={styles.buttons}>
         <LogoutButton />
       </View>
+
     </ScrollView>
+    </PageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   main: {
-    backgroundColor: '#EEE',
     flex: 1,
     minHeight: 500,
   },
   mainColumn: { 
     flexDirection: 'column', 
+    flex: 1,
+    width: '100%'
   },
   buttons: {
     flexDirection: 'column',
@@ -86,7 +95,7 @@ const styles = StyleSheet.create({
   },
   deleteWrapper: {
     paddingHorizontal: 4,
-    paddingTop: 16,
+    paddingVertical: 8,
   },
   weatherIcon: {
     width: 30,

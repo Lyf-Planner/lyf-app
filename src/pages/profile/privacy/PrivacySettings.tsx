@@ -1,3 +1,4 @@
+import { upcomingColor } from "components/list/constants";
 import { useAuth } from "providers/cloud/useAuth"
 import { StyleSheet, View, Text, Switch } from "react-native"
 
@@ -14,6 +15,7 @@ export const PrivacySettings = () => {
           style={styles.privacyModeToggle} 
           onValueChange={updatePrivate}
           value={user?.private}
+          ios_backgroundColor={'gray'}
         />
       </View>
       <Text style={styles.hint}>Private Mode makes you undiscoverable to all users</Text>
@@ -36,6 +38,7 @@ const styles = StyleSheet.create({
   privateModeText: {
     fontFamily: 'Lexend',
     fontSize: 20,
+    color: 'white'
   },
   privacyModeToggle: {
     marginLeft: 'auto',
@@ -43,5 +46,6 @@ const styles = StyleSheet.create({
   hint: {
     opacity: 0.6,
     fontSize: 16,
+    color: 'white'
   },
 })

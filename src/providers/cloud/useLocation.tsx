@@ -25,7 +25,7 @@ export const LocationProvider = ({ children }: Props) => {
 
   useEffect(() => {
     (async () => {
-      if (!!user?.weather_data === false) {
+      if (user?.weather_data === false) {
         // Don't ask twice
         setLocation(undefined);
         return;
@@ -33,7 +33,7 @@ export const LocationProvider = ({ children }: Props) => {
       
       await requestLocation();
     })();
-  }, []);
+  }, [user?.weather_data]);
 
   const requestLocation = async () => {
     let { status } = await requestForegroundPermissionsAsync();

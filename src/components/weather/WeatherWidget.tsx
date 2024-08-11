@@ -37,10 +37,6 @@ export const WeatherWidget = ({ date }: Props) => {
     }
   }
 
-  if (isHistorical(dateWeather)) {
-    console.log(dateWeather);
-  }
-
   return (
     <LyfPopup 
       name={`weather-${date}`} 

@@ -10,6 +10,7 @@ import { UserRelatedNote } from 'schema/user';
 import { ID } from 'schema/database/abstract';
 import { primaryGreen, white } from 'utils/colours';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { PageBackground } from 'components/general/PageBackground';
 
 export const Notes = () => {
   // Can be the ID of a folder or note, the manager will figure it out
@@ -46,6 +47,7 @@ export const Notes = () => {
           </View>
         </View>
 
+        <PageBackground>
         <View style={styles.noteBannersContainer}>
           {!loading &&
             <View>
@@ -67,6 +69,7 @@ export const Notes = () => {
 
           {loading && <PageLoader />}
         </View>
+        </PageBackground>
       </View>
     );
   }

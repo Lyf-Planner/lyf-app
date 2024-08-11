@@ -51,7 +51,6 @@ export const AuthGateway = ({ children }: Props) => {
         newUser = changes as ExposedUser;
       }
 
-      console.log('setting user to', user);
       setUser({ ...newUser });
       setLastUpdated(new Date());
       updateLoggingIn(false);
