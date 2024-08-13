@@ -31,12 +31,6 @@ export const WeatherWidget = ({ date }: Props) => {
 
   if (!dateWeather) return null;
 
-  const conditionalStyles = {
-    iconPressable: {
-      opacity: new Date(date) < new Date() ? 1 : 0.75,
-    }
-  }
-
   return (
     <LyfPopup 
       name={`weather-${date}`} 
@@ -62,7 +56,7 @@ export const WeatherWidget = ({ date }: Props) => {
     >
       <Image 
         src={dateWeather.weather.icon.url} 
-        style={[styles.iconPressable, conditionalStyles.iconPressable]} 
+        style={styles.iconPressable} 
         resizeMode="contain" 
       />
     </LyfPopup>
