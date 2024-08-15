@@ -92,6 +92,7 @@ export const Login = ({ updateUser }: Props) => {
           returnKeyType="next"
           inputMode="text"
           placeholder="Username"
+          placeholderTextColor='rgba(0,0,0,0.5)'
           value={uid}
           onChangeText={updateUid}
           onSubmitEditing={() => passRef.current.focus()}
@@ -103,6 +104,7 @@ export const Login = ({ updateUser }: Props) => {
           returnKeyType="done"
           ref={passRef}
           placeholder="Password"
+          placeholderTextColor='rgba(0,0,0,0.5)'
           autoCorrect={false}
           value={pass}
           secureTextEntry

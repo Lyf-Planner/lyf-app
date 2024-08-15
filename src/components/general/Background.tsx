@@ -57,13 +57,14 @@ const styles = StyleSheet.create({
   page: {
     backgroundColor: primaryGreen,
     zIndex: 0,
-    flex: 1
+    flex: 1,
+    width: '100%'
   },
   roundTree: {
     position: 'absolute',
     height: '35%',
     bottom: 0,
-    right: -30
+    left: -350
   },
   bigTree: {
     position: 'absolute',

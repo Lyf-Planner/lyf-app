@@ -26,8 +26,8 @@ export default function App() {
   console.log("Starting with backend:", env.BACKEND_URL);
 
   return (
-    <GestureHandlerRootView>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
         <RouteProvider>
           <CloudProvider>
             <OverlayProvider>

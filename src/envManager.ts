@@ -1,4 +1,5 @@
 import Constants from 'expo-constants';
+import { Platform } from 'react-native';
 const { manifest, manifest2 } = Constants;
 
 // With expo constants, once Constants.manifest is null, Constants.manifest2 contains the env vars
@@ -48,7 +49,7 @@ function parseBackendUrl() {
     : manifest2?.launchAsset.url;
 
   // Retrieve IP from URL
-  const ip = extractIPfromURL(debuggerUrl);
+  const ip = Platform.OS === 'web' ? 'localhost' : extractIPfromURL(debuggerUrl);
 
   // Must be http if local
   return `http://${ip.concat(`:${envVar('localBackendPort')}`)}`;

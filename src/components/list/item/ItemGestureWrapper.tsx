@@ -40,48 +40,6 @@ export const ListItemGestureWrapper = ({
 }: Props) => {
   let longPressTimer: NodeJS.Timeout | undefined;
 
-  // GESTURE DEFINITIONS
-  const tap = Gesture.Tap()
-    .runOnJS(true)
-    .onStart(() => handleTapIn())
-    .onEnd(() => handleTapOut());
-  const longPress = Gesture.LongPress()
-    .runOnJS(true)
-    .onStart(() => handleLongPressIn())
-    .onEnd(() => handleLongPressOut());
-
-  // TODO: Fix this to no longer require adjustment and pager-view prerelease package
-  //
-  // These stopped working properly after adding the topTabNavigator
-  // The issue is that the drag value is inconsistent/incorrect after bumping
-  //
-  // The solution was to use pager-view prerelease as per https://github.com/callstack/react-native-pager-view/issues/713
-  // and manually adjust this to track the value and arbitrary lower the drag threshold (typically 20px)
-  let flingStartX: number;
-  const fling = Gesture.Fling()
-    .direction(Directions.LEFT)
-    .onBegin((event) => {
-      flingStartX = event.absoluteX;
-    })
-    .onFinalize((event) => {
-      console.log("diff is", event.absoluteX - flingStartX)
-      if (event.absoluteX - flingStartX > 5) {
-        handleFlingRight();
-      }
-      if (event.absoluteX - flingStartX < -10) {
-        handleFlingLeft();
-      }
-    })
-    .runOnJS(true)
-    .onEnd(() => handleFlingLeft());
-  // Originally, we just had this:
-  // const flingRight = Gesture.Fling()
-  //   .direction(Directions.RIGHT)
-  //   .runOnJS(true)
-  //   .onEnd(() => handleFlingRight());
-
-  const gestures = Gesture.Race(tap, longPress, fling);
-
   // GESTURE HANDLERS
 
   const handleTapIn = useCallback(async () => {
@@ -175,6 +133,48 @@ export const ListItemGestureWrapper = ({
       clearTimeout(closeAnimation);
     }, 500);
   };
+
+  // GESTURE DEFINITIONS
+  const tap = Gesture.Tap()
+    .runOnJS(true)
+    .onStart(() => handleTapIn())
+    .onEnd(() => handleTapOut());
+  const longPress = Gesture.LongPress()
+    .runOnJS(true)
+    .onStart(() => handleLongPressIn())
+    .onEnd(() => handleLongPressOut());
+
+  // TODO: Fix this to no longer require adjustment and pager-view prerelease package
+  //
+  // These stopped working properly after adding the topTabNavigator
+  // The issue is that the drag value is inconsistent/incorrect after bumping
+  //
+  // The solution was to use pager-view prerelease as per https://github.com/callstack/react-native-pager-view/issues/713
+  // and manually adjust this to track the value and arbitrary lower the drag threshold (typically 20px)
+  let flingStartX: number;
+  const fling = Gesture.Fling()
+    .direction(Directions.LEFT)
+    .onBegin((event) => {
+      flingStartX = event.absoluteX;
+    })
+    .onFinalize((event) => {
+      console.log("diff is", event.absoluteX - flingStartX)
+      if (event.absoluteX - flingStartX > 5) {
+        handleFlingRight();
+      }
+      if (event.absoluteX - flingStartX < -10) {
+        handleFlingLeft();
+      }
+    })
+    .runOnJS(true)
+    .onEnd(() => handleFlingLeft());
+  // Originally, we just had this:
+  // const flingRight = Gesture.Fling()
+  //   .direction(Directions.RIGHT)
+  //   .runOnJS(true)
+  //   .onEnd(() => handleFlingRight());
+
+  const gestures = Gesture.Race(tap, longPress, fling);
 
   const scaleAnimation = useAnimatedStyle(() => ({
     transform: [{
