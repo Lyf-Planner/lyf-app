@@ -56,7 +56,7 @@ export const Friends = () => {
         {!loading && 
           <UserList 
             users={friends.filter((x) => x.id !== searchedUser?.id)} 
-            emptyText={"No friends added yet 😎"}
+            emptyText={"No friends added yet :)"}
             callback={() => setSearchedUser(null)}
           />
         }

@@ -59,10 +59,9 @@ const styles = StyleSheet.create({
     minHeight: 50,
   },
   emptyText: {
+    textAlign: 'center',
+    opacity: 0.4,
     fontSize: 18,
-    marginVertical: 8,
-    fontFamily: 'Inter',
-    opacity: 0.7,
-    fontWeight: '600'
+    fontFamily: 'Lexend'
   }
 });

@@ -10,6 +10,7 @@ import { Timetable } from 'pages/timetable/TimetablePage';
 import { Notes } from 'pages/notes/NotesPage';
 import { Friends } from 'pages/friends/FriendsPage';
 import { Profile } from 'pages/profile/ProfilePage';
+import { Create } from 'pages/create/Create';
 
 type Props = {
   children: JSX.Element;
@@ -26,10 +27,10 @@ export const routes = Object.freeze({
     icon: (color: string) => <Entypo name='list' size={30} color={color} />,
     root: Notes
   },
-  "New Plan": {
-    label: "New Plan",
+  "Lyf": {
+    label: "Lyf",
     icon: (color: string) => <AntDesign name='pluscircleo' size={40} color={color}/>,
-    root: Timetable
+    root: Create
   },
   "Friends": {
     label: "Friends",

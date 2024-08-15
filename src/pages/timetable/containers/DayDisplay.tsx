@@ -195,12 +195,6 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
 
   const isSunday = date ? dayFromDateString(date) === 'Sunday' : day === 'Sunday';
 
-  const conditionalStyles = {
-    diagLines: {
-      borderColor: canDelete ? deepBlueOpacity(0.6) : 'rgba(0,0,0,0.2)',
-    },
-  }
-
   return (
     <View>
       <Animated.View style={[styles.dayRootView, exitingAnimation]}>
@@ -220,8 +214,8 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
                 
               </View>
               <View style={styles.headerEnd}>
-                <Vertical style={[styles.diagLines, conditionalStyles.diagLines]} />
-                <Vertical style={[styles.diagLines, conditionalStyles.diagLines]} />
+                <Vertical style={styles.diagLines} />
+                {canDelete && <Vertical style={styles.diagLines} />}
 
                 {date && (
                   <Text style={styles.dayDateText}>{formatDate(date, true)}</Text>
@@ -308,6 +302,7 @@ const styles = StyleSheet.create({
   },
   diagLines: {
     borderLeftWidth: 2,
+    borderColor: 'rgba(0,0,0,0.2)',
     height: '100%',
     transform: [{ rotateZ: '-20deg' }],
     marginLeft: 'auto'
