@@ -10,24 +10,59 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { ItemType } from "schema/database/items"
 import { deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from "utils/colours"
+import { CreationButton } from "./CreationButton"
+import { useState } from "react"
+import { useNotes } from "providers/cloud/useNotes"
+import { NoteType } from "schema/database/notes"
+import { NavigationProp, useNavigation } from "@react-navigation/native"
+import { RouteParams } from "Routes"
+import { BottomTabNavigationProp, BottomTabScreenProps } from "@react-navigation/bottom-tabs"
 
+interface ButtonsLoading {
+  event: boolean;
+  task: boolean;
+  note: boolean;
+  list: boolean;
+}
 
-export const Create = () => {
+const defaultLoadingState: ButtonsLoading = {
+  event: false,
+  task: false,
+  note: false,
+  list: false
+};
+
+export const Create = (props: BottomTabScreenProps<RouteParams>) => {
   const { updateDrawer } = useDrawer();
   const { addItem } = useTimetable();
+  const { addNote } = useNotes();
+  const navigation = useNavigation<BottomTabNavigationProp<RouteParams>>();
 
-  const createItem = (type: ItemType) => {
-    const id = addItem(type, 0, { title: `New ${type}` });
+  const [loading, setLoading] = useState<ButtonsLoading>(defaultLoadingState);
 
-    updateDrawer(<ItemDrawer id={id}/>);
+  const createItem = async (type: ItemType) => {
+    setLoading({
+      ...loading,
+      event: type === ItemType.Event,
+      task: type === ItemType.Task
+    });
+
+    const id = await addItem(type, 0, { title: `New ${type}` });
+
+    updateDrawer(<ItemDrawer id={id} isNew/>);
+    setLoading(defaultLoadingState);
   }
 
-  const createNote = () => {
+  const createNote = async (type: NoteType) => {
+    setLoading({
+      ...loading,
+      list: type === NoteType.ListOnly,
+      note: type === NoteType.NoteOnly
+    });
 
-  }
+    const id = await addNote(`New ${type === NoteType.ListOnly ? 'List' : 'Note'}`, type);
 
-  const createList = () => {
-
+    navigation.jumpTo('Notes', { id });
   }
 
   return (
@@ -38,40 +73,36 @@ export const Create = () => {
       <PageBackground>
         <View style={styles.creationWrapper}>
           <View style={[styles.creationRow, styles.creationRowOne]}>
-            <BouncyPressable 
-              style={styles.creationButton}
+            <CreationButton
+              loading={loading.event}
+              icon={<Entypo name="calendar" color={eventsBadgeColor} size={40} />}
               onPress={() => createItem(ItemType.Event)}
-              useTouchableHighlight
-            >
-              <>
-                <Entypo name="calendar" color={eventsBadgeColor} size={40} />
-                <Text style={styles.typeText}>New Event</Text>
-              </>
-            </BouncyPressable>
-            <BouncyPressable 
-              style={styles.creationButton}
+              shadowOffset={{ width: 2, height: 2 }}
+              title="New Event"
+            />
+            <CreationButton
+              loading={loading.task}
+              icon={<MaterialIcons name='add-task' size={40} color={eventsBadgeColor} />}
               onPress={() => createItem(ItemType.Task)}
-              useTouchableHighlight
-            >
-              <>
-                <MaterialIcons name='add-task' size={40} color={eventsBadgeColor} />
-                <Text style={styles.typeText}>New Task</Text>
-              </>
-            </BouncyPressable>
+              shadowOffset={{ width: 4, height: 2 }}
+              title="New Task"
+            />
           </View>
           <View style={[styles.creationRow, styles.creationRowTwo]}>
-            <BouncyPressable style={styles.creationButton} useTouchableHighlight>
-              <>
-                <FontAwesome5 name='sticky-note' size={40} color={eventsBadgeColor} />
-                <Text style={styles.typeText}>New Note</Text>
-              </>
-            </BouncyPressable>
-            <BouncyPressable style={styles.creationButton} useTouchableHighlight>
-              <>
-                <Entypo name="list" color={eventsBadgeColor} size={44} />
-                <Text style={styles.typeText}>New List</Text>
-              </>
-            </BouncyPressable>
+            <CreationButton
+              loading={loading.note}
+              icon={<FontAwesome5 name='sticky-note' size={40} color={eventsBadgeColor} />}
+              onPress={() => createNote(NoteType.NoteOnly)}
+              shadowOffset={{ width: 2, height: 4 }}
+              title="New Note"
+            />
+            <CreationButton
+              loading={loading.list}
+              icon={<Entypo name="list" color={eventsBadgeColor} size={44} />}
+              onPress={() => createNote(NoteType.ListOnly)}
+              shadowOffset={{ width: 4, height: 4 }}
+              title="New List"
+            />
           </View>
         </View>
       </PageBackground>
@@ -88,8 +119,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 65,
     paddingHorizontal: 16,
-
     backgroundColor: primaryGreen, 
+    
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
@@ -119,22 +150,5 @@ const styles = StyleSheet.create({
   },
   creationRowTwo: {
     top: 275
-  },
-
-  creationButton: {
-    backgroundColor: deepBlueOpacity(0.9),
-    borderRadius: 40,
-    height: 125,
-    width: 125,
-
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8
-  },
-  typeText: {
-    fontFamily: 'Lexend',
-    color: white,
-    fontSize: 16
   }
 })

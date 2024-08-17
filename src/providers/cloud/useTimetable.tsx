@@ -44,7 +44,7 @@ export type AddItem = (
   type: ItemType,
   rank: number,
   initial: Partial<LocalItem>,
-) => ID;
+) => Promise<ID>;
 export type UpdateItem = (item: LocalItem, changes: Partial<UserRelatedItem>, updateRemote?: boolean) => Promise<void>;
 export type UpdateItemSocial = (
   item: LocalItem,
@@ -153,7 +153,7 @@ export const TimetableProvider = ({ children }: Props) => {
     }
   };
 
-  const addItem: AddItem = (
+  const addItem: AddItem = async (
     type: ItemType,
     rank: number,
     initial: Partial<LocalItem>,
@@ -190,8 +190,9 @@ export const TimetableProvider = ({ children }: Props) => {
       setItems([...items, newItem]);
     }
 
-    // Upload in background
-    createItem(newItem);
+    // Upload, update store with result
+    await createItem(newItem);
+
     return newItem.id;
   };
 

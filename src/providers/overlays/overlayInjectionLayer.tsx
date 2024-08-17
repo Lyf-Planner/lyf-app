@@ -37,6 +37,8 @@ export const OverlayInjectionLayer = ({ children }: Props) => {
         <BottomSheetModal
           ref={bottomSheetRef}
           enableDynamicSizing
+          index={1}
+          snapPoints={['35%']}
           onChange={handleSheetChanges}
           enablePanDownToClose
           style={styles.bottomSheetWrapper}

@@ -44,7 +44,7 @@ export const NoteBody = ({ note }: Props) => {
   if (note.type === NoteType.NoteOnly) {
     return (
       <Native.TextInput
-        multiline={true}
+        multiline
         value={content}
         style={styles.noteText}
         selectionColor={white}

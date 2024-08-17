@@ -11,10 +11,12 @@ import { black, primaryGreen } from 'utils/colours';
 import { PrivacySettings } from './privacy/PrivacySettings';
 import { WeatherSettings } from './weather/WeatherSettings';
 import { PageBackground } from 'components/general/PageBackground';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { RouteParams } from 'Routes';
 
 const weatherIcon = require('../../../assets/images/weather.webp');
 
-export const Profile = () => {
+export const Profile = (props: BottomTabScreenProps<RouteParams>) => {
   return (
 
     <PageBackground accountForHeader locations={[0,0.738,0.87]}>

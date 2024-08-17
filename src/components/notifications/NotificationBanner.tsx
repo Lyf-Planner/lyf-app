@@ -11,9 +11,10 @@ import { useNotifications } from 'providers/cloud/useNotifications';
 import { useNavigation } from '@react-navigation/native';
 import { ItemDrawer } from 'components/list/ItemDrawer';
 import { useDrawer } from 'providers/overlays/useDrawer';
-import { StackNavigation, routes } from 'providers/routes';
+import { RouteParams } from 'Routes';
 import { useModal } from 'providers/overlays/useModal';
 import { UserModal } from 'components/users/UserModal';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 const notificationTypeIcon: Record<NotificationType, JSX.Element> = Object.freeze({
   'ItemReminder': <Feather name="clock" size={24} />,
@@ -28,16 +29,16 @@ type Props = {
 
 export const NotificationBanner = ({ notification }: Props) => {
   const { readNotification } = useNotifications();
-  const { navigate } = useNavigation<StackNavigation>();
   const { updateDrawer } = useDrawer();
   const { updateModal } = useModal();
+  const navigation = useNavigation<BottomTabNavigationProp<RouteParams>>();
 
   const actionNotification = () => {
     readNotification(notification.id);
 
     switch (notification.related_data) {
       case NotificationRelatedData.User:
-        navigate(routes['Friends'].label);
+        navigation.jumpTo('Friends');
         updateDrawer(undefined);
         if (notification.related_id) {
           updateModal(
@@ -46,7 +47,7 @@ export const NotificationBanner = ({ notification }: Props) => {
         }
         break;
       case NotificationRelatedData.Item:
-        navigate(routes['Timetable'].label);
+        navigation.jumpTo('Timetable');
         updateModal(undefined);
         if (notification.related_id) {
           updateDrawer(
@@ -55,7 +56,7 @@ export const NotificationBanner = ({ notification }: Props) => {
         }
         break;
       case NotificationRelatedData.Note:
-        navigate(routes['Notes'].label);
+        navigation.jumpTo('Notes', { id: notification.related_id });
         break;
       default:
         null;

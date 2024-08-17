@@ -35,9 +35,9 @@ export const DrawerProvider = ({ children }: Props) => {
   };
 
   return (
-      <DrawerContext.Provider value={exposed}>
-        {children}
-      </DrawerContext.Provider>
+    <DrawerContext.Provider value={exposed}>
+      {children}
+    </DrawerContext.Provider>
   );
 };
 

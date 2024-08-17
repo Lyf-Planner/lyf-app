@@ -7,10 +7,12 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { Calendar } from './Calendar';
 import { Routine } from './Routine';
 import { PageBackground } from 'components/general/PageBackground';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { RouteParams } from 'Routes';
  
 const Tab = createMaterialTopTabNavigator();
 
-export const Timetable = () => {
+export const Timetable = (props: BottomTabScreenProps<RouteParams>) => {
   const { reload } = useTimetable();
 
   useEffect(() => {

@@ -72,7 +72,14 @@ export const NewNoteMenu = ({ newNote }: Props) => {
 
         <MenuTrigger  customStyles={{
           TriggerTouchableComponent: ({ children, onPress }: MenuTriggerProps) => (
-            <BouncyPressable withShadow onPress={onPress} shadowOptions={{ shadowOffset: 2, shadowRadius: 0.5 }}>
+            <BouncyPressable 
+              withShadow 
+              onPress={onPress} 
+              shadowOptions={{ 
+                shadowOffset: { width: 2, height: 2}, 
+                shadowRadius: 0.5 
+              }}
+            >
               {children}
             </BouncyPressable>
           )

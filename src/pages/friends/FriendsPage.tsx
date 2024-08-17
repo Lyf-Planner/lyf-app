@@ -11,8 +11,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { getUser } from "rest/user";
 import { SearchHeader } from "./containers/SearchHeader";
 import { PageBackground } from "components/general/PageBackground";
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { RouteParams } from "Routes";
 
-export const Friends = () => {
+export const Friends = (props: BottomTabScreenProps<RouteParams>) => {
   const { friends, loading, reload } = useFriends();
 
   const [searchedUser, setSearchedUser] = useState<any>();

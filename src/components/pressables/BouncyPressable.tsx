@@ -19,7 +19,7 @@ export type BouncyPressableOptions = {
 
 type ShadowOptions = {
   shadowOptions?: {
-    shadowOffset?: number,
+    shadowOffset?: { width: number, height: number },
     shadowOpacity?: number,
     shadowRadius?: number
   }
@@ -62,8 +62,8 @@ export const BouncyPressable = ({
     } as any;
   });
 
-  const shadowOffsetX = useSharedValue(shadowOptions?.shadowOffset || 3);
-  const shadowOffsetY = useSharedValue(shadowOptions?.shadowOffset || 3);
+  const shadowOffsetX = useSharedValue(shadowOptions?.shadowOffset?.width || 3);
+  const shadowOffsetY = useSharedValue(shadowOptions?.shadowOffset?.height || 3);
   const shadowAnimation = useAnimatedStyle(() => ({
     shadowOffset: { 
       width: withTiming(shadowOffsetX.value, { duration: 150 }), 
@@ -94,8 +94,8 @@ export const BouncyPressable = ({
           shadowOffsetY.value = 0.5;
         }}
         onPressOut={() => {
-          shadowOffsetX.value = shadowOptions?.shadowOffset || 3;
-          shadowOffsetY.value = shadowOptions?.shadowOffset || 3;
+          shadowOffsetX.value = shadowOptions?.shadowOffset?.width || 3;
+          shadowOffsetY.value = shadowOptions?.shadowOffset?.height || 3;
           scale.value = 1;
         }}
         underlayColor={'rgba(0,0,0,0.5)'}

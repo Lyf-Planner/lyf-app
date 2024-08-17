@@ -16,7 +16,10 @@ export const NoteHeader = ({ note, onBack }: Props) => {
   const { updateNote } = useNotes();
   const [title, setTitle] = useState(note.title);
 
-  const isNewNote = useMemo(() => note.title === `New ${TYPE_TO_DISPLAY_NAME[note.type]}`, [note.title]);
+  const isNewNote = useMemo(() => 
+    note.title === 'New List' || 
+    note.title === 'New Note',
+  [note.title]);
 
   const updateTitle = () => updateNote(note, { title });
 
@@ -29,7 +32,7 @@ export const NoteHeader = ({ note, onBack }: Props) => {
   
       <Native.TextInput
         autoFocus={isNewNote}
-        onFocus={(e: any) =>
+        onFocus={(e) =>
           // Workaround for selectTextOnFocus={true} not working
           e.currentTarget.setNativeProps({
             selection: { start: 0, end: note.title.length }

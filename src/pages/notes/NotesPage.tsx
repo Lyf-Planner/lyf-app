@@ -6,16 +6,16 @@ import { NoteView } from './NoteView';
 import { NoteRow } from './containers/NoteRow';
 import { useNotes } from 'providers/cloud/useNotes';
 import { NoteType } from 'schema/database/notes';
-import { UserRelatedNote } from 'schema/user';
 import { ID } from 'schema/database/abstract';
 import { primaryGreen, white } from 'utils/colours';
-import Entypo from 'react-native-vector-icons/Entypo';
 import { PageBackground } from 'components/general/PageBackground';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { RouteParams } from 'Routes';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 
-export const Notes = () => {
+export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
   // Can be the ID of a folder or note, the manager will figure it out
-  const [selectedId, setSelectedId] = useState<ID | null>(null);
+  const [selectedId, setSelectedId] = useState<ID | null>(props.route.params?.id || null);
   const { loading, reload, notes, updateNote, addNote } = useNotes();
 
   useEffect(() => {

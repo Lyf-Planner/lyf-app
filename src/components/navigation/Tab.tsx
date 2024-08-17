@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { routes } from 'providers/routes';
+import { routes } from 'Routes';
 import { useMemo } from 'react';
 import * as Native from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';

@@ -1,6 +1,6 @@
 import * as Native from 'react-native'
 import { Tab } from "./Tab";
-import { routes } from 'providers/routes';
+import { routes } from 'Routes';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
 const ENLARGED_TAB = 2;

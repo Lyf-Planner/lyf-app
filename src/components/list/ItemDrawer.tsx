@@ -32,11 +32,13 @@ export type ItemDrawerProps = {
 }
 
 type Props = {
-  id: ID
+  id: ID,
+  isNew?: boolean
 }
 
 export const ItemDrawer = ({
-  id
+  id,
+  isNew = false
 }: Props) => {
   // Establish item from store
   const { updateDrawer, updateSheetMinHeight } = useDrawer();
@@ -89,8 +91,6 @@ export const ItemDrawer = ({
     }
   }
 
-  console.log("item users", item.relations.users?.map((x) => x.id));
-
   // Pass "invited" to block any input component with a localised value
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -105,7 +105,7 @@ export const ItemDrawer = ({
             <View style={styles.itemType}>{/** TODO: Review whether this wrapping View is needed */}
               <ItemTypeBadge {...props} />
             </View>
-            <ItemTitle {...props} />
+            <ItemTitle {...props} autoFocus={isNew} />
             {!item.invite_pending && 
               <OptionsMenu 
                 item={item} 
