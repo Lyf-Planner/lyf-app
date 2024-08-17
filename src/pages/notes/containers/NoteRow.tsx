@@ -55,7 +55,13 @@ export const NoteRow = ({
     >
       <View style={styles.touchableHighlight}>
         <NoteTypeBadge type={note.type} />
-        <Text style={[styles.titleText]}>{note.title}</Text>
+        <Text 
+          adjustsFontSizeToFit
+          numberOfLines={1}
+          style={[styles.titleText]}
+        >
+          {note.title}
+        </Text>
         <View style={[styles.animatedChevron]}>
           <Entypo name={'chevron-right'} size={25} color='white' />
         </View>
@@ -93,9 +99,11 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 20,
+    maxWidth: '75%',
     color: white,
     fontWeight: '400',
-    fontFamily: 'Lexend'
+    fontFamily: 'Lexend',
+    overflow: 'hidden'
   },
   editIcon: { marginLeft: 'auto', marginRight: 17.5 },
   animatedChevron: {

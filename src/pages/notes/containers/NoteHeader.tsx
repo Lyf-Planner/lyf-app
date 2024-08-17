@@ -84,6 +84,7 @@ const styles = Native.StyleSheet.create({
 
   noteTitle: { 
     fontSize: 22, 
+    maxWidth: 275,
     color: white, 
     fontFamily: "Lexend", 
     fontWeight: '400',
