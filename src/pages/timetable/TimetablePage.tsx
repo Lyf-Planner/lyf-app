@@ -6,7 +6,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Calendar } from './Calendar';
 import { Routine } from './Routine';
-import { PageBackground } from 'components/general/PageBackground';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { RouteParams } from 'Routes';
  

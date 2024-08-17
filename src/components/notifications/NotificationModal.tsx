@@ -93,7 +93,7 @@ const styles = Native.StyleSheet.create({
   },
   scrollWrapper: {
     flexDirection: 'column',
-    gap: 8,
+    gap: 10,
     paddingVertical: 10,
     paddingHorizontal: 10,
   },

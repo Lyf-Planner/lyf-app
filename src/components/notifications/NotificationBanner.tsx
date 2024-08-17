@@ -6,7 +6,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { eventsBadgeColor } from 'utils/colours';
+import { deepBlueOpacity, eventsBadgeColor, eventsBadgeColorOpacity } from 'utils/colours';
 import { useNotifications } from 'providers/cloud/useNotifications';
 import { useNavigation } from '@react-navigation/native';
 import { ItemDrawer } from 'components/list/ItemDrawer';
@@ -68,11 +68,11 @@ export const NotificationBanner = ({ notification }: Props) => {
       opacity: 0.6,
     } : {
       shadowColor: 'black',
-      shadowOpacity: 1,
+      shadowOpacity: 0.5,
       shadowRadius: 2,
       shadowOffset: { 
-        width: 0, 
-        height: 0
+        width: 1, 
+        height: 1
       }
     }
   }
@@ -107,7 +107,10 @@ const styles = Native.StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     overflow: 'hidden',
-    backgroundColor: eventsBadgeColor,
+    backgroundColor: eventsBadgeColorOpacity(0.9),
+
+    borderWidth: 1,
+    borderColor: deepBlueOpacity(0.2)
   },
   icon: {
     width: 35,

@@ -270,7 +270,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
 
 const styles = StyleSheet.create({
   dayRootView: {
-    backgroundColor: deepBlueOpacity(0.7),
+    backgroundColor: deepBlueOpacity(0.6),
     width: '100%',
     borderWidth: 1,
     borderRadius: 10,
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
 
     shadowOffset: { width: 3, height: 3 },
     shadowColor: 'black',
-    shadowOpacity: 0.7,
+    shadowOpacity: 1,
     shadowRadius: 2
   },
   dayHeaderView: {

@@ -97,9 +97,9 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.3)',
 
     shadowColor: 'black',
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 1
+    shadowOffset: { width: 3, height: 3 },
+    shadowOpacity: 0.7,
+    shadowRadius: 2
   },
   nameRow: { 
     flexDirection: 'column', 

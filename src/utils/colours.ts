@@ -5,6 +5,7 @@ export const secondaryGreen = 'rgb(34 197 94)'; // bright one
 export const lightGreen = '#AFE1AF'; 
 
 export const eventsBadgeColor = 'rgb(191 219 254)';
+export const eventsBadgeColorOpacity = (a: number) => `rgba(191, 219, 254, ${a})`;
 export const deepBlue = 'rgb(30 41 59)';
 export const deepBlueOpacity = (a: number) => `rgba(30, 41, 59, ${a})`;
 

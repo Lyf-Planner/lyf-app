@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     fontSize: 18,
-    marginVertical: 16,
+    marginVertical: 18,
     fontFamily: 'Inter',
     opacity: 0.5,
     fontWeight: '600'
