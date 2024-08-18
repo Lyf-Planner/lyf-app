@@ -57,8 +57,8 @@ function parseBackendUrl() {
 
 enum env {
   APP_ENV = envVar('appEnv'),
-  BACKEND_URL = parseBackendUrl() as any,
-  PROJECT_ID = envVar('eas', 'projectId') as any,
+  BACKEND_URL = parseBackendUrl(),
+  PROJECT_ID = envVar('eas', 'projectId'),
 }
 
 export default env;
