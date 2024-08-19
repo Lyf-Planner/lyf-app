@@ -1,14 +1,15 @@
 {
   "name": "lyf-app",
-  "version": "1.5.12",
+  "version": "2.0.0.1",
   "scripts": {
     "lint": "eslint . --cache --color",
     "lint:fix": "eslint . --fix",
     "start": "npx expo start --go",
     "build:android-sim": "eas build --platform android --profile sim-dev",
     "build:ios-sim": "eas build --platform ios --profile sim-dev",
-    "build:ios": "eas build --platform ios --profile dev",
-    "prodbuild:ios": "eas build --platform ios --profile production",
+    "build:ios-internal": "eas build --platform ios --profile dev",
+    "build:ios-beta": "eas build --platform ios --profile qa",
+    "build:ios-prod": "eas build --platform ios --profile production",
     "schema:sync": "cd src/schema && git checkout main && git pull && cd ../..",
     "use-build": "eas build:run",
     "android": "expo run:android",
