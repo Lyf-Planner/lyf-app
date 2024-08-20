@@ -4,9 +4,11 @@ import { DailyWeather, HistoricalWeather } from "openweather-api-node";
 import { useTimetable } from "providers/cloud/useTimetable";
 import { Image, StyleSheet, View, Text } from 'react-native';
 import { DateString } from "schema/util/dates";
-import { sun } from "utils/colours";
 import { formatDateData } from "utils/dates";
 import { renderDescription } from "schema/util/weather";
+import WeatherIcon from "./WeatherIcon";
+import Sunny from './icons/Sunny';
+import { black } from "utils/colours";
 
 type Props = {
   date: DateString;
@@ -14,7 +16,18 @@ type Props = {
 
 export const WeatherWidget = ({ date }: Props) => {
   const { weather } = useTimetable();
+  if (!weather) {
+    return (
+      <View style={[styles.iconPressableWrapper, styles.loadingIcon]}>
+        <Sunny />
+      </View>
+    )
+  }
+
   const dateWeather = weather.find((x) => formatDateData(x.dt) === date);
+  if (!dateWeather) return null;
+
+  const { weather: { main, description }, astronomical: { sunrise, sunset }} = dateWeather;
 
   const isHistorical = (data: DailyWeather | HistoricalWeather): data is HistoricalWeather => {
     return Object.keys(data.weather.temp).includes('cur');
@@ -29,7 +42,11 @@ export const WeatherWidget = ({ date }: Props) => {
     )
   }
 
-  if (!dateWeather) return null;
+  const conditionalStyles = {
+    iconPressableWrapper: {
+      opacity: new Date(date) > new Date() ? 0.5 : 1
+    }
+  }
 
   return (
     <LyfPopup 
@@ -38,7 +55,16 @@ export const WeatherWidget = ({ date }: Props) => {
       popupContent={(
         <View style={styles.popupWrapper}>
           <Text style={styles.mainDesc}>{renderDescription(dateWeather.weather.main)}</Text>
-          <Image src={dateWeather.weather.icon.url} style={styles.popupIcon} resizeMode="contain" />
+          <View style={styles.popupIconWrapper}>
+            <WeatherIcon 
+              main={main} 
+              description={main} 
+              timestamp={new Date()} 
+              sunrise={sunrise} 
+              sunset={sunset} 
+              size={50}
+            />
+          </View>
           <View>
             {isHistorical(dateWeather) ? (
               renderInfo('Temp', Math.round(dateWeather.weather.temp.cur), '°C')
@@ -54,24 +80,29 @@ export const WeatherWidget = ({ date }: Props) => {
         </View>
       )}
     >
-      <Image 
-        src={dateWeather.weather.icon.url} 
-        style={styles.iconPressable} 
-        resizeMode="contain" 
-      />
+      <View style={[styles.iconPressableWrapper, conditionalStyles.iconPressableWrapper]}>
+        <WeatherIcon 
+          main={main} 
+          description={main} 
+          timestamp={new Date()} 
+          sunrise={sunrise} 
+          sunset={sunset} 
+          size={30}
+        />
+      </View>
     </LyfPopup>
   )
 }
 
 const styles = StyleSheet.create({
-  iconPressable: {
+  iconPressableWrapper: {
+    padding: 4,
     width: 40,
     height: 40,
-
-    shadowOffset: { width: 0, height: 0 },
-    shadowColor: 'black',
-    shadowOpacity: 1,
-    shadowRadius: 1
+    tintColor: black
+  },
+  loadingIcon: {
+    opacity: 0.4
   },
   popupWrapper: { 
     padding: 8,
@@ -104,4 +135,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 14
   },
+
+  popupIconWrapper: {
+    padding: 8,
+    width: 40,
+    height: 40
+  }
 })

@@ -168,7 +168,7 @@ const styles = Native.StyleSheet.create({
 
   dropdowns: {
     flexDirection: 'column',
-    gap: 4,
+    gap: 6,
   },
 
   calendarWrapper: {

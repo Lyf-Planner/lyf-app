@@ -31,7 +31,7 @@ export type TimetableHooks = {
   endDate: DateString,
   loading: boolean,
   items: LocalItem[],
-  weather: (DailyWeather | HistoricalWeather)[],
+  weather: (DailyWeather | HistoricalWeather)[] | null,
   updateItem: UpdateItem,
   updateItemSocial: UpdateItemSocial,
   addItem: AddItem,
@@ -72,7 +72,7 @@ export const TimetableProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState(true);
 
   const [items, setItems] = useState<LocalItem[]>([]);
-  const [weather, setWeather] = useState<(HistoricalWeather | DailyWeather)[]>([]);
+  const [weather, setWeather] = useState<(HistoricalWeather | DailyWeather)[] | null>(null);
 
   const [startDate, setStartDate] = useState(formatDateData(getStartOfCurrentWeek()));
   const [endDate, setEndDate] = useState(formatDateData(getEndOfCurrentWeek()));

@@ -28,8 +28,8 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
 
   const scale = useSharedValue(1);
   const chevronAngle = useSharedValue(0);
-  const shadowOffsetX = useSharedValue(3);
-  const shadowOffsetY = useSharedValue(3);
+  const shadowOffsetX = useSharedValue(2);
+  const shadowOffsetY = useSharedValue(2);
 
   const scaleAnimation = useAnimatedStyle(() => ({
     transform: [{
@@ -60,8 +60,8 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
           scale.value = 0.95;
         }}
         onPressOut={() => {
-          shadowOffsetX.value = 2.5;
-          shadowOffsetY.value = 2.5;
+          shadowOffsetX.value = 2;
+          shadowOffsetY.value = 2;
           scale.value = 1;
         }}
         onPress={() => updateHide(!hide)}
@@ -108,17 +108,17 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
 const styles = StyleSheet.create({
   dropdownContainer: {
     flexDirection: 'column',
-    backgroundColor: deepBlue,
     borderRadius: 10,
     padding: 12,
     justifyContent: 'flex-start',
     borderWidth: 2,
     borderColor: 'rgba(0, 0, 0, 0.3)',
 
+    backgroundColor: deepBlueOpacity(0.8),
+
     shadowColor: 'black',
-    shadowOpacity: 0.25,
-    shadowRadius: 0.5,
-    shadowOffset: { width: 4, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 2
   },
   dropdownTextContainer: {
     flexDirection: 'row',

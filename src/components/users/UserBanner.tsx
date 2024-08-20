@@ -48,7 +48,7 @@ export const UserBanner = ({
       style={[conditionalStyles.main, styles.main]}
       onPress={() => updateModal(<UserModal user_id={user.id} key={user.id} />)}
     >
-      <FontAwesome name="user" size={32} style={{ width: 32, height: 32 }} color='white' />
+      <FontAwesome name="user" size={32} style={{ width: 32, height: 32 }} color={eventsBadgeColor} />
       <View style={styles.nameRow}>
         {userHasDisplayName &&
           <Text
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
 
     shadowColor: 'black',
     shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 0.7,
+    shadowOpacity: 1,
     shadowRadius: 2
   },
   nameRow: { 
@@ -115,6 +115,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2
   },
-  mainAliasText: { fontWeight: '500', fontSize: 20, color: 'white' },
+  mainAliasText: { fontWeight: '500', fontSize: 20, color: eventsBadgeColor },
   subAliasText: { color: 'rgba(255,255,255,0.5)' }
 });
