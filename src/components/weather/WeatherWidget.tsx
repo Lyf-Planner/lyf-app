@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
 
   popupIconWrapper: {
     padding: 8,
-    width: 40,
-    height: 40
+    width: 70,
+    height: 70
   }
 })
