@@ -8,6 +8,7 @@ import { Calendar } from './Calendar';
 import { Routine } from './Routine';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { RouteParams } from 'Routes';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
  
 const Tab = createMaterialTopTabNavigator();
 
@@ -36,7 +37,7 @@ export const Timetable = (props: BottomTabScreenProps<RouteParams>) => {
           name="Calendar" 
           component={Calendar} 
           options={{
-            tabBarIcon: () => <MaterialCommunityIcons name="table" size={24} color="white" />,
+            tabBarIcon: () => <MaterialIcons name='event-note' size={25} color={white}/>,
             tabBarLabel: "Calendar",
           }}
         />
@@ -44,8 +45,8 @@ export const Timetable = (props: BottomTabScreenProps<RouteParams>) => {
           name="Routine" 
           component={Routine}
           options={{
-            tabBarIcon: () =>  <MaterialCommunityIcons name="refresh" size={24} color="white" style={{ top: 1 }} />,
-            tabBarLabel: "Routine"
+            tabBarIcon: () =>  <MaterialIcons name="event-repeat" size={24} color={white} />,
+            tabBarLabel: "Routines"
           }}
         />
       </Tab.Navigator>
@@ -65,7 +66,8 @@ const styles = StyleSheet.create({
   },
   tabBarItemStyle: {
     height: 65,
-    flexDirection: "row"
+    flexDirection: "row",
+    gap: 4
   },
   tabBarStyle: {
     backgroundColor: primaryGreen, 
