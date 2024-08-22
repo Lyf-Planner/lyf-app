@@ -22,7 +22,7 @@ export function defaultTabHeader(label: string): BottomTabNavigationOptions  {
   const { updateModal } = useModal(); 
 
   return {
-    headerShown: true,
+    headerShown: Native.Platform.OS !== 'web',
     headerStyle: headerStyles.header,
     headerTitle: () => (
       <Native.View style={headerStyles.titleContent}>

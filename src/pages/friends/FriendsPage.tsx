@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     flexDirection: 'column',
     gap: 8,
-    overflow: 'visible'
+    overflow: 'visible',
+    paddingTop: 16,
   },
   foundUserWrapper: { marginBottom: 10 },
 

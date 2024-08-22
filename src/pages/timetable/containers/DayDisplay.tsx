@@ -46,12 +46,13 @@ type Props = {
   items: LocalItem[],
   date: DateString | null,
   day: DayOfWeek | null,
-  useRoutine?: boolean
+  useRoutine?: boolean,
+  shadowOffset?: { width: number, height: number }
 }
 
 
 
-export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
+export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
   const [sorting, setSorting] = useState(false);
 
   const { user, updateUser } = useAuth();
@@ -195,9 +196,15 @@ export const DayDisplay = ({ items, date, day, useRoutine = false }: Props) => {
 
   const isSunday = date ? dayFromDateString(date) === 'Sunday' : day === 'Sunday';
 
+  const conditionalStyles = {
+    dayRootView: {
+      shadowOffset: shadowOffset ?? { width: 3, height: 3 },
+    }
+  }
+
   return (
     <View>
-      <Animated.View style={[styles.dayRootView, exitingAnimation]}>
+      <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
         <LyfMenu
         // TODO: This sucks
           name={(date ? date : day) + "-menu"} 
@@ -279,7 +286,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 4,
 
-    shadowOffset: { width: 3, height: 3 },
     shadowColor: 'black',
     shadowOpacity: 1,
     shadowRadius: 2
@@ -315,7 +321,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend'
   },
   dayOfWeekText: {
-    fontFamily: 'Lexend-Semibold',
+    fontFamily: 'Lexend',
+    fontWeight: '600',
     fontSize: 18,
     padding: 2
   },

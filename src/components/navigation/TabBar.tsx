@@ -3,22 +3,9 @@ import { Tab } from "./Tab";
 import { routes } from 'Routes';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
-const ENLARGED_TAB = 2;
-
-type Props = BottomTabBarProps
-
 export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
-  const conditionalStyles = {
-    mainContainer: { paddingBottom: Native.Platform.OS === 'ios' ? 0 : 10 }
-  }
-
   return (
-    <Native.View
-      style={[
-        styles.mainContainer,
-        conditionalStyles.mainContainer
-      ]}
-    >
+    <Native.View style={styles.mainContainer}>
       {state.routes.map((route, index: number) => {
         const routeDetails = routes[route.name as keyof typeof routes];
         const isFocused = state.index === index;
@@ -55,6 +42,8 @@ const styles = Native.StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     bottom: 0,
+    width: '100%',
+    height: 65, // This doesn't actually effect the height, but for some reason fixes the shadow on web
 
     shadowColor: 'black',
     shadowOffset: { width: 0, height: -1 },

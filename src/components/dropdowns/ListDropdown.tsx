@@ -89,7 +89,6 @@ export const ListDropdown = ({ items, listType, icon, name }: Props) => {
               itemColor: eventsBadgeColor,
               itemTextColor: deepBlue
             }}
-            listWrapperStyles={{ backgroundColor: deepBlue }}
           />
           <NewItem 
             addItemByTitle={(title: string) => addItem(

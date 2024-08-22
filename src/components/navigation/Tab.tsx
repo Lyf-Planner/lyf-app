@@ -19,11 +19,16 @@ export const Tab = ({ isFocused, index, onPress, route }: Props) => {
   const isCentral = useMemo(() => index === ENLARGED_TAB_INDEX, [index]);
 
   const tabHeight = () => {
+    let height = 85;
     if (isCentral) {
-      return  isFocused ? 105 : 100;
+      height = 100
     }
-    
-    return 85;
+
+    if (Native.Platform.OS === 'web') {
+      height -= 10;
+    }
+
+    return height;
   }
 
   const gradientStart = { x: 0, y: 1 };
@@ -105,6 +110,6 @@ const styles = Native.StyleSheet.create({
   },
   whiteDot: { 
     position: 'relative', 
-    bottom: 25 
+    bottom: Native.Platform.OS === 'web' ? 15 : 25 
   },
 })

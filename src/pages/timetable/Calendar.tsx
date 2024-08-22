@@ -151,19 +151,24 @@ export const Calendar = () => {
 
 const styles = Native.StyleSheet.create({
   scroll: {
-    overflow: 'visible'
+    overflow: 'visible',
+    flex: 1,
+    paddingTop: 20,
+    paddingBottom: 100
   },
 
   main: {
     minHeight: '100%',
-    paddingBottom: 125,
     paddingHorizontal: 14,
     paddingTop: 15,
   },
 
   scrollContainer: {
+    alignSelf: 'center',
     flexDirection: "column",
     gap: 14,
+    maxWidth: 500,
+    width: '100%',
   },
 
   dropdowns: {

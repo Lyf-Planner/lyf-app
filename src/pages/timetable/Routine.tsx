@@ -1,33 +1,21 @@
 import * as Native from 'react-native';
-import { CalendarRange } from './containers/CalendarRange';
 import { deepBlue, primaryGreen, white } from 'utils/colours';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { DayDisplay } from './containers/DayDisplay';
 import { WeekDays } from 'schema/util/dates';
-import { LocalItem } from 'schema/items';
-import { useMemo } from 'react';
 import { useTimetable } from 'providers/cloud/useTimetable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Loader, PageLoader } from 'components/general/MiscComponents';
 import { PageBackground } from 'components/general/PageBackground';
 
-
-type Props = {
-  items: LocalItem[]
-}
-
 export const Routine = () => {
   const { loading, items } = useTimetable();
-  const routineItems = useMemo(() => (
-    items
-    .filter((item) => item.day && !item.date)
-    .map((item) => ({ ...item, localised: false }))
-  ), [items]);
 
   return (
     <PageBackground sunRight locations={[0,0.82,1]}>
-    <KeyboardAwareScrollView style={styles.scroll}>
-        <Native.View style={styles.header}>
+      <KeyboardAwareScrollView style={styles.scroll}>
+        <Native.View style={styles.scrollContainer}>
+          <Native.View style={styles.header}>
             <Native.Text style={styles.weekDateText}>Every Week</Native.Text>
               <Native.Pressable
                 onPress={() => {
@@ -49,6 +37,7 @@ export const Routine = () => {
                   day={x}
                   date={null}
                   items={items.filter((y) => (y.day && x === y.day))}
+                  shadowOffset={{ width: -3, height: 3 }}
                 />
               ))}
             </Native.View>
@@ -56,8 +45,8 @@ export const Routine = () => {
 
           {loading && <PageLoader />}
           
-        
-    </KeyboardAwareScrollView>
+        </Native.View>
+      </KeyboardAwareScrollView>
     </PageBackground>
   )
 }
@@ -70,7 +59,16 @@ const styles = Native.StyleSheet.create({
   },
 
   scroll: {
-    overflow: 'visible'
+    overflow: 'visible',
+    paddingTop: 20,
+    paddingBottom: 100
+  },
+
+  scrollContainer: {
+    alignSelf: 'center',
+    flexDirection: "column",
+    maxWidth: 500,
+    width: '100%',
   },
 
   header: {
@@ -83,7 +81,7 @@ const styles = Native.StyleSheet.create({
     borderRadius: 10,
     backgroundColor: primaryGreen,
 
-    shadowOffset: { width: 2, height: 2 },
+    shadowOffset: { width: -2, height: 2 },
     shadowColor: 'black',
     shadowOpacity: 1,
     shadowRadius: 3
@@ -99,11 +97,6 @@ const styles = Native.StyleSheet.create({
     flexDirection: 'column',
     gap: 14,
     marginTop: 16,
-
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 3
   },
 
   loadingContainer: {
