@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   collaborativeIndicator: {
     borderRadius: 30,
     aspectRatio: 1,
-    width: '10%',
+    width: 32,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'

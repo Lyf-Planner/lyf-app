@@ -62,6 +62,7 @@ export const NoteHeader = ({ note, onBack }: Props) => {
 
 const styles = Native.StyleSheet.create({
   noteHeader: {
+    zIndex: 50,
     backgroundColor: primaryGreen,
     flexDirection: 'row',
     paddingHorizontal: 10,

@@ -8,6 +8,7 @@ import { NoteBody } from './containers/NoteBody';
 import { Loader } from 'components/general/MiscComponents';
 import { PageBackground } from 'components/general/PageBackground';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { primaryGreen } from 'utils/colours';
 
 type Props = {
   id: ID,
@@ -36,30 +37,33 @@ export const NoteView = ({
   }, [])
 
   return (
-    <PageBackground accountForHeader locations={[0,0.738,0.87]}>
-    <View style={styles.notePageWrapper}>
+    <View style={styles.main}>
       <NoteHeader note={note} onBack={onBack}/>
-      
-        {initialising && 
-          <View style={styles.loadingContainer}>
-            <Loader />
-            <Text style={styles.loadingText}>
-              Organizing...
-            </Text>
-          </View>
-        }
-        
-        {!initialising &&
-          <KeyboardAwareScrollView style={{ width: '100%', height: '100%', paddingBottom: 200 }}>
-            <NoteBody note={note}/>
-          </KeyboardAwareScrollView>
-        } 
+      <PageBackground>
+        <View style={styles.notePageWrapper}>
+          {initialising && 
+            <View style={styles.loadingContainer}>
+              <Loader />
+              <Text style={styles.loadingText}>
+                Organizing...
+              </Text>
+            </View>
+          }
+          
+          {!initialising &&
+            <KeyboardAwareScrollView style={{ width: '100%', height: '100%' }}>
+              <NoteBody note={note}/>
+            </KeyboardAwareScrollView>
+          } 
+        </View>
+      </PageBackground>
     </View>
-    </PageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  main: { flex: 1 },
+
   notePageWrapper: {
     overflow: 'visible'
   },

@@ -1,8 +1,9 @@
 import { inProgressColor } from "components/list/constants";
 import { LinearGradient } from "expo-linear-gradient"
 import { View, StyleSheet, Platform } from "react-native"
+import Entypo from "react-native-vector-icons/Entypo";
 import { LyfElement } from "utils/abstractTypes";
-import { eventsBadgeColor, sun } from "utils/colours"
+import { eventsBadgeColor, sun, white } from "utils/colours"
 
 type Props = {
   children: LyfElement;
@@ -19,6 +20,15 @@ export const PageBackground = ({ children, locations, sunRight = false, accountF
     main: {
       paddingHorizontal: accountForHeader || noPadding ? 0 : 14,
       flex: 1
+    },
+    sun: {
+      top: -75 + (accountForHeader ? 65 : 0),
+      left: sunRight ? undefined : -75,
+      right: sunRight ? -75 : undefined,
+    },
+    webCloud: {
+      left: sunRight ? 75 : undefined,
+      right: sunRight ? undefined : 75,
     }
   }
 
@@ -30,19 +40,10 @@ export const PageBackground = ({ children, locations, sunRight = false, accountF
         locations={locations || [0,0.75,0.9]}
         style={[styles.main, conditionalStyles.main]}
       >
-        <View
-          style={{
-            position: 'absolute',
-            backgroundColor: sun,
-            width: 150,
-            borderRadius: 100,
-            height: 150,
-            zIndex: 0,
-            top: -75 + (accountForHeader ? 65 : 0),
-            left: sunRight ? undefined : -75,
-            right: sunRight ? -75 : undefined,
-          }}
-        />
+        <View style={[styles.sun, conditionalStyles.sun]} />
+        {Platform.OS === 'web' &&
+          <Entypo name="cloud" style={[styles.webCloud, conditionalStyles.webCloud]} size={100} color={white} />
+        }
         {children}
     </LinearGradient>
   );
@@ -53,5 +54,17 @@ const styles = StyleSheet.create({
     minHeight: '100%',
     paddingBottom: Platform.OS === 'web' ? 0 : 125,
     overflow: 'visible'
+  },
+  sun: {
+    position: 'absolute',
+    backgroundColor: sun,
+    width: 150,
+    borderRadius: 100,
+    height: 150,
+    zIndex: 0,
+  },
+  webCloud: {
+    position: 'absolute',
+    top: 40,
   }
 })

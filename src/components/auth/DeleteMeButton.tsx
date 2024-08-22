@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     gap: 4,
-    borderRadius: 5
+    borderRadius: 5,
+    maxWidth: 400,
   },
   logoutText: {
     fontSize: 18,

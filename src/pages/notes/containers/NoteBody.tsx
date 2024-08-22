@@ -95,22 +95,29 @@ export const NoteBody = ({ note }: Props) => {
 const styles = Native.StyleSheet.create({
   listWrapper: {
     marginVertical: 12,
-    marginHorizontal: 8,
     padding: 8,
     borderRadius: 10,
     flexDirection: 'column',
     backgroundColor: deepBlueOpacity(0.2),
-    gap: 4
+    gap: 4,
+    maxWidth: 500,
+    alignSelf: 'center',
+    flex: 1,
+    width: '100%'
   },
   noteText: {
     borderWidth: 2,
-    marginHorizontal: 8,
+    maxWidth: 800,
+    width: '100%',
+    alignSelf: 'center',
     marginVertical: 16,
+
     borderColor: deepBlue,
     backgroundColor: deepBlueOpacity(0.8),
     borderRadius: 10,
     fontSize: 16,
     height: 400,
+
     padding: 8,
     color: white
   },

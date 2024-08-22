@@ -65,7 +65,5 @@ const styles = StyleSheet.create({
     zIndex: 10,
     color: 'rgb(203 213 225)',
     fontSize: 16,
-
-    
   }
 });
