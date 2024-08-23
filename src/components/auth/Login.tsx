@@ -3,8 +3,6 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  Keyboard,
-  TouchableWithoutFeedback
 } from 'react-native';
 import { Horizontal, Loader } from '../general/MiscComponents';
 import { useRef, useState } from 'react';
@@ -116,9 +114,8 @@ export const Login = ({ updateUser }: Props) => {
   }
 
   return (
-    <TouchableWithoutFeedback
+    <View
       style={styles.touchableWithoutFeedback}
-      onPress={Keyboard.dismiss}
     >
       <View style={styles.page}>
         <View style={styles.container}>
@@ -126,7 +123,7 @@ export const Login = ({ updateUser }: Props) => {
           {_renderFields()}
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 };
 
@@ -204,9 +201,11 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.5)'
   },
   fields: {
+    zIndex: 100,
     marginVertical: 8,
     fontSize: 18,
     fontWeight: "300",
-    fontFamily: "Lexend"
+    fontFamily: "Lexend",
+    outlineStyle: 'none'
   }
 });
