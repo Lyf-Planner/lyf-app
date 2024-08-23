@@ -32,7 +32,7 @@ export function defaultTabHeader(label: string): BottomTabNavigationOptions  {
     headerLeft: () => (
       <Native.TouchableOpacity 
         style={headerStyles.tutorialContent}
-        onPress={() => Native.Platform.OS === 'web' ? null : updateTutorial(true)}
+        onPress={() => Native.Platform.OS !== 'ios' ? null : updateTutorial(true)}
       >
         <Image source={LyfIcon} style={headerStyles.icon} resizeMode="contain"/>
       </Native.TouchableOpacity>
@@ -61,7 +61,7 @@ const headerStyles = StyleSheet.create({
   header: {
     borderBottomColor: gentleBlack,
     backgroundColor: white,
-    height:  Native.Platform.OS !== 'web' ? 100 : 50
+    height:  Native.Platform.OS !== 'ios' ? 60 : 100
   },
   titleContent: {
     flexDirection: "row",

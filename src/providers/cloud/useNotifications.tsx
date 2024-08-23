@@ -32,7 +32,7 @@ export const NotificationsLayer = ({ children }: Props) => {
   const { user, updateUser } = useAuth();
 
   useEffect(() => {
-    if (Platform.OS === 'web') {
+    if (Platform.OS !== 'ios') {
       return;
     }
 

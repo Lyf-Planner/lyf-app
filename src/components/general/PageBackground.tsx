@@ -41,7 +41,7 @@ export const PageBackground = ({ children, locations, sunRight = false, accountF
         style={[styles.main, conditionalStyles.main]}
       >
         <View style={[styles.sun, conditionalStyles.sun]} />
-        {Platform.OS === 'web' &&
+        {Platform.OS !== 'ios' &&
           <Entypo name="cloud" style={[styles.webCloud, conditionalStyles.webCloud]} size={100} color={white} />
         }
         {children}
@@ -52,7 +52,7 @@ export const PageBackground = ({ children, locations, sunRight = false, accountF
 const styles = StyleSheet.create({
   main: {
     minHeight: '100%',
-    paddingBottom: Platform.OS === 'web' ? 0 : 125,
+    paddingBottom: Platform.OS !== 'ios' ? 0 : 125,
     overflow: 'visible'
   },
   sun: {

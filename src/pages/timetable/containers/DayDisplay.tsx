@@ -277,7 +277,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
 
 const styles = StyleSheet.create({
   dayRootView: {
-    backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.6),
+    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.6),
     width: '100%',
     borderWidth: 1,
     borderRadius: 10,

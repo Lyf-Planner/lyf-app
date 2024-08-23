@@ -24,7 +24,7 @@ export const Tab = ({ isFocused, index, onPress, route }: Props) => {
       height = 100
     }
 
-    if (Native.Platform.OS === 'web') {
+    if (Native.Platform.OS !== 'ios') {
       height -= 10;
     }
 
@@ -110,6 +110,6 @@ const styles = Native.StyleSheet.create({
   },
   whiteDot: { 
     position: 'relative', 
-    bottom: Native.Platform.OS === 'web' ? 15 : 25 
+    bottom: Native.Platform.OS !== 'ios' ? 15 : 25 
   },
 })

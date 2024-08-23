@@ -49,7 +49,7 @@ function parseBackendUrl() {
     : manifest2?.launchAsset.url;
 
   // Retrieve IP from URL
-  const ip = Platform.OS === 'web' ? 'localhost' : extractIPfromURL(debuggerUrl);
+  const ip = Platform.OS !== 'ios' ? 'localhost' : extractIPfromURL(debuggerUrl);
 
   // Must be http if local
   return `http://${ip.concat(`:${envVar('localBackendPort')}`)}`;

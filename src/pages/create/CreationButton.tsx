@@ -43,7 +43,7 @@ export const CreationButton = ({
 
 const styles = StyleSheet.create({
   creationButton: {
-    backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.7),
+    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.7),
     borderRadius: 40,
     height: 125,
     width: 125,
