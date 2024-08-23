@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     overflow: 'visible',
     paddingTop: 16,
   },
-  foundUserWrapper: { marginBottom: 10 },
+  foundUserWrapper: { marginBottom: 10, maxWidth: 400, alignSelf: 'center' },
 
   loaderWrapper: { marginLeft: 'auto', marginRight: 8 },
   notFoundText: {
@@ -105,8 +105,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     marginVertical: 18,
-    fontFamily: 'Inter',
+    fontFamily: 'Lexend',
     opacity: 0.5,
-    fontWeight: '600'
   }
 })

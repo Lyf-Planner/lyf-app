@@ -16,7 +16,6 @@ type Props = {
   callback?: () => void,
   item?: LocalItem,
   menuContext?: string,
-  bannerColor?: string
 }
 
 export const UserList = ({
@@ -25,8 +24,7 @@ export const UserList = ({
   context = UserListContext.Friends,
   callback,
   item,
-  menuContext,
-  bannerColor,
+  menuContext
 }: Props) => {
   return (
     <View style={styles.main}>
@@ -41,7 +39,6 @@ export const UserList = ({
             item={item}
             key={x.id}
             menuContext={menuContext}
-            bannerColor={bannerColor}
           />
         ))
       )}

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Vibration, Image, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Vibration, Platform } from 'react-native';
 import { Horizontal, Vertical } from '../../../components/general/MiscComponents';
 import { List } from '../../../components/list/List';
 import {
@@ -277,7 +277,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
 
 const styles = StyleSheet.create({
   dayRootView: {
-    backgroundColor: deepBlueOpacity(0.6),
+    backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.6),
     width: '100%',
     borderWidth: 1,
     borderRadius: 10,

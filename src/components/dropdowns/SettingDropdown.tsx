@@ -71,7 +71,7 @@ export const SettingDropdown = ({
 
 const styles = StyleSheet.create({
   main: {
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   pressableDropdown: {
     flexDirection: 'row',

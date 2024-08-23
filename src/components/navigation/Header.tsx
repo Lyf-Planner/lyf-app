@@ -22,7 +22,7 @@ export function defaultTabHeader(label: string): BottomTabNavigationOptions  {
   const { updateModal } = useModal(); 
 
   return {
-    headerShown: Native.Platform.OS !== 'web',
+    headerShown: true,
     headerStyle: headerStyles.header,
     headerTitle: () => (
       <Native.View style={headerStyles.titleContent}>
@@ -30,7 +30,10 @@ export function defaultTabHeader(label: string): BottomTabNavigationOptions  {
       </Native.View>
     ),
     headerLeft: () => (
-      <Native.TouchableOpacity style={headerStyles.tutorialContent} onPress={() => updateTutorial(true)}>
+      <Native.TouchableOpacity 
+        style={headerStyles.tutorialContent}
+        onPress={() => Native.Platform.OS === 'web' ? null : updateTutorial(true)}
+      >
         <Image source={LyfIcon} style={headerStyles.icon} resizeMode="contain"/>
       </Native.TouchableOpacity>
     ),
@@ -58,13 +61,13 @@ const headerStyles = StyleSheet.create({
   header: {
     borderBottomColor: gentleBlack,
     backgroundColor: white,
-    height: 100
+    height:  Native.Platform.OS !== 'web' ? 100 : 50
   },
   titleContent: {
     flexDirection: "row",
     justifyContent: "flex-start",
     gap: 10,
-    paddingBottom: 4,
+    paddingBottom: Native.Platform.OS === 'web' ? 0 : 4,
     alignItems: "center",
   },
   tutorialContent: {
@@ -85,7 +88,8 @@ const headerStyles = StyleSheet.create({
   },
   title: {
     color: primaryGreen,
-    fontFamily: "Lexend-Semibold",
+    fontFamily: "Lexend",
+    fontWeight: '600',
     fontSize: 28,
     textAlign: "center",
   },
@@ -100,12 +104,8 @@ const headerStyles = StyleSheet.create({
   icon: { 
     height: 40,
     width: 30,
-    position: 'relative',
-    bottom: 2
   },
   notifications: {
-    position: 'relative',
-    bottom: 2
   },
   notificationTally: { 
     position: 'absolute', 

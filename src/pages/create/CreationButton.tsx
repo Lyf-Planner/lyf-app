@@ -1,6 +1,6 @@
 import { Loader } from "components/general/MiscComponents"
 import { BouncyPressable } from "components/pressables/BouncyPressable"
-import { StyleSheet, Text } from "react-native"
+import { StyleSheet, Text, Platform } from "react-native"
 import Entypo from "react-native-vector-icons/Entypo"
 import { deepBlueOpacity, eventsBadgeColor, white } from "utils/colours"
 
@@ -43,7 +43,7 @@ export const CreationButton = ({
 
 const styles = StyleSheet.create({
   creationButton: {
-    backgroundColor: deepBlueOpacity(0.7),
+    backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.7),
     borderRadius: 40,
     height: 125,
     width: 125,

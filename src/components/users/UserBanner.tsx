@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Platform } from 'react-native';
 import { deepBlueOpacity, eventsBadgeColor, lightGreen, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
 import { FriendAction } from '../../pages/friends/FriendActions';
 import { BouncyPressable } from '../pressables/BouncyPressable';
@@ -18,7 +18,6 @@ type Props = {
   context?: UserListContext,
   item?: LocalItem,
   menuContext?: string,
-  bannerColor?: string,
 }
 
 export const UserBanner = ({
@@ -27,7 +26,6 @@ export const UserBanner = ({
   context = UserListContext.Friends,
   item,
   menuContext,
-  bannerColor,
 }: Props) => {
   const { updateModal } = useModal();
 
@@ -37,15 +35,9 @@ export const UserBanner = ({
     [user]
   );
 
-  const conditionalStyles = {
-    main: {
-      backgroundColor: bannerColor || 'white',
-    }
-  }
-
   return (
     <BouncyPressable
-      style={[conditionalStyles.main, styles.main]}
+      style={styles.main}
       onPress={() => updateModal(<UserModal user_id={user.id} key={user.id} />)}
     >
       <FontAwesome name="user" size={32} style={{ width: 32, height: 32 }} color={eventsBadgeColor} />
@@ -70,7 +62,7 @@ export const UserBanner = ({
 
       <View style={styles.actionWrapper}>
         {context === UserListContext.Friends ? (
-          <FriendAction friend={user as UserFriend} callback={callback} /> // This is an indicator of a poorly written component. Should really be factoring out this logic
+          <FriendAction friend={user as UserFriend} callback={callback} />
         ) : (
           <ItemSocialAction 
             item={item!} 
@@ -93,7 +85,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 10,
     borderWidth: 0.5,
-    backgroundColor: deepBlueOpacity(0.8),
+    backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.8),
     borderColor: 'rgba(0,0,0,0.3)',
 
     shadowColor: 'black',

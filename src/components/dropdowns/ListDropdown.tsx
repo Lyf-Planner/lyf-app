@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, View, Text } from 'react-native';
+import { Pressable, StyleSheet, View, Text, Platform } from 'react-native';
 import { List } from '../list/List';
 import Animated, {
   useAnimatedStyle,
@@ -13,7 +13,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { ItemType } from 'schema/database/items';
 import { LocalItem } from 'schema/items';
 import { NewItem } from 'components/list/NewItem';
-import { upcomingColor } from 'components/list/constants';
 
 type Props = {
   items: LocalItem[],
@@ -113,7 +112,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'rgba(0, 0, 0, 0.3)',
 
-    backgroundColor: deepBlueOpacity(0.8),
+    backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.8),
 
     shadowColor: 'black',
     shadowOpacity: 1,

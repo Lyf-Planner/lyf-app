@@ -37,6 +37,8 @@ export const DeleteButton = () => {
 const styles = StyleSheet.create({
   buttonView: {
     flexDirection: 'row',
+    alignSelf: 'center',
+    width: '100%',
     justifyContent: 'center',
     borderWidth: 0.5,
     padding: 10,

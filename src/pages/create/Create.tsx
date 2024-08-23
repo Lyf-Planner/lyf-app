@@ -63,10 +63,11 @@ export const Create = (props: BottomTabScreenProps<RouteParams>) => {
     const id = await addNote(`New ${type === NoteType.ListOnly ? 'List' : 'Note'}`, type);
 
     navigation.jumpTo('Notes', { id });
+    setLoading(defaultLoadingState);
   }
 
   return (
-    <View>
+    <View style={styles.main}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Make New Plans!</Text>
       </View>
@@ -111,6 +112,10 @@ export const Create = (props: BottomTabScreenProps<RouteParams>) => {
 }
 
 const styles = StyleSheet.create({
+  main: {
+    flex: 1
+  },
+
   header: {
     zIndex: 50,
     flexDirection: 'row',

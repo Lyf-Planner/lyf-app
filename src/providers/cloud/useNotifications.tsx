@@ -11,6 +11,7 @@ import env from 'envManager';
 import { Notification } from 'schema/notifications';
 import { ID } from 'schema/database/abstract';
 import { getNotifications, updateNotification } from 'rest/user';
+import { Platform } from 'react-native';
 
 type Props = {
   children: JSX.Element;
@@ -31,6 +32,10 @@ export const NotificationsLayer = ({ children }: Props) => {
   const { user, updateUser } = useAuth();
 
   useEffect(() => {
+    if (Platform.OS === 'web') {
+      return;
+    }
+
     getAsyncData('expo_token').then((token) => {
       if (token) {
         setEnabled(true);
