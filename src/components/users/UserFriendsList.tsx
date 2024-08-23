@@ -59,7 +59,6 @@ export const UserFriendsList = ({ friends, open, setOpen, maxHeight }: Props) =>
             users={friends}
             emptyText='' 
             context={UserListContext.Friends}
-            bannerColor="white"
           />
         </ScrollView>
       )}

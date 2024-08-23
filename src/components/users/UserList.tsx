@@ -51,9 +51,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 10,
     justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1,
     width: '100%',
+    maxWidth: 400,
     minHeight: 50,
+    alignSelf: 'center'
   },
   emptyText: {
     textAlign: 'center',

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableHighlight, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Platform } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Loader } from '../../components/general/MiscComponents';
 import { getUser } from '../../rest/user';
@@ -74,7 +74,7 @@ export const UserModal = ({ user_id }: Props) => {
         }
 
         <View style={styles.actionButton}>
-          <FriendAction friend={user} />
+          <FriendAction friend={user} height={50} />
         </View>
       </View>
     )
@@ -119,7 +119,7 @@ export const UserDetailField = ({ title, value }: DetailsProps) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    width: 350,
+    width: Platform.OS === 'web' ? 450 : 350,
     backgroundColor: white,
     paddingVertical: 25,
     paddingHorizontal: 15,
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
   actionButton: { 
     height: 50, 
     width: '100%',
+    borderRadius: 8,
 
     shadowColor: 'black',
     shadowOffset: { width: 1, height: 1 },

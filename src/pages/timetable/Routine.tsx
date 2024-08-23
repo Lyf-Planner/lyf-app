@@ -67,7 +67,7 @@ const styles = Native.StyleSheet.create({
   scrollContainer: {
     alignSelf: 'center',
     flexDirection: "column",
-    maxWidth: 500,
+    maxWidth: 450,
     width: '100%',
   },
 

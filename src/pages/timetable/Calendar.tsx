@@ -167,7 +167,7 @@ const styles = Native.StyleSheet.create({
     alignSelf: 'center',
     flexDirection: "column",
     gap: 14,
-    maxWidth: 500,
+    maxWidth: 450,
     width: '100%',
   },
 
