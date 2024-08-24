@@ -88,7 +88,16 @@ const styles = StyleSheet.create({
     overflow: 'visible',
     paddingTop: 16,
   },
-  foundUserWrapper: { marginBottom: 10, maxWidth: 400, alignSelf: 'center' },
+  foundUserWrapper: { 
+    marginBottom: 10,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    flex: 1,
+    width: '100%',
+    maxWidth: 400,
+    minHeight: 50,
+    alignSelf: 'center'
+  },
 
   loaderWrapper: { marginLeft: 'auto', marginRight: 8 },
   notFoundText: {
