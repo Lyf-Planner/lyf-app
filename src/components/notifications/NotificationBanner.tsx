@@ -38,7 +38,7 @@ export const NotificationBanner = ({ notification }: Props) => {
 
     switch (notification.related_data) {
       case NotificationRelatedData.User:
-        navigation.jumpTo('Friends');
+        navigation.navigate('Friends');
         updateDrawer(undefined);
         if (notification.related_id) {
           updateModal(
@@ -47,7 +47,7 @@ export const NotificationBanner = ({ notification }: Props) => {
         }
         break;
       case NotificationRelatedData.Item:
-        navigation.jumpTo('Timetable');
+        navigation.navigate('Timetable');
         updateModal(undefined);
         if (notification.related_id) {
           updateDrawer(
@@ -56,7 +56,7 @@ export const NotificationBanner = ({ notification }: Props) => {
         }
         break;
       case NotificationRelatedData.Note:
-        navigation.jumpTo('Notes', { id: notification.related_id });
+        navigation.navigate('Notes', { id: notification.related_id });
         break;
       default:
         null;

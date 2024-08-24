@@ -119,7 +119,7 @@ export const UserDetailField = ({ title, value }: DetailsProps) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    width: Platform.OS === 'web' ? 450 : 350,
+    width: Platform.OS === 'web' ? 425 : 350,
     backgroundColor: white,
     paddingVertical: 25,
     paddingHorizontal: 15,

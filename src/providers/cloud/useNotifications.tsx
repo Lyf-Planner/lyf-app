@@ -32,34 +32,36 @@ export const NotificationsLayer = ({ children }: Props) => {
   const { user, updateUser } = useAuth();
 
   useEffect(() => {
-    if (Platform.OS !== 'ios') {
-      return;
-    }
-
-    getAsyncData('expo_token').then((token) => {
-      if (token) {
-        setEnabled(true);
-        return;
+    const tokenPromise = async () => {
+      if (Platform.OS !== 'web') {
+        getAsyncData('expo_token').then((token) => {
+          if (token) {
+            setEnabled(true);
+            return;
+          }
+          
+          registerForPushNotificationsAsync().then((token) => {
+            if (!token) {
+              setEnabled(false);
+              return;
+            }
+    
+            setEnabled(true);
+            updateUser({
+              ...user,
+              expo_tokens: [token]
+            });
+    
+            storeAsyncData('expo_token', token);
+          })
+        })
       }
-      
-      registerForPushNotificationsAsync().then((token) => {
-        if (!token) {
-          setEnabled(false);
-          return;
-        }
+  }
 
-        setEnabled(true);
-        updateUser({
-          ...user,
-          expo_tokens: [token]
-        });
-
-        storeAsyncData('expo_token', token);
-      }).then(async (x) => {
-        const firstNotifs = await getNotifications(10);
-        setNotifications(firstNotifs);
-      });
-    });
+  tokenPromise().then(async () => {
+    const firstNotifs = await getNotifications(10);
+    setNotifications(firstNotifs);
+  });
   }, []);
 
   const readNotification = async (id: ID) => {

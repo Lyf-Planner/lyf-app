@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
   actionWrapper: {
     marginLeft: 'auto',
     width: 100,
+    borderRadius: 50,
 
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 0 },
