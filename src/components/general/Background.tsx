@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, Keyboard, TouchableWithoutFeedback, Platform } from 'react-native';
 import { LyfElement } from 'utils/abstractTypes';
 import { lightGreen, primaryGreen } from 'utils/colours';
 
@@ -12,9 +12,9 @@ type Props = {
 }
 
 export const Background = ({ children }: Props) => {
-  return (
-    <View style={styles.page}>
 
+  const background = (
+    <View style={styles.page}>
       <Image
         source={BRANCH}
         alt="tree"
@@ -50,6 +50,21 @@ export const Background = ({ children }: Props) => {
       />
       {children}
     </View>
+  );
+
+  // On web, wrapping with a TouchableWithoutFeedback
+  // Prevents the text boxes from being typable (they keyboard is dismissed immediately)
+  if (Platform.OS === 'web') {
+    return background;
+  }
+
+  return (
+    <TouchableWithoutFeedback 
+      style={{ flex: 1 }}
+      onPress={() => Keyboard.dismiss()}
+    >
+      {background}
+    </TouchableWithoutFeedback>
   );
 };
 
