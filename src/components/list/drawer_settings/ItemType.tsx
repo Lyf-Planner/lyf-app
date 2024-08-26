@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
   },
   typeText: {
     fontSize: 16,
-    fontWeight: '500'
+    fontFamily: 'Lexend'
   }
 });

@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  title: { fontSize: 22, fontWeight: '700' },
+  title: { fontSize: 22, fontWeight: '700', fontFamily: 'Lexend' },
   subtitle: {
     textAlign: 'center',
     opacity: 0.6,

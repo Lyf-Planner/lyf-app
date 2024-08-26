@@ -73,7 +73,7 @@ export const ItemUsers = ({ item, loading, closeDrawer }: Props) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'column',
-    alignItems: 'center'
+    width: '100%',
   },
   pressable: { paddingRight: 10, paddingVertical: 6, borderRadius: 10 },
   eventText: { fontSize: 20, fontWeight: '500' },

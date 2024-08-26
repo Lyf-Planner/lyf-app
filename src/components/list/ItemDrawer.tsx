@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Horizontal } from '../general/MiscComponents';
 import { deepBlue } from '../../utils/colours';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native';
@@ -88,7 +88,7 @@ export const ItemDrawer = ({
   const conditionalStyles = {
     detailsContainer: {
       opacity: item.invite_pending ? 0.5 : 1
-    }
+    },
   }
 
   // Pass "invited" to block any input component with a localised value
@@ -171,19 +171,21 @@ export const ItemDrawer = ({
           />
         </View>
 
-        <View style={styles.footer}>
-          <FontAwesome5Icon
-            name="chevron-down"
-            size={16}
-            color="rgba(0,0,0,0.3)"
-          />
-          <Text style={styles.subtitle}>Swipe down to close</Text>
-          <FontAwesome5Icon
-            name="chevron-down"
-            size={16}
-            color="rgba(0,0,0,0.3)"
-          />
-        </View>
+        {Platform.OS !== 'web' && (
+          <View style={styles.footer}>
+            <FontAwesome5Icon
+              name="chevron-down"
+              size={16}
+              color="rgba(0,0,0,0.3)"
+            />
+            <Text style={styles.subtitle}>Swipe down to close</Text>
+            <FontAwesome5Icon
+              name="chevron-down"
+              size={16}
+              color="rgba(0,0,0,0.3)"
+            />
+          </View>
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -191,11 +193,15 @@ export const ItemDrawer = ({
 
 const styles = StyleSheet.create({
   mainContainer: {
+    width: Platform.OS === 'web' ? 500 : 'auto',
+    maxWidth: 500,
+    borderRadius: Platform.OS === 'web' ? 20 : 0,
     backgroundColor: 'white',
     paddingHorizontal: 18,
     borderColor: 'rgba(0,0,0,0.5)',
     gap: 10,
-    paddingBottom: 40
+    paddingBottom: Platform.OS === 'web' ? 20 : 40,
+    paddingTop: Platform.OS === 'web' ? 20 : 0
   },
   header: { 
     gap: 8, 
