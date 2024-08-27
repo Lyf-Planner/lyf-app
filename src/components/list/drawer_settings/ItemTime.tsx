@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     height: 35
   },
-  eventText: { fontSize: 18, fontFamily: 'Lexend' },
+  eventText: { fontSize: 20, fontFamily: 'Lexend' },
   pickerContainer: {
     marginLeft: 'auto',
     flexDirection: 'row',

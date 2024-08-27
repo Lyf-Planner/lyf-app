@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     height: 35
   },
   fieldText: { 
-    fontSize: 18, 
+    fontSize: 20, 
     fontFamily: 'Lexend' 
   },
   inputWrapper: {

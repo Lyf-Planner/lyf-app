@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8
   },
-  headingText: { fontSize: 18, fontFamily: 'Lexend' },
+  headingText: { fontSize: 20, fontFamily: 'Lexend' },
   headerCloseWrapper: { marginLeft: 'auto', marginRight: 10 },
   itemDesc: {
     height: 150,
