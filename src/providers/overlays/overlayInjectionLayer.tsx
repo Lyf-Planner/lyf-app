@@ -3,8 +3,9 @@ import {  useModal } from './useModal';
 import { useDrawer } from './useDrawer';
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useCallback, useEffect, useRef } from 'react';
-import { Keyboard, StyleSheet } from 'react-native';
-import Animated, { FadeIn } from 'react-native-reanimated';
+import { Keyboard, Platform, Pressable, StyleSheet } from 'react-native';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 type Props = {
   children: JSX.Element;
@@ -12,7 +13,7 @@ type Props = {
 
 export const OverlayInjectionLayer = ({ children }: Props) => {
   const { drawer, minHeight } = useDrawer();
-  const { modal } = useModal();
+  const { modal, updateModal } = useModal();
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -49,9 +50,23 @@ export const OverlayInjectionLayer = ({ children }: Props) => {
         </BottomSheetModal>
       )}
 
-      {modal && (
+      {modal && Platform.OS === 'web' && (
+        <Pressable 
+          style={styles.modalWebWrapper}
+          onPress={() => updateModal(undefined)}
+        >
+          <Animated.View 
+            style={styles.modalWebPositioning}
+            entering={FadeIn.duration(150)}
+          >
+            {modal}
+          </Animated.View>
+        </Pressable>
+      )}
+
+      {modal && Platform.OS !== 'web' && (
         <Animated.View 
-          style={styles.modalPositioning}
+          style={styles.modalMobilePositioning}
           entering={FadeIn.duration(150)}
         >
           {modal}
@@ -68,7 +83,24 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 10
   },
-  modalPositioning: {
+  modalWebWrapper: {
+    flex: 1,
+    position: 'absolute',
+    zIndex: 40,
+    flexDirection: 'column',
+    top: 0,
+    bottom: 0,
+    left: 0, 
+    right: 0,
+    cursor: 'auto'
+  },
+  modalWebPositioning: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)'
+  },
+  modalMobilePositioning: {
     zIndex: 50,
     position: 'absolute',
     top: 0,
