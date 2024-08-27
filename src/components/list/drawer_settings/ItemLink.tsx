@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     gap: 8,
     height: 35
   },
-  fieldText: { fontSize: 18, fontFamily: 'Lexend' },
+  fieldText: { fontSize: 20, fontFamily: 'Lexend' },
   inputWrapper: {
     marginLeft: 'auto',
     flexDirection: 'row',
