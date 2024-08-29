@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Platform } from 'react-native';
 import { useModal } from 'providers/overlays/useModal';
 import { useAuth } from 'providers/cloud/useAuth';
 import { useEffect, useMemo, useState } from 'react';
@@ -95,10 +95,14 @@ export const AddFriendsModal = ({ item_id }: Props) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
+    width: Platform.OS === 'web' ? 450 : 'auto',
+    maxHeight: 500,
+    height: Platform.OS === 'web' ? 450 : 'auto',
     backgroundColor: 'white',
     paddingHorizontal: 20,
     marginHorizontal: 20,
     paddingTop: 30,
+    paddingBottom: Platform.OS === 'web' ? 30 : 0,
     borderColor: 'rgba(0,0,0,0.5)',
     borderWidth: 1,
     borderRadius: 10,
