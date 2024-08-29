@@ -10,6 +10,7 @@ import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/dat
 import { TimeString } from 'schema/util/dates';
 import { useEffect, useRef, useState } from 'react';
 import debouncer from 'signature-debouncer';
+import { TimePicker } from 'components/fields/NullableTimePicker';
 
 type Props = {
   updateTime: (time?: TimeString) => void,
@@ -33,20 +34,15 @@ export const DailyNotificationDesc = ({
     updateTime(localisedMoment(dateTime).format('HH:mm'));
   };
 
+
+
   console.log('date picker value', datePickerValue)
 
   return (
     <View style={dailyStyles.mainContainer}>
       <Text style={dailyStyles.firstText}>Receive reminders each day at </Text>
       <View style={dailyStyles.dateTimeWrapper}>
-        <DateTimePicker
-          value={datePickerValue}
-          minuteInterval={5}
-          mode={'time'}
-          is24Hour={true}
-          onChange={updateTimeFromPicker}
-          style={dailyStyles.dateTimeDimensions}
-        />
+        <TimePicker updateTime={updateTime} time={notificationTime} />
       </View>
 
       <Text style={dailyStyles.secondText}>

@@ -11,11 +11,12 @@ export enum NullTimeTextOptions {
 }
 
 type Props = {
-  updateTime: (time: TimeString | null) => void;
+  updateTime: (time: TimeString | undefined) => void;
   time?: TimeString,
   disabled?: boolean,
   nullText?: string,
   defaultTime?: TimeString,
+  closeable?: boolean
 }
 
 export const NullableTimePicker = ({
@@ -53,7 +54,7 @@ export const NullableTimePicker = ({
   );
 };
 
-export const TimePicker = ({ time, updateTime, disabled = false }: Props) => {
+export const TimePicker = ({ time, updateTime, disabled = false, closeable = false }: Props) => {
   const updateTimeFromPicker = (time: DateTimePickerEvent) => {
     if (Platform.OS === 'web') {
       // @ts-ignore the web component has a different structure - trust me bro
@@ -93,13 +94,15 @@ export const TimePicker = ({ time, updateTime, disabled = false }: Props) => {
 
   return (
     <View style={styles.mainContainer}>
-      <TouchableHighlight
-        onPress={() => updateTime(null)}
-        underlayColor={'rgba(0,0,0,0.5)'}
-        style={styles.pressable}
-      >
-        <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
-      </TouchableHighlight>
+      {closeable && (
+        <TouchableHighlight
+          onPress={() => updateTime(undefined)}
+          underlayColor={'rgba(0,0,0,0.5)'}
+          style={styles.pressable}
+        >
+          <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
+        </TouchableHighlight>
+      )}
       {timeElement}
     </View>
   );

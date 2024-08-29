@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "300",
     fontFamily: "Lexend",
+    // @ts-ignore
     outlineStyle: 'none'
   }
 });
