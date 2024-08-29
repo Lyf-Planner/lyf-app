@@ -10,7 +10,7 @@
     "build:ios-internal": "eas build --platform ios --profile dev",
     "build:ios-beta": "eas build --platform ios --profile qa",
     "build:ios-prod": "eas build --platform ios --profile production",
-    "schema:sync": "cd src/schema && git checkout main && git pull && cd ../..",
+    "schemas": "cd src/schema && git checkout main && git pull && cd ../..",
     "use-build": "eas build:run",
     "android": "expo run:android",
     "ios": "expo run:ios"
