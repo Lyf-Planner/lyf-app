@@ -11,6 +11,7 @@ import { TimeString } from 'schema/util/dates';
 import { useEffect, useRef, useState } from 'react';
 import debouncer from 'signature-debouncer';
 import { TimePicker } from 'components/fields/NullableTimePicker';
+import { white } from 'utils/colours';
 
 type Props = {
   updateTime: (time?: TimeString) => void,
@@ -139,7 +140,7 @@ const dailyStyles = StyleSheet.create({
     color: 'white'
   },
   persistentTouchable: {
-    backgroundColor: 'rgba(0,0,0,0.08)',
+    backgroundColor: white,
     paddingVertical: 5,
     paddingHorizontal: 6,
     width: 60,
@@ -169,7 +170,7 @@ const eventStyles = StyleSheet.create({
     color: 'white'
   },
   minutesInput: {
-    backgroundColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: white,
     paddingVertical: 4,
     paddingHorizontal: 6,
     width: 40,
