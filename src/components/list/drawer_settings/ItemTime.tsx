@@ -11,7 +11,7 @@ import { TimeString } from 'schema/util/dates';
 import { LocalItem } from 'schema/items';
 
 export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
-  const uploadTime = (time: TimeString|null) => {
+  const uploadTime = (time: TimeString | undefined) => {
     if (item.invite_pending) {
       return;
     }
@@ -27,7 +27,7 @@ export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
     updateItem(item, changeSet);
   };
 
-  const getAdjustedEndTime = (newTime: TimeString | null) => {
+  const getAdjustedEndTime = (newTime: TimeString | undefined) => {
     if (!newTime || !item.time || !item.end_time) {
       return undefined;
     }
@@ -66,8 +66,8 @@ export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
         <Text style={{ marginLeft: 20, textAlign: 'center' }}>-</Text>
         <NullableTimePicker
           time={item.end_time}
-          updateTime={async (end_time: TimeString | null) => 
-            updateItem(item, { end_time: end_time || undefined })
+          updateTime={async (end_time: TimeString | undefined) => 
+            updateItem(item, { end_time: end_time })
           }
           disabled={item.invite_pending}
           nullText={NullTimeTextOptions.EndTime}

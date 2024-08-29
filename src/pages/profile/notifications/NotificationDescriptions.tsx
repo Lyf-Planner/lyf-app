@@ -3,7 +3,8 @@ import {
   Text,
   TouchableHighlight,
   TextInput,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native';
 import { dateWithTime, localisedMoment } from 'utils/dates';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
@@ -35,15 +36,22 @@ export const DailyNotificationDesc = ({
     updateTime(localisedMoment(dateTime).format('HH:mm'));
   };
 
-
-
-  console.log('date picker value', datePickerValue)
-
   return (
     <View style={dailyStyles.mainContainer}>
       <Text style={dailyStyles.firstText}>Receive reminders each day at </Text>
       <View style={dailyStyles.dateTimeWrapper}>
-        <TimePicker updateTime={updateTime} time={notificationTime} />
+        {Platform.OS === 'web' ? (
+          <TimePicker updateTime={updateTime} time={notificationTime} />
+        ) : (
+          <DateTimePicker
+            value={datePickerValue}
+            minuteInterval={5}
+            mode={'time'}
+            is24Hour={true}
+            onChange={updateTimeFromPicker}
+            style={dailyStyles.dateTimeDimensions}
+          />
+        )}
       </View>
 
       <Text style={dailyStyles.secondText}>
@@ -129,7 +137,11 @@ const dailyStyles = StyleSheet.create({
     fontSize: 16,
     color: 'white'
   },
-  dateTimeWrapper: { borderRadius: 10, overflow: 'hidden' },
+  dateTimeWrapper: { 
+    borderRadius: 10, 
+    overflow: 'hidden',
+    backgroundColor: 'white'
+  },
   dateTimeDimensions: {
     width: 85,
     height: 30

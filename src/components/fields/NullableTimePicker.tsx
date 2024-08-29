@@ -4,6 +4,7 @@ import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/dat
 import Entypo from 'react-native-vector-icons/Entypo';
 import { TimeString } from 'schema/util/dates';
 import { SyntheticEvent, createElement } from 'react';
+import { white } from 'utils/colours';
 
 export enum NullTimeTextOptions {
   AddTime = 'Add Time +',
