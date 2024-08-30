@@ -3,7 +3,7 @@ import Animated, {
   useAnimatedStyle
 } from 'react-native-reanimated';
 import { ItemStatus } from '../constants';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { SyntheticEvent, useCallback, useEffect, useRef } from 'react';
 import { sleep } from '../../../utils/misc';
 import {
@@ -52,13 +52,13 @@ export const ListItemGestureWrapper = ({
 
     const componentElement = wrapperRef.current;
 
-    if (componentElement) {
+    if (componentElement && Platform.OS === 'web') {
       componentElement.addEventListener('contextmenu', handleContextMenu);
     }
 
     // Cleanup event listener on component unmount
     return () => {
-      if (componentElement) {
+      if (componentElement && Platform.OS === 'web') {
         componentElement.removeEventListener('contextmenu', handleContextMenu);
       }
     };

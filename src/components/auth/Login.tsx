@@ -130,7 +130,7 @@ export const Login = ({ updateUser }: Props) => {
 const styles = StyleSheet.create({
   touchableWithoutFeedback: {
     flex: 1,
-    zIndex: 0
+    zIndex: 50
   },
   page: {
     flex: 1,

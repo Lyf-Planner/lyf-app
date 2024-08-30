@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: '35%',
     bottom: 0,
-    left: -350
+    left: Platform.OS === 'web' ? -300 : -350
   },
   bigTree: {
     position: 'absolute',
@@ -97,9 +97,10 @@ const styles = StyleSheet.create({
   },
   branch: {
     position: 'absolute',
-    zIndex: 60,
+    zIndex: 5,
     top: 120,
-    right: -130,
+    right: Platform.OS === 'web' ? undefined : -130,
+    left: Platform.OS === 'web' ? '55%' : undefined,
     width: '80%',
     transform: [{ rotate: '70deg' }, { rotateX: '180deg' }]
   },
@@ -107,7 +108,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 0,
     top: -100,
-    right: -200,
-    height: '50%'
+    left: Platform.OS === 'web' ? undefined : -550,
+    right: Platform.OS === 'web' ? '50%' : undefined,
+    height: Platform.OS === 'web' ? '60%' : '50%'
   },
 });
