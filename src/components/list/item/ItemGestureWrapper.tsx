@@ -3,8 +3,8 @@ import Animated, {
   useAnimatedStyle
 } from 'react-native-reanimated';
 import { ItemStatus } from '../constants';
-import { StyleSheet } from 'react-native';
-import { useCallback } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { SyntheticEvent, useCallback, useEffect, useRef } from 'react';
 import { sleep } from '../../../utils/misc';
 import {
   Directions,
@@ -39,6 +39,30 @@ export const ListItemGestureWrapper = ({
   removeItem
 }: Props) => {
   let longPressTimer: NodeJS.Timeout | undefined;
+
+  // Web Right Click detection
+
+  const wrapperRef = useRef<any>(null);
+
+  useEffect(() => {
+    const handleContextMenu = (event: SyntheticEvent) => {
+      event.preventDefault();
+      openModal();
+    };
+
+    const componentElement = wrapperRef.current;
+
+    if (componentElement) {
+      componentElement.addEventListener('contextmenu', handleContextMenu);
+    }
+
+    // Cleanup event listener on component unmount
+    return () => {
+      if (componentElement) {
+        componentElement.removeEventListener('contextmenu', handleContextMenu);
+      }
+    };
+  }, []);
 
   // GESTURE HANDLERS
 
@@ -196,6 +220,7 @@ export const ListItemGestureWrapper = ({
   return (
     <GestureDetector gesture={gestures}>
       <Animated.View
+        ref={wrapperRef}
         style={[
           scaleAnimation,
           styles.listItemWrapper,
@@ -211,6 +236,7 @@ export const ListItemGestureWrapper = ({
 const styles = StyleSheet.create({
   listItemWrapper: {
     width: '100%',
-    height: 55
+    height: 55,
+    cursor: 'pointer'
   }
 });
