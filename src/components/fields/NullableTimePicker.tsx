@@ -55,7 +55,7 @@ export const NullableTimePicker = ({
   );
 };
 
-export const TimePicker = ({ time, updateTime, disabled = false, closeable = false }: Props) => {
+export const TimePicker = ({ time, updateTime, disabled = false, closeable = true }: Props) => {
   const updateTimeFromPicker = (time: DateTimePickerEvent) => {
     if (Platform.OS === 'web') {
       // @ts-ignore the web component has a different structure - trust me bro

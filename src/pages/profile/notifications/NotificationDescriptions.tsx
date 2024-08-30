@@ -41,7 +41,7 @@ export const DailyNotificationDesc = ({
       <Text style={dailyStyles.firstText}>Receive reminders each day at </Text>
       <View style={dailyStyles.dateTimeWrapper}>
         {Platform.OS === 'web' ? (
-          <TimePicker updateTime={updateTime} time={notificationTime} />
+          <TimePicker updateTime={updateTime} time={notificationTime} closeable={false} />
         ) : (
           <DateTimePicker
             value={datePickerValue}
@@ -144,7 +144,7 @@ const dailyStyles = StyleSheet.create({
   },
   dateTimeDimensions: {
     width: 85,
-    height: 30
+    height: 30,
   },
   secondText: {
     opacity: 0.6,
