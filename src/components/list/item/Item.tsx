@@ -7,6 +7,7 @@ import { useTimetable } from 'providers/cloud/useTimetable';
 import { LocalItem } from 'schema/items';
 import { ItemDrawer } from '../ItemDrawer';
 import { useState } from 'react';
+import { NoteItemDrawer } from '../NoteItemDrawer';
 
 export type ListItemAnimatedValues = {
   scale: SharedValue<number>;
@@ -31,18 +32,22 @@ export const Item = ({
   itemStyleOptions,
 }: Props) => {
   const { updateDrawer } = useDrawer();
-  const { addItem } = useTimetable();
   const [creatingLocalised, setCreatingLocalised] = useState(false);
 
   // UTILS
 
   const openModal = async () => {
     updateDrawer(undefined);
-    updateDrawer(
+    updateDrawer(item.note_id ? (
+      <NoteItemDrawer
+        id={item.id}
+        noteId={item.note_id}
+      />
+    ) : (
       <ItemDrawer
         id={item.id}
       />
-    );
+    ));
   };
 
   // ANIMATION VALUES

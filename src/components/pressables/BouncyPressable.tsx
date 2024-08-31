@@ -83,10 +83,7 @@ export const BouncyPressable = ({
       <WrappingPressable
         onPress={onPress}
         disabled={disabled}
-        onLongPress={() => {
-          console.log("LONG PRESS DETECTED, FIRING", onLongPress);
-          if (onLongPress) onLongPress();
-        }}
+        onLongPress={onLongPress}
         onPressIn={() => {
           scale.value = bounceScale || 0.9
           shadowOffsetX.value = 0.5;

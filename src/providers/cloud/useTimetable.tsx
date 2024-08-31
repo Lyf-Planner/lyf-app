@@ -256,7 +256,7 @@ export const TimetableProvider = ({ children }: Props) => {
       }
     }
 
-    if (item.permission !== Permission.Owner && deleteRemote) {
+    if (!item.note_id && item.permission !== Permission.Owner && deleteRemote) {
       await updateItemSocial(item, user!.id, SocialAction.Remove, item.permission);
       return;
     }
