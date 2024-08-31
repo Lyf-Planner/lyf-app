@@ -73,10 +73,10 @@ export const ItemUsers = ({ item, loading, closeDrawer }: Props) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'column',
-    alignItems: 'center'
+    width: '100%',
   },
   pressable: { paddingRight: 10, paddingVertical: 6, borderRadius: 10 },
-  eventText: { fontSize: 20, fontWeight: '500', fontFamily: 'InterSemi' },
+  eventText: { fontSize: 20, fontWeight: '500' },
   subtitle: {
     textAlign: 'center',
     opacity: 0.4,
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 2,
     overflow: 'visible',
-    maxHeight: 300
+    maxHeight: 300,
+    width: '100%',
   }
 });

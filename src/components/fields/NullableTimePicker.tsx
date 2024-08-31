@@ -1,8 +1,10 @@
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { dateWithTime, localisedMoment } from '../../utils/dates';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { TimeString } from 'schema/util/dates';
+import { SyntheticEvent, createElement } from 'react';
+import { white } from 'utils/colours';
 
 export enum NullTimeTextOptions {
   AddTime = 'Add Time +',
@@ -10,11 +12,12 @@ export enum NullTimeTextOptions {
 }
 
 type Props = {
-  updateTime: (time: TimeString | null) => void;
+  updateTime: (time: TimeString | undefined) => void;
   time?: TimeString,
   disabled?: boolean,
   nullText?: string,
   defaultTime?: TimeString,
+  closeable?: boolean
 }
 
 export const NullableTimePicker = ({
@@ -52,11 +55,17 @@ export const NullableTimePicker = ({
   );
 };
 
-export const TimePicker = ({ time, updateTime, disabled = false }: Props) => {
+export const TimePicker = ({ time, updateTime, disabled = false, closeable = true }: Props) => {
   const updateTimeFromPicker = (time: DateTimePickerEvent) => {
-    // Picker gives us a timestamp, that we need to convert to 24 hr time
-    const dateTime = new Date(time.nativeEvent.timestamp);
-    updateTime(localisedMoment(dateTime).format('HH:mm'));
+    if (Platform.OS === 'web') {
+      // @ts-ignore the web component has a different structure - trust me bro
+      updateTime(time.nativeEvent.target.value);
+      return;
+    }
+
+    const dateTime = new Date(time.nativeEvent.timestamp)
+    const parsedTime = localisedMoment(dateTime).format('HH:mm');
+    updateTime(parsedTime);
   };
 
   const today = new Date();
@@ -67,23 +76,35 @@ export const TimePicker = ({ time, updateTime, disabled = false }: Props) => {
       `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${time}`
     );
 
+  const timeElement = Platform.OS === 'web' ? (
+    createElement('input', {
+      type: 'time',
+      value: time,
+      onInput: updateTimeFromPicker,
+    })
+  ) : (
+    <DateTimePicker
+      value={datePickerValue}
+      minuteInterval={5}
+      mode={'time'}
+      is24Hour={true}
+      disabled={disabled}
+      onChange={updateTimeFromPicker}
+    />  
+  );
+
   return (
     <View style={styles.mainContainer}>
-      <TouchableHighlight
-        onPress={() => updateTime(null)}
-        underlayColor={'rgba(0,0,0,0.5)'}
-        style={styles.pressable}
-      >
-        <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
-      </TouchableHighlight>
-      <DateTimePicker
-        value={datePickerValue}
-        minuteInterval={5}
-        mode={'time'}
-        is24Hour={true}
-        disabled={disabled}
-        onChange={updateTimeFromPicker}
-      />
+      {closeable && (
+        <TouchableHighlight
+          onPress={() => updateTime(undefined)}
+          underlayColor={'rgba(0,0,0,0.5)'}
+          style={styles.pressable}
+        >
+          <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
+        </TouchableHighlight>
+      )}
+      {timeElement}
     </View>
   );
 };

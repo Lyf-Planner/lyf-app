@@ -68,13 +68,11 @@ export async function updateItem(changes: Partial<UserRelatedItem>) {
 export async function createItem(item: UserRelatedItem) {
   const endpoint = itemsEndpoint('create');
 
-  console.log('creating item', item, typeof item.sorting_rank);
-
   const result = await post(endpoint, item);
   if (result?.status === 201) {
     return result.data;
   } else {
-    console.error(JSON.stringify(result))
+    console.error(JSON.stringify(result.data))
     alert(JSON.stringify(result.data));
     return false;
   }
@@ -87,8 +85,8 @@ export async function deleteItem(id: ID) {
   if (result?.status === 204) {
     return;
   } else {
-    console.error(JSON.stringify(result))
-    alert(JSON.stringify(result));
+    console.error(result.data)
+    alert(result.data);
   }
 }
 

@@ -3,13 +3,16 @@ import {
   Text,
   TouchableHighlight,
   TextInput,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native';
 import { dateWithTime, localisedMoment } from 'utils/dates';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { TimeString } from 'schema/util/dates';
 import { useEffect, useRef, useState } from 'react';
 import debouncer from 'signature-debouncer';
+import { TimePicker } from 'components/fields/NullableTimePicker';
+import { white } from 'utils/colours';
 
 type Props = {
   updateTime: (time?: TimeString) => void,
@@ -33,20 +36,22 @@ export const DailyNotificationDesc = ({
     updateTime(localisedMoment(dateTime).format('HH:mm'));
   };
 
-  console.log('date picker value', datePickerValue)
-
   return (
     <View style={dailyStyles.mainContainer}>
       <Text style={dailyStyles.firstText}>Receive reminders each day at </Text>
       <View style={dailyStyles.dateTimeWrapper}>
-        <DateTimePicker
-          value={datePickerValue}
-          minuteInterval={5}
-          mode={'time'}
-          is24Hour={true}
-          onChange={updateTimeFromPicker}
-          style={dailyStyles.dateTimeDimensions}
-        />
+        {Platform.OS === 'web' ? (
+          <TimePicker updateTime={updateTime} time={notificationTime} closeable={false} />
+        ) : (
+          <DateTimePicker
+            value={datePickerValue}
+            minuteInterval={5}
+            mode={'time'}
+            is24Hour={true}
+            onChange={updateTimeFromPicker}
+            style={dailyStyles.dateTimeDimensions}
+          />
+        )}
       </View>
 
       <Text style={dailyStyles.secondText}>
@@ -132,10 +137,14 @@ const dailyStyles = StyleSheet.create({
     fontSize: 16,
     color: 'white'
   },
-  dateTimeWrapper: { borderRadius: 10, overflow: 'hidden' },
+  dateTimeWrapper: { 
+    borderRadius: 10, 
+    overflow: 'hidden',
+    backgroundColor: 'white'
+  },
   dateTimeDimensions: {
     width: 85,
-    height: 30
+    height: 30,
   },
   secondText: {
     opacity: 0.6,
@@ -143,7 +152,7 @@ const dailyStyles = StyleSheet.create({
     color: 'white'
   },
   persistentTouchable: {
-    backgroundColor: 'rgba(0,0,0,0.08)',
+    backgroundColor: white,
     paddingVertical: 5,
     paddingHorizontal: 6,
     width: 60,
@@ -173,7 +182,7 @@ const eventStyles = StyleSheet.create({
     color: 'white'
   },
   minutesInput: {
-    backgroundColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: white,
     paddingVertical: 4,
     paddingHorizontal: 6,
     width: 40,

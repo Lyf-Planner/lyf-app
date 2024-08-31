@@ -14,7 +14,6 @@ export async function login(username: string, password: string) {
     storeAsyncData('token', result.data.token);
     return result.data.user;
   } else if (result?.status === 404) {
-    console.log('returning not found')
     return USER_NOT_FOUND;
   } else if (result?.status === 429) {
     alert('Suspicioius login behaviour. Please wait at least 3 seconds between attempts');

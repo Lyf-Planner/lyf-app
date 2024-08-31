@@ -177,14 +177,6 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
   const buildMenuOptions = () => {
     const menuOptions: PopoverMenuOption[] = [];
 
-    // Finish day if ready
-    if (canDelete) {
-      menuOptions.push({
-        text: '✅ Finish Day',
-        onSelect: () => finishDay()
-      });
-    }
-
     // Sort tasks if more than one
     menuOptions.push({
       text: '↕️ Sort Tasks',
@@ -193,8 +185,6 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
 
     return menuOptions;
   };
-
-  const isSunday = date ? dayFromDateString(date) === 'Sunday' : day === 'Sunday';
 
   const conditionalStyles = {
     dayRootView: {

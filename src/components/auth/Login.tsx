@@ -29,7 +29,7 @@ export const Login = ({ updateUser }: Props) => {
     let user = await login(uid, pass);
 
     if (user === USER_NOT_FOUND) {
-      console.log('user not found, creating account')
+      console.log('User not found, creating account')
       if (!validateUsername(uid) || !validatePassword(pass)) {
         updateLoggingIn(false);
         return;
@@ -130,7 +130,7 @@ export const Login = ({ updateUser }: Props) => {
 const styles = StyleSheet.create({
   touchableWithoutFeedback: {
     flex: 1,
-    zIndex: 0
+    zIndex: 50
   },
   page: {
     flex: 1,
@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "300",
     fontFamily: "Lexend",
+    // @ts-ignore
     outlineStyle: 'none'
   }
 });

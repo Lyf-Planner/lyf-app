@@ -11,7 +11,6 @@ import { useTutorial } from 'providers/overlays/useTutorial';
 import { useNotifications } from 'providers/cloud/useNotifications';
 import { useModal } from 'providers/overlays/useModal';
 import { NotificationModal } from 'components/notifications/NotificationModal';
-import { inProgressColor } from 'components/list/constants';
 
 
 const LyfIcon = require("../../../assets/images/icon.png")

@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useState
 } from 'react';
 import { ExposedUser, UserFriend } from 'schema/user';
@@ -44,6 +45,10 @@ export const FriendsProvider = ({ children }: Props) => {
     } else {
       setSyncing(false);
     }
+  }, [])
+
+  useEffect(() => {
+    reload()
   }, [])
 
   const updateFriendship = async (user_id: ID, action: FriendshipAction) => {

@@ -9,7 +9,8 @@ type Props = {
   func: () => void,
   textColor?: string,
   loadingOverride?: boolean,
-  notPressable?: boolean
+  notPressable?: boolean,
+  height?: number
 }
 
 export const ActionButton = ({
@@ -18,13 +19,14 @@ export const ActionButton = ({
   func,
   textColor = 'white',
   loadingOverride = false,
-  notPressable = false
+  notPressable = false,
+  height
 }: Props) => {
   const [loading, setLoading] = useState(false);
 
   return (
     <BouncyPressable
-      style={[styles.actionButtonMain, { backgroundColor: color }]}
+      style={[styles.actionButtonMain, { backgroundColor: color, height }]}
       disabled={notPressable}
       onPress={async () => {
         setLoading(true);
@@ -47,6 +49,8 @@ export const ActionButton = ({
 
 const styles = StyleSheet.create({
   actionButtonMain: {
+    minHeight: 45,
+    alignSelf: 'center',
     padding: 8,
     width: '100%',
     height: '100%',

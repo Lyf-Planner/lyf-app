@@ -15,16 +15,10 @@ import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { RouteParams } from "Routes";
 
 export const Friends = (props: BottomTabScreenProps<RouteParams>) => {
-  const { friends, loading, reload } = useFriends();
+  const { friends, loading } = useFriends();
 
   const [searchedUser, setSearchedUser] = useState<any>();
   const [searched, setSearched] = useState(false);
-
-  useEffect(() => {
-    if (loading) {
-      reload();
-    }
-  })
 
   return (
     <View style={styles.main}>
@@ -88,7 +82,16 @@ const styles = StyleSheet.create({
     overflow: 'visible',
     paddingTop: 16,
   },
-  foundUserWrapper: { marginBottom: 10, maxWidth: 400, alignSelf: 'center' },
+  foundUserWrapper: { 
+    marginBottom: 10,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    flex: 1,
+    width: '100%',
+    maxWidth: 400,
+    minHeight: 50,
+    alignSelf: 'center'
+  },
 
   loaderWrapper: { marginLeft: 'auto', marginRight: 8 },
   notFoundText: {

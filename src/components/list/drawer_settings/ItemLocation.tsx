@@ -84,7 +84,10 @@ const styles = StyleSheet.create({
     gap: 8,
     height: 35
   },
-  fieldText: { fontSize: 20, fontWeight: '500', fontFamily: 'InterSemi' },
+  fieldText: { 
+    fontSize: 20, 
+    fontFamily: 'Lexend' 
+  },
   inputWrapper: {
     marginLeft: 'auto',
     flexDirection: 'row',

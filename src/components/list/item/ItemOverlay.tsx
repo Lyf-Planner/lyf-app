@@ -35,13 +35,11 @@ export const ListItemOverlay = ({
   // ANIMATIONS
 
   const flickAnimation = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateX: withTiming(animatedValues.offsetX.value, {
-          duration: 250
-        })
-      }
-    ],
+    transform: [{
+      translateX: withTiming(animatedValues.offsetX.value, {
+        duration: 250
+      })
+    }],
     zIndex: 50
   }));
 

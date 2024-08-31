@@ -31,8 +31,6 @@ export const SortableList = ({
     resortItems(data, to);
   };
 
-  console.log('item order', items.map(({ title, sorting_rank }) => ({ title, sorting_rank })))
-
   const renderItem = (x: RenderItemParams<LocalItem>) => {
     return (
       <SortableListItem
@@ -48,7 +46,7 @@ export const SortableList = ({
   return (
     <DraggableFlatlist
       containerStyle={[styles.listContainer, listWrapperStyles]}
-      contentContainerStyle={{ gap: 2 }}
+      contentContainerStyle={{ gap: 1 }}
       style={styles.flatlistInternal}
       data={items}
       onDragEnd={onDragEnd}
@@ -62,12 +60,10 @@ const styles = StyleSheet.create({
   listContainer: {
     overflow: 'visible',
     width: '100%',
-    gap: 8
   },
   flatlistInternal: { 
     flexDirection: 'column',
     overflow: 'visible',
-    gap: 4,
   },
   
 });

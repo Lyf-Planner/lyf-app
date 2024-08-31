@@ -3,8 +3,8 @@ import Animated, {
   useAnimatedStyle
 } from 'react-native-reanimated';
 import { ItemStatus } from '../constants';
-import { StyleSheet } from 'react-native';
-import { useCallback } from 'react';
+import { Platform, StyleSheet, View } from 'react-native';
+import { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { sleep } from '../../../utils/misc';
 import {
   Directions,
@@ -14,7 +14,7 @@ import {
 import { LyfElement } from '../../../utils/abstractTypes';
 import * as Haptics from 'expo-haptics';
 import { ListItemAnimatedValues } from './Item';
-import { RemoveItem, UpdateItem } from 'providers/cloud/useTimetable';
+import { RemoveItem, UpdateItem, useTimetable } from 'providers/cloud/useTimetable';
 import { LocalItem } from 'schema/items';
 
 type Props = {
@@ -23,8 +23,7 @@ type Props = {
   invited: boolean; // Should be deprecated
   animatedValues: ListItemAnimatedValues;
   openModal: () => void;
-  updateItem: UpdateItem;
-  removeItem: RemoveItem;
+  setCreatingLocalised: (creating: boolean) => void;
 };
 
 export const SCALE_MS = 180;
@@ -35,10 +34,37 @@ export const ListItemGestureWrapper = ({
   invited,
   animatedValues,
   openModal,
-  updateItem,
-  removeItem
+  setCreatingLocalised
 }: Props) => {
+  const { updateItem, removeItem, addItem } = useTimetable();
+  // The gesture handler fires some gestures twice, on non-idempotent operations a lock is required.
+  let gestureLocked = false;
+
   let longPressTimer: NodeJS.Timeout | undefined;
+
+  // Web Right Click detection
+
+  const wrapperRef = useRef<any>(null);
+
+  useEffect(() => {
+    const handleContextMenu = (event: SyntheticEvent) => {
+      event.preventDefault();
+      openModal();
+    };
+
+    const componentElement = wrapperRef.current;
+
+    if (componentElement && Platform.OS === 'web') {
+      componentElement.addEventListener('contextmenu', handleContextMenu);
+    }
+
+    // Cleanup event listener on component unmount
+    return () => {
+      if (componentElement && Platform.OS === 'web') {
+        componentElement.removeEventListener('contextmenu', handleContextMenu);
+      }
+    };
+  }, []);
 
   // GESTURE HANDLERS
 
@@ -102,21 +128,38 @@ export const ListItemGestureWrapper = ({
   };
 
   const handleFlingLeft = () => {
-    console.log('fling left detected')
-    animatedValues.offsetX.value = -40;
+    if (gestureLocked) {
+      return;
+    }
 
-    openModal();
+    gestureLocked = true;
+    animatedValues.offsetX.value = -40;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
-    // This makes the animation appear to pause for a second when slid back
-    var closeAnimation = setInterval(() => {
-      animatedValues.offsetX.value = 0;
+    const itemReadyPromise = new Promise<void>(async (resolve) => {
+      if (item.localised) {
+        setCreatingLocalised(true);
+        await addItem(item.type, item.sorting_rank, item).then(() => resolve());
+      } else {
+        resolve();
+      }
+    })
+
+    const closeAnimation = setInterval(() => {
+      // Close after 500ms, unless the item is still not ready
+      itemReadyPromise.then(() => animatedValues.offsetX.value = 0);
       clearTimeout(closeAnimation);
     }, 500);
+
+    itemReadyPromise.then(() => {
+      openModal();
+      setCreatingLocalised(false);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      gestureLocked = false;
+    })
   };
 
   const handleFlingRight = () => {
-    console.log('fling right detected')
     if (invited) {
       openModal();
       return;
@@ -144,7 +187,7 @@ export const ListItemGestureWrapper = ({
     .onStart(() => handleLongPressIn())
     .onEnd(() => handleLongPressOut());
 
-  // TODO: Fix this to no longer require adjustment and pager-view prerelease package
+  // TODO: Fix this to no longer require adjustment and no longer use pager-view prerelease package
   //
   // These stopped working properly after adding the topTabNavigator
   // The issue is that the drag value is inconsistent/incorrect after bumping
@@ -196,6 +239,7 @@ export const ListItemGestureWrapper = ({
   return (
     <GestureDetector gesture={gestures}>
       <Animated.View
+        ref={wrapperRef}
         style={[
           scaleAnimation,
           styles.listItemWrapper,
@@ -211,6 +255,7 @@ export const ListItemGestureWrapper = ({
 const styles = StyleSheet.create({
   listItemWrapper: {
     width: '100%',
-    height: 55
+    height: 55,
+    cursor: 'pointer'
   }
 });

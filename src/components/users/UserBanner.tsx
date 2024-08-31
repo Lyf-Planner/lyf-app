@@ -62,12 +62,17 @@ export const UserBanner = ({
 
       <View style={styles.actionWrapper}>
         {context === UserListContext.Friends ? (
-          <FriendAction friend={user as UserFriend} callback={callback} />
+          <FriendAction 
+            friend={user as UserFriend}
+            callback={callback}
+            height={45}
+          />
         ) : (
           <ItemSocialAction 
             item={item!} 
             item_user={user} 
             menuContext={menuContext} 
+            height={45}
           />
         )}
       </View>
@@ -79,6 +84,7 @@ const styles = StyleSheet.create({
   main: {
     flexDirection: 'row',
     width: '100%',
+    alignSelf: 'stretch',
     alignItems: 'center',
     height: 75,
     gap: 4,
@@ -90,7 +96,7 @@ const styles = StyleSheet.create({
 
     shadowColor: 'black',
     shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 1,
+    shadowOpacity: 0.75,
     shadowRadius: 2
   },
   nameRow: { 
@@ -102,6 +108,8 @@ const styles = StyleSheet.create({
   actionWrapper: {
     marginLeft: 'auto',
     width: 100,
+    borderRadius: 50,
+
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,

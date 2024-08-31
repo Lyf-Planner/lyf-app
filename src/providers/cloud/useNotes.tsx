@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import {
   createNote,
@@ -14,12 +14,15 @@ import { Permission } from 'schema/database/items_on_users';
 import { useCloud } from './cloudProvider';
 import { ID } from 'schema/database/abstract';
 import { LocalItem } from 'schema/items';
+import { ItemDbObject } from 'schema/database/items';
+
+export type UpdateNoteItem = (item: ItemDbObject, changes: Partial<ItemDbObject>, remove?: boolean) => Promise<void>
 
 export type NoteHooks = {
   loading: boolean,
   reload: () => void,
   notes: UserRelatedNote[],
-  handleNoteItemUpdate: (item: LocalItem, changes: Partial<LocalItem>, remove?: boolean) => void,
+  handleNoteItemUpdate: UpdateNoteItem,
   loadNote: (id: ID) => Promise<void>,
   updateNote: (note: UserRelatedNote, changes: Partial<UserRelatedNote>, updateRemote?: boolean) => void,
   addNote: (title: string, type: NoteType) => Promise<ID>,
@@ -50,7 +53,11 @@ export const NotesProvider = ({ children }: Props) => {
     } else {
       setSyncing(false);
     }
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    reload()
+  }, []);
 
   const loadNote = async (id: ID) => {
     setSyncing(true)
@@ -59,11 +66,11 @@ export const NotesProvider = ({ children }: Props) => {
     updateNote(note, {}, false)
   }
 
-  const handleNoteItemUpdate = (item: LocalItem, changes: Partial<LocalItem>, remove = false) => {
+  const handleNoteItemUpdate = async (item: ItemDbObject, changes: Partial<ItemDbObject>, remove = false) => {
     const i = notes.findIndex((note) => note.id === item.note_id);
 
     const note = notes[i];
-    const noteItems = note.relations.items || [];
+    const noteItems = note.relations?.items ? [...note.relations.items] : [];
     const j = noteItems.findIndex((x) => x.id === item.id);
 
     if (j === -1 && !remove) {
@@ -74,12 +81,12 @@ export const NotesProvider = ({ children }: Props) => {
       noteItems.splice(j, 1);
     } else {
       // Update
-      const newNote = { ...item, ...changes }
-      noteItems[j] = { ...item, ...changes };
+      const newNoteItem = { ...item, ...changes }
+      noteItems[j] = newNoteItem;
     }
 
     const noteChanges = { relations: { ...note.relations, items: noteItems }}
-    updateNote(note, noteChanges, false)
+    updateNote(note, noteChanges, false);
   }
 
   const updateNote = async (note: UserRelatedNote, changes: Partial<UserRelatedNote>, updateRemote = true) => {

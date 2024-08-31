@@ -10,14 +10,14 @@ type Props = {
 
 export const OverlayProvider = ({ children }: Props) => (
     <MenuProvider>
-      <DrawerProvider>
-        <ModalProvider>
-            <TutorialProvider>
-              <OverlayInjectionLayer>
-                {children}
-              </OverlayInjectionLayer>
-            </TutorialProvider>
-        </ModalProvider>
-      </DrawerProvider>
+      <ModalProvider>
+        <DrawerProvider>
+          <TutorialProvider>
+            <OverlayInjectionLayer>
+              {children}
+            </OverlayInjectionLayer>
+          </TutorialProvider>
+        </DrawerProvider>
+      </ModalProvider>
     </MenuProvider>
   );

@@ -23,51 +23,40 @@ import { LocalItem } from 'schema/items';
 import { getItem } from 'rest/items';
 import { ID } from 'schema/database/abstract';
 import { useDrawer } from 'providers/overlays/useDrawer';
-
-export type ItemDrawerProps = {
-  item: LocalItem,
-  updateItem: UpdateItem,
-  updateDrawer: (drawer: JSX.Element | undefined) => void;
-  updateSheetMinHeight: (height: number) => void;
-}
+import { ItemDbObject } from 'schema/database/items';
+import { useNotes } from 'providers/cloud/useNotes';
 
 type Props = {
   id: ID,
+  noteId: ID,
   isNew?: boolean
 }
 
-export const ItemDrawer = ({
+export const NoteItemDrawer = ({
   id,
+  noteId,
   isNew = false
 }: Props) => {
   // Establish item from store
   const { updateDrawer, updateSheetMinHeight } = useDrawer();
-  const { items, updateItem } = useTimetable();
-  const item = useMemo(() => items.find((x) => x.id === id), [items]);
+  const { updateItem } = useTimetable();
+  const { notes } = useNotes();
+
+  const item = useMemo(() => {
+    const relevantNote = notes.find((x) => x.id === noteId);
+    if (relevantNote && relevantNote.relations?.items) {
+      return relevantNote.relations.items.find((x) => x.id === id);
+    }
+  }, [notes]);
 
   const [descOpen, setDescOpen] = useState(!!item?.desc);
   const [linkOpen, setLinkOpen] = useState(!!item?.url);
   const [locationOpen, setLocationOpen] = useState(!!item?.location);
 
   const noDetails = useMemo(
-    () => item && !item.date && !item.time && !descOpen && !item.notification_mins,
+    () => item && !item.date && !item.time && !descOpen,
     [item]
   );
-
-  useEffect(() => {
-    if (item && !item.localised) {
-      getItem(item.id, "users").then((updatedItem) => {
-        if (updatedItem) {
-          // We do this to keep the item as a UserRelatedItem
-          const mergedData = {
-            ...item,
-            ...updatedItem
-          }
-          updateItem(item, mergedData, false)
-        }
-      })
-    }
-  }, [item?.localised])
 
   if (!item) {
     // Close this
@@ -76,70 +65,37 @@ export const ItemDrawer = ({
   }
 
   // Establish props passed to children
-  const props: ItemDrawerProps = {
-    item,
-    updateItem,
+  const props = {
+    item: item as LocalItem,
+    updateItem: updateItem as UpdateItem,
     updateDrawer,
     updateSheetMinHeight
-  }
-
-  const conditionalStyles = {
-    detailsContainer: {
-      opacity: item.invite_pending ? 0.5 : 1
-    },
   }
 
   // Pass "invited" to block any input component with a localised value
   return (
     <TouchableWithoutFeedback onPress={() => Platform.OS === 'web' ? null : Keyboard.dismiss()}>
       <View style={styles.mainContainer}>
-
-        {item.invite_pending && (
-          <Text style={styles.subtitle}>You've been invited to...</Text>
-        )}
-
         <View style={styles.header}>
           <View style={styles.headerBackground}>
             <View style={styles.itemType}>{/** TODO: Review whether this wrapping View is needed */}
               <ItemTypeBadge {...props} />
             </View>
             <ItemTitle {...props} autoFocus={isNew} />
-            {!item.invite_pending && 
-              <OptionsMenu 
-                item={item} 
-                closeDrawer={() => updateDrawer(undefined)}
-              />
-            }
           </View>
 
-          {item.invite_pending ? (
-            <InviteHandler item={item} />
-          ) : (
-            <ItemStatusDropdown {...props} />
-          )}
+          <ItemStatusDropdown {...props} />
         </View>
 
         <Horizontal style={styles.firstSeperator} />
 
-        <View style={[styles.detailsContainer, conditionalStyles.detailsContainer]}>
-          {!item.note_id &&
-            <ItemUsers 
-              item={item}
-              loading={!item.relations?.users}
-              closeDrawer={() => updateDrawer(undefined)}
-            />
-          }
-
+        <View style={[styles.detailsContainer]}>
           {(item.date || isTemplate(item)) && (
             <ItemDate {...props} />
           )}
 
           {item.time && (
             <ItemTime {...props} />
-          )}
-
-          {item.notification_mins && (
-            <ItemNotification {...props} />
           )}
 
           {linkOpen && (

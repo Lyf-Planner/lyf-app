@@ -43,7 +43,7 @@ export const SortableListItem = ({
   const conditionalStyles = {
     listItem: {
       backgroundColor: primaryColor,
-      borderRadius: item.type === ItemType.Event ? 5 : 10,
+      borderRadius: item.type === ItemType.Event ? 5 : 15,
       opacity: item.status === ItemStatus.Cancelled || item.invite_pending ? 0.7 : 1
     },
     sortHandleIconColor:
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 10,
     flex: 1,
-    height: 50,
+    height: 55,
     borderWidth: 1,
     gap: 4,
     alignItems: 'center'

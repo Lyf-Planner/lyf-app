@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.8),
 
     shadowColor: 'black',
-    shadowOpacity: 1,
+    shadowOpacity: 0.75,
     shadowRadius: 2
   },
   dropdownTextContainer: {

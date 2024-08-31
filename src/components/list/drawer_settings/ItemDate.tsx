@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
   },
   routineText: {
     fontSize: 16,
-    color: 'white'
+    color: 'white',
+    fontFamily: 'Lexend'
   },
   routineContainer: {
     backgroundColor: primaryGreen,
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     left: 10,
     borderRadius: 8
   },
-  eventText: { fontSize: 20, fontWeight: '500', fontFamily: 'InterSemi' },
+  eventText: { fontSize: 20, fontFamily: 'Lexend' },
   pickerContainer: {
     marginLeft: 'auto'
   }

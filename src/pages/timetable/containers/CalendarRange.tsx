@@ -3,8 +3,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { BouncyPressable } from "components/pressables/BouncyPressable";
 import * as Native from 'react-native';
 import { primaryGreen, secondaryGreen } from "utils/colours";
-import { addWeekToStringDate, daysDifferenceBetween, formatDate, formatDateData, localisedMoment } from 'utils/dates';
-import { DateString } from 'schema/util/dates';
+import { addWeekToStringDate, daysDifferenceBetween, formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from 'utils/dates';
+import { DateString, WeekDays } from 'schema/util/dates';
 import { useTimetable } from 'providers/cloud/useTimetable';
 
 enum ShiftDirection {
@@ -15,16 +15,9 @@ enum ShiftDirection {
 export const CalendarRange = () => {
   const { reload, startDate, endDate } = useTimetable();
 
-  // const dateOptions = useMemo(() => [
-  //   { start: addWeekToStringDate(startDate, -1), end: addWeekToStringDate(endDate, -1) },
-  //   { start: startDate, end: endDate },
-  //   { start: addWeekToStringDate(startDate), end: addWeekToStringDate(endDate) },
-  // ], [startDate, endDate]);
-
   const shift = (direction: ShiftDirection) => {
-    const range = daysDifferenceBetween(startDate, endDate);
-    const newStart = formatDateData(localisedMoment(startDate).add(direction * range, 'days').toDate())
-    const newEnd = formatDateData(localisedMoment(endDate).add(direction * range, 'days').toDate())
+    const newStart = formatDateData(localisedMoment(startDate).add(direction * WeekDays.length, 'days').toDate())
+    const newEnd = formatDateData(localisedMoment(endDate).add(direction * WeekDays.length, 'days').toDate())
 
     reload(newStart, newEnd);
   }
@@ -32,6 +25,10 @@ export const CalendarRange = () => {
   return (
     <BouncyPressable
       style={styles.weekDateDisplayTouchable}
+      onLongPress={() => reload(
+        formatDateData(getStartOfCurrentWeek()),
+        formatDateData(getEndOfCurrentWeek())
+      )}
     >
       <Native.TouchableOpacity onPress={() => shift(ShiftDirection.BACK)}>
         <Entypo name="chevron-left" color="white" size={25} />

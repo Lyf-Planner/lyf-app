@@ -50,17 +50,13 @@ export const BouncyPressable = ({
   : Pressable;
 
   const scale = useSharedValue(1);
-  const scaleAnimation = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          scale: withTiming(scale.value, {
-            duration: 200
-          })
-        }
-      ]
-    } as any;
-  });
+  const scaleAnimation = useAnimatedStyle(() => ({
+    transform: [{
+      scale: withTiming(scale.value, {
+        duration: 200
+      })
+    }]
+  }));
 
   const shadowOffsetX = useSharedValue(shadowOptions?.shadowOffset?.width || 3);
   const shadowOffsetY = useSharedValue(shadowOptions?.shadowOffset?.height || 3);

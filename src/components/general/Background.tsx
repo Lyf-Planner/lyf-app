@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, Keyboard, TouchableWithoutFeedback, Platform } from 'react-native';
 import { LyfElement } from 'utils/abstractTypes';
 import { lightGreen, primaryGreen } from 'utils/colours';
 
@@ -12,9 +12,9 @@ type Props = {
 }
 
 export const Background = ({ children }: Props) => {
-  return (
-    <View style={styles.page}>
 
+  const background = (
+    <View style={styles.page}>
       <Image
         source={BRANCH}
         alt="tree"
@@ -51,6 +51,21 @@ export const Background = ({ children }: Props) => {
       {children}
     </View>
   );
+
+  // On web, wrapping with a TouchableWithoutFeedback
+  // Prevents the text boxes from being typable (they keyboard is dismissed immediately)
+  if (Platform.OS === 'web') {
+    return background;
+  }
+
+  return (
+    <TouchableWithoutFeedback 
+      style={{ flex: 1 }}
+      onPress={() => Keyboard.dismiss()}
+    >
+      {background}
+    </TouchableWithoutFeedback>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -64,7 +79,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: '35%',
     bottom: 0,
-    left: -350
+    left: Platform.OS === 'web' ? -300 : -350
   },
   bigTree: {
     position: 'absolute',
@@ -82,9 +97,10 @@ const styles = StyleSheet.create({
   },
   branch: {
     position: 'absolute',
-    zIndex: 60,
+    zIndex: 5,
     top: 120,
-    right: -130,
+    right: Platform.OS === 'web' ? undefined : -130,
+    left: Platform.OS === 'web' ? '55%' : undefined,
     width: '80%',
     transform: [{ rotate: '70deg' }, { rotateX: '180deg' }]
   },
@@ -92,7 +108,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 0,
     top: -100,
-    right: -200,
-    height: '50%'
+    left: Platform.OS === 'web' ? undefined : -550,
+    right: Platform.OS === 'web' ? '50%' : undefined,
+    height: Platform.OS === 'web' ? '60%' : '50%'
   },
 });

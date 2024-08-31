@@ -1,6 +1,6 @@
 import { LocalItem } from 'schema/items';
 import { eventsBadgeColor, offWhite, primaryGreen, white } from '../../utils/colours';
-import { ItemType } from 'schema/database/items';
+import { ItemDbObject, ItemType } from 'schema/database/items';
 
 export enum ItemStatus {
   Cancelled = 'Cancelled',
@@ -69,6 +69,6 @@ export const statusTextDisplay = (type: ItemType, status: ItemStatus) => {
   }
 };
 
-export const isTemplate = (item: LocalItem) => {
+export const isTemplate = (item: ItemDbObject) => {
   return item.day && !item.date;
 };

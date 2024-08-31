@@ -1,11 +1,9 @@
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Platform, Alert } from 'react-native';
 import {
   Directions,
   Gesture,
-  GestureDetector,
   TouchableHighlight
 } from 'react-native-gesture-handler';
-import { Horizontal } from 'components/general/MiscComponents';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -14,9 +12,10 @@ import Animated, {
 import { NoteTypeBadge } from './NoteTypeBadge';
 import { useNotes } from 'providers/cloud/useNotes';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { ID } from 'schema/database/abstract';
 import { UserRelatedNote } from 'schema/user';
 import { deepBlueOpacity, white } from 'utils/colours';
+import { BouncyPressable } from 'components/pressables/BouncyPressable';
+import { SyntheticEvent, useEffect, useRef } from 'react';
 
 type Props = {
   note: UserRelatedNote,
@@ -30,30 +29,56 @@ export const NoteRow = ({
   const { removeNote } = useNotes();
   const offsetX = useSharedValue(0);
 
-  const flingLeft = Gesture.Fling()
-    .direction(Directions.LEFT)
-    .runOnJS(true)
-    .onEnd(() => (offsetX.value = -55));
-  const flingRight = Gesture.Fling()
-    .direction(Directions.RIGHT)
-    .runOnJS(true)
-    .onEnd(() => (offsetX.value = 0));
-  const composed = Gesture.Exclusive(flingLeft, flingRight);
+  const wrapperRef = useRef<any>(null);
 
-  const flingAnimation = useAnimatedStyle(() => ({
-    transform: [{
-      translateX: withTiming(offsetX.value, { duration: 200 })
-    }],
-    zIndex: 50
-  }));
+  useEffect(() => {
+    const handleContextMenu = (event: SyntheticEvent) => {
+      event.preventDefault();
+      handleDeletion();
+    };
+
+    const componentElement = wrapperRef.current;
+
+    if (componentElement && Platform.OS === 'web') {
+      componentElement.addEventListener('contextmenu', handleContextMenu);
+    }
+
+    // Cleanup event listener on component unmount
+    return () => {
+      if (componentElement && Platform.OS === 'web') {
+        componentElement.removeEventListener('contextmenu', handleContextMenu);
+      }
+    };
+  }, []);
+
+  const handleDeletion = () => {
+    if (Platform.OS === 'web') {
+      if (confirm(`Are you sure you want to delete ${note.title}`)) {
+        removeNote(note.id)
+      }
+      return;
+    }
+
+    Alert.alert(
+      `Are you sure you want to delete ${note.title}`,
+      undefined,
+      [
+        { text: 'Cancel', onPress: () => null },
+        { text: 'Delete', onPress: () => removeNote(note.id), isPreferred: true }
+      ]
+    )
+  }
 
   return (
-    <TouchableHighlight
-      underlayColor={'rgb(150,150,150)'}
+    <BouncyPressable
       onPress={onSelect}
+      onLongPress={() => handleDeletion()}
       style={[styles.bannerView]}
     >
-      <View style={styles.touchableHighlight}>
+      <View 
+        style={styles.touchableHighlight} 
+        ref={wrapperRef}
+      >
         <NoteTypeBadge type={note.type} />
         <Text 
           adjustsFontSizeToFit
@@ -66,28 +91,26 @@ export const NoteRow = ({
           <Entypo name={'chevron-right'} size={25} color='white' />
         </View>
       </View>
-    </TouchableHighlight>
+    </BouncyPressable>
   );
 };
 
 const styles = StyleSheet.create({
   bannerView: {
     width: '100%',
+    maxWidth: 500,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: deepBlueOpacity(0.9),
     height: 65,
-    borderTopWidth: 1
-  },
-  bannerHiddenBackground: {
-    height: 60,
-    right: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    zIndex: -1,
-    backgroundColor: 'red',
-    width: 60
+    borderTopWidth: 1,
+    borderRadius: 10,
+    backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.8),
+    borderColor: 'rgba(0,0,0,0.3)',
+
+    shadowColor: 'black',
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1
   },
   touchableHighlight: {
     flexDirection: 'row',
@@ -103,7 +126,7 @@ const styles = StyleSheet.create({
     color: white,
     fontWeight: '400',
     fontFamily: 'Lexend',
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   editIcon: { marginLeft: 'auto', marginRight: 17.5 },
   animatedChevron: {

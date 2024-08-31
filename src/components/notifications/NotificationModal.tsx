@@ -49,7 +49,6 @@ const styles = Native.StyleSheet.create({
   main: {
     position: 'absolute',
     width: 350,
-    maxHeight: 400,
 
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
@@ -57,10 +56,11 @@ const styles = Native.StyleSheet.create({
     shadowRadius: 10
   },
   mainInternal: {
+    maxHeight: 400,
+    overflow: 'hidden',
     backgroundColor: white,
     flexDirection: 'column',
     gap: 8,
-    overflow: 'hidden',
     borderRadius: 10,
     borderWidth: 3,
     borderColor: 'white',

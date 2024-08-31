@@ -46,8 +46,8 @@ export const ItemTitle = ({
 
 const styles = StyleSheet.create({
   itemTitle: {
-    fontSize: 20,
-    fontWeight: '600',
+    fontSize: 18,
+    fontFamily: 'Lexend',
     color: 'white',
     flex: 1,
   }

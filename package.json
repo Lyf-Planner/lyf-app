@@ -10,7 +10,7 @@
     "build:ios-internal": "eas build --platform ios --profile dev",
     "build:ios-beta": "eas build --platform ios --profile qa",
     "build:ios-prod": "eas build --platform ios --profile production",
-    "schema:sync": "cd src/schema && git checkout main && git pull && cd ../..",
+    "schemas": "cd src/schema && git checkout main && git pull && cd ../..",
     "use-build": "eas build:run",
     "android": "expo run:android",
     "ios": "expo run:ios"
@@ -30,6 +30,7 @@
     "dotenv": "^16.3.1",
     "expo": "~51.0.14",
     "expo-asset": "~10.0.9",
+    "expo-clipboard": "^6.0.3",
     "expo-dev-client": "~4.0.18",
     "expo-device": "~6.0.2",
     "expo-font": "~12.0.7",

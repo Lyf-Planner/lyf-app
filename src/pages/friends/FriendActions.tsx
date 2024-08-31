@@ -21,10 +21,11 @@ import { inProgressColor } from 'components/list/constants';
 
 type Props = {
   friend: UserFriend,
-  callback?: () => void
+  callback?: () => void,
+  height?: number
 }
 
-export const FriendAction = ({ friend, callback }: Props) => {
+export const FriendAction = ({ friend, callback, height }: Props) => {
   const { user } = useAuth();
   const { friends, loading, reload } = useFriends();
 
@@ -45,6 +46,7 @@ export const FriendAction = ({ friend, callback }: Props) => {
         func={() => null}
         color={primaryGreen}
         textColor={white}
+        height={height}
       />
     );
   }
@@ -56,6 +58,7 @@ export const FriendAction = ({ friend, callback }: Props) => {
         func={() => null}
         color={primaryGreen}
         textColor={white}
+        height={height}
         loadingOverride
       />
     )
@@ -68,19 +71,19 @@ export const FriendAction = ({ friend, callback }: Props) => {
   const isBlocked = friends.some((x) => x.id === friend.id && hasBlock(x))
 
   if (isFriends) {
-    return <Friend friend={friend} />;
+    return <Friend friend={friend} height={height} />;
   } else if (isOutgoing) {
-    return <Requested friend={friend} />;
+    return <Requested friend={friend} height={height} />;
   } else if (isIncoming) {
-    return <HandleRequest friend={friend} />;
+    return <HandleRequest friend={friend} height={height} />;
   } else if (isBlocked) {
     return null;
   } else {
-    return <AddFriend friend={friend} />;
+    return <AddFriend friend={friend} height={height} />;
   }
 };
 
-export const Friend = ({ friend, callback }: Props) => {
+export const Friend = ({ friend, callback, height }: Props) => {
   const [loading, setLoading] = useState(false);
   const { updateFriendship } = useFriends();
   const removeFriend = async () => {
@@ -109,13 +112,14 @@ export const Friend = ({ friend, callback }: Props) => {
         color={primaryGreen}
         textColor={white}
         loadingOverride={loading}
+        height={height}
         notPressable
       />
     </LyfMenu>
   );
 };
 
-export const Requested = ({ friend, callback }: Props) => {
+export const Requested = ({ friend, callback, height }: Props) => {
   const [loading, setLoading] = useState(false);
   const { updateFriendship } = useFriends();
   const cancelRequest = async () => {
@@ -144,13 +148,14 @@ export const Requested = ({ friend, callback }: Props) => {
         color={eventsBadgeColor}
         textColor={black}
         loadingOverride={loading}
+        height={height}
         notPressable
       />
     </LyfMenu>
   );
 };
 
-export const AddFriend = ({ friend, callback }: Props) => {
+export const AddFriend = ({ friend, callback, height }: Props) => {
   const { updateFriendship } = useFriends();
   const addFriend = async () => {
     await updateFriendship(friend.id, FriendshipAction.Request);
@@ -163,11 +168,12 @@ export const AddFriend = ({ friend, callback }: Props) => {
       func={addFriend}
       color={inProgressColor}
       textColor={deepBlue}
+      height={height}
     />
   );
 };
 
-export const HandleRequest = ({ friend, callback }: Props) => {
+export const HandleRequest = ({ friend, callback, height }: Props) => {
   const { updateFriendship } = useFriends();
   const [accepting, setAccepting] = useState(false);
   const [declining, setDeclining] = useState(false);
@@ -185,7 +191,7 @@ export const HandleRequest = ({ friend, callback }: Props) => {
   };
 
   return (
-    <View style={styles.handleRequestMain}>
+    <View style={[styles.handleRequestMain, { height }]}>
       <BouncyPressable
         containerStyle={styles.handleRequestPressableContainer}
         style={[

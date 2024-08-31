@@ -37,10 +37,11 @@ type SocialUser = ItemRelatedUser | UserFriend | NoteRelatedUser
 type Props = {
   item: LocalItem,
   item_user: SocialUser,
-  menuContext?: string
+  menuContext?: string,
+  height?: number
 }
 
-export const ItemSocialAction = ({ item, item_user, menuContext }: Props) => {
+export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props) => {
   const [loading, setLoading] = useState(false);
   const { updateItemSocial } = useTimetable();
   const { user } = useAuth();
@@ -93,6 +94,7 @@ export const ItemSocialAction = ({ item, item_user, menuContext }: Props) => {
       color={isSocialEntityMember(item_user) && item_user.invite_pending ? white : primaryGreen}
       notPressable={isSocialEntityMember(item_user)}
       loadingOverride={loading}
+      height={height}
       textColor={isSocialEntityMember(item_user) && item_user.invite_pending ? black : white}
     />
   );
