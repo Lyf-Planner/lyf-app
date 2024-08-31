@@ -36,6 +36,8 @@ export default {
     assetBundlePatterns: ["**/*"],
     web: {
       favicon: "./assets/images/icon.png",
+      output: "server",
+      bundler: "metro"
     },
     android: {
       adaptiveIcon: {
