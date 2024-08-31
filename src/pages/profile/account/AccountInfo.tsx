@@ -3,14 +3,15 @@ import {
   StyleSheet,
   TouchableHighlight,
   Text,
-  Alert
+  Alert,
+  Platform
 } from 'react-native';
 import { useAuth } from 'providers/cloud/useAuth';
 import { DetailsField } from 'pages/profile/account/DetailsField';
 import { NameField } from 'pages/profile/account/NameField';
 
 export const AccountInfo = () => {
-  const { user, updateUser } = useAuth();
+  const { user } = useAuth();
 
   if (!user) {
     return null;
@@ -35,6 +36,13 @@ export const AccountInfo = () => {
 };
 
 export const fieldPrompt = (func: (data: string) => void, name: string) => {
+  if (Platform.OS === 'web') {
+    const result = prompt(`Please enter your ${name} below`);
+    if (result) {
+      func(result);
+    }
+  }
+
   Alert.prompt(`Add ${name}`, `Please enter your ${name} below`, func);
 };
 
