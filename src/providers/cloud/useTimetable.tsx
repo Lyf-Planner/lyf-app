@@ -122,14 +122,12 @@ export const TimetableProvider = ({ children }: Props) => {
     if (item.note_id) {
       // Item lives in a different store, send it there for it's local update
       handleNoteItemUpdate(item, changes)
+    } else if (item.localised) {
+      // Localised items need to be added to the store as something new
+      const createdItem = { ...item, ...changes };
+      addItem(createdItem.type, createdItem.sorting_rank, createdItem);
+      return;
     } else {
-      // We create localised instances of templates in the planner - if this is one of those then create it
-      if (item.localised) {
-        console.log('Local item will be created instead of updated');
-        await addItem(item.type, item.sorting_rank, { ...item, ...changes});
-        return;
-      }
-
       const inStoreItem = items.find((x) => x.id === item.id);
       if (!inStoreItem) {
         console.error("Cannot update item not held in store ?")
@@ -172,10 +170,10 @@ export const TimetableProvider = ({ children }: Props) => {
       permission: Permission.Owner,
       sorting_rank: rank,
       relations: {},
-      localised: false,
 
       // Then overwrite with whatever info we do have;
-      ...initial
+      ...initial,
+      localised: false,
     };
 
     // Conditional properties
@@ -256,6 +254,11 @@ export const TimetableProvider = ({ children }: Props) => {
         updateItem(item, { status: ItemStatus.Cancelled }, true);
         return;
       }
+    }
+
+    if (item.permission !== Permission.Owner && deleteRemote) {
+      await updateItemSocial(item, user!.id, SocialAction.Remove, item.permission);
+      return;
     }
 
     const { id } = item;

@@ -31,8 +31,6 @@ export const SortableList = ({
     resortItems(data, to);
   };
 
-  console.log('item order', items.map(({ title, sorting_rank }) => ({ title, sorting_rank })))
-
   const renderItem = (x: RenderItemParams<LocalItem>) => {
     return (
       <SortableListItem

@@ -20,7 +20,7 @@ import { ItemLink } from './drawer_settings/ItemLink';
 import { ItemLocation } from './drawer_settings/ItemLocation';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { LocalItem } from 'schema/items';
-import { getItem, updateItemSocial } from 'rest/items';
+import { getItem } from 'rest/items';
 import { ID } from 'schema/database/abstract';
 import { useDrawer } from 'providers/overlays/useDrawer';
 
@@ -49,15 +49,13 @@ export const ItemDrawer = ({
   const [linkOpen, setLinkOpen] = useState(!!item?.url);
   const [locationOpen, setLocationOpen] = useState(!!item?.location);
 
-  console.log({ item });
-
   const noDetails = useMemo(
     () => item && !item.date && !item.time && !descOpen && !item.notification_mins,
     [item]
   );
 
   useEffect(() => {
-    if (item) {
+    if (item && !item.localised) {
       getItem(item.id, "users").then((updatedItem) => {
         if (updatedItem) {
           // We do this to keep the item as a UserRelatedItem
@@ -69,7 +67,7 @@ export const ItemDrawer = ({
         }
       })
     }
-  }, [])
+  }, [item?.localised])
 
   if (!item) {
     // Close this

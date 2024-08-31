@@ -6,6 +6,7 @@ import { ListItemOverlay } from './ItemOverlay';
 import { useTimetable } from 'providers/cloud/useTimetable';
 import { LocalItem } from 'schema/items';
 import { ItemDrawer } from '../ItemDrawer';
+import { useState } from 'react';
 
 export type ListItemAnimatedValues = {
   scale: SharedValue<number>;
@@ -29,23 +30,16 @@ export const Item = ({
   item,
   itemStyleOptions,
 }: Props) => {
-  const { updateDrawer, updateSheetMinHeight } = useDrawer();
-  const { updateItem, removeItem } = useTimetable();
+  const { updateDrawer } = useDrawer();
+  const { addItem } = useTimetable();
+  const [creatingLocalised, setCreatingLocalised] = useState(false);
 
   // UTILS
 
   const openModal = async () => {
-    const invitedRoutineInstantiation = item.invite_pending && item.template_id;
     updateDrawer(undefined);
-    // Create any localised items for drawer to find
-    if (item.localised && !invitedRoutineInstantiation) {
-      // TODO: Review invitedRoutineInstantiation
-      await updateItem(item, {});
-    }
-
     updateDrawer(
       <ItemDrawer
-        // Invites to templates should open the template!
         id={item.id}
       />
     );
@@ -66,8 +60,7 @@ export const Item = ({
       invited={item.invite_pending}
       animatedValues={animatedValues}
       openModal={openModal}
-      updateItem={updateItem}
-      removeItem={removeItem}
+      setCreatingLocalised={setCreatingLocalised}
     >
       <ListItemOverlay
         item={item}
@@ -75,6 +68,7 @@ export const Item = ({
         itemStyleOptions={itemStyleOptions}
       />
       <ListItemUnderlay 
+        drawerLoading={creatingLocalised}
         item={item} 
       />
     </ListItemGestureWrapper>

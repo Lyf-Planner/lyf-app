@@ -1,6 +1,7 @@
+import { Loader } from 'components/general/MiscComponents';
 import { ITEM_STATUS_TO_COLOR, ItemStatus } from '../constants';
 import { LinearGradient } from 'expo-linear-gradient';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { ItemType } from 'schema/database/items';
@@ -8,9 +9,10 @@ import { LocalItem } from 'schema/items';
 
 type Props = {
   item: LocalItem;
+  drawerLoading: boolean;
 };
 
-export const ListItemUnderlay = ({ item }: Props) => {
+export const ListItemUnderlay = ({ item, drawerLoading }: Props) => {
   const gradientStart = { x: 0, y: 0 };
   const gradientEnd = { x: 1, y: 0 };
   const gradientColors = [ITEM_STATUS_TO_COLOR[ItemStatus.InProgress], 'white'];
@@ -32,7 +34,13 @@ export const ListItemUnderlay = ({ item }: Props) => {
       ]}
     >
       <FontAwesome5 name="play" size={20} style={styles.playIcon} />
-      <MaterialIcons name="edit" size={20} style={styles.editIcon} />
+      {drawerLoading ? (
+        <View style={styles.editIcon}>
+          <Loader size={18} />
+        </View>
+      ) : (
+        <MaterialIcons name="edit" size={20} style={styles.editIcon} />
+      )}
     </LinearGradient>
   );
 };
