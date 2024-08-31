@@ -140,7 +140,7 @@ const styles = Native.StyleSheet.create({
   scroll: {
     overflow: 'visible',
     flex: 1,
-    paddingTop: 20,
+    paddingTop: 18,
     paddingBottom: 100
   },
 

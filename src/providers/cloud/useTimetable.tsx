@@ -118,6 +118,10 @@ export const TimetableProvider = ({ children }: Props) => {
     return [start, end];
   }, [user])
 
+  useEffect(() => {
+    reload()
+  }, [])
+
   const updateItem = async (item: LocalItem, changes: Partial<UserRelatedItem>, updateRemote = true) => {
     if (item.note_id) {
       // Item lives in a different store, send it there for it's local update

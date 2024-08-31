@@ -16,11 +16,7 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
   // Can be the ID of a folder or note, the manager will figure it out
   const [selectedId, setSelectedId] = useState<ID | null>(props.route.params?.id || null);
-  const { loading, reload, notes, updateNote, addNote } = useNotes();
-
-  useEffect(() => {
-    reload();
-  }, []);
+  const { loading, notes, updateNote, addNote } = useNotes();
 
   const newNote = (type: NoteType) => {
     const title = `New ${type === NoteType.ListOnly ? 'List' : 'Note'}`;

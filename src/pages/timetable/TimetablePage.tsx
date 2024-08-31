@@ -15,9 +15,9 @@ const Tab = createMaterialTopTabNavigator();
 export const Timetable = (props: BottomTabScreenProps<RouteParams>) => {
   const { reload } = useTimetable();
 
-  useEffect(() => {
-    reload();
-  }, [])
+  // useEffect(() => {
+  //   reload();
+  // }, [])
 
   return (
     <View style={styles.main}>

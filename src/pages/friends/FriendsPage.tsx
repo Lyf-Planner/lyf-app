@@ -15,16 +15,10 @@ import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { RouteParams } from "Routes";
 
 export const Friends = (props: BottomTabScreenProps<RouteParams>) => {
-  const { friends, loading, reload } = useFriends();
+  const { friends, loading } = useFriends();
 
   const [searchedUser, setSearchedUser] = useState<any>();
   const [searched, setSearched] = useState(false);
-
-  useEffect(() => {
-    if (loading) {
-      reload();
-    }
-  })
 
   return (
     <View style={styles.main}>

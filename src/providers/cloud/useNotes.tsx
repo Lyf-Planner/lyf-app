@@ -53,7 +53,11 @@ export const NotesProvider = ({ children }: Props) => {
     } else {
       setSyncing(false);
     }
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    reload()
+  }, []);
 
   const loadNote = async (id: ID) => {
     setSyncing(true)
