@@ -6,14 +6,12 @@ type Props = {
   items: LocalItem[];
   itemStyleOptions: ItemStyleOptions;
   listWrapperStyles?: Object;
-  fromNote?: boolean;
 };
 
 export const List = ({
   items,
   itemStyleOptions,
   listWrapperStyles = {},
-  fromNote = false
 }: Props) => {
   return (
     <View style={[styles.listContainer, listWrapperStyles]}>
@@ -21,7 +19,6 @@ export const List = ({
         <Item
           key={x.id}
           itemStyleOptions={itemStyleOptions}
-          fromNote={fromNote}
           item={x}
         />
       ))}

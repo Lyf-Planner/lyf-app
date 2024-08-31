@@ -24,7 +24,6 @@ export type ItemStyleOptions = {
 type Props = {
   item: LocalItem;
   itemStyleOptions: ItemStyleOptions;
-  fromNote: boolean;
 };
 
 export const Item = ({

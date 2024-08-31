@@ -81,7 +81,10 @@ export const AddDetails = ({
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
             disabled={item.invite_pending}
-            onPress={() => updateItem(item, { time: '09:00', notification_mins: user?.event_notification_mins })}
+            onPress={() => updateItem(item, { 
+              time: '09:00',
+              notification_mins: item.date ? user?.event_notification_mins : undefined 
+            })}
           >
             <View style={styles.addFieldContent}>
               <Text style={styles.addFieldText}>+</Text>

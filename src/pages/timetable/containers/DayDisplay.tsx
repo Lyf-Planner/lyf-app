@@ -194,8 +194,6 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
     return menuOptions;
   };
 
-  const isSunday = date ? dayFromDateString(date) === 'Sunday' : day === 'Sunday';
-
   const conditionalStyles = {
     dayRootView: {
       shadowOffset: shadowOffset ?? { width: 3, height: 3 },
