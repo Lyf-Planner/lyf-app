@@ -73,12 +73,7 @@ export const NewNoteMenu = ({ newNote }: Props) => {
         <MenuTrigger  customStyles={{
           TriggerTouchableComponent: ({ children, onPress }: MenuTriggerProps) => (
             <BouncyPressable 
-              withShadow 
               onPress={onPress} 
-              shadowOptions={{ 
-                shadowOffset: { width: 2, height: 2}, 
-                shadowRadius: 0.5 
-              }}
             >
               {children}
             </BouncyPressable>
@@ -108,7 +103,13 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: 'rgba(0,0,0,0.5)'
   },
-  optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
+  optionWrapper: { 
+    marginVertical: 4, 
+    marginHorizontal: 4, 
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 125 
+  },
   optionText: { fontSize: 18, fontFamily: 'Lexend', fontWeight: '200' },
   optionSeperator: { marginHorizontal: 5 },
 
@@ -116,5 +117,9 @@ const styles = StyleSheet.create({
     padding: 4, 
     borderRadius: 5,
     backgroundColor: deepBlue,
+
+    shadowColor: 'black',
+    shadowOffset: { width: 2, height: 2}, 
+    shadowRadius: 0.5 
   }
 });
