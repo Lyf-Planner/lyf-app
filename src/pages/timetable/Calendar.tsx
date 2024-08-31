@@ -1,5 +1,5 @@
 import * as Native from 'react-native';
-import { addWeekToStringDate, allDatesBetween, dayFromDateString, extendByWeek, formatDate, formatDateData, getStartOfCurrentWeek, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
+import { addWeekToStringDate, allDatesBetween, dayFromDateString, daysDifferenceBetween, extendByWeek, formatDate, formatDateData, getStartOfCurrentWeek, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
 import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from 'providers/cloud/useAuth';
 import { CalendarRange } from './containers/CalendarRange';
@@ -16,32 +16,12 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useTimetable } from 'providers/cloud/useTimetable';
 import { PageLoader } from 'components/general/MiscComponents';
 import { PageBackground } from 'components/general/PageBackground';
+import { WeekDays } from 'schema/util/dates';
 
 export const Calendar = () => {
   const { loading, items, reload, startDate, endDate } = useTimetable();
-  const { user, updateUser } = useAuth()
 
   const displayedDays = useMemo(() => allDatesBetween(startDate, endDate), [startDate, endDate]);
-
-  useEffect(() => {
-    // TODO: Function to adjust displayedDays in response to first_day changes
-  }, [user?.first_day]);
-
-  // const unshiftFirst = async () => {
-  //   const first = user?.first_day || formatDateData(new Date());
-  //   const prev = formatDateData(
-  //     localisedMoment(parseDateString(first)).add(-1, 'day').toDate()
-  //   );
-
-  //   if (prev.localeCompare(firstDay) >= 0) {
-  //     updateUser({
-  //       ...user,
-  //       first_day: prev
-  //     });
-  //   }
-  // };
-
-  const addWeek = () => reload(startDate, addWeekToStringDate(endDate));
 
   const calendarItems = useMemo(() => {
     const localItems: LocalItem[] = [];
@@ -94,6 +74,13 @@ export const Calendar = () => {
     .map((item) => ({ ...item, localised: false }))
   ), [items]);
 
+  const addWeek = () => {
+    const newStart = formatDateData(localisedMoment(startDate).add(WeekDays.length, 'days').toDate())
+    const newEnd = formatDateData(localisedMoment(endDate).add(WeekDays.length, 'days').toDate())
+
+    reload(newStart, newEnd);
+  }
+
   return (
     <PageBackground locations={[0,0.82,1]}>
       <KeyboardAwareScrollView enableResetScrollToCoords={false} style={styles.scroll}>
@@ -136,7 +123,7 @@ export const Calendar = () => {
                 >
                   <Native.View style={styles.addWeekView}>
                     <Entypo name="chevron-down" size={20} />
-                    <Native.Text style={styles.addWeekText}>Add Week</Native.Text>
+                    <Native.Text style={styles.addWeekText}>Next Week</Native.Text>
                     <Entypo name="chevron-down" size={20} />
                   </Native.View>
                 </BouncyPressable>
