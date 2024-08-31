@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
 
     shadowColor: 'black',
     shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 1,
+    shadowOpacity: 0.75,
     shadowRadius: 2
   },
   nameRow: { 

@@ -109,9 +109,16 @@ const styles = StyleSheet.create({
 
   noteBannersContainer: {
     minHeight: 100,
+    paddingBottom: 100,
   },
   noteRowWrapper: {
     flexDirection: 'column',
+    alignSelf: 'center',
+    gap: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    width: '100%',
+    maxWidth: 500,
   },
   noNotesText: {
     marginTop: 50,
