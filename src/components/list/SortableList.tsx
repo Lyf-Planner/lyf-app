@@ -46,7 +46,7 @@ export const SortableList = ({
   return (
     <DraggableFlatlist
       containerStyle={[styles.listContainer, listWrapperStyles]}
-      contentContainerStyle={{ gap: 2 }}
+      contentContainerStyle={{ gap: 1 }}
       style={styles.flatlistInternal}
       data={items}
       onDragEnd={onDragEnd}
@@ -60,12 +60,10 @@ const styles = StyleSheet.create({
   listContainer: {
     overflow: 'visible',
     width: '100%',
-    gap: 8
   },
   flatlistInternal: { 
     flexDirection: 'column',
     overflow: 'visible',
-    gap: 4,
   },
   
 });
