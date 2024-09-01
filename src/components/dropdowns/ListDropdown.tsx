@@ -18,11 +18,12 @@ type Props = {
   items: LocalItem[],
   listType: ItemType,
   icon: JSX.Element,
-  name: string
+  name: string,
+  startOpen?: boolean
 }
 
-export const ListDropdown = ({ items, listType, icon, name }: Props) => {
-  const [hide, updateHide] = useState(true);
+export const ListDropdown = ({ items, listType, icon, name, startOpen = false }: Props) => {
+  const [hide, updateHide] = useState(!startOpen);
   const { addItem } = useTimetable();
 
   const scale = useSharedValue(1);

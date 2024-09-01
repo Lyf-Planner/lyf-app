@@ -3,7 +3,7 @@ import { addWeekToStringDate, allDatesBetween, dayFromDateString, daysDifference
 import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from 'providers/cloud/useAuth';
 import { CalendarRange } from './containers/CalendarRange';
-import { blackWithOpacity, deepBlue, eventsBadgeColor, sun, white } from 'utils/colours';
+import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor, primaryGreen, secondaryGreen, sun, white } from 'utils/colours';
 import { DayDisplay } from './containers/DayDisplay';
 import { LocalItem } from 'schema/items';
 import { BouncyPressable } from 'components/pressables/BouncyPressable';
@@ -17,6 +17,7 @@ import { useTimetable } from 'providers/cloud/useTimetable';
 import { PageLoader } from 'components/general/MiscComponents';
 import { PageBackground } from 'components/general/PageBackground';
 import { WeekDays } from 'schema/util/dates';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export const Calendar = () => {
   const { loading, items, reload, startDate, endDate } = useTimetable();
@@ -81,6 +82,67 @@ export const Calendar = () => {
     reload(newStart, newEnd);
   }
 
+  // Different layout for web - dropdowns are adjascent to calendar and forced open
+  if (Native.Platform.OS === 'web') {
+    return (
+      <PageBackground locations={[0,0.82,1]}>
+        <ScrollView style={styles.scroll}>
+          <Native.View style={styles.webContainer}>
+            <Native.View style={styles.webCalendar}>
+              <CalendarRange color={deepBlueOpacity(0.9)} textColor={eventsBadgeColor} />
+
+              {loading && <PageLoader />}
+
+              {!loading &&
+                <Native.View style={styles.calendarWrapper}>
+                  {displayedDays.map((x) => (
+                    <DayDisplay
+                      key={x}
+                      date={x}
+                      day={null}
+                      items={calendarItems.filter((y) => y.date === x)}
+                    />
+                  ))}
+
+                  <Native.View style={styles.addWeekButton}>
+                    <BouncyPressable
+                      onPress={() => addWeek()}
+                      style={styles.addWeekTouchable}
+                      useTouchableHighlight
+                    >
+                      <Native.View style={styles.addWeekView}>
+                        <Entypo name="chevron-down" size={20} />
+                        <Native.Text style={styles.addWeekText}>Next Week</Native.Text>
+                        <Entypo name="chevron-down" size={20} />
+                      </Native.View>
+                    </BouncyPressable>
+                  </Native.View>
+                </Native.View>
+              }
+            </Native.View>
+
+            <Native.View style={styles.webDropdowns}>
+              <ListDropdown
+                items={upcomingEvents}
+                name="Upcoming Events"
+                icon={<Entypo name="calendar" color={eventsBadgeColor} size={22} />}
+                listType={ItemType.Event}
+                startOpen
+              />
+              <ListDropdown
+                items={toDoList}
+                name="To Do List"
+                icon={<Entypo name="list" color={eventsBadgeColor} size={22} />}
+                listType={ItemType.Task}
+                startOpen
+              />
+            </Native.View>
+          </Native.View>
+        </ScrollView>
+      </PageBackground>
+    )
+  }
+
   return (
     <PageBackground locations={[0,0.82,1]}>
       <KeyboardAwareScrollView enableResetScrollToCoords={false} style={styles.scroll}>
@@ -100,7 +162,7 @@ export const Calendar = () => {
             />
           </Native.View>
 
-          <CalendarRange />
+          <CalendarRange color={primaryGreen} />
 
           {loading && <PageLoader />}
 
@@ -150,12 +212,32 @@ const styles = Native.StyleSheet.create({
     paddingTop: 15,
   },
 
+  webContainer: {
+    flexDirection: 'row',
+    gap: 20,
+    alignSelf: 'center'
+  },
+
   scrollContainer: {
     alignSelf: 'center',
     flexDirection: "column",
     gap: 14,
     maxWidth: 450,
     width: '100%',
+  },
+
+  webCalendar: {
+    flexDirection: "column",
+    gap: 14,
+    width: 450,
+    flex: 1
+  },
+
+  webDropdowns: {
+    flexDirection: "column",
+    gap: 14,
+    width: 400,
+    flex: 1
   },
 
   dropdowns: {
