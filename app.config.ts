@@ -36,6 +36,7 @@ export default {
     assetBundlePatterns: ["**/*"],
     web: {
       favicon: "./assets/images/icon.png",
+      title: "Lyf",
       output: "single",
       bundler: "metro"
     },

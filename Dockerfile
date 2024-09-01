@@ -1,5 +1,7 @@
 FROM node:18-alpine AS build
 
+ARG RAILWAY_ENVIRONMENT
+
 RUN apk --no-cache update && \
     apk --no-cache upgrade && \
     apk --no-cache add git
