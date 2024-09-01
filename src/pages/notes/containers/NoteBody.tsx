@@ -75,7 +75,6 @@ export const NoteBody = ({ note }: Props) => {
         <List
           items={noteItems}
           itemStyleOptions={itemStyle}
-          fromNote
         />
         <MultiTypeNewItem 
           commonData={{

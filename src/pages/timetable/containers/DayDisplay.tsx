@@ -340,10 +340,9 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   doneText: {
-    fontFamily: 'InterMed',
+    fontFamily: 'Lexend',
     fontSize: 17,
     color: 'black',
-    fontWeight: 'bold'
   }
   
 });

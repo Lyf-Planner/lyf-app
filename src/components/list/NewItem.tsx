@@ -54,6 +54,7 @@ export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, whiteShadow = t
 
 const styles = StyleSheet.create({
   listNewItem: {
+    minHeight: 50,
     height: 50,
     backgroundColor: 'rgb(17 24 39)',
     fontFamily: 'Lexend',
