@@ -27,8 +27,6 @@ export default function App() {
   useEffect(() => {
     // Force the title to prevent Expo Router mucking around with route names
     document.title = 'Lyf'
-    // @ts-ignore Manually inject the icon - often doesn't show when deployed without this
-    document.head.appendChild(<link rel="icon" href="/assets/icon.png" />)
   })
 
   console.log("Starting with backend:", env.BACKEND_URL);
