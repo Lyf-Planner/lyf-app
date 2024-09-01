@@ -27,7 +27,7 @@ import Animated, {
   withSequence,
   withTiming
 } from 'react-native-reanimated';
-import { useEffect, useMemo, useState } from 'react';
+import { SyntheticEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { BouncyPressable } from '../../../components/pressables/BouncyPressable';
 import {
   LyfMenu,
@@ -172,20 +172,6 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
     }
   }, [canDelete]);
 
-  // Menu stuff
-
-  const buildMenuOptions = () => {
-    const menuOptions: PopoverMenuOption[] = [];
-
-    // Sort tasks if more than one
-    menuOptions.push({
-      text: '↕️ Sort Tasks',
-      onSelect: () => setSorting(true)
-    });
-
-    return menuOptions;
-  };
-
   const conditionalStyles = {
     dayRootView: {
       shadowOffset: shadowOffset ?? { width: 3, height: 3 },
@@ -195,32 +181,27 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
   return (
     <View>
       <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
-        <LyfMenu
-        // TODO: This sucks
-          name={(date ? date : day) + "-menu"} 
-          placement={MenuPopoverPlacement.Top}
-          options={buildMenuOptions()}
+        <BouncyPressable 
+          onPress={() => setSorting(true)}
         >
-          <BouncyPressable onPress={() => console.log('opening menu')} disabled>
-            <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
-              <WeatherWidget date={date || day || ''} />
-              <View style={styles.dayOfWeekPressable}>
-                <Text style={styles.dayOfWeekText}>
-                  {day || (date && dayFromDateString(date))}
-                </Text>
-                
-              </View>
-              <View style={styles.headerEnd}>
-                <Vertical style={styles.diagLines} />
-                {canDelete && <Vertical style={styles.diagLines} />}
+          <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
+            <WeatherWidget date={date || day || ''} />
+            <View style={styles.dayOfWeekPressable}>
+              <Text style={styles.dayOfWeekText}>
+                {day || (date && dayFromDateString(date))}
+              </Text>
+              
+            </View>
+            <View style={styles.headerEnd}>
+              <Vertical style={styles.diagLines} />
+              {canDelete && <Vertical style={styles.diagLines} />}
 
-                {date && (
-                  <Text style={styles.dayDateText}>{formatDate(date, true)}</Text>
-                )}
-              </View>
-            </Animated.View>
-          </BouncyPressable>
-        </LyfMenu>
+              {date && (
+                <Text style={styles.dayDateText}>{formatDate(date, true)}</Text>
+              )}
+            </View>
+          </Animated.View>
+        </BouncyPressable>
 
         <View style={styles.listWrapperView}>
           {sorting ? (

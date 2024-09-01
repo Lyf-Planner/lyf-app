@@ -2,14 +2,12 @@ import { Pressable, StyleSheet } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
 type Props = {
-  dragFunc: () => void;
   disabled: boolean;
   backgroundColor: string;
   iconColor: string;
 };
 
 export const SortingHandle = ({
-  dragFunc,
   disabled,
   backgroundColor,
   iconColor
@@ -23,8 +21,6 @@ export const SortingHandle = ({
   return (
     <Pressable
       disabled={disabled}
-      onPressIn={() => dragFunc()}
-      onLongPress={() => dragFunc()}
       style={[styles.sortableIndicator, conditionalStyles.sortableIndicator]}
     >
       <Feather name="menu" size={16} color={iconColor} />

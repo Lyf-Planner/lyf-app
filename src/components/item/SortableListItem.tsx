@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import {
   getItemPrimaryColor,
   getItemSecondaryColor
@@ -51,7 +51,12 @@ export const SortableListItem = ({
   };
 
   return (
-    <View style={[styles.listItem, conditionalStyles.listItem]}>
+    <Pressable 
+      style={[styles.listItem, conditionalStyles.listItem]}
+      disabled={!!item.time}
+      onPressIn={() => dragFunc()}
+      onLongPress={() => dragFunc()}
+    >
       <AnimatedCheck
         item={item}
         checkScale={checkScale}
@@ -72,13 +77,12 @@ export const SortableListItem = ({
       {item.collaborative && <CollaborativeIcon item={item} />}
       {!item.time &&
         <SortingHandle
-          dragFunc={dragFunc}
-          disabled={isActive}
+          disabled
           backgroundColor={secondaryColor}
           iconColor={conditionalStyles.sortHandleIconColor}
         />
       }
-    </View>
+    </Pressable>
   );
 };
 
