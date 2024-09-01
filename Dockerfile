@@ -24,7 +24,6 @@ RUN npx expo export --platform web
 # Start production image build
 FROM node:18-alpine
 
-COPY --from=build ./node_modules ./node_modules
 COPY --from=build ./dist ./dist
 
 EXPOSE 3000
