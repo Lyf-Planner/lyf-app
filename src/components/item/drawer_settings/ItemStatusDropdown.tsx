@@ -4,7 +4,7 @@ import {
   ITEM_STATUS_TO_COLOR,
   ItemStatus,
   statusTextDisplay
-} from '../constants';
+} from '../../item/constants';
 import { StyleSheet } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Entypo from 'react-native-vector-icons/Entypo';

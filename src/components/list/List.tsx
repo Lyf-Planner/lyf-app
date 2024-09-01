@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native';
-import { ItemStyleOptions, Item } from './item/Item';
+import { ItemStyleOptions, Item } from '../item/Item';
 import { LocalItem } from 'schema/items';
 
 type Props = {

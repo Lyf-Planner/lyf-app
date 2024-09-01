@@ -18,7 +18,7 @@ import {
   deleteMe,
   saveUser,
 } from 'rest/user';
-import { AppState } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import { Background } from 'components/general/Background';
 import { ExposedUser, User } from 'schema/user';
 
@@ -40,6 +40,13 @@ export const AuthGateway = ({ children }: Props) => {
   const [lastUpdated, setLastUpdated] = useState(new Date());
 
   // --- User Data --- //
+
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      // Force the title to prevent Expo Router mucking around with route names
+      document.title = 'Lyf'
+    }
+  })
 
   const updateUserInternal = useCallback(
     (changes: Partial<ExposedUser>) => {

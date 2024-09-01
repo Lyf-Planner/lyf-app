@@ -2,14 +2,14 @@ import { StyleSheet, View } from 'react-native';
 import {
   getItemPrimaryColor,
   getItemSecondaryColor
-} from '../constants';
-import { deepBlue, primaryGreen } from '../../../utils/colours';
+} from '../item/constants';
+import { deepBlue, primaryGreen } from '../../utils/colours';
 import { useMemo } from 'react';
 import { ItemStyleOptions } from './Item';
-import { AnimatedCheck } from '../../general/AnimatedCheck';
+import { AnimatedCheck } from '../general/AnimatedCheck';
 import { useSharedValue } from 'react-native-reanimated';
-import { ItemTitleFormatter } from '../../text/ItemTitleFormatter';
-import { SortingHandle } from '../../general/SortingHandle';
+import { ItemTitleFormatter } from '../text/ItemTitleFormatter';
+import { SortingHandle } from '../general/SortingHandle';
 import { CollaborativeIcon } from 'components/general/CollaborativeIcon';
 import { ItemStatus, ItemType } from 'schema/database/items';
 import { LocalItem } from 'schema/items';

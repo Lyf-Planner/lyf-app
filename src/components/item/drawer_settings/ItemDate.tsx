@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { NullableDatePicker } from '../../fields/NullableDatePicker';
 import { primaryGreen } from 'utils/colours';
-import { isTemplate } from '../constants';
+import { isTemplate } from '../../item/constants';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   LyfMenu,

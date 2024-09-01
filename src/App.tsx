@@ -1,4 +1,4 @@
-import { StatusBar } from 'react-native';
+import { Platform, StatusBar } from 'react-native';
 import { useFonts } from 'expo-font';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TouchableWithoutFeedback, Keyboard } from 'react-native';
@@ -23,11 +23,6 @@ export default function App() {
   }
 
   StatusBar.setBarStyle('dark-content');
-
-  useEffect(() => {
-    // Force the title to prevent Expo Router mucking around with route names
-    document.title = 'Lyf'
-  })
 
   console.log("Starting with backend:", env.BACKEND_URL);
 

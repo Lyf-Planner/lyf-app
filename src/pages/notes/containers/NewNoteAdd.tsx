@@ -14,7 +14,7 @@ import { useNotes } from 'providers/cloud/useNotes';
 import { deepBlue, white } from 'utils/colours';
 import { LyfElement } from 'utils/abstractTypes';
 import { BouncyPressable } from 'components/pressables/BouncyPressable';
-import { inProgressColor } from 'components/list/constants';
+import { inProgressColor } from 'components/item/constants';
 
 type Props = {
   newNote: (type: NoteType) => void;

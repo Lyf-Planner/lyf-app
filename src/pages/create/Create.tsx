@@ -1,6 +1,5 @@
 import { PageBackground } from "components/general/PageBackground"
-import { ItemDrawer } from "components/list/ItemDrawer"
-import { inProgressColor } from "components/list/constants"
+import { ItemDrawer } from "components/item/ItemDrawer"
 import { BouncyPressable } from "components/pressables/BouncyPressable"
 import { useTimetable } from "providers/cloud/useTimetable"
 import { useDrawer } from "providers/overlays/useDrawer"

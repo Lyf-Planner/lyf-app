@@ -1,4 +1,4 @@
-import { upcomingColor } from "components/list/constants";
+import { upcomingColor } from "components/item/constants";
 import { useAuth } from "providers/cloud/useAuth"
 import { StyleSheet, View, Text, Switch } from "react-native"
 

@@ -11,7 +11,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { ListDropdown } from 'components/dropdowns/ListDropdown';
 import { ItemType } from 'schema/database/items';
 import { v4 as uuid } from 'uuid';
-import { inProgressColor, isTemplate } from 'components/list/constants';
+import { inProgressColor, isTemplate } from 'components/item/constants';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useTimetable } from 'providers/cloud/useTimetable';
 import { PageLoader } from 'components/general/MiscComponents';

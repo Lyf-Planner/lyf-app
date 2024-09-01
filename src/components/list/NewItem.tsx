@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import { ItemType } from 'schema/database/items';
 import { eventsBadgeColor } from 'utils/colours';
-import { inProgressColor } from './constants';
+import { inProgressColor } from '../item/constants';
 
 export type AddItemByTitle = (title: string) => void;
 

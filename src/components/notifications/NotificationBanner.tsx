@@ -9,7 +9,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { deepBlueOpacity, eventsBadgeColor, eventsBadgeColorOpacity } from 'utils/colours';
 import { useNotifications } from 'providers/cloud/useNotifications';
 import { useNavigation } from '@react-navigation/native';
-import { ItemDrawer } from 'components/list/ItemDrawer';
+import { ItemDrawer } from 'components/item/ItemDrawer';
 import { useDrawer } from 'providers/overlays/useDrawer';
 import { RouteParams } from 'Routes';
 import { useModal } from 'providers/overlays/useModal';

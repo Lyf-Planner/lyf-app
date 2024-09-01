@@ -1,4 +1,4 @@
-import { inProgressColor } from "components/list/constants";
+import { inProgressColor } from "components/item/constants";
 import { LinearGradient } from "expo-linear-gradient"
 import { View, StyleSheet, Platform } from "react-native"
 import Entypo from "react-native-vector-icons/Entypo";

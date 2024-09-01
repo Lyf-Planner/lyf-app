@@ -3,9 +3,9 @@ import { useMemo } from 'react';
 import {
   getItemPrimaryColor,
   getItemSecondaryColor
-} from '../constants';
-import { Vertical } from '../../general/MiscComponents';
-import { deepBlue } from '../../../utils/colours';
+} from '../item/constants';
+import { Vertical } from '../general/MiscComponents';
+import { deepBlue } from '../../utils/colours';
 import Animated, {
   useAnimatedStyle,
   withTiming
@@ -14,9 +14,9 @@ import {
   ItemStyleOptions,
   ListItemAnimatedValues
 } from './Item';
-import { AnimatedCheck } from '../../general/AnimatedCheck';
-import { ItemTitleFormatter } from '../../text/ItemTitleFormatter';
-import { CollaborativeIcon } from '../../general/CollaborativeIcon';
+import { AnimatedCheck } from '../general/AnimatedCheck';
+import { ItemTitleFormatter } from '../text/ItemTitleFormatter';
+import { CollaborativeIcon } from '../general/CollaborativeIcon';
 import { ItemTimeFormatter } from 'components/text/ItemTimeFormatter';
 import { ItemType } from 'schema/database/items';
 import { LocalItem } from 'schema/items';

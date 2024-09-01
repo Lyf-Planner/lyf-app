@@ -5,9 +5,9 @@ import { ListItemGestureWrapper } from './ItemGestureWrapper';
 import { ListItemOverlay } from './ItemOverlay';
 import { useTimetable } from 'providers/cloud/useTimetable';
 import { LocalItem } from 'schema/items';
-import { ItemDrawer } from '../ItemDrawer';
+import { ItemDrawer } from '../item/ItemDrawer';
 import { useState } from 'react';
-import { NoteItemDrawer } from '../NoteItemDrawer';
+import { NoteItemDrawer } from '../item/NoteItemDrawer';
 
 export type ListItemAnimatedValues = {
   scale: SharedValue<number>;

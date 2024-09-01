@@ -10,7 +10,7 @@ import { formatDateData } from '../../../utils/dates';
 import { useNotifications } from 'providers/cloud/useNotifications';
 import { useModal } from 'providers/overlays/useModal';
 // import { AddFriendsModal } from './AddFriendsModal';
-import { isTemplate } from '../constants';
+import { isTemplate } from '../../item/constants';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { ItemDrawerProps } from '../ItemDrawer';

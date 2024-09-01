@@ -10,7 +10,7 @@ import {
   updateItem as updateRemoteItem,
   updateItemSocial as updateRemoteItemSocial
 } from 'rest/items';
-import { ItemStatus } from 'components/list/constants';
+import { ItemStatus } from 'components/item/constants';
 import { v4 as uuid } from 'uuid';
 import { addWeekToStringDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek } from 'utils/dates';
 import 'react-native-get-random-values';

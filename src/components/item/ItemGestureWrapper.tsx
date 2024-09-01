@@ -2,16 +2,16 @@ import Animated, {
   withTiming,
   useAnimatedStyle
 } from 'react-native-reanimated';
-import { ItemStatus } from '../constants';
+import { ItemStatus } from '../item/constants';
 import { Platform, StyleSheet, View } from 'react-native';
 import { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { sleep } from '../../../utils/misc';
+import { sleep } from '../../utils/misc';
 import {
   Directions,
   Gesture,
   GestureDetector
 } from 'react-native-gesture-handler';
-import { LyfElement } from '../../../utils/abstractTypes';
+import { LyfElement } from '../../utils/abstractTypes';
 import * as Haptics from 'expo-haptics';
 import { ListItemAnimatedValues } from './Item';
 import { RemoveItem, UpdateItem, useTimetable } from 'providers/cloud/useTimetable';

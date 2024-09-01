@@ -1,5 +1,5 @@
 import { Loader } from 'components/general/MiscComponents';
-import { ITEM_STATUS_TO_COLOR, ItemStatus } from '../constants';
+import { ITEM_STATUS_TO_COLOR, ItemStatus } from '../item/constants';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet, View } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';

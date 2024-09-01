@@ -17,7 +17,7 @@ import {
 import { UserFriend } from '../../schema/user';
 import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingBFFRequest, hasOutgoingRequest } from '../../schema/util/social';
 import { useFriends } from 'providers/cloud/useFriends';
-import { inProgressColor } from 'components/list/constants';
+import { inProgressColor } from 'components/item/constants';
 
 type Props = {
   friend: UserFriend,
