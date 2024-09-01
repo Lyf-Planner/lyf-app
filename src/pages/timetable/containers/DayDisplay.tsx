@@ -182,7 +182,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
     <View>
       <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
         <BouncyPressable 
-          onPress={() => setSorting(true)}
+          onPress={() => setSorting(!sorting)}
         >
           <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
             <WeatherWidget date={date || day || ''} />
