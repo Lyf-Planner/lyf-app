@@ -3,11 +3,11 @@ import { eventsBadgeColor, offWhite, primaryGreen, white } from '../../utils/col
 import { ItemDbObject, ItemType } from 'schema/database/items';
 
 export enum ItemStatus {
-  Cancelled = 'Cancelled',
   Tentative = 'Tentative',
   Upcoming = 'Upcoming',
   InProgress = 'In Progress',
   Done = 'Done',
+  Cancelled = 'Cancelled',
 }
 
 export const StatusOptions = Object.values(ItemStatus);
@@ -17,7 +17,7 @@ export const upcomingColor = 'rgb(235,235,235)';
 export const todoColor = 'rgb(226 232 240)';
 export const inProgressColor = 'rgb(56 189 248)';
 export const doneColor = primaryGreen;
-export const cancelledColor = 'rgb(252 165 165)';
+export const cancelledColor = primaryGreen;
 
 export const ITEM_STATUS_TO_COLOR = {
   // Values taken from the corresponding bg's in tailwind

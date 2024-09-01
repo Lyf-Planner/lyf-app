@@ -232,7 +232,7 @@ export const ListItemGestureWrapper = ({
       opacity: 
         item.status === ItemStatus.Cancelled || 
         item.status === ItemStatus.Tentative ||
-        invited ? 0.75 : 1
+        invited ? 0.7 : 1
     }
   };
 
