@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     height: 55,
+    maxHeight: 55,
     borderWidth: 1,
     gap: 4,
     alignItems: 'center'
