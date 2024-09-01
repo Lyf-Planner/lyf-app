@@ -8,6 +8,7 @@ import Routes from 'Routes';
 import { CloudProvider } from 'providers/cloud/cloudProvider';
 import { OverlayProvider } from 'providers/overlays/overlayProvider';
 import { RouteProvider } from 'providers/routes';
+import { useEffect } from 'react';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -22,6 +23,13 @@ export default function App() {
   }
 
   StatusBar.setBarStyle('dark-content');
+
+  useEffect(() => {
+    // Force the title to prevent Expo Router mucking around with route names
+    document.title = 'Lyf'
+    // @ts-ignore Manually inject the icon - often doesn't show when deployed without this
+    document.head.appendChild(<link rel="icon" href="/assets/icon.png" />)
+  })
 
   console.log("Starting with backend:", env.BACKEND_URL);
 

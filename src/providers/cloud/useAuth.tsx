@@ -41,10 +41,6 @@ export const AuthGateway = ({ children }: Props) => {
 
   // --- User Data --- //
 
-  useEffect(() => {
-    document.title = 'Lyf'
-  })
-
   const updateUserInternal = useCallback(
     (changes: Partial<ExposedUser>) => {
       let newUser;

@@ -13,6 +13,7 @@ COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 COPY src ./src
+COPY public ./public
 COPY assets ./assets
 COPY index.js ./index.js
 COPY tsconfig.json ./tsconfig.json
