@@ -16,6 +16,7 @@ import { NoteType } from "schema/database/notes"
 import { NavigationProp, useNavigation } from "@react-navigation/native"
 import { RouteParams } from "Routes"
 import { BottomTabNavigationProp, BottomTabScreenProps } from "@react-navigation/bottom-tabs"
+import { formatDateData } from "utils/dates"
 
 interface ButtonsLoading {
   event: boolean;
@@ -46,8 +47,9 @@ export const Create = (props: BottomTabScreenProps<RouteParams>) => {
       task: type === ItemType.Task
     });
 
-    const id = await addItem(type, 0, { title: `New ${type}` });
+    const id = await addItem(type, 0, { title: `New ${type}`, date: formatDateData(new Date()) });
 
+    navigation.jumpTo('Timetable');
     updateDrawer(<ItemDrawer id={id} isNew/>);
     setLoading(defaultLoadingState);
   }

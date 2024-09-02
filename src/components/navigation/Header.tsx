@@ -31,7 +31,7 @@ export function defaultTabHeader(label: string): BottomTabNavigationOptions  {
     headerLeft: () => (
       <Native.TouchableOpacity 
         style={headerStyles.tutorialContent}
-        onPress={() => Native.Platform.OS !== 'ios' ? null : updateTutorial(true)}
+        onPress={() => updateTutorial(true)}
       >
         <Image source={LyfIcon} style={headerStyles.icon} resizeMode="contain"/>
       </Native.TouchableOpacity>

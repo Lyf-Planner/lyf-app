@@ -12,6 +12,7 @@ import { Friends } from 'pages/friends/FriendsPage';
 import { Profile } from 'pages/profile/ProfilePage';
 import { Create } from 'pages/create/Create';
 import { ID } from 'schema/database/abstract';
+import { useTutorial } from 'providers/overlays/useTutorial';
 
 type RouteData = {
   label: keyof RouteParams;
@@ -57,12 +58,13 @@ export type RouteParams = {
 }
 
 export default function Routes() {
+  const { tutorialRoute } = useTutorial();
   const Tab = createBottomTabNavigator();
 
   return (
     <Tab.Navigator
       sceneContainerStyle={styles.aboveBackground}
-      initialRouteName={'Timetable'}
+      initialRouteName={tutorialRoute || 'Lyf'}
       id="BottomTab"
       backBehavior="none"
       tabBar={(props) => {

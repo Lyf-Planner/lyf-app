@@ -1,113 +1,168 @@
-import { View, Text, Image, StyleSheet, ListRenderItemInfo } from 'react-native';
-import { deepBlueOpacity, primaryGreen } from '../../utils/colours';
+import { View, Text, Image, StyleSheet, ListRenderItemInfo, Platform } from 'react-native';
+import { deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from '../../utils/colours';
 import { useTutorial } from 'providers/overlays/useTutorial';
 import { SaveTooltip } from '../../components/general/Icons';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Background } from 'components/general/Background';
-
-const SLIDE_1_IMAGE = require('../../../assets/images/tutorial/slide1.png');
-const SLIDE_2_IMAGE = require('../../../assets/images/tutorial/slide2.png');
-const SLIDE_3_IMAGE = require('../../../assets/images/tutorial/slide3.png');
-const SLIDE_4_IMAGE = require('../../../assets/images/tutorial/slide4.png');
-const SLIDE_5_IMAGE = require('../../../assets/images/tutorial/slide5.png');
-const SLIDE_6_IMAGE = require('../../../assets/images/tutorial/slide6.png');
+import { PageBackground } from 'components/general/PageBackground';
+import { ScrollView } from 'react-native-gesture-handler';
+import { BouncyPressable } from 'components/pressables/BouncyPressable';
+import { TipsDropdown } from 'components/dropdowns/TipsDropdown';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { RouteParams } from 'Routes';
 
 export const TutorialOverlay = () => {
-  const { updateTutorial } = useTutorial();
+  const { updateTutorial, updateTutorialRoute } = useTutorial();
 
   return (
-    <Background>
-      <View style={{ flex: 1, padding: 20 }}>
-        <AppIntroSlider
-          data={slides}
-          renderItem={IntroSlideItem}
-          showSkipButton
-          renderSkipButton={() => <NavigationButton text="Skip" />}
-          renderNextButton={() => <NavigationButton text="Next" />}
-          renderDoneButton={() => <NavigationButton text="Done" />}
-          onSkip={() => updateTutorial(false)}
-          onDone={() => updateTutorial(false)}
-        />
-      </View>
-    </Background>
-  );
-};
+    <PageBackground locations={[0, 0.9, 1]} noPadding bottomAdjustment={false}>
+      <ScrollView style={styles.scroll}>
+        <View style={styles.main}>
+          <View style={styles.titleWrapper}>
+            <SaveTooltip size={24} />
+            <Text style={styles.title}>Welcome To Lyf</Text>
+          </View>
 
-type IntoSlideItemProps = {
-  item: Slide 
-}
-
-export const IntroSlideItem = ({ item }: IntoSlideItemProps) => {
-  return (
-    <View style={styles.main}>
-      <View style={styles.titleWrapper}>
-        <SaveTooltip size={24} />
-        <Text style={styles.title}>{item.title}</Text>
-      </View>
-      <View style={styles.textWrapper}>
-        <Text style={styles.topText}>{item.topText}</Text>
-      </View>
-      {!item.noImage && (
-        <View style={styles.imageWrapper}>
-          <Image
-            source={item.image}
-            alt="example"
-            style={styles.image}
-            resizeMode="contain"
+          <BouncyPressable 
+            onPress={() => null}
+            style={styles.doneButton}
+            withShadow
+          >
+            <Text style={styles.doneText}>Instructions are provided below. Access these anytime by pressing the leaf icon!</Text>
+          </BouncyPressable>
+          <TipsDropdown 
+            icon={<MaterialCommunityIcons name='calendar' size={26} color={eventsBadgeColor}/>}
+            navigate={() => {
+              updateTutorialRoute('Timetable')
+              updateTutorial(false); 
+            }}
+            name="Timetable Basics" 
+            tips={[
+              'The Lyf timetable is a blend of a calendar and to-do list, with a primary focus on the week at hand.',
+              'Events are items you need to attend to in your day, most likely at a set time.',
+              'Tasks are things you can do any time in the day! No need to micromanage.',
+              "You'll also notice a Routine section - any event or task here will recur each week.",
+              "If you want to plan something but can't find a date for it, chuck it in your Upcoming Events or To Do List :)"
+            ]}
           />
-        </View>
-      )}
-      <View style={styles.textWrapper}>
-        <Text style={styles.bottomText}>{item.bottomText}</Text>
-      </View>
-      {item.thirdText && (
-        <View style={styles.textWrapper}>
-          <Text style={styles.bottomText}>{item.thirdText}</Text>
-        </View>
-      )}
-    </View>
-  );
-};
+          <TipsDropdown 
+            icon={<MaterialIcons name='add-task' size={25} color={eventsBadgeColor} />}
+            navigate={() => {
+              updateTutorialRoute('Timetable')
+              updateTutorial(false); 
+            }}
+            name="Timetable Usage" 
+            tips={[
+              'To add something to your timetable, enter it in the relevant day.',
+              'You can also add Events or Tasks from the Creation Menu (big + button).',
+              'To mark an item as Done, just press it. Hold down only if you want to delete it.',
+              'To add more details or invite friends, swipe it left!',
+              'To mark it as "In Progress", swipe it right.',
+              'You can also add a "?" to any title, and it will mark it as Tentative.',
+            ]}
+          />
+          <TipsDropdown 
+            icon={<Entypo name='list' size={25} color={eventsBadgeColor} />}
+            navigate={() => {
+              updateTutorialRoute('Notes');
+              updateTutorial(false); 
+            }}
+            name="Using Notes" 
+            tips={[
+              'Notes are useful for jotting down ideas and keeping lists of things.',
+              'In the Notes page, you can create a Note or a List.',
+              'A List is similar to the list of tasks/events you see in your Calendar, but can be for anything!',
+              'A note is just a blank piece of text for whatever your heart desires.',
+              'These can also be created from the Creation Page.'
+            ]}
+          />
+          <TipsDropdown 
+            icon={<FontAwesome5 name="user-friends" size={22} color={eventsBadgeColor} />}
+            navigate={() => {
+              updateTutorialRoute('Friends')
+              updateTutorial(false); 
+            }}
+            name="Adding Friends" 
+            tips={[
+              'Navigate to the Friends page to add your friends on Lyf.',
+              'Ask your friends for their usernames and search for them - your username is found at the top of your Profile page.',
+              'Once Friends, you can invite other users to your Events and Tasks.',
+              'Pressing on a user will show their profile, and show you their friends which you can add too!'
+            ]}
+          />
+          <TipsDropdown 
+            icon={<FontAwesome5 name="user-alt" size={22} color={eventsBadgeColor} />}
+            navigate={() => {
+              updateTutorialRoute('Profile')
+              updateTutorial(false); 
+            }}
+            name="Your Profile" 
+            tips={[
+              'In your Profile you can configure various preferences:',
+              'Display Name - how your name is presented to other users',
+              'Privacy Settings - use the app completely hidden from all other users',
+              'Daily Reminders - get reminded each day at a specific time about your schedule',
+              'Event Reminders - automatic reminders some amount of minutes before every Event.',
+              'Weather Data - location based weather data to be included in your Calendar',
+              'Danger Zone - account and data deletion options'
+            ]}
+          />
 
-const NavigationButton = ({ text }: { text: string }) => {
-  return (
-    <View style={styles.navButtonMain}>
-      <Text style={styles.navButtonText}>{text}</Text>
-    </View>
+          <BouncyPressable 
+            onPress={() => updateTutorial(false)}
+            style={styles.doneButton}
+            withShadow
+          >
+            <Text style={styles.doneText}>Get Started!</Text>
+          </BouncyPressable>
+        </View>
+      </ScrollView>
+    </PageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   main: {
     height: '100%',
-    paddingHorizontal: 30,
-    paddingVertical: 80,
+    flex: 1,
+    paddingTop: 100,
+    paddingHorizontal: 20,
     flexDirection: 'column',
     gap: 12,
-    alignItems: 'center'
+  },
+  scroll: { 
+    flex: 1, 
+    alignSelf: 'center',
+    maxWidth: 500,
+    width: '100%',
+    height: '100%', 
+    overflow: 'visible',
+    paddingBottom: Platform.OS === 'web' ? 100 : 0,
+    marginBottom: Platform.OS === 'web' ? 0 : 100,
   },
   title: {
     color: primaryGreen,
-    fontFamily: 'InterSemi',
-    fontSize: 30
+    fontFamily: 'Lexend',
+    fontSize: 24
   },
   topText: {
-    color: 'white',
-    fontFamily: 'InterMed',
-    fontSize: 18
-  },
-  bottomText: {
-    color: 'white',
-    fontFamily: 'InterMed',
+    color: primaryGreen,
+    fontFamily: 'Lexend',
     fontSize: 18
   },
   textWrapper: {
-    backgroundColor: deepBlueOpacity(0.9),
+    backgroundColor: white,
     padding: 8,
     borderRadius: 10
   },
   titleWrapper: {
     backgroundColor: 'white',
+    justifyContent: 'center',
     alignItems: 'center',
     gap: 8,
     flexDirection: 'row',
@@ -115,107 +170,16 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 10
   },
-  navButtonMain: {
-    backgroundColor: 'white',
-    padding: 12,
+  doneButton: {
+    backgroundColor: primaryGreen,
     borderRadius: 10,
-    borderColor: 'white',
-    borderWidth: 1
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
-  navButtonText: {
-    fontSize: 22,
-    color: primaryGreen,
-    fontWeight: '600'
-  },
-  image: {
-    borderColor: 'black',
-    borderRadius: 50,
-    width: '100%',
-    height: undefined,
-    aspectRatio: 0.9
-  },
-  imageWrapper: {
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 10,
-    borderRadius: 10
+  doneText: {
+    fontFamily: 'Lexend',
+    fontSize: 16,
+    color: white
   }
 });
-
-type Slide = {
-  key: number,
-  title: string,
-  image?: any,
-  noImage?: boolean,
-  topText: string,
-  bottomText: string,
-  thirdText?: string
-}
-
-const slides: Slide[] = [
-  {
-    key: 1,
-    title: 'Welcome to Lyf!',
-    image: SLIDE_1_IMAGE,
-    topText:
-      'Lyf is the only tool you need to plan and organise everything',
-    bottomText:
-      'The all-in-one notebook for every event or task on your radar',
-    thirdText: 'Say goodbye to Notes and Calendars!'
-  },
-  {
-    key: 2,
-    title: 'Getting Started',
-    image: SLIDE_2_IMAGE,
-    topText:
-      'To create an event or task, type it into the relevant day and press done',
-    bottomText: "If you can't find a day for it, that's fine!",
-    thirdText:
-      'Put it in Upcoming Events or To Do List - you can add a date later'
-  },
-  {
-    key: 3,
-    title: 'Routines',
-    image: SLIDE_3_IMAGE,
-    topText: 'Entering things you do every week can get tedious…',
-    bottomText: "Lyf optimises this with it's Routine!",
-    thirdText:
-      'Items in your Routine are be copied into your timetable every week'
-  },
-  {
-    key: 4,
-    title: 'Adding Details',
-    image: SLIDE_4_IMAGE,
-    topText: 'To add information or details to an item, simply swipe it left',
-    bottomText:
-      'Here you can set dates, times, reminders, status and descriptions',
-    thirdText: 'Of course, you can also invite friends!'
-  },
-  {
-    key: 5,
-    title: 'Completing Tasks',
-    image: SLIDE_5_IMAGE,
-    topText:
-      'When you finish an item, simply tap on it, and it will be marked as Done :)',
-    bottomText:
-      'If you want to get more granular with your planning and mark an item as “In Progress”, simply swipe it right'
-  },
-  {
-    key: 6,
-    title: 'Completing Days',
-    image: SLIDE_6_IMAGE,
-    topText:
-      'Once the day is completed, you can hold it down to move on to the next',
-    bottomText:
-      "To move back a day, hold down the section containing the week's date range!"
-  },
-  {
-    key: 7,
-    title: 'All Done!',
-    noImage: true,
-    topText:
-      'To access this Tutorial again, just press the question mark at the top of the page',
-    bottomText: 'Enjoy!'
-  }
-];

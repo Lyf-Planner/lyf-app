@@ -9,20 +9,26 @@ type Props = {
   children: LyfElement;
   locations?: number[]
   sunRight?: boolean;
-  accountForHeader?: boolean;
   noPadding?: boolean;
+  bottomAdjustment?: boolean
 }
 
-export const PageBackground = ({ children, locations, sunRight = false, accountForHeader = false, noPadding = false }: Props) => {
+export const PageBackground = ({ 
+  children, 
+  locations, 
+  sunRight = false, 
+  noPadding = false,
+  bottomAdjustment = true
+}: Props) => {
   const gradientColors = [eventsBadgeColor, inProgressColor, 'blue'];
 
   const conditionalStyles = {
     main: {
-      paddingHorizontal: accountForHeader || noPadding ? 0 : 14,
-      flex: 1
+      paddingHorizontal: noPadding ? 0 : 14,
+      paddingBottom: Platform.OS === 'ios' && bottomAdjustment ? 200 : 0,
     },
     sun: {
-      top: -75 + (accountForHeader ? 65 : 0),
+      top: -75,
       left: sunRight ? undefined : -75,
       right: sunRight ? -75 : undefined,
     },
@@ -52,8 +58,8 @@ export const PageBackground = ({ children, locations, sunRight = false, accountF
 const styles = StyleSheet.create({
   main: {
     minHeight: '100%',
-    paddingBottom: Platform.OS !== 'ios' ? 0 : 125,
-    overflow: 'visible'
+    overflow: 'visible',
+    flex: 1,
   },
   sun: {
     position: 'absolute',
