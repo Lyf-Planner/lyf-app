@@ -226,7 +226,7 @@ const styles = Native.StyleSheet.create({
     gap: 14,
     maxWidth: 450,
     width: '100%',
-    paddingBottom: 150,
+    marginBottom: 250,
   },
 
   webCalendar: {

@@ -26,44 +26,45 @@ export const Profile = (props: BottomTabScreenProps<RouteParams>) => {
       </View>
       <PageBackground noPadding>
         <ScrollView style={styles.main}>
-          <View style={styles.mainColumn}>
-            <View style={styles.content}>
-              <AccountInfo />
-            </View>
-              
-            <SettingDropdown
-              name="Notification Settings"
-              icon={<MaterialIcons name="notifications-active" size={22} />}
-            >
-              <NotificationSettings />
-            </SettingDropdown>
-            <SettingDropdown
-              name="Privacy Settings"
-              icon={<FontAwesome5 name="lock" size={20} />}
-            >
-              <PrivacySettings />
-            </SettingDropdown>
-            <SettingDropdown
-              name="Weather Settings"
-              icon={
-                <Image source={weatherIcon} style={styles.weatherIcon} resizeMode="contain" />
-              }
-            >
-              <WeatherSettings />
-            </SettingDropdown>
-            <SettingDropdown
-              name="Danger Zone"
-              icon={<AntDesign name="warning" size={20} />}
-            >
-              <View style={styles.deleteWrapper}>
-                <DeleteButton />
+          <View style={styles.scrollContainer}>
+            <View style={styles.mainColumn}>
+              <View style={styles.content}>
+                <AccountInfo />
               </View>
-            </SettingDropdown>
+                
+              <SettingDropdown
+                name="Notification Settings"
+                icon={<MaterialIcons name="notifications-active" size={22} />}
+              >
+                <NotificationSettings />
+              </SettingDropdown>
+              <SettingDropdown
+                name="Privacy Settings"
+                icon={<FontAwesome5 name="lock" size={20} />}
+              >
+                <PrivacySettings />
+              </SettingDropdown>
+              <SettingDropdown
+                name="Weather Settings"
+                icon={
+                  <Image source={weatherIcon} style={styles.weatherIcon} resizeMode="contain" />
+                }
+              >
+                <WeatherSettings />
+              </SettingDropdown>
+              <SettingDropdown
+                name="Danger Zone"
+                icon={<AntDesign name="warning" size={20} />}
+              >
+                <View style={styles.deleteWrapper}>
+                  <DeleteButton />
+                </View>
+              </SettingDropdown>
+            </View>
+            <View style={styles.buttons}>
+              <LogoutButton />
+            </View>
           </View>
-          <View style={styles.buttons}>
-            <LogoutButton />
-          </View>
-
         </ScrollView>
       </PageBackground>
     </View>
@@ -76,6 +77,12 @@ const styles = StyleSheet.create({
     minHeight: 500,
     paddingBottom: 100
   },
+  scrollContainer: {
+    flexDirection: "column",
+    width: '100%',
+    marginBottom: 200,
+  },
+
   header: {
     zIndex: 50,
     flexDirection: 'row',

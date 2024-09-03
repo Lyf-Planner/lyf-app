@@ -11,7 +11,6 @@ export const ItemTitleFormatter = ({ item, textColor }: Props) => {
   const conditionalStyles = {
     listItemText: {
       color: textColor,
-      fontWeight: item.type === ItemType.Event ? '300' : '200' as "300" | "200" // Idk throws an error without this
     }
   };
 
@@ -33,7 +32,7 @@ export const ItemTitleFormatter = ({ item, textColor }: Props) => {
 
 const styles = StyleSheet.create({
   listItemText: {
-    fontSize: 18,
+    fontSize: 17,
     fontFamily: "Lexend",
     padding: 2,
     flex: 1

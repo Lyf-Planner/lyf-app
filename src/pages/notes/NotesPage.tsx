@@ -46,25 +46,27 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
 
         <PageBackground noPadding>
           <ScrollView style={styles.noteBannersContainer}>
-            {!loading &&
-              <View style={styles.noteRowWrapper}>
-                {notes.length > 0 &&
-                  notes.map((x) => (
-                    <NoteRow
-                      note={x}
-                      onSelect={() => setSelectedId(x.id)}
-                      key={x.id}
-                    />
-                  ))
-                } 
+            <View style={styles.scrollContainer}>
+              {!loading &&
+                <View style={styles.noteRowWrapper}>
+                  {notes.length > 0 &&
+                    notes.map((x) => (
+                      <NoteRow
+                        note={x}
+                        onSelect={() => setSelectedId(x.id)}
+                        key={x.id}
+                      />
+                    ))
+                  } 
 
-                {notes.length === 0 &&
-                  <Text style={styles.noNotesText}>No notes created yet :)</Text>
-                }
-              </View>
-            }
+                  {notes.length === 0 &&
+                    <Text style={styles.noNotesText}>No notes created yet :)</Text>
+                  }
+                </View>
+              }
 
-            {loading && <PageLoader />}
+              {loading && <PageLoader />}
+            </View>
           </ScrollView>
         </PageBackground>
       </View>
@@ -76,6 +78,13 @@ const styles = StyleSheet.create({
   main: {
     backgroundColor: "#EEE",
     flex: 1,
+  },
+  scrollContainer: {
+    alignSelf: 'center',
+    flexDirection: "column",
+    maxWidth: 450,
+    width: '100%',
+    marginBottom: 300,
   },
   myNotesHeader: {
     zIndex: 50,
@@ -105,7 +114,6 @@ const styles = StyleSheet.create({
 
   noteBannersContainer: {
     minHeight: 100,
-    paddingBottom: 100,
   },
   noteRowWrapper: {
     flexDirection: 'column',

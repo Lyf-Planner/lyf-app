@@ -13,7 +13,7 @@ export const Routine = () => {
 
   return (
     <PageBackground sunRight locations={[0,0.82,1]}>
-      <KeyboardAwareScrollView style={styles.scroll}>
+      <KeyboardAwareScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Native.View style={styles.scrollContainer}>
           <Native.View style={styles.header}>
             <Native.Text style={styles.weekDateText}>Every Week</Native.Text>
@@ -69,6 +69,7 @@ const styles = Native.StyleSheet.create({
     flexDirection: "column",
     maxWidth: 450,
     width: '100%',
+    marginBottom: 200,
   },
 
   header: {
