@@ -13,7 +13,7 @@ import { NoteTypeBadge } from './NoteTypeBadge';
 import { useNotes } from 'providers/cloud/useNotes';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { UserRelatedNote } from 'schema/user';
-import { deepBlueOpacity, white } from 'utils/colours';
+import { deepBlueOpacity, eventsBadgeColor, white } from 'utils/colours';
 import { BouncyPressable } from 'components/pressables/BouncyPressable';
 import { SyntheticEvent, useEffect, useRef } from 'react';
 
@@ -101,10 +101,10 @@ const styles = StyleSheet.create({
     maxWidth: 500,
     flexDirection: 'row',
     alignItems: 'center',
-    height: 65,
+    height: 60,
     borderTopWidth: 1,
     borderRadius: 10,
-    backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.8),
+    backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.7),
     borderColor: 'rgba(0,0,0,0.3)',
 
     shadowColor: 'black',
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 20,
     maxWidth: '75%',
-    color: white,
+    color: eventsBadgeColor,
     fontWeight: '400',
     fontFamily: 'Lexend',
     overflow: 'hidden',

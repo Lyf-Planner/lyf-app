@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'rgba(0, 0, 0, 0.3)',
 
-    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.8),
+    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.7),
 
     shadowColor: 'black',
     shadowOpacity: 0.75,

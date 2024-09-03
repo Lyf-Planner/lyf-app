@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     gap: 4,
 
     shadowColor: 'black',
-    shadowOpacity: 1,
+    shadowOpacity: 0.75,
     shadowRadius: 2
   },
   dayHeaderView: {

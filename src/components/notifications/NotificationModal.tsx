@@ -8,10 +8,23 @@ import { NotificationBanner } from './NotificationBanner';
 import { Horizontal } from 'components/general/MiscComponents';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useMemo } from 'react';
+import { DateString } from 'schema/util/dates';
+
+
+
+type NotificationBlock = DateString[];
+type NotificationBlocks = NotificationBlock[];
 
 
 export const NotificationModal = () => {
   const { notifications } = useNotifications();
+  const notificationsByDay = useMemo(() => {
+    const notificationsByDate = notifications.sort((a, b) => (
+      new Date(a.created).getTime() - new Date(b.created).getTime()
+    ));
+
+      return notificationsByDate
+  }, [notifications])
   const { updateModal } = useModal();
 
   const allSeen = useMemo(() => notifications.every((x) => x.seen), notifications);

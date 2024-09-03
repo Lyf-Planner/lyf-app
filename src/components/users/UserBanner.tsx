@@ -40,7 +40,7 @@ export const UserBanner = ({
       style={styles.main}
       onPress={() => updateModal(<UserModal user_id={user.id} key={user.id} />)}
     >
-      <FontAwesome name="user" size={32} style={{ width: 32, height: 32 }} color={eventsBadgeColor} />
+      <FontAwesome name="user" size={30} style={{ width: 32, height: 32, alignSelf: 'center' }} color={eventsBadgeColor} />
       <View style={styles.nameRow}>
         {userHasDisplayName &&
           <Text
@@ -86,17 +86,18 @@ const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'stretch',
     alignItems: 'center',
-    height: 75,
-    gap: 4,
-    padding: 16,
+    height: 65,
+    paddingVertical: 16,
+    paddingLeft: 12,
+    paddingRight: 8,
     borderRadius: 10,
     borderWidth: 0.5,
-    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.8),
+    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.7),
     borderColor: 'rgba(0,0,0,0.3)',
 
     shadowColor: 'black',
     shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 0.75,
+    shadowOpacity: 0.5,
     shadowRadius: 2
   },
   nameRow: { 

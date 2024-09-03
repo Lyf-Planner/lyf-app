@@ -49,9 +49,9 @@ export const ActionButton = ({
 
 const styles = StyleSheet.create({
   actionButtonMain: {
-    minHeight: 45,
+    minHeight: 40,
     alignSelf: 'center',
-    padding: 8,
+    padding: 4,
     width: '100%',
     height: '100%',
     flexDirection: 'row',

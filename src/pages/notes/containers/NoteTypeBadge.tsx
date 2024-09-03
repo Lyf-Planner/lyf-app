@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 25,
     backgroundColor: eventsBadgeColor,
-    width: 40,
-    height: 40
+    width: 35,
+    height: 35
   },
   text: {
     fontSize: 18,

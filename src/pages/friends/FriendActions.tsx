@@ -143,7 +143,7 @@ export const Requested = ({ friend, callback, height }: Props) => {
       name={`requested-menu-${friend.id}`}
     >
       <ActionButton
-        title="Requested"
+        title="Pending"
         func={() => {}}
         color={eventsBadgeColor}
         textColor={black}
