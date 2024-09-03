@@ -9,7 +9,7 @@ type Props = {
 }
 
 type TutorialHooks = {
-  tutorialRoute: keyof RouteParams;
+  tutorialRoute: keyof RouteParams | undefined;
   updateTutorial: (show: boolean) => void;
   updateTutorialRoute: (route: keyof RouteParams) => void;
 }
@@ -17,7 +17,7 @@ type TutorialHooks = {
 // Component provider
 export const TutorialProvider = ({ children }: Props) => {  
   const [tutorial, updateTutorial] = useState(false);
-  const [tutorialRoute, updateTutorialRoute] = useState<keyof RouteParams>('Lyf');
+  const [tutorialRoute, updateTutorialRoute] = useState<keyof RouteParams>();
 
   const exposed = {
     tutorialRoute,

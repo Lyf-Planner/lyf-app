@@ -64,7 +64,7 @@ export default function Routes() {
   return (
     <Tab.Navigator
       sceneContainerStyle={styles.aboveBackground}
-      initialRouteName={tutorialRoute || 'Lyf'}
+      initialRouteName={tutorialRoute || 'Timetable'}
       id="BottomTab"
       backBehavior="none"
       tabBar={(props) => {

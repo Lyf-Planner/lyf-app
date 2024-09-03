@@ -127,14 +127,12 @@ export const Calendar = () => {
                 name="Upcoming Events"
                 icon={<Entypo name="calendar" color={eventsBadgeColor} size={22} />}
                 listType={ItemType.Event}
-                startOpen
               />
               <ListDropdown
                 items={toDoList}
                 name="To Do List"
                 icon={<Entypo name="list" color={eventsBadgeColor} size={22} />}
                 listType={ItemType.Task}
-                startOpen
               />
             </Native.View>
           </Native.View>
@@ -145,7 +143,11 @@ export const Calendar = () => {
 
   return (
     <PageBackground locations={[0,0.82,1]}>
-      <KeyboardAwareScrollView enableResetScrollToCoords={false} style={styles.scroll}>
+      <KeyboardAwareScrollView 
+        enableResetScrollToCoords={false} 
+        style={styles.scroll} 
+        showsVerticalScrollIndicator={false}
+      >
         <Native.View style={styles.scrollContainer}>
           <Native.View style={styles.dropdowns}>
             <ListDropdown
@@ -203,7 +205,7 @@ const styles = Native.StyleSheet.create({
     overflow: 'visible',
     flex: 1,
     paddingTop: 18,
-    paddingBottom: 100
+    paddingBottom: 150,
   },
 
   main: {
@@ -224,6 +226,7 @@ const styles = Native.StyleSheet.create({
     gap: 14,
     maxWidth: 450,
     width: '100%',
+    paddingBottom: 150,
   },
 
   webCalendar: {

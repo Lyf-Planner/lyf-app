@@ -10,7 +10,6 @@ type Props = {
   locations?: number[]
   sunRight?: boolean;
   noPadding?: boolean;
-  bottomAdjustment?: boolean
 }
 
 export const PageBackground = ({ 
@@ -18,14 +17,12 @@ export const PageBackground = ({
   locations, 
   sunRight = false, 
   noPadding = false,
-  bottomAdjustment = true
 }: Props) => {
   const gradientColors = [eventsBadgeColor, inProgressColor, 'blue'];
 
   const conditionalStyles = {
     main: {
       paddingHorizontal: noPadding ? 0 : 14,
-      paddingBottom: Platform.OS === 'ios' && bottomAdjustment ? 200 : 0,
     },
     sun: {
       top: -75,
@@ -47,7 +44,7 @@ export const PageBackground = ({
         style={[styles.main, conditionalStyles.main]}
       >
         <View style={[styles.sun, conditionalStyles.sun]} />
-        {Platform.OS !== 'ios' &&
+        {Platform.OS === 'web' &&
           <Entypo name="cloud" style={[styles.webCloud, conditionalStyles.webCloud]} size={100} color={white} />
         }
         {children}

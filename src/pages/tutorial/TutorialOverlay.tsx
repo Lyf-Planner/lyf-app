@@ -20,7 +20,7 @@ export const TutorialOverlay = () => {
   const { updateTutorial, updateTutorialRoute } = useTutorial();
 
   return (
-    <PageBackground locations={[0, 0.9, 1]} noPadding bottomAdjustment={false}>
+    <PageBackground locations={[0, 0.9, 1]} noPadding>
       <ScrollView style={styles.scroll}>
         <View style={styles.main}>
           <View style={styles.titleWrapper}>
