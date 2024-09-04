@@ -28,8 +28,8 @@ export const Friends = (props: BottomTabScreenProps<RouteParams>) => {
         setSearchedUser={setSearchedUser}
       />
 
-    <PageBackground>
-      <ScrollView style={styles.pageContent} showsVerticalScrollIndicator={Platform.OS === 'web'}>
+    <PageBackground noPadding>
+      <ScrollView style={styles.pageContent}>
         <View style={styles.scrollContainer}>
           {searched && 
             <Text style={styles.notFoundText}>
@@ -82,14 +82,13 @@ const styles = StyleSheet.create({
     maxWidth: 450,
     width: '100%',
     marginBottom: 300,
+    padding: 20,
   },
 
   pageContent: {
-    paddingVertical: 6,
     flexDirection: 'column',
     gap: 8,
     overflow: 'visible',
-    paddingTop: 16,
   },
   foundUserWrapper: { 
     marginBottom: 10,

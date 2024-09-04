@@ -32,7 +32,7 @@ export const ItemTitleFormatter = ({ item, textColor }: Props) => {
 
 const styles = StyleSheet.create({
   listItemText: {
-    fontSize: 17,
+    fontSize: 16,
     fontFamily: "Lexend",
     padding: 2,
     flex: 1

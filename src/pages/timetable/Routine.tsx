@@ -12,7 +12,7 @@ export const Routine = () => {
   const { loading, items } = useTimetable();
 
   return (
-    <PageBackground sunRight locations={[0,0.82,1]}>
+    <PageBackground sunRight locations={[0,0.82,1]} noPadding>
       <KeyboardAwareScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Native.View style={styles.scrollContainer}>
           <Native.View style={styles.header}>
@@ -60,7 +60,6 @@ const styles = Native.StyleSheet.create({
 
   scroll: {
     overflow: 'visible',
-    paddingTop: 20,
     paddingBottom: 100
   },
 
@@ -70,6 +69,7 @@ const styles = Native.StyleSheet.create({
     maxWidth: 450,
     width: '100%',
     marginBottom: 200,
+    padding: 20,
   },
 
   header: {

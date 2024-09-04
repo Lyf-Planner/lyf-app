@@ -142,11 +142,11 @@ export const Calendar = () => {
   }
 
   return (
-    <PageBackground locations={[0,0.82,1]}>
+    <PageBackground locations={[0,0.82,1]} noPadding>
       <KeyboardAwareScrollView 
         enableResetScrollToCoords={false} 
         style={styles.scroll} 
-        showsVerticalScrollIndicator={false}
+        extraScrollHeight={50}
       >
         <Native.View style={styles.scrollContainer}>
           <Native.View style={styles.dropdowns}>
@@ -203,15 +203,9 @@ export const Calendar = () => {
 const styles = Native.StyleSheet.create({
   scroll: {
     overflow: 'visible',
+    width: '100%',
     flex: 1,
-    paddingTop: 18,
     paddingBottom: 150,
-  },
-
-  main: {
-    minHeight: '100%',
-    paddingHorizontal: 14,
-    paddingTop: 15,
   },
 
   webContainer: {
@@ -224,6 +218,7 @@ const styles = Native.StyleSheet.create({
     alignSelf: 'center',
     flexDirection: "column",
     gap: 14,
+    padding: 20,
     maxWidth: 450,
     width: '100%',
     marginBottom: 250,
