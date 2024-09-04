@@ -54,12 +54,14 @@ export const UserFriendsList = ({ friends, open, setOpen, maxHeight }: Props) =>
       </BouncyPressable>
 
       {open && (
-        <ScrollView style={styles.userListContainer} >
-          <UserList 
-            users={friends}
-            emptyText='' 
-            context={UserListContext.Friends}
-          />
+        <ScrollView style={styles.userListContainer} showsVerticalScrollIndicator={false}>
+          <View style={styles.friendsListPadding}>
+            <UserList 
+              users={friends}
+              emptyText='' 
+              context={UserListContext.Friends}
+            />
+          </View>
         </ScrollView>
       )}
     </View>
@@ -98,4 +100,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     paddingHorizontal: 6,
   },
+  friendsListPadding: {
+    paddingBottom: 10
+  }
 })

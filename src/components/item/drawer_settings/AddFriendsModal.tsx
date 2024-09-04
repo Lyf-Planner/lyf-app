@@ -79,9 +79,17 @@ export const AddFriendsModal = ({ item_id }: Props) => {
       )}
 
       {!loading && (
-        <ScrollView style={styles.userScroll} contentContainerStyle={styles.scrollContainer}>
+        <ScrollView 
+          style={styles.userScroll} 
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
           <UserList 
-            users={friendsOnItem} 
+            users={friendsOnItem.filter((x) => 
+              !filter || 
+              (x.display_name && x.display_name.includes(filter)) ||
+              (x.id.includes(filter))
+            )} 
             emptyText={'No friends added yet'}
             context={UserListContext.Item} 
             item={item}
@@ -99,7 +107,7 @@ const styles = StyleSheet.create({
     maxHeight: 500,
     height: Platform.OS === 'web' ? 450 : 'auto',
     backgroundColor: 'white',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     marginHorizontal: 20,
     paddingTop: 30,
     paddingBottom: Platform.OS === 'web' ? 30 : 0,
@@ -139,13 +147,14 @@ const styles = StyleSheet.create({
     borderWidth: 2
   },
   userScroll: {
-    marginTop: 8,
     maxHeight: 350, 
-    overflow: 'visible',
+    overflow: 'hidden',
+    paddingHorizontal: 10
   },
   scrollContainer: {
     flexDirection: 'column',
     alignItems: 'center',
+    paddingBottom: 10
   },
   title: { fontSize: 22, fontWeight: '700', fontFamily: 'Lexend' },
   subtitle: {

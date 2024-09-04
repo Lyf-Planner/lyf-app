@@ -26,14 +26,7 @@ export const ItemUsers = ({ item, loading, closeDrawer }: Props) => {
         style={styles.pressable}
 
       >
-        <View
-          style={{
-            flexDirection: 'row',
-            width: '100%',
-            gap: 8,
-            alignItems: 'center'
-          }}
-        >
+        <View style={styles.header}>
           {loading ? (
             <Loader size={20} />
           ) : (
@@ -55,7 +48,7 @@ export const ItemUsers = ({ item, loading, closeDrawer }: Props) => {
       </TouchableOpacity>
 
       {open && (
-        <ScrollView style={styles.userList}>
+        <ScrollView style={styles.userList} showsVerticalScrollIndicator={false}>
           <UserList
             users={users}
             emptyText={loading ? 'Fetching item users...' : 'No users on this item :)'}
@@ -74,6 +67,13 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'column',
     width: '100%',
+    overflow: 'visible'
+  },
+  header: {
+    flexDirection: 'row',
+    width: '100%',
+    gap: 8,
+    alignItems: 'center'
   },
   pressable: { paddingRight: 10, paddingVertical: 6, borderRadius: 10 },
   eventText: { fontSize: 20, fontWeight: '500' },
@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
   },
   userList: {
     paddingVertical: 8,
-    paddingHorizontal: 2,
-    overflow: 'visible',
+    paddingHorizontal: 4,
+    overflow: 'hidden',
     maxHeight: 300,
     width: '100%',
   }

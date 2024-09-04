@@ -35,13 +35,13 @@ export const CalendarRange = ({ color = primaryGreen, textColor = white }: Props
         formatDateData(getEndOfCurrentWeek())
       )}
     >
-      <Native.TouchableOpacity onPress={() => shift(ShiftDirection.BACK)}>
+      <Native.TouchableOpacity onPress={() => shift(ShiftDirection.BACK)} style={styles.arrowTouchable}>
         <Entypo name="chevron-left" color={textColor} size={25} />
       </Native.TouchableOpacity>
       <Native.Text style={[styles.weekDateText, { color: textColor }]}>
         {formatDate(startDate)} - {formatDate(endDate)}
       </Native.Text>
-      <Native.TouchableOpacity onPress={() => shift(ShiftDirection.FORWARD)}>
+      <Native.TouchableOpacity onPress={() => shift(ShiftDirection.FORWARD)} style={styles.arrowTouchable}>
         <Entypo name="chevron-right" color={textColor} size={25} />
       </Native.TouchableOpacity>
     </BouncyPressable>
@@ -67,5 +67,8 @@ const styles = Native.StyleSheet.create({
   weekDateText: {
     fontSize: 19,
     fontFamily: 'Lexend',
+  },
+  arrowTouchable: {
+    paddingHorizontal: 4
   },
 })
