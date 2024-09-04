@@ -37,7 +37,7 @@ export const ListItemOverlay = ({
   const flickAnimation = useAnimatedStyle(() => ({
     transform: [{
       translateX: withTiming(animatedValues.offsetX.value, {
-        duration: 250
+        duration: 200
       })
     }],
     zIndex: 50

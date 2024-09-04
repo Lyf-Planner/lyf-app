@@ -37,9 +37,6 @@ export const ListItemGestureWrapper = ({
   setCreatingLocalised
 }: Props) => {
   const { updateItem, removeItem, addItem } = useTimetable();
-  // The gesture handler fires some gestures twice, on non-idempotent operations a lock is required.
-  let gestureLocked = false;
-
   let longPressTimer: NodeJS.Timeout | undefined;
 
   // Web Right Click detection
@@ -128,11 +125,6 @@ export const ListItemGestureWrapper = ({
   };
 
   const handleFlingLeft = () => {
-    if (gestureLocked) {
-      return;
-    }
-
-    gestureLocked = true;
     animatedValues.offsetX.value = -40;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
@@ -145,18 +137,16 @@ export const ListItemGestureWrapper = ({
       }
     })
 
+    itemReadyPromise.then(() => {
+      openModal();
+      setCreatingLocalised(false);
+    });
+
     const closeAnimation = setInterval(() => {
       // Close after 500ms, unless the item is still not ready
       itemReadyPromise.then(() => animatedValues.offsetX.value = 0);
       clearTimeout(closeAnimation);
     }, 500);
-
-    itemReadyPromise.then(() => {
-      openModal();
-      setCreatingLocalised(false);
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      gestureLocked = false;
-    })
   };
 
   const handleFlingRight = () => {
@@ -196,8 +186,29 @@ export const ListItemGestureWrapper = ({
   // and manually adjust this to track the value and arbitrary lower the drag threshold (typically 20px)
   let flingStartX: number;
   let flingStartY: number
-  const fling = Gesture.Fling()
+  const flingLeft = Gesture.Fling()
     .direction(Directions.LEFT)
+    .onBegin((event) => {
+      flingStartX = event.absoluteX;
+      flingStartY = event.absoluteY;
+    })
+    .onFinalize((event) => {
+      console.log("diff is", event.absoluteX - flingStartX);
+      const xDiff = event.absoluteX - flingStartX;
+      const yDiff = event.absoluteY - flingStartY;
+
+      const swipeAngleRadians = Math.atan(yDiff / xDiff);
+      const swipeAngleDegrees = swipeAngleRadians * (180 / Math.PI);
+
+      const angleActivatedChange = Math.abs(swipeAngleDegrees) < 20;
+
+      if (angleActivatedChange && xDiff < 0) {
+        handleFlingLeft();
+      }
+    })
+    .runOnJS(true)
+  const flingRight = Gesture.Fling()
+    .direction(Directions.RIGHT)
     .onBegin((event) => {
       flingStartX = event.absoluteX;
       flingStartY = event.absoluteY;
@@ -215,19 +226,10 @@ export const ListItemGestureWrapper = ({
       if (angleActivatedChange && xDiff > 0) {
         handleFlingRight();
       }
-      if (angleActivatedChange && xDiff < 0) {
-        handleFlingLeft();
-      }
     })
     .runOnJS(true)
-    .onEnd(() => handleFlingLeft());
-  // Originally, we just had this:
-  // const flingRight = Gesture.Fling()
-  //   .direction(Directions.RIGHT)
-  //   .runOnJS(true)
-  //   .onEnd(() => handleFlingRight());
 
-  const gestures = Gesture.Race(tap, longPress, fling);
+  const gestures = Gesture.Race(tap, longPress, flingLeft, flingRight);
 
   const scaleAnimation = useAnimatedStyle(() => ({
     transform: [{
