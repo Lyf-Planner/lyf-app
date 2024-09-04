@@ -92,7 +92,8 @@ export const TipsDropdown = ({
           </Animated.View>
           <BouncyPressable 
             onPress={() => navigate()}
-            containerStyle={styles.navigateButton}
+            containerStyle={styles.navigateView}
+            style={styles.navigateButton}
             withShadow
           >
             <Text style={styles.navigateText}>Take Me There</Text>
@@ -159,13 +160,17 @@ const styles = StyleSheet.create({
     color: 'white'
   },
 
-  navigateButton: {
+  navigateView: {
     backgroundColor: primaryGreen,
     borderRadius: 10,
     marginVertical: 8,
-    padding: 10,
     flexDirection: 'row',
     justifyContent: 'center'
+  },
+  navigateButton: {
+    padding: 10,
+    width: '100%',
+    alignItems: 'center'
   },
   navigateText: {
     fontFamily: 'Lexend',
