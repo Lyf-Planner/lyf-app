@@ -31,17 +31,11 @@ export const TipsDropdown = ({
 
   const scale = useSharedValue(1);
   const chevronAngle = useSharedValue(0);
-  const shadowOffsetX = useSharedValue(2);
-  const shadowOffsetY = useSharedValue(2);
 
   const scaleAnimation = useAnimatedStyle(() => ({
     transform: [{
       scale: withTiming(scale.value, { duration: 200 })
-    }],
-    shadowOffset: { 
-      width: withTiming(shadowOffsetX.value, { duration: 100 }), 
-      height: withTiming(shadowOffsetY.value, { duration: 100 })
-    }
+    }]
   }));
   const chevronRotationAnimation = useAnimatedStyle(() => ({
     transform: [{
@@ -54,52 +48,50 @@ export const TipsDropdown = ({
   }, [hide]);
 
   return (
-    <Animated.View style={[styles.dropdownContainer, scaleAnimation]}>
+    <Animated.View style={scaleAnimation}>
       <Pressable
-        style={styles.dropdownTextContainer}
+        style={styles.dropdownContainer}
         onPressIn={() => {
-          shadowOffsetX.value = 0;
-          shadowOffsetY.value = 0;
           scale.value = 0.95;
         }}
         onPressOut={() => {
-          shadowOffsetX.value = 2;
-          shadowOffsetY.value = 2;
           scale.value = 1;
         }}
         onPress={() => updateHide(!hide)}
       >
-        {icon}
-        <Text style={styles.listTitle}>{name}</Text>
-        <View style={styles.headerLeft}>
-          <Animated.View style={[styles.animatedChevron, chevronRotationAnimation]}>
-            <Entypo name="chevron-right" color={eventsBadgeColor} size={25} />
-          </Animated.View>
+        <View style={styles.dropdownTextContainer}>
+          {icon}
+          <Text style={styles.listTitle}>{name}</Text>
+          <View style={styles.headerLeft}>
+            <Animated.View style={[styles.animatedChevron, chevronRotationAnimation]}>
+              <Entypo name="chevron-right" color={eventsBadgeColor} size={25} />
+            </Animated.View>
+          </View>
         </View>
+        
+        {!hide && (
+          <View>
+            <Animated.View
+              style={styles.tipsWrapper}
+              entering={FadeIn.duration(200)}
+            >
+              {tips.map((x) => (
+                <View style={styles.tipWrapper} key={x}>
+                  <Text style={styles.tip}>{x}</Text>
+                </View>
+              ))}
+            </Animated.View>
+            <BouncyPressable 
+              onPress={() => navigate()}
+              containerStyle={styles.navigateView}
+              style={styles.navigateButton}
+              withShadow
+            >
+              <Text style={styles.navigateText}>Take Me There</Text>
+            </BouncyPressable>
+          </View>
+        )}
       </Pressable>
-      
-      {!hide && (
-        <View>
-          <Animated.View
-            style={styles.tipsWrapper}
-            entering={FadeIn.duration(200)}
-          >
-            {tips.map((x) => (
-              <View style={styles.tipWrapper} key={x}>
-                <Text style={styles.tip}>{x}</Text>
-              </View>
-            ))}
-          </Animated.View>
-          <BouncyPressable 
-            onPress={() => navigate()}
-            containerStyle={styles.navigateView}
-            style={styles.navigateButton}
-            withShadow
-          >
-            <Text style={styles.navigateText}>Take Me There</Text>
-          </BouncyPressable>
-        </View>
-      )}
     </Animated.View>
   );
 };
@@ -117,7 +109,8 @@ const styles = StyleSheet.create({
 
     shadowColor: 'black',
     shadowOpacity: 0.75,
-    shadowRadius: 2
+    shadowRadius: 2,
+    shadowOffset: { width: 2, height: 2 }
   },
   dropdownTextContainer: {
     flexDirection: 'row',
