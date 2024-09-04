@@ -21,12 +21,12 @@ export const NotificationSettings = () => {
 
   return (
     <View style={styles.mainContainer}>
-      {enabled && (
+      {!enabled && (
         <Text style={[styles.subtitle]}>
           Your device has Notifications disabled for Lyf
         </Text>
       )}
-      {!enabled && (
+      {enabled && (
         <View style={styles.settingsContainer}>
           <Setting
             updateFunc={() => dailyNotificationTime(user?.daily_notification_time ? undefined : '08:30')}

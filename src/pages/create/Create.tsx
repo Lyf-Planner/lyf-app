@@ -70,7 +70,7 @@ export const Create = (props: BottomTabScreenProps<RouteParams>) => {
   return (
     <View style={styles.main}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Make New Plans!</Text>
+        <Text style={styles.headerText}>Create New Plans!</Text>
       </View>
       <PageBackground>
         <View style={styles.creationWrapper}>
