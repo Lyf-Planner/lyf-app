@@ -5,11 +5,13 @@ import { secondaryGreen } from '../../utils/colours';
 import { SortableListItem } from '../item/SortableListItem';
 import { BouncyPressable } from '../pressables/BouncyPressable';
 import { ItemStyleOptions } from '../item/Item';
-import { Identifiable } from 'schema/database/abstract';
+import { ID, Identifiable } from 'schema/database/abstract';
 import { LocalItem } from 'schema/items';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 
 type Props = {
-  items: LocalItem[];
+  setSortOrder: Dispatch<SetStateAction<LocalItem[]>>;
+  sortOrder: LocalItem[];
   itemStyleOptions: ItemStyleOptions;
   listWrapperStyles?: Object;
 };
@@ -21,14 +23,13 @@ type DragEndProps = {
 }
 
 export const SortableList = ({
-  items,
+  setSortOrder,
+  sortOrder,
   itemStyleOptions,
   listWrapperStyles = {}
 }: Props) => {
-  const { resortItems } = useTimetable();
-
   const onDragEnd = ({ data, from, to }: DragEndProps) => {
-    resortItems(data, to);
+    setSortOrder(data);
   };
 
   const renderItem = (x: RenderItemParams<LocalItem>) => {
@@ -47,8 +48,9 @@ export const SortableList = ({
     <DraggableFlatlist
       containerStyle={[styles.listContainer, listWrapperStyles]}
       contentContainerStyle={{ gap: 1 }}
+      autoscrollThreshold={100}
       style={styles.flatlistInternal}
-      data={items}
+      data={sortOrder}
       onDragEnd={onDragEnd}
       keyExtractor={(item: LocalItem) => item.id}
       renderItem={renderItem}

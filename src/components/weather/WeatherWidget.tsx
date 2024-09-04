@@ -74,7 +74,7 @@ export const WeatherWidget = ({ date }: Props) => {
                 {renderInfo('Min', Math.round(dateWeather.weather.temp.min), '°C')}
               </>
             )}
-            {renderInfo('Wind', Math.round(dateWeather.weather.wind.speed), ' kmh')}
+            {renderInfo('Wind', Math.round(dateWeather.weather.wind.gust || dateWeather.weather.wind.speed), ' kmh')}
             {renderInfo('Rain', Math.round(dateWeather.weather.rain), ' mm')}
           </View>
         </View>

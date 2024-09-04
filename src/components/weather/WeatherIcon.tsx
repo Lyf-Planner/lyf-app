@@ -60,13 +60,6 @@ export default function WeatherIcon({ main, description, timestamp, sunrise, sun
   const { FEELS_LIKE, HUMIDITY, UVI, WIND_SPEED } = OptionalWeatherDataType;
   const { CLEAR, CLOUDS, DRIZZLE, RAIN, SNOW, THUNDERSTORM } = CommonDescription;
 
-  const styles = {
-    icon: {
-      width: size,
-      height: size,
-    }
-  }
-
   if (atmosphereDescriptions.includes(main)) {
     return <Mist />;
   }

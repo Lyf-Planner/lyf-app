@@ -27,7 +27,7 @@ import Animated, {
   withSequence,
   withTiming
 } from 'react-native-reanimated';
-import { SyntheticEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BouncyPressable } from '../../../components/pressables/BouncyPressable';
 import {
   LyfMenu,
@@ -53,9 +53,14 @@ type Props = {
 
 
 export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
+  const { resortItems } = useTimetable();
   const [sorting, setSorting] = useState(false);
+  const [sortOrder, setSortOrder] = useState<LocalItem[]>(items);
 
-  const { user, updateUser } = useAuth();
+  const submitSortOrder = useCallback(() => {
+    resortItems(sortOrder);
+  }, [sortOrder])
+
   const allDone = useMemo(
     () =>
       !items.find(
@@ -72,34 +77,12 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
     [allDone, date, useRoutine]
   );
 
-  // Shift the users preferred start day one ahead - this is how we remove it implicitly
-  const shiftFirst = async () => {
-    if (canDelete && removeQueued.value) {
-      opacity.value = 0;
-      scale.value = 1.5;
-
-      await sleep(500);
-      const currentFirst = date || formatDateData(new Date())
-      const next = formatDateData(
-        localisedMoment(parseDateString(currentFirst)).add(1, 'day').toDate()
-      );
-
-      updateUser({
-        ...user,
-        first_day: next
-      });
-    }
-  };
-
   // Day finishing animation
 
-  const removeQueued = useSharedValue(false);
   const opacity = useSharedValue(1);
   const scale = useSharedValue(1);
   const offset = useSharedValue(0);
 
-  const SHAKE_OFFSET = 1;
-  const SHAKE_TIME = 30;
   const DELAY = 400;
 
   const exitingAnimation = useAnimatedStyle(() => ({
@@ -113,36 +96,6 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
       duration: 500
     })
   }));
-
-  const finishDay = async () => {
-    if (canDelete) {
-      removeQueued.value = true;
-      scale.value = 1.05;
-      await sleep(DELAY);
-
-      // Runs for (TOTAL_SHAKES + 1) * SHAKE_TIME
-      const TOTAL_SHAKES = 10;
-      offset.value = withSequence(
-        // start from -OFFSET
-        withTiming(-SHAKE_OFFSET, { duration: SHAKE_TIME / 2 }),
-        // shake between -OFFSET and OFFSET TOTAL_SHAKES times
-        withRepeat(
-          withTiming(SHAKE_OFFSET, { duration: SHAKE_TIME }),
-          TOTAL_SHAKES,
-          true
-        ),
-        // go back to 0 at the end
-        withTiming(0, { duration: SHAKE_TIME / 2 })
-      );
-
-      Vibration.vibrate(DELAY / 2);
-      scale.value = 1.06;
-
-      await sleep(DELAY);
-      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-      shiftFirst();
-    }
-  };
 
   // Day handle bounce animation
 
@@ -182,7 +135,12 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
     <View>
       <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
         <BouncyPressable 
-          onPress={() => setSorting(!sorting)}
+          onPress={() => {
+            if (sorting) {
+              submitSortOrder();
+            }
+            setSorting(!sorting);
+          }}
         >
           <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
             <WeatherWidget date={date || day || ''} />
@@ -206,9 +164,8 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
         <View style={styles.listWrapperView}>
           {sorting ? (
             <SortableList
-              items={items.sort((a, b) => 
-                a.sorting_rank - b.sorting_rank
-              )}
+              setSortOrder={setSortOrder}
+              sortOrder={sortOrder}
               itemStyleOptions={{
                 itemColor: 'rgb(241 245 249)',
                 itemTextColor: 'black'
@@ -229,7 +186,10 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
         </View>
 
         {sorting ? (
-          <BouncyPressable style={styles.doneButton} onPress={() => setSorting(false)}>
+          <BouncyPressable style={styles.doneButton} onPress={() => {
+            submitSortOrder();
+            setSorting(false)
+          }}>
             <Text style={styles.doneText}>Done</Text>
           </BouncyPressable>
         ) : (

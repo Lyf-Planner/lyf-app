@@ -102,7 +102,8 @@ const styles = Native.StyleSheet.create({
     maxWidth: 500,
     alignSelf: 'center',
     flex: 1,
-    width: '100%'
+    width: '100%',
+    marginBottom: 300,
   },
   noteText: {
     borderWidth: 2,

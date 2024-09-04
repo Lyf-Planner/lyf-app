@@ -39,7 +39,7 @@ export const NoteView = ({
   return (
     <View style={styles.main}>
       <NoteHeader note={note} onBack={onBack}/>
-      <PageBackground>
+      <PageBackground noPadding>
         <View style={styles.notePageWrapper}>
           {initialising && 
             <View style={styles.loadingContainer}>
@@ -51,7 +51,7 @@ export const NoteView = ({
           }
           
           {!initialising &&
-            <KeyboardAwareScrollView style={{ width: '100%', height: '100%' }}>
+            <KeyboardAwareScrollView style={styles.scrollView}>
               <NoteBody note={note}/>
             </KeyboardAwareScrollView>
           } 
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   main: { flex: 1 },
 
   notePageWrapper: {
-    overflow: 'visible'
+    overflow: 'visible',
   },
 
   loadingContainer: {
@@ -79,5 +79,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend',
     fontSize: 20
   },
+  scrollView: { 
+    width: '100%', 
+    height: '100%', 
+    paddingHorizontal: 20,
+    paddingVertical: 10, 
+  }
 
 });

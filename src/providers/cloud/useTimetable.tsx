@@ -53,7 +53,7 @@ export type UpdateItemSocial = (
   permission: Permission
 ) => Promise<void>;
 export type RemoveItem = (item: LocalItem, deleteRemote?: boolean) => Promise<void>;
-export type ResortItems = (priorities: LocalItem[], moved_index: number) => void;
+export type ResortItems = (priorities: LocalItem[]) => void;
 
 type Props = {
   children: JSX.Element;
@@ -280,7 +280,7 @@ export const TimetableProvider = ({ children }: Props) => {
     }
   };
 
-  const resortItems: ResortItems = (priorities: LocalItem[], moved_index: number) => {
+  const resortItems: ResortItems = (priorities: LocalItem[]) => {
     if (priorities.length === 0) {
       return;
     }
