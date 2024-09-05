@@ -59,7 +59,11 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
 
   const submitSortOrder = useCallback(() => {
     resortItems(sortOrder);
-  }, [sortOrder])
+  }, [sortOrder]);
+
+  useEffect(() => {
+    setSortOrder(items);
+  }, [items]);
 
   const allDone = useMemo(
     () =>

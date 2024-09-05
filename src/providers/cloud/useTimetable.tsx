@@ -129,7 +129,7 @@ export const TimetableProvider = ({ children }: Props) => {
     } else if (item.localised) {
       // Localised items need to be added to the store as something new
       const createdItem = { ...item, ...changes };
-      addItem(createdItem.type, createdItem.sorting_rank, createdItem);
+      await addItem(createdItem.type, createdItem.sorting_rank, createdItem);
       return;
     } else {
       const inStoreItem = items.find((x) => x.id === item.id);
@@ -280,7 +280,7 @@ export const TimetableProvider = ({ children }: Props) => {
     }
   };
 
-  const resortItems: ResortItems = (priorities: LocalItem[]) => {
+  const resortItems: ResortItems = async (priorities: LocalItem[]) => {
     if (priorities.length === 0) {
       return;
     }
@@ -296,7 +296,12 @@ export const TimetableProvider = ({ children }: Props) => {
     setItems(tmp);
   
     for (const i in priorities) {
-      updateRemoteItem({ id: priorities[i].id, sorting_rank: parseInt(i) });
+      // Fix any localised items
+      if (priorities[i].localised) {
+        updateItem(priorities[i], {})
+      } else {
+        updateRemoteItem({ id: priorities[i].id, sorting_rank: parseInt(i) });
+      }
     }
   };
 
