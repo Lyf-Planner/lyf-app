@@ -28,8 +28,10 @@ RUN npx expo export --platform web
 # Start production image build
 FROM node:18-alpine
 
+RUN npm install -g serve
+
 COPY --from=build ./dist ./dist
 
 EXPOSE 3000
 
-CMD [ "npx", "serve", "dist", "--single" ]
+ENTRYPOINT [ "npx", "serve", "dist" ]
