@@ -211,6 +211,7 @@ const styles = Native.StyleSheet.create({
   webContainer: {
     flexDirection: 'row',
     gap: 20,
+    paddingVertical: 20,
     alignSelf: 'center'
   },
 
