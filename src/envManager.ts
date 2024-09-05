@@ -27,7 +27,7 @@ function parseBackendUrl() {
   // Adaptable function to use debugger and IP as hostname in a local environment,
   // Otherwise use full URL
   if (envVar('appEnv') !== 'local') {
-    console.log('Deriving Backend hostname from supplied variable');
+    console.log('Deriving Backend hostname from supplied variable', envVar('backendUrl'));
     return envVar('backendUrl');
   }
 
