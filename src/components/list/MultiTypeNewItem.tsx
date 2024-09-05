@@ -47,6 +47,7 @@ export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true }: Pr
 const styles = StyleSheet.create({
   addItemSection: {
     flexDirection: 'row',
+    width: '100%',
     gap: 4,
   }
 })

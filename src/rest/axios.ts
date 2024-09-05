@@ -9,7 +9,7 @@ export async function get(endpoint: string) {
   try {
     const token = await getAsyncData('token');
     const requestUrl = backendUrl + endpoint;
-    console.log('hitting', requestUrl);
+    console.debug('hitting', requestUrl);
 
     return await Axios.get(requestUrl, {
       headers: { 
@@ -18,7 +18,7 @@ export async function get(endpoint: string) {
       }
     });
   } catch (err: any) {
-    console.error("error", err);
+    console.debug("error", err);
     return err.response;
   }
 }

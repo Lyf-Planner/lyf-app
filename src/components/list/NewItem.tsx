@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
     borderRadius: 10,
     paddingVertical: 8,
-    paddingHorizontal: 8,
+    paddingHorizontal: 6,
     flex: 1,
     zIndex: 10,
     color: 'rgb(203 213 225)',
