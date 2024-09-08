@@ -1,5 +1,5 @@
 import { View, Text, Image, StyleSheet, ListRenderItemInfo, Platform } from 'react-native';
-import { deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from '../../utils/colours';
+import { black, deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from '../../utils/colours';
 import { useTutorial } from 'providers/overlays/useTutorial';
 import { SaveTooltip } from '../../components/general/Icons';
 import AppIntroSlider from 'react-native-app-intro-slider';
@@ -15,6 +15,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useNavigation } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { RouteParams } from 'Routes';
+import env from 'envManager';
 
 export const TutorialOverlay = () => {
   const { updateTutorial, updateTutorialRoute } = useTutorial();
@@ -120,6 +121,8 @@ export const TutorialOverlay = () => {
           >
             <Text style={styles.doneText}>Get Started!</Text>
           </BouncyPressable>
+
+          <Text style={styles.version}>v{env.VERSION}</Text>
         </View>
       </ScrollView>
     </PageBackground>
@@ -181,5 +184,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend',
     fontSize: 16,
     color: white
+  },
+  version: {
+    marginTop: 10,
+    alignSelf: 'center',
+    fontFamily: 'Lexend',
+    opacity: 0.3,
+    fontSize: 16,
+    color: black
   }
 });

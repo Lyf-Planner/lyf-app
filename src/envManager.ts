@@ -63,7 +63,7 @@ const getVersion = () => {
   // Extract the version field
   const appVersion = 
     // @ts-ignore
-    Constants.manifest?.version
+    Constants.manifest?.version ||
     Constants.manifest2?.extra?.expoClient?.version || 
     '0.0.0';  
 
