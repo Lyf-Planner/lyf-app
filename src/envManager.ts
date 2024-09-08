@@ -3,23 +3,26 @@ import { Platform } from 'react-native';
 const { manifest, manifest2 } = Constants;
 
 // With expo constants, once Constants.manifest is null, Constants.manifest2 contains the env vars
-// Which of these contains data depends on environments
+// Which of these contains data depends on environments (e.g. manifest is populated on web, manifest2 on ios)
 // This unifies them into one function call so we don't have to worry about distinguishing elsewhere
+
 function envVar(varName: string, subvar_name?: string) {
   // Slower but more robust method of finding env var
+  // @ts-ignore
   for (const extra of [manifest?.extra, manifest2?.extra]) {
-    let c;
+    let result;
     if (subvar_name) {
-      c =
+      result =
         extra?.[varName][subvar_name] ??
         extra?.expoClient?.extra?.[varName][subvar_name];
     } else {
-      c = extra?.[varName] ?? extra?.expoClient?.extra?.[varName];
+      result = extra?.[varName] ?? extra?.expoClient?.extra?.[varName];
     }
-    if (c) {
-      return c;
+    if (result) {
+      return result;
     }
   }
+
   throw new Error(`Constant ${varName} not found in expo manifest.`);
 }
 
@@ -45,6 +48,7 @@ function parseBackendUrl() {
   // The IP address of the machine hosting the expo app can be found in manifest2.launchAsset or manifest.debuggerHost
   // Which one is present depends on which of manifest or manifest2 is null - which varies across environments
   const debuggerUrl = manifest
+    // @ts-ignore
     ? manifest.debuggerHost
     : manifest2?.launchAsset.url;
 
@@ -55,10 +59,23 @@ function parseBackendUrl() {
   return `http://${ip.concat(`:${envVar('localBackendPort')}`)}`;
 }
 
-enum env {
-  APP_ENV = envVar('appEnv'),
-  BACKEND_URL = parseBackendUrl(),
-  PROJECT_ID = envVar('eas', 'projectId'),
+const getVersion = () => {
+  // Extract the version field
+  const appVersion = 
+    // @ts-ignore
+    Constants.manifest?.version
+    Constants.manifest2?.extra?.expoClient?.version || 
+    '0.0.0';  
+
+  console.log('App Version:', appVersion);
+  return appVersion;
+}
+
+const env = {
+  APP_ENV: envVar('appEnv'),
+  BACKEND_URL: parseBackendUrl(),
+  PROJECT_ID: envVar('eas', 'projectId'),
+  VERSION: getVersion(),
 }
 
 export default env;
