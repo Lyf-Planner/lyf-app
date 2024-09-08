@@ -127,12 +127,14 @@ export const Calendar = () => {
                 name="Upcoming Events"
                 icon={<Entypo name="calendar" color={eventsBadgeColor} size={22} />}
                 listType={ItemType.Event}
+                startOpen={Native.Platform.OS === 'web'}
               />
               <ListDropdown
                 items={toDoList}
                 name="To Do List"
                 icon={<Entypo name="list" color={eventsBadgeColor} size={22} />}
                 listType={ItemType.Task}
+                startOpen={Native.Platform.OS === 'web'}
               />
             </Native.View>
           </Native.View>
