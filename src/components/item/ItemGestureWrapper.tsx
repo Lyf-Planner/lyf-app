@@ -243,7 +243,6 @@ export const ListItemGestureWrapper = ({
       // Dim the opacity if a task is cancelled or a user is only invited
       opacity: 
         item.status === ItemStatus.Cancelled || 
-        item.status === ItemStatus.Tentative ||
         invited ? 0.7 : 1
     }
   };
