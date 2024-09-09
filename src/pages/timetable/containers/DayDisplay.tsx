@@ -6,7 +6,7 @@ import {
   dayFromDateString,
   formatDate,
   formatDateData,
-  parseDateString
+  dateWithTime
 } from '../../../utils/dates';
 import {
   black,
@@ -178,9 +178,13 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
             />
           ) : (
             <List
-              items={items.sort((a, b) => 
-                a.sorting_rank - b.sorting_rank
-              )}
+              items={items.sort((a, b) => {
+                if (a.time && b.time) {
+                  return dateWithTime(a.time).getTime() - dateWithTime(b.time).getTime();
+                }
+
+                return a.sorting_rank - b.sorting_rank
+              })}
               itemStyleOptions={{
                 itemTextColor: 'black'
               }}
