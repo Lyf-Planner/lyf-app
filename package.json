@@ -1,6 +1,6 @@
 {
   "name": "lyf-app",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "scripts": {
     "lint": "eslint . --cache --color",
     "lint:fix": "eslint . --fix",
