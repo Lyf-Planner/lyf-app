@@ -56,10 +56,7 @@ export const ItemNotification = ({
     >
       <MaterialIcons name="notifications-active" size={20} />
       <Text
-        style={[
-          styles.notifyText,
-          { fontWeight: enabled && item.time ? '500' : '400' }
-        ]}
+        style={[styles.notifyText]}
       >
         Notify Me
       </Text>
