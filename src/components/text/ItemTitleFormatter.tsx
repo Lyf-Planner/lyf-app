@@ -14,10 +14,6 @@ export const ItemTitleFormatter = ({ item, textColor }: Props) => {
     }
   };
 
-  const determineDisplayedText = () => {
-
-  };
-
   return (
     <Text
       adjustsFontSizeToFit={true}

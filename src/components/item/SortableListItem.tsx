@@ -20,14 +20,12 @@ type Props = {
   item: LocalItem;
   itemStyleOptions: ItemStyleOptions;
   dragFunc: () => void;
-  isActive?: boolean;
 };
 
 export const SortableListItem = ({
   item,
   itemStyleOptions,
   dragFunc,
-  isActive = false
 }: Props) => {
   const checkScale = useSharedValue(1);
   const checkRotation = useSharedValue('0deg');
@@ -92,6 +90,7 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 10,
     flex: 1,
+    minHeight: 55,
     height: 55,
     maxHeight: 55,
     borderWidth: 1,

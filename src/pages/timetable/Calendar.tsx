@@ -1,5 +1,5 @@
 import * as Native from 'react-native';
-import { addWeekToStringDate, allDatesBetween, dayFromDateString, daysDifferenceBetween, extendByWeek, formatDate, formatDateData, getStartOfCurrentWeek, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
+import { addWeekToStringDate, allDatesBetween, dateWithTime, dayFromDateString, daysDifferenceBetween, extendByWeek, formatDate, formatDateData, getStartOfCurrentWeek, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
 import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from 'providers/cloud/useAuth';
 import { CalendarRange } from './containers/CalendarRange';
@@ -54,7 +54,13 @@ export const Calendar = () => {
       }
     }
 
-    return localItems;
+    return localItems.sort((a, b) => {
+      if (a.time && b.time) {
+        return dateWithTime(a.time).getTime() - dateWithTime(b.time).getTime();
+      }
+
+      return a.sorting_rank - b.sorting_rank
+    });
   }, [items, displayedDays])
 
   const upcomingEvents = useMemo(() => (

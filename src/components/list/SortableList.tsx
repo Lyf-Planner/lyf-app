@@ -39,7 +39,6 @@ export const SortableList = ({
         itemStyleOptions={itemStyleOptions}
         item={x.item}
         dragFunc={x.drag}
-        isActive={x.isActive}
       />
     );
   };
