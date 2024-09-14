@@ -59,8 +59,8 @@ export const NotificationsLayer = ({ children }: Props) => {
   }
 
   tokenPromise().then(async () => {
-    const firstNotifs = await getNotifications(10);
-    setNotifications(firstNotifs);
+    const initialNotifs = await getNotifications(10);
+    setNotifications(initialNotifs);
   });
   }, []);
 

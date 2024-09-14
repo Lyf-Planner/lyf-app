@@ -2,32 +2,35 @@ import * as Native from 'react-native';
 
 import { useNotifications } from "providers/cloud/useNotifications"
 import { useModal } from "providers/overlays/useModal"
-import { primaryGreen, white } from 'utils/colours';
+import { deepBlue, primaryGreen, white } from 'utils/colours';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { NotificationBanner } from './NotificationBanner';
 import { Horizontal } from 'components/general/MiscComponents';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useMemo } from 'react';
 import { DateString } from 'schema/util/dates';
-
-
-
-type NotificationBlock = DateString[];
-type NotificationBlocks = NotificationBlock[];
-
+import { formatDateData, localisedFormattedMoment, parseDateString } from 'utils/dates';
+import { Notification } from 'schema/notifications';
 
 export const NotificationModal = () => {
-  const { notifications } = useNotifications();
-  const notificationsByDay = useMemo(() => {
-    const notificationsByDate = notifications.sort((a, b) => (
-      new Date(a.created).getTime() - new Date(b.created).getTime()
-    ));
-
-      return notificationsByDate
-  }, [notifications])
   const { updateModal } = useModal();
+  const { notifications } = useNotifications();
 
-  const allSeen = useMemo(() => notifications.every((x) => x.seen), notifications);
+  const notificationsByDay = useMemo(() => {
+    const dayGroups: Record<DateString, Notification[]> = {};
+
+    notifications.forEach((notification) => {
+      const date = formatDateData(new Date(notification.created));
+
+      if (Array.isArray(dayGroups[date])) {
+        dayGroups[date].push(notification);
+      } else {
+        dayGroups[date] = [notification];
+      }
+    })
+
+      return dayGroups;
+  }, [notifications])
 
   return (
     <Native.View style={styles.main}>
@@ -45,12 +48,26 @@ export const NotificationModal = () => {
         </Native.View>
 
         <Native.ScrollView contentContainerStyle={styles.scrollWrapper}>
-          {allSeen &&
-            <Native.Text style={styles.upToDateText}>All up to date :)</Native.Text>
+          {notifications.length === 0 &&
+            <Native.Text style={styles.upToDateText}>No notifications yet :)</Native.Text>
           }
-          {notifications.map((x) => (
-            <NotificationBanner notification={x} key={x.id} />
+
+          {Object.entries(
+            notificationsByDay
+          ).sort(([dateA, _notifsA], [dateB, _notifsB]) => 
+            dateB.localeCompare(dateA)
+          ).map(([date, notifications]) => (
+            <Native.View style={styles.notificationBlock}>
+              <Native.Text style={styles.notificationDate}>
+                {localisedFormattedMoment(date).format('MMM D YYYY')}
+              </Native.Text>
+              <Horizontal style={{ borderWidth: 1, opacity: 0.7 }} />
+              {notifications.map((x) => (
+                <NotificationBanner notification={x} key={x.id} />
+              ))}
+            </Native.View>
           ))}
+          
         </Native.ScrollView>
       </Native.View>
     </Native.View>
@@ -98,6 +115,14 @@ const styles = Native.StyleSheet.create({
     fontFamily: 'Lexend',
     fontSize: 22,
     color: 'white'
+  },
+  notificationBlock: {
+    flexDirection: 'column',
+    gap: 8,
+  },
+  notificationDate: {
+    fontFamily: 'Lexend',
+    fontSize: 18
   },
   closeButton: {
     marginLeft: 'auto',

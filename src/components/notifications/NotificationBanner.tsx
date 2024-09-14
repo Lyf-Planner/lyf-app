@@ -124,12 +124,12 @@ const styles = Native.StyleSheet.create({
   },
   title: {
     fontFamily: 'Lexend',
-    fontSize: 20,
+    fontSize: 18,
   },
 
   body: {
     opacity: 0.6,
-    fontSize: 16,
+    fontSize: 14,
     flexWrap: 'wrap',
     width: 240,
   },
@@ -138,5 +138,4 @@ const styles = Native.StyleSheet.create({
     marginVertical: 'auto',
     width: 30
   }
-
 })
