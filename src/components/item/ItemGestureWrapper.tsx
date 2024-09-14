@@ -202,7 +202,7 @@ export const ListItemGestureWrapper = ({
 
       const angleActivatedChange = Math.abs(swipeAngleDegrees) < 20;
 
-      if (angleActivatedChange && xDiff < 0) {
+      if (angleActivatedChange && xDiff < -5) {
         handleFlingLeft();
       }
     })
@@ -223,7 +223,7 @@ export const ListItemGestureWrapper = ({
 
       const angleActivatedChange = Math.abs(swipeAngleDegrees) < 20;
 
-      if (angleActivatedChange && xDiff > 0) {
+      if (angleActivatedChange && xDiff > 5) {
         handleFlingRight();
       }
     })
