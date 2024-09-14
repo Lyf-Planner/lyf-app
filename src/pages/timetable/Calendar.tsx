@@ -90,6 +90,16 @@ export const Calendar = () => {
       <PageBackground locations={[0,0.82,1]}>
         <ScrollView style={styles.scroll}>
           <Native.View style={styles.webContainer}>
+            <Native.View style={styles.webDropdowns}>
+              <ListDropdown
+                items={upcomingEvents}
+                name="Upcoming Events"
+                icon={<Entypo name="calendar" color={eventsBadgeColor} size={22} />}
+                listType={ItemType.Event}
+                startOpen={Native.Platform.OS === 'web'}
+              />
+            </Native.View>
+
             <Native.View style={styles.webCalendar}>
               <CalendarRange color={deepBlueOpacity(0.9)} textColor={eventsBadgeColor} />
 
@@ -124,13 +134,6 @@ export const Calendar = () => {
             </Native.View>
 
             <Native.View style={styles.webDropdowns}>
-              <ListDropdown
-                items={upcomingEvents}
-                name="Upcoming Events"
-                icon={<Entypo name="calendar" color={eventsBadgeColor} size={22} />}
-                listType={ItemType.Event}
-                startOpen={Native.Platform.OS === 'web'}
-              />
               <ListDropdown
                 items={toDoList}
                 name="To Do List"
