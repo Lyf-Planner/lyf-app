@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { Platform, StyleSheet, TextInput } from 'react-native';
 import { ItemType } from 'schema/database/items';
 import { eventsBadgeColor } from 'utils/colours';
 import { inProgressColor } from '../item/constants';
@@ -28,7 +28,7 @@ export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, whiteShadow = t
   const onChangeText = (text: string) => updateNewItem(text);
 
   const conditionalStyles = {
-    listNewItem: whiteShadow ? {
+    listNewItem: whiteShadow && Platform.OS !== 'web' ? {
       shadowOffset: { width: 0, height: 0 },
       shadowColor: 'white',
       shadowOpacity: 1,
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
     borderRadius: 10,
     paddingVertical: 8,
-    paddingHorizontal: 6,
+    paddingLeft: 8,
     flex: 1,
     zIndex: 10,
     color: 'rgb(203 213 225)',
