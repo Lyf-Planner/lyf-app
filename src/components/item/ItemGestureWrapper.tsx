@@ -70,7 +70,9 @@ export const ListItemGestureWrapper = ({
       return;
     }
 
-    const markingAsDone = item.status !== ItemStatus.Done;
+    const markingAsDone = Platform.OS === 'web' 
+      ? item.status === ItemStatus.InProgress
+      : item.status === ItemStatus.Upcoming;
     animatedValues.scale.value = markingAsDone ? 0.7 : 0.9;
     await sleep(SCALE_MS);
 
@@ -91,12 +93,25 @@ export const ListItemGestureWrapper = ({
       return;
     }
 
-    if (item.status === ItemStatus.Done) {
-      updateItem(item, { status: ItemStatus.Upcoming });
+    // On web, first click moves an item to inprogress
+    if (Platform.OS === 'web') {
+      if (item.status === ItemStatus.Upcoming) {
+        updateItem(item, { status: ItemStatus.InProgress });
+      } else if (item.status === ItemStatus.InProgress) {
+        updateItem(item, { status: ItemStatus.Done });
+      } else {
+        updateItem(item, { status: ItemStatus.Upcoming });
+      }
     } else {
-      updateItem(item, { status: ItemStatus.Done });
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      if (item.status === ItemStatus.Upcoming) {
+        updateItem(item, { status: ItemStatus.Done });
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
+      } else {
+        updateItem(item, { status: ItemStatus.Upcoming });
+      }
     }
+
+    
   };
 
   const handleLongPressIn = () => {
