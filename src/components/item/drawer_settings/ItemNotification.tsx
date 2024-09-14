@@ -29,8 +29,9 @@ export const ItemNotification = ({
       return;
     }
 
-    if (minsOverride === null) {
+    if (minsOverride === null || mins === '') {
       updateItem(item, { notification_mins: undefined });
+      updateSheetMinHeight(100)
       return;
     }
     
@@ -61,7 +62,7 @@ export const ItemNotification = ({
         Notify Me
       </Text>
 
-      {!!mins && (
+      {!!item.notification_mins && (
         <View style={styles.minutesInputWrapper}>
           <TouchableHighlight
             onPress={() => {
