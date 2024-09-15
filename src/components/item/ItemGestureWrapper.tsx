@@ -103,11 +103,11 @@ export const ListItemGestureWrapper = ({
         updateItem(item, { status: ItemStatus.Upcoming });
       }
     } else {
-      if (item.status === ItemStatus.Upcoming) {
+      if (item.status === ItemStatus.Done) {
+        updateItem(item, { status: ItemStatus.Upcoming });
+      } else {
         updateItem(item, { status: ItemStatus.Done });
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
-      } else {
-        updateItem(item, { status: ItemStatus.Upcoming });
       }
     }
 
