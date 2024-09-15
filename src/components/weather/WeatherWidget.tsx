@@ -48,6 +48,10 @@ export const WeatherWidget = ({ date }: Props) => {
     }
   }
 
+  if (date === '2024-09-15') {
+    console.log("weather", dateWeather);
+  }
+
   return (
     <LyfPopup 
       name={`weather-${date}`} 
@@ -75,7 +79,7 @@ export const WeatherWidget = ({ date }: Props) => {
               </>
             )}
             {renderInfo('Wind', Math.round(dateWeather.weather.wind.gust || dateWeather.weather.wind.speed), ' kmh')}
-            {dateWeather.weather.rain && renderInfo('Rain', parseFloat(dateWeather.weather.rain.toFixed(1)), ' mm')}
+            {renderInfo('Rain', parseFloat(dateWeather.weather.rain.toFixed(1)), ' mm')}
           </View>
         </View>
       )}
