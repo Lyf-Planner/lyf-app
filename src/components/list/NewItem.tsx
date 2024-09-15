@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
   listNewItem: {
     minHeight: 50,
     height: 50,
+    width: '100%',
     backgroundColor: 'rgb(17 24 39)',
     fontFamily: 'Lexend',
     marginTop: 2,
