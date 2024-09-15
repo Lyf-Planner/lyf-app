@@ -36,7 +36,7 @@ export const Calendar = () => {
         // Template Match Case 1 - Matching Day
         if (isTemplate(item) && item.day === dayFromDateString(date)) {
           const templateInstanceExists = items.some((x) => x.template_id === item.id && x.date === date);
-          const isPriorDate = parseDateString(date) < new Date();
+          const isPriorDate = date.localeCompare(formatDateData(new Date())) < 0;
 
           if (templateInstanceExists || isPriorDate) {
             continue;
