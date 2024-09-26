@@ -39,7 +39,7 @@ export const CalendarRange = ({ color = primaryGreen, textColor = white }: Props
         <Entypo name="chevron-left" color={textColor} size={25} />
       </Native.TouchableOpacity>
       <Native.Text style={[styles.weekDateText, { color: textColor }]}>
-        {formatDate(startDate)} - {formatDate(endDate)}
+        {formatDate(startDate, true)} - {formatDate(endDate, true)}
       </Native.Text>
       <Native.TouchableOpacity onPress={() => shift(ShiftDirection.FORWARD)} style={styles.arrowTouchable}>
         <Entypo name="chevron-right" color={textColor} size={25} />
