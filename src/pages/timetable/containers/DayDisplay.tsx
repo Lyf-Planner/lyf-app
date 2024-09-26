@@ -54,12 +54,20 @@ type Props = {
 
 export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
   const { resortItems } = useTimetable();
-  const [sorting, setSorting] = useState(false);
+  const [sorting, setSorting] = useState<boolean | null>(null);
   const [sortOrder, setSortOrder] = useState<LocalItem[]>(items);
 
   const submitSortOrder = useCallback(() => {
     resortItems(sortOrder);
   }, [sortOrder]);
+
+  useEffect(() => {
+    if (!sorting && sorting !== null) {
+      // If a timeout is not set, this runs before the bounce animation finishes
+      // Due to threading (I think) the animation gets stuck halfway through
+      setTimeout(() => submitSortOrder(), 100);
+    }
+  }, [sorting]);
 
   useEffect(() => {
     setSortOrder(items);
@@ -136,16 +144,8 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
   }
 
   return (
-    <View>
       <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
-        <BouncyPressable 
-          onPress={() => {
-            if (sorting) {
-              submitSortOrder();
-            }
-            setSorting(!sorting);
-          }}
-        >
+      <BouncyPressable onPress={() => setSorting(!sorting)}>
           <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
             <WeatherWidget date={date || day || ''} />
             <View style={styles.dayOfWeekPressable}>
@@ -185,7 +185,6 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
               listWrapperStyles={{ backgroundColor: 'transparent' }}
             />
           )}
-        </View>
 
         {sorting ? (
           <BouncyPressable style={styles.doneButton} onPress={() => {
@@ -203,8 +202,8 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
             newRank={items.length}
           />
         )}
+      </View>
       </Animated.View>
-    </View>
   );
 };
 
