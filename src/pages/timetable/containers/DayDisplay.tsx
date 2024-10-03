@@ -58,6 +58,7 @@ type Props = {
 
 export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
   const { reload, resortItems, startDate, endDate } = useTimetable();
+  const { updateUser } = useAuth();
   const [sorting, setSorting] = useState<boolean | null>(null);
   const [sortOrder, setSortOrder] = useState<LocalItem[]>(items);
 
@@ -151,7 +152,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
       return;
     }
 
-    const shiftAmount = daysDifferenceBetween(startDate, endDate);
+    const shiftAmount = daysDifferenceBetween(startDate, endDate) - 1;
     const startOfWeek = getStartOfCurrentWeek();
 
     let newStart = addDayToStringDate(startDate, 1);
@@ -172,7 +173,10 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
         },
         {
           text: 'Confirm', 
-          onPress: () => reload(newStart, newEnd),
+          onPress: async () => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+            reload(newStart, newEnd).then(() => updateUser({ first_day: newStart }));
+          },
           isPreferred: allDone
         },
       ],
@@ -310,7 +314,8 @@ const styles = StyleSheet.create({
   },
   listWrapperView: {
     flexDirection: 'column',
-    marginTop: 2
+    marginTop: 2,
+    gap: 2,
   },
 
   doneButton: {

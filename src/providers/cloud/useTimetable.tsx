@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useAuth } from 'providers/cloud/useAuth';
+import * as Haptics from 'expo-haptics';
 import { getCalendars } from 'expo-localization';
 import {
   createItem,
@@ -131,6 +132,7 @@ export const TimetableProvider = ({ children }: Props) => {
       setSyncing(false);
     }
 
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
     return [start, end];
   }, [user])
 

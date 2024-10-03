@@ -6,6 +6,7 @@ import { black, deepBlue, deepBlueOpacity, primaryGreen, secondaryGreen, white }
 import { addWeekToStringDate, daysDifferenceBetween, formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from 'utils/dates';
 import { DateString, WeekDays } from 'schema/util/dates';
 import { useTimetable } from 'providers/cloud/useTimetable';
+import { useAuth } from 'providers/cloud/useAuth';
 
 enum ShiftDirection {
   BACK = -1,
@@ -19,6 +20,7 @@ type Props = {
 
 export const CalendarRange = ({ color, textColor }: Props) => {
   const { reload, startDate, endDate } = useTimetable();
+  const { updateUser } = useAuth();
 
   const shift = (direction: ShiftDirection) => {
     const newStart = formatDateData(localisedMoment(startDate).add(direction * WeekDays.length, 'days').toDate())
@@ -30,10 +32,14 @@ export const CalendarRange = ({ color, textColor }: Props) => {
   return (
     <BouncyPressable
       style={[styles.weekDateDisplayTouchable, { backgroundColor: color }]}
-      onLongPress={() => reload(
-        formatDateData(getStartOfCurrentWeek()),
-        formatDateData(getEndOfCurrentWeek())
-      )}
+      onLongPress={() => {
+        reload(
+          formatDateData(getStartOfCurrentWeek()),
+          formatDateData(getEndOfCurrentWeek())
+        ).then(() => 
+          updateUser({ first_day: formatDateData(getStartOfCurrentWeek()) })
+        )
+      }}
     >
       <Native.TouchableOpacity onPress={() => shift(ShiftDirection.BACK)} style={styles.arrowTouchable}>
         <Entypo name="chevron-left" color={textColor} size={30} />
