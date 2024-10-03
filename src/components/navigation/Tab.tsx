@@ -19,9 +19,9 @@ export const Tab = ({ isFocused, index, onPress, route }: Props) => {
   const isCentral = useMemo(() => index === ENLARGED_TAB_INDEX, [index]);
 
   const tabHeight = () => {
-    let height = 85;
+    let height = 80;
     if (isCentral) {
-      height = 100
+      height = 90
     }
 
     if (Native.Platform.OS !== 'ios') {

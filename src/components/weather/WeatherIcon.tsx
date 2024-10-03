@@ -49,10 +49,11 @@ type Props = {
   timestamp: Date,
   sunrise: Date,
   sunset: Date,
-  size?: number
+  size?: number,
+  color?: string
 }
 
-export default function WeatherIcon({ main, description, timestamp, sunrise, sunset, size = 30}: Props) {
+export default function WeatherIcon({ main, description, timestamp, sunrise, sunset, size = 30, color = 'black'}: Props) {
   const dayTime =
     !(timestamp && sunrise && sunset) ||
     !(timestamp < sunrise || timestamp > sunset);
@@ -66,37 +67,37 @@ export default function WeatherIcon({ main, description, timestamp, sunrise, sun
 
   switch (main) {
     case CLEAR:
-      return <Sunny />
+      return <Sunny color={color} />
     case CLOUDS:
       switch (description) {
         case 'broken clouds':
-          return <BrokenClouds />
+          return <BrokenClouds color={color} />
         case 'scattered clouds':
-          return <ScatteredClouds />
+          return <ScatteredClouds color={color} />
         default:
           return dayTime
-            ? <FewCloudsDay />
-            : <FewCloudsNight />;
+            ? <FewCloudsDay color={color} />
+            : <FewCloudsNight color={color} />;
       }
     case DRIZZLE:
       return dayTime
-        ? <LightRainDay />
-        : <LightRainNight />;
+        ? <LightRainDay color={color} />
+        : <LightRainNight color={color} />;
     case FEELS_LIKE:
-      return <Temperature />;
+      return <Temperature color={color} />;
     case HUMIDITY:
-      return <Humidity />;
+      return <Humidity color={color} />;
     case RAIN:
-      return <Rain />;
+      return <Rain color={color} />;
     case SNOW:
-      return <Snow />;
+      return <Snow color={color} />;
     case THUNDERSTORM:
-      return <Thunderstorm />;
+      return <Thunderstorm color={color} />;
     case UVI:
-      return <Sunny />;
+      return <Sunny color={color} />;
     case WIND_SPEED:
-      return <Wind />;
+      return <Wind color={color} />;
     default:
-      return <FewCloudsDay />;
+      return <FewCloudsDay color={color} />;
   }
 }

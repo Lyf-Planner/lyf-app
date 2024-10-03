@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     gap: 12,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 65,
+    height: 60,
     paddingHorizontal: 16,
     backgroundColor: primaryGreen, 
     

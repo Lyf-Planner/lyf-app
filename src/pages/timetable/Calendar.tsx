@@ -177,7 +177,7 @@ export const Calendar = () => {
             />
           </Native.View>
 
-          <CalendarRange color={primaryGreen} />
+          <CalendarRange color={deepBlueOpacity(0.2)} textColor={black} />
 
           {loading && <PageLoader />}
 

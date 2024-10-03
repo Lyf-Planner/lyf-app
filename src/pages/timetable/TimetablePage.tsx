@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
     textTransform: "none" 
   },
   tabBarItemStyle: {
-    height: 65,
     flexDirection: "row",
     gap: 4
   },
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
-    height: 65,
+    height: 60,
     flexDirection: 'column',
     justifyContent: 'center'
   },

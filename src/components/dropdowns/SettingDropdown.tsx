@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   touchableHighlight: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 65,
+    height: 60,
 
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },

@@ -4,7 +4,7 @@ import Svg, { Path, SvgProps } from "react-native-svg"
 function SvgComponent(props: SvgProps) {
   return (
     <Svg
-      fill="black"
+      fill={props.color || 'black'}
       viewBox="0 0 32 32"
       {...props}
     >

@@ -8,7 +8,7 @@ import { formatDateData } from "utils/dates";
 import { renderDescription } from "schema/util/weather";
 import WeatherIcon from "./WeatherIcon";
 import Sunny from './icons/Sunny';
-import { black } from "utils/colours";
+import { black, eventsBadgeColor, white } from "utils/colours";
 
 type Props = {
   date: DateString;
@@ -19,7 +19,7 @@ export const WeatherWidget = ({ date }: Props) => {
   if (!weather) {
     return (
       <View style={[styles.iconPressableWrapper, styles.loadingIcon]}>
-        <Sunny />
+        <Sunny color={eventsBadgeColor} />
       </View>
     )
   }
@@ -46,10 +46,6 @@ export const WeatherWidget = ({ date }: Props) => {
     iconPressableWrapper: {
       opacity: new Date(date) > new Date() ? 0.5 : 1
     }
-  }
-
-  if (date === '2024-09-15') {
-    console.log("weather", dateWeather);
   }
 
   return (
@@ -92,6 +88,7 @@ export const WeatherWidget = ({ date }: Props) => {
           sunrise={sunrise} 
           sunset={sunset} 
           size={30}
+          color={black}
         />
       </View>
     </LyfPopup>
@@ -103,7 +100,6 @@ const styles = StyleSheet.create({
     padding: 4,
     width: 40,
     height: 40,
-    tintColor: black
   },
   loadingIcon: {
     opacity: 0.4

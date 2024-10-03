@@ -2,7 +2,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 import { BouncyPressable } from "components/pressables/BouncyPressable";
 import * as Native from 'react-native';
-import { primaryGreen, secondaryGreen, white } from "utils/colours";
+import { black, deepBlue, deepBlueOpacity, primaryGreen, secondaryGreen, white } from "utils/colours";
 import { addWeekToStringDate, daysDifferenceBetween, formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from 'utils/dates';
 import { DateString, WeekDays } from 'schema/util/dates';
 import { useTimetable } from 'providers/cloud/useTimetable';
@@ -17,7 +17,7 @@ type Props = {
   textColor?: string;
 }
 
-export const CalendarRange = ({ color = primaryGreen, textColor = white }: Props) => {
+export const CalendarRange = ({ color, textColor }: Props) => {
   const { reload, startDate, endDate } = useTimetable();
 
   const shift = (direction: ShiftDirection) => {
@@ -36,13 +36,13 @@ export const CalendarRange = ({ color = primaryGreen, textColor = white }: Props
       )}
     >
       <Native.TouchableOpacity onPress={() => shift(ShiftDirection.BACK)} style={styles.arrowTouchable}>
-        <Entypo name="chevron-left" color={textColor} size={25} />
+        <Entypo name="chevron-left" color={textColor} size={30} />
       </Native.TouchableOpacity>
       <Native.Text style={[styles.weekDateText, { color: textColor }]}>
         {formatDate(startDate, true)} - {formatDate(endDate, true)}
       </Native.Text>
       <Native.TouchableOpacity onPress={() => shift(ShiftDirection.FORWARD)} style={styles.arrowTouchable}>
-        <Entypo name="chevron-right" color={textColor} size={25} />
+        <Entypo name="chevron-right" size={30} />
       </Native.TouchableOpacity>
     </BouncyPressable>
   );
@@ -56,16 +56,10 @@ const styles = Native.StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 12,
     paddingHorizontal: 14,
-    borderWidth: 1,
     borderRadius: 10,
-
-    shadowColor: 'black',
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2
   },
   weekDateText: {
-    fontSize: 19,
+    fontSize: 20,
     fontFamily: 'Lexend',
   },
   arrowTouchable: {
