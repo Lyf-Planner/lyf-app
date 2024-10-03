@@ -48,7 +48,7 @@ export const CalendarRange = ({ color, textColor }: Props) => {
         {formatDate(startDate, true)} - {formatDate(endDate, true)}
       </Native.Text>
       <Native.TouchableOpacity onPress={() => shift(ShiftDirection.FORWARD)} style={styles.arrowTouchable}>
-        <Entypo name="chevron-right" size={30} />
+        <Entypo name="chevron-right" color={textColor} size={30} />
       </Native.TouchableOpacity>
     </BouncyPressable>
   );

@@ -162,26 +162,35 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
     
     const newEnd = addDayToStringDate(newStart, shiftAmount);
 
-    Alert.alert(
-      'Finish Day?',
-      allDone ? 'All items are completed' : 'Not all items are completed',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Day Finish Cancelled'),
-          isPreferred: !allDone
-        },
-        {
-          text: 'Confirm', 
-          onPress: async () => {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-            reload(newStart, newEnd).then(() => updateUser({ first_day: newStart }));
+    if (Platform.OS === 'web') {
+      const confirmDayFinish = confirm('Finish Day?');
+      if (confirmDayFinish) {
+        reload(newStart, newEnd).then(() => updateUser({ first_day: newStart }));
+      }
+    } else {
+      Alert.alert(
+        'Finish Day?',
+        allDone ? 'All items are completed' : 'Not all items are completed',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Day Finish Cancelled'),
+            isPreferred: !allDone
           },
-          isPreferred: allDone
-        },
-      ],
-      {cancelable: true},
-    );
+          {
+            text: 'Confirm', 
+            onPress: async () => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+              reload(newStart, newEnd).then(() => updateUser({ first_day: newStart }));
+            },
+            isPreferred: allDone
+          },
+        ],
+        {cancelable: true},
+      );
+    }
+
+    
   }
 
   const conditionalStyles = {
