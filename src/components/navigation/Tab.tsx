@@ -48,6 +48,7 @@ export const Tab = ({ isFocused, index, onPress, route }: Props) => {
       borderColor: gentleBlack,
       borderLeftWidth: isCentral ? 0.5 : 0,
       borderRightWidth: isCentral ? 0.5 : 0,
+      borderTopWidth: isFocused ? 0 : 0.5,
       paddingLeft: index === 0 ? 10 : 0,
       paddingRight: index === Object.keys(routes).length -1 ? 10 : 0,
     },
