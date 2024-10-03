@@ -12,15 +12,15 @@ import {
 } from 'rest/items';
 import { ItemStatus } from 'components/item/constants';
 import { v4 as uuid } from 'uuid';
-import { addWeekToStringDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek } from 'utils/dates';
+import { addDayToStringDate, formatDateData, getStartOfCurrentWeek, parseDateString } from 'utils/dates';
 import 'react-native-get-random-values';
-import { PublicUser, UserRelatedItem } from 'schema/user';
-import { Item, LocalItem } from 'schema/items';
-import { ItemDbObject, ItemType } from 'schema/database/items';
+import { UserRelatedItem } from 'schema/user';
+import { LocalItem } from 'schema/items';
+import { ItemType } from 'schema/database/items';
 import { Permission } from 'schema/database/items_on_users';
 import { SocialAction } from 'schema/util/social';
 import { ID } from 'schema/database/abstract';
-import { DateString } from 'schema/util/dates';
+import { DateString, WeekDays } from 'schema/util/dates';
 import { useCloud } from './cloudProvider';
 import { useNotes } from './useNotes';
 import { DailyWeather, HistoricalWeather } from 'openweather-api-node';
@@ -74,8 +74,24 @@ export const TimetableProvider = ({ children }: Props) => {
   const [items, setItems] = useState<LocalItem[]>([]);
   const [weather, setWeather] = useState<(HistoricalWeather | DailyWeather)[] | null>(null);
 
-  const [startDate, setStartDate] = useState(formatDateData(getStartOfCurrentWeek()));
-  const [endDate, setEndDate] = useState(formatDateData(getEndOfCurrentWeek()));
+  const getStartDate = () => {
+    const startOfWeek = getStartOfCurrentWeek();
+    const userFirstDay = user?.first_day ? parseDateString(user?.first_day) : startOfWeek;
+
+    let appliedFirstDay = userFirstDay;
+    if (userFirstDay.getTime() < startOfWeek.getTime()) {
+      appliedFirstDay = startOfWeek;
+    }
+  
+    return formatDateData(appliedFirstDay);
+  }
+
+  const getEndDate = () => {
+    return addDayToStringDate(getStartDate(), WeekDays.length - 1);
+  }
+
+  const [startDate, setStartDate] = useState(getStartDate());
+  const [endDate, setEndDate] = useState(getEndDate());
 
   useEffect(() => {
     if (location && user && user.weather_data) {

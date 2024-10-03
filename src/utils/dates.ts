@@ -44,6 +44,11 @@ export function getEndOfCurrentWeek(date?: Date) {
   return new Date(end);
 }
 
+
+export function addDayToStringDate(date: string, amount = 1) {
+  return formatDateData(moment(date).add(amount, 'day').toDate());
+}
+
 export function addWeekToStringDate(date: string, amount = 1) {
   return formatDateData(moment(date).add(amount, 'week').toDate());
 }

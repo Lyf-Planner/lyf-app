@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 10,
     height: 55,
-    borderWidth: 1,
+    borderWidth: 0.5,
     gap: 4,
     alignItems: 'center'
   },

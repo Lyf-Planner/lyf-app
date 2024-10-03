@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Vibration, Platform } from 'react-native';
+import { View, Text, StyleSheet, Vibration, Platform, Alert } from 'react-native';
 import { Horizontal, Vertical } from '../../../components/general/MiscComponents';
 import { List } from '../../../components/list/List';
 import {
@@ -6,7 +6,11 @@ import {
   dayFromDateString,
   formatDate,
   formatDateData,
-  dateWithTime
+  dateWithTime,
+  addDayToStringDate,
+  parseDateString,
+  daysDifferenceBetween,
+  getStartOfCurrentWeek
 } from '../../../utils/dates';
 import {
   black,
@@ -53,7 +57,7 @@ type Props = {
 
 
 export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
-  const { resortItems } = useTimetable();
+  const { reload, resortItems, startDate, endDate } = useTimetable();
   const [sorting, setSorting] = useState<boolean | null>(null);
   const [sortOrder, setSortOrder] = useState<LocalItem[]>(items);
 
@@ -137,6 +141,45 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
     }
   }, [canDelete]);
 
+  const finishDay = () => {
+    if (!date) {
+      return;
+    }
+
+    const isFutureDay = parseDateString(date).getTime() > new Date().getTime();
+    if (isFutureDay) {
+      return;
+    }
+
+    const shiftAmount = daysDifferenceBetween(startDate, endDate);
+    const startOfWeek = getStartOfCurrentWeek();
+
+    let newStart = addDayToStringDate(startDate, 1);
+    if (parseDateString(newStart).getTime() < startOfWeek.getTime()) {
+      newStart = formatDateData(startOfWeek);
+    }
+    
+    const newEnd = addDayToStringDate(newStart, shiftAmount);
+
+    Alert.alert(
+      'Finish Day?',
+      allDone ? 'All items are completed' : 'Not all items are completed',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Day Finish Cancelled'),
+          isPreferred: !allDone
+        },
+        {
+          text: 'Confirm', 
+          onPress: () => reload(newStart, newEnd),
+          isPreferred: allDone
+        },
+      ],
+      {cancelable: true},
+    );
+  }
+
   const conditionalStyles = {
     dayRootView: {
       shadowOffset: shadowOffset ?? { width: 3, height: 3 },
@@ -145,7 +188,10 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
 
   return (
       <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
-      <BouncyPressable onPress={() => setSorting(!sorting)}>
+        <BouncyPressable 
+          onPress={() => setSorting(!sorting)}
+          onLongPress={() => finishDay()}
+        >
           <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
             <WeatherWidget date={date || day || ''} />
             <View style={styles.dayOfWeekPressable}>
@@ -246,7 +292,6 @@ const styles = StyleSheet.create({
     marginLeft: 'auto'
   },
   dayDateText: {
-    fontWeight: '300',
     paddingRight: 2,
     marginLeft: 16,
     fontSize: 16,

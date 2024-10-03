@@ -19,7 +19,7 @@ export const WeatherWidget = ({ date }: Props) => {
   if (!weather) {
     return (
       <View style={[styles.iconPressableWrapper, styles.loadingIcon]}>
-        <Sunny color={eventsBadgeColor} />
+        <Sunny color={black} />
       </View>
     )
   }
