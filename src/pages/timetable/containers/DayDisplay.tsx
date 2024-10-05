@@ -153,13 +153,8 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
     }
 
     const shiftAmount = daysDifferenceBetween(startDate, endDate) - 1;
-    const startOfWeek = getStartOfCurrentWeek();
 
-    let newStart = addDayToStringDate(startDate, 1);
-    if (parseDateString(newStart).getTime() < startOfWeek.getTime()) {
-      newStart = formatDateData(startOfWeek);
-    }
-    
+    const newStart = addDayToStringDate(date, 1);    
     const newEnd = addDayToStringDate(newStart, shiftAmount);
 
     if (Platform.OS === 'web') {
