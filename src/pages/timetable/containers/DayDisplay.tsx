@@ -164,7 +164,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
       }
     } else {
       Alert.alert(
-        'Finish Day?',
+        allDone ? 'Finish Day' : 'Finish Day?',
         allDone ? 'All items are completed' : 'Not all items are completed',
         [
           {

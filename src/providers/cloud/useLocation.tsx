@@ -46,7 +46,6 @@ export const LocationProvider = ({ children }: Props) => {
     const retrievedLocation = Platform.OS === 'web' ? await getCurrentPositionAsync() : await getLastKnownPositionAsync({});
 
     setLocation(retrievedLocation || undefined);
-    updateUser({ weather_data: true })
     return true;
   }
 

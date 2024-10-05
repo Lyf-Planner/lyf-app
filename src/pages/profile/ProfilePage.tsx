@@ -9,13 +9,13 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { black, deepBlueOpacity, primaryGreen, white } from 'utils/colours';
 import { PrivacySettings } from './privacy/PrivacySettings';
-import { WeatherSettings } from './weather/WeatherSettings';
+import { WeatherSetting } from './calendar/WeatherSetting';
 import { PageBackground } from 'components/general/PageBackground';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { RouteParams } from 'Routes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { DayFinishingSetting } from './calendar/DayFinishingSetting';
 
-const weatherIcon = require('../../../assets/images/weather.webp');
 
 export const Profile = (props: BottomTabScreenProps<RouteParams>) => {
   return (
@@ -45,12 +45,11 @@ export const Profile = (props: BottomTabScreenProps<RouteParams>) => {
                 <PrivacySettings />
               </SettingDropdown>
               <SettingDropdown
-                name="Weather Settings"
-                icon={
-                  <Image source={weatherIcon} style={styles.weatherIcon} resizeMode="contain" />
-                }
+                name="Calendar Settings"
+                icon={<MaterialCommunityIcons name='calendar' size={22} />}
               >
-                <WeatherSettings />
+                <WeatherSetting />
+                <DayFinishingSetting />
               </SettingDropdown>
               <SettingDropdown
                 name="Danger Zone"

@@ -2,25 +2,27 @@ import { useAuth } from "providers/cloud/useAuth"
 import { useLocation } from "providers/cloud/useLocation";
 import { StyleSheet, View, Text, Switch } from "react-native"
 
-export const WeatherSettings = () => {
+export const WeatherSetting = () => {
   const { user, updateUser } = useAuth();
   const { requestLocation } = useLocation();
 
   const updateWeather = (enabled?: boolean) => {
     if (enabled) {
-      requestLocation();
+      requestLocation().then((locationPermitted) => 
+        updateUser({ weather_data: locationPermitted })
+      );
       return;
     }
 
-    updateUser({ weather_data: false })
+    updateUser({ weather_data: false });
   }
 
   return (
     <View style={styles.main}>
-      <View style={styles.privacySettingRow}>
-        <Text style={styles.privateModeText}>Enable Weather Data</Text>
+      <View style={styles.settingRow}>
+        <Text style={styles.settingNameText}>Enable Weather Data</Text>
         <Switch 
-          style={styles.privacyModeToggle} 
+          style={styles.settingToggle} 
           onValueChange={updateWeather}
           value={!!user?.weather_data}
           ios_backgroundColor={'gray'}
@@ -38,17 +40,17 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 8,
   },
-  privacySettingRow: {
+  settingRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8
   },
-  privateModeText: {
+  settingNameText: {
     fontFamily: 'Lexend',
     fontSize: 20,
     color: 'white'
   },
-  privacyModeToggle: {
+  settingToggle: {
     marginLeft: 'auto',
   },
   hint: {
