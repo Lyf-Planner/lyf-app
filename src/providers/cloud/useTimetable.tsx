@@ -26,6 +26,7 @@ import { useCloud } from './cloudProvider';
 import { useNotes } from './useNotes';
 import { DailyWeather, HistoricalWeather } from 'openweather-api-node';
 import { useLocation } from './useLocation';
+import { AppState } from 'react-native';
 
 export type TimetableHooks = {
   startDate: DateString,
@@ -64,6 +65,8 @@ type Props = {
  * Store for all data related to timetable
  */
 export const TimetableProvider = ({ children }: Props) => {
+  const [lastActive, setLastActive] = useState(new Date());
+
   const { user } = useAuth()
   const { location } = useLocation();
   const { handleNoteItemUpdate } = useNotes();
@@ -101,6 +104,25 @@ export const TimetableProvider = ({ children }: Props) => {
       })
     }
   }, [startDate, endDate, location])
+
+  // Sync the timetable again if inactivity lasts 2 mins+
+  useEffect(() => {
+    const appStateListener = AppState.addEventListener("change", (state) => {
+      const appStateChangeTime = new Date();
+      const inactivityPeriod = appStateChangeTime.getTime() - lastActive.getTime();
+
+      // Reload if inactive for > 2 mins and entering active state
+      console.log('App was last active:', inactivityPeriod / 1000, 'seconds ago')
+      if (inactivityPeriod > 2 * 60 * 1000 && state === 'active') {
+        reload();
+      }
+
+      setLastActive(appStateChangeTime);
+      console.log(`App ${state} at ${appStateChangeTime}`);
+    });
+
+    return () => appStateListener.remove();
+  }, [lastActive]);
 
   // Timetable needs to fetch all the list item ids before anything else
   const reload = useCallback(async (start_date?: string, end_date?: string) => {
@@ -192,6 +214,19 @@ export const TimetableProvider = ({ children }: Props) => {
       permission: Permission.Owner,
       sorting_rank: rank,
       relations: {},
+
+      // Include all fields for reference, satisfying type
+      note_id: undefined,
+      template_id: undefined,
+      date: undefined,
+      day: undefined,
+      desc: undefined,
+      time: undefined,
+      end_time: undefined,
+      url: undefined,
+      location: undefined,
+      show_in_upcoming: undefined,
+      notification_mins: undefined,
 
       // Then overwrite with whatever info we do have;
       ...initial,
