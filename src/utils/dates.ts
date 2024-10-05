@@ -25,6 +25,10 @@ export const localisedFormattedMoment = (args?: any, format?: string) => {
   return moment(args, format);
 };
 
+export function currentDateString() {
+  return formatDateData(new Date());
+}
+
 export function getStartOfCurrentWeek(date?: Date) {
   const now = date ?? new Date();
 

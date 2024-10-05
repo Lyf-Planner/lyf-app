@@ -10,7 +10,8 @@ import {
   addDayToStringDate,
   parseDateString,
   daysDifferenceBetween,
-  getStartOfCurrentWeek
+  getStartOfCurrentWeek,
+  currentDateString
 } from '../../../utils/dates';
 import {
   black,
@@ -58,7 +59,7 @@ type Props = {
 
 export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
   const { reload, resortItems, startDate, endDate } = useTimetable();
-  const { updateUser } = useAuth();
+  const { user, updateUser } = useAuth();
   const [sorting, setSorting] = useState<boolean | null>(null);
   const [sortOrder, setSortOrder] = useState<LocalItem[]>(items);
 
@@ -85,11 +86,11 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
       ),
     [items]
   );
-  const canDelete = useMemo(
+  const canFinish = useMemo(
     () =>
       !useRoutine &&
       date &&
-      date.localeCompare(formatDateData(new Date())) < 1 &&
+      date.localeCompare(formatDateData(new Date())) < 0 &&
       allDone,
     [allDone, date, useRoutine]
   );
@@ -137,10 +138,26 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
   };
 
   useEffect(() => {
-    if (canDelete && date && date.localeCompare(formatDateData(new Date())) < 1) {
+    if (canFinish && date) {
       bounceHandle();
+
+      // Automatic day finishing - only applies to when a user finishes there current first_day
+      // This prevents the days from jumping forward and skipping an unfinished day.
+      const firstDay = user?.first_day || formatDateData(getStartOfCurrentWeek());
+      console.log(date, firstDay, date.localeCompare(firstDay));
+
+      const behindFirstDay = date.localeCompare(firstDay) < 0
+      const behindCurrentDay = date.localeCompare(currentDateString()) < 0;
+
+      console.log(`${date} ${JSON.stringify({ behindCurrentDay, behindFirstDay, firstDay })}`);
+
+      if (!behindFirstDay && behindCurrentDay && user?.auto_day_finishing) {
+        console.log(`Automatically finishing day ${date} ${JSON.stringify({ behindCurrentDay, behindFirstDay, firstDay })}`)
+        const nextDay = addDayToStringDate(date);
+        updateUser({ first_day: nextDay });
+      }
     }
-  }, [canDelete]);
+  }, [canFinish]);
 
   const finishDay = () => {
     if (!date) {
@@ -210,7 +227,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
             </View>
             <View style={styles.headerEnd}>
               <Vertical style={styles.diagLines} />
-              {canDelete && <Vertical style={styles.diagLines} />}
+              {canFinish && <Vertical style={styles.diagLines} />}
 
               {date && (
                 <Text style={styles.dayDateText}>{formatDate(date, true)}</Text>

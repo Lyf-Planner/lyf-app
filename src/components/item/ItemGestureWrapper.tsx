@@ -208,7 +208,6 @@ export const ListItemGestureWrapper = ({
       flingStartY = event.absoluteY;
     })
     .onFinalize((event) => {
-      console.log("diff is", event.absoluteX - flingStartX);
       const xDiff = event.absoluteX - flingStartX;
       const yDiff = event.absoluteY - flingStartY;
 
@@ -229,7 +228,6 @@ export const ListItemGestureWrapper = ({
       flingStartY = event.absoluteY;
     })
     .onFinalize((event) => {
-      console.log("diff is", event.absoluteX - flingStartX);
       const xDiff = event.absoluteX - flingStartX;
       const yDiff = event.absoluteY - flingStartY;
 
