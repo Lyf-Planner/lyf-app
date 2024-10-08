@@ -15,6 +15,7 @@ import { TimetableProvider } from './useTimetable';
 import { NotesProvider } from './useNotes';
 import { FriendsProvider } from './useFriends';
 import { LocationProvider } from './useLocation';
+import { NoticeboardProvider } from './useNoticeboard';
 
 type Props = {
   children: JSX.Element;
@@ -42,17 +43,19 @@ export const CloudProvider = ({ children }: Props) => {
   return (
     <CloudContext.Provider value={exposed}>
       <AuthGateway>
-        <NotificationsLayer>
-          <LocationProvider>
-            <NotesProvider>
-              <TimetableProvider>
-                <FriendsProvider>
-                  {children}
-                </FriendsProvider>
-              </TimetableProvider>
-            </NotesProvider>
-          </LocationProvider>
-        </NotificationsLayer>
+        <NoticeboardProvider>
+          <NotificationsLayer>
+            <LocationProvider>
+              <NotesProvider>
+                <TimetableProvider>
+                  <FriendsProvider>
+                    {children}
+                  </FriendsProvider>
+                </TimetableProvider>
+              </NotesProvider>
+            </LocationProvider>
+          </NotificationsLayer>
+        </NoticeboardProvider>
       </AuthGateway>
     </CloudContext.Provider>
   );

@@ -68,12 +68,13 @@ export const ListDropdown = ({ items, listType, icon, name, startOpen = false }:
       >
         {icon}
         <Text style={styles.listTitle}>{name}</Text>
-        {items.length > 0 && 
-          <Text style={styles.listSize}>{`(${items.length})`}</Text>
-        }
+        
         <View style={styles.headerLeft}>
+          {items.length > 0 && 
+            <Text style={styles.listSize}>{`(${items.length})`}</Text>
+          }
           <Animated.View style={[styles.animatedChevron, chevronRotationAnimation]}>
-            <Entypo name="chevron-right" color={eventsBadgeColor} size={25} />
+            <Entypo name="chevron-right" color={eventsBadgeColor} size={30} />
           </Animated.View>
         </View>
       </Pressable>
@@ -128,6 +129,7 @@ const styles = StyleSheet.create({
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: 'auto',
   },
   listTitle: {
     fontSize: 20,
@@ -138,7 +140,6 @@ const styles = StyleSheet.create({
   listSize: {
     paddingVertical: 4,
     fontSize: 16,
-    marginLeft: 'auto',
     fontFamily: 'Lexend',
     color: eventsBadgeColor
   },

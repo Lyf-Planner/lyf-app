@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderTopWidth: 1,
     borderRadius: 10,
-    backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.7),
+    backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.8),
     borderColor: 'rgba(0,0,0,0.3)',
 
     shadowColor: 'black',

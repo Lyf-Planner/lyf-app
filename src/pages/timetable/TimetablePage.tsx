@@ -13,12 +13,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const Tab = createMaterialTopTabNavigator();
 
 export const Timetable = (props: BottomTabScreenProps<RouteParams>) => {
-  const { reload } = useTimetable();
-
-  // useEffect(() => {
-  //   reload();
-  // }, [])
-
   return (
     <View style={styles.main}>
       <Tab.Navigator

@@ -78,13 +78,6 @@ export const Tab = ({ isFocused, index, onPress, route }: Props) => {
             >
               {route.icon(isFocused ? white : black)}
             </Native.View>
-            {isFocused && 
-              <Octicons
-                name="dot-fill"
-                color="white"
-                style={styles.whiteDot}
-              />
-            }
         </Native.Pressable>
       </LinearGradient>
     </Native.View>

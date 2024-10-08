@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { Horizontal, Loader } from '../general/MiscComponents';
 import { useRef, useState } from 'react';
-import { USER_NOT_FOUND, login } from '../../rest/auth';
+import { USER_NOT_FOUND, login } from '../../rest/user';
 import { createUser } from '../../rest/user';
 import { validatePassword, validateUsername } from '../../utils/validators';
 import { ExposedUser } from 'schema/user';

@@ -23,12 +23,12 @@ type RouteData = {
 export const routes: Record<keyof RouteParams, RouteData> = Object.freeze({
   "Timetable": {
     label: "Timetable",
-    icon: (color: string) => <MaterialCommunityIcons name='calendar' size={25} color={color}/>,
+    icon: (color: string) => <MaterialCommunityIcons name='calendar' size={28} color={color}/>,
     root: Timetable
   },
   "Notes": {
     label: "Notes",
-    icon: (color: string) => <Entypo name='list' size={25} color={color} />,
+    icon: (color: string) => <Entypo name='list' size={30} color={color} />,
     root: Notes
   },
   "Lyf": {

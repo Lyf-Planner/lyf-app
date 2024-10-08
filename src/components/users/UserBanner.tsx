@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     borderRadius: 10,
     borderWidth: 0.5,
-    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.7),
+    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.8),
     borderColor: 'rgba(0,0,0,0.3)',
 
     shadowColor: 'black',

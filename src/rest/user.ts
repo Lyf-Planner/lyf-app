@@ -1,4 +1,4 @@
-import { get, post } from './axios';
+import { get, post } from './_axios';
 import { storeAsyncData } from '../utils/asyncStorage';
 import { getCalendars } from 'expo-localization';
 import env from '../envManager';
@@ -7,7 +7,36 @@ import { FriendshipAction } from '../schema/util/social';
 import { ID } from 'schema/database/abstract';
 import { Notification } from 'schema/notifications';
 
+export const USER_NOT_FOUND = 'Not found';
+
 const usersEndpoint = (req: string) => `/users/${req}`;
+
+export async function login(username: string, password: string) {
+  const endpoint = usersEndpoint(`login?user_id=${username}&password=${password}`)
+  const result = await get(endpoint);
+
+  if (result?.status === 200) {
+    storeAsyncData('token', result.data.token);
+    return result.data.user;
+  } else if (result?.status === 404) {
+    return USER_NOT_FOUND;
+  } else if (result?.status === 429) {
+    alert('Suspicioius login behaviour. Please wait at least 3 seconds between attempts');
+  } else {
+    alert('Incorrect password');
+  }
+}
+
+export async function autologin() {
+  const endpoint = usersEndpoint('autologin');
+
+  const result = (await get(endpoint)) as any;
+  if (result?.status === 200) {
+    return result.data;
+  } else {
+    return null;
+  }
+}
 
 export async function saveUser(changes: Partial<User>) {
   const endpoint = usersEndpoint('update')
@@ -63,16 +92,20 @@ export async function getUser(user_id: string, include: string) {
   // We use this to check result is a user and not an error object
   if (result?.status === 200) {
     return result.data;
+  } else {
+    alert(result.data);
   }
 }
 
 export async function getNotifications(limit: number) {
-  const endpoint = usersEndpoint(`notifications?&limit=${limit}`)
+  const endpoint = usersEndpoint(`notifications?limit=${limit}`)
 
   const result = await get(endpoint);
   // We use this to check result is a user and not an error object
   if (result?.status === 200) {
     return result.data;
+  } else {
+    alert(result.data);
   }
 }
 
@@ -86,6 +119,8 @@ export async function updateNotification(id: ID, changes: Partial<Notification>)
   // We use this to check result is a user and not an error object
   if (result?.status === 200) {
     return result.data;
+  } else {
+    alert(result.data);
   }
 }
 

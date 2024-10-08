@@ -3,7 +3,7 @@ import { addWeekToStringDate, allDatesBetween, dateWithTime, dayFromDateString, 
 import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from 'providers/cloud/useAuth';
 import { CalendarRange } from './containers/CalendarRange';
-import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor, primaryGreen, secondaryGreen, sun, white } from 'utils/colours';
+import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor, primaryGreen, secondaryGreen, sun, transparent, white } from 'utils/colours';
 import { DayDisplay } from './containers/DayDisplay';
 import { LocalItem } from 'schema/items';
 import { BouncyPressable } from 'components/pressables/BouncyPressable';
@@ -177,7 +177,7 @@ export const Calendar = () => {
             />
           </Native.View>
 
-          <CalendarRange color={deepBlueOpacity(0.1)} textColor={black} />
+          <CalendarRange color={deepBlueOpacity(0.2)} textColor={black} />
 
           {loading && <PageLoader />}
 

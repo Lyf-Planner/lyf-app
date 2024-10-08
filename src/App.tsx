@@ -1,4 +1,4 @@
-import { Platform, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { useFonts } from 'expo-font';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TouchableWithoutFeedback, Keyboard } from 'react-native';
@@ -8,7 +8,6 @@ import Routes from 'Routes';
 import { CloudProvider } from 'providers/cloud/cloudProvider';
 import { OverlayProvider } from 'providers/overlays/overlayProvider';
 import { RouteProvider } from 'providers/routes';
-import { useEffect } from 'react';
 
 export default function App() {
   const [loaded] = useFonts({

@@ -10,7 +10,7 @@ import {
   getAsyncData,
   deleteAsyncData
 } from 'utils/asyncStorage';
-import { autologin } from 'rest/auth';
+import { autologin } from 'rest/user';
 import { LoadingScreen } from 'components/general/MiscComponents';
 import { Login } from 'components/auth/Login';
 import { getCalendars } from 'expo-localization';

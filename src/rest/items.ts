@@ -1,4 +1,4 @@
-import { get, post } from './axios';
+import { get, post } from './_axios';
 import env from '../envManager';
 import { SocialAction } from '../schema/util/social';
 import { Permission } from '../schema/database/items_on_users';

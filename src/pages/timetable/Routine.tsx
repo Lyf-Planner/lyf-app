@@ -82,10 +82,10 @@ const styles = Native.StyleSheet.create({
     borderRadius: 10,
     backgroundColor: primaryGreen,
 
-    shadowOffset: { width: -2, height: 2 },
+    shadowOffset: { width: -1, height: 1 },
     shadowColor: 'black',
     shadowOpacity: 1,
-    shadowRadius: 3
+    shadowRadius: 2
   },
 
   weekDateText: {

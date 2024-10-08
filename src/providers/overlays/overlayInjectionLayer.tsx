@@ -6,6 +6,8 @@ import { useCallback, useEffect, useRef } from 'react';
 import { Keyboard, Platform, Pressable, StyleSheet } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { useNoticeboard } from 'providers/cloud/useNoticeboard';
+import { Noticeboard } from 'components/noticeboard/Noticeboard';
 
 type Props = {
   children: JSX.Element;
@@ -14,6 +16,7 @@ type Props = {
 export const OverlayInjectionLayer = ({ children }: Props) => {
   const { drawer, minHeight } = useDrawer();
   const { modal, updateModal } = useModal();
+  const { checkNoticeboard } = useNoticeboard();
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -29,6 +32,13 @@ export const OverlayInjectionLayer = ({ children }: Props) => {
     }
     Keyboard.dismiss();
   }, [drawer]);
+
+  // Check the noticeboard
+  useEffect(() => {
+    checkNoticeboard({
+      openNoticeboard: () => updateModal(<Noticeboard />)
+    });
+  }, []);
 
   return (
     <BottomSheetModalProvider>

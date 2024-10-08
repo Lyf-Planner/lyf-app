@@ -1,4 +1,4 @@
-import { get, post } from './axios';
+import { get, post } from './_axios';
 import env from '../envManager';
 import { Note } from 'schema/notes';
 import { NoteDbObject } from 'schema/database/notes';
