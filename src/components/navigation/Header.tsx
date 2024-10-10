@@ -11,9 +11,7 @@ import { useTutorial } from 'providers/overlays/useTutorial';
 import { useNotifications } from 'providers/cloud/useNotifications';
 import { useModal } from 'providers/overlays/useModal';
 import { NotificationModal } from 'components/notifications/NotificationModal';
-
-
-const LyfIcon = require("../../../assets/images/icon.png")
+import { LyfIcon } from 'schema/util/images';
 
 export function defaultTabHeader(label: string): BottomTabNavigationOptions  {
   const { updateTutorial } = useTutorial();

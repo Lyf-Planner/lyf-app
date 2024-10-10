@@ -36,8 +36,18 @@ export const NoticeboardProvider = ({ children }: Props) => {
       type: 'feature',
       title: "What's New?",
       content: "Hold down your day when you're all done, to move to the next!",
-      image_url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.slideshare.net%2Fslideshow%2F4x3-slide-test%2F79261450&psig=AOvVaw156AiWDxJUUtZBMwBJxG8H&ust=1728469431137000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCODR-MXI_ogDFQAAAAAdAAAAABAK'
-    })
+      image_url: 'https://lyf-notice-images.s3.ap-southeast-2.amazonaws.com/sams-world.png'
+    },
+    { // TODO Remove when done testing
+      id: 'test',
+      version: '2.0.4',
+      created: new Date(),
+      last_updated: new Date(),
+      type: 'feature',
+      title: "What's New 2??",
+      content: "Hold down your day when you're all done, to move to the next!",
+      image_url: 'https://lyf-notice-images.s3.ap-southeast-2.amazonaws.com/sams-world.png'
+    });
     console.debug('RECEIVED NOTICES', notices);
     setNotices(notices);
 
