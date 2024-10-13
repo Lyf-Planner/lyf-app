@@ -43,7 +43,10 @@ export const Login = ({ updateUser }: Props) => {
     }
 
     updateLoggingIn(false);
-    updateUser(user);
+
+    if (user) {
+      updateUser(user);
+    }
   }
 
   const conditionalStyles = {
