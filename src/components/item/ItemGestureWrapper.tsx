@@ -70,9 +70,10 @@ export const ListItemGestureWrapper = ({
       return;
     }
 
-    const markingAsDone = Platform.OS === 'web' 
-      ? item.status === ItemStatus.InProgress
-      : item.status === ItemStatus.Upcoming;
+    const markingAsDone = (
+      item.status === ItemStatus.InProgress ||
+      (Platform.OS !== 'web' && item.status === ItemStatus.Upcoming)
+    );
     animatedValues.scale.value = markingAsDone ? 0.7 : 0.9;
     await sleep(SCALE_MS);
 
