@@ -27,27 +27,9 @@ export const NoticeboardProvider = ({ children }: Props) => {
   const checkNoticeboard = ({ openNoticeboard }: CheckNoticeboardArgs) => getSeenNotices().then(async (seenNotices) => {
     console.debug('SEEN NOTICES ARE', seenNotices);
 
-    const notices: NoticeDbObject[] = await getNotices(env.VERSION, seenNotices || '');
-    notices.push({ // TODO Remove when done testing
-      id: 'test',
-      version: '2.0.4',
-      created: new Date(),
-      last_updated: new Date(),
-      type: 'feature',
-      title: "What's New?",
-      content: "Hold down your day when you're all done, to move to the next!",
-      image_url: 'https://lyf-notice-images.s3.ap-southeast-2.amazonaws.com/sams-world.png'
-    },
-    { // TODO Remove when done testing
-      id: 'test',
-      version: '2.0.4',
-      created: new Date(),
-      last_updated: new Date(),
-      type: 'feature',
-      title: "What's New 2??",
-      content: "Hold down your day when you're all done, to move to the next!",
-      image_url: 'https://lyf-notice-images.s3.ap-southeast-2.amazonaws.com/sams-world.png'
-    });
+    // Change this to '' to see all notices for the current version.
+    const excludedNotices = seenNotices || '';
+    const notices: NoticeDbObject[] = await getNotices(env.VERSION, excludedNotices);
     console.debug('RECEIVED NOTICES', notices);
     setNotices(notices);
 
