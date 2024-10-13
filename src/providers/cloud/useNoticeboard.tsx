@@ -25,19 +25,19 @@ export const NoticeboardProvider = ({ children }: Props) => {
   }
   
   const checkNoticeboard = ({ openNoticeboard }: CheckNoticeboardArgs) => getSeenNotices().then(async (seenNotices) => {
-    console.debug('SEEN NOTICES ARE', seenNotices);
-
     // Change this to '' to see all notices for the current version.
     const excludedNotices = seenNotices || '';
     const notices: NoticeDbObject[] = await getNotices(env.VERSION, excludedNotices);
-    console.debug('RECEIVED NOTICES', notices);
-    setNotices(notices);
+
+    // Sort warnings to the front, as they will almost always be added after features / version bumps
+    const warningFirstNotices = notices.sort((a, b) => a.type === 'warning' ? -1 : 1) 
+    setNotices(warningFirstNotices);
 
     if (notices.length > 0) {
-      console.debug('OPENING NOTICEBOARD');
       openNoticeboard();
     } 
 
+    // Add any unseen notices we just queried to the seen pile.
     const parsedNotices = seenNotices ? seenNotices.split(',') : [];
     notices.forEach((notice) => {
       if (!parsedNotices.includes(notice.id)) {
@@ -46,7 +46,6 @@ export const NoticeboardProvider = ({ children }: Props) => {
     })
 
     const serialisedNotices = parsedNotices.join(',');
-    console.debug('SETTING SEEN NOTICES AS', serialisedNotices);
     await storeAsyncData(`${env.VERSION}-notices`, serialisedNotices);
   });
 
