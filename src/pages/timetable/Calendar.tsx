@@ -1,6 +1,6 @@
 import * as Native from 'react-native';
 import { addWeekToStringDate, allDatesBetween, dateWithTime, dayFromDateString, daysDifferenceBetween, extendByWeek, formatDate, formatDateData, getStartOfCurrentWeek, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAuth } from 'providers/cloud/useAuth';
 import { CalendarRange } from './containers/CalendarRange';
 import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor, primaryGreen, secondaryGreen, sun, white } from 'utils/colours';
@@ -21,6 +21,13 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 export const Calendar = () => {
   const { loading, items, reload, startDate, endDate } = useTimetable();
+  const scrollRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ x: 0, y: 0 });
+    }
+  }, [startDate, endDate]);
 
   const displayedDays = useMemo(() => allDatesBetween(startDate, endDate), [startDate, endDate]);
 
@@ -94,7 +101,7 @@ export const Calendar = () => {
   if (Native.Platform.OS === 'web') {
     return (
       <PageBackground locations={[0,0.82,1]}>
-        <ScrollView style={styles.scroll}>
+        <ScrollView style={styles.scroll} ref={scrollRef}>
           <Native.View style={styles.webContainer}>
             <Native.View style={styles.webDropdowns}>
               <ListDropdown
