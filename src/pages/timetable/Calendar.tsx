@@ -54,13 +54,7 @@ export const Calendar = () => {
       }
     }
 
-    return localItems.sort((a, b) => {
-      if (a.time && b.time) {
-        return dateWithTime(a.time).getTime() - dateWithTime(b.time).getTime();
-      }
-
-      return a.sorting_rank - b.sorting_rank
-    });
+    return localItems.sort((a, b) => a.sorting_rank - b.sorting_rank);
   }, [items, displayedDays])
 
   const upcomingEvents = useMemo(() => (
