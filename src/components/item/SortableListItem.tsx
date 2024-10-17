@@ -51,7 +51,6 @@ export const SortableListItem = ({
   return (
     <Pressable 
       style={[styles.listItem, conditionalStyles.listItem]}
-      disabled={!!item.time}
       onPressIn={() => dragFunc()}
       onLongPress={() => dragFunc()}
     >
@@ -71,15 +70,13 @@ export const SortableListItem = ({
         </View>
       )}
 
-
       {item.collaborative && <CollaborativeIcon item={item} />}
-      {!item.time &&
-        <SortingHandle
-          disabled
-          backgroundColor={secondaryColor}
-          iconColor={conditionalStyles.sortHandleIconColor}
-        />
-      }
+
+      <SortingHandle
+        disabled
+        backgroundColor={secondaryColor}
+        iconColor={conditionalStyles.sortHandleIconColor}
+      />
     </Pressable>
   );
 };
