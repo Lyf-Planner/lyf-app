@@ -1,18 +1,18 @@
 import * as Native from 'react-native';
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { TabBar } from "components/navigation/TabBar";
-import { defaultTabHeader } from "components/navigation/Header";
+import { TabBar } from "containers/TabBar";
+import { defaultTabHeader } from "components/Header";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Entypo from 'react-native-vector-icons/Entypo'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Timetable } from 'pages/timetable/TimetablePage';
-import { Notes } from 'pages/notes/NotesPage';
-import { Friends } from 'pages/friends/FriendsPage';
-import { Profile } from 'pages/profile/ProfilePage';
-import { Create } from 'pages/create/Create';
+import { Timetable } from 'pages/Timetable';
+import { Notes } from 'pages/Notes';
+import { Friends } from 'pages/Friends';
+import { Profile } from 'pages/Profile';
+import { Create } from 'pages/Create';
 import { ID } from 'schema/database/abstract';
-import { useTutorial } from 'providers/overlays/useTutorial';
+import { useTutorial } from 'hooks/overlays/useTutorial';
 
 type RouteData = {
   label: keyof RouteParams;

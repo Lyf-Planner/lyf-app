@@ -40,3 +40,38 @@ Tasks to contribute to Lyf Mobile are defined in the [Lyf Mobile Jira](https://l
 Deployments are handled via Expo Application Services, and can all be delegated to @ethanhusband.
 
 The live version of the app can be seen on the App Store [here](https://apps.apple.com/au/app/lyf/id6470702288). Currently the app is not available on Google Play store.
+
+## Project Structure
+
+- `assets`
+  - images
+  - icons
+  - fonts
+- `components`
+  - simple building blocks of the UI
+  - stateless and controlled by props
+  - can be composed of smaller components, as long as it is still stateless
+- `containers`
+  - stateful compositions of components (or component wrappers)
+- `hooks` 
+  - providers for app hooks
+  - operate global state managament
+- `pages`
+  - key app routes
+  - composed of containers and components
+- `rest`
+  - defines async functions that make calls to our REST API
+- `schema`
+  - common types used throughout the whole software (App, API)
+- `utils`
+  - helper functions, constants and types used by containers or components throughout the app
+- `App.tsx`
+  - application entrypoint
+  - wraps app with all providers
+  - if unauthorised, auth provider will redirect to login 
+  - if authorised, renders Routes
+- `envManager.ts`
+  - global interface for environment variables
+- `Routes.tsx`
+  - defines the apps key routes accessed via the TabNavigator
+
