@@ -67,7 +67,7 @@ export async function getUser(user_id: string, include: string) {
 }
 
 export async function getNotifications(limit: number) {
-  const endpoint = usersEndpoint(`notifications?&limit=${limit}`)
+  const endpoint = usersEndpoint(`notifications?limit=${limit}`)
 
   const result = await get(endpoint);
   // We use this to check result is a user and not an error object

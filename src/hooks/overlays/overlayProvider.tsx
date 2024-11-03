@@ -12,11 +12,11 @@ export const OverlayProvider = ({ children }: Props) => (
     <MenuProvider>
       <ModalProvider>
         <DrawerProvider>
-          <OverlayInjectionLayer>
-            <TutorialProvider>
+          <TutorialProvider>
+            <OverlayInjectionLayer>
               {children}
-            </TutorialProvider>
-          </OverlayInjectionLayer>
+            </OverlayInjectionLayer>
+          </TutorialProvider>
         </DrawerProvider>
       </ModalProvider>
     </MenuProvider>

@@ -11,15 +11,15 @@ import {
   deleteAsyncData
 } from 'utils/asyncStorage';
 import { autologin } from 'rest/auth';
-import { LoadingScreen } from 'components/general/MiscComponents';
-import { Login } from 'components/auth/Login';
+import { LoadingScreen } from 'components/LoadingScreen';
+import { Login } from 'containers/Login';
 import { getCalendars } from 'expo-localization';
 import {
   deleteMe,
   saveUser,
 } from 'rest/user';
 import { AppState, Platform } from 'react-native';
-import { Background } from 'components/general/Background';
+import { Background } from 'containers/Background';
 import { ExposedUser, User } from 'schema/user';
 
 type Props = {

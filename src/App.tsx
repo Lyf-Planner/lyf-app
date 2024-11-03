@@ -12,10 +12,10 @@ import { useEffect } from 'react';
 
 export default function App() {
   const [loaded] = useFonts({
-    Lexend: require('../assets/fonts/Lexend/Lexend-VariableFont_wght.ttf'),
-    LexendThin: require('../assets/fonts/Lexend/static/Lexend-Light.ttf'),
-    LexendSemibold: require('../assets/fonts/Lexend/static/Lexend-SemiBold.ttf'),
-    LexendBold: require('../assets/fonts/Lexend/static/Lexend-ExtraBold.ttf')
+    Lexend: require('assets/fonts/Lexend/Lexend-VariableFont_wght.ttf'),
+    LexendThin: require('assets/fonts/Lexend/static/Lexend-Light.ttf'),
+    LexendSemibold: require('assets/fonts/Lexend/static/Lexend-SemiBold.ttf'),
+    LexendBold: require('assets/fonts/Lexend/static/Lexend-ExtraBold.ttf')
   });
 
   if (!loaded) {

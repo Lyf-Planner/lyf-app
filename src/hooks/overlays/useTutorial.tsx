@@ -1,6 +1,4 @@
 import { createContext, useContext, useState } from 'react';
-import { TutorialOverlay } from 'pages/tutorial/TutorialOverlay';
-import { useAuth } from 'hooks/cloud/useAuth';
 import { LyfElement } from 'utils/abstractTypes';
 import { RouteParams } from 'Routes';
 
@@ -9,6 +7,7 @@ type Props = {
 }
 
 type TutorialHooks = {
+  tutorial: boolean,
   tutorialRoute: keyof RouteParams | undefined;
   updateTutorial: (show: boolean) => void;
   updateTutorialRoute: (route: keyof RouteParams) => void;
@@ -20,6 +19,7 @@ export const TutorialProvider = ({ children }: Props) => {
   const [tutorialRoute, updateTutorialRoute] = useState<keyof RouteParams>();
 
   const exposed = {
+    tutorial,
     tutorialRoute,
     updateTutorial,
     updateTutorialRoute
@@ -27,7 +27,7 @@ export const TutorialProvider = ({ children }: Props) => {
 
   return (
     <TutorialContext.Provider value={exposed}>
-      {tutorial ? <TutorialOverlay /> : children}
+      {children}
     </TutorialContext.Provider>
   );
 };

@@ -11,13 +11,12 @@ import {
   updateItem as updateRemoteItem,
   updateItemSocial as updateRemoteItemSocial
 } from 'rest/items';
-import { ItemStatus } from 'components/item/constants';
 import { v4 as uuid } from 'uuid';
 import { addDayToStringDate, formatDateData, getStartOfCurrentWeek, parseDateString } from 'utils/dates';
 import 'react-native-get-random-values';
 import { UserRelatedItem } from 'schema/user';
 import { LocalItem } from 'schema/items';
-import { ItemType } from 'schema/database/items';
+import { ItemType, ItemStatus } from 'schema/database/items';
 import { Permission } from 'schema/database/items_on_users';
 import { SocialAction } from 'schema/util/social';
 import { ID } from 'schema/database/abstract';

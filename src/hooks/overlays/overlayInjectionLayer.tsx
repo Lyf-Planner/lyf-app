@@ -5,7 +5,8 @@ import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@go
 import { useCallback, useEffect, useRef } from 'react';
 import { Keyboard, Platform, Pressable, StyleSheet } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { useTutorial } from './useTutorial';
+import { TutorialOverlay } from 'pages/Tutorial';
 
 type Props = {
   children: JSX.Element;
@@ -14,6 +15,7 @@ type Props = {
 export const OverlayInjectionLayer = ({ children }: Props) => {
   const { drawer, minHeight } = useDrawer();
   const { modal, updateModal } = useModal();
+  const { tutorial } = useTutorial();
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
@@ -32,7 +34,7 @@ export const OverlayInjectionLayer = ({ children }: Props) => {
 
   return (
     <BottomSheetModalProvider>
-      {children}
+      {tutorial ? <TutorialOverlay /> : children}
 
       {drawer && (
         <BottomSheetModal
