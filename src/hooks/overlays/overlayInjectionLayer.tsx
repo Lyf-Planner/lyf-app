@@ -2,13 +2,12 @@ import { useCallback, useEffect, useRef } from 'react';
 import { Keyboard, Platform, Pressable, StyleSheet } from 'react-native';
 
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
+import { useDrawer } from 'hooks/overlays/useDrawer';
+import { useModal } from 'hooks/overlays/useModal';
+import { useTutorial } from 'hooks/overlays/useTutorial';
 import { TutorialOverlay } from 'pages/Tutorial';
-import { MenuProvider } from 'react-native-popup-menu';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
-
-import { useDrawer } from './useDrawer';
-import { useModal } from './useModal';
-import { useTutorial } from './useTutorial';
+import Animated, { FadeIn } from 'react-native-reanimated';
+import { black, blackWithOpacity } from 'utils/colours';
 
 type Props = {
   children: JSX.Element;
@@ -82,14 +81,14 @@ export const OverlayInjectionLayer = ({ children }: Props) => {
 
 const styles = StyleSheet.create({
   bottomSheetWrapper: {
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.8,
     shadowRadius: 10
   },
   modalMobilePositioning: {
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: blackWithOpacity(0.4),
     bottom: 0,
     justifyContent: 'center',
     left: 0,
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
   },
   modalWebPositioning: {
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: blackWithOpacity(0.4),
     flex: 1,
     justifyContent: 'center'
   },

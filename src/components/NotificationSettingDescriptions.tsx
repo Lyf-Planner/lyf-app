@@ -132,12 +132,12 @@ const dailyStyles = StyleSheet.create({
     width: 85
   },
   dateTimeWrapper: {
-    backgroundColor: 'white',
+    backgroundColor: white,
     borderRadius: 10,
     overflow: 'hidden'
   },
   firstText: {
-    color: 'white',
+    color: white,
     fontSize: 16,
     opacity: 0.6
   },
@@ -159,12 +159,12 @@ const dailyStyles = StyleSheet.create({
     width: 60
   },
   secondText: {
-    color: 'white',
+    color: white,
     fontSize: 16,
     opacity: 0.6
   },
   thirdText: {
-    color: 'white',
+    color: white,
     fontSize: 16,
     lineHeight: 28,
     opacity: 0.6
@@ -173,7 +173,7 @@ const dailyStyles = StyleSheet.create({
 
 const eventStyles = StyleSheet.create({
   firstText: {
-    color: 'white',
+    color: white,
     fontSize: 16,
     opacity: 0.6
   },
@@ -192,7 +192,7 @@ const eventStyles = StyleSheet.create({
     width: 40
   },
   secondText: {
-    color: 'white',
+    color: white,
     fontSize: 16,
     lineHeight: 28,
     opacity: 0.6

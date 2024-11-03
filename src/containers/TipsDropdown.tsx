@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   bullet: {
-    color: 'white',
+    color: white,
     fontSize: 20,
     width: '5%'
   },
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
 
     padding: 12,
 
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.75,
     shadowRadius: 2
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   },
 
   tip: {
-    color: 'white',
+    color: white,
     fontFamily: 'Lexend',
     fontSize: 16
   },

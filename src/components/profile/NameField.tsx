@@ -47,7 +47,7 @@ export const NameField = () => {
 const styles = StyleSheet.create({
   detailsFieldValueText: {
     alignItems: 'center',
-    color: 'white',
+    color: white,
     flexDirection: 'row',
     fontSize: 16
   },

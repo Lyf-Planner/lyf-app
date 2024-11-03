@@ -7,7 +7,7 @@ import { useTimetable } from 'hooks/cloud/useTimetable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { WeekDays } from 'schema/util/dates';
-import { deepBlue, primaryGreen, white } from 'utils/colours';
+import { black, deepBlue, primaryGreen, white } from 'utils/colours';
 
 export const Routine = () => {
   const { loading, items } = useTimetable();
@@ -63,29 +63,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 12,
 
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: -2, height: 2 },
     shadowOpacity: 1,
     shadowRadius: 3
-  },
-
-  loadingContainer: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    gap: 10,
-    justifyContent: 'center',
-    marginTop: 20
-  },
-
-  loadingText: {
-    fontFamily: 'Lexend',
-    fontSize: 20
-  },
-
-  main: {
-    marginBottom: 125,
-    marginTop: 15,
-    paddingHorizontal: 14
   },
 
   scroll: {
@@ -103,7 +84,7 @@ const styles = StyleSheet.create({
   },
 
   weekDateText: {
-    color: 'white',
+    color: white,
     fontFamily: 'Lexend',
     fontSize: 20
   },

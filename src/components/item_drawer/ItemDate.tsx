@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     position: 'relative'
   },
   routineText: {
-    color: 'white',
+    color: white,
     fontFamily: 'Lexend',
     fontSize: 16
   }

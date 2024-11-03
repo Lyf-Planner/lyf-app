@@ -30,7 +30,7 @@ export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, whiteShadow = t
   const conditionalStyles = {
     listNewItem: whiteShadow && Platform.OS !== 'web' ? {
       shadowOffset: { width: 0, height: 0 },
-      shadowColor: 'white',
+      shadowColor: white,
       shadowOpacity: 1,
       shadowRadius: 1
     } : {}

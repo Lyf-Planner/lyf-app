@@ -1,7 +1,4 @@
-import { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import { createContext, useContext, useState } from 'react';
 
 type Props = {
   children: JSX.Element;

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 
 import { BottomTabNavigationProp, BottomTabScreenProps } from '@react-navigation/bottom-tabs'
-import { NavigationProp, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { RouteParams } from 'Routes'
 import { CreationButton } from 'components/CreationButton'
 import { ItemDrawer } from 'containers/ItemDrawer'
@@ -15,7 +15,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { ItemType } from 'schema/database/items'
 import { NoteType } from 'schema/database/notes'
-import { deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from 'utils/colours'
+import { black, deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from 'utils/colours'
 import { formatDateData } from 'utils/dates'
 
 interface ButtonsLoading {
@@ -141,8 +141,8 @@ const styles = StyleSheet.create({
     height: 60,
     justifyContent: 'center',
     paddingHorizontal: 16,
-    shadowColor: 'black',
 
+    shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,

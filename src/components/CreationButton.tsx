@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     gap: 8,
     height: 125,
     justifyContent: 'center',
-    shadowColor: 'black',
+    shadowColor: black,
 
     shadowOpacity: 0.7,
     shadowRadius: 2,

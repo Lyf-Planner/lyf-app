@@ -10,11 +10,11 @@ import { useModal } from 'hooks/overlays/useModal';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { ItemRelatedUser, LocalItem } from 'schema/items';
 import { NoteRelatedUser } from 'schema/notes';
-import { UserFriend } from 'schema/user';
-import { deepBlueOpacity, eventsBadgeColor, lightGreen, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
+import { PublicUser, UserFriend } from 'schema/user';
+import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, lightGreen, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
 
 type Props = {
-  user: UserFriend | ItemRelatedUser | NoteRelatedUser,
+  user: UserFriend | ItemRelatedUser | NoteRelatedUser | PublicUser,
   callback?: () => void,
   context?: UserListContext,
   item?: LocalItem,
@@ -41,7 +41,7 @@ export const UserBanner = ({
       style={styles.main}
       onPress={() => updateModal(<UserModal user_id={user.id} key={user.id} />)}
     >
-      <FontAwesome name="user" size={30} style={{ width: 32, height: 32, alignSelf: 'center' }} color={eventsBadgeColor} />
+      <FontAwesome name="user" size={30} style={styles.userIcon} color={eventsBadgeColor} />
       <View style={styles.nameRow}>
         {userHasDisplayName &&
           <Text
@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
   actionWrapper: {
     borderRadius: 50,
     marginLeft: 'auto',
-    shadowColor: 'black',
 
+    shadowColor: black,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'stretch',
     backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.7),
-    borderColor: 'rgba(0,0,0,0.3)',
+    borderColor: blackWithOpacity(0.3),
     borderRadius: 10,
     borderWidth: 0.5,
     flexDirection: 'row',
@@ -104,8 +104,8 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
     paddingRight: 8,
     paddingVertical: 16,
-    shadowColor: 'black',
 
+    shadowColor: black,
     shadowOffset: { width: 3, height: 3 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
@@ -118,5 +118,10 @@ const styles = StyleSheet.create({
     gap: 2,
     paddingRight: 10
   },
-  subAliasText: { color: 'rgba(255,255,255,0.5)' }
+  subAliasText: { color: whiteWithOpacity(0.5) },
+  userIcon: {
+    alignSelf: 'center',
+    height: 32,
+    width: 32
+  }
 });

@@ -49,7 +49,7 @@ export const ListItemUnderlay = ({ item, drawerLoading }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  editIcon: { color: 'black', marginLeft: 'auto', marginRight: 11 },
+  editIcon: { color: black, marginLeft: 'auto', marginRight: 11 },
   listHiddenBackground: {
     alignItems: 'center',
     borderWidth: 1,

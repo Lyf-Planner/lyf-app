@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   deleteText: {
-    color: 'white',
+    color: white,
     fontFamily: 'Lexend',
     fontSize: 18,
     fontWeight: '700'

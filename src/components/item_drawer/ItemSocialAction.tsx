@@ -17,22 +17,15 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { NoteRelatedUser } from 'schema/notes';
 import { UserFriend } from 'schema/user';
 
-import { ID } from '../../schema/database/abstract';
 import { Permission } from '../../schema/database/items_on_users';
 import { ItemRelatedUser, LocalItem } from '../../schema/items';
 import { SocialAction } from '../../schema/util/social';
 import {
-  appleGray,
   black,
+  blackWithOpacity,
   primaryGreen,
   white
 } from '../../utils/colours';
-
-const PERMISSION_COLOR: Record<Permission, string> = {
-  Owner: primaryGreen,
-  Editor: primaryGreen,
-  'Read Only': appleGray
-};
 
 type SocialUser = ItemRelatedUser | UserFriend | NoteRelatedUser
 
@@ -103,7 +96,7 @@ export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props
     />
   );
 
-  const menu = useRef<any>();
+  const menu = useRef<Menu | null>();
 
   const hasMenu = useMemo(() =>
     (item.permission === Permission.Owner) ||
@@ -168,10 +161,14 @@ export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props
 
 const styles = StyleSheet.create({
   optionSeperator: { marginHorizontal: 5 },
-  optionText: { color: 'rgba(0,0,0,0.7)', fontFamily: 'Lexend', fontSize: 18 },
+  optionText: {
+    color: blackWithOpacity(0.7),
+    fontFamily: 'Lexend',
+    fontSize: 18
+  },
   optionWrapper: { flexDirection: 'row', justifyContent: 'center', marginHorizontal: 8, marginVertical: 4 },
   optionsContainer: {
-    borderColor: 'rgba(0,0,0,0.5)',
+    borderColor: blackWithOpacity(0.5),
     borderRadius: 10,
     borderWidth: 0.5,
     flexDirection: 'column',

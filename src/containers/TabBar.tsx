@@ -45,7 +45,7 @@ const styles = Native.StyleSheet.create({
     width: '100%',
     height: 65, // This doesn't actually effect the height, but for some reason fixes the shadow on web
 
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 0, height: -1 },
     shadowOpacity: 0.25,
     shadowRadius: 4

@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   bottomButtonsContainer: {
     flexDirection: 'row',
     gap: 5,
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 3
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 50,
     padding: 8,
-    shadowColor: 'black',
+    shadowColor: black,
 
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.7,
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     marginRight: 8
   },
   mainContainer: {
-    backgroundColor: 'white',
+    backgroundColor: white,
     borderColor: 'rgba(0,0,0,0.5)',
     borderRadius: Platform.OS === 'web' ? 20 : 0,
     gap: 10,
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'web' ? 20 : 0,
     width: Platform.OS === 'web' ? 500 : 'auto'
   },
-  removeText: { color: 'white' },
+  removeText: { color: white },
   secondSeperator: { borderWidth: 2, marginTop: 16, opacity: 0.2 },
   subtitle: {
     fontFamily: 'Lexend',

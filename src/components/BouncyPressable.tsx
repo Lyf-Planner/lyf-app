@@ -66,7 +66,7 @@ export const BouncyPressable = ({
     }
   }));
   const shadowStyle = {
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOpacity: 0.5,
     shadowRadius: 1,
     borderRadius: 10,

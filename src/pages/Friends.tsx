@@ -9,11 +9,12 @@ import { SearchHeader } from 'containers/FriendSearchHeader';
 import { PageBackground } from 'containers/PageBackground';
 import { UserList } from 'containers/UserList'
 import { useFriends } from 'hooks/cloud/useFriends'
+import { PublicUser } from 'schema/user';
 
 export const Friends = (props: BottomTabScreenProps<RouteParams>) => {
   const { friends, loading } = useFriends();
 
-  const [searchedUser, setSearchedUser] = useState<any>();
+  const [searchedUser, setSearchedUser] = useState<PublicUser | null>();
   const [searched, setSearched] = useState(false);
 
   return (
@@ -87,7 +88,6 @@ const styles = StyleSheet.create({
     width: '100%'
   },
 
-  loaderWrapper: { marginLeft: 'auto', marginRight: 8 },
   main: {
     flex: 1,
     flexDirection: 'column'

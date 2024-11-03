@@ -79,7 +79,7 @@ const styles = Native.StyleSheet.create({
     position: 'absolute',
     width: 350,
 
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 10
@@ -92,7 +92,7 @@ const styles = Native.StyleSheet.create({
     gap: 8,
     borderRadius: 10,
     borderWidth: 3,
-    borderColor: 'white'
+    borderColor: white
   },
   header: {
     flexDirection: 'row',
@@ -105,7 +105,7 @@ const styles = Native.StyleSheet.create({
     backgroundColor: primaryGreen,
     zIndex: 5,
 
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2
@@ -113,7 +113,7 @@ const styles = Native.StyleSheet.create({
   title: {
     fontFamily: 'Lexend',
     fontSize: 22,
-    color: 'white'
+    color: white
   },
   notificationBlock: {
     flexDirection: 'column',

@@ -12,7 +12,7 @@ import { useNotes } from 'hooks/cloud/useNotes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ID } from 'schema/database/abstract';
 import { NoteType } from 'schema/database/notes';
-import { primaryGreen, white } from 'utils/colours';
+import { black, gentleWhite, primaryGreen, white } from 'utils/colours';
 
 export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
   // Can be the ID of a folder or note, the manager will figure it out
@@ -76,20 +76,8 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
 };
 
 const styles = StyleSheet.create({
-  headerSeperator: { borderWidth: 2, marginHorizontal: 14, opacity: 0.6 },
-  loadingContainer: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    gap: 10,
-    justifyContent: 'center',
-    marginTop: 50
-  },
-  loadingText: {
-    fontFamily: 'Lexend',
-    fontSize: 20
-  },
   main: {
-    backgroundColor: '#EEE',
+    backgroundColor: gentleWhite,
     flex: 1
   },
   myNotesHeader: {
@@ -100,7 +88,7 @@ const styles = StyleSheet.create({
     height: 60,
     paddingHorizontal: 16,
 
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,

@@ -1,8 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
-import env from 'envManager';
-import { isDevice } from 'expo-device';
 import {
   requestForegroundPermissionsAsync,
   getLastKnownPositionAsync,
@@ -10,8 +8,6 @@ import {
   getCurrentPositionAsync
 } from 'expo-location';
 import { useAuth } from 'hooks/cloud/useAuth';
-import { ID } from 'schema/database/abstract';
-import { getAsyncData, storeAsyncData } from 'utils/asyncStorage';
 
 type Props = {
   children: JSX.Element;

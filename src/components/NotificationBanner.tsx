@@ -68,7 +68,7 @@ export const NotificationBanner = ({ notification }: Props) => {
     pressable: notification.seen ? {
       opacity: 0.6
     } : {
-      shadowColor: 'black',
+      shadowColor: black,
       shadowOpacity: 0.5,
       shadowRadius: 2,
       shadowOffset: {

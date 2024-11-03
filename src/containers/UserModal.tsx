@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, Platform } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 
 import { FriendAction } from 'components/FriendActions';
 import { Loader } from 'components/Loader';
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   actionButton: {
     borderRadius: 8,
     height: 50,
-    shadowColor: 'black',
+    shadowColor: black,
 
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.8,
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
 
     paddingHorizontal: 15,
     paddingVertical: 25,
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 10,

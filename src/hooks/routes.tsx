@@ -1,4 +1,4 @@
-import { NavigationContainer, NavigationProp } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 
 type Props = {
   children: JSX.Element;

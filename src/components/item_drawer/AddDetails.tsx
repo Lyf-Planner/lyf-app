@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     gap: 4
   },
   addFieldText: {
-    color: 'white',
+    color: white,
     fontSize: 16,
     textAlignVertical: 'center'
   },
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     padding: 8.75
   },
   addNotificationText: {
-    color: 'white',
+    color: white,
     fontSize: 16
   },
   detailsListWrapper: {

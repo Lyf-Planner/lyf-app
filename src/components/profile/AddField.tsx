@@ -24,7 +24,7 @@ export const AddField = ({ func, name }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  addFieldText: { color: 'white' },
+  addFieldText: { color: white },
   addFieldTouchable: {
     alignItems: 'center',
     borderRadius: 10,

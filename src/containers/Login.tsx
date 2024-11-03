@@ -11,6 +11,7 @@ import { Loader } from 'components/Loader';
 import { USER_NOT_FOUND, login } from 'rest/auth';
 import { createUser } from 'rest/user';
 import { ExposedUser } from 'schema/user';
+import { black, blackWithOpacity, loginFieldBackground, white } from 'utils/colours';
 import { validatePassword, validateUsername } from 'utils/validators';
 
 type Props = {
@@ -134,7 +135,7 @@ export const Login = ({ updateUser }: Props) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: white,
     borderRadius: 15,
     flexDirection: 'column',
     maxWidth: 400,
@@ -143,8 +144,8 @@ const styles = StyleSheet.create({
     zIndex: 10
   },
   fieldContainer: {
-    backgroundColor: 'rgb(203 213 225)',
-    borderColor: 'black',
+    backgroundColor: loginFieldBackground,
+    borderColor: black,
     borderRadius: 10,
     borderWidth: 1,
     flexDirection: 'column',
@@ -153,16 +154,16 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   fieldSeperator: {
-    borderColor: 'rgba(0,0,0,0.5)'
+    borderColor: blackWithOpacity(0.5)
   },
   fields: {
-    zIndex: 100,
-    marginVertical: 8,
+    fontFamily: 'Lexend',
     fontSize: 18,
     fontWeight: '300',
-    fontFamily: 'Lexend',
-    // @ts-ignore
-    outlineStyle: 'none'
+    marginVertical: 8,
+    // @ts-expect-error this is a valid web style that doesnt lint well with rn typescript
+    outlineStyle: 'none',
+    zIndex: 100
   },
   headerContainer: {
     alignItems: 'center',
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   loaderText: {
-    color: 'rgba(0,0,0,0.5)',
+    color: blackWithOpacity(0.5),
     fontFamily: 'Lexend',
     fontSize: 14
   },
@@ -197,15 +198,15 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    shadowColor: 'black',
 
+    shadowColor: black,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
     shadowRadius: 5,
     zIndex: 0
   },
   registerDisclaimer: {
-    color: 'rgba(0,0,0,0.3)',
+    color: blackWithOpacity(0.3),
     fontFamily: 'Lexend',
     fontSize: 12
   },

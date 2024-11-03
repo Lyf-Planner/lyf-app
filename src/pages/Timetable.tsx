@@ -6,7 +6,7 @@ import { RouteParams } from 'Routes';
 import { Calendar } from 'pages/Timetable_Calendar';
 import { Routine } from 'pages/Timetable_Routine';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { deepBlue, primaryGreen, sun, white } from 'utils/colours';
+import { black, deepBlue, primaryGreen, white } from 'utils/colours';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -23,7 +23,7 @@ export const Timetable = (props: BottomTabScreenProps<RouteParams>) => {
           tabBarStyle: styles.tabBarStyle,
           tabBarIndicatorStyle: styles.tabBarIndicatorStyle
         }}
-        sceneContainerStyle={{ flex: 1, height: '100%' }}
+        sceneContainerStyle={styles.sceneContainerStyle}
       >
         <Tab.Screen
           name="Calendar"
@@ -50,6 +50,10 @@ const styles = StyleSheet.create({
   main: {
     flex: 1
   },
+  sceneContainerStyle: {
+    flex: 1,
+    height: '100%'
+  },
   tabBarIndicatorStyle: {
     backgroundColor: deepBlue
   },
@@ -68,7 +72,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     height: 60,
     justifyContent: 'center',
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2

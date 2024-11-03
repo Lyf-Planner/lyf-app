@@ -49,10 +49,10 @@ export const fieldPrompt = (func: (data: string) => void, name: string) => {
 
 const styles = StyleSheet.create({
   detailsColumn: { flexDirection: 'column', gap: 8 },
-  detailsFieldNameText: { color: 'white', fontFamily: 'InterSemi', fontSize: 16, width: 120 },
+  detailsFieldNameText: { color: white, fontFamily: 'InterSemi', fontSize: 16, width: 120 },
   detailsFieldValueText: {
     alignItems: 'center',
-    color: 'white',
+    color: white,
     flexDirection: 'row',
     fontSize: 16
   },

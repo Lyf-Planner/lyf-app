@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   notificationTally: {
     alignItems: 'center',
     backgroundColor: 'red',
-    borderColor: 'white',
+    borderColor: white,
     borderRadius: 10,
     borderWidth: 1,
     flexDirection: 'row',
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     width: 20
   },
   notificationTallyText: {
-    color: 'white',
+    color: white,
     fontFamily: 'Lexend'
   },
   notifications: {

@@ -71,7 +71,7 @@ const styles = Native.StyleSheet.create({
     height: 65,
     alignItems: 'center',
 
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2
@@ -101,6 +101,6 @@ const styles = Native.StyleSheet.create({
     opacity: 0.6,
     fontWeight: '600',
     fontSize: 15,
-    color: 'white'
+    color: white
   }
 })

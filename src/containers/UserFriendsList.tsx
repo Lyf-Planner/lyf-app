@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     backgroundColor: eventsBadgeColor,
     borderRadius: 10,
     minHeight: 50,
-    shadowColor: 'black',
+    shadowColor: black,
 
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.5,

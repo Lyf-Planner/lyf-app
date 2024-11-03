@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
 
     padding: 12,
 
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOpacity: 0.75,
     shadowRadius: 2
   },

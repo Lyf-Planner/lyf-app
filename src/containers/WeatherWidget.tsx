@@ -118,15 +118,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600'
   },
-  popupIcon: {
-    height: 60,
-    shadowColor: 'black',
-
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 1,
-    shadowRadius: 1,
-    width: 60
-  },
   popupIconWrapper: {
     height: 70,
     padding: 8,

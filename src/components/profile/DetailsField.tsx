@@ -15,6 +15,6 @@ export const DetailsField = ({ fieldName, fieldValue }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  detailsFieldNameText: { color: 'white', fontFamily: 'Lexend', fontSize: 16, width: 150 },
+  detailsFieldNameText: { color: white, fontFamily: 'Lexend', fontSize: 16, width: 150 },
   detailsFieldView: { alignItems: 'center', flexDirection: 'row', height: 25 }
 })

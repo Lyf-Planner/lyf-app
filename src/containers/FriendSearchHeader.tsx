@@ -103,11 +103,11 @@ const styles = StyleSheet.create({
     height: 60,
     paddingHorizontal: 20,
 
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
     zIndex: 50
   },
-  searchInput: { color: 'white', fontFamily: 'Lexend', fontSize: 22, padding: 4 }
+  searchInput: { color: white, fontFamily: 'Lexend', fontSize: 22, padding: 4 }
 });

@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
 
   settingText: {
-    color: 'white',
+    color: white,
     fontFamily: 'Lexend',
     fontSize: 20
   },
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4
   },
   subtitle: {
-    color: 'white',
+    color: white,
     fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',

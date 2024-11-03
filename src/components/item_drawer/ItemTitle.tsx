@@ -47,7 +47,7 @@ export const ItemTitle = ({
 
 const styles = StyleSheet.create({
   itemTitle: {
-    color: 'white',
+    color: white,
     flex: 1,
     fontFamily: 'Lexend',
     fontSize: 18

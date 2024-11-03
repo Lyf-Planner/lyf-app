@@ -90,7 +90,7 @@ const InviteHandleButton = ({ func, text, color, icon }: HandleProps) => {
 
 const styles = StyleSheet.create({
   buttonText: {
-    color: 'white',
+    color: white,
     fontFamily: 'Lexend',
     fontSize: 18
   },
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 4,
     height: 50,
-    shadowColor: 'black',
+    shadowColor: black,
 
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,

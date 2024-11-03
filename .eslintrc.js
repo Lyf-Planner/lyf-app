@@ -25,7 +25,8 @@ const importRules = {
       ],
       pathGroupsExcludedImportTypes: []
     }
-  ]
+  ],
+  'import/no-relative-parent-imports': 'error'
 };
 
 const reactRules = {
@@ -49,6 +50,7 @@ const reactNativeRules = {
 const typescriptRules = {
   '@typescript-eslint/explicit-member-accessibility': 'off',
   '@typescript-eslint/no-explicit-any': 'error',
+  '@typescript-eslint/no-require-imports': 'off', // these are needed for images
   '@typescript-eslint/no-unused-vars': [
     'error',
     {
@@ -121,5 +123,6 @@ module.exports = {
     ...reactRules,
     ...reactNativeRules,
     ...typescriptRules
-  }
+  },
+  ignorePatterns: ['node_modules/']
 };

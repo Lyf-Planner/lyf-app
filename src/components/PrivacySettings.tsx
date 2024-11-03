@@ -25,7 +25,7 @@ export const PrivacySettings = () => {
 
 const styles = StyleSheet.create({
   hint: {
-    color: 'white',
+    color: white,
     fontSize: 16,
     opacity: 0.6
   },
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     gap: 8
   },
   privateModeText: {
-    color: 'white',
+    color: white,
     fontFamily: 'Lexend',
     fontSize: 20
   }

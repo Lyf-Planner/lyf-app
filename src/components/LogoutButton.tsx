@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   logoutText: {
-    color: 'white',
+    color: white,
     fontFamily: 'Lexend',
     fontSize: 18,
     fontWeight: '700'
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   touchable: {
     borderRadius: 5,
 
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2

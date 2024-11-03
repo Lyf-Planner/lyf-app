@@ -19,11 +19,14 @@ export const sun = '#fdfbd3';
 
 export const whiteWithOpacity = (a: number) => `rgba(255,255,255,${a})`
 export const white = 'rgb(255,255,255)'
+export const gentleWhite = '#EEE';
 export const offWhite = 'rgba(0,0,0,0.02)';
 export const appleGray = 'rgb(235,235,235)';
 export const gentleBlack = '#AAA';
 export const black = 'rgb(0,0,0)';
 export const blackWithOpacity = (a: number) => `rgba(0,0,0,${a})`
+
+export const loginFieldBackground = 'rgb(203 213 225)';
 
 export const darkCyan = '#158073';
 

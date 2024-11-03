@@ -50,12 +50,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
     paddingHorizontal: 12,
     paddingVertical: 6,
-    shadowColor: 'black',
+    shadowColor: black,
 
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
     width: '100%'
   },
-  searchInput: { color: 'white', fontSize: 22, padding: 4 }
+  searchInput: { color: white, fontSize: 22, padding: 4 }
 });

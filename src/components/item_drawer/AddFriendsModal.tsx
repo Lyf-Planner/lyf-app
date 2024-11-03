@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     alignContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: white,
     borderColor: 'rgba(0,0,0,0.5)',
     borderRadius: 10,
     borderWidth: 1,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     paddingBottom: Platform.OS === 'web' ? 30 : 0,
     paddingHorizontal: 10,
     paddingTop: 30,
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 10,

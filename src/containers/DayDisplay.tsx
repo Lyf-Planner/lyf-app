@@ -234,7 +234,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
             sortOrder={sortOrder}
             itemStyleOptions={{
               itemColor: 'rgb(241 245 249)',
-              itemTextColor: 'black'
+              itemTextColor: black
             }}
             listWrapperStyles={{ backgroundColor: 'transparent' }}
           />
@@ -242,7 +242,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
           <List
             items={items}
             itemStyleOptions={{
-              itemTextColor: 'black'
+              itemTextColor: black
             }}
             listWrapperStyles={{ backgroundColor: 'transparent' }}
           />
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 4,
     padding: 10,
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOpacity: 0.75,
 
     shadowRadius: 2,
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   doneText: {
-    color: 'black',
+    color: black,
     fontFamily: 'Lexend',
     fontSize: 17
   },

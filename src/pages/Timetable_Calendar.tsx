@@ -14,7 +14,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { ItemType } from 'schema/database/items';
 import { LocalItem } from 'schema/items';
 import { WeekDays } from 'schema/util/dates';
-import { black, deepBlueOpacity, eventsBadgeColor } from 'utils/colours';
+import { black, deepBlueOpacity, eventsBadgeColor, white } from 'utils/colours';
 import { allDatesBetween, dayFromDateString, formatDateData, localisedMoment } from 'utils/dates';
 import { isTemplate } from 'utils/item';
 import { v4 as uuid } from 'uuid';
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
 
   addWeekView: {
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: white,
     borderRadius: 10,
     flexDirection: 'row',
     gap: 5,
@@ -252,18 +252,6 @@ const styles = StyleSheet.create({
     gap: 6
   },
 
-  loadingContainer: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    gap: 10,
-    justifyContent: 'center',
-    marginTop: 20
-  },
-
-  loadingText: {
-    fontFamily: 'Lexend',
-    fontSize: 20
-  },
   scroll: {
     flex: 1,
     overflow: 'visible',

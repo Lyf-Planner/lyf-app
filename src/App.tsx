@@ -1,18 +1,16 @@
-import { Platform, StatusBar } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 
+import Routes from 'Routes';
 import { useFonts } from 'expo-font';
+import { CloudProvider } from 'hooks/cloud/cloudProvider';
+import { OverlayProvider } from 'hooks/overlays/overlayProvider';
+import { RouteProvider } from 'hooks/routes';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import env from './envManager';
 
 import 'expo-dev-client';
-import Routes from 'Routes';
-import { CloudProvider } from 'hooks/cloud/cloudProvider';
-import { OverlayProvider } from 'hooks/overlays/overlayProvider';
-import { RouteProvider } from 'hooks/routes';
-
-import { useEffect } from 'react';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -31,8 +29,8 @@ export default function App() {
   console.log('Starting with backend:', env.BACKEND_URL);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
+    <GestureHandlerRootView style={styles.main}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={styles.main}>
         <RouteProvider>
           <CloudProvider>
             <OverlayProvider>
@@ -44,3 +42,9 @@ export default function App() {
     </GestureHandlerRootView>
   );
 }
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1
+  }
+})

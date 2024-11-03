@@ -19,13 +19,13 @@ import { black, deepBlueOpacity, primaryGreen, white } from 'utils/colours';
 
 export const Profile = (props: BottomTabScreenProps<RouteParams>) => {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.main}>
       <View style={styles.header}>
         <FontAwesome5 name="user-alt" size={20} color="white" />
         <Text style={styles.pageTitle}>Account Details</Text>
       </View>
       <PageBackground noPadding>
-        <ScrollView style={styles.main}>
+        <ScrollView style={styles.scroll}>
           <View style={styles.scrollContainer}>
             <View style={styles.mainColumn}>
               <View style={styles.content}>
@@ -100,17 +100,14 @@ const styles = StyleSheet.create({
     height: 60,
     paddingHorizontal: 16,
 
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
     zIndex: 50
   },
-  headerSeperator: { borderWidth: 2, marginHorizontal: 14, opacity: 0.6 },
   main: {
-    flex: 1,
-    minHeight: 500,
-    paddingBottom: 100
+    flex: 1
   },
 
   mainColumn: {
@@ -118,33 +115,21 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%'
   },
-  newNoteContainer: {
-    marginLeft: 'auto',
-    marginRight: 5
-  },
   pageTitle: {
     color: white,
     fontFamily: 'Lexend',
     fontSize: 22,
     fontWeight: '400'
   },
+  scroll: {
+    flex: 1,
+    minHeight: 500,
+    paddingBottom: 100
+  },
+
   scrollContainer: {
     flexDirection: 'column',
     marginBottom: 200,
     width: '100%'
-  },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    opacity: 0.4
-  },
-
-  weatherIcon: {
-    height: 30,
-    position: 'relative',
-    right: 5,
-
-    tintColor: black,
-    width: 30
   }
 });
