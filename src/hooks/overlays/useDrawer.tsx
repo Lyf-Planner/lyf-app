@@ -7,8 +7,10 @@ import {
   useRef,
   useState
 } from 'react';
-import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
 import { Keyboard, Platform, StyleSheet } from 'react-native';
+
+import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
+
 import { useModal } from './useModal';
 
 type Props = {
@@ -24,7 +26,7 @@ export type DrawerHooks = {
 }
 
 // Component provider
-export const DrawerProvider = ({ children }: Props) => {  
+export const DrawerProvider = ({ children }: Props) => {
   const { updateModal } = useModal();
 
   const [drawer, updateDrawer] = useState<JSX.Element | undefined>(undefined);

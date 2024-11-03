@@ -1,21 +1,22 @@
-import { PageBackground } from "containers/PageBackground"
-import { ItemDrawer } from "containers/ItemDrawer"
-import { useTimetable } from "hooks/cloud/useTimetable"
-import { useDrawer } from "hooks/overlays/useDrawer"
-import { StyleSheet, View, Text } from "react-native"
-import Entypo from "react-native-vector-icons/Entypo"
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
-import MaterialIcons from "react-native-vector-icons/MaterialIcons"
-import { ItemType } from "schema/database/items"
-import { deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from "utils/colours"
-import { CreationButton } from "components/CreationButton"
-import { useState } from "react"
-import { useNotes } from "hooks/cloud/useNotes"
-import { NoteType } from "schema/database/notes"
-import { NavigationProp, useNavigation } from "@react-navigation/native"
-import { RouteParams } from "Routes"
-import { BottomTabNavigationProp, BottomTabScreenProps } from "@react-navigation/bottom-tabs"
-import { formatDateData } from "utils/dates"
+import { useState } from 'react'
+import { StyleSheet, View, Text } from 'react-native'
+
+import { BottomTabNavigationProp, BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { NavigationProp, useNavigation } from '@react-navigation/native'
+import { RouteParams } from 'Routes'
+import { CreationButton } from 'components/CreationButton'
+import { ItemDrawer } from 'containers/ItemDrawer'
+import { PageBackground } from 'containers/PageBackground'
+import { useNotes } from 'hooks/cloud/useNotes'
+import { useTimetable } from 'hooks/cloud/useTimetable'
+import { useDrawer } from 'hooks/overlays/useDrawer'
+import Entypo from 'react-native-vector-icons/Entypo'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import { ItemType } from 'schema/database/items'
+import { NoteType } from 'schema/database/notes'
+import { deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from 'utils/colours'
+import { formatDateData } from 'utils/dates'
 
 interface ButtonsLoading {
   event: boolean;
@@ -112,48 +113,48 @@ export const Create = (props: BottomTabScreenProps<RouteParams>) => {
 }
 
 const styles = StyleSheet.create({
-  main: {
-    flex: 1
-  },
-
-  header: {
-    zIndex: 50,
-    flexDirection: 'row',
-    gap: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 60,
-    paddingHorizontal: 16,
-    backgroundColor: primaryGreen, 
-    
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2
-  },
-  headerText: {
-    fontSize: 22, 
-    color: white, 
-    fontFamily: "Lexend", 
-    fontWeight: '400',
-  },
-
-  creationWrapper: {
-    flex: 1
-  },
   creationRow: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
     flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'center',
     gap: 50,
+    justifyContent: 'center',
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    width: '100%'
   },
+
   creationRowOne: {
     top: 100
   },
   creationRowTwo: {
     top: 275
+  },
+
+  creationWrapper: {
+    flex: 1
+  },
+  header: {
+    alignItems: 'center',
+    backgroundColor: primaryGreen,
+    flexDirection: 'row',
+    gap: 12,
+    height: 60,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    shadowColor: 'black',
+
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    zIndex: 50
+  },
+  headerText: {
+    color: white,
+    fontFamily: 'Lexend',
+    fontSize: 22,
+    fontWeight: '400'
+  },
+  main: {
+    flex: 1
   }
 })

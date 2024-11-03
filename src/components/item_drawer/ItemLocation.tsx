@@ -6,10 +6,11 @@ import {
   StyleSheet,
   TouchableHighlight
 } from 'react-native';
+
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { ItemDrawerProps } from 'utils/item';
 import debouncer from 'signature-debouncer';
+import { ItemDrawerProps } from 'utils/item';
 
 type Props = ItemDrawerProps & {
   setLocationOpen: (open: boolean) => void;
@@ -37,9 +38,9 @@ export const ItemLocation = ({
   const clearField = () => updateItem(item, { location: undefined });
 
   return (
-    <View style={[styles.mainContainer]}>
+    <View style={styles.mainContainer}>
       <MaterialIcons name="location-pin" size={20} />
-      <Text style={[styles.fieldText]}>Location</Text>
+      <Text style={styles.fieldText}>Location</Text>
       <View style={styles.inputWrapper}>
         <TouchableHighlight
           onPress={() => {
@@ -78,45 +79,45 @@ export const ItemLocation = ({
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flexDirection: 'row',
+  closeTouchable: { borderRadius: 5 },
+  fieldText: {
+    fontFamily: 'Lexend',
+    fontSize: 20
+  },
+  input: {
+    backgroundColor: 'rgba(0,0,0,0.08)',
+    borderRadius: 8,
+    fontSize: 16,
+    height: 40,
+    marginLeft: 'auto',
+    maxWidth: 300,
+    minWidth: 150,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    textAlign: 'center'
+  },
+  inputWrapper: {
     alignItems: 'center',
+    flexDirection: 'row',
+    gap: 6,
+    marginLeft: 'auto'
+  },
+  mainContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
     gap: 8,
     height: 35
   },
-  fieldText: { 
-    fontSize: 20, 
-    fontFamily: 'Lexend' 
-  },
-  inputWrapper: {
-    marginLeft: 'auto',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6
-  },
-  closeTouchable: { borderRadius: 5 },
-  input: {
-    backgroundColor: 'rgba(0,0,0,0.08)',
-    maxWidth: 300,
-    minWidth: 150,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    height: 40,
-    borderRadius: 8,
-    fontSize: 16,
-    textAlign: 'center',
-    marginLeft: 'auto'
-  },
   previewText: {
-    backgroundColor: 'rgba(0,0,0,0.08)',
-    padding: 6,
-    width: '50%',
-    borderRadius: 10,
-    height: 35,
     alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.08)',
+    borderRadius: 10,
     flexDirection: 'row',
-    justifyContent: 'center',
     fontSize: 16,
-    textAlign: 'center'
+    height: 35,
+    justifyContent: 'center',
+    padding: 6,
+    textAlign: 'center',
+    width: '50%'
   }
 });

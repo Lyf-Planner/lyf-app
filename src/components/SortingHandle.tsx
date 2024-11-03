@@ -1,4 +1,5 @@
 import { Pressable, StyleSheet } from 'react-native';
+
 import Feather from 'react-native-vector-icons/Feather';
 
 type Props = {
@@ -30,11 +31,11 @@ export const SortingHandle = ({
 
 const styles = StyleSheet.create({
   sortableIndicator: {
-    borderRadius: 30,
-    aspectRatio: 1,
-    width: '10%',
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    aspectRatio: 1,
+    borderRadius: 30,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '10%'
   }
 });

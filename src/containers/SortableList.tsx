@@ -1,15 +1,16 @@
-import { StyleSheet } from 'react-native';
-import DraggableFlatlist, { RenderItemParams } from 'react-native-draggable-flatlist';
-import { SortableListItem } from 'containers/SortableListItem';
-import { ItemStyleOptions } from 'containers/Item';
-import { LocalItem } from 'schema/items';
 import { Dispatch, SetStateAction } from 'react';
+import { StyleSheet } from 'react-native';
+
+import { ItemStyleOptions } from 'containers/Item';
+import { SortableListItem } from 'containers/SortableListItem';
+import DraggableFlatlist, { RenderItemParams } from 'react-native-draggable-flatlist';
+import { LocalItem } from 'schema/items';
 
 type Props = {
   setSortOrder: Dispatch<SetStateAction<LocalItem[]>>;
   sortOrder: LocalItem[];
   itemStyleOptions: ItemStyleOptions;
-  listWrapperStyles?: Object;
+  listWrapperStyles?: object;
 };
 
 type DragEndProps = {
@@ -54,13 +55,13 @@ export const SortableList = ({
 };
 
 const styles = StyleSheet.create({
+  flatlistInternal: {
+    flexDirection: 'column',
+    overflow: 'visible'
+  },
   listContainer: {
     overflow: 'visible',
-    width: '100%',
-  },
-  flatlistInternal: { 
-    flexDirection: 'column',
-    overflow: 'visible',
-  },
-  
+    width: '100%'
+  }
+
 });

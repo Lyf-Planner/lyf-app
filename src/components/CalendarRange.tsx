@@ -1,11 +1,11 @@
-import Entypo from 'react-native-vector-icons/Entypo';
-
-import { BouncyPressable } from "components/BouncyPressable";
 import * as Native from 'react-native';
-import { formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from 'utils/dates';
-import { WeekDays } from 'schema/util/dates';
-import { useTimetable } from 'hooks/cloud/useTimetable';
+
+import { BouncyPressable } from 'components/BouncyPressable';
 import { useAuth } from 'hooks/cloud/useAuth';
+import { useTimetable } from 'hooks/cloud/useTimetable';
+import Entypo from 'react-native-vector-icons/Entypo';
+import { WeekDays } from 'schema/util/dates';
+import { formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from 'utils/dates';
 
 enum ShiftDirection {
   BACK = -1,
@@ -35,7 +35,7 @@ export const CalendarRange = ({ color, textColor }: Props) => {
         reload(
           formatDateData(getStartOfCurrentWeek()),
           formatDateData(getEndOfCurrentWeek())
-        ).then(() => 
+        ).then(() =>
           updateUser({ first_day: formatDateData(getStartOfCurrentWeek()) })
         )
       }}
@@ -53,7 +53,6 @@ export const CalendarRange = ({ color, textColor }: Props) => {
   );
 }
 
-
 const styles = Native.StyleSheet.create({
   weekDateDisplayTouchable: {
     flexDirection: 'row',
@@ -61,13 +60,13 @@ const styles = Native.StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 12,
     paddingHorizontal: 14,
-    borderRadius: 10,
+    borderRadius: 10
   },
   weekDateText: {
     fontSize: 20,
-    fontFamily: 'Lexend',
+    fontFamily: 'Lexend'
   },
   arrowTouchable: {
     paddingHorizontal: 4
-  },
+  }
 })

@@ -1,8 +1,10 @@
-import { StyleSheet, TouchableHighlight, Text } from 'react-native';
-import { eventsBadgeColor } from '../../utils/colours';
-import { ItemType } from 'schema/database/items';
 import { useCallback } from 'react';
+import { StyleSheet, TouchableHighlight, Text } from 'react-native';
+
+import { ItemType } from 'schema/database/items';
 import { ItemDrawerProps } from 'utils/item';
+
+import { eventsBadgeColor } from '../../utils/colours';
 
 export const ItemTypeBadge = ({ item, updateItem }: ItemDrawerProps) => {
   const switchType = useCallback(() => {
@@ -42,13 +44,13 @@ export const ItemTypeBadge = ({ item, updateItem }: ItemDrawerProps) => {
 
 const styles = StyleSheet.create({
   typeBadge: {
+    borderRadius: 10,
     marginLeft: 'auto',
-    paddingVertical: 6,
     paddingHorizontal: 8,
-    borderRadius: 10
+    paddingVertical: 6
   },
   typeText: {
-    fontSize: 16,
-    fontFamily: 'Lexend'
+    fontFamily: 'Lexend',
+    fontSize: 16
   }
 });

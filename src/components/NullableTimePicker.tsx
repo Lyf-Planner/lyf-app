@@ -1,9 +1,10 @@
+import { createElement } from 'react';
 import { Platform, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-import { dateWithTime, localisedMoment } from 'utils/dates';
+
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { TimeString } from 'schema/util/dates';
-import { createElement } from 'react';
+import { dateWithTime, localisedMoment } from 'utils/dates';
 
 export enum NullTimeTextOptions {
   AddTime = 'Add Time +',
@@ -69,17 +70,17 @@ export const TimePicker = ({ time, updateTime, disabled = false, closeable = tru
 
   const today = new Date();
   const datePickerValue =
-    time ? 
-    dateWithTime(time) : 
-    new Date(
-      `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${time}`
-    );
+    time ?
+      dateWithTime(time) :
+      new Date(
+        `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${time}`
+      );
 
   const timeElement = Platform.OS === 'web' ? (
     createElement('input', {
       type: 'time',
       value: time,
-      onInput: updateTimeFromPicker,
+      onInput: updateTimeFromPicker
     })
   ) : (
     <DateTimePicker
@@ -89,7 +90,7 @@ export const TimePicker = ({ time, updateTime, disabled = false, closeable = tru
       is24Hour={true}
       disabled={disabled}
       onChange={updateTimeFromPicker}
-    />  
+    />
   );
 
   return (
@@ -109,22 +110,22 @@ export const TimePicker = ({ time, updateTime, disabled = false, closeable = tru
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-
-    justifyContent: 'flex-start'
-  },
-  pressable: { borderRadius: 5 },
   addTimeContainer: {
     backgroundColor: 'rgba(0,0,0,0.08)',
-    padding: 8.75,
-    position: 'relative',
+    borderRadius: 8,
     left: 10,
-    borderRadius: 8
+    padding: 8.75,
+    position: 'relative'
   },
   addTimeText: {
     fontSize: 16
   },
-  leftShiftTimePicker: { position: 'relative', left: 10 }
+  leftShiftTimePicker: { left: 10, position: 'relative' },
+  mainContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+
+    justifyContent: 'flex-start'
+  },
+  pressable: { borderRadius: 5 }
 });

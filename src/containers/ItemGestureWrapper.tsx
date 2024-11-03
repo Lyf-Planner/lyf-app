@@ -1,21 +1,23 @@
-import Animated, {
-  withTiming,
-  useAnimatedStyle
-} from 'react-native-reanimated';
-import { ItemStatus } from 'schema/database/items';
-import { Platform, StyleSheet, View } from 'react-native';
 import { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { sleep } from 'utils/misc';
+import { Platform, StyleSheet, View } from 'react-native';
+
+import * as Haptics from 'expo-haptics';
+import { useTimetable } from 'hooks/cloud/useTimetable';
 import {
   Directions,
   Gesture,
   GestureDetector
 } from 'react-native-gesture-handler';
-import { LyfElement } from 'utils/abstractTypes';
-import * as Haptics from 'expo-haptics';
-import { ListItemAnimatedValues } from './Item';
-import { useTimetable } from 'hooks/cloud/useTimetable';
+import Animated, {
+  withTiming,
+  useAnimatedStyle
+} from 'react-native-reanimated';
+import { ItemStatus } from 'schema/database/items';
 import { LocalItem } from 'schema/items';
+import { LyfElement } from 'utils/abstractTypes';
+import { sleep } from 'utils/misc';
+
+import { ListItemAnimatedValues } from './Item';
 
 type Props = {
   children: LyfElement;
@@ -111,8 +113,6 @@ export const ListItemGestureWrapper = ({
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
       }
     }
-
-    
   };
 
   const handleLongPressIn = () => {
@@ -249,14 +249,14 @@ export const ListItemGestureWrapper = ({
     transform: [{
       scale: withTiming(animatedValues.scale.value, {
         duration: SCALE_MS
-      })}
-  ]}));
+      }) }
+    ] }));
 
   const conditionalStyles = {
     listItemWrapper: {
       // Dim the opacity if a task is cancelled or a user is only invited
-      opacity: 
-        item.status === ItemStatus.Cancelled || 
+      opacity:
+        item.status === ItemStatus.Cancelled ||
         invited ? 0.7 : 1
     }
   };
@@ -279,8 +279,8 @@ export const ListItemGestureWrapper = ({
 
 const styles = StyleSheet.create({
   listItemWrapper: {
-    width: '100%',
+    cursor: 'pointer',
     height: 55,
-    cursor: 'pointer'
+    width: '100%'
   }
 });

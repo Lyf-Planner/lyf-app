@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
+
 import { ItemDrawerProps } from 'utils/item';
 
 interface Props extends ItemDrawerProps {
   autoFocus?: boolean
 }
 
-export const ItemTitle = ({ 
-  item, 
-  updateItem, 
-  updateSheetMinHeight, 
+export const ItemTitle = ({
+  item,
+  updateItem,
+  updateSheetMinHeight,
   autoFocus = false
 }: Props) => {
   const [title, setTitle] = useState(item.title);
@@ -29,15 +30,15 @@ export const ItemTitle = ({
             selection: { start: 0, end: item.title.length }
           })
         }
-        
+
         updateSheetMinHeight(500);
       }}
       onBlur={() => {
         updateSheetMinHeight(100);
-        
+
         if (!item.invite_pending) {
           updateTitle(title);
-        } 
+        }
       }}
       returnKeyType="done"
     />
@@ -46,9 +47,9 @@ export const ItemTitle = ({
 
 const styles = StyleSheet.create({
   itemTitle: {
-    fontSize: 18,
-    fontFamily: 'Lexend',
     color: 'white',
     flex: 1,
+    fontFamily: 'Lexend',
+    fontSize: 18
   }
 });

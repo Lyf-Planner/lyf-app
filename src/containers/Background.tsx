@@ -1,5 +1,6 @@
-import { branch, roundTree, tree, world } from 'assets/images';
 import { View, Image, StyleSheet, Keyboard, TouchableWithoutFeedback, Platform } from 'react-native';
+
+import { branch, roundTree, tree, world } from 'assets/images';
 import { LyfElement } from 'utils/abstractTypes';
 import { lightGreen, primaryGreen } from 'utils/colours';
 
@@ -8,7 +9,6 @@ type Props = {
 }
 
 export const Background = ({ children }: Props) => {
-
   const background = (
     <View style={styles.page}>
       <Image
@@ -55,7 +55,7 @@ export const Background = ({ children }: Props) => {
   }
 
   return (
-    <TouchableWithoutFeedback 
+    <TouchableWithoutFeedback
       style={{ flex: 1 }}
       onPress={() => Keyboard.dismiss()}
     >
@@ -65,47 +65,47 @@ export const Background = ({ children }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  page: {
-    backgroundColor: primaryGreen,
-    zIndex: 0,
-    flex: 1,
-    width: '100%'
-  },
-  roundTree: {
-    position: 'absolute',
-    height: '35%',
-    bottom: 0,
-    left: Platform.OS === 'web' ? -300 : -350
-  },
   bigTree: {
-    position: 'absolute',
-    zIndex: 40,
-    height: '30%',
     bottom: -10,
-    right: -40
-  },
-  smallTree: {
+    height: '30%',
     position: 'absolute',
-    zIndex: 50,
-    bottom: 0,
-    right: 50,
-    height: '15%'
+    right: -40,
+    zIndex: 40
   },
   branch: {
-    position: 'absolute',
-    zIndex: 5,
-    top: 120,
-    right: Platform.OS === 'web' ? undefined : -130,
     left: Platform.OS === 'web' ? '55%' : undefined,
+    position: 'absolute',
+    right: Platform.OS === 'web' ? undefined : -130,
+    top: 120,
+    transform: [{ rotate: '70deg' }, { rotateX: '180deg' }],
     width: '80%',
-    transform: [{ rotate: '70deg' }, { rotateX: '180deg' }]
+    zIndex: 5
+  },
+  page: {
+    backgroundColor: primaryGreen,
+    flex: 1,
+    width: '100%',
+    zIndex: 0
+  },
+  roundTree: {
+    bottom: 0,
+    height: '35%',
+    left: Platform.OS === 'web' ? -300 : -350,
+    position: 'absolute'
+  },
+  smallTree: {
+    bottom: 0,
+    height: '15%',
+    position: 'absolute',
+    right: 50,
+    zIndex: 50
   },
   world: {
-    position: 'absolute',
-    zIndex: 0,
-    top: -100,
+    height: Platform.OS === 'web' ? '60%' : '50%',
     left: Platform.OS === 'web' ? undefined : -550,
+    position: 'absolute',
     right: Platform.OS === 'web' ? '50%' : undefined,
-    height: Platform.OS === 'web' ? '60%' : '50%'
-  },
+    top: -100,
+    zIndex: 0
+  }
 });

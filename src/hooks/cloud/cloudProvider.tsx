@@ -7,14 +7,16 @@ import {
   useRef,
   useState
 } from 'react';
-import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { Keyboard, StyleSheet } from 'react-native';
+
+import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+
 import { AuthGateway } from './useAuth';
-import { NotificationsLayer } from './useNotifications';
-import { TimetableProvider } from './useTimetable';
-import { NotesProvider } from './useNotes';
 import { FriendsProvider } from './useFriends';
 import { LocationProvider } from './useLocation';
+import { NotesProvider } from './useNotes';
+import { NotificationsLayer } from './useNotifications';
+import { TimetableProvider } from './useTimetable';
 
 type Props = {
   children: JSX.Element;

@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 import { Pressable, TextInput, View, StyleSheet } from 'react-native';
-import { appleGray, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
+
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { appleGray, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
 
 type Props = {
   search: string,
@@ -37,24 +38,24 @@ export const SimpleSearch = ({ search, setSearch }: Props) => {
 };
 
 const styles = StyleSheet.create({
+  loaderWrapper: { marginLeft: 'auto', marginRight: 8 },
   main: { flexDirection: 'row', width: '100%' },
   searchBarPressable: {
-    flexDirection: 'row',
-    width: '100%',
-    backgroundColor: primaryGreen,
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
     alignItems: 'center',
+    backgroundColor: primaryGreen,
+    borderRadius: 10,
+    borderWidth: 1,
+    flexDirection: 'row',
     gap: 4,
     marginHorizontal: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    shadowColor: 'black',
 
     shadowOffset: { width: 1, height: 1 },
-    shadowColor: 'black',
     shadowOpacity: 0.5,
-    shadowRadius: 2
+    shadowRadius: 2,
+    width: '100%'
   },
-  searchInput: { padding: 4, color: 'white', fontSize: 22 },
-  loaderWrapper: { marginLeft: 'auto', marginRight: 8 }
+  searchInput: { color: 'white', fontSize: 22, padding: 4 }
 });

@@ -1,17 +1,18 @@
-import { StyleSheet, Text, View, TouchableHighlight, Platform } from 'react-native';
-import { useModal } from 'hooks/overlays/useModal';
 import { useEffect, useMemo, useState } from 'react';
+import { StyleSheet, Text, View, TouchableHighlight, Platform } from 'react-native';
+
 import { Horizontal } from 'components/Horizontal';
-import { SimpleSearch } from 'components/SimpleSearch';
-import { ScrollView } from 'react-native-gesture-handler';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { ID } from 'schema/database/abstract';
-import { useFriends } from 'hooks/cloud/useFriends';
-import { UserList, UserListContext } from 'containers/UserList';
-import { useTimetable } from 'hooks/cloud/useTimetable';
-import { UserFriendshipStatus } from 'schema/database/user_friendships';
 import { Loader } from 'components/Loader';
+import { SimpleSearch } from 'components/SimpleSearch';
+import { UserList, UserListContext } from 'containers/UserList';
+import { useFriends } from 'hooks/cloud/useFriends';
+import { useTimetable } from 'hooks/cloud/useTimetable';
+import { useModal } from 'hooks/overlays/useModal';
+import { ScrollView } from 'react-native-gesture-handler';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { ID } from 'schema/database/abstract';
+import { UserFriendshipStatus } from 'schema/database/user_friendships';
 
 type Props = {
   item_id: ID,
@@ -40,8 +41,8 @@ export const AddFriendsModal = ({ item_id }: Props) => {
         }
       }
 
-      return friend; 
-    }), 
+      return friend;
+    }),
   [item, friends]);
 
   const [filter, setFilter] = useState('');
@@ -77,19 +78,19 @@ export const AddFriendsModal = ({ item_id }: Props) => {
       )}
 
       {!loading && (
-        <ScrollView 
-          style={styles.userScroll} 
+        <ScrollView
+          style={styles.userScroll}
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
-          <UserList 
-            users={friendsOnItem.filter((x) => 
-              !filter || 
+          <UserList
+            users={friendsOnItem.filter((x) =>
+              !filter ||
               (x.display_name && x.display_name.includes(filter)) ||
               (x.id.includes(filter))
-            )} 
+            )}
             emptyText={'No friends added yet'}
-            context={UserListContext.Item} 
+            context={UserListContext.Item}
             item={item}
             menuContext={'in-modal'}
           />
@@ -100,65 +101,65 @@ export const AddFriendsModal = ({ item_id }: Props) => {
 };
 
 const styles = StyleSheet.create({
+  firstSeperator: {
+    borderWidth: 2,
+    marginBottom: 4,
+    marginTop: 10,
+    opacity: 0.25
+  },
+  header: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    gap: 4,
+    justifyContent: 'center',
+    left: 5,
+    marginBottom: 4,
+    position: 'relative'
+  },
   mainContainer: {
-    width: Platform.OS === 'web' ? 450 : 'auto',
-    maxHeight: 500,
-    height: Platform.OS === 'web' ? 450 : 'auto',
+    alignContent: 'center',
     backgroundColor: 'white',
-    paddingHorizontal: 10,
-    marginHorizontal: 20,
-    paddingTop: 30,
-    paddingBottom: Platform.OS === 'web' ? 30 : 0,
     borderColor: 'rgba(0,0,0,0.5)',
-    borderWidth: 1,
     borderRadius: 10,
+    borderWidth: 1,
+    flexDirection: 'column',
     gap: 10,
+    height: Platform.OS === 'web' ? 450 : 'auto',
+    marginHorizontal: 20,
+    maxHeight: 500,
+    paddingBottom: Platform.OS === 'web' ? 30 : 0,
+    paddingHorizontal: 10,
+    paddingTop: 30,
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 10,
-    flexDirection: 'column',
-    alignContent: 'center'
-  },
-  touchable: { 
-    marginLeft: 'auto', 
-    position: 'absolute',
-    zIndex: 50,
-    top: 20,
-    right: 20,
-    borderRadius: 5,
-    padding: 4,
-  },
-  header: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 4,
-    marginBottom: 4,
-    position: 'relative',
-    left: 5,
-  },
-  firstSeperator: {
-    opacity: 0.25,
-    marginTop: 10,
-    marginBottom: 4,
-    borderWidth: 2
-  },
-  userScroll: {
-    maxHeight: 350, 
-    overflow: 'hidden',
-    paddingHorizontal: 10
+    width: Platform.OS === 'web' ? 450 : 'auto'
   },
   scrollContainer: {
-    flexDirection: 'column',
     alignItems: 'center',
+    flexDirection: 'column',
     paddingBottom: 10
   },
-  title: { fontSize: 22, fontWeight: '700', fontFamily: 'Lexend' },
   subtitle: {
-    textAlign: 'center',
-    opacity: 0.6,
+    fontSize: 15,
     fontWeight: '600',
-    fontSize: 15
+    opacity: 0.6,
+    textAlign: 'center'
+  },
+  title: { fontFamily: 'Lexend', fontSize: 22, fontWeight: '700' },
+  touchable: {
+    borderRadius: 5,
+    marginLeft: 'auto',
+    padding: 4,
+    position: 'absolute',
+    right: 20,
+    top: 20,
+    zIndex: 50
+  },
+  userScroll: {
+    maxHeight: 350,
+    overflow: 'hidden',
+    paddingHorizontal: 10
   }
 });

@@ -1,21 +1,21 @@
 import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
-import { LogoutButton } from 'components/LogoutButton';
-import { DeleteButton } from 'components/DeleteMeButton';
-import { AccountInfo } from 'components/profile/AccountInfo';
-import { NotificationSettings } from 'components/NotificationSetting';
-import { SettingDropdown } from 'containers/SettingDropdown';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { black, deepBlueOpacity, primaryGreen, white } from 'utils/colours';
-import { PrivacySettings } from 'components/PrivacySettings';
-import { WeatherSetting } from 'components/WeatherSetting';
-import { PageBackground } from 'containers/PageBackground';
+
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { RouteParams } from 'Routes';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { DayFinishingSetting } from 'components/DayFinishingSetting';
-
+import { DeleteButton } from 'components/DeleteMeButton';
+import { LogoutButton } from 'components/LogoutButton';
+import { NotificationSettings } from 'components/NotificationSetting';
+import { PrivacySettings } from 'components/PrivacySettings';
+import { WeatherSetting } from 'components/WeatherSetting';
+import { AccountInfo } from 'components/profile/AccountInfo';
+import { PageBackground } from 'containers/PageBackground';
+import { SettingDropdown } from 'containers/SettingDropdown';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { black, deepBlueOpacity, primaryGreen, white } from 'utils/colours';
 
 export const Profile = (props: BottomTabScreenProps<RouteParams>) => {
   return (
@@ -31,7 +31,7 @@ export const Profile = (props: BottomTabScreenProps<RouteParams>) => {
               <View style={styles.content}>
                 <AccountInfo />
               </View>
-                
+
               <SettingDropdown
                 name="Notification Settings"
                 icon={<MaterialIcons name="notifications-active" size={22} />}
@@ -71,80 +71,80 @@ export const Profile = (props: BottomTabScreenProps<RouteParams>) => {
 };
 
 const styles = StyleSheet.create({
+  buttons: {
+    alignSelf: 'center',
+    flexDirection: 'column',
+    gap: 8,
+    marginBottom: 150,
+    marginTop: 16,
+    maxWidth: 400,
+    overflow: 'visible',
+    paddingHorizontal: 16,
+    width: '100%'
+  },
+  content: {
+    backgroundColor: deepBlueOpacity(0.7),
+    paddingHorizontal: 12,
+    paddingVertical: 8
+  },
+
+  deleteWrapper: {
+    paddingHorizontal: 4,
+    paddingVertical: 8
+  },
+  header: {
+    alignItems: 'center',
+    backgroundColor: primaryGreen,
+    flexDirection: 'row',
+    gap: 12,
+    height: 60,
+    paddingHorizontal: 16,
+
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    zIndex: 50
+  },
+  headerSeperator: { borderWidth: 2, marginHorizontal: 14, opacity: 0.6 },
   main: {
     flex: 1,
     minHeight: 500,
     paddingBottom: 100
   },
-  scrollContainer: {
-    flexDirection: "column",
-    width: '100%',
-    marginBottom: 200,
-  },
 
-  header: {
-    zIndex: 50,
-    flexDirection: 'row',
-    gap: 12,
-    alignItems: 'center',
-    height: 60,
-    paddingHorizontal: 16,
-
-    backgroundColor: primaryGreen, 
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2
-  },
-  pageTitle: { 
-    fontSize: 22, 
-    color: white, 
-    fontFamily: "Lexend", 
-    fontWeight: '400',
-   },
-  newNoteContainer: { 
-    marginLeft: 'auto', 
-    marginRight: 5,
-  },
-  headerSeperator: { borderWidth: 2, opacity: 0.6, marginHorizontal: 14 },
-
-  mainColumn: { 
-    flexDirection: 'column', 
+  mainColumn: {
+    flexDirection: 'column',
     flex: 1,
     width: '100%'
   },
-  buttons: {
-    alignSelf: 'center',
-    maxWidth: 400,
-    width: '100%',
+  newNoteContainer: {
+    marginLeft: 'auto',
+    marginRight: 5
+  },
+  pageTitle: {
+    color: white,
+    fontFamily: 'Lexend',
+    fontSize: 22,
+    fontWeight: '400'
+  },
+  scrollContainer: {
     flexDirection: 'column',
-    gap: 8,
-    paddingHorizontal: 16,
-    overflow: 'visible',
-    marginBottom: 150,
-    marginTop: 16,
+    marginBottom: 200,
+    width: '100%'
   },
   subtitle: {
-    opacity: 0.4,
+    fontSize: 18,
     fontWeight: '600',
-    fontSize: 18
+    opacity: 0.4
   },
-  deleteWrapper: {
-    paddingHorizontal: 4,
-    paddingVertical: 8,
-  },
-  weatherIcon: {
-    width: 30,
-    height: 30,
-    tintColor: black,
 
+  weatherIcon: {
+    height: 30,
     position: 'relative',
     right: 5,
-  },
 
-  content: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    backgroundColor: deepBlueOpacity(0.7)
+    tintColor: black,
+    width: 30
   }
 });

@@ -1,23 +1,23 @@
-import * as Native from 'react-native';
-import { addWeekToStringDate, allDatesBetween, dateWithTime, dayFromDateString, daysDifferenceBetween, extendByWeek, formatDate, formatDateData, getStartOfCurrentWeek, localisedMoment, parseDateString, upcomingWeek } from 'utils/dates';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { CalendarRange } from 'components/CalendarRange';
-import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor, primaryGreen, secondaryGreen, sun, white } from 'utils/colours';
-import { DayDisplay } from 'containers/DayDisplay';
-import { LocalItem } from 'schema/items';
+import { useEffect, useMemo, useRef } from 'react';
+import { Text, View, Platform, StyleSheet } from 'react-native';
+
 import { BouncyPressable } from 'components/BouncyPressable';
-import Entypo from 'react-native-vector-icons/Entypo';
-import { ListDropdown } from 'containers/ListDropdown';
-import { ItemType } from 'schema/database/items';
-import { v4 as uuid } from 'uuid';
-import { isTemplate } from 'utils/item';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useTimetable } from 'hooks/cloud/useTimetable';
+import { CalendarRange } from 'components/CalendarRange';
 import { PageLoader } from 'components/PageLoader';
+import { DayDisplay } from 'containers/DayDisplay';
+import { ListDropdown } from 'containers/ListDropdown';
 import { PageBackground } from 'containers/PageBackground';
-import { WeekDays } from 'schema/util/dates';
+import { useTimetable } from 'hooks/cloud/useTimetable';
 import { ScrollView } from 'react-native-gesture-handler';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Entypo from 'react-native-vector-icons/Entypo';
+import { ItemType } from 'schema/database/items';
+import { LocalItem } from 'schema/items';
+import { WeekDays } from 'schema/util/dates';
+import { black, deepBlueOpacity, eventsBadgeColor } from 'utils/colours';
+import { allDatesBetween, dayFromDateString, formatDateData, localisedMoment } from 'utils/dates';
+import { isTemplate } from 'utils/item';
+import { v4 as uuid } from 'uuid';
 
 export const Calendar = () => {
   const { loading, items, reload, startDate, endDate } = useTimetable();
@@ -55,7 +55,7 @@ export const Calendar = () => {
             date,
             day: undefined,
             template_id: item.id,
-            localised: true,
+            localised: true
           })
         }
       }
@@ -66,22 +66,22 @@ export const Calendar = () => {
 
   const upcomingEvents = useMemo(() => (
     items
-    .filter(
-      (x) =>
-        x.type === ItemType.Event &&
+      .filter(
+        (x) =>
+          x.type === ItemType.Event &&
         ((!x.date && !x.day) || x.show_in_upcoming)
-    )
-    .map((item) => ({ ...item, localised: false }))
+      )
+      .map((item) => ({ ...item, localised: false }))
   ), [items]);
 
   const toDoList = useMemo(() => (
     items
-    .filter(
-      (x) =>
-        x.type === ItemType.Task &&
+      .filter(
+        (x) =>
+          x.type === ItemType.Task &&
         ((!x.date && !x.day) || x.show_in_upcoming)
-    )
-    .map((item) => ({ ...item, localised: false }))
+      )
+      .map((item) => ({ ...item, localised: false }))
   ), [items]);
 
   const addWeek = () => {
@@ -92,28 +92,28 @@ export const Calendar = () => {
   }
 
   // Different layout for web - dropdowns are adjascent to calendar and forced open
-  if (Native.Platform.OS === 'web') {
+  if (Platform.OS === 'web') {
     return (
       <PageBackground locations={[0,0.82,1]}>
         <ScrollView style={styles.scroll} ref={scrollRef}>
-          <Native.View style={styles.webContainer}>
-            <Native.View style={styles.webDropdowns}>
+          <View style={styles.webContainer}>
+            <View style={styles.webDropdowns}>
               <ListDropdown
                 items={upcomingEvents}
                 name="Upcoming Events"
                 icon={<Entypo name="calendar" color={eventsBadgeColor} size={22} />}
                 listType={ItemType.Event}
-                startOpen={Native.Platform.OS === 'web'}
+                startOpen={Platform.OS === 'web'}
               />
-            </Native.View>
+            </View>
 
-            <Native.View style={styles.webCalendar}>
+            <View style={styles.webCalendar}>
               <CalendarRange color={deepBlueOpacity(0.9)} textColor={eventsBadgeColor} />
 
               {loading && <PageLoader />}
 
               {!loading &&
-                <Native.View style={styles.calendarWrapper}>
+                <View style={styles.calendarWrapper}>
                   {displayedDays.map((x) => (
                     <DayDisplay
                       key={x}
@@ -123,33 +123,33 @@ export const Calendar = () => {
                     />
                   ))}
 
-                  <Native.View style={styles.addWeekButton}>
+                  <View style={styles.addWeekButton}>
                     <BouncyPressable
                       onPress={() => addWeek()}
                       style={styles.addWeekTouchable}
                       useTouchableHighlight
                     >
-                      <Native.View style={styles.addWeekView}>
+                      <View style={styles.addWeekView}>
                         <Entypo name="chevron-down" size={20} />
-                        <Native.Text style={styles.addWeekText}>Next Week</Native.Text>
+                        <Text style={styles.addWeekText}>Next Week</Text>
                         <Entypo name="chevron-down" size={20} />
-                      </Native.View>
+                      </View>
                     </BouncyPressable>
-                  </Native.View>
-                </Native.View>
+                  </View>
+                </View>
               }
-            </Native.View>
+            </View>
 
-            <Native.View style={styles.webDropdowns}>
+            <View style={styles.webDropdowns}>
               <ListDropdown
                 items={toDoList}
                 name="To Do List"
                 icon={<Entypo name="list" color={eventsBadgeColor} size={22} />}
                 listType={ItemType.Task}
-                startOpen={Native.Platform.OS === 'web'}
+                startOpen={Platform.OS === 'web'}
               />
-            </Native.View>
-          </Native.View>
+            </View>
+          </View>
         </ScrollView>
       </PageBackground>
     )
@@ -157,13 +157,13 @@ export const Calendar = () => {
 
   return (
     <PageBackground locations={[0,0.82,1]} noPadding>
-      <KeyboardAwareScrollView 
-        enableResetScrollToCoords={false} 
-        style={styles.scroll} 
+      <KeyboardAwareScrollView
+        enableResetScrollToCoords={false}
+        style={styles.scroll}
         extraScrollHeight={50}
       >
-        <Native.View style={styles.scrollContainer}>
-          <Native.View style={styles.dropdowns}>
+        <View style={styles.scrollContainer}>
+          <View style={styles.dropdowns}>
             <ListDropdown
               items={upcomingEvents}
               name="Upcoming Events"
@@ -176,14 +176,14 @@ export const Calendar = () => {
               icon={<Entypo name="list" color={eventsBadgeColor} size={22} />}
               listType={ItemType.Task}
             />
-          </Native.View>
+          </View>
 
           <CalendarRange color={deepBlueOpacity(0.2)} textColor={black} />
 
           {loading && <PageLoader />}
 
           {!loading &&
-            <Native.View style={styles.calendarWrapper}>
+            <View style={styles.calendarWrapper}>
               {displayedDays.map((x) => (
                 <DayDisplay
                   key={x}
@@ -193,109 +193,109 @@ export const Calendar = () => {
                 />
               ))}
 
-              <Native.View style={styles.addWeekButton}>
+              <View style={styles.addWeekButton}>
                 <BouncyPressable
                   onPress={() => addWeek()}
                   style={styles.addWeekTouchable}
                   useTouchableHighlight
                 >
-                  <Native.View style={styles.addWeekView}>
+                  <View style={styles.addWeekView}>
                     <Entypo name="chevron-down" size={20} />
-                    <Native.Text style={styles.addWeekText}>Next Week</Native.Text>
+                    <Text style={styles.addWeekText}>Next Week</Text>
                     <Entypo name="chevron-down" size={20} />
-                  </Native.View>
+                  </View>
                 </BouncyPressable>
-              </Native.View>
-            </Native.View>
+              </View>
+            </View>
           }
-        </Native.View>
+        </View>
       </KeyboardAwareScrollView>
     </PageBackground>
   )
 }
 
-const styles = Native.StyleSheet.create({
-  scroll: {
-    overflow: 'visible',
-    width: '100%',
-    flex: 1,
-    paddingBottom: 150,
-  },
-
-  webContainer: {
+const styles = StyleSheet.create({
+  addWeekButton: {
     flexDirection: 'row',
-    gap: 20,
-    paddingVertical: 20,
-    alignSelf: 'center'
+    justifyContent: 'center',
+    marginBottom: 15
   },
 
-  scrollContainer: {
-    alignSelf: 'center',
-    flexDirection: "column",
-    gap: 14,
-    padding: 20,
-    maxWidth: 450,
-    width: '100%',
-    marginBottom: 250,
+  addWeekText: {
+    fontFamily: 'Lexend',
+    fontSize: 18
   },
 
-  webCalendar: {
-    flexDirection: "column",
-    gap: 14,
-    width: 450,
-    flex: 1
+  addWeekTouchable: {
+    borderRadius: 10
   },
 
-  webDropdowns: {
-    flexDirection: "column",
-    gap: 14,
-    width: 400,
-    flex: 1
+  addWeekView: {
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    flexDirection: 'row',
+    gap: 5,
+    justifyContent: 'center',
+    padding: 15,
+    width: 250
+  },
+
+  calendarWrapper: {
+    borderRadius: 10,
+    flexDirection: 'column',
+    gap: 10
   },
 
   dropdowns: {
     flexDirection: 'column',
-    gap: 6,
-  },
-
-  calendarWrapper: {
-    flexDirection: 'column',
-    gap: 10,
-    borderRadius: 10
+    gap: 6
   },
 
   loadingContainer: {
-    marginTop: 20,
-    flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'column',
     gap: 10,
+    justifyContent: 'center',
+    marginTop: 20
   },
+
   loadingText: {
     fontFamily: 'Lexend',
     fontSize: 20
   },
+  scroll: {
+    flex: 1,
+    overflow: 'visible',
+    paddingBottom: 150,
+    width: '100%'
+  },
 
-  addWeekView: {
+  scrollContainer: {
+    alignSelf: 'center',
+    flexDirection: 'column',
+    gap: 14,
+    marginBottom: 250,
+    maxWidth: 450,
+    padding: 20,
+    width: '100%'
+  },
+  webCalendar: {
+    flexDirection: 'column',
+    flex: 1,
+    gap: 14,
+    width: 450
+  },
+  webContainer: {
+    alignSelf: 'center',
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 5,
-    padding: 15,
-    backgroundColor: "white",
-    width: 250,
-    borderRadius: 10
+    gap: 20,
+    paddingVertical: 20
   },
-  addWeekTouchable: {
-    borderRadius: 10
-  },
-  addWeekButton: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 15,
-  },
-  addWeekText: { 
-    fontSize: 18,
-    fontFamily: "Lexend"
+  webDropdowns: {
+    flexDirection: 'column',
+    flex: 1,
+    gap: 14,
+    width: 400
   }
 })

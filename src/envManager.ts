@@ -1,5 +1,6 @@
-import Constants from 'expo-constants';
 import { Platform } from 'react-native';
+
+import Constants from 'expo-constants';
 const { manifest, manifest2 } = Constants;
 
 // With expo constants, once Constants.manifest is null, Constants.manifest2 contains the env vars
@@ -61,11 +62,11 @@ function parseBackendUrl() {
 
 const getVersion = () => {
   // Extract the version field
-  const appVersion = 
+  const appVersion =
     // @ts-ignore
     Constants.manifest?.version ||
-    Constants.manifest2?.extra?.expoClient?.version || 
-    '0.0.0';  
+    Constants.manifest2?.extra?.expoClient?.version ||
+    '0.0.0';
 
   console.log('App Version:', appVersion);
   return appVersion;
@@ -75,7 +76,7 @@ const env = {
   APP_ENV: envVar('appEnv'),
   BACKEND_URL: parseBackendUrl(),
   PROJECT_ID: envVar('eas', 'projectId'),
-  VERSION: getVersion(),
+  VERSION: getVersion()
 }
 
 export default env;

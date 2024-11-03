@@ -1,16 +1,17 @@
-import { StyleSheet, Text, View, Platform } from 'react-native';
-import { deepBlueOpacity, eventsBadgeColor, lightGreen, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
-import { FriendAction } from 'components/FriendActions';
-import { BouncyPressable } from 'components/BouncyPressable';
-import { ItemSocialAction } from 'components/item_drawer/ItemSocialAction';
-import { useModal } from 'hooks/overlays/useModal';
-import { UserModal } from 'containers/UserModal';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { UserFriend } from 'schema/user';
-import { ItemRelatedUser, LocalItem } from 'schema/items';
 import { useMemo } from 'react';
-import { NoteRelatedUser } from 'schema/notes';
+import { StyleSheet, Text, View, Platform } from 'react-native';
+
+import { BouncyPressable } from 'components/BouncyPressable';
+import { FriendAction } from 'components/FriendActions';
+import { ItemSocialAction } from 'components/item_drawer/ItemSocialAction';
 import { UserListContext } from 'containers/UserList';
+import { UserModal } from 'containers/UserModal';
+import { useModal } from 'hooks/overlays/useModal';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { ItemRelatedUser, LocalItem } from 'schema/items';
+import { NoteRelatedUser } from 'schema/notes';
+import { UserFriend } from 'schema/user';
+import { deepBlueOpacity, eventsBadgeColor, lightGreen, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
 
 type Props = {
   user: UserFriend | ItemRelatedUser | NoteRelatedUser,
@@ -25,14 +26,14 @@ export const UserBanner = ({
   callback,
   context = UserListContext.Friends,
   item,
-  menuContext,
+  menuContext
 }: Props) => {
   const { updateModal } = useModal();
 
-  const userHasDisplayName = useMemo(() => 
-    user.display_name && 
+  const userHasDisplayName = useMemo(() =>
+    user.display_name &&
     user.display_name !== user.id,
-    [user]
+  [user]
   );
 
   return (
@@ -62,16 +63,16 @@ export const UserBanner = ({
 
       <View style={styles.actionWrapper}>
         {context === UserListContext.Friends ? (
-          <FriendAction 
+          <FriendAction
             friend={user as UserFriend}
             callback={callback}
             height={45}
           />
         ) : (
-          <ItemSocialAction 
-            item={item!} 
-            item_user={user} 
-            menuContext={menuContext} 
+          <ItemSocialAction
+            item={item!}
+            item_user={user}
+            menuContext={menuContext}
             height={45}
           />
         )}
@@ -81,41 +82,41 @@ export const UserBanner = ({
 };
 
 const styles = StyleSheet.create({
-  main: {
-    flexDirection: 'row',
-    width: '100%',
-    alignSelf: 'stretch',
-    alignItems: 'center',
-    height: 65,
-    paddingVertical: 16,
-    paddingLeft: 12,
-    paddingRight: 8,
-    borderRadius: 10,
-    borderWidth: 0.5,
-    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.7),
-    borderColor: 'rgba(0,0,0,0.3)',
-
-    shadowColor: 'black',
-    shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2
-  },
-  nameRow: { 
-    flexDirection: 'column', 
-    gap: 2, 
-    flex: 1, 
-    paddingRight: 10 
-  },
   actionWrapper: {
-    marginLeft: 'auto',
-    width: 100,
     borderRadius: 50,
-
+    marginLeft: 'auto',
     shadowColor: 'black',
+
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
-    shadowRadius: 2
+    shadowRadius: 2,
+    width: 100
   },
-  mainAliasText: { fontWeight: '500', fontSize: 20, color: eventsBadgeColor },
+  main: {
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.7),
+    borderColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 10,
+    borderWidth: 0.5,
+    flexDirection: 'row',
+    height: 65,
+    paddingLeft: 12,
+    paddingRight: 8,
+    paddingVertical: 16,
+    shadowColor: 'black',
+
+    shadowOffset: { width: 3, height: 3 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    width: '100%'
+  },
+  mainAliasText: { color: eventsBadgeColor, fontSize: 20, fontWeight: '500' },
+  nameRow: {
+    flexDirection: 'column',
+    flex: 1,
+    gap: 2,
+    paddingRight: 10
+  },
   subAliasText: { color: 'rgba(255,255,255,0.5)' }
 });

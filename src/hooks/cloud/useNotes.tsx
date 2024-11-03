@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+
 import { v4 as uuid } from 'uuid';
 import {
   createNote,
@@ -7,14 +8,16 @@ import {
   myNotes,
   updateNote as updateRemoteNote
 } from 'rest/notes';
+
 import 'react-native-get-random-values';
-import { UserRelatedNote } from 'schema/user';
-import { NoteType } from 'schema/database/notes';
-import { Permission } from 'schema/database/items_on_users';
-import { useCloud } from './cloudProvider';
 import { ID } from 'schema/database/abstract';
-import { LocalItem } from 'schema/items';
 import { ItemDbObject } from 'schema/database/items';
+import { Permission } from 'schema/database/items_on_users';
+import { NoteType } from 'schema/database/notes';
+import { LocalItem } from 'schema/items';
+import { UserRelatedNote } from 'schema/user';
+
+import { useCloud } from './cloudProvider';
 
 export type UpdateNoteItem = (item: ItemDbObject, changes: Partial<ItemDbObject>, remove?: boolean) => Promise<void>
 
@@ -44,7 +47,7 @@ export const NotesProvider = ({ children }: Props) => {
     if (initialised) {
       setSyncing(true);
     }
-   
+
     const notes = await myNotes();
     setNotes(notes);
 
@@ -85,7 +88,7 @@ export const NotesProvider = ({ children }: Props) => {
       noteItems[j] = newNoteItem;
     }
 
-    const noteChanges = { relations: { ...note.relations, items: noteItems }}
+    const noteChanges = { relations: { ...note.relations, items: noteItems } }
     updateNote(note, noteChanges, false);
   }
 
@@ -130,7 +133,7 @@ export const NotesProvider = ({ children }: Props) => {
     setSyncing(true);
     await createNote(newNote);
     setSyncing(false);
-    
+
     return newNote.id;
   }
 

@@ -51,7 +51,7 @@ type Props = {
   color?: string
 }
 
-export default function WeatherIcon({ main, description, timestamp, sunrise, sunset, size = 30, color = 'black'}: Props) {
+export default function WeatherIcon({ main, description, timestamp, sunrise, sunset, size = 30, color = 'black' }: Props) {
   const dayTime =
     !(timestamp && sunrise && sunset) ||
     !(timestamp < sunrise || timestamp > sunset);

@@ -1,21 +1,23 @@
 import { View, Text, StyleSheet } from 'react-native';
+
 import {
   NullTimeTextOptions,
   NullableTimePicker
 } from 'components/NullableTimePicker';
 import { useAuth } from 'hooks/cloud/useAuth';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { localisedFormattedMoment, localisedMoment } from '../../utils/dates';
-import { ItemDrawerProps } from 'utils/item';
-import { TimeString } from 'schema/util/dates';
 import { LocalItem } from 'schema/items';
+import { TimeString } from 'schema/util/dates';
+import { ItemDrawerProps } from 'utils/item';
+
+import { localisedFormattedMoment, localisedMoment } from '../../utils/dates';
 
 export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
   const uploadTime = (time: TimeString | undefined) => {
     if (item.invite_pending) {
       return;
     }
-    
+
     const changeSet: Partial<LocalItem> = { time: time || undefined };
 
     if (!time && item.notification_mins) {
@@ -66,8 +68,8 @@ export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
         <Text style={{ marginLeft: 20, textAlign: 'center' }}>-</Text>
         <NullableTimePicker
           time={item.end_time}
-          updateTime={async (end_time: TimeString | undefined) => 
-            updateItem(item, { end_time: end_time })
+          updateTime={async (end_time: TimeString | undefined) =>
+            updateItem(item, { end_time })
           }
           disabled={item.invite_pending}
           nullText={NullTimeTextOptions.EndTime}
@@ -79,17 +81,17 @@ export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
 };
 
 const styles = StyleSheet.create({
+  eventText: { fontFamily: 'Lexend', fontSize: 20 },
   mainContainer: {
-    flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    paddingRight: 10,
-    height: 35
-  },
-  eventText: { fontSize: 20, fontFamily: 'Lexend' },
-  pickerContainer: {
-    marginLeft: 'auto',
     flexDirection: 'row',
-    alignItems: 'center'
+    gap: 8,
+    height: 35,
+    paddingRight: 10
+  },
+  pickerContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginLeft: 'auto'
   }
 });

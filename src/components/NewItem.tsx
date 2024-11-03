@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { Platform, StyleSheet, TextInput } from 'react-native';
+
 import { ItemType } from 'schema/database/items';
 import { inProgressColor } from 'utils/colours';
 
@@ -53,18 +54,18 @@ export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, whiteShadow = t
 
 const styles = StyleSheet.create({
   listNewItem: {
-    minHeight: 50,
-    height: 50,
-    width: '100%',
     backgroundColor: 'rgb(17 24 39)',
-    fontFamily: 'Lexend',
-    marginTop: 2,
     borderRadius: 10,
-    paddingVertical: 8,
-    paddingLeft: 8,
-    flex: 1,
-    zIndex: 10,
     color: 'rgb(203 213 225)',
+    flex: 1,
+    fontFamily: 'Lexend',
     fontSize: 16,
+    height: 50,
+    marginTop: 2,
+    minHeight: 50,
+    paddingLeft: 8,
+    paddingVertical: 8,
+    width: '100%',
+    zIndex: 10
   }
 });

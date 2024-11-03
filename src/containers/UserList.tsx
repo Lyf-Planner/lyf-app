@@ -1,8 +1,9 @@
 import { StyleSheet, View, Text } from 'react-native';
+
 import { UserBanner } from 'components/UserBanner';
-import { UserFriend } from 'schema/user';
 import { ItemRelatedUser, LocalItem } from 'schema/items';
 import { NoteRelatedUser } from 'schema/notes';
+import { UserFriend } from 'schema/user';
 
 export enum UserListContext {
   Friends = 'Friends',
@@ -47,20 +48,20 @@ export const UserList = ({
 };
 
 const styles = StyleSheet.create({
+  emptyText: {
+    fontFamily: 'Lexend',
+    fontSize: 18,
+    opacity: 0.4,
+    textAlign: 'center'
+  },
   main: {
+    alignSelf: 'center',
     flexDirection: 'column',
+    flex: 1,
     gap: 10,
     justifyContent: 'center',
-    flex: 1,
-    width: '100%',
     maxWidth: 400,
     minHeight: 50,
-    alignSelf: 'center'
-  },
-  emptyText: {
-    textAlign: 'center',
-    opacity: 0.4,
-    fontSize: 18,
-    fontFamily: 'Lexend'
+    width: '100%'
   }
 });

@@ -1,13 +1,13 @@
+import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View, TextInput, Text, ScrollView } from 'react-native';
 
-import { ID } from 'schema/database/abstract';
-import { useNotes } from 'hooks/cloud/useNotes';
-import { useEffect, useMemo, useState } from 'react';
-import { NoteHeader } from 'containers/NoteHeader';
-import { NoteBody } from 'containers/NoteBody';
 import { Loader } from 'components/Loader';
+import { NoteBody } from 'containers/NoteBody';
+import { NoteHeader } from 'containers/NoteHeader';
 import { PageBackground } from 'containers/PageBackground';
+import { useNotes } from 'hooks/cloud/useNotes';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { ID } from 'schema/database/abstract';
 
 type Props = {
   id: ID,
@@ -40,7 +40,7 @@ export const NoteView = ({
       <NoteHeader note={note} onBack={onBack}/>
       <PageBackground noPadding>
         <View style={styles.notePageWrapper}>
-          {initialising && 
+          {initialising &&
             <View style={styles.loadingContainer}>
               <Loader />
               <Text style={styles.loadingText}>
@@ -48,12 +48,12 @@ export const NoteView = ({
               </Text>
             </View>
           }
-          
+
           {!initialising &&
             <KeyboardAwareScrollView style={styles.scrollView}>
               <NoteBody note={note}/>
             </KeyboardAwareScrollView>
-          } 
+          }
         </View>
       </PageBackground>
     </View>
@@ -61,28 +61,28 @@ export const NoteView = ({
 };
 
 const styles = StyleSheet.create({
-  main: { flex: 1 },
-
-  notePageWrapper: {
-    overflow: 'visible',
-  },
-
   loadingContainer: {
-    marginTop: 20,
-    flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'column',
     gap: 10,
+    justifyContent: 'center',
+    marginTop: 20
   },
+
   loadingText: {
     fontFamily: 'Lexend',
     fontSize: 20
   },
-  scrollView: { 
-    width: '100%', 
-    height: '100%', 
+
+  main: { flex: 1 },
+  notePageWrapper: {
+    overflow: 'visible'
+  },
+  scrollView: {
+    height: '100%',
     paddingHorizontal: 20,
-    paddingVertical: 10, 
+    paddingVertical: 10,
+    width: '100%'
   }
 
 });

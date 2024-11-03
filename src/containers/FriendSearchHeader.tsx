@@ -1,11 +1,12 @@
-import { Loader } from "components/Loader";
-import { useEffect, useRef, useState } from "react";
-import { Pressable, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { getUser } from "rest/user";
-import { PublicUser } from "schema/user";
-import { primaryGreen, white } from "utils/colours";
+import { useEffect, useRef, useState } from 'react';
+import { Pressable, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+
+import { Loader } from 'components/Loader';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { getUser } from 'rest/user';
+import { PublicUser } from 'schema/user';
+import { primaryGreen, white } from 'utils/colours';
 
 type Props = {
   searched: boolean,
@@ -16,7 +17,7 @@ type Props = {
 export const SearchHeader = ({
   searched,
   setSearchedUser,
-  setSearched,
+  setSearched
 }: Props) => {
   const [searching, setSearching] = useState(false);
   const [username, setUsername] = useState('');
@@ -25,7 +26,7 @@ export const SearchHeader = ({
 
   const findUser = async () => {
     setSearching(true);
-    const user = await getUser(username, "");
+    const user = await getUser(username, '');
     if (!user) {
       setSearched(true);
     }
@@ -42,11 +43,11 @@ export const SearchHeader = ({
     // Any change to username should imply it has not been searched
     if (searched) {
       setSearched(false);
-    } 
+    }
   }, [username]);
 
   const conditionalStyles = {
-    searchBarPressable: { 
+    searchBarPressable: {
       borderColor: focussed ? 'white' : 'black'
     }
   }
@@ -77,7 +78,7 @@ export const SearchHeader = ({
         autoCorrect={false}
       />
 
-      {username && 
+      {username &&
         <TouchableOpacity style={styles.cancelSearch} onPress={clearSearch}>
           <AntDesign name="close" color={primaryGreen} size={18} />
         </TouchableOpacity>
@@ -87,26 +88,26 @@ export const SearchHeader = ({
 };
 
 const styles = StyleSheet.create({
+  cancelSearch: {
+    backgroundColor: white,
+    borderRadius: 20,
+    marginLeft: 'auto',
+    marginRight: 6,
+    padding: 2
+  },
   searchBarPressable: {
-    zIndex: 50,
+    alignItems: 'center',
+    backgroundColor: primaryGreen,
     flexDirection: 'row',
     gap: 12,
-    alignItems: 'center',
     height: 60,
     paddingHorizontal: 20,
 
-    backgroundColor: primaryGreen, 
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
-    shadowRadius: 2
+    shadowRadius: 2,
+    zIndex: 50
   },
-  searchInput: { padding: 4, color: 'white', fontSize: 22, fontFamily: 'Lexend' },
-  cancelSearch: {
-    backgroundColor: white,
-    marginLeft: 'auto',
-    padding: 2,
-    borderRadius: 20,
-    marginRight: 6,
-  },
+  searchInput: { color: 'white', fontFamily: 'Lexend', fontSize: 22, padding: 4 }
 });

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from 'react-native';
 
 type Props = {
   fieldName: string,
@@ -15,6 +15,6 @@ export const DetailsField = ({ fieldName, fieldValue }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  detailsFieldView: { flexDirection: 'row', alignItems: 'center', height: 25 },
-  detailsFieldNameText: { fontSize: 16, fontFamily: 'Lexend', width: 150, color: 'white' },
+  detailsFieldNameText: { color: 'white', fontFamily: 'Lexend', fontSize: 16, width: 150 },
+  detailsFieldView: { alignItems: 'center', flexDirection: 'row', height: 25 }
 })

@@ -1,12 +1,14 @@
-import { Loader } from './Loader';
-import { ITEM_STATUS_TO_COLOR } from 'utils/item';
-import { ItemStatus } from 'schema/database/items';
-import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet, View } from 'react-native';
+
+import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { ItemStatus } from 'schema/database/items';
 import { ItemType } from 'schema/database/items';
 import { LocalItem } from 'schema/items';
+import { ITEM_STATUS_TO_COLOR } from 'utils/item';
+
+import { Loader } from './Loader';
 
 type Props = {
   item: LocalItem;
@@ -47,14 +49,14 @@ export const ListItemUnderlay = ({ item, drawerLoading }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  playIcon: { marginLeft: 12 },
-  editIcon: { marginLeft: 'auto', marginRight: 11, color: 'black' },
+  editIcon: { color: 'black', marginLeft: 'auto', marginRight: 11 },
   listHiddenBackground: {
-    height: 55,
+    alignItems: 'center',
     borderWidth: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    height: 55,
     position: 'absolute',
     width: '100%'
-  }
+  },
+  playIcon: { marginLeft: 12 }
 });

@@ -1,13 +1,17 @@
 import { Platform, StatusBar } from 'react-native';
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+
 import { useFonts } from 'expo-font';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+
 import env from './envManager';
+
 import 'expo-dev-client';
 import Routes from 'Routes';
 import { CloudProvider } from 'hooks/cloud/cloudProvider';
 import { OverlayProvider } from 'hooks/overlays/overlayProvider';
 import { RouteProvider } from 'hooks/routes';
+
 import { useEffect } from 'react';
 
 export default function App() {
@@ -24,7 +28,7 @@ export default function App() {
 
   StatusBar.setBarStyle('dark-content');
 
-  console.log("Starting with backend:", env.BACKEND_URL);
+  console.log('Starting with backend:', env.BACKEND_URL);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

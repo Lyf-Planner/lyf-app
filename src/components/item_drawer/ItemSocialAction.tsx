@@ -1,3 +1,11 @@
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { StyleSheet } from 'react-native';
+
+import { ActionButton } from 'components/ActionButton';
+import { BouncyPressable } from 'components/BouncyPressable';
+import { Horizontal } from 'components/Horizontal';
+import { useAuth } from 'hooks/cloud/useAuth';
+import { useTimetable } from 'hooks/cloud/useTimetable';
 import {
   Menu,
   MenuOption,
@@ -5,26 +13,20 @@ import {
   MenuTrigger,
   renderers
 } from 'react-native-popup-menu';
-import { StyleSheet } from 'react-native';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { NoteRelatedUser } from 'schema/notes';
+import { UserFriend } from 'schema/user';
+
+import { ID } from '../../schema/database/abstract';
+import { Permission } from '../../schema/database/items_on_users';
+import { ItemRelatedUser, LocalItem } from '../../schema/items';
+import { SocialAction } from '../../schema/util/social';
 import {
   appleGray,
   black,
   primaryGreen,
   white
 } from '../../utils/colours';
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { useTimetable } from 'hooks/cloud/useTimetable';
-import { ActionButton } from 'components/ActionButton';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { ItemRelatedUser, LocalItem } from '../../schema/items';
-import { ID } from '../../schema/database/abstract';
-import { Permission } from '../../schema/database/items_on_users';
-import { SocialAction } from '../../schema/util/social';
-import { UserFriend } from 'schema/user';
-import { NoteRelatedUser } from 'schema/notes';
-import { BouncyPressable } from 'components/BouncyPressable';
-import { Horizontal } from 'components/Horizontal';
 
 const PERMISSION_COLOR: Record<Permission, string> = {
   Owner: primaryGreen,
@@ -32,7 +34,7 @@ const PERMISSION_COLOR: Record<Permission, string> = {
   'Read Only': appleGray
 };
 
-type SocialUser = ItemRelatedUser | UserFriend | NoteRelatedUser 
+type SocialUser = ItemRelatedUser | UserFriend | NoteRelatedUser
 
 type Props = {
   item: LocalItem,
@@ -47,7 +49,7 @@ export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props
   const { user } = useAuth();
 
   // We don't useMemo here as this primarily functions as a typeguard
-  const isItemMember = (user: SocialUser): user is (ItemRelatedUser | NoteRelatedUser) => 
+  const isItemMember = (user: SocialUser): user is (ItemRelatedUser | NoteRelatedUser) =>
     (user as ItemRelatedUser).permission !== undefined
 
   const removeUser = async () => {
@@ -84,7 +86,7 @@ export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props
 
       return item_user.permission
     }
-    
+
     return 'Invite'
   }, [item_user])
 
@@ -103,10 +105,10 @@ export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props
 
   const menu = useRef<any>();
 
-  const hasMenu = useMemo(() => 
+  const hasMenu = useMemo(() =>
     (item.permission === Permission.Owner) ||
-    (item_user.id === user?.id), 
-    [item, item_user])
+    (item_user.id === user?.id),
+  [item, item_user])
 
   if (isItemMember(item_user) && hasMenu) {
     return (
@@ -133,7 +135,7 @@ export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props
               onSelect={item_user.invite_pending ? cancelInvite : removeUser}
             />
           }
-          {(item_user.id === user?.id) && 
+          {(item_user.id === user?.id) &&
             <Horizontal style={styles.optionSeperator} />
           }
           {(item_user.id === user?.id) &&
@@ -156,7 +158,7 @@ export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props
       </Menu>
     );
   } else {
-    return (    
+    return (
       <BouncyPressable>
         {button}
       </BouncyPressable>
@@ -165,15 +167,15 @@ export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props
 };
 
 const styles = StyleSheet.create({
+  optionSeperator: { marginHorizontal: 5 },
+  optionText: { color: 'rgba(0,0,0,0.7)', fontFamily: 'Lexend', fontSize: 18 },
+  optionWrapper: { flexDirection: 'row', justifyContent: 'center', marginHorizontal: 8, marginVertical: 4 },
   optionsContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    paddingLeft: 0,
+    borderColor: 'rgba(0,0,0,0.5)',
     borderRadius: 10,
     borderWidth: 0.5,
-    borderColor: 'rgba(0,0,0,0.5)'
-  },
-  optionWrapper: { marginVertical: 4, marginHorizontal: 8, flexDirection: 'row', justifyContent: 'center' },
-  optionText: { fontSize: 18, color: 'rgba(0,0,0,0.7)', fontFamily: 'Lexend' },
-  optionSeperator: { marginHorizontal: 5 }
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    paddingLeft: 0
+  }
 });

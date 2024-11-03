@@ -1,7 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { useAuth } from 'hooks/cloud/useAuth';
+
 import * as Haptics from 'expo-haptics';
 import { getCalendars } from 'expo-localization';
+import { useAuth } from 'hooks/cloud/useAuth';
+import { DailyWeather, HistoricalWeather } from 'openweather-api-node';
 import {
   createItem,
   deleteItem,
@@ -11,20 +13,21 @@ import {
   updateItem as updateRemoteItem,
   updateItemSocial as updateRemoteItemSocial
 } from 'rest/items';
-import { v4 as uuid } from 'uuid';
-import { addDayToStringDate, formatDateData, getStartOfCurrentWeek, parseDateString } from 'utils/dates';
-import 'react-native-get-random-values';
-import { UserRelatedItem } from 'schema/user';
-import { LocalItem } from 'schema/items';
+import { ID } from 'schema/database/abstract';
 import { ItemType, ItemStatus } from 'schema/database/items';
 import { Permission } from 'schema/database/items_on_users';
+import { LocalItem } from 'schema/items';
+import { addDayToStringDate, formatDateData, getStartOfCurrentWeek, parseDateString } from 'utils/dates';
+import { v4 as uuid } from 'uuid';
+import 'react-native-get-random-values';
+import { UserRelatedItem } from 'schema/user';
 import { SocialAction } from 'schema/util/social';
-import { ID } from 'schema/database/abstract';
 import { DateString, WeekDays } from 'schema/util/dates';
+
 import { useCloud } from './cloudProvider';
-import { useNotes } from './useNotes';
-import { DailyWeather, HistoricalWeather } from 'openweather-api-node';
 import { useLocation } from './useLocation';
+import { useNotes } from './useNotes';
+
 import { AppState } from 'react-native';
 
 export type TimetableHooks = {
@@ -85,7 +88,7 @@ export const TimetableProvider = ({ children }: Props) => {
     if (userFirstDay.getTime() < startOfWeek.getTime()) {
       appliedFirstDay = startOfWeek;
     }
-  
+
     return formatDateData(appliedFirstDay);
   }
 
@@ -106,7 +109,7 @@ export const TimetableProvider = ({ children }: Props) => {
 
   // Sync the timetable again if inactivity lasts 2 mins+
   useEffect(() => {
-    const appStateListener = AppState.addEventListener("change", (state) => {
+    const appStateListener = AppState.addEventListener('change', (state) => {
       const appStateChangeTime = new Date();
       const inactivityPeriod = appStateChangeTime.getTime() - lastActive.getTime();
 
@@ -141,7 +144,7 @@ export const TimetableProvider = ({ children }: Props) => {
 
     setStartDate(start)
     setEndDate(end);
-  
+
     const items = await getTimetable(user.id, start)
 
     setItems(items);
@@ -173,7 +176,7 @@ export const TimetableProvider = ({ children }: Props) => {
     } else {
       const inStoreItem = items.find((x) => x.id === item.id);
       if (!inStoreItem) {
-        console.error("Cannot update item not held in store ?")
+        console.error('Cannot update item not held in store ?')
         return;
       }
 
@@ -181,7 +184,7 @@ export const TimetableProvider = ({ children }: Props) => {
       const tmp = [...items];
       const i = tmp.findIndex((x) => x.id === item.id);
       tmp[i] = { ...item, ...changes };
-    
+
       setItems(tmp);
     }
 
@@ -197,7 +200,7 @@ export const TimetableProvider = ({ children }: Props) => {
   const addItem: AddItem = async (
     type: ItemType,
     rank: number,
-    initial: Partial<LocalItem>,
+    initial: Partial<LocalItem>
   ) => {
     const newItem: LocalItem = {
       // Set defaults
@@ -229,7 +232,7 @@ export const TimetableProvider = ({ children }: Props) => {
 
       // Then overwrite with whatever info we do have;
       ...initial,
-      localised: false,
+      localised: false
     };
 
     // Conditional properties
@@ -251,9 +254,9 @@ export const TimetableProvider = ({ children }: Props) => {
   };
 
   const updateItemSocial: UpdateItemSocial = async (
-    item: LocalItem, 
-    user_id: string, 
-    action: SocialAction, 
+    item: LocalItem,
+    user_id: string,
+    action: SocialAction,
     permission: Permission
   ) => {
     const result = await updateRemoteItemSocial(item.id, user_id, action, permission);
@@ -267,8 +270,8 @@ export const TimetableProvider = ({ children }: Props) => {
       return;
     }
 
-    const destructiveAction = 
-      action === SocialAction.Remove || 
+    const destructiveAction =
+      action === SocialAction.Remove ||
       action === SocialAction.Decline ||
       action === SocialAction.Cancel;
 
@@ -289,7 +292,7 @@ export const TimetableProvider = ({ children }: Props) => {
       itemUsers[j] = { ...itemUsers[j], ...result };
     }
 
-    const itemChanges: Partial<LocalItem> = { 
+    const itemChanges: Partial<LocalItem> = {
       relations: { ...item.relations, users: itemUsers },
       // Some manual sneakys for local state
       collaborative: itemUsers.length > 1,
@@ -346,7 +349,7 @@ export const TimetableProvider = ({ children }: Props) => {
       }
     }
     setItems(tmp);
-  
+
     for (const i in priorities) {
       // Fix any localised items
       if (priorities[i].localised) {

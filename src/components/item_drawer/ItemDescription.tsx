@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -5,10 +6,10 @@ import {
   StyleSheet,
   TouchableHighlight
 } from 'react-native';
-import { offWhite } from 'utils/colours';
-import { useEffect, useState } from 'react';
+
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { offWhite } from 'utils/colours';
 import { ItemDrawerProps } from 'utils/item';
 
 type Props = ItemDrawerProps & {
@@ -57,7 +58,7 @@ export const ItemDescription = ({
       <TextInput
         value={desc}
         onChangeText={(text: string) => {
-          if (!item.invite_pending) { 
+          if (!item.invite_pending) {
             setDesc(text)
           }
         }}
@@ -74,40 +75,40 @@ export const ItemDescription = ({
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flexDirection: 'column',
-    gap: 8,
-    zIndex: 0
-  },
-  headingContainer: {
-    height: 35,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8
-  },
-  headingText: { fontSize: 20, fontFamily: 'Lexend' },
-  headerCloseWrapper: { marginLeft: 'auto', marginRight: 10 },
-  itemDesc: {
-    height: 150,
-    backgroundColor: offWhite,
-    borderColor: 'rgba(0,0,0,0.1)',
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 8,
-    fontSize: 16
-  },
   addDescriptionContainer: {
+    alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.08)',
-    marginLeft: 'auto',
-    padding: 8.75,
-    position: 'relative',
-    left: 10,
     borderRadius: 8,
     flexDirection: 'row',
-    alignItems: 'center'
+    left: 10,
+    marginLeft: 'auto',
+    padding: 8.75,
+    position: 'relative'
   },
   addDescriptionText: {
     fontSize: 16,
     textAlignVertical: 'center'
+  },
+  headerCloseWrapper: { marginLeft: 'auto', marginRight: 10 },
+  headingContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    height: 35
+  },
+  headingText: { fontFamily: 'Lexend', fontSize: 20 },
+  itemDesc: {
+    backgroundColor: offWhite,
+    borderColor: 'rgba(0,0,0,0.1)',
+    borderRadius: 10,
+    borderWidth: 1,
+    fontSize: 16,
+    height: 150,
+    padding: 8
+  },
+  mainContainer: {
+    flexDirection: 'column',
+    gap: 8,
+    zIndex: 0
   }
 });

@@ -1,12 +1,14 @@
 import { View, Text, StyleSheet, Switch } from 'react-native';
+
 import { useAuth } from 'hooks/cloud/useAuth';
+import { useNotifications } from 'hooks/cloud/useNotifications';
+import { LyfElement } from 'utils/abstractTypes';
+import { primaryGreen } from 'utils/colours';
+
 import {
   DailyNotificationDesc,
   EventNotificationDesc
 } from './NotificationSettingDescriptions';
-import { useNotifications } from 'hooks/cloud/useNotifications';
-import { primaryGreen } from 'utils/colours';
-import { LyfElement } from 'utils/abstractTypes';
 
 export const NotificationSettings = () => {
   const { user, updateUser } = useAuth();
@@ -22,7 +24,7 @@ export const NotificationSettings = () => {
   return (
     <View style={styles.mainContainer}>
       {!enabled && (
-        <Text style={[styles.subtitle]}>
+        <Text style={styles.subtitle}>
           Your device has Notifications disabled for Lyf
         </Text>
       )}
@@ -70,8 +72,8 @@ const Setting = ({ updateFunc, enabled, name, desc }: SettingProps) => {
     <View style={styles.settingMain}>
       <View style={styles.settingContainer}>
         <Text style={styles.settingText}>{name}</Text>
-        <Switch 
-          style={styles.settingToggle} 
+        <Switch
+          style={styles.settingToggle}
           onValueChange={updateFunc}
           value={enabled}
         />
@@ -84,47 +86,47 @@ const Setting = ({ updateFunc, enabled, name, desc }: SettingProps) => {
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    paddingVertical: 14,
-    paddingHorizontal: 6
+  firstSeperator: {
+    borderWidth: 2,
+    marginBottom: 4,
+    marginTop: 10,
+    opacity: 0.25
   },
+  mainContainer: {
+    paddingHorizontal: 6,
+    paddingVertical: 14
+  },
+
+  settingContainer: {
+    alignItems: 'center',
+    flexDirection: 'row'
+  },
+  settingDescText: { fontSize: 16, fontWeight: '300', lineHeight: 30 },
   settingMain: {
     flexDirection: 'column',
-    gap: 4,
+    gap: 4
   },
 
-  subtitle: {
-    fontWeight: '600',
-    fontSize: 16,
-    color: 'white',
-    width: '100%',
-    textAlign: 'center'
-
-  },
   settingText: {
+    color: 'white',
     fontFamily: 'Lexend',
-    fontSize: 20,
-    color: 'white'
+    fontSize: 20
   },
+  settingTitle: { fontSize: 18, fontWeight: '600', marginLeft: 8 },
   settingToggle: {
-    marginLeft: 'auto',
-  },
-
-  firstSeperator: {
-    opacity: 0.25,
-    marginTop: 10,
-    marginBottom: 4,
-    borderWidth: 2
+    marginLeft: 'auto'
   },
   settingsContainer: {
     flexDirection: 'column',
     gap: 16,
-    paddingHorizontal: 4,
+    paddingHorizontal: 4
   },
-  settingContainer: { 
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  settingDescText: { fontSize: 16, lineHeight: 30, fontWeight: '300' },
-  settingTitle: { fontSize: 18, fontWeight: '600', marginLeft: 8 },
+  subtitle: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+    width: '100%'
+
+  }
 });

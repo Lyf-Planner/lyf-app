@@ -1,16 +1,16 @@
+import { useMemo } from 'react';
 import * as Native from 'react-native';
 
-import { useNotifications } from "hooks/cloud/useNotifications"
-import { useModal } from "hooks/overlays/useModal"
-import { primaryGreen, white } from 'utils/colours';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Horizontal } from 'components/Horizontal';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useMemo } from 'react';
-import { DateString } from 'schema/util/dates';
-import { formatDateData, localisedFormattedMoment } from 'utils/dates';
-import { Notification } from 'schema/notifications';
 import { NotificationBanner } from 'components/NotificationBanner';
+import { useNotifications } from 'hooks/cloud/useNotifications'
+import { useModal } from 'hooks/overlays/useModal'
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Notification } from 'schema/notifications';
+import { DateString } from 'schema/util/dates';
+import { primaryGreen, white } from 'utils/colours';
+import { formatDateData, localisedFormattedMoment } from 'utils/dates';
 
 export const NotificationModal = () => {
   const { updateModal } = useModal();
@@ -29,7 +29,7 @@ export const NotificationModal = () => {
       }
     })
 
-      return dayGroups;
+    return dayGroups;
   }, [notifications])
 
   return (
@@ -54,7 +54,7 @@ export const NotificationModal = () => {
 
           {Object.entries(
             notificationsByDay
-          ).sort(([dateA, _notifsA], [dateB, _notifsB]) => 
+          ).sort(([dateA, _notifsA], [dateB, _notifsB]) =>
             dateB.localeCompare(dateA)
           ).map(([date, notifications]) => (
             <Native.View style={styles.notificationBlock}>
@@ -67,12 +67,11 @@ export const NotificationModal = () => {
               ))}
             </Native.View>
           ))}
-          
+
         </Native.ScrollView>
       </Native.View>
     </Native.View>
   )
-
 }
 
 const styles = Native.StyleSheet.create({
@@ -93,7 +92,7 @@ const styles = Native.StyleSheet.create({
     gap: 8,
     borderRadius: 10,
     borderWidth: 3,
-    borderColor: 'white',
+    borderColor: 'white'
   },
   header: {
     flexDirection: 'row',
@@ -118,7 +117,7 @@ const styles = Native.StyleSheet.create({
   },
   notificationBlock: {
     flexDirection: 'column',
-    gap: 8,
+    gap: 8
   },
   notificationDate: {
     fontFamily: 'Lexend',
@@ -133,14 +132,14 @@ const styles = Native.StyleSheet.create({
     flexDirection: 'column',
     gap: 10,
     paddingVertical: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: 10
   },
   upToDateText: {
-    alignSelf: 'center',  
-    opacity: 0.6, 
+    alignSelf: 'center',
+    opacity: 0.6,
     fontFamily: 'Lexend',
     marginBottom: 8,
-    fontWeight: '600', 
+    fontWeight: '600',
     fontSize: 18
   }
 })

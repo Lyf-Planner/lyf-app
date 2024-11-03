@@ -1,7 +1,8 @@
-import { Alert, TouchableHighlight, Text, View, StyleSheet } from "react-native";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import { primaryGreen } from "utils/colours";
-import { fieldPrompt } from "components/profile/AccountInfo";
+import { Alert, TouchableHighlight, Text, View, StyleSheet } from 'react-native';
+
+import { fieldPrompt } from 'components/profile/AccountInfo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { primaryGreen } from 'utils/colours';
 
 type Props = {
   func: (data: string) => void,
@@ -22,21 +23,20 @@ export const AddField = ({ func, name }: Props) => {
   );
 };
 
-
 const styles = StyleSheet.create({
-  addFieldView: {
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+  addFieldText: { color: 'white' },
+  addFieldTouchable: {
+    alignItems: 'center',
     borderRadius: 10,
+    flexDirection: 'row'
+  },
+  addFieldView: {
+    alignItems: 'center',
     backgroundColor: primaryGreen,
+    borderRadius: 10,
     flexDirection: 'row',
     gap: 4,
-    alignItems: 'center'
-  },
-  addFieldTouchable: {
-    borderRadius: 10,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  addFieldText: { color: 'white' }
+    paddingHorizontal: 8,
+    paddingVertical: 4
+  }
 })

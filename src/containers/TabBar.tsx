@@ -1,7 +1,8 @@
 import * as Native from 'react-native'
-import { Tab } from "components/Tab";
-import { routes } from 'Routes';
+
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { routes } from 'Routes';
+import { Tab } from 'components/Tab';
 
 export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
   return (
@@ -23,7 +24,7 @@ export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
         };
 
         return (
-          <Tab 
+          <Tab
             isFocused={isFocused}
             index={index}
             key={index}
@@ -34,7 +35,6 @@ export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
       })}
     </Native.View>
   );
-  
 };
 
 const styles = Native.StyleSheet.create({

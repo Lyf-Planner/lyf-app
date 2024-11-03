@@ -1,12 +1,14 @@
-import { MenuProvider } from 'react-native-popup-menu';
-import {  useModal } from './useModal';
-import { useDrawer } from './useDrawer';
-import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useCallback, useEffect, useRef } from 'react';
 import { Keyboard, Platform, Pressable, StyleSheet } from 'react-native';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
-import { useTutorial } from './useTutorial';
+
+import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
 import { TutorialOverlay } from 'pages/Tutorial';
+import { MenuProvider } from 'react-native-popup-menu';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+
+import { useDrawer } from './useDrawer';
+import { useModal } from './useModal';
+import { useTutorial } from './useTutorial';
 
 type Props = {
   children: JSX.Element;
@@ -53,11 +55,11 @@ export const OverlayInjectionLayer = ({ children }: Props) => {
       )}
 
       {modal && Platform.OS === 'web' && (
-        <Pressable 
+        <Pressable
           style={styles.modalWebWrapper}
           onPress={() => updateModal(undefined)}
         >
-          <Animated.View 
+          <Animated.View
             style={styles.modalWebPositioning}
             entering={FadeIn.duration(150)}
           >
@@ -67,7 +69,7 @@ export const OverlayInjectionLayer = ({ children }: Props) => {
       )}
 
       {modal && Platform.OS !== 'web' && (
-        <Animated.View 
+        <Animated.View
           style={styles.modalMobilePositioning}
           entering={FadeIn.duration(150)}
         >
@@ -85,32 +87,32 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 10
   },
-  modalWebWrapper: {
-    flex: 1,
-    position: 'absolute',
-    zIndex: 40,
-    flexDirection: 'column',
-    top: 0,
+  modalMobilePositioning: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
     bottom: 0,
-    left: 0, 
+    justifyContent: 'center',
+    left: 0,
+    position: 'absolute',
     right: 0,
-    cursor: 'auto'
+    top: 0,
+    zIndex: 50
   },
   modalWebPositioning: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)'
+    justifyContent: 'center'
   },
-  modalMobilePositioning: {
-    zIndex: 50,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
+  modalWebWrapper: {
     bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)'
+    cursor: 'auto',
+    flex: 1,
+    flexDirection: 'column',
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 40
   }
 });

@@ -1,16 +1,17 @@
+import { createContext, useContext, useEffect, useState } from 'react';
+import { Platform } from 'react-native';
+
+import env from 'envManager';
+import { isDevice } from 'expo-device';
 import {
   requestForegroundPermissionsAsync,
   getLastKnownPositionAsync,
   LocationObject,
   getCurrentPositionAsync
 } from 'expo-location';
-import { isDevice } from 'expo-device';
-import { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from 'hooks/cloud/useAuth';
-import { getAsyncData, storeAsyncData } from 'utils/asyncStorage';
-import env from 'envManager';
 import { ID } from 'schema/database/abstract';
-import { Platform } from 'react-native';
+import { getAsyncData, storeAsyncData } from 'utils/asyncStorage';
 
 type Props = {
   children: JSX.Element;
@@ -32,13 +33,13 @@ export const LocationProvider = ({ children }: Props) => {
         setLocation(undefined);
         return;
       }
-      
+
       await requestLocation();
     })();
   }, [user?.weather_data]);
 
   const requestLocation = async () => {
-    let { status } = await requestForegroundPermissionsAsync();
+    const { status } = await requestForegroundPermissionsAsync();
     if (status !== 'granted') {
       return false;
     }

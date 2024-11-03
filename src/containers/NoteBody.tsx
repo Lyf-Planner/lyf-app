@@ -1,10 +1,11 @@
-import { List } from 'containers/List';
-import { MultiTypeNewItem } from 'components/MultiTypeNewItem';
-import { useNotes } from 'hooks/cloud/useNotes';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as Native from 'react-native';
+
+import { MultiTypeNewItem } from 'components/MultiTypeNewItem';
+import { List } from 'containers/List';
+import { useNotes } from 'hooks/cloud/useNotes';
 import { ItemDbObject, ItemType } from 'schema/database/items';
-import { NoteType } from "schema/database/notes"
+import { NoteType } from 'schema/database/notes'
 import { LocalItem } from 'schema/items';
 import { UserRelatedNote } from 'schema/user';
 import debouncer from 'signature-debouncer';
@@ -14,7 +15,7 @@ type Props = {
   note: UserRelatedNote
 }
 
-const debounceSignature = "NoteContent"
+const debounceSignature = 'NoteContent'
 
 export const NoteBody = ({ note }: Props) => {
   const { updateNote } = useNotes();
@@ -37,7 +38,6 @@ export const NoteBody = ({ note }: Props) => {
     itemTextColor: 'rgb(203 213 225)'
   }
 
-
   if (note.type === NoteType.NoteOnly) {
     return (
       <Native.TextInput
@@ -55,8 +55,8 @@ export const NoteBody = ({ note }: Props) => {
 
   if (note.type === NoteType.ListOnly) {
     // Need to spoof these to look like LocalItems, bit of tomfuckery here
-    const noteItems: LocalItem[] = useMemo(() => note.relations.items ? 
-      note.relations.items.map((item: ItemDbObject, i) => ({ 
+    const noteItems: LocalItem[] = useMemo(() => note.relations.items ?
+      note.relations.items.map((item: ItemDbObject, i) => ({
         ...item,
         localised: false,
         invite_pending: false,
@@ -66,16 +66,16 @@ export const NoteBody = ({ note }: Props) => {
         notification_mins: undefined,
         relations: {}
       })).sort((a, b) => a.sorting_rank - b.sorting_rank) : [],
-      [note]
+    [note]
     )
 
     return (
-      <Native.View style={[styles.listWrapper]}>
+      <Native.View style={styles.listWrapper}>
         <List
           items={noteItems}
           itemStyleOptions={itemStyle}
         />
-        <MultiTypeNewItem 
+        <MultiTypeNewItem
           commonData={{
             note_id: note.id,
             default_sorting_rank: noteItems.length
@@ -102,7 +102,7 @@ const styles = Native.StyleSheet.create({
     alignSelf: 'center',
     flex: 1,
     width: '100%',
-    marginBottom: 300,
+    marginBottom: 300
   },
   noteText: {
     borderWidth: 2,
@@ -119,5 +119,5 @@ const styles = Native.StyleSheet.create({
 
     padding: 8,
     color: white
-  },
+  }
 })

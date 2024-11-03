@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   Linking
 } from 'react-native';
+
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { ItemDrawerProps } from 'utils/item';
@@ -41,7 +42,7 @@ export const ItemLink = ({
 
     // We don't just check inclusion of http - as to allow linking to other apps
     // TODO: Review more secure approach to this
-    return text.includes("://");
+    return text.includes('://');
   }
 
   const uploadUrl = () => {
@@ -59,7 +60,6 @@ export const ItemLink = ({
       url = HTTPS_PREFIX + url;
     }
 
-    
     updateItem(item, { url });
     if (url && isValidHttpUrl(url)) {
       setSubmitted(true);
@@ -69,9 +69,9 @@ export const ItemLink = ({
   const clearField = () => updateItem(item, { url: undefined });
 
   return (
-    <View style={[styles.mainContainer]}>
+    <View style={styles.mainContainer}>
       <MaterialIcons name="link" size={20} />
-      <Text style={[styles.fieldText]}>Link</Text>
+      <Text style={styles.fieldText}>Link</Text>
       <View style={styles.inputWrapper}>
         <TouchableHighlight
           disabled={item.invite_pending}
@@ -127,42 +127,42 @@ export const ItemLink = ({
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flexDirection: 'row',
+  closeTouchable: { borderRadius: 5 },
+  fieldText: { fontFamily: 'Lexend', fontSize: 20 },
+  input: {
+    backgroundColor: 'rgba(0,0,0,0.08)',
+    borderRadius: 8,
+    fontSize: 16,
+    paddingVertical: 8,
+    textAlign: 'center',
+    width: 200
+  },
+  inputWrapper: {
     alignItems: 'center',
+    flexDirection: 'row',
+    gap: 6,
+    marginLeft: 'auto'
+  },
+  mainContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
     gap: 8,
     height: 35
   },
-  fieldText: { fontSize: 20, fontFamily: 'Lexend' },
-  inputWrapper: {
-    marginLeft: 'auto',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6
-  },
-  closeTouchable: { borderRadius: 5 },
-  input: {
-    backgroundColor: 'rgba(0,0,0,0.08)',
-    paddingVertical: 8,
-    width: 200,
-    borderRadius: 8,
-    fontSize: 16,
-    textAlign: 'center'
+  previewText: {
+    color: 'blue',
+    textDecorationLine: 'underline'
   },
   previewTouchable: {
-    backgroundColor: 'rgba(0,0,0,0.08)',
-    padding: 8,
-    width: 210,
-    borderRadius: 10,
-    height: 35,
     alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.08)',
+    borderRadius: 10,
     flexDirection: 'row',
-    justifyContent: 'center',
     fontSize: 16,
-    textAlign: 'center'
-  },
-  previewText: { 
-    color: 'blue',
-    textDecorationLine: 'underline' 
+    height: 35,
+    justifyContent: 'center',
+    padding: 8,
+    textAlign: 'center',
+    width: 210
   }
 });

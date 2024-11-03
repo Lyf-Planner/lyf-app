@@ -1,5 +1,6 @@
-import { useAuth } from "hooks/cloud/useAuth"
-import { StyleSheet, View, Text, Switch } from "react-native"
+import { StyleSheet, View, Text, Switch } from 'react-native'
+
+import { useAuth } from 'hooks/cloud/useAuth'
 
 export const DayFinishingSetting = () => {
   const { user, updateUser } = useAuth();
@@ -13,7 +14,7 @@ export const DayFinishingSetting = () => {
       <View style={styles.settingRow}>
         <Text style={styles.settingNameText}>Automatic Day Finishing</Text>
         <Switch
-          style={styles.settingToggle} 
+          style={styles.settingToggle}
           onValueChange={updateDayFinishing}
           value={!!user?.auto_day_finishing}
           ios_backgroundColor={'gray'}
@@ -27,28 +28,28 @@ export const DayFinishingSetting = () => {
 }
 
 const styles = StyleSheet.create({
+  hint: {
+    color: 'white',
+    fontSize: 16,
+    opacity: 0.6
+  },
   main: {
-    paddingVertical: 14,
-    paddingHorizontal: 8,
     flexDirection: 'column',
     gap: 8,
-  },
-  settingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8
+    paddingHorizontal: 8,
+    paddingVertical: 14
   },
   settingNameText: {
+    color: 'white',
     fontFamily: 'Lexend',
-    fontSize: 20,
-    color: 'white'
+    fontSize: 20
+  },
+  settingRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8
   },
   settingToggle: {
-    marginLeft: 'auto',
-  },
-  hint: {
-    opacity: 0.6,
-    fontSize: 16,
-    color: 'white'
-  },
+    marginLeft: 'auto'
+  }
 })

@@ -1,14 +1,15 @@
-import { MenuPopoverPlacement } from "containers/LyfMenu"
-import { LyfPopup } from "containers/LyfPopup";
-import { DailyWeather, HistoricalWeather } from "openweather-api-node";
-import { useTimetable } from "hooks/cloud/useTimetable";
 import { StyleSheet, View, Text } from 'react-native';
-import { DateString } from "schema/util/dates";
-import { formatDateData } from "utils/dates";
-import { renderDescription } from "schema/util/weather";
-import WeatherIcon from "components/WeatherIcon";
+
 import Sunny from 'assets/icons/Sunny';
-import { black } from "utils/colours";
+import WeatherIcon from 'components/WeatherIcon';
+import { MenuPopoverPlacement } from 'containers/LyfMenu'
+import { LyfPopup } from 'containers/LyfPopup';
+import { useTimetable } from 'hooks/cloud/useTimetable';
+import { DailyWeather, HistoricalWeather } from 'openweather-api-node';
+import { DateString } from 'schema/util/dates';
+import { renderDescription } from 'schema/util/weather';
+import { black } from 'utils/colours';
+import { formatDateData } from 'utils/dates';
 
 type Props = {
   date: DateString;
@@ -25,9 +26,11 @@ export const WeatherWidget = ({ date }: Props) => {
   }
 
   const dateWeather = weather.find((x) => formatDateData(x.dt) === date);
-  if (!dateWeather) return null;
+  if (!dateWeather) {
+    return null;
+  }
 
-  const { weather: { main, description }, astronomical: { sunrise, sunset }} = dateWeather;
+  const { weather: { main, description }, astronomical: { sunrise, sunset } } = dateWeather;
 
   const isHistorical = (data: DailyWeather | HistoricalWeather): data is HistoricalWeather => {
     return Object.keys(data.weather.temp).includes('cur');
@@ -49,19 +52,19 @@ export const WeatherWidget = ({ date }: Props) => {
   }
 
   return (
-    <LyfPopup 
-      name={`weather-${date}`} 
-      placement={MenuPopoverPlacement.Top} 
+    <LyfPopup
+      name={`weather-${date}`}
+      placement={MenuPopoverPlacement.Top}
       popupContent={(
         <View style={styles.popupWrapper}>
           <Text style={styles.mainDesc}>{renderDescription(dateWeather.weather.main)}</Text>
           <View style={styles.popupIconWrapper}>
-            <WeatherIcon 
-              main={main} 
-              description={main} 
-              timestamp={new Date()} 
-              sunrise={sunrise} 
-              sunset={sunset} 
+            <WeatherIcon
+              main={main}
+              description={main}
+              timestamp={new Date()}
+              sunrise={sunrise}
+              sunset={sunset}
               size={50}
             />
           </View>
@@ -81,12 +84,12 @@ export const WeatherWidget = ({ date }: Props) => {
       )}
     >
       <View style={[styles.iconPressableWrapper, conditionalStyles.iconPressableWrapper]}>
-        <WeatherIcon 
-          main={main} 
-          description={main} 
-          timestamp={new Date()} 
-          sunrise={sunrise} 
-          sunset={sunset} 
+        <WeatherIcon
+          main={main}
+          description={main}
+          timestamp={new Date()}
+          sunrise={sunrise}
+          sunset={sunset}
           size={30}
           color={black}
         />
@@ -97,48 +100,48 @@ export const WeatherWidget = ({ date }: Props) => {
 
 const styles = StyleSheet.create({
   iconPressableWrapper: {
-    padding: 4,
-    width: 40,
     height: 40,
+    padding: 4,
+    width: 40
+  },
+  infoText: {
+    fontSize: 14,
+    fontWeight: '600',
+    opacity: 0.5,
+    textAlign: 'center'
   },
   loadingIcon: {
     opacity: 0.4
   },
-  popupWrapper: { 
-    padding: 8,
-    width: 150,
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
   mainDesc: {
     fontFamily: 'Lexend',
-    fontWeight: '600',
     fontSize: 16,
+    fontWeight: '600'
   },
   popupIcon: {
-    width: 60,
     height: 60,
+    shadowColor: 'black',
 
     shadowOffset: { width: 0, height: 0 },
-    shadowColor: 'black',
     shadowOpacity: 1,
-    shadowRadius: 1
+    shadowRadius: 1,
+    width: 60
   },
-  weatherInfoRow: {
-    flexDirection: 'row',
-    width: 110,
-    justifyContent: 'space-between',
+  popupIconWrapper: {
+    height: 70,
+    padding: 8,
+    width: 70
   },
-  infoText: {
-    textAlign: 'center',
-    opacity: 0.5,
-    fontWeight: '600',
-    fontSize: 14
+  popupWrapper: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    padding: 8,
+    width: 150
   },
 
-  popupIconWrapper: {
-    padding: 8,
-    width: 70,
-    height: 70
+  weatherInfoRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: 110
   }
 })

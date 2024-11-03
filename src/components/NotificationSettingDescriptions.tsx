@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -6,13 +7,13 @@ import {
   StyleSheet,
   Platform
 } from 'react-native';
-import { dateWithTime, localisedMoment } from 'utils/dates';
+
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import { TimeString } from 'schema/util/dates';
-import { useEffect, useRef, useState } from 'react';
-import debouncer from 'signature-debouncer';
 import { TimePicker } from 'components/NullableTimePicker';
+import { TimeString } from 'schema/util/dates';
+import debouncer from 'signature-debouncer';
 import { white } from 'utils/colours';
+import { dateWithTime, localisedMoment } from 'utils/dates';
 
 type Props = {
   updateTime: (time?: TimeString) => void,
@@ -63,7 +64,7 @@ export const DailyNotificationDesc = ({
         underlayColor={'rgba(255,255,255,0.5)'}
       >
         <Text style={dailyStyles.persistentText}>
-          {persistent ? 'Will' : "Won't"}
+          {persistent ? 'Will' : 'Won\'t'}
         </Text>
       </TouchableHighlight>
       <Text style={dailyStyles.thirdText}>
@@ -83,7 +84,7 @@ export const EventNotificationDesc = ({
   minsBefore
 }: EventProps) => {
   const [mins, setMins] = useState(minsBefore.toString())
-  const debounceSignature = "EventNotificationMins"
+  const debounceSignature = 'EventNotificationMins'
 
   const resetToDefaultIfEmpty = () => {
     if (!mins) {
@@ -126,74 +127,74 @@ export const EventNotificationDesc = ({
 };
 
 const dailyStyles = StyleSheet.create({
-  mainContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    gap: 2
+  dateTimeDimensions: {
+    height: 30,
+    width: 85
+  },
+  dateTimeWrapper: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    overflow: 'hidden'
   },
   firstText: {
-    opacity: 0.6,
+    color: 'white',
     fontSize: 16,
-    color: 'white'
+    opacity: 0.6
   },
-  dateTimeWrapper: { 
-    borderRadius: 10, 
-    overflow: 'hidden',
-    backgroundColor: 'white'
-  },
-  dateTimeDimensions: {
-    width: 85,
-    height: 30,
-  },
-  secondText: {
-    opacity: 0.6,
-    fontSize: 16,
-    color: 'white'
-  },
-  persistentTouchable: {
-    backgroundColor: white,
-    paddingVertical: 5,
-    paddingHorizontal: 6,
-    width: 60,
-    borderRadius: 8
+  mainContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 2
   },
   persistentText: {
     fontSize: 14,
     textAlign: 'center'
   },
+  persistentTouchable: {
+    backgroundColor: white,
+    borderRadius: 8,
+    paddingHorizontal: 6,
+    paddingVertical: 5,
+    width: 60
+  },
+  secondText: {
+    color: 'white',
+    fontSize: 16,
+    opacity: 0.6
+  },
   thirdText: {
-    opacity: 0.6,
+    color: 'white',
     fontSize: 16,
     lineHeight: 28,
-    color: 'white'
+    opacity: 0.6
   }
 });
 
 const eventStyles = StyleSheet.create({
-  mainContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center'
-  },
   firstText: {
-    opacity: 0.6,
+    color: 'white',
     fontSize: 16,
-    color: 'white'
+    opacity: 0.6
+  },
+  mainContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   minutesInput: {
     backgroundColor: white,
-    paddingVertical: 4,
-    paddingHorizontal: 6,
-    width: 40,
     borderRadius: 8,
     fontSize: 15,
-    textAlign: 'center'
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    textAlign: 'center',
+    width: 40
   },
   secondText: {
-    opacity: 0.6,
+    color: 'white',
     fontSize: 16,
     lineHeight: 28,
-    color: 'white'
+    opacity: 0.6
   }
 });

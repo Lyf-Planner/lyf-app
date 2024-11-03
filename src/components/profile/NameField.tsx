@@ -1,10 +1,11 @@
-import { useAuth } from "hooks/cloud/useAuth";
-import { validateDisplayName } from "utils/validators";
-import { DetailsField } from "components/profile/DetailsField";
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
-import { AddField } from "components/profile/AddField";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { fieldPrompt } from "components/profile/AccountInfo";
+import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+
+import { fieldPrompt } from 'components/profile/AccountInfo';
+import { AddField } from 'components/profile/AddField';
+import { DetailsField } from 'components/profile/DetailsField';
+import { useAuth } from 'hooks/cloud/useAuth';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { validateDisplayName } from 'utils/validators';
 
 export const NameField = () => {
   const { user, updateUser } = useAuth();
@@ -45,21 +46,21 @@ export const NameField = () => {
 
 const styles = StyleSheet.create({
   detailsFieldValueText: {
-    fontSize: 16,
-    flexDirection: 'row',
     alignItems: 'center',
-    color: 'white'
+    color: 'white',
+    flexDirection: 'row',
+    fontSize: 16
   },
 
-  occupiedFieldRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: 220,
-    gap: 8
-  },
   editPressable: {
-    padding: 4,
     backgroundColor: 'rgba(255,255,255,0.5)',
-    borderRadius: 4
+    borderRadius: 4,
+    padding: 4
   },
+  occupiedFieldRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    width: 220
+  }
 })

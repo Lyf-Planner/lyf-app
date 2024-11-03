@@ -1,9 +1,11 @@
-import { StyleSheet, View } from "react-native"
-import { NewItem } from "./NewItem"
-import { useState } from "react";
-import { ItemType } from "schema/database/items";
-import { LocalItem } from "schema/items";
-import { useTimetable } from "hooks/cloud/useTimetable";
+import { useState } from 'react';
+import { StyleSheet, View } from 'react-native'
+
+import { useTimetable } from 'hooks/cloud/useTimetable';
+import { ItemType } from 'schema/database/items';
+import { LocalItem } from 'schema/items';
+
+import { NewItem } from './NewItem'
 
 type Props = {
   newRank: number,
@@ -23,9 +25,9 @@ export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true }: Pr
   return (
     <View style={styles.addItemSection}>
       {newItemType !== ItemType.Task &&
-        <NewItem 
+        <NewItem
           addItemByTitle={(title: string) => addItemByTitleTyped(title, ItemType.Event)}
-          type={ItemType.Event} 
+          type={ItemType.Event}
           onBlur={() => setNewItemType(null)}
           onFocus={() => setNewItemType(ItemType.Event)}
           whiteShadow={whiteShadow}
@@ -33,7 +35,7 @@ export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true }: Pr
       }
       {newItemType !== ItemType.Event &&
         <NewItem
-          type={ItemType.Task} 
+          type={ItemType.Task}
           addItemByTitle={(title: string) => addItemByTitleTyped(title, ItemType.Task)}
           onBlur={() => setNewItemType(null)}
           onFocus={() => setNewItemType(ItemType.Task)}
@@ -47,7 +49,7 @@ export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true }: Pr
 const styles = StyleSheet.create({
   addItemSection: {
     flexDirection: 'row',
-    width: '100%',
     gap: 4,
+    width: '100%'
   }
 })

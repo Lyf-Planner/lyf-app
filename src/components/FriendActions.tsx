@@ -1,20 +1,21 @@
-import { StyleSheet, View } from 'react-native';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { black, inProgressColor, deepBlue, eventsBadgeColor, primaryGreen, white } from 'utils/colours';
 import { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+
 import { ActionButton } from 'components/ActionButton';
 import { BouncyPressable } from 'components/BouncyPressable';
 import { Loader } from 'components/Loader';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import Entypo from 'react-native-vector-icons/Entypo';
 import {
   LyfMenu,
   MenuPopoverPlacement,
   PopoverMenuOption
 } from 'containers/LyfMenu';
+import { useAuth } from 'hooks/cloud/useAuth';
+import { useFriends } from 'hooks/cloud/useFriends';
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { UserFriend } from 'schema/user';
 import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingBFFRequest, hasOutgoingRequest } from 'schema/util/social';
-import { useFriends } from 'hooks/cloud/useFriends';
+import { black, inProgressColor, deepBlue, eventsBadgeColor, primaryGreen, white } from 'utils/colours';
 
 type Props = {
   friend: UserFriend,
@@ -224,26 +225,26 @@ export const HandleRequest = ({ friend, callback, height }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  optionsContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    paddingLeft: 0,
-    borderRadius: 10,
-    borderWidth: 0.5,
-    borderColor: 'rgba(0,0,0,0.5)'
-  },
-  optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
-  optionText: { fontSize: 18, color: 'rgba(0,0,0,0.7)' },
-  optionSeperator: { marginHorizontal: 5 },
-
   handleRequestMain: { flexDirection: 'row', gap: 4, height: '100%' },
   handleRequestPressable: {
-    flex: 1,
-    paddingVertical: 10,
-    borderRadius: 50,
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    borderRadius: 50,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingVertical: 10
   },
-  handleRequestPressableContainer: { flex: 1, height: '100%' }
+  handleRequestPressableContainer: { flex: 1, height: '100%' },
+  optionSeperator: { marginHorizontal: 5 },
+
+  optionText: { color: 'rgba(0,0,0,0.7)', fontSize: 18 },
+  optionWrapper: { marginHorizontal: 8, marginVertical: 4 },
+  optionsContainer: {
+    borderColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 10,
+    borderWidth: 0.5,
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    paddingLeft: 0
+  }
 });

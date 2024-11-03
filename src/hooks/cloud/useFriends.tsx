@@ -5,12 +5,14 @@ import {
   useEffect,
   useState
 } from 'react';
-import { ExposedUser, UserFriend } from 'schema/user';
+
 import { updateFriendship as updateRemoteFriendship, getUser } from 'rest/user';
 import { ID } from 'schema/database/abstract';
+import { ExposedUser, UserFriend } from 'schema/user';
 import { FriendshipAction } from 'schema/util/social';
-import { useAuth } from './useAuth';
+
 import { useCloud } from './cloudProvider';
+import { useAuth } from './useAuth';
 
 type Props = {
   children: JSX.Element;
@@ -31,13 +33,15 @@ export const FriendsProvider = ({ children }: Props) => {
   const [initialised, setInitialised] = useState(false);
 
   const reload = useCallback(async () => {
-    if (!user) return;
+    if (!user) {
+      return;
+    }
 
     if (initialised) {
       setSyncing(true);
     }
-    
-    const self: ExposedUser = await getUser(user?.id, "users");
+
+    const self: ExposedUser = await getUser(user?.id, 'users');
     setFriends(self.relations.users || []);
 
     if (!initialised) {
@@ -63,7 +67,7 @@ export const FriendsProvider = ({ children }: Props) => {
     const tmp = [...friends];
     if (localFriendExists && friend) {
       tmp[i] = friend;
-    } else if (!!friend) {
+    } else if (friend) {
       tmp.push(friend);
     } else if (localFriendExists) {
       tmp.splice(i, 1);

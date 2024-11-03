@@ -1,5 +1,9 @@
 import { useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
+
+import { BouncyPressable } from 'components/BouncyPressable';
+import { Horizontal } from 'components/Horizontal';
+import { useNotes } from 'hooks/cloud/useNotes';
 import {
   Menu,
   MenuOptions,
@@ -7,20 +11,17 @@ import {
   MenuTrigger,
   renderers
 } from 'react-native-popup-menu';
-import { Horizontal } from 'components/Horizontal';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NoteType } from 'schema/database/notes';
-import { useNotes } from 'hooks/cloud/useNotes';
-import { deepBlue, inProgressColor } from 'utils/colours';
 import { LyfElement } from 'utils/abstractTypes';
-import { BouncyPressable } from 'components/BouncyPressable';
+import { deepBlue, inProgressColor } from 'utils/colours';
 
 type Props = {
   newNote: (type: NoteType) => void;
 }
 
-type MenuTriggerProps = { 
-  children: LyfElement, 
+type MenuTriggerProps = {
+  children: LyfElement,
   onPress: () => void
 }
 
@@ -32,8 +33,8 @@ export const NewNoteMenu = ({ newNote }: Props) => {
 
   const menu = useRef<any>();
 
-  const optionsContainerStyles = { 
-    optionsContainer: styles.optionsContainer 
+  const optionsContainerStyles = {
+    optionsContainer: styles.optionsContainer
   }
   const optionStyles = {
     optionWrapper: styles.optionWrapper,
@@ -69,10 +70,10 @@ export const NewNoteMenu = ({ newNote }: Props) => {
           />
         </MenuOptions>
 
-        <MenuTrigger  customStyles={{
+        <MenuTrigger customStyles={{
           TriggerTouchableComponent: ({ children, onPress }: MenuTriggerProps) => (
-            <BouncyPressable 
-              onPress={onPress} 
+            <BouncyPressable
+              onPress={onPress}
             >
               {children}
             </BouncyPressable>
@@ -94,31 +95,31 @@ const NewNoteButton = () => {
 };
 
 const styles = StyleSheet.create({
-  optionsContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    paddingLeft: 0,
-    borderRadius: 10,
-    borderWidth: 0.5,
-    borderColor: 'rgba(0,0,0,0.5)'
-  },
-  optionWrapper: { 
-    marginVertical: 4, 
-    marginHorizontal: 4, 
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: 125 
-  },
-  optionText: { fontSize: 18, fontFamily: 'Lexend', fontWeight: '200' },
-  optionSeperator: { marginHorizontal: 5 },
-
-  newNoteContainer: { 
-    padding: 4, 
-    borderRadius: 5,
+  newNoteContainer: {
     backgroundColor: deepBlue,
+    borderRadius: 5,
+    padding: 4,
 
     shadowColor: 'black',
-    shadowOffset: { width: 2, height: 2}, 
-    shadowRadius: 0.5 
+    shadowOffset: { width: 2, height: 2 },
+    shadowRadius: 0.5
+  },
+  optionSeperator: { marginHorizontal: 5 },
+  optionText: { fontFamily: 'Lexend', fontSize: 18, fontWeight: '200' },
+  optionWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginHorizontal: 4,
+    marginVertical: 4,
+    width: 125
+  },
+
+  optionsContainer: {
+    borderColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 10,
+    borderWidth: 0.5,
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    paddingLeft: 0
   }
 });

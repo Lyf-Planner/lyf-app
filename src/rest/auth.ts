@@ -1,7 +1,9 @@
-import { get } from './axios';
-import { storeAsyncData } from '../utils/asyncStorage';
-import env from '../envManager';
 import { Alert } from 'react-native';
+
+import env from '../envManager';
+import { storeAsyncData } from '../utils/asyncStorage';
+
+import { get } from './axios';
 
 export const USER_NOT_FOUND = 'Not found';
 
@@ -11,7 +13,7 @@ export async function login(username: string, password: string) {
   const endpoint = usersEndpoint(`login?user_id=${username}&password=${password}`)
   const result = await get(endpoint);
 
-  console.log({ "result.data": result.data, "result.status": result.status });
+  console.log({ 'result.data': result.data, 'result.status': result.status });
 
   if (result?.status === 200) {
     storeAsyncData('token', result.data.token);
@@ -29,7 +31,7 @@ export async function login(username: string, password: string) {
 export async function autologin() {
   const endpoint = usersEndpoint('autologin');
 
-  const result = (await get(endpoint)) as any;
+  const result = (await get(endpoint));
   if (result?.status === 200) {
     return result.data;
   } else {

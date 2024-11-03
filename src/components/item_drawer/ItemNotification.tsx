@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableHighlight
 } from 'react-native';
+
 import { useAuth } from 'hooks/cloud/useAuth';
 import { useNotifications } from 'hooks/cloud/useNotifications';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -34,7 +35,7 @@ export const ItemNotification = ({
       updateSheetMinHeight(100)
       return;
     }
-    
+
     let parsed = minsOverride || mins;
     if (parsed) {
       parsed = parsed.replace(/[^0-9]/g, '');
@@ -57,7 +58,7 @@ export const ItemNotification = ({
     >
       <MaterialIcons name="notifications-active" size={20} />
       <Text
-        style={[styles.notifyText]}
+        style={styles.notifyText}
       >
         Notify Me
       </Text>
@@ -98,28 +99,28 @@ export const ItemNotification = ({
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    paddingRight: 10,
-    height: 35
-  },
-  notifyText: { fontSize: 20, fontFamily: 'Lexend' },
-  minutesInputWrapper: {
-    marginLeft: 'auto',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6
-  },
   closeTouchable: { borderRadius: 5 },
+  mainContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    height: 35,
+    paddingRight: 10
+  },
+  minsBeforeText: { fontSize: 18, fontWeight: '200' },
   minutesInput: {
     backgroundColor: 'rgba(0,0,0,0.08)',
-    padding: 6,
-    width: 45,
     borderRadius: 8,
     fontSize: 16,
-    textAlign: 'center'
+    padding: 6,
+    textAlign: 'center',
+    width: 45
   },
-  minsBeforeText: { fontSize: 18, fontWeight: '200' }
+  minutesInputWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 6,
+    marginLeft: 'auto'
+  },
+  notifyText: { fontFamily: 'Lexend', fontSize: 20 }
 });
