@@ -5,7 +5,7 @@ import {
 } from 'expo-notifications';
 import { isDevice } from 'expo-device';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { useAuth } from 'providers/cloud/useAuth';
+import { useAuth } from 'hooks/cloud/useAuth';
 import { getAsyncData, storeAsyncData } from 'utils/asyncStorage';
 import env from 'envManager';
 import { Notification } from 'schema/notifications';

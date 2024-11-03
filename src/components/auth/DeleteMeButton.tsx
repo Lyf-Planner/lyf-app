@@ -1,4 +1,4 @@
-import { useAuth } from 'providers/cloud/useAuth';
+import { useAuth } from 'hooks/cloud/useAuth';
 import {
   TouchableHighlight,
   View,

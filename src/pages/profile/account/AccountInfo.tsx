@@ -6,7 +6,7 @@ import {
   Alert,
   Platform
 } from 'react-native';
-import { useAuth } from 'providers/cloud/useAuth';
+import { useAuth } from 'hooks/cloud/useAuth';
 import { DetailsField } from 'pages/profile/account/DetailsField';
 import { NameField } from 'pages/profile/account/NameField';
 

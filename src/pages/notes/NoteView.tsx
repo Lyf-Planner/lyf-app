@@ -1,7 +1,7 @@
 import { StyleSheet, View, TextInput, Text, ScrollView } from 'react-native';
 
 import { ID } from 'schema/database/abstract';
-import { useNotes } from 'providers/cloud/useNotes';
+import { useNotes } from 'hooks/cloud/useNotes';
 import { useEffect, useMemo, useState } from 'react';
 import { NoteHeader } from './containers/NoteHeader';
 import { NoteBody } from './containers/NoteBody';

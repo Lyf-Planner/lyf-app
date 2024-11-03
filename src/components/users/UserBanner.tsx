@@ -3,7 +3,7 @@ import { deepBlueOpacity, eventsBadgeColor, lightGreen, primaryGreen, white, whi
 import { FriendAction } from '../../pages/friends/FriendActions';
 import { BouncyPressable } from '../pressables/BouncyPressable';
 import { ItemSocialAction } from '../item/drawer_settings/ItemSocialAction';
-import { useModal } from 'providers/overlays/useModal';
+import { useModal } from 'hooks/overlays/useModal';
 import { UserModal } from './UserModal';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { UserFriend } from 'schema/user';

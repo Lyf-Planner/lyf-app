@@ -1,4 +1,4 @@
-import { useAuth } from 'providers/cloud/useAuth';
+import { useAuth } from 'hooks/cloud/useAuth';
 import { View, TouchableHighlight, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { primaryGreen, white } from 'utils/colours';

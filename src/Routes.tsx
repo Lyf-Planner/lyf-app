@@ -12,7 +12,7 @@ import { Friends } from 'pages/friends/FriendsPage';
 import { Profile } from 'pages/profile/ProfilePage';
 import { Create } from 'pages/create/Create';
 import { ID } from 'schema/database/abstract';
-import { useTutorial } from 'providers/overlays/useTutorial';
+import { useTutorial } from 'hooks/overlays/useTutorial';
 
 type RouteData = {
   label: keyof RouteParams;

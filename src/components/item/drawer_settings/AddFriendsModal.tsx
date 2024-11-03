@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableHighlight, Platform } from 'react-native';
-import { useModal } from 'providers/overlays/useModal';
-import { useAuth } from 'providers/cloud/useAuth';
+import { useModal } from 'hooks/overlays/useModal';
+import { useAuth } from 'hooks/cloud/useAuth';
 import { useEffect, useMemo, useState } from 'react';
 import { Horizontal, Loader } from '../../general/MiscComponents';
 import { SimpleSearch } from '../../fields/SimpleSearch';
@@ -8,10 +8,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { ID } from 'schema/database/abstract';
-import { useFriends } from 'providers/cloud/useFriends';
+import { useFriends } from 'hooks/cloud/useFriends';
 import { UserList, UserListContext } from 'components/users/UserList';
 import { LocalItem } from 'schema/items';
-import { useTimetable } from 'providers/cloud/useTimetable';
+import { useTimetable } from 'hooks/cloud/useTimetable';
 import { UserFriendshipStatus } from 'schema/database/user_friendships';
 import { UserFriend } from 'schema/user';
 

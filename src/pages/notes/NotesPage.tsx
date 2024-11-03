@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { NewNoteMenu } from './containers/NewNoteAdd';
 import { NoteView } from './NoteView';
 import { NoteRow } from './containers/NoteRow';
-import { useNotes } from 'providers/cloud/useNotes';
+import { useNotes } from 'hooks/cloud/useNotes';
 import { NoteType } from 'schema/database/notes';
 import { ID } from 'schema/database/abstract';
 import { primaryGreen, white } from 'utils/colours';

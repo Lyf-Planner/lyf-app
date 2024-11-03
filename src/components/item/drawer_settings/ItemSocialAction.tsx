@@ -13,8 +13,8 @@ import {
   white
 } from '../../../utils/colours';
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { useAuth } from 'providers/cloud/useAuth';
-import { useTimetable } from 'providers/cloud/useTimetable';
+import { useAuth } from 'hooks/cloud/useAuth';
+import { useTimetable } from 'hooks/cloud/useTimetable';
 import { ActionButton } from '../../pressables/AsyncAction';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { ItemRelatedUser, LocalItem } from '../../../schema/items';

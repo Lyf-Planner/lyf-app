@@ -1,8 +1,8 @@
 import { List } from 'components/list/List';
 import { MultiTypeNewItem } from 'components/list/MultiTypeNewItem';
 import { NewItem } from 'components/list/NewItem';
-import { useNotes } from 'providers/cloud/useNotes';
-import { useTimetable } from 'providers/cloud/useTimetable';
+import { useNotes } from 'hooks/cloud/useNotes';
+import { useTimetable } from 'hooks/cloud/useTimetable';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as Native from 'react-native';
 import { ItemDbObject, ItemType } from 'schema/database/items';

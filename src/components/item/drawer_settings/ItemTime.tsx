@@ -3,7 +3,7 @@ import {
   NullTimeTextOptions,
   NullableTimePicker
 } from '../../fields/NullableTimePicker';
-import { useAuth } from 'providers/cloud/useAuth';
+import { useAuth } from 'hooks/cloud/useAuth';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { localisedFormattedMoment, localisedMoment } from '../../../utils/dates';
 import { ItemDrawerProps } from '../ItemDrawer';

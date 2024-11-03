@@ -10,7 +10,7 @@ import { ItemDescription } from '../item/drawer_settings/ItemDescription';
 import { ItemDate } from '../item/drawer_settings/ItemDate';
 import { ItemTitle } from '../item/drawer_settings/ItemTitle';
 import { ItemTypeBadge } from '../item/drawer_settings/ItemType';
-import { UpdateItem, useTimetable } from 'providers/cloud/useTimetable';
+import { UpdateItem, useTimetable } from 'hooks/cloud/useTimetable';
 import { AddDetails } from '../item/drawer_settings/AddDetails';
 import { OptionsMenu } from '../item/drawer_settings/OptionsMenu';
 import { InviteHandler } from '../item/drawer_settings/InviteHandler';
@@ -22,9 +22,9 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { LocalItem } from 'schema/items';
 import { getItem } from 'rest/items';
 import { ID } from 'schema/database/abstract';
-import { useDrawer } from 'providers/overlays/useDrawer';
+import { useDrawer } from 'hooks/overlays/useDrawer';
 import { ItemDbObject } from 'schema/database/items';
-import { useNotes } from 'providers/cloud/useNotes';
+import { useNotes } from 'hooks/cloud/useNotes';
 
 type Props = {
   id: ID,

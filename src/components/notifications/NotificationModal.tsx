@@ -1,7 +1,7 @@
 import * as Native from 'react-native';
 
-import { useNotifications } from "providers/cloud/useNotifications"
-import { useModal } from "providers/overlays/useModal"
+import { useNotifications } from "hooks/cloud/useNotifications"
+import { useModal } from "hooks/overlays/useModal"
 import { deepBlue, primaryGreen, white } from 'utils/colours';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { NotificationBanner } from './NotificationBanner';

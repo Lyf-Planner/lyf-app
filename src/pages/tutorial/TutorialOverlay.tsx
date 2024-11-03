@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet, ListRenderItemInfo, Platform } from 'react-native';
 import { black, deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from '../../utils/colours';
-import { useTutorial } from 'providers/overlays/useTutorial';
+import { useTutorial } from 'hooks/overlays/useTutorial';
 import { SaveTooltip } from '../../components/general/Icons';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Background } from 'components/general/Background';

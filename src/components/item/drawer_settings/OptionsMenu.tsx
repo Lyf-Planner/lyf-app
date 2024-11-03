@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { useAuth } from 'providers/cloud/useAuth';
+import { useAuth } from 'hooks/cloud/useAuth';
 import {
   Menu,
   MenuOption,
@@ -9,7 +9,7 @@ import {
 } from 'react-native-popup-menu';
 import { StyleSheet, View } from 'react-native';
 import { Horizontal, Loader } from '../../general/MiscComponents';
-import { useTimetable } from 'providers/cloud/useTimetable';
+import { useTimetable } from 'hooks/cloud/useTimetable';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import { LocalItem } from '../../../schema/items';
 import { SocialAction } from '../../../schema/util/social';

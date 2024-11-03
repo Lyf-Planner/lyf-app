@@ -10,7 +10,7 @@ import {
 import { Horizontal } from 'components/general/MiscComponents';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NoteType } from 'schema/database/notes';
-import { useNotes } from 'providers/cloud/useNotes';
+import { useNotes } from 'hooks/cloud/useNotes';
 import { deepBlue, white } from 'utils/colours';
 import { LyfElement } from 'utils/abstractTypes';
 import { BouncyPressable } from 'components/pressables/BouncyPressable';

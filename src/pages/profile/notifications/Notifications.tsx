@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, Switch } from 'react-native';
-import { useAuth } from 'providers/cloud/useAuth';
+import { useAuth } from 'hooks/cloud/useAuth';
 import {
   DailyNotificationDesc,
   EventNotificationDesc
 } from './NotificationDescriptions';
-import { useNotifications } from 'providers/cloud/useNotifications';
+import { useNotifications } from 'hooks/cloud/useNotifications';
 import { primaryGreen } from 'utils/colours';
 import { LyfElement } from 'utils/abstractTypes';
 

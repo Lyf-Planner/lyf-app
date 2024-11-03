@@ -8,7 +8,7 @@ import Animated, {
   FadeIn
 } from 'react-native-reanimated';
 import { deepBlue, deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from '../../utils/colours';
-import { useTimetable } from 'providers/cloud/useTimetable';
+import { useTimetable } from 'hooks/cloud/useTimetable';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { BouncyPressable } from 'components/pressables/BouncyPressable';
 

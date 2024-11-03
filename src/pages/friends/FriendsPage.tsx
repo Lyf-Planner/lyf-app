@@ -1,5 +1,5 @@
 import { UserList } from "components/users/UserList"
-import { useFriends } from "providers/cloud/useFriends"
+import { useFriends } from "hooks/cloud/useFriends"
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, View, Text, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';

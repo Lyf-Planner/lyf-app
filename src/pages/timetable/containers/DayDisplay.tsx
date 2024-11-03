@@ -23,8 +23,8 @@ import {
   secondaryGreen,
 } from '../../../utils/colours';
 import { sleep } from 'utils/misc';
-import { useAuth } from 'providers/cloud/useAuth';
-import { useTimetable } from 'providers/cloud/useTimetable';
+import { useAuth } from 'hooks/cloud/useAuth';
+import { useTimetable } from 'hooks/cloud/useTimetable';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,

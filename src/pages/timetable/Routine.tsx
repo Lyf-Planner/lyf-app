@@ -3,7 +3,7 @@ import { deepBlue, primaryGreen, white } from 'utils/colours';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { DayDisplay } from './containers/DayDisplay';
 import { WeekDays } from 'schema/util/dates';
-import { useTimetable } from 'providers/cloud/useTimetable';
+import { useTimetable } from 'hooks/cloud/useTimetable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Loader, PageLoader } from 'components/general/MiscComponents';
 import { PageBackground } from 'components/general/PageBackground';

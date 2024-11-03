@@ -1,5 +1,5 @@
 import { useAuth } from "providers/cloud/useAuth"
-import { useLocation } from "providers/cloud/useLocation";
+import { useLocation } from "hooks/cloud/useLocation";
 import { StyleSheet, View, Text, Switch } from "react-native"
 
 export const WeatherSetting = () => {

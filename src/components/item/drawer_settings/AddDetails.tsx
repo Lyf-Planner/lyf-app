@@ -7,8 +7,8 @@ import {
 } from 'react-native';
 import { primaryGreen } from '../../../utils/colours';
 import { formatDateData } from '../../../utils/dates';
-import { useNotifications } from 'providers/cloud/useNotifications';
-import { useModal } from 'providers/overlays/useModal';
+import { useNotifications } from 'hooks/cloud/useNotifications';
+import { useModal } from 'hooks/overlays/useModal';
 // import { AddFriendsModal } from './AddFriendsModal';
 import { isTemplate } from '../../item/constants';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -16,7 +16,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { ItemDrawerProps } from '../ItemDrawer';
 import { ItemType } from 'schema/database/items';
 import { AddFriendsModal } from './AddFriendsModal';
-import { useAuth } from 'providers/cloud/useAuth';
+import { useAuth } from 'hooks/cloud/useAuth';
 
 // The button component can definitely be abstracted here
 

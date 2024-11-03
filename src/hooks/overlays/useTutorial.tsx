@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import { TutorialOverlay } from 'pages/tutorial/TutorialOverlay';
-import { useAuth } from 'providers/cloud/useAuth';
+import { useAuth } from 'hooks/cloud/useAuth';
 import { LyfElement } from 'utils/abstractTypes';
 import { RouteParams } from 'Routes';
 

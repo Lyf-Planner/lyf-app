@@ -5,8 +5,8 @@ import * as Native from 'react-native';
 import { black, deepBlue, deepBlueOpacity, primaryGreen, secondaryGreen, white } from "utils/colours";
 import { addWeekToStringDate, daysDifferenceBetween, formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from 'utils/dates';
 import { DateString, WeekDays } from 'schema/util/dates';
-import { useTimetable } from 'providers/cloud/useTimetable';
-import { useAuth } from 'providers/cloud/useAuth';
+import { useTimetable } from 'hooks/cloud/useTimetable';
+import { useAuth } from 'hooks/cloud/useAuth';
 
 enum ShiftDirection {
   BACK = -1,

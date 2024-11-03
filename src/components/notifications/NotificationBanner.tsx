@@ -7,12 +7,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { deepBlueOpacity, eventsBadgeColor, eventsBadgeColorOpacity } from 'utils/colours';
-import { useNotifications } from 'providers/cloud/useNotifications';
+import { useNotifications } from 'hooks/cloud/useNotifications';
 import { useNavigation } from '@react-navigation/native';
 import { ItemDrawer } from 'components/item/ItemDrawer';
-import { useDrawer } from 'providers/overlays/useDrawer';
+import { useDrawer } from 'hooks/overlays/useDrawer';
 import { RouteParams } from 'Routes';
-import { useModal } from 'providers/overlays/useModal';
+import { useModal } from 'hooks/overlays/useModal';
 import { UserModal } from 'components/users/UserModal';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 

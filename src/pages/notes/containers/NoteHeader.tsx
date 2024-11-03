@@ -4,7 +4,7 @@ import { NoteTypeBadge, TYPE_TO_DISPLAY_NAME } from './NoteTypeBadge';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { NoteType } from 'schema/database/notes';
 import { useMemo, useState } from 'react';
-import { useNotes } from 'providers/cloud/useNotes';
+import { useNotes } from 'hooks/cloud/useNotes';
 import { primaryGreen, white } from 'utils/colours';
 
 type Props = {

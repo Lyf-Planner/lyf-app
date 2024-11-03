@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import { useAuth } from 'providers/cloud/useAuth';
+import { useAuth } from 'hooks/cloud/useAuth';
 import { black, darkCyan, deepBlue, eventsBadgeColor, primaryGreen, secondaryGreen, white } from 'utils/colours';
 import { useEffect, useMemo, useState } from 'react';
 import { ActionButton } from '../../components/pressables/AsyncAction';
@@ -8,7 +8,7 @@ import { Loader } from '../../components/general/MiscComponents';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { useModal } from 'providers/overlays/useModal';
+import { useModal } from 'hooks/overlays/useModal';
 import {
   LyfMenu,
   MenuPopoverPlacement,
@@ -16,7 +16,7 @@ import {
 } from '../../components/menus/LyfMenu';
 import { UserFriend } from '../../schema/user';
 import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingBFFRequest, hasOutgoingRequest } from '../../schema/util/social';
-import { useFriends } from 'providers/cloud/useFriends';
+import { useFriends } from 'hooks/cloud/useFriends';
 import { inProgressColor } from 'components/item/constants';
 
 type Props = {

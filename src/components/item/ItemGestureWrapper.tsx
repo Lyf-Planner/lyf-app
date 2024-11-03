@@ -14,7 +14,7 @@ import {
 import { LyfElement } from '../../utils/abstractTypes';
 import * as Haptics from 'expo-haptics';
 import { ListItemAnimatedValues } from './Item';
-import { RemoveItem, UpdateItem, useTimetable } from 'providers/cloud/useTimetable';
+import { RemoveItem, UpdateItem, useTimetable } from 'hooks/cloud/useTimetable';
 import { LocalItem } from 'schema/items';
 
 type Props = {

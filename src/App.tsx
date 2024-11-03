@@ -5,9 +5,9 @@ import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 import env from './envManager';
 import 'expo-dev-client';
 import Routes from 'Routes';
-import { CloudProvider } from 'providers/cloud/cloudProvider';
-import { OverlayProvider } from 'providers/overlays/overlayProvider';
-import { RouteProvider } from 'providers/routes';
+import { CloudProvider } from 'hooks/cloud/cloudProvider';
+import { OverlayProvider } from 'hooks/overlays/overlayProvider';
+import { RouteProvider } from 'hooks/routes';
 import { useEffect } from 'react';
 
 export default function App() {

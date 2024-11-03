@@ -8,7 +8,7 @@ import Animated, {
   FadeIn
 } from 'react-native-reanimated';
 import { deepBlue, deepBlueOpacity, eventsBadgeColor } from '../../utils/colours';
-import { useTimetable } from 'providers/cloud/useTimetable';
+import { useTimetable } from 'hooks/cloud/useTimetable';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { ItemType } from 'schema/database/items';
 import { LocalItem } from 'schema/items';

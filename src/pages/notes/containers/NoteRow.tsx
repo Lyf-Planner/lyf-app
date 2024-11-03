@@ -10,7 +10,7 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated';
 import { NoteTypeBadge } from './NoteTypeBadge';
-import { useNotes } from 'providers/cloud/useNotes';
+import { useNotes } from 'hooks/cloud/useNotes';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { UserRelatedNote } from 'schema/user';
 import { deepBlueOpacity, eventsBadgeColor, white } from 'utils/colours';
