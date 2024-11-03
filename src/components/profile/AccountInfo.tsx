@@ -7,8 +7,8 @@ import {
   Platform
 } from 'react-native';
 import { useAuth } from 'hooks/cloud/useAuth';
-import { DetailsField } from 'components/DetailsField';
-import { NameField } from 'components/NameField';
+import { DetailsField } from 'components/profile/DetailsField';
+import { NameField } from 'components/profile/NameField';
 
 export const AccountInfo = () => {
   const { user } = useAuth();

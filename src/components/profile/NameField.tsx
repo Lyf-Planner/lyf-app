@@ -1,10 +1,10 @@
 import { useAuth } from "hooks/cloud/useAuth";
 import { validateDisplayName } from "utils/validators";
-import { DetailsField } from "components/DetailsField";
+import { DetailsField } from "components/profile/DetailsField";
 import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
-import { AddField } from "components/AddField";
+import { AddField } from "components/profile/AddField";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { fieldPrompt } from "components/AccountInfo";
+import { fieldPrompt } from "components/profile/AccountInfo";
 
 export const NameField = () => {
   const { user, updateUser } = useAuth();

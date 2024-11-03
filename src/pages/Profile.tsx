@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
 import { LogoutButton } from 'components/LogoutButton';
 import { DeleteButton } from 'components/DeleteMeButton';
-import { AccountInfo } from 'components/AccountInfo';
+import { AccountInfo } from 'components/profile/AccountInfo';
 import { NotificationSettings } from 'components/NotificationSetting';
 import { SettingDropdown } from 'containers/SettingDropdown';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
