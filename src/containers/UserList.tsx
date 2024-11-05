@@ -1,9 +1,9 @@
 import { StyleSheet, View, Text } from 'react-native';
 
-import { UserBanner } from 'components/UserBanner';
-import { ItemRelatedUser, LocalItem } from 'schema/items';
-import { NoteRelatedUser } from 'schema/notes';
-import { UserFriend } from 'schema/user';
+import { UserBanner } from '@/components/UserBanner';
+import { ItemRelatedUser, LocalItem } from '@/schema/items';
+import { NoteRelatedUser } from '@/schema/notes';
+import { UserFriend } from '@/schema/user';
 
 export enum UserListContext {
   Friends = 'Friends',

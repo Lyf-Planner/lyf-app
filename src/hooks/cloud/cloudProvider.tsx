@@ -30,7 +30,7 @@ export type CloudHooks = {
 // Wrapper for backend interfacing
 // Notes
 // - This is outside the wrapper UI, so the login interface mounted by useAuth
-//   needs to be quite simple as to not call those components
+//   needs to be quite simple as to not call those @/components
 // - Should in turn consider the auth gateway being seperate to the cloud layer and come last
 
 export const CloudProvider = ({ children }: Props) => {

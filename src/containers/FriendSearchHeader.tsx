@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-import { Loader } from 'components/Loader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { getUser } from 'rest/user';
-import { PublicUser } from 'schema/user';
-import { black, primaryGreen, white } from 'utils/colours';
+
+import { Loader } from '@/components/Loader';
+import { getUser } from '@/rest/user';
+import { PublicUser } from '@/schema/user';
+import { black, primaryGreen, white } from '@/utils/colours';
 
 type Props = {
   searched: boolean,

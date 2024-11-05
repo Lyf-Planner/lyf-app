@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { BouncyPressable, BouncyPressableOptions } from 'components/BouncyPressable';
 import {
   Menu,
   MenuOption,
@@ -9,8 +8,10 @@ import {
   MenuTrigger,
   renderers
 } from 'react-native-popup-menu';
-import { LyfElement } from 'utils/abstractTypes';
-import { blackWithOpacity } from 'utils/colours';
+
+import { BouncyPressable, BouncyPressableOptions } from '@/components/BouncyPressable';
+import { LyfElement } from '@/utils/abstractTypes';
+import { blackWithOpacity } from '@/utils/colours';
 
 export type LyfMenuProps = {
   name: string;

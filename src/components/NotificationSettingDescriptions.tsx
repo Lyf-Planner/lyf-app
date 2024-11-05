@@ -9,11 +9,12 @@ import {
 } from 'react-native';
 
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import { TimePicker } from 'components/NullableTimePicker';
-import { TimeString } from 'schema/util/dates';
 import debouncer from 'signature-debouncer';
-import { white } from 'utils/colours';
-import { dateWithTime, localisedMoment } from 'utils/dates';
+
+import { TimePicker } from '@/components/NullableTimePicker';
+import { TimeString } from '@/schema/util/dates';
+import { white } from '@/utils/colours';
+import { dateWithTime, localisedMoment } from '@/utils/dates';
 
 type Props = {
   updateTime: (time?: TimeString) => void,

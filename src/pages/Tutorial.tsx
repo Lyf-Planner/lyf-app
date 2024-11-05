@@ -1,17 +1,18 @@
 import { View, Text, StyleSheet, Platform } from 'react-native';
 
-import { LyfIcon } from 'assets/icons/LyfIcon';
-import { BouncyPressable } from 'components/BouncyPressable';
-import { PageBackground } from 'containers/PageBackground';
-import { TipsDropdown } from 'containers/TipsDropdown';
-import env from 'envManager';
-import { useTutorial } from 'hooks/overlays/useTutorial';
 import { ScrollView } from 'react-native-gesture-handler';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { black, eventsBadgeColor, primaryGreen, white } from 'utils/colours';
+
+import { LyfIcon } from '@/assets/icons/LyfIcon';
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { PageBackground } from '@/containers/PageBackground';
+import { TipsDropdown } from '@/containers/TipsDropdown';
+import env from '@/envManager';
+import { useTutorial } from '@/hooks/overlays/useTutorial';
+import { black, eventsBadgeColor, primaryGreen, white } from '@/utils/colours';
 
 export const TutorialOverlay = () => {
   const { updateTutorial, updateTutorialRoute } = useTutorial();

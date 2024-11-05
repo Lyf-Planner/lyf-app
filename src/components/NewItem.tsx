@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
 import { Platform, StyleSheet, TextInput } from 'react-native';
 
-import { ItemType } from 'schema/database/items';
-import { inProgressColor, listNewItemBackground, listNewItemText, white } from 'utils/colours';
+import { ItemType } from '@/schema/database/items';
+import { inProgressColor, listNewItemBackground, listNewItemText, white } from '@/utils/colours';
 
 export type AddItemByTitle = (title: string) => void;
 

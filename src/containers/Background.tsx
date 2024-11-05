@@ -1,8 +1,8 @@
 import { View, Image, StyleSheet, Keyboard, TouchableWithoutFeedback, Platform } from 'react-native';
 
-import { branch, roundTree, tree, world } from 'assets/images';
-import { LyfElement } from 'utils/abstractTypes';
-import { lightGreen, primaryGreen } from 'utils/colours';
+import { branch, roundTree, tree, world } from '@/assets/images';
+import { LyfElement } from '@/utils/abstractTypes';
+import { lightGreen, primaryGreen } from '@/utils/colours';
 
 type Props = {
   children: LyfElement

@@ -2,15 +2,16 @@ import * as Native from 'react-native'
 import { Image, StyleSheet } from 'react-native';
 
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
-import { LyfIcon } from 'assets/icons/LyfIcon';
-import { NotificationModal } from 'containers/NotificationModal';
-import { useNotifications } from 'hooks/cloud/useNotifications';
-import { useModal } from 'hooks/overlays/useModal';
-import { useTutorial } from 'hooks/overlays/useTutorial';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { gentleBlack, primaryGreen, red, white } from 'utils/colours';
 
-// This is a little different to other components.
+import { LyfIcon } from '@/assets/icons/LyfIcon';
+import { NotificationModal } from '@/containers/NotificationModal';
+import { useNotifications } from '@/hooks/cloud/useNotifications';
+import { useModal } from '@/hooks/overlays/useModal';
+import { useTutorial } from '@/hooks/overlays/useTutorial';
+import { gentleBlack, primaryGreen, red, white } from '@/utils/colours';
+
+// This is a little different to other @/components.
 // What we're doing here is writing a function which provides an argument to the BottomTabNavigator header param
 // If using their API becomes impractical this can be replaced with a custom component
 

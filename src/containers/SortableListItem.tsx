@@ -1,21 +1,22 @@
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { AnimatedCheck } from 'components/AnimatedCheck';
-import { CollaborativeIcon } from 'components/CollaborativeIcon';
-import { ItemTimeFormatter } from 'components/ItemTimeFormatter';
-import { ItemTitleFormatter } from 'components/ItemTitleFormatter';
-import { SortingHandle } from 'components/SortingHandle';
-import { Vertical } from 'components/Vertical';
-import { ItemStyleOptions } from 'containers/Item';
 import { useSharedValue } from 'react-native-reanimated';
-import { ItemStatus, ItemType } from 'schema/database/items';
-import { LocalItem } from 'schema/items';
-import { deepBlue, primaryGreen } from 'utils/colours';
+
+import { AnimatedCheck } from '@/components/AnimatedCheck';
+import { CollaborativeIcon } from '@/components/CollaborativeIcon';
+import { ItemTimeFormatter } from '@/components/ItemTimeFormatter';
+import { ItemTitleFormatter } from '@/components/ItemTitleFormatter';
+import { SortingHandle } from '@/components/SortingHandle';
+import { Vertical } from '@/components/Vertical';
+import { ItemStyleOptions } from '@/containers/Item';
+import { ItemStatus, ItemType } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
+import { deepBlue, primaryGreen } from '@/utils/colours';
 import {
   getItemPrimaryColor,
   getItemSecondaryColor
-} from 'utils/item';
+} from '@/utils/item';
 
 type Props = {
   item: LocalItem;

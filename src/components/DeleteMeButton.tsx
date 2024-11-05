@@ -6,9 +6,10 @@ import {
   StyleSheet
 } from 'react-native';
 
-import { useAuth } from 'hooks/cloud/useAuth';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { red, white } from 'utils/colours';
+
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { red, white } from '@/utils/colours';
 
 export const DeleteButton = () => {
   const { deleteMe, logout } = useAuth();

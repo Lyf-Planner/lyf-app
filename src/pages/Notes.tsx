@@ -3,16 +3,17 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { RouteParams } from 'Routes';
-import { NewNoteMenu } from 'components/NewNoteAdd';
-import { NoteRow } from 'components/NoteRow';
-import { PageLoader } from 'components/PageLoader';
-import { NoteView } from 'containers/NoteView';
-import { PageBackground } from 'containers/PageBackground';
-import { useNotes } from 'hooks/cloud/useNotes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { ID } from 'schema/database/abstract';
-import { NoteType } from 'schema/database/notes';
-import { black, gentleWhite, primaryGreen, white } from 'utils/colours';
+
+import { NewNoteMenu } from '@/components/NewNoteAdd';
+import { NoteRow } from '@/components/NoteRow';
+import { PageLoader } from '@/components/PageLoader';
+import { NoteView } from '@/containers/NoteView';
+import { PageBackground } from '@/containers/PageBackground';
+import { useNotes } from '@/hooks/cloud/useNotes';
+import { ID } from '@/schema/database/abstract';
+import { NoteType } from '@/schema/database/notes';
+import { black, gentleWhite, primaryGreen, white } from '@/utils/colours';
 
 export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
   // Can be the ID of a folder or note, the manager will figure it out

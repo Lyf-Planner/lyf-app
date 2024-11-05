@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { BouncyPressable } from 'components/BouncyPressable';
-import { Loader } from 'components/Loader';
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { Loader } from '@/components/Loader';
 
 type Props = {
   color: string,

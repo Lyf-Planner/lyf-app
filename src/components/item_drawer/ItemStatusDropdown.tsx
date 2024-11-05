@@ -3,13 +3,14 @@ import { StyleSheet } from 'react-native';
 
 import DropDownPicker from 'react-native-dropdown-picker';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { ItemStatus } from 'schema/database/items';
+
+import { ItemStatus } from '@/schema/database/items';
 import {
   StatusOptions,
   ITEM_STATUS_TO_COLOR,
   statusTextDisplay
-} from 'utils/item';
-import { ItemDrawerProps } from 'utils/item';
+} from '@/utils/item';
+import { ItemDrawerProps } from '@/utils/item';
 
 export const ItemStatusDropdown = ({ item, updateItem }: ItemDrawerProps) => {
   const [open, setOpen] = useState(false);

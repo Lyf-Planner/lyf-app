@@ -1,13 +1,14 @@
 import { LocationObject } from 'expo-location';
-import { ItemRelatedUser } from 'schema/items';
 
+import { ID } from '../@/schema/database/abstract';
+import { Permission } from '../@/schema/database/items_on_users';
+import { UserRelatedItem } from '../@/schema/user';
+import { SocialAction } from '../@/schema/util/social';
 import env from '../envManager';
-import { ID } from '../schema/database/abstract';
-import { Permission } from '../schema/database/items_on_users';
-import { UserRelatedItem } from '../schema/user';
-import { SocialAction } from '../schema/util/social';
 
 import { get, post } from './axios';
+
+import { ItemRelatedUser } from '@/schema/items';
 
 const itemsEndpoint = (req: string) => `/items/${req}`;
 

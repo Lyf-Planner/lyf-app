@@ -2,12 +2,13 @@ import { useCallback, useEffect, useRef } from 'react';
 import { Keyboard, Platform, Pressable, StyleSheet } from 'react-native';
 
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
-import { useDrawer } from 'hooks/overlays/useDrawer';
-import { useModal } from 'hooks/overlays/useModal';
-import { useTutorial } from 'hooks/overlays/useTutorial';
-import { TutorialOverlay } from 'pages/Tutorial';
 import Animated, { FadeIn } from 'react-native-reanimated';
-import { black, blackWithOpacity } from 'utils/colours';
+
+import { useDrawer } from '@/hooks/overlays/useDrawer';
+import { useModal } from '@/hooks/overlays/useModal';
+import { useTutorial } from '@/hooks/overlays/useTutorial';
+import { TutorialOverlay } from '@/pages/Tutorial';
+import { black, blackWithOpacity } from '@/utils/colours';
 
 type Props = {
   children: JSX.Element;

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 
-import { RouteParams } from 'Routes';
-import { LyfElement } from 'utils/abstractTypes';
+import { RouteParams } from '@/Routes';
+import { LyfElement } from '@/utils/abstractTypes';
 
 type Props = {
   children: LyfElement;

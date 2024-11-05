@@ -1,13 +1,14 @@
 import { useState } from 'react';
 
-import { ListItemOverlay } from 'components/ItemOverlay';
-import { ListItemUnderlay } from 'components/ItemUnderlay';
-import { ItemDrawer } from 'containers/ItemDrawer';
-import { ListItemGestureWrapper } from 'containers/ItemGestureWrapper';
-import { NoteItemDrawer } from 'containers/NoteItemDrawer';
-import { useDrawer } from 'hooks/overlays/useDrawer';
 import { SharedValue, useSharedValue } from 'react-native-reanimated';
-import { LocalItem } from 'schema/items';
+
+import { ListItemOverlay } from '@/components/ItemOverlay';
+import { ListItemUnderlay } from '@/components/ItemUnderlay';
+import { ItemDrawer } from '@/containers/ItemDrawer';
+import { ListItemGestureWrapper } from '@/containers/ItemGestureWrapper';
+import { NoteItemDrawer } from '@/containers/NoteItemDrawer';
+import { useDrawer } from '@/hooks/overlays/useDrawer';
+import { LocalItem } from '@/schema/items';
 
 export type ListItemAnimatedValues = {
   scale: SharedValue<number>;

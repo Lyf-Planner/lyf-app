@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 
-import { LyfElement } from 'utils/abstractTypes';
-import { white } from 'utils/colours';
+import { LyfElement } from '@/utils/abstractTypes';
+import { white } from '@/utils/colours';
 
 type Props = {
   fieldName: string,

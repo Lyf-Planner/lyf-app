@@ -1,16 +1,17 @@
 import { useMemo } from 'react';
 import { View, Text, ScrollView, TouchableHighlight, StyleSheet } from 'react-native';
 
-import { Horizontal } from 'components/Horizontal';
-import { NotificationBanner } from 'components/NotificationBanner';
-import { useNotifications } from 'hooks/cloud/useNotifications'
-import { useModal } from 'hooks/overlays/useModal'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Notification } from 'schema/notifications';
-import { DateString } from 'schema/util/dates';
-import { black, primaryGreen, white } from 'utils/colours';
-import { formatDateData, localisedFormattedMoment } from 'utils/dates';
+
+import { Horizontal } from '@/components/Horizontal';
+import { NotificationBanner } from '@/components/NotificationBanner';
+import { useNotifications } from '@/hooks/cloud/useNotifications'
+import { useModal } from '@/hooks/overlays/useModal'
+import { Notification } from '@/schema/notifications';
+import { DateString } from '@/schema/util/dates';
+import { black, primaryGreen, white } from '@/utils/colours';
+import { formatDateData, localisedFormattedMoment } from '@/utils/dates';
 
 export const NotificationModal = () => {
   const { updateModal } = useModal();

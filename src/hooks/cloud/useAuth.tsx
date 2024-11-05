@@ -8,20 +8,21 @@ import {
 } from 'react';
 import { AppState, Platform } from 'react-native';
 
-import { LoadingScreen } from 'components/LoadingScreen';
-import { Background } from 'containers/Background';
-import { Login } from 'containers/Login';
 import { getCalendars } from 'expo-localization';
-import { autologin } from 'rest/auth';
+
+import { LoadingScreen } from '@/components/LoadingScreen';
+import { Background } from '@/containers/Background';
+import { Login } from '@/containers/Login';
+import { autologin } from '@/rest/auth';
 import {
   deleteMe,
   saveUser
-} from 'rest/user';
-import { ExposedUser, User } from 'schema/user';
+} from '@/rest/user';
+import { ExposedUser, User } from '@/schema/user';
 import {
   getAsyncData,
   deleteAsyncData
-} from 'utils/asyncStorage';
+} from '@/utils/asyncStorage';
 
 type Props = {
   children: JSX.Element;

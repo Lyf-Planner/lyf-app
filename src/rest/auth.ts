@@ -1,9 +1,7 @@
 import { Alert } from 'react-native';
 
-import env from '../envManager';
-import { storeAsyncData } from '../utils/asyncStorage';
-
-import { get } from './axios';
+import { get } from '@/rest/axios';
+import { storeAsyncData } from '@/utils/asyncStorage';
 
 export const USER_NOT_FOUND = 'Not found';
 

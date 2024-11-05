@@ -1,14 +1,14 @@
 import { View, Text, StyleSheet, Switch } from 'react-native';
 
-import { useAuth } from 'hooks/cloud/useAuth';
-import { useNotifications } from 'hooks/cloud/useNotifications';
-import { LyfElement } from 'utils/abstractTypes';
-import { primaryGreen, white } from 'utils/colours';
-
 import {
   DailyNotificationDesc,
   EventNotificationDesc
 } from './NotificationSettingDescriptions';
+
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useNotifications } from '@/hooks/cloud/useNotifications';
+import { LyfElement } from '@/utils/abstractTypes';
+import { primaryGreen, white } from '@/utils/colours';
 
 export const NotificationSettings = () => {
   const { user, updateUser } = useAuth();

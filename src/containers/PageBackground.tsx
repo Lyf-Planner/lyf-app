@@ -2,8 +2,9 @@ import { View, StyleSheet, Platform } from 'react-native'
 
 import { LinearGradient } from 'expo-linear-gradient'
 import Entypo from 'react-native-vector-icons/Entypo';
-import { LyfElement } from 'utils/abstractTypes';
-import { eventsBadgeColor, sun, white, inProgressColor } from 'utils/colours'
+
+import { LyfElement } from '@/utils/abstractTypes';
+import { eventsBadgeColor, sun, white, inProgressColor } from '@/utils/colours'
 
 type Props = {
   children: LyfElement;

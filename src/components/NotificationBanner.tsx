@@ -2,20 +2,21 @@ import * as Native from 'react-native';
 
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
-import { RouteParams } from 'Routes';
-import { BouncyPressable } from 'components/BouncyPressable';
-import { ItemDrawer } from 'containers/ItemDrawer';
-import { UserModal } from 'containers/UserModal';
-import { useNotifications } from 'hooks/cloud/useNotifications';
-import { useDrawer } from 'hooks/overlays/useDrawer';
-import { useModal } from 'hooks/overlays/useModal';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { NotificationRelatedData, NotificationType } from 'schema/database/notifications';
-import { Notification } from 'schema/notifications'
-import { black, deepBlueOpacity, eventsBadgeColor, eventsBadgeColorOpacity } from 'utils/colours';
+
+import { RouteParams } from '@/Routes';
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { ItemDrawer } from '@/containers/ItemDrawer';
+import { UserModal } from '@/containers/UserModal';
+import { useNotifications } from '@/hooks/cloud/useNotifications';
+import { useDrawer } from '@/hooks/overlays/useDrawer';
+import { useModal } from '@/hooks/overlays/useModal';
+import { NotificationRelatedData, NotificationType } from '@/schema/database/notifications';
+import { Notification } from '@/schema/notifications'
+import { black, deepBlueOpacity, eventsBadgeColorOpacity } from '@/utils/colours';
 
 const notificationTypeIcon: Record<NotificationType, JSX.Element> = Object.freeze({
   ItemReminder: <Feather name="clock" size={24} />,

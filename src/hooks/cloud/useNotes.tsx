@@ -1,22 +1,21 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
+import { v4 as uuid } from 'uuid';
+import 'react-native-get-random-values';
+
+import { useCloud } from '@/hooks/cloud/cloudProvider';
 import {
   createNote,
   deleteNote,
   getNote,
   myNotes,
   updateNote as updateRemoteNote
-} from 'rest/notes';
-import 'react-native-get-random-values';
-import { ID } from 'schema/database/abstract';
-import { ItemDbObject } from 'schema/database/items';
-import { Permission } from 'schema/database/items_on_users';
-import { NoteType } from 'schema/database/notes';
-import { LocalItem } from 'schema/items';
-import { UserRelatedNote } from 'schema/user';
-import { v4 as uuid } from 'uuid';
-
-import { useCloud } from './cloudProvider';
+} from '@/rest/notes';
+import { ID } from '@/schema/database/abstract';
+import { ItemDbObject } from '@/schema/database/items';
+import { Permission } from '@/schema/database/items_on_users';
+import { NoteType } from '@/schema/database/notes';
+import { UserRelatedNote } from '@/schema/user';
 
 export type UpdateNoteItem = (item: ItemDbObject, changes: Partial<ItemDbObject>, remove?: boolean) => Promise<void>
 

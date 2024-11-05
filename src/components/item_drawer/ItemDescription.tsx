@@ -9,8 +9,9 @@ import {
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { blackWithOpacity, offWhite } from 'utils/colours';
-import { ItemDrawerProps } from 'utils/item';
+
+import { blackWithOpacity, offWhite } from '@/utils/colours';
+import { ItemDrawerProps } from '@/utils/item';
 
 type Props = ItemDrawerProps & {
   setDescOpen: (open: boolean) => void;

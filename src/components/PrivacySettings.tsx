@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, Switch } from 'react-native'
 
-import { useAuth } from 'hooks/cloud/useAuth'
-import { white } from 'utils/colours';
+import { useAuth } from '@/hooks/cloud/useAuth'
+import { white } from '@/utils/colours';
 
 export const PrivacySettings = () => {
   const { user, updateUser } = useAuth();

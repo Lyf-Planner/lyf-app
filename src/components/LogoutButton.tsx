@@ -1,8 +1,9 @@
 import { View, TouchableHighlight, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-import { useAuth } from 'hooks/cloud/useAuth';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { black, primaryGreen, white } from 'utils/colours';
+
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { black, primaryGreen, white } from '@/utils/colours';
 
 export const LogoutButton = () => {
   const { logout } = useAuth();

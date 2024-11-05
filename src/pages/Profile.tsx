@@ -2,20 +2,21 @@ import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { RouteParams } from 'Routes';
-import { DayFinishingSetting } from 'components/DayFinishingSetting';
-import { DeleteButton } from 'components/DeleteMeButton';
-import { LogoutButton } from 'components/LogoutButton';
-import { NotificationSettings } from 'components/NotificationSetting';
-import { PrivacySettings } from 'components/PrivacySettings';
-import { WeatherSetting } from 'components/WeatherSetting';
-import { AccountInfo } from 'components/profile/AccountInfo';
-import { PageBackground } from 'containers/PageBackground';
-import { SettingDropdown } from 'containers/SettingDropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { black, deepBlueOpacity, primaryGreen, white } from 'utils/colours';
+
+import { DayFinishingSetting } from '@/components/DayFinishingSetting';
+import { DeleteButton } from '@/components/DeleteMeButton';
+import { LogoutButton } from '@/components/LogoutButton';
+import { NotificationSettings } from '@/components/NotificationSetting';
+import { PrivacySettings } from '@/components/PrivacySettings';
+import { WeatherSetting } from '@/components/WeatherSetting';
+import { AccountInfo } from '@/components/profile/AccountInfo';
+import { PageBackground } from '@/containers/PageBackground';
+import { SettingDropdown } from '@/containers/SettingDropdown';
+import { black, deepBlueOpacity, primaryGreen, white } from '@/utils/colours';
 
 export const Profile = (props: BottomTabScreenProps<RouteParams>) => {
   return (

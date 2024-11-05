@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 import * as Native from 'react-native';
 
-import { routes } from 'Routes';
 import { LinearGradient } from 'expo-linear-gradient';
 import Octicons from 'react-native-vector-icons/Octicons';
-import { black, gentleBlack, primaryGreen, secondaryGreen, white } from 'utils/colours';
+
+import { routes } from '@/Routes';
+import { black, gentleBlack, primaryGreen, secondaryGreen, white } from '@/utils/colours';
 
 const ENLARGED_TAB_INDEX = 2
 

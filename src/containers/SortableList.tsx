@@ -1,10 +1,11 @@
 import { Dispatch, SetStateAction } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { ItemStyleOptions } from 'containers/Item';
-import { SortableListItem } from 'containers/SortableListItem';
 import DraggableFlatlist, { RenderItemParams } from 'react-native-draggable-flatlist';
-import { LocalItem } from 'schema/items';
+
+import { ItemStyleOptions } from '@/containers/Item';
+import { SortableListItem } from '@/containers/SortableListItem';
+import { LocalItem } from '@/schema/items';
 
 type Props = {
   setSortOrder: Dispatch<SetStateAction<LocalItem[]>>;

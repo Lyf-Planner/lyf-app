@@ -3,9 +3,10 @@ import { Platform, StyleSheet, Text, TouchableHighlight, View } from 'react-nati
 
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { TimeString } from 'schema/util/dates';
-import { blackWithOpacity } from 'utils/colours';
-import { dateWithTime, localisedMoment } from 'utils/dates';
+
+import { TimeString } from '@/schema/util/dates';
+import { blackWithOpacity } from '@/utils/colours';
+import { dateWithTime, localisedMoment } from '@/utils/dates';
 
 export enum NullTimeTextOptions {
   AddTime = 'Add Time +',

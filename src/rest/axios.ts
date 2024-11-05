@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Axios from 'axios';
-import env from 'envManager';
 
-import { getAsyncData } from '../utils/asyncStorage';
+import env from '@/envManager';
+import { getAsyncData } from '@/utils/asyncStorage';
 
 const backendUrl = `${env.BACKEND_URL}/api/v1`
 

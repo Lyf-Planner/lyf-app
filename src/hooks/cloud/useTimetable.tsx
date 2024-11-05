@@ -3,8 +3,13 @@ import { AppState } from 'react-native';
 
 import * as Haptics from 'expo-haptics';
 import { getCalendars } from 'expo-localization';
-import { useAuth } from 'hooks/cloud/useAuth';
 import { DailyWeather, HistoricalWeather } from 'openweather-api-node';
+import { v4 as uuid } from 'uuid';
+
+import { useCloud } from '@/hooks/cloud/cloudProvider';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useLocation } from '@/hooks/cloud/useLocation';
+import { useNotes } from '@/hooks/cloud/useNotes';
 import {
   createItem,
   deleteItem,
@@ -13,21 +18,17 @@ import {
   getWeather,
   updateItem as updateRemoteItem,
   updateItemSocial as updateRemoteItemSocial
-} from 'rest/items';
-import { ID } from 'schema/database/abstract';
-import { ItemType, ItemStatus } from 'schema/database/items';
-import { Permission } from 'schema/database/items_on_users';
-import { LocalItem } from 'schema/items';
-import { UserRelatedItem } from 'schema/user';
-import { DateString, WeekDays } from 'schema/util/dates';
-import { SocialAction } from 'schema/util/social';
-import { addDayToStringDate, formatDateData, getStartOfCurrentWeek, parseDateString } from 'utils/dates';
-import { v4 as uuid } from 'uuid';
-import 'react-native-get-random-values';
+} from '@/rest/items';
+import { ID } from '@/schema/database/abstract';
+import { ItemType, ItemStatus } from '@/schema/database/items';
+import { Permission } from '@/schema/database/items_on_users';
+import { LocalItem } from '@/schema/items';
+import { UserRelatedItem } from '@/schema/user';
+import { DateString, WeekDays } from '@/schema/util/dates';
+import { SocialAction } from '@/schema/util/social';
+import { addDayToStringDate, formatDateData, getStartOfCurrentWeek, parseDateString } from '@/utils/dates';
 
-import { useCloud } from './cloudProvider';
-import { useLocation } from './useLocation';
-import { useNotes } from './useNotes';
+import 'react-native-get-random-values';
 
 export type TimetableHooks = {
   startDate: DateString,

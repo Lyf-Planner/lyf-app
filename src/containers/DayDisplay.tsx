@@ -1,23 +1,24 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, Platform, Alert } from 'react-native';
 
-import { BouncyPressable } from 'components/BouncyPressable';
-import { MultiTypeNewItem } from 'components/MultiTypeNewItem';
-import { Vertical } from 'components/Vertical';
-import { List } from 'containers/List';
-import { SortableList } from 'containers/SortableList';
-import { WeatherWidget } from 'containers/WeatherWidget';
 import * as Haptics from 'expo-haptics';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { useTimetable } from 'hooks/cloud/useTimetable';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming
 } from 'react-native-reanimated';
-import { ItemStatus } from 'schema/database/items';
-import { LocalItem } from 'schema/items';
-import { DateString, DayOfWeek } from 'schema/util/dates';
+
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { MultiTypeNewItem } from '@/components/MultiTypeNewItem';
+import { Vertical } from '@/components/Vertical';
+import { List } from '@/containers/List';
+import { SortableList } from '@/containers/SortableList';
+import { WeatherWidget } from '@/containers/WeatherWidget';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { ItemStatus } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
+import { DateString, DayOfWeek } from '@/schema/util/dates';
 import {
   black,
   blackWithOpacity,
@@ -28,7 +29,7 @@ import {
   primaryGreenWithOpacity,
   secondaryGreen,
   transparent
-} from 'utils/colours';
+} from '@/utils/colours';
 import {
   localisedMoment,
   dayFromDateString,
@@ -40,8 +41,8 @@ import {
   daysDifferenceBetween,
   getStartOfCurrentWeek,
   currentDateString
-} from 'utils/dates';
-import { sleep } from 'utils/misc';
+} from '@/utils/dates';
+import { sleep } from '@/utils/misc';
 
 type Props = {
   items: LocalItem[],

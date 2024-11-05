@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text } from 'react-native';
 
-import { Loader } from 'components/Loader';
-import { deepBlue } from 'utils/colours';
+import { Loader } from '@/components/Loader';
+import { deepBlue } from '@/utils/colours';
 
 export const PageLoader = () => {
   return (

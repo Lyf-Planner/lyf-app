@@ -1,7 +1,8 @@
 import { StyleSheet, TouchableHighlight } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { blackWithOpacity, deepBlue } from 'utils/colours';
+
+import { blackWithOpacity, deepBlue } from '@/utils/colours';
 
 type Props = {
   onPress: () => void,

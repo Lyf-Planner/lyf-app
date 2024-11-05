@@ -1,9 +1,6 @@
 import { useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { BouncyPressable } from 'components/BouncyPressable';
-import { Horizontal } from 'components/Horizontal';
-import { useNotes } from 'hooks/cloud/useNotes';
 import {
   Menu,
   MenuOptions,
@@ -12,9 +9,13 @@ import {
   renderers
 } from 'react-native-popup-menu';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { NoteType } from 'schema/database/notes';
-import { LyfElement } from 'utils/abstractTypes';
-import { black, blackWithOpacity, deepBlue, inProgressColor } from 'utils/colours';
+
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { Horizontal } from '@/components/Horizontal';
+import { useNotes } from '@/hooks/cloud/useNotes';
+import { NoteType } from '@/schema/database/notes';
+import { LyfElement } from '@/utils/abstractTypes';
+import { black, blackWithOpacity, deepBlue, inProgressColor } from '@/utils/colours';
 
 type Props = {
   newNote: (type: NoteType) => void;

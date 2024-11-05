@@ -6,13 +6,13 @@ import {
   useState
 } from 'react';
 
-import { updateFriendship as updateRemoteFriendship, getUser } from 'rest/user';
-import { ID } from 'schema/database/abstract';
-import { ExposedUser, UserFriend } from 'schema/user';
-import { FriendshipAction } from 'schema/util/social';
-
 import { useCloud } from './cloudProvider';
 import { useAuth } from './useAuth';
+
+import { updateFriendship as updateRemoteFriendship, getUser } from '@/rest/user';
+import { ID } from '@/schema/database/abstract';
+import { ExposedUser, UserFriend } from '@/schema/user';
+import { FriendshipAction } from '@/schema/util/social';
 
 type Props = {
   children: JSX.Element;

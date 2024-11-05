@@ -7,7 +7,8 @@ import {
   LocationObject,
   getCurrentPositionAsync
 } from 'expo-location';
-import { useAuth } from 'hooks/cloud/useAuth';
+
+import { useAuth } from '@/hooks/cloud/useAuth';
 
 type Props = {
   children: JSX.Element;

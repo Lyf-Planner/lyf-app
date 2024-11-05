@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as Native from 'react-native';
 
-import { MultiTypeNewItem } from 'components/MultiTypeNewItem';
-import { List } from 'containers/List';
-import { useNotes } from 'hooks/cloud/useNotes';
-import { ItemDbObject, ItemType } from 'schema/database/items';
-import { NoteType } from 'schema/database/notes'
-import { LocalItem } from 'schema/items';
-import { UserRelatedNote } from 'schema/user';
 import debouncer from 'signature-debouncer';
-import { deepBlue, deepBlueOpacity, white } from 'utils/colours';
+
+import { MultiTypeNewItem } from '@/components/MultiTypeNewItem';
+import { List } from '@/containers/List';
+import { useNotes } from '@/hooks/cloud/useNotes';
+import { ItemDbObject, ItemType } from '@/schema/database/items';
+import { NoteType } from '@/schema/database/notes'
+import { LocalItem } from '@/schema/items';
+import { UserRelatedNote } from '@/schema/user';
+import { deepBlue, deepBlueOpacity, white } from '@/utils/colours';
 
 type Props = {
   note: UserRelatedNote

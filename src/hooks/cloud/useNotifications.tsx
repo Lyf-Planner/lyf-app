@@ -1,18 +1,19 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
-import env from 'envManager';
 import { isDevice } from 'expo-device';
 import {
   getPermissionsAsync,
   requestPermissionsAsync,
   getExpoPushTokenAsync
 } from 'expo-notifications';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { getNotifications, updateNotification } from 'rest/user';
-import { ID } from 'schema/database/abstract';
-import { Notification } from 'schema/notifications';
-import { getAsyncData, storeAsyncData } from 'utils/asyncStorage';
+
+import env from '@/envManager';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { getNotifications, updateNotification } from '@/rest/user';
+import { ID } from '@/schema/database/abstract';
+import { Notification } from '@/schema/notifications';
+import { getAsyncData, storeAsyncData } from '@/utils/asyncStorage';
 
 type Props = {
   children: JSX.Element;

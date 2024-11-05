@@ -1,10 +1,9 @@
 import { useCallback } from 'react';
 import { StyleSheet, TouchableHighlight, Text } from 'react-native';
 
-import { ItemType } from 'schema/database/items';
-import { ItemDrawerProps } from 'utils/item';
-
-import { eventsBadgeColor } from '../../utils/colours';
+import { ItemType } from '@/schema/database/items';
+import { eventsBadgeColor } from '@/utils/colours';
+import { ItemDrawerProps } from '@/utils/item';
 
 export const ItemTypeBadge = ({ item, updateItem }: ItemDrawerProps) => {
   const switchType = useCallback(() => {

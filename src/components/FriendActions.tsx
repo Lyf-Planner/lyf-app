@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { ActionButton } from 'components/ActionButton';
-import { BouncyPressable } from 'components/BouncyPressable';
-import { Loader } from 'components/Loader';
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+
+import { ActionButton } from '@/components/ActionButton';
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { Loader } from '@/components/Loader';
 import {
   LyfMenu,
   MenuPopoverPlacement,
   PopoverMenuOption
-} from 'containers/LyfMenu';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { useFriends } from 'hooks/cloud/useFriends';
-import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { UserFriend } from 'schema/user';
-import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingRequest } from 'schema/util/social';
-import { black, inProgressColor, deepBlue, eventsBadgeColor, primaryGreen, white, red } from 'utils/colours';
+} from '@/containers/LyfMenu';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useFriends } from '@/hooks/cloud/useFriends';
+import { UserFriend } from '@/schema/user';
+import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingRequest } from '@/schema/util/social';
+import { black, inProgressColor, deepBlue, eventsBadgeColor, primaryGreen, white, red } from '@/utils/colours';
 
 type Props = {
   friend: UserFriend,

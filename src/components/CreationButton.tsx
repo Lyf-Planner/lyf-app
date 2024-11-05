@@ -1,8 +1,8 @@
 import { StyleSheet, Text, Platform } from 'react-native'
 
-import { BouncyPressable } from 'components/BouncyPressable'
-import { Loader } from 'components/Loader'
-import { black, deepBlueOpacity, eventsBadgeColor, white } from 'utils/colours'
+import { BouncyPressable } from '@/components/BouncyPressable'
+import { Loader } from '@/components/Loader'
+import { black, deepBlueOpacity, eventsBadgeColor, white } from '@/utils/colours'
 
 interface ShadowOffset {
   height: number,

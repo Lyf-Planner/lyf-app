@@ -1,6 +1,7 @@
 import moment from 'moment';
-import { User } from 'schema/user';
-import { DateString, DayOfWeek, TimeString, WeekDays } from 'schema/util/dates';
+
+import { User } from '@/schema/user';
+import { DateString, DayOfWeek, TimeString, WeekDays } from '@/schema/util/dates';
 
 // Wrapper to configure moment function
 export const localisedMoment = (args?: moment.MomentInput) => {

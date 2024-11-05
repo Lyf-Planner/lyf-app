@@ -1,17 +1,18 @@
 import { useCallback, useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { NullableDatePicker } from 'components/NullableDatePicker';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+import { NullableDatePicker } from '@/components/NullableDatePicker';
 import {
   LyfMenu,
   MenuPopoverPlacement,
   PopoverMenuOption
-} from 'containers/LyfMenu';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { ItemType } from 'schema/database/items';
-import { primaryGreen, white } from 'utils/colours';
-import { isTemplate } from 'utils/item';
-import { ItemDrawerProps } from 'utils/item';
+} from '@/containers/LyfMenu';
+import { ItemType } from '@/schema/database/items';
+import { primaryGreen, white } from '@/utils/colours';
+import { isTemplate } from '@/utils/item';
+import { ItemDrawerProps } from '@/utils/item';
 
 export const ItemDate = ({ item, updateItem }: ItemDrawerProps) => {
   const routineDay: string | undefined = isTemplate(item) ? item.day : undefined;

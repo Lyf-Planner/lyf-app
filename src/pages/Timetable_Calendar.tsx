@@ -1,23 +1,24 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Text, View, Platform, StyleSheet } from 'react-native';
 
-import { BouncyPressable } from 'components/BouncyPressable';
-import { CalendarRange } from 'components/CalendarRange';
-import { PageLoader } from 'components/PageLoader';
-import { DayDisplay } from 'containers/DayDisplay';
-import { ListDropdown } from 'containers/ListDropdown';
-import { PageBackground } from 'containers/PageBackground';
-import { useTimetable } from 'hooks/cloud/useTimetable';
 import { ScrollView } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { ItemType } from 'schema/database/items';
-import { LocalItem } from 'schema/items';
-import { WeekDays } from 'schema/util/dates';
-import { black, deepBlueOpacity, eventsBadgeColor, white } from 'utils/colours';
-import { allDatesBetween, dayFromDateString, formatDateData, localisedMoment } from 'utils/dates';
-import { isTemplate } from 'utils/item';
 import { v4 as uuid } from 'uuid';
+
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { CalendarRange } from '@/components/CalendarRange';
+import { PageLoader } from '@/components/PageLoader';
+import { DayDisplay } from '@/containers/DayDisplay';
+import { ListDropdown } from '@/containers/ListDropdown';
+import { PageBackground } from '@/containers/PageBackground';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { ItemType } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
+import { WeekDays } from '@/schema/util/dates';
+import { black, deepBlueOpacity, eventsBadgeColor, white } from '@/utils/colours';
+import { allDatesBetween, dayFromDateString, formatDateData, localisedMoment } from '@/utils/dates';
+import { isTemplate } from '@/utils/item';
 
 export const Calendar = () => {
   const { loading, items, reload, startDate, endDate } = useTimetable();

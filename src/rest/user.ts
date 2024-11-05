@@ -1,13 +1,11 @@
 import { getCalendars } from 'expo-localization';
-import { ID } from 'schema/database/abstract';
-import { Notification } from 'schema/notifications';
 
-import env from '../envManager';
-import { User } from '../schema/user';
-import { FriendshipAction } from '../schema/util/social';
-import { storeAsyncData } from '../utils/asyncStorage';
-
-import { get, post } from './axios';
+import { get, post } from '@/rest/axios';
+import { ID } from '@/schema/database/abstract';
+import { Notification } from '@/schema/notifications';
+import { User } from '@/schema/user';
+import { FriendshipAction } from '@/schema/util/social';
+import { storeAsyncData } from '@/utils/asyncStorage';
 
 const usersEndpoint = (req: string) => `/users/${req}`;
 

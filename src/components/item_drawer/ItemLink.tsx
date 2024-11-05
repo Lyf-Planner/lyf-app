@@ -10,8 +10,9 @@ import {
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { blackWithOpacity, blue } from 'utils/colours';
-import { ItemDrawerProps } from 'utils/item';
+
+import { blackWithOpacity, blue } from '@/utils/colours';
+import { ItemDrawerProps } from '@/utils/item';
 
 export const HTTP_PREFIX = 'http://';
 export const HTTPS_PREFIX = 'https://';

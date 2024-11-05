@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react';
 import { View, Text, TouchableWithoutFeedback, TouchableOpacity, TextInput, Keyboard, StyleSheet } from 'react-native';
 
-import { NoteTypeBadge } from 'components/NoteTypeBadge';
-import { useNotes } from 'hooks/cloud/useNotes';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { NoteType } from 'schema/database/notes';
-import { UserRelatedNote } from 'schema/user'
-import { black, blackWithOpacity, primaryGreen, white } from 'utils/colours';
+
+import { NoteTypeBadge } from '@/components/NoteTypeBadge';
+import { useNotes } from '@/hooks/cloud/useNotes';
+import { NoteType } from '@/schema/database/notes';
+import { UserRelatedNote } from '@/schema/user'
+import { black, blackWithOpacity, primaryGreen, white } from '@/utils/colours';
 
 type Props = {
   note: UserRelatedNote,

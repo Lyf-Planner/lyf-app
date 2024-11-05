@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native';
 
-import { ItemStyleOptions, Item } from 'containers/Item';
-import { LocalItem } from 'schema/items';
+import { ItemStyleOptions, Item } from '@/containers/Item';
+import { LocalItem } from '@/schema/items';
 
 type Props = {
   items: LocalItem[];

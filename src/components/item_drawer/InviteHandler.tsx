@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { BouncyPressable } from 'components/BouncyPressable';
-import { Loader } from 'components/Loader';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { useTimetable } from 'hooks/cloud/useTimetable';
-import { useModal } from 'hooks/overlays/useModal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { LocalItem } from 'schema/items';
-import { SocialAction } from 'schema/util/social';
 
-import { black, primaryGreen, white } from '../../utils/colours';
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { Loader } from '@/components/Loader';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { useModal } from '@/hooks/overlays/useModal';
+import { LocalItem } from '@/schema/items';
+import { SocialAction } from '@/schema/util/social';
+import { black, primaryGreen, white } from '@/utils/colours';
 
 type Props = {
   item: LocalItem

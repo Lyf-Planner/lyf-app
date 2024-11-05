@@ -1,14 +1,15 @@
 import { useEffect } from 'react'
 import { View, Text, ScrollView, StyleSheet, DimensionValue } from 'react-native'
 
-import { BouncyPressable } from 'components/BouncyPressable'
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import Entypo from 'react-native-vector-icons/Entypo'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import { UserFriend } from 'schema/user'
-import { black, eventsBadgeColor } from 'utils/colours'
 
 import { UserList, UserListContext } from './UserList'
+
+import { BouncyPressable } from '@/components/BouncyPressable'
+import { UserFriend } from '@/schema/user'
+import { black, eventsBadgeColor } from '@/utils/colours'
 
 type Props = {
   friends: UserFriend[],

@@ -1,13 +1,14 @@
 import { View, Text, Pressable, Alert, StyleSheet } from 'react-native';
 
-import { PageLoader } from 'components/PageLoader';
-import { DayDisplay } from 'containers/DayDisplay';
-import { PageBackground } from 'containers/PageBackground';
-import { useTimetable } from 'hooks/cloud/useTimetable';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { WeekDays } from 'schema/util/dates';
-import { black, deepBlue, primaryGreen, white } from 'utils/colours';
+
+import { PageLoader } from '@/components/PageLoader';
+import { DayDisplay } from '@/containers/DayDisplay';
+import { PageBackground } from '@/containers/PageBackground';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { WeekDays } from '@/schema/util/dates';
+import { black, deepBlue, primaryGreen, white } from '@/utils/colours';
 
 export const Routine = () => {
   const { loading, items } = useTimetable();

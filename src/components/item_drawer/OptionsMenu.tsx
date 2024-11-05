@@ -1,10 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Horizontal } from 'components/Horizontal';
-import { Loader } from 'components/Loader';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { useTimetable } from 'hooks/cloud/useTimetable';
 import {
   Menu,
   MenuOption,
@@ -13,10 +9,15 @@ import {
   renderers
 } from 'react-native-popup-menu';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import { Permission } from 'schema/database/items_on_users';
-import { LocalItem } from 'schema/items';
-import { SocialAction } from 'schema/util/social';
-import { blackWithOpacity } from 'utils/colours';
+
+import { Horizontal } from '@/components/Horizontal';
+import { Loader } from '@/components/Loader';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { Permission } from '@/schema/database/items_on_users';
+import { LocalItem } from '@/schema/items';
+import { SocialAction } from '@/schema/util/social';
+import { blackWithOpacity } from '@/utils/colours';
 
 type Props = {
   item: LocalItem,

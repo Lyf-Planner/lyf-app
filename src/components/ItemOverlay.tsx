@@ -1,26 +1,27 @@
 import { useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { AnimatedCheck } from 'components/AnimatedCheck';
-import { CollaborativeIcon } from 'components/CollaborativeIcon';
-import { ItemTimeFormatter } from 'components/ItemTimeFormatter';
-import { ItemTitleFormatter } from 'components/ItemTitleFormatter';
-import { Vertical } from 'components/Vertical';
-import {
-  ItemStyleOptions,
-  ListItemAnimatedValues
-} from 'containers/Item';
 import Animated, {
   useAnimatedStyle,
   withTiming
 } from 'react-native-reanimated';
-import { ItemType } from 'schema/database/items';
-import { LocalItem } from 'schema/items';
-import { deepBlue } from 'utils/colours';
+
+import { AnimatedCheck } from '@/components/AnimatedCheck';
+import { CollaborativeIcon } from '@/components/CollaborativeIcon';
+import { ItemTimeFormatter } from '@/components/ItemTimeFormatter';
+import { ItemTitleFormatter } from '@/components/ItemTitleFormatter';
+import { Vertical } from '@/components/Vertical';
+import {
+  ItemStyleOptions,
+  ListItemAnimatedValues
+} from '@/containers/Item';
+import { ItemType } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
+import { deepBlue } from '@/utils/colours';
 import {
   getItemPrimaryColor,
   getItemSecondaryColor
-} from 'utils/item';
+} from '@/utils/item';
 
 type Props = {
   item: LocalItem;

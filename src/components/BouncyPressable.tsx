@@ -5,8 +5,9 @@ import Animated, {
   useSharedValue,
   withTiming
 } from 'react-native-reanimated';
-import { LyfElement } from 'utils/abstractTypes';
-import { black } from 'utils/colours';
+
+import { LyfElement } from '@/utils/abstractTypes';
+import { black } from '@/utils/colours';
 
 export type BouncyPressableOptions = {
   useTouchableHighlight?: boolean,

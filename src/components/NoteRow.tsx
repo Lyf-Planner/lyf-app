@@ -1,9 +1,6 @@
 import { SyntheticEvent, useEffect, useRef } from 'react';
 import { StyleSheet, View, Text, Platform, Alert } from 'react-native';
 
-import { BouncyPressable } from 'components/BouncyPressable';
-import { NoteTypeBadge } from 'components/NoteTypeBadge';
-import { useNotes } from 'hooks/cloud/useNotes';
 import {
   Directions,
   Gesture,
@@ -14,8 +11,12 @@ import Animated, {
   useSharedValue
 } from 'react-native-reanimated';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { UserRelatedNote } from 'schema/user';
-import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, white } from 'utils/colours';
+
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { NoteTypeBadge } from '@/components/NoteTypeBadge';
+import { useNotes } from '@/hooks/cloud/useNotes';
+import { UserRelatedNote } from '@/schema/user';
+import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, white } from '@/utils/colours';
 
 type Props = {
   note: UserRelatedNote,

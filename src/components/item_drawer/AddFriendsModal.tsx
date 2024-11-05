@@ -1,19 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Platform } from 'react-native';
 
-import { Horizontal } from 'components/Horizontal';
-import { Loader } from 'components/Loader';
-import { SimpleSearch } from 'components/SimpleSearch';
-import { UserList, UserListContext } from 'containers/UserList';
-import { useFriends } from 'hooks/cloud/useFriends';
-import { useTimetable } from 'hooks/cloud/useTimetable';
-import { useModal } from 'hooks/overlays/useModal';
 import { ScrollView } from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { ID } from 'schema/database/abstract';
-import { UserFriendshipStatus } from 'schema/database/user_friendships';
-import { black, blackWithOpacity, white } from 'utils/colours';
+
+import { Horizontal } from '@/components/Horizontal';
+import { Loader } from '@/components/Loader';
+import { SimpleSearch } from '@/components/SimpleSearch';
+import { UserList, UserListContext } from '@/containers/UserList';
+import { useFriends } from '@/hooks/cloud/useFriends';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { useModal } from '@/hooks/overlays/useModal';
+import { ID } from '@/schema/database/abstract';
+import { UserFriendshipStatus } from '@/schema/database/user_friendships';
+import { black, blackWithOpacity, white } from '@/utils/colours';
 
 type Props = {
   item_id: ID,

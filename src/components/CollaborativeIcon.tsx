@@ -2,9 +2,10 @@ import { View } from 'react-native';
 import { StyleSheet } from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { ItemStatus } from 'schema/database/items';
-import { LocalItem } from 'schema/items';
-import { primaryGreen } from 'utils/colours';
+
+import { ItemStatus } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
+import { primaryGreen } from '@/utils/colours';
 
 type Props = {
   item: LocalItem;

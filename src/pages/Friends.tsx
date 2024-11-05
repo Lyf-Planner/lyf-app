@@ -3,13 +3,14 @@ import { StyleSheet, View, Text, ScrollView } from 'react-native';
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { RouteParams } from 'Routes';
-import { PageLoader } from 'components/PageLoader';
-import { UserBanner } from 'components/UserBanner';
-import { SearchHeader } from 'containers/FriendSearchHeader';
-import { PageBackground } from 'containers/PageBackground';
-import { UserList } from 'containers/UserList'
-import { useFriends } from 'hooks/cloud/useFriends'
-import { PublicUser } from 'schema/user';
+
+import { PageLoader } from '@/components/PageLoader';
+import { UserBanner } from '@/components/UserBanner';
+import { SearchHeader } from '@/containers/FriendSearchHeader';
+import { PageBackground } from '@/containers/PageBackground';
+import { UserList } from '@/containers/UserList'
+import { useFriends } from '@/hooks/cloud/useFriends'
+import { PublicUser } from '@/schema/user';
 
 export const Friends = (props: BottomTabScreenProps<RouteParams>) => {
   const { friends, loading } = useFriends();

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 
-import { Loader } from 'components/Loader';
-import { white } from 'utils/colours';
+import { Loader } from '@/components/Loader';
+import { white } from '@/utils/colours';
 
 export const LoadingScreen = ({ text }: { text: string}) => {
   return (

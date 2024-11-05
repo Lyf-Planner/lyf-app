@@ -1,11 +1,12 @@
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-import { BouncyPressable } from 'components/BouncyPressable';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { useTimetable } from 'hooks/cloud/useTimetable';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { WeekDays } from 'schema/util/dates';
-import { formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from 'utils/dates';
+
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { WeekDays } from '@/schema/util/dates';
+import { formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from '@/utils/dates';
 
 enum ShiftDirection {
   BACK = -1,

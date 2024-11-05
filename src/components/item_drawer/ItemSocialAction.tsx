@@ -1,11 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
-import { ActionButton } from 'components/ActionButton';
-import { BouncyPressable } from 'components/BouncyPressable';
-import { Horizontal } from 'components/Horizontal';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { useTimetable } from 'hooks/cloud/useTimetable';
 import {
   Menu,
   MenuOption,
@@ -14,18 +9,23 @@ import {
   renderers
 } from 'react-native-popup-menu';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { NoteRelatedUser } from 'schema/notes';
-import { UserFriend } from 'schema/user';
 
-import { Permission } from '../../schema/database/items_on_users';
-import { ItemRelatedUser, LocalItem } from '../../schema/items';
-import { SocialAction } from '../../schema/util/social';
+import { ActionButton } from '@/components/ActionButton';
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { Horizontal } from '@/components/Horizontal';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { Permission } from '@/schema/database/items_on_users';
+import { ItemRelatedUser, LocalItem } from '@/schema/items';
+import { NoteRelatedUser } from '@/schema/notes';
+import { UserFriend } from '@/schema/user';
+import { SocialAction } from '@/schema/util/social';
 import {
   black,
   blackWithOpacity,
   primaryGreen,
   white
-} from '../../utils/colours';
+} from '@/utils/colours';
 
 type SocialUser = ItemRelatedUser | UserFriend | NoteRelatedUser
 

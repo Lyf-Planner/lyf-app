@@ -1,8 +1,8 @@
 import { StyleSheet, View, Text, Switch } from 'react-native'
 
-import { useAuth } from 'hooks/cloud/useAuth'
-import { useLocation } from 'hooks/cloud/useLocation';
-import { white } from 'utils/colours';
+import { useAuth } from '@/hooks/cloud/useAuth'
+import { useLocation } from '@/hooks/cloud/useLocation';
+import { white } from '@/utils/colours';
 
 export const WeatherSetting = () => {
   const { user, updateUser } = useAuth();

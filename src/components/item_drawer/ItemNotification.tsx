@@ -7,11 +7,12 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-import { useNotifications } from 'hooks/cloud/useNotifications';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { blackWithOpacity } from 'utils/colours';
-import { ItemDrawerProps } from 'utils/item';
+
+import { useNotifications } from '@/hooks/cloud/useNotifications';
+import { blackWithOpacity } from '@/utils/colours';
+import { ItemDrawerProps } from '@/utils/item';
 
 type Props = ItemDrawerProps & {
   updateSheetMinHeight: (height: number) => void

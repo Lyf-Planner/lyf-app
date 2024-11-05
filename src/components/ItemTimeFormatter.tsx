@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { StyleSheet, Text } from 'react-native';
 
-import { LocalItem } from 'schema/items';
-import { TwentyFourHourToAMPM } from 'utils/dates';
+import { LocalItem } from '@/schema/items';
+import { TwentyFourHourToAMPM } from '@/utils/dates';
 
 type Props = {
   item: LocalItem;

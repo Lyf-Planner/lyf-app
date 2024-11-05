@@ -1,8 +1,9 @@
 import { Alert, TouchableHighlight, Text, View, StyleSheet } from 'react-native';
 
-import { fieldPrompt } from 'components/profile/AccountInfo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { primaryGreen, white } from 'utils/colours';
+
+import { fieldPrompt } from '@/components/profile/AccountInfo';
+import { primaryGreen, white } from '@/utils/colours';
 
 type Props = {
   func: (data: string) => void,

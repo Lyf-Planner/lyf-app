@@ -1,6 +1,6 @@
 import { View, Image } from 'react-native';
 
-import { Icon } from 'assets/images';
+import { Icon } from '@/assets/images';
 
 type Props = {
   style?: {},

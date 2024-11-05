@@ -6,18 +6,19 @@ import {
   Alert
 } from 'react-native';
 
-import { useAuth } from 'hooks/cloud/useAuth';
-import { useNotifications } from 'hooks/cloud/useNotifications';
-import { useModal } from 'hooks/overlays/useModal';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { ItemType } from 'schema/database/items';
-import { primaryGreen, white } from 'utils/colours';
-import { formatDateData } from 'utils/dates';
-import { isTemplate } from 'utils/item';
-import { ItemDrawerProps } from 'utils/item';
 
 import { AddFriendsModal } from './AddFriendsModal';
+
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useNotifications } from '@/hooks/cloud/useNotifications';
+import { useModal } from '@/hooks/overlays/useModal';
+import { ItemType } from '@/schema/database/items';
+import { primaryGreen, white } from '@/utils/colours';
+import { formatDateData } from '@/utils/dates';
+import { isTemplate } from '@/utils/item';
+import { ItemDrawerProps } from '@/utils/item';
 
 // The button component can definitely be abstracted here
 

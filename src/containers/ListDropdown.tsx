@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View, Text, Platform } from 'react-native';
 
-import { NewItem } from 'components/NewItem';
-import { List } from 'containers/List';
-import { useTimetable } from 'hooks/cloud/useTimetable';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -11,9 +8,13 @@ import Animated, {
   FadeIn
 } from 'react-native-reanimated';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { ItemType } from 'schema/database/items';
-import { LocalItem } from 'schema/items';
-import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor } from 'utils/colours';
+
+import { NewItem } from '@/components/NewItem';
+import { List } from '@/containers/List';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { ItemType } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
+import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
 
 type Props = {
   items: LocalItem[],

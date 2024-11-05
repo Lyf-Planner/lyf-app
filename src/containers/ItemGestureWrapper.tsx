@@ -2,7 +2,6 @@ import { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { Platform, StyleSheet, View } from 'react-native';
 
 import * as Haptics from 'expo-haptics';
-import { useTimetable } from 'hooks/cloud/useTimetable';
 import {
   Directions,
   Gesture,
@@ -12,12 +11,14 @@ import Animated, {
   withTiming,
   useAnimatedStyle
 } from 'react-native-reanimated';
-import { ItemStatus } from 'schema/database/items';
-import { LocalItem } from 'schema/items';
-import { LyfElement } from 'utils/abstractTypes';
-import { sleep } from 'utils/misc';
 
 import { ListItemAnimatedValues } from './Item';
+
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { ItemStatus } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
+import { LyfElement } from '@/utils/abstractTypes';
+import { sleep } from '@/utils/misc';
 
 type Props = {
   children: LyfElement;

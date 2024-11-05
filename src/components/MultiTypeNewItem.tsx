@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native'
 
-import { useTimetable } from 'hooks/cloud/useTimetable';
-import { ItemType } from 'schema/database/items';
-import { LocalItem } from 'schema/items';
-
 import { NewItem } from './NewItem'
+
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { ItemType } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
 
 type Props = {
   newRank: number,

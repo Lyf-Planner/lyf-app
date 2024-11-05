@@ -1,18 +1,18 @@
-import BrokenClouds from 'assets/icons/BrokenClouds';
-import FewCloudsDay from 'assets/icons/FewCloudsDay';
-import FewCloudsNight from 'assets/icons/FewCloudsNight';
-import Humidity from 'assets/icons/Humidity';
-import LightRainDay from 'assets/icons/LightRainDay';
-import LightRainNight from 'assets/icons/LightRainNight';
-import Mist from 'assets/icons/Mist';
-import Rain from 'assets/icons/Rain';
-import ScatteredClouds from 'assets/icons/ScatteredClouds';
-import Snow from 'assets/icons/Snow';
-import Sunny from 'assets/icons/Sunny';
-import Temperature from 'assets/icons/Temperature';
-import Thunderstorm from 'assets/icons/Thunderstorm';
-import Wind from 'assets/icons/Wind';
-import { black } from 'utils/colours';
+import BrokenClouds from '@/assets/icons/BrokenClouds';
+import FewCloudsDay from '@/assets/icons/FewCloudsDay';
+import FewCloudsNight from '@/assets/icons/FewCloudsNight';
+import Humidity from '@/assets/icons/Humidity';
+import LightRainDay from '@/assets/icons/LightRainDay';
+import LightRainNight from '@/assets/icons/LightRainNight';
+import Mist from '@/assets/icons/Mist';
+import Rain from '@/assets/icons/Rain';
+import ScatteredClouds from '@/assets/icons/ScatteredClouds';
+import Snow from '@/assets/icons/Snow';
+import Sunny from '@/assets/icons/Sunny';
+import Temperature from '@/assets/icons/Temperature';
+import Thunderstorm from '@/assets/icons/Thunderstorm';
+import Wind from '@/assets/icons/Wind';
+import { black } from '@/utils/colours';
 
 export const atmosphereDescriptions = [
   'Ash',

@@ -1,15 +1,16 @@
 import { StyleSheet, View, Text } from 'react-native';
 
-import Sunny from 'assets/icons/Sunny';
-import WeatherIcon from 'components/WeatherIcon';
-import { MenuPopoverPlacement } from 'containers/LyfMenu'
-import { LyfPopup } from 'containers/LyfPopup';
-import { useTimetable } from 'hooks/cloud/useTimetable';
 import { DailyWeather, HistoricalWeather } from 'openweather-api-node';
-import { DateString } from 'schema/util/dates';
-import { renderDescription } from 'schema/util/weather';
-import { black } from 'utils/colours';
-import { formatDateData } from 'utils/dates';
+
+import Sunny from '@/assets/icons/Sunny';
+import WeatherIcon from '@/components/WeatherIcon';
+import { MenuPopoverPlacement } from '@/containers/LyfMenu'
+import { LyfPopup } from '@/containers/LyfPopup';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { DateString } from '@/schema/util/dates';
+import { renderDescription } from '@/schema/util/weather';
+import { black } from '@/utils/colours';
+import { formatDateData } from '@/utils/dates';
 
 type Props = {
   date: DateString;

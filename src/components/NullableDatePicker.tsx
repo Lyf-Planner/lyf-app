@@ -3,9 +3,10 @@ import { Platform, StyleSheet, Text, TouchableHighlight, View } from 'react-nati
 
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { DateString } from 'schema/util/dates';
-import { blackWithOpacity } from 'utils/colours';
-import { formatDateData } from 'utils/dates';
+
+import { DateString } from '@/schema/util/dates';
+import { blackWithOpacity } from '@/utils/colours';
+import { formatDateData } from '@/utils/dates';
 
 type Props = {
   updateDate: (date: DateString | null) => void;

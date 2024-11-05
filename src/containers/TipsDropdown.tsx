@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View, Text, Platform } from 'react-native';
 
-import { BouncyPressable } from 'components/BouncyPressable';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -9,7 +8,9 @@ import Animated, {
   FadeIn
 } from 'react-native-reanimated';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from 'utils/colours';
+
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from '@/utils/colours';
 
 type Props = {
   tips: string[],

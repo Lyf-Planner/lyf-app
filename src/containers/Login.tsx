@@ -6,13 +6,13 @@ import {
   TextInput
 } from 'react-native';
 
-import { Horizontal } from 'components/Horizontal';
-import { Loader } from 'components/Loader';
-import { USER_NOT_FOUND, login } from 'rest/auth';
-import { createUser } from 'rest/user';
-import { ExposedUser } from 'schema/user';
-import { black, blackWithOpacity, loginFieldBackground, white } from 'utils/colours';
-import { validatePassword, validateUsername } from 'utils/validators';
+import { Horizontal } from '@/components/Horizontal';
+import { Loader } from '@/components/Loader';
+import { USER_NOT_FOUND, login } from '@/rest/auth';
+import { createUser } from '@/rest/user';
+import { ExposedUser } from '@/schema/user';
+import { black, blackWithOpacity, loginFieldBackground, white } from '@/utils/colours';
+import { validatePassword, validateUsername } from '@/utils/validators';
 
 type Props = {
   updateUser: (changes: Partial<ExposedUser>) => void;

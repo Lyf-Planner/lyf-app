@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View, TextInput, Text, ScrollView } from 'react-native';
 
-import { Loader } from 'components/Loader';
-import { NoteBody } from 'containers/NoteBody';
-import { NoteHeader } from 'containers/NoteHeader';
-import { PageBackground } from 'containers/PageBackground';
-import { useNotes } from 'hooks/cloud/useNotes';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { ID } from 'schema/database/abstract';
+
+import { Loader } from '@/components/Loader';
+import { NoteBody } from '@/containers/NoteBody';
+import { NoteHeader } from '@/containers/NoteHeader';
+import { PageBackground } from '@/containers/PageBackground';
+import { useNotes } from '@/hooks/cloud/useNotes';
+import { ID } from '@/schema/database/abstract';
 
 type Props = {
   id: ID,

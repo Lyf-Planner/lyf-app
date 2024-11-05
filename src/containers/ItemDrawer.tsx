@@ -2,27 +2,28 @@ import { useEffect, useMemo, useState } from 'react';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
-import { Horizontal } from 'components/Horizontal';
-import { AddDetails } from 'components/item_drawer/AddDetails';
-import { InviteHandler } from 'components/item_drawer/InviteHandler';
-import { ItemDate } from 'components/item_drawer/ItemDate';
-import { ItemDescription } from 'components/item_drawer/ItemDescription';
-import { ItemLink } from 'components/item_drawer/ItemLink';
-import { ItemLocation } from 'components/item_drawer/ItemLocation';
-import { ItemNotification } from 'components/item_drawer/ItemNotification';
-import { ItemStatusDropdown } from 'components/item_drawer/ItemStatusDropdown';
-import { ItemTime } from 'components/item_drawer/ItemTime';
-import { ItemTitle } from 'components/item_drawer/ItemTitle';
-import { ItemTypeBadge } from 'components/item_drawer/ItemType';
-import { ItemUsers } from 'components/item_drawer/ItemUsers';
-import { OptionsMenu } from 'components/item_drawer/OptionsMenu';
-import { useTimetable } from 'hooks/cloud/useTimetable';
-import { useDrawer } from 'hooks/overlays/useDrawer';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { getItem } from 'rest/items';
-import { ID } from 'schema/database/abstract';
-import { black, blackWithOpacity, deepBlue, white } from 'utils/colours';
-import { isTemplate, ItemDrawerProps } from 'utils/item';
+
+import { Horizontal } from '@/components/Horizontal';
+import { AddDetails } from '@/components/item_drawer/AddDetails';
+import { InviteHandler } from '@/components/item_drawer/InviteHandler';
+import { ItemDate } from '@/components/item_drawer/ItemDate';
+import { ItemDescription } from '@/components/item_drawer/ItemDescription';
+import { ItemLink } from '@/components/item_drawer/ItemLink';
+import { ItemLocation } from '@/components/item_drawer/ItemLocation';
+import { ItemNotification } from '@/components/item_drawer/ItemNotification';
+import { ItemStatusDropdown } from '@/components/item_drawer/ItemStatusDropdown';
+import { ItemTime } from '@/components/item_drawer/ItemTime';
+import { ItemTitle } from '@/components/item_drawer/ItemTitle';
+import { ItemTypeBadge } from '@/components/item_drawer/ItemType';
+import { ItemUsers } from '@/components/item_drawer/ItemUsers';
+import { OptionsMenu } from '@/components/item_drawer/OptionsMenu';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { useDrawer } from '@/hooks/overlays/useDrawer';
+import { getItem } from '@/rest/items';
+import { ID } from '@/schema/database/abstract';
+import { black, blackWithOpacity, deepBlue, white } from '@/utils/colours';
+import { isTemplate, ItemDrawerProps } from '@/utils/item';
 
 type Props = {
   id: ID,

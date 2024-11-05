@@ -1,16 +1,15 @@
 import { View, Text, StyleSheet } from 'react-native';
 
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 import {
   NullTimeTextOptions,
   NullableTimePicker
-} from 'components/NullableTimePicker';
-import { useAuth } from 'hooks/cloud/useAuth';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { LocalItem } from 'schema/items';
-import { TimeString } from 'schema/util/dates';
-import { ItemDrawerProps } from 'utils/item';
-
-import { localisedFormattedMoment, localisedMoment } from '../../utils/dates';
+} from '@/components/NullableTimePicker';
+import { LocalItem } from '@/schema/items';
+import { TimeString } from '@/schema/util/dates';
+import { localisedFormattedMoment, localisedMoment } from '@/utils/dates';
+import { ItemDrawerProps } from '@/utils/item';
 
 export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
   const uploadTime = (time: TimeString | undefined) => {
