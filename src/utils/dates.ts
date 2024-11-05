@@ -1,9 +1,10 @@
 import moment from 'moment';
-import { User } from 'schema/user';
-import { DateString, DayOfWeek, TimeString, WeekDays } from 'schema/util/dates';
+
+import { User } from '@/schema/user';
+import { DateString, DayOfWeek, TimeString, WeekDays } from '@/schema/util/dates';
 
 // Wrapper to configure moment function
-export const localisedMoment = (args?: any) => {
+export const localisedMoment = (args?: moment.MomentInput) => {
   // This sets the first day of the week to Monday. For some reason not a default
   moment.updateLocale('en', {
     week: {
@@ -14,7 +15,7 @@ export const localisedMoment = (args?: any) => {
   return moment(args);
 };
 
-export const localisedFormattedMoment = (args?: any, format?: string) => {
+export const localisedFormattedMoment = (args?: moment.MomentInput, format?: string) => {
   // This sets the first day of the week to Monday. For some reason not a default
   moment.updateLocale('en', {
     week: {
@@ -48,7 +49,6 @@ export function getEndOfCurrentWeek(date?: Date) {
   return new Date(end);
 }
 
-
 export function addDayToStringDate(date: string, amount = 1) {
   return formatDateData(moment(date).add(amount, 'day').toDate());
 }
@@ -67,11 +67,11 @@ export const upcomingWeek = (date: DateString) => {
 export const allDatesBetween = (start: DateString, end: DateString, excludeFinal = false) => {
   // Note: is inclusive of both start and end date
 
-  if (end.localeCompare(start) < 0) { 
+  if (end.localeCompare(start) < 0) {
     return [];
   }
 
-  let dates: string[] = [];
+  const dates: string[] = [];
   let shiftingDate = start;
   while (shiftingDate.localeCompare(end) <= 0) {
     dates.push(shiftingDate);
@@ -103,7 +103,7 @@ const establishFirstDay = (first_day: DateString) => {
 export const extendByWeek = (days: string[]) => {
   const lastDay = days[days.length - 1];
   const newEnd = formatDateData(localisedMoment(lastDay).add(1, 'week').toDate());
-  
+
   return allDatesBetween(days[0], newEnd);
 };
 
@@ -111,7 +111,7 @@ export const dateWithTime = (time: TimeString) => {
   const [hours, mins] = time.split(':');
   const date = new Date();
   date.setHours(parseInt(hours), parseInt(mins));
-  
+
   return date;
 }
 

@@ -1,16 +1,18 @@
+import { useRef, useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  TextInput,
+  TextInput
 } from 'react-native';
-import { Horizontal } from 'components/Horizontal';
-import { useRef, useState } from 'react';
-import { USER_NOT_FOUND, login } from 'rest/auth';
-import { createUser } from 'rest/user';
-import { validatePassword, validateUsername } from 'utils/validators';
-import { ExposedUser } from 'schema/user';
-import { Loader } from 'components/Loader';
+
+import { Horizontal } from '@/components/Horizontal';
+import { Loader } from '@/components/Loader';
+import { USER_NOT_FOUND, login } from '@/rest/auth';
+import { createUser } from '@/rest/user';
+import { ExposedUser } from '@/schema/user';
+import { black, blackWithOpacity, loginFieldBackground, white } from '@/utils/colours';
+import { validatePassword, validateUsername } from '@/utils/validators';
 
 type Props = {
   updateUser: (changes: Partial<ExposedUser>) => void;
@@ -22,7 +24,7 @@ export const Login = ({ updateUser }: Props) => {
   const [loggingIn, updateLoggingIn] = useState(false);
   const [creating, updateCreating] = useState(false);
 
-  const passRef = useRef<any>();
+  const passRef = useRef<TextInput>(null);
 
   const onSubmit = async () => {
     updateLoggingIn(true);
@@ -96,7 +98,11 @@ export const Login = ({ updateUser }: Props) => {
           placeholderTextColor='rgba(0,0,0,0.5)'
           value={uid}
           onChangeText={updateUid}
-          onSubmitEditing={() => passRef.current.focus()}
+          onSubmitEditing={() => {
+            if (passRef.current) {
+              passRef.current.focus()
+            }
+          }}
           blurOnSubmit={false}
         />
         <Horizontal style={styles.fieldSeperator} />
@@ -131,85 +137,85 @@ export const Login = ({ updateUser }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  touchableWithoutFeedback: {
-    flex: 1,
-    zIndex: 50
-  },
-  page: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 0,
-
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 0},
-    shadowOpacity: 1,
-    shadowRadius: 5
-  },
   container: {
-    backgroundColor: 'white',
-    flexDirection: 'column',
-    width: '75%',
-    maxWidth: 400,
-    borderRadius: 15,
-    padding: 15,
     alignItems: 'center',
+    backgroundColor: white,
+    borderRadius: 15,
+    flexDirection: 'column',
+    maxWidth: 400,
+    padding: 15,
+    width: '75%',
     zIndex: 10
   },
-  headerContainer: {
-    marginBottom: 14,
-    height: 45,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  loader: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 6
-  },
-  loaderText: { 
-    fontSize: 14, 
-    color: 'rgba(0,0,0,0.5)', 
-    fontFamily: "Lexend" 
-  },
-  loginText: {
-    fontSize: 25,
-    fontFamily: "Lexend"
-  },
-  headerTextContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 3
-  },
-  registerDisclaimer: { 
-    fontSize: 12, 
-    color: 'rgba(0,0,0,0.3)', 
-    fontFamily: "Lexend" 
-  },
   fieldContainer: {
-    flexDirection: 'column',
-    backgroundColor: 'rgb(203 213 225)',
-    borderWidth: 1,
-    borderColor: 'black',
+    backgroundColor: loginFieldBackground,
+    borderColor: black,
     borderRadius: 10,
+    borderWidth: 1,
+    flexDirection: 'column',
     paddingHorizontal: 8,
     paddingVertical: 2,
     width: '100%'
   },
   fieldSeperator: {
-    borderColor: 'rgba(0,0,0,0.5)'
+    borderColor: blackWithOpacity(0.5)
   },
   fields: {
-    zIndex: 100,
-    marginVertical: 8,
+    fontFamily: 'Lexend',
     fontSize: 18,
-    fontWeight: "300",
-    fontFamily: "Lexend",
-    // @ts-ignore
-    outlineStyle: 'none'
+    fontWeight: '300',
+    marginVertical: 8,
+    // @ts-expect-error this is a valid web style that doesnt lint well with rn typescript
+    outlineStyle: 'none',
+    zIndex: 100
+  },
+  headerContainer: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    height: 45,
+    justifyContent: 'center',
+    marginBottom: 14
+  },
+  headerTextContainer: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    gap: 3,
+    justifyContent: 'center'
+  },
+  loader: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    gap: 6,
+    justifyContent: 'center'
+  },
+  loaderText: {
+    color: blackWithOpacity(0.5),
+    fontFamily: 'Lexend',
+    fontSize: 14
+  },
+  loginText: {
+    fontFamily: 'Lexend',
+    fontSize: 25
+  },
+  page: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+
+    shadowColor: black,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    zIndex: 0
+  },
+  registerDisclaimer: {
+    color: blackWithOpacity(0.3),
+    fontFamily: 'Lexend',
+    fontSize: 12
+  },
+  touchableWithoutFeedback: {
+    flex: 1,
+    zIndex: 50
   }
 });

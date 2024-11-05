@@ -1,20 +1,22 @@
-import { StyleSheet, View } from 'react-native';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { black, inProgressColor, deepBlue, eventsBadgeColor, primaryGreen, white } from 'utils/colours';
 import { useEffect, useState } from 'react';
-import { ActionButton } from 'components/ActionButton';
-import { BouncyPressable } from 'components/BouncyPressable';
-import { Loader } from 'components/Loader';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { StyleSheet, View } from 'react-native';
+
 import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+
+import { ActionButton } from '@/components/ActionButton';
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { Loader } from '@/components/Loader';
 import {
   LyfMenu,
   MenuPopoverPlacement,
   PopoverMenuOption
-} from 'containers/LyfMenu';
-import { UserFriend } from 'schema/user';
-import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingBFFRequest, hasOutgoingRequest } from 'schema/util/social';
-import { useFriends } from 'hooks/cloud/useFriends';
+} from '@/containers/LyfMenu';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useFriends } from '@/hooks/cloud/useFriends';
+import { UserFriend } from '@/schema/user';
+import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingRequest } from '@/schema/util/social';
+import { black, inProgressColor, deepBlue, eventsBadgeColor, primaryGreen, white, red } from '@/utils/colours';
 
 type Props = {
   friend: UserFriend,
@@ -65,7 +67,6 @@ export const FriendAction = ({ friend, callback, height }: Props) => {
 
   const isFriends = friends.some((x) => x.id === friend.id && hasFriendship(x))
   const isOutgoing = friends.some((x) => x.id === friend.id && hasOutgoingRequest(user.id, x))
-  const isBffOutgoing = friends.some((x) => x.id === friend.id && hasOutgoingBFFRequest(user.id, x))
   const isIncoming = friends.some((x) => x.id === friend.id && hasIncomingRequest(user.id, x))
   const isBlocked = friends.some((x) => x.id === friend.id && hasBlock(x))
 
@@ -88,7 +89,9 @@ export const Friend = ({ friend, callback, height }: Props) => {
   const removeFriend = async () => {
     setLoading(true);
     await updateFriendship(friend.id, FriendshipAction.Remove);
-    callback && callback();
+    if (callback) {
+      callback();
+    }
     setLoading(false);
   };
 
@@ -125,7 +128,9 @@ export const Requested = ({ friend, callback, height }: Props) => {
   const cancelRequest = async () => {
     setLoading(true);
     await updateFriendship(friend.id, FriendshipAction.Cancel);
-    callback && callback();
+    if (callback) {
+      callback();
+    }
     setLoading(false);
   };
 
@@ -160,7 +165,9 @@ export const AddFriend = ({ friend, callback, height }: Props) => {
   const { updateFriendship } = useFriends();
   const addFriend = async () => {
     await updateFriendship(friend.id, FriendshipAction.Request);
-    callback && callback();
+    if (callback) {
+      callback();
+    }
   };
 
   return (
@@ -182,13 +189,17 @@ export const HandleRequest = ({ friend, callback, height }: Props) => {
   const acceptRequest = async () => {
     setAccepting(true);
     await updateFriendship(friend.id, FriendshipAction.Accept);
-    callback && callback();
+    if (callback) {
+      callback();
+    }
     setAccepting(false);
   };
   const declineRequest = async () => {
     setDeclining(true);
     await updateFriendship(friend.id, FriendshipAction.Decline);
-    callback && callback();
+    if (callback) {
+      callback();
+    }
     setDeclining(false);
   };
 
@@ -198,7 +209,7 @@ export const HandleRequest = ({ friend, callback, height }: Props) => {
         containerStyle={styles.handleRequestPressableContainer}
         style={[
           styles.handleRequestPressable,
-          { backgroundColor: primaryGreen }
+          styles.acceptColor
         ]}
         onPress={acceptRequest}
       >
@@ -210,7 +221,7 @@ export const HandleRequest = ({ friend, callback, height }: Props) => {
       </BouncyPressable>
       <BouncyPressable
         containerStyle={styles.handleRequestPressableContainer}
-        style={[styles.handleRequestPressable, { backgroundColor: 'red' }]}
+        style={[styles.handleRequestPressable, styles.declineColor]}
         onPress={declineRequest}
       >
         {declining ? (
@@ -224,26 +235,16 @@ export const HandleRequest = ({ friend, callback, height }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  optionsContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    paddingLeft: 0,
-    borderRadius: 10,
-    borderWidth: 0.5,
-    borderColor: 'rgba(0,0,0,0.5)'
-  },
-  optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
-  optionText: { fontSize: 18, color: 'rgba(0,0,0,0.7)' },
-  optionSeperator: { marginHorizontal: 5 },
-
+  acceptColor: { backgroundColor: primaryGreen },
+  declineColor: { backgroundColor: red },
   handleRequestMain: { flexDirection: 'row', gap: 4, height: '100%' },
   handleRequestPressable: {
-    flex: 1,
-    paddingVertical: 10,
-    borderRadius: 50,
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    borderRadius: 50,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingVertical: 10
   },
   handleRequestPressableContainer: { flex: 1, height: '100%' }
 });

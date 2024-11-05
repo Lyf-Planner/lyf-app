@@ -1,4 +1,3 @@
-import { useAuth } from 'hooks/cloud/useAuth';
 import {
   TouchableHighlight,
   View,
@@ -6,7 +5,11 @@ import {
   Alert,
   StyleSheet
 } from 'react-native';
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { red, white } from '@/utils/colours';
 
 export const DeleteButton = () => {
   const { deleteMe, logout } = useAuth();
@@ -36,28 +39,24 @@ export const DeleteButton = () => {
 
 const styles = StyleSheet.create({
   buttonView: {
-    flexDirection: 'row',
-    alignSelf: 'center',
-    width: '100%',
-    justifyContent: 'center',
-    borderWidth: 0.5,
-    padding: 10,
     alignItems: 'center',
-    gap: 4,
+    alignSelf: 'center',
     borderRadius: 5,
+    borderWidth: 0.5,
+    flexDirection: 'row',
+    gap: 4,
+    justifyContent: 'center',
     maxWidth: 400,
+    padding: 10,
+    width: '100%'
   },
-  logoutText: {
+  deleteText: {
+    color: white,
+    fontFamily: 'Lexend',
     fontSize: 18,
     fontWeight: '700'
   },
-  deleteText: {
-    fontSize: 18,
-    color: 'white',
-    fontFamily: 'Lexend',
-    fontWeight: '700',
-  },
   deleteView: {
-    backgroundColor: 'red'
+    backgroundColor: red
   }
 });

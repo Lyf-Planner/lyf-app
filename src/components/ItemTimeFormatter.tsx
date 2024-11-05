@@ -1,7 +1,8 @@
-import { StyleSheet, Text } from 'react-native';
-import { TwentyFourHourToAMPM } from 'utils/dates';
 import { useMemo } from 'react';
-import { LocalItem } from 'schema/items';
+import { StyleSheet, Text } from 'react-native';
+
+import { LocalItem } from '@/schema/items';
+import { TwentyFourHourToAMPM } from '@/utils/dates';
 
 type Props = {
   item: LocalItem;
@@ -38,7 +39,7 @@ export const ItemTimeFormatter = ({ item, textColor }: Props) => {
   const conditionalStyles = {
     listItemTimeText: {
       color: textColor,
-      fontSize: 15,
+      fontSize: 15
     }
   };
 
@@ -55,7 +56,7 @@ export const ItemTimeFormatter = ({ item, textColor }: Props) => {
 
 const styles = StyleSheet.create({
   listItemTimeText: {
-    padding: 2,
-    marginLeft: 12
+    marginLeft: 12,
+    padding: 2
   }
 });

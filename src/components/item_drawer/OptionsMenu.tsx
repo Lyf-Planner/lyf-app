@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
-import { useAuth } from 'hooks/cloud/useAuth';
+import { StyleSheet, View } from 'react-native';
+
 import {
   Menu,
   MenuOption,
@@ -7,14 +8,16 @@ import {
   MenuTrigger,
   renderers
 } from 'react-native-popup-menu';
-import { StyleSheet, View } from 'react-native';
-import { Horizontal } from 'components/Horizontal';
-import { useTimetable } from 'hooks/cloud/useTimetable';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import { LocalItem } from 'schema/items';
-import { SocialAction } from 'schema/util/social';
-import { Permission } from 'schema/database/items_on_users';
-import { Loader } from 'components/Loader';
+
+import { Horizontal } from '@/components/Horizontal';
+import { Loader } from '@/components/Loader';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { Permission } from '@/schema/database/items_on_users';
+import { LocalItem } from '@/schema/items';
+import { SocialAction } from '@/schema/util/social';
+import { blackWithOpacity } from '@/utils/colours';
 
 type Props = {
   item: LocalItem,
@@ -41,7 +44,7 @@ export const OptionsMenu = ({ item, closeDrawer }: Props) => {
     setLoading(false);
   };
 
-  const menu = useRef<any>();
+  const menu = useRef<Menu>(null);
 
   return (
     <Menu
@@ -84,7 +87,7 @@ export const OptionsMenu = ({ item, closeDrawer }: Props) => {
         )}
       </MenuOptions>
       <MenuTrigger>
-        <View style={{ padding: 4 }}>
+        <View style={styles.triggerWrapper}>
           {loading ? (
             <Loader color="white" size={20} />
           ) : (
@@ -97,15 +100,16 @@ export const OptionsMenu = ({ item, closeDrawer }: Props) => {
 };
 
 const styles = StyleSheet.create({
+  optionSeperator: { marginHorizontal: 5 },
+  optionText: { color: blackWithOpacity(0.7), fontSize: 18 },
+  optionWrapper: { marginHorizontal: 8, marginVertical: 4 },
   optionsContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    paddingLeft: 0,
+    borderColor: blackWithOpacity(0.5),
     borderRadius: 10,
     borderWidth: 0.5,
-    borderColor: 'rgba(0,0,0,0.5)'
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    paddingLeft: 0
   },
-  optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
-  optionText: { fontSize: 18, color: 'rgba(0,0,0,0.7)' },
-  optionSeperator: { marginHorizontal: 5 }
+  triggerWrapper: { padding: 4 }
 });

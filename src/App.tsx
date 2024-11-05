@@ -1,21 +1,24 @@
-import { Platform, StatusBar } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+
 import { useFonts } from 'expo-font';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+
 import env from './envManager';
+
+import Routes from '@/Routes';
+import { CloudProvider } from '@/hooks/cloud/cloudProvider';
+import { OverlayProvider } from '@/hooks/overlays/overlayProvider';
+import { RouteProvider } from '@/hooks/routes';
+
 import 'expo-dev-client';
-import Routes from 'Routes';
-import { CloudProvider } from 'hooks/cloud/cloudProvider';
-import { OverlayProvider } from 'hooks/overlays/overlayProvider';
-import { RouteProvider } from 'hooks/routes';
-import { useEffect } from 'react';
 
 export default function App() {
   const [loaded] = useFonts({
-    Lexend: require('assets/fonts/Lexend/Lexend-VariableFont_wght.ttf'),
-    LexendThin: require('assets/fonts/Lexend/static/Lexend-Light.ttf'),
-    LexendSemibold: require('assets/fonts/Lexend/static/Lexend-SemiBold.ttf'),
-    LexendBold: require('assets/fonts/Lexend/static/Lexend-ExtraBold.ttf')
+    Lexend: require('@/assets/fonts/Lexend/Lexend-VariableFont_wght.ttf'),
+    LexendThin: require('@/assets/fonts/Lexend/static/Lexend-Light.ttf'),
+    LexendSemibold: require('@/assets/fonts/Lexend/static/Lexend-SemiBold.ttf'),
+    LexendBold: require('@/assets/fonts/Lexend/static/Lexend-ExtraBold.ttf')
   });
 
   if (!loaded) {
@@ -24,11 +27,11 @@ export default function App() {
 
   StatusBar.setBarStyle('dark-content');
 
-  console.log("Starting with backend:", env.BACKEND_URL);
+  console.log('Starting with backend:', env.BACKEND_URL);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
+    <GestureHandlerRootView style={styles.main}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={styles.main}>
         <RouteProvider>
           <CloudProvider>
             <OverlayProvider>
@@ -40,3 +43,9 @@ export default function App() {
     </GestureHandlerRootView>
   );
 }
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1
+  }
+})

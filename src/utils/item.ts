@@ -1,7 +1,7 @@
-import { LocalItem } from "schema/items";
-import { cancelledColor, doneColor, eventsBadgeColor, inProgressColor, tentativeColor, todoColor, white } from "./colours";
-import { ItemDbObject, ItemType, ItemStatus } from "schema/database/items";
-import { UpdateItem } from "hooks/cloud/useTimetable";
+import { UpdateItem } from '@/hooks/cloud/useTimetable';
+import { ItemDbObject, ItemType, ItemStatus } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
+import { cancelledColor, doneColor, eventsBadgeColor, inProgressColor, tentativeColor, todoColor, white } from '@/utils/colours';
 
 export const StatusOptions = Object.values(ItemStatus);
 
@@ -20,14 +20,14 @@ export const ITEM_STATUS_TO_COLOR = {
   'In Progress': inProgressColor,
   Done: doneColor,
   Cancelled: cancelledColor
-} as any;
+};
 
 // Used by background
 export const getItemPrimaryColor = (item: LocalItem, defaultColor?: string) => {
   if (!item.status || item.status === ItemStatus.Upcoming) {
     return defaultColor || (item.type === ItemType.Event ? eventsBadgeColor : white);
   }
-    
+
   return ITEM_STATUS_TO_COLOR[item.status];
 };
 
@@ -56,7 +56,7 @@ export const statusTextDisplay = (type: ItemType, status: ItemStatus) => {
     case ItemStatus.Tentative:
       return type === ItemType.Event ? 'Tenative' : 'Maybe';
     case ItemStatus.Cancelled:
-      return type === ItemType.Event ? 'Cancelled' : "Won't Do";
+      return type === ItemType.Event ? 'Cancelled' : 'Won\'t Do';
     default:
       return status;
   }

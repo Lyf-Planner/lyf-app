@@ -1,6 +1,7 @@
 import { StyleSheet, Text } from 'react-native';
-import { ItemType } from 'schema/database/items';
-import { LocalItem } from 'schema/items';
+
+import { ItemType } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
 
 type Props = {
   item: LocalItem;
@@ -10,7 +11,7 @@ type Props = {
 export const ItemTitleFormatter = ({ item, textColor }: Props) => {
   const conditionalStyles = {
     listItemText: {
-      color: textColor,
+      color: textColor
     }
   };
 
@@ -28,9 +29,9 @@ export const ItemTitleFormatter = ({ item, textColor }: Props) => {
 
 const styles = StyleSheet.create({
   listItemText: {
+    flex: 1,
+    fontFamily: 'Lexend',
     fontSize: 16,
-    fontFamily: "Lexend",
-    padding: 2,
-    flex: 1
+    padding: 2
   }
 });

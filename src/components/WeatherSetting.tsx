@@ -1,6 +1,8 @@
-import { useAuth } from "hooks/cloud/useAuth"
-import { useLocation } from "hooks/cloud/useLocation";
-import { StyleSheet, View, Text, Switch } from "react-native"
+import { StyleSheet, View, Text, Switch } from 'react-native'
+
+import { useAuth } from '@/hooks/cloud/useAuth'
+import { useLocation } from '@/hooks/cloud/useLocation';
+import { white } from '@/utils/colours';
 
 export const WeatherSetting = () => {
   const { user, updateUser } = useAuth();
@@ -8,7 +10,7 @@ export const WeatherSetting = () => {
 
   const updateWeather = (enabled?: boolean) => {
     if (enabled) {
-      requestLocation().then((locationPermitted) => 
+      requestLocation().then((locationPermitted) =>
         updateUser({ weather_data: locationPermitted })
       );
       return;
@@ -21,8 +23,8 @@ export const WeatherSetting = () => {
     <View style={styles.main}>
       <View style={styles.settingRow}>
         <Text style={styles.settingNameText}>Enable Weather Data</Text>
-        <Switch 
-          style={styles.settingToggle} 
+        <Switch
+          style={styles.settingToggle}
           onValueChange={updateWeather}
           value={!!user?.weather_data}
           ios_backgroundColor={'gray'}
@@ -34,28 +36,28 @@ export const WeatherSetting = () => {
 }
 
 const styles = StyleSheet.create({
+  hint: {
+    color: white,
+    fontSize: 16,
+    opacity: 0.6
+  },
   main: {
-    paddingVertical: 14,
-    paddingHorizontal: 8,
     flexDirection: 'column',
     gap: 8,
-  },
-  settingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8
+    paddingHorizontal: 8,
+    paddingVertical: 14
   },
   settingNameText: {
+    color: white,
     fontFamily: 'Lexend',
-    fontSize: 20,
-    color: 'white'
+    fontSize: 20
+  },
+  settingRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8
   },
   settingToggle: {
-    marginLeft: 'auto',
-  },
-  hint: {
-    opacity: 0.6,
-    fontSize: 16,
-    color: 'white'
-  },
+    marginLeft: 'auto'
+  }
 })

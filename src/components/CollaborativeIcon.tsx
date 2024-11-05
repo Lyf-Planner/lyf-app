@@ -1,9 +1,11 @@
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native';
-import { primaryGreen } from 'utils/colours';
+
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { ItemStatus } from 'schema/database/items';
-import { LocalItem } from 'schema/items';
+
+import { ItemStatus } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
+import { primaryGreen } from '@/utils/colours';
 
 type Props = {
   item: LocalItem;
@@ -35,11 +37,11 @@ export const CollaborativeIcon = ({ item }: Props) => {
 
 const styles = StyleSheet.create({
   collaborativeIndicator: {
-    borderRadius: 30,
-    aspectRatio: 1,
-    width: 32,
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    aspectRatio: 1,
+    borderRadius: 30,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: 32
   }
 });

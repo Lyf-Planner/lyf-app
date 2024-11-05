@@ -1,8 +1,10 @@
-import { get, post } from './axios';
 import env from '../envManager';
-import { Note } from 'schema/notes';
-import { NoteDbObject } from 'schema/database/notes';
-import { ID } from 'schema/database/abstract';
+
+import { get, post } from './axios';
+
+import { ID } from '@/schema/database/abstract';
+import { NoteDbObject } from '@/schema/database/notes';
+import { Note } from '@/schema/notes';
 
 const notesEndpoint = (req: string) => `/notes/${req}`;
 

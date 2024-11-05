@@ -3,10 +3,11 @@ import Animated, {
   useAnimatedStyle,
   withTiming
 } from 'react-native-reanimated';
-import { SCALE_MS } from 'containers/ItemGestureWrapper';
-import { ItemStatus } from 'schema/database/items';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { LocalItem } from 'schema/items';
+
+import { SCALE_MS } from '@/containers/ItemGestureWrapper';
+import { ItemStatus } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
 
 type Props = {
   item: LocalItem;

@@ -1,6 +1,8 @@
 import { StyleSheet, TouchableHighlight } from 'react-native';
-import { deepBlue } from 'utils/colours';
+
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+import { blackWithOpacity, deepBlue } from '@/utils/colours';
 
 type Props = {
   onPress: () => void,
@@ -8,14 +10,18 @@ type Props = {
 }
 
 export const ProfileHeaderButton = ({ onPress, open }: Props) => {
+  const conditionalStyles = {
+    wrapper: {
+      backgroundColor: open ? deepBlue : 'white'
+    }
+  }
+
   return (
     <TouchableHighlight
       underlayColor={'rgba(0,0,0,0.4)'}
       style={[
         styles.wrapper,
-        {
-          backgroundColor: open ? deepBlue : 'white'
-        }
+        conditionalStyles.wrapper
       ]}
       onPress={onPress}
     >
@@ -27,12 +33,12 @@ export const ProfileHeaderButton = ({ onPress, open }: Props) => {
 const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
+    borderColor: blackWithOpacity(0.1),
+    borderRadius: 100,
+    borderWidth: 0.5,
     flexDirection: 'row',
     justifyContent: 'center',
-    width: 50,
-    borderWidth: 0.5,
-    borderColor: 'rgba(0,0,0,0.1)',
     padding: 5,
-    borderRadius: 100
+    width: 50
   }
 });

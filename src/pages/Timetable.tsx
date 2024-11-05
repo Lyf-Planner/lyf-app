@@ -1,12 +1,14 @@
 import { View, StyleSheet } from 'react-native';
-import { deepBlue, primaryGreen, sun, white } from 'utils/colours';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { Calendar } from 'pages/Timetable_Calendar';
-import { Routine } from 'pages/Timetable_Routine';
+
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { RouteParams } from 'Routes';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
- 
+
+import { Calendar } from '@/pages/Timetable_Calendar';
+import { Routine } from '@/pages/Timetable_Routine';
+import { black, deepBlue, primaryGreen, white } from '@/utils/colours';
+
 const Tab = createMaterialTopTabNavigator();
 
 export const Timetable = (props: BottomTabScreenProps<RouteParams>) => {
@@ -20,24 +22,24 @@ export const Timetable = (props: BottomTabScreenProps<RouteParams>) => {
           tabBarLabelStyle: styles.tabBarLabelStyle,
           tabBarItemStyle: styles.tabBarItemStyle,
           tabBarStyle: styles.tabBarStyle,
-          tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
+          tabBarIndicatorStyle: styles.tabBarIndicatorStyle
         }}
-        sceneContainerStyle={{ flex : 1, height: '100%'}}
+        sceneContainerStyle={styles.sceneContainerStyle}
       >
-        <Tab.Screen 
-          name="Calendar" 
-          component={Calendar} 
+        <Tab.Screen
+          name="Calendar"
+          component={Calendar}
           options={{
             tabBarIcon: () => <MaterialIcons name='event-note' size={25} color={white}/>,
-            tabBarLabel: "Calendar",
+            tabBarLabel: 'Calendar'
           }}
         />
-        <Tab.Screen 
-          name="Routine" 
+        <Tab.Screen
+          name="Routine"
           component={Routine}
           options={{
-            tabBarIcon: () =>  <MaterialIcons name="event-repeat" size={24} color={white} />,
-            tabBarLabel: "Routines"
+            tabBarIcon: () => <MaterialIcons name="event-repeat" size={24} color={white} />,
+            tabBarLabel: 'Routines'
           }}
         />
       </Tab.Navigator>
@@ -47,29 +49,33 @@ export const Timetable = (props: BottomTabScreenProps<RouteParams>) => {
 
 const styles = StyleSheet.create({
   main: {
+    flex: 1
+  },
+  sceneContainerStyle: {
     flex: 1,
-  },
-  tabBarLabelStyle: { 
-    fontSize: 20, 
-    color: white, 
-    fontFamily: "Lexend", 
-    textTransform: "none" 
-  },
-  tabBarItemStyle: {
-    flexDirection: "row",
-    gap: 4
-  },
-  tabBarStyle: {
-    backgroundColor: primaryGreen, 
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
-    height: 60,
-    flexDirection: 'column',
-    justifyContent: 'center'
+    height: '100%'
   },
   tabBarIndicatorStyle: {
     backgroundColor: deepBlue
+  },
+  tabBarItemStyle: {
+    flexDirection: 'row',
+    gap: 4
+  },
+  tabBarLabelStyle: {
+    color: white,
+    fontFamily: 'Lexend',
+    fontSize: 20,
+    textTransform: 'none'
+  },
+  tabBarStyle: {
+    backgroundColor: primaryGreen,
+    flexDirection: 'column',
+    height: 60,
+    justifyContent: 'center',
+    shadowColor: black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2
   }
 });

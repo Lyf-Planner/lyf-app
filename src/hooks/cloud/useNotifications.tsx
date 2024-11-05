@@ -1,17 +1,19 @@
+import { createContext, useContext, useEffect, useState } from 'react';
+import { Platform } from 'react-native';
+
+import { isDevice } from 'expo-device';
 import {
   getPermissionsAsync,
   requestPermissionsAsync,
   getExpoPushTokenAsync
 } from 'expo-notifications';
-import { isDevice } from 'expo-device';
-import { createContext, useContext, useEffect, useState } from 'react';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { getAsyncData, storeAsyncData } from 'utils/asyncStorage';
-import env from 'envManager';
-import { Notification } from 'schema/notifications';
-import { ID } from 'schema/database/abstract';
-import { getNotifications, updateNotification } from 'rest/user';
-import { Platform } from 'react-native';
+
+import env from '@/envManager';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { getNotifications, updateNotification } from '@/rest/user';
+import { ID } from '@/schema/database/abstract';
+import { Notification } from '@/schema/notifications';
+import { getAsyncData, storeAsyncData } from '@/utils/asyncStorage';
 
 type Props = {
   children: JSX.Element;
@@ -19,7 +21,7 @@ type Props = {
 
 type NotificationHooks = {
   notifications: Notification[];
-  readNotification: (id: ID) => void; 
+  readNotification: (id: ID) => void;
   enabled: boolean;
   getDefaultNotificationMins: () => number;
 }
@@ -39,29 +41,29 @@ export const NotificationsLayer = ({ children }: Props) => {
             setEnabled(true);
             return;
           }
-          
+
           registerForPushNotificationsAsync().then((token) => {
             if (!token) {
               setEnabled(false);
               return;
             }
-    
+
             setEnabled(true);
             updateUser({
               ...user,
               expo_tokens: [token]
             });
-    
+
             storeAsyncData('expo_token', token);
           })
         })
       }
-  }
+    }
 
-  tokenPromise().then(async () => {
-    const initialNotifs = await getNotifications(10);
-    setNotifications(initialNotifs);
-  });
+    tokenPromise().then(async () => {
+      const initialNotifs = await getNotifications(10);
+      setNotifications(initialNotifs);
+    });
   }, []);
 
   const readNotification = async (id: ID) => {
@@ -75,7 +77,7 @@ export const NotificationsLayer = ({ children }: Props) => {
     if (!tmp[i].seen) {
       tmp[i].seen = true;
       setNotifications(tmp);
-  
+
       await updateNotification(id, { seen: true });
     }
   }
@@ -106,7 +108,7 @@ async function registerForPushNotificationsAsync() {
   console.log('Registering ExpoPushToken');
 
   if (!isDevice) {
-    console.warn('Must use physical device for Push Notifications');  
+    console.warn('Must use physical device for Push Notifications');
     return;
   }
 
@@ -114,7 +116,7 @@ async function registerForPushNotificationsAsync() {
   console.log('Existing notification status is', existingStatus);
 
   let finalStatus = existingStatus;
-  
+
   if (existingStatus !== 'granted') {
     const { status } = await requestPermissionsAsync();
     finalStatus = status;
@@ -125,13 +127,13 @@ async function registerForPushNotificationsAsync() {
   }
 
   const token = await getExpoPushTokenAsync({
-    projectId: env.PROJECT_ID as any
+    projectId: env.PROJECT_ID
   });
 
   return token.data;
 }
 
-const NotificationContext = createContext<NotificationHooks>(undefined as any);
+const NotificationContext = createContext<NotificationHooks>(undefined as never);
 
 export const useNotifications = () => {
   return useContext(NotificationContext);

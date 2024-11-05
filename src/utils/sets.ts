@@ -1,4 +1,4 @@
-export const arraysEqualAsSets = (arr1: any[], arr2: any[]) => {
+export const arraysEqualAsSets = (arr1: unknown[], arr2: unknown[]) => {
   const a = new Set(arr1);
   const b = new Set(arr2);
 
@@ -8,5 +8,5 @@ export const arraysEqualAsSets = (arr1: any[], arr2: any[]) => {
   return equalSets(a, b);
 };
 
-export const equalSets = (xs: any, ys: any) =>
+export const equalSets = (xs: Set<unknown>, ys: Set<unknown>) =>
   xs.size === ys.size && [...xs].every((x) => ys.has(x));

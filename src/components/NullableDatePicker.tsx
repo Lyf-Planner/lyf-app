@@ -1,9 +1,12 @@
+import { createElement } from 'react';
 import { Platform, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
-import { formatDateData } from 'utils/dates';
+
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { DateString } from 'schema/util/dates';
-import { createElement } from 'react';
+
+import { DateString } from '@/schema/util/dates';
+import { blackWithOpacity } from '@/utils/colours';
+import { formatDateData } from '@/utils/dates';
 
 type Props = {
   updateDate: (date: DateString | null) => void;
@@ -36,7 +39,10 @@ export const NullableDatePicker = ({ updateDate, date }: Props) => {
 export const DatePicker = ({ date, updateDate }: Props) => {
   const updateDateFromPicker = (time: DateTimePickerEvent) => {
     if (Platform.OS === 'web') {
-      // @ts-ignore the web component has a different structure - trust me bro
+      // the web html component will have this `target` property
+      // react native doesn't type that for generalisation purposes
+      //
+      // @ts-expect-error false type error
       updateDate(time.nativeEvent.target.value);
       return;
     }
@@ -53,7 +59,7 @@ export const DatePicker = ({ date, updateDate }: Props) => {
     createElement('input', {
       type: 'date',
       value: date,
-      onInput: updateDateFromPicker,
+      onInput: updateDateFromPicker
     })
   ) : (
     <DateTimePicker
@@ -61,9 +67,8 @@ export const DatePicker = ({ date, updateDate }: Props) => {
       mode={'date'}
       display='calendar'
       onChange={updateDateFromPicker}
-    />  
+    />
   );
-
 
   return (
     <View style={styles.mainContainer}>
@@ -80,22 +85,22 @@ export const DatePicker = ({ date, updateDate }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-
-    justifyContent: 'flex-start'
-  },
-  pressable: { borderRadius: 5 },
   addDateContainer: {
-    backgroundColor: 'rgba(0,0,0,0.08)',
-    padding: 8.75,
-    position: 'relative',
+    backgroundColor: blackWithOpacity(0.1),
+    borderRadius: 8,
     left: 10,
-    borderRadius: 8
+    padding: 8.75,
+    position: 'relative'
   },
   addDateText: {
     fontSize: 16
   },
-  leftShiftDatePicker: { position: 'relative', left: 10 }
+  leftShiftDatePicker: { left: 10, position: 'relative' },
+  mainContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+
+    justifyContent: 'flex-start'
+  },
+  pressable: { borderRadius: 5 }
 });

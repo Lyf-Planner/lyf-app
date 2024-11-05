@@ -6,9 +6,11 @@ import {
   Alert,
   Platform
 } from 'react-native';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { DetailsField } from 'components/profile/DetailsField';
-import { NameField } from 'components/profile/NameField';
+
+import { DetailsField } from '@/components/profile/DetailsField';
+import { NameField } from '@/components/profile/NameField';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { white } from '@/utils/colours';
 
 export const AccountInfo = () => {
   const { user } = useAuth();
@@ -47,19 +49,18 @@ export const fieldPrompt = (func: (data: string) => void, name: string) => {
 };
 
 const styles = StyleSheet.create({
-  main: {
-    paddingHorizontal: 2,
-    paddingVertical: 8,
-    flexDirection: 'column',
-    gap: 8
-  },
-  detailsFieldView: { flexDirection: 'row', alignItems: 'center', height: 25 },
-  detailsFieldNameText: { fontSize: 16, fontFamily: 'InterSemi', width: 120, color: 'white' },
-  detailsFieldValueText: {
-    fontSize: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    color: 'white',
-  },
   detailsColumn: { flexDirection: 'column', gap: 8 },
+  detailsFieldValueText: {
+    alignItems: 'center',
+    color: white,
+    flexDirection: 'row',
+    fontSize: 16
+  },
+  detailsFieldView: { alignItems: 'center', flexDirection: 'row', height: 25 },
+  main: {
+    flexDirection: 'column',
+    gap: 8,
+    paddingHorizontal: 2,
+    paddingVertical: 8
+  }
 });

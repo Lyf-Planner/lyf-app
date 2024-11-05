@@ -1,7 +1,10 @@
 import * as Native from 'react-native'
-import { Tab } from "components/Tab";
-import { routes } from 'Routes';
+
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+
+import { routes } from '@/Routes';
+import { Tab } from '@/components/Tab';
+import { black } from '@/utils/colours';
 
 export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
   return (
@@ -23,7 +26,7 @@ export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
         };
 
         return (
-          <Tab 
+          <Tab
             isFocused={isFocused}
             index={index}
             key={index}
@@ -34,7 +37,6 @@ export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
       })}
     </Native.View>
   );
-  
 };
 
 const styles = Native.StyleSheet.create({
@@ -45,7 +47,7 @@ const styles = Native.StyleSheet.create({
     width: '100%',
     height: 65, // This doesn't actually effect the height, but for some reason fixes the shadow on web
 
-    shadowColor: 'black',
+    shadowColor: black,
     shadowOffset: { width: 0, height: -1 },
     shadowOpacity: 0.25,
     shadowRadius: 4

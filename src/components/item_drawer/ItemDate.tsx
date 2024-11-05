@@ -1,16 +1,18 @@
+import { useCallback, useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { NullableDatePicker } from 'components/NullableDatePicker';
-import { primaryGreen } from 'utils/colours';
-import { isTemplate } from 'utils/item';
+
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+import { NullableDatePicker } from '@/components/NullableDatePicker';
 import {
   LyfMenu,
   MenuPopoverPlacement,
   PopoverMenuOption
-} from 'containers/LyfMenu';
-import { useCallback, useMemo } from 'react';
-import { ItemDrawerProps } from 'utils/item';
-import { ItemType } from 'schema/database/items';
+} from '@/containers/LyfMenu';
+import { ItemType } from '@/schema/database/items';
+import { primaryGreen, white } from '@/utils/colours';
+import { isTemplate } from '@/utils/item';
+import { ItemDrawerProps } from '@/utils/item';
 
 export const ItemDate = ({ item, updateItem }: ItemDrawerProps) => {
   const routineDay: string | undefined = isTemplate(item) ? item.day : undefined;
@@ -65,34 +67,34 @@ export const ItemDate = ({ item, updateItem }: ItemDrawerProps) => {
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flexDirection: 'row',
-    gap: 8,
-    alignItems: 'center',
-    paddingRight: 10,
-    height: 35
-  },
+  eventText: { fontFamily: 'Lexend', fontSize: 20 },
   fieldNameContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8
+  },
+  mainContainer: {
+    alignItems: 'center',
     flexDirection: 'row',
     gap: 8,
-    alignItems: 'center'
+    height: 35,
+    paddingRight: 10
   },
-  routineText: {
-    fontSize: 16,
-    color: 'white',
-    fontFamily: 'Lexend'
-  },
-  routineContainer: {
-    backgroundColor: primaryGreen,
-    padding: 8,
-    position: 'relative',
-    flexDirection: 'row',
-    alignItems: 'center',
-    left: 10,
-    borderRadius: 8
-  },
-  eventText: { fontSize: 20, fontFamily: 'Lexend' },
   pickerContainer: {
     marginLeft: 'auto'
+  },
+  routineContainer: {
+    alignItems: 'center',
+    backgroundColor: primaryGreen,
+    borderRadius: 8,
+    flexDirection: 'row',
+    left: 10,
+    padding: 8,
+    position: 'relative'
+  },
+  routineText: {
+    color: white,
+    fontFamily: 'Lexend',
+    fontSize: 16
   }
 });

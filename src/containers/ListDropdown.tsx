@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View, Text, Platform } from 'react-native';
-import { List } from 'containers/List';
+
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
   FadeIn
 } from 'react-native-reanimated';
-import { deepBlue, deepBlueOpacity, eventsBadgeColor } from 'utils/colours';
-import { useTimetable } from 'hooks/cloud/useTimetable';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { ItemType } from 'schema/database/items';
-import { LocalItem } from 'schema/items';
-import { NewItem } from 'components/NewItem';
+
+import { NewItem } from '@/components/NewItem';
+import { List } from '@/containers/List';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { ItemType } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
+import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
 
 type Props = {
   items: LocalItem[],
@@ -35,8 +37,8 @@ export const ListDropdown = ({ items, listType, icon, name, startOpen = false }:
     transform: [{
       scale: withTiming(scale.value, { duration: 200 })
     }],
-    shadowOffset: { 
-      width: withTiming(shadowOffsetX.value, { duration: 100 }), 
+    shadowOffset: {
+      width: withTiming(shadowOffsetX.value, { duration: 100 }),
       height: withTiming(shadowOffsetY.value, { duration: 100 })
     }
   }));
@@ -68,7 +70,7 @@ export const ListDropdown = ({ items, listType, icon, name, startOpen = false }:
       >
         {icon}
         <Text style={styles.listTitle}>{name}</Text>
-        {items.length > 0 && 
+        {items.length > 0 &&
           <Text style={styles.listSize}>{`(${items.length})`}</Text>
         }
         <View style={styles.headerLeft}>
@@ -77,7 +79,7 @@ export const ListDropdown = ({ items, listType, icon, name, startOpen = false }:
           </Animated.View>
         </View>
       </Pressable>
-      
+
       {!hide && (
         <Animated.View
           style={styles.listWrapper}
@@ -90,7 +92,7 @@ export const ListDropdown = ({ items, listType, icon, name, startOpen = false }:
               itemTextColor: deepBlue
             }}
           />
-          <NewItem 
+          <NewItem
             addItemByTitle={(title: string) => addItem(
               listType,
               items.length,
@@ -105,49 +107,49 @@ export const ListDropdown = ({ items, listType, icon, name, startOpen = false }:
 };
 
 const styles = StyleSheet.create({
+  animatedChevron: {
+    marginRight: 5
+  },
   dropdownContainer: {
-    flexDirection: 'column',
-    borderRadius: 10,
-    padding: 12,
-    justifyContent: 'flex-start',
-    borderWidth: 2,
-    borderColor: 'rgba(0, 0, 0, 0.3)',
-
     backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.7),
+    borderColor: blackWithOpacity(0.3),
+    borderRadius: 10,
+    borderWidth: 2,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
 
-    shadowColor: 'black',
+    padding: 12,
+
+    shadowColor: black,
     shadowOpacity: 0.75,
     shadowRadius: 2
   },
   dropdownTextContainer: {
+    alignItems: 'center',
     flexDirection: 'row',
     gap: 8,
-    width: '100%',
-    alignItems: 'center'
+    width: '100%'
   },
   headerLeft: {
-    flexDirection: 'row',
     alignItems: 'center',
-  },
-  listTitle: {
-    fontSize: 20,
-    paddingVertical: 2,
-    fontFamily: 'Lexend',
-    color: eventsBadgeColor
+    flexDirection: 'row'
   },
   listSize: {
-    paddingVertical: 4,
+    color: eventsBadgeColor,
+    fontFamily: 'Lexend',
     fontSize: 16,
     marginLeft: 'auto',
-    fontFamily: 'Lexend',
-    color: eventsBadgeColor
+    paddingVertical: 4
   },
-  animatedChevron: {
-    marginRight: 5
+  listTitle: {
+    color: eventsBadgeColor,
+    fontFamily: 'Lexend',
+    fontSize: 20,
+    paddingVertical: 2
   },
   listWrapper: {
     flexDirection: 'column',
     gap: 4,
-    marginTop: 12,
+    marginTop: 12
   }
 });

@@ -6,21 +6,23 @@ import {
   useRef,
   useState
 } from 'react';
+import { AppState, Platform } from 'react-native';
+
+import { getCalendars } from 'expo-localization';
+
+import { LoadingScreen } from '@/components/LoadingScreen';
+import { Background } from '@/containers/Background';
+import { Login } from '@/containers/Login';
+import { autologin } from '@/rest/auth';
+import {
+  deleteMe,
+  saveUser
+} from '@/rest/user';
+import { ExposedUser, User } from '@/schema/user';
 import {
   getAsyncData,
   deleteAsyncData
-} from 'utils/asyncStorage';
-import { autologin } from 'rest/auth';
-import { LoadingScreen } from 'components/LoadingScreen';
-import { Login } from 'containers/Login';
-import { getCalendars } from 'expo-localization';
-import {
-  deleteMe,
-  saveUser,
-} from 'rest/user';
-import { AppState, Platform } from 'react-native';
-import { Background } from 'containers/Background';
-import { ExposedUser, User } from 'schema/user';
+} from '@/utils/asyncStorage';
 
 type Props = {
   children: JSX.Element;
@@ -52,7 +54,7 @@ export const AuthGateway = ({ children }: Props) => {
     (changes: Partial<ExposedUser>) => {
       let newUser;
       if (user) {
-        newUser = { ...user, ...changes};
+        newUser = { ...user, ...changes };
       } else {
         // If there is no user this should be initialised with a full user
         newUser = changes as ExposedUser;
@@ -144,7 +146,7 @@ export const AuthGateway = ({ children }: Props) => {
     updateUser,
     deleteMe,
     logout,
-    lastUpdated,
+    lastUpdated
   };
 
   if (loggingIn) {
@@ -153,8 +155,8 @@ export const AuthGateway = ({ children }: Props) => {
         <LoadingScreen text={'Signing In Securely...'} />
       </Background>
     );
-  } 
-  
+  }
+
   if (!user) {
     return (
       <Background>
@@ -170,7 +172,7 @@ export const AuthGateway = ({ children }: Props) => {
   );
 };
 
-const AuthContext = createContext<AuthExposed>(undefined as any); // TODO: Do this better
+const AuthContext = createContext<AuthExposed>(undefined as never); // TODO: Do this better
 
 export const useAuth = () => {
   return useContext(AuthContext);

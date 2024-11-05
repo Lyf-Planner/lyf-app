@@ -5,17 +5,20 @@ import {
   TouchableHighlight,
   Alert
 } from 'react-native';
-import { primaryGreen } from 'utils/colours';
-import { formatDateData } from 'utils/dates';
-import { useNotifications } from 'hooks/cloud/useNotifications';
-import { useModal } from 'hooks/overlays/useModal';
-import { isTemplate } from 'utils/item';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { ItemDrawerProps } from 'utils/item';
-import { ItemType } from 'schema/database/items';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 import { AddFriendsModal } from './AddFriendsModal';
-import { useAuth } from 'hooks/cloud/useAuth';
+
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useNotifications } from '@/hooks/cloud/useNotifications';
+import { useModal } from '@/hooks/overlays/useModal';
+import { ItemType } from '@/schema/database/items';
+import { primaryGreen, white } from '@/utils/colours';
+import { formatDateData } from '@/utils/dates';
+import { isTemplate } from '@/utils/item';
+import { ItemDrawerProps } from '@/utils/item';
 
 // The button component can definitely be abstracted here
 
@@ -36,7 +39,7 @@ export const AddDetails = ({
   setLinkOpen,
   linkOpen,
   setLocationOpen,
-  locationOpen,
+  locationOpen
 }: Props) => {
   const { user } = useAuth();
   const { enabled, getDefaultNotificationMins } = useNotifications();
@@ -80,9 +83,9 @@ export const AddDetails = ({
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
             disabled={item.invite_pending}
-            onPress={() => updateItem(item, { 
+            onPress={() => updateItem(item, {
               time: '09:00',
-              notification_mins: item.date ? user?.event_notification_mins : undefined 
+              notification_mins: item.date ? user?.event_notification_mins : undefined
             })}
           >
             <View style={styles.addFieldContent}>
@@ -113,8 +116,8 @@ export const AddDetails = ({
                   'You need to enable Notifications for Lyf in your device settings'
                 );
                 return;
-              } 
-            
+              }
+
               updateItem(item, { notification_mins: getDefaultNotificationMins() })
             }}
           >
@@ -188,47 +191,41 @@ export const AddDetails = ({
 };
 
 const styles = StyleSheet.create({
+  addFieldContainer: {
+    alignItems: 'center',
+    backgroundColor: primaryGreen,
+    borderRadius: 8,
+    flexDirection: 'row',
+    padding: 8.75
+  },
+  addFieldContent: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 4
+  },
+  addFieldText: {
+    color: white,
+    fontSize: 16,
+    textAlignVertical: 'center'
+  },
+  addNotificationContainer: {
+    backgroundColor: primaryGreen,
+    borderRadius: 8,
+    padding: 8.75
+  },
+  addNotificationText: {
+    color: white,
+    fontSize: 16
+  },
+  detailsListWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 4
+  },
   mainContainer: {
     flexDirection: 'column',
     gap: 8,
     zIndex: 0
-  },
-  headingContainer: {
-    height: 35,
-    flexDirection: 'column'
-  },
-  headingText: { fontSize: 20, fontWeight: '500', fontFamily: 'InterSemi' },
-  detailsListWrapper: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    gap: 4
-  },
-  addFieldContainer: {
-    backgroundColor: primaryGreen,
-    padding: 8.75,
-    borderRadius: 8,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  addFieldContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4
-  },
-  addFieldText: {
-    fontSize: 16,
-    textAlignVertical: 'center',
-    color: 'white'
-  },
-
-  addNotificationContainer: {
-    backgroundColor: primaryGreen,
-    padding: 8.75,
-    borderRadius: 8
-  },
-  addNotificationText: {
-    fontSize: 16,
-    color: 'white'
   }
 });

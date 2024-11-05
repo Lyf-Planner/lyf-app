@@ -1,7 +1,35 @@
-import { View, Text, StyleSheet, Vibration, Platform, Alert } from 'react-native';
-import { Vertical } from 'components/Vertical';
-import { Horizontal } from 'components/Horizontal';
-import { List } from 'containers/List';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { View, Text, StyleSheet, Platform, Alert } from 'react-native';
+
+import * as Haptics from 'expo-haptics';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
+} from 'react-native-reanimated';
+
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { MultiTypeNewItem } from '@/components/MultiTypeNewItem';
+import { Vertical } from '@/components/Vertical';
+import { List } from '@/containers/List';
+import { SortableList } from '@/containers/SortableList';
+import { WeatherWidget } from '@/containers/WeatherWidget';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { ItemStatus } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
+import { DateString, DayOfWeek } from '@/schema/util/dates';
+import {
+  black,
+  blackWithOpacity,
+  deepBlue,
+  deepBlueOpacity,
+  eventsBadgeColor,
+  lightGreen,
+  primaryGreenWithOpacity,
+  secondaryGreen,
+  transparent
+} from '@/utils/colours';
 import {
   localisedMoment,
   dayFromDateString,
@@ -13,33 +41,8 @@ import {
   daysDifferenceBetween,
   getStartOfCurrentWeek,
   currentDateString
-} from 'utils/dates';
-import {
-  black,
-  deepBlue,
-  deepBlueOpacity,
-  eventsBadgeColor,
-  lightGreen,
-  primaryGreenWithOpacity,
-  secondaryGreen,
-} from 'utils/colours';
-import { sleep } from 'utils/misc';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { useTimetable } from 'hooks/cloud/useTimetable';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming
-} from 'react-native-reanimated';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { BouncyPressable } from 'components/BouncyPressable';
-import { SortableList } from 'containers/SortableList';
-import * as Haptics from 'expo-haptics';
-import { LocalItem } from 'schema/items';
-import { DateString, DayOfWeek } from 'schema/util/dates';
-import { ItemStatus } from 'schema/database/items';
-import { MultiTypeNewItem } from 'components/MultiTypeNewItem';
-import { WeatherWidget } from 'containers/WeatherWidget';
+} from '@/utils/dates';
+import { sleep } from '@/utils/misc';
 
 type Props = {
   items: LocalItem[],
@@ -48,8 +51,6 @@ type Props = {
   useRoutine?: boolean,
   shadowOffset?: { width: number, height: number }
 }
-
-
 
 export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
   const { reload, resortItems, startDate, endDate } = useTimetable();
@@ -101,8 +102,8 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
     transform: [{
       scale: withTiming(scale.value, {
         duration: DELAY
-      })}, { 
-      translateX: offset.value 
+      }) }, {
+      translateX: offset.value
     }],
     opacity: withTiming(opacity.value, {
       duration: 500
@@ -165,7 +166,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
 
     const shiftAmount = daysDifferenceBetween(startDate, endDate) - 1;
 
-    const newStart = addDayToStringDate(date, 1);    
+    const newStart = addDayToStringDate(date, 1);
     const newEnd = addDayToStringDate(newStart, shiftAmount);
 
     if (Platform.OS === 'web') {
@@ -184,72 +185,69 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
             isPreferred: !allDone
           },
           {
-            text: 'Confirm', 
+            text: 'Confirm',
             onPress: async () => {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
               reload(newStart, newEnd).then(() => updateUser({ first_day: newStart }));
             },
             isPreferred: allDone
-          },
+          }
         ],
-        {cancelable: true},
+        { cancelable: true }
       );
     }
-
-    
   }
 
   const conditionalStyles = {
     dayRootView: {
-      shadowOffset: shadowOffset ?? { width: 3, height: 3 },
+      shadowOffset: shadowOffset ?? { width: 3, height: 3 }
     }
   }
 
   return (
-      <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
-        <BouncyPressable 
-          onPress={() => setSorting(!sorting)}
-          onLongPress={() => finishDay()}
-        >
-          <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
-            <WeatherWidget date={date || day || ''} />
-            <View style={styles.dayOfWeekPressable}>
-              <Text style={styles.dayOfWeekText}>
-                {day || (date && dayFromDateString(date))}
-              </Text>
-              
-            </View>
-            <View style={styles.headerEnd}>
-              <Vertical style={styles.diagLines} />
-              {canFinish && <Vertical style={styles.diagLines} />}
+    <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
+      <BouncyPressable
+        onPress={() => setSorting(!sorting)}
+        onLongPress={() => finishDay()}
+      >
+        <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
+          <WeatherWidget date={date || day || ''} />
+          <View style={styles.dayOfWeekPressable}>
+            <Text style={styles.dayOfWeekText}>
+              {day || (date && dayFromDateString(date))}
+            </Text>
 
-              {date && (
-                <Text style={styles.dayDateText}>{formatDate(date, true)}</Text>
-              )}
-            </View>
-          </Animated.View>
-        </BouncyPressable>
+          </View>
+          <View style={styles.headerEnd}>
+            <Vertical style={styles.diagLines} />
+            {canFinish && <Vertical style={styles.diagLines} />}
 
-        <View style={styles.listWrapperView}>
-          {sorting ? (
-            <SortableList
-              setSortOrder={setSortOrder}
-              sortOrder={sortOrder}
-              itemStyleOptions={{
-                itemColor: 'rgb(241 245 249)',
-                itemTextColor: 'black'
-              }}
-              listWrapperStyles={{ backgroundColor: 'transparent' }}
-            />
-          ) : (
-            <List
-              items={items}
-              itemStyleOptions={{
-                itemTextColor: 'black'
-              }}
-              listWrapperStyles={{ backgroundColor: 'transparent' }}
-            />
-          )}
+            {date && (
+              <Text style={styles.dayDateText}>{formatDate(date, true)}</Text>
+            )}
+          </View>
+        </Animated.View>
+      </BouncyPressable>
+
+      <View style={styles.listWrapperView}>
+        {sorting ? (
+          <SortableList
+            setSortOrder={setSortOrder}
+            sortOrder={sortOrder}
+            itemStyleOptions={{
+              itemTextColor: black
+            }}
+            listWrapperStyles={styles.transparentBackground}
+          />
+        ) : (
+          <List
+            items={items}
+            itemStyleOptions={{
+              itemTextColor: black
+            }}
+            listWrapperStyles={styles.transparentBackground}
+          />
+        )}
 
         {sorting ? (
           <BouncyPressable style={styles.doneButton} onPress={() => {
@@ -259,97 +257,100 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
             <Text style={styles.doneText}>Done</Text>
           </BouncyPressable>
         ) : (
-          <MultiTypeNewItem 
+          <MultiTypeNewItem
             commonData={{
               date: date || undefined,
               day: day || undefined
-            }} 
+            }}
             newRank={items.length}
           />
         )}
       </View>
-      </Animated.View>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
-  dayRootView: {
-    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.6),
-    width: '100%',
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 10,
-    zIndex: 10,
-    flexDirection: 'column',
-    gap: 4,
-
-    shadowColor: 'black',
-    shadowOpacity: 0.75,
-    shadowRadius: 2
+  dayDateText: {
+    fontFamily: 'Lexend',
+    fontSize: 16,
+    marginLeft: 16,
+    paddingRight: 2
   },
   dayHeaderView: {
+    alignItems: 'center',
     backgroundColor: secondaryGreen,
     borderRadius: 10,
     flexDirection: 'row',
-    paddingHorizontal: 8,
-    alignItems: 'center',
     overflow: 'visible',
-  },
-  headerEnd: {
-    flexDirection: 'row',
-    height: '100%',
-    alignItems: 'center',
-    gap: 2,
-    marginLeft: 'auto',
-    marginRight: 2
-  },
-  diagLines: {
-    borderLeftWidth: 2,
-    borderColor: 'rgba(0,0,0,0.2)',
-    height: '100%',
-    transform: [{ rotateZ: '-20deg' }],
-    marginLeft: 'auto'
-  },
-  dayDateText: {
-    paddingRight: 2,
-    marginLeft: 16,
-    fontSize: 16,
-    fontFamily: 'Lexend'
-  },
-  dayOfWeekText: {
-    fontFamily: 'Lexend',
-    fontWeight: '600',
-    fontSize: 18,
-    padding: 2
+    paddingHorizontal: 8
   },
   dayOfWeekPressable: {
     borderRadius: 10,
     paddingHorizontal: 2,
     paddingVertical: 14
   },
-  listWrapperView: {
-    flexDirection: 'column',
-    marginTop: 2,
-    gap: 2,
+  dayOfWeekText: {
+    fontFamily: 'Lexend',
+    fontSize: 18,
+    fontWeight: '600',
+    padding: 2
   },
-
-  doneButton: {
-    height: 55,
+  dayRootView: {
+    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.6),
     borderRadius: 10,
-    backgroundColor: secondaryGreen,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 8,
-    paddingHorizontal: 8,
+    borderWidth: 1,
+    flexDirection: 'column',
+    gap: 4,
+    padding: 10,
+    shadowColor: black,
+    shadowOpacity: 0.75,
+
+    shadowRadius: 2,
     width: '100%',
-    borderColor: 'rgb(156 163 175)',
-    borderWidth: 1
+    zIndex: 10
+  },
+  diagLines: {
+    borderColor: blackWithOpacity(0.2),
+    borderLeftWidth: 2,
+    height: '100%',
+    marginLeft: 'auto',
+    transform: [{ rotateZ: '-20deg' }]
+  },
+  doneButton: {
+    alignItems: 'center',
+    backgroundColor: secondaryGreen,
+    borderColor: black,
+    borderRadius: 10,
+    borderWidth: 1,
+    flexDirection: 'row',
+    height: 55,
+    justifyContent: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    width: '100%'
   },
   doneText: {
+    color: black,
     fontFamily: 'Lexend',
-    fontSize: 17,
-    color: 'black',
+    fontSize: 17
+  },
+
+  headerEnd: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 2,
+    height: '100%',
+    marginLeft: 'auto',
+    marginRight: 2
+  },
+  listWrapperView: {
+    flexDirection: 'column',
+    gap: 2,
+    marginTop: 2
+  },
+
+  transparentBackground: {
+    backgroundColor: transparent
   }
-  
 });

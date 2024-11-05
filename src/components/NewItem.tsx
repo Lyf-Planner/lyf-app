@@ -1,7 +1,8 @@
 import { useRef, useState } from 'react';
 import { Platform, StyleSheet, TextInput } from 'react-native';
-import { ItemType } from 'schema/database/items';
-import { inProgressColor } from 'utils/colours';
+
+import { ItemType } from '@/schema/database/items';
+import { inProgressColor, listNewItemBackground, listNewItemText, white } from '@/utils/colours';
 
 export type AddItemByTitle = (title: string) => void;
 
@@ -19,7 +20,9 @@ export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, whiteShadow = t
   const placeholderText = `+ Add ${type}`;
 
   const onSubmit = () => {
-    newItem && addItemByTitle(newItem);
+    if (newItem) {
+      addItemByTitle(newItem);
+    }
     inputRef.current?.clear();
     inputRef.current?.focus();
   };
@@ -29,7 +32,7 @@ export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, whiteShadow = t
   const conditionalStyles = {
     listNewItem: whiteShadow && Platform.OS !== 'web' ? {
       shadowOffset: { width: 0, height: 0 },
-      shadowColor: 'white',
+      shadowColor: white,
       shadowOpacity: 1,
       shadowRadius: 1
     } : {}
@@ -53,18 +56,18 @@ export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, whiteShadow = t
 
 const styles = StyleSheet.create({
   listNewItem: {
-    minHeight: 50,
-    height: 50,
-    width: '100%',
-    backgroundColor: 'rgb(17 24 39)',
-    fontFamily: 'Lexend',
-    marginTop: 2,
+    backgroundColor: listNewItemBackground,
     borderRadius: 10,
-    paddingVertical: 8,
-    paddingLeft: 8,
+    color: listNewItemText,
     flex: 1,
-    zIndex: 10,
-    color: 'rgb(203 213 225)',
+    fontFamily: 'Lexend',
     fontSize: 16,
+    height: 50,
+    marginTop: 2,
+    minHeight: 50,
+    paddingLeft: 8,
+    paddingVertical: 8,
+    width: '100%',
+    zIndex: 10
   }
 });

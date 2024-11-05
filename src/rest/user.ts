@@ -1,11 +1,11 @@
-import { get, post } from './axios';
-import { storeAsyncData } from '../utils/asyncStorage';
 import { getCalendars } from 'expo-localization';
-import env from '../envManager';
-import { User } from '../schema/user';
-import { FriendshipAction } from '../schema/util/social';
-import { ID } from 'schema/database/abstract';
-import { Notification } from 'schema/notifications';
+
+import { get, post } from '@/rest/axios';
+import { ID } from '@/schema/database/abstract';
+import { Notification } from '@/schema/notifications';
+import { User } from '@/schema/user';
+import { FriendshipAction } from '@/schema/util/social';
+import { storeAsyncData } from '@/utils/asyncStorage';
 
 const usersEndpoint = (req: string) => `/users/${req}`;
 
@@ -77,7 +77,7 @@ export async function getNotifications(limit: number) {
 }
 
 export async function updateNotification(id: ID, changes: Partial<Notification>) {
-  const endpoint = usersEndpoint(`updateNotification`)
+  const endpoint = usersEndpoint('updateNotification')
 
   const result = await post(endpoint, {
     id,

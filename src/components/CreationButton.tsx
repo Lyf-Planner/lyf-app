@@ -1,7 +1,8 @@
-import { Loader } from "components/Loader"
-import { BouncyPressable } from "components/BouncyPressable"
-import { StyleSheet, Text, Platform } from "react-native"
-import { deepBlueOpacity, eventsBadgeColor, white } from "utils/colours"
+import { StyleSheet, Text, Platform } from 'react-native'
+
+import { BouncyPressable } from '@/components/BouncyPressable'
+import { Loader } from '@/components/Loader'
+import { black, deepBlueOpacity, eventsBadgeColor, white } from '@/utils/colours'
 
 interface ShadowOffset {
   height: number,
@@ -21,10 +22,10 @@ export const CreationButton = ({
   icon,
   onPress,
   shadowOffset,
-  title,
+  title
 }: Props) => {
   return (
-    <BouncyPressable 
+    <BouncyPressable
       style={[styles.creationButton, { shadowOffset }]}
       useTouchableHighlight
       onPress={onPress}
@@ -42,23 +43,23 @@ export const CreationButton = ({
 
 const styles = StyleSheet.create({
   creationButton: {
+    alignItems: 'center',
     backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.7),
     borderRadius: 40,
-    height: 125,
-    width: 125,
-
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
 
-    shadowColor: 'black',
+    gap: 8,
+    height: 125,
+    justifyContent: 'center',
+    shadowColor: black,
+
     shadowOpacity: 0.7,
-    shadowRadius: 2
+    shadowRadius: 2,
+    width: 125
   },
   typeText: {
-    fontFamily: 'Lexend',
     color: white,
+    fontFamily: 'Lexend',
     fontSize: 16
   }
 })

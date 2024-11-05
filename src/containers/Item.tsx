@@ -1,12 +1,14 @@
-import { ListItemUnderlay } from 'components/ItemUnderlay';
-import { useDrawer } from 'hooks/overlays/useDrawer';
-import { SharedValue, useSharedValue } from 'react-native-reanimated';
-import { ListItemGestureWrapper } from 'containers/ItemGestureWrapper';
-import { ListItemOverlay } from 'components/ItemOverlay';
-import { LocalItem } from 'schema/items';
-import { ItemDrawer } from 'containers/ItemDrawer';
 import { useState } from 'react';
-import { NoteItemDrawer } from 'containers/NoteItemDrawer';
+
+import { SharedValue, useSharedValue } from 'react-native-reanimated';
+
+import { ListItemOverlay } from '@/components/ItemOverlay';
+import { ListItemUnderlay } from '@/components/ItemUnderlay';
+import { ItemDrawer } from '@/containers/ItemDrawer';
+import { ListItemGestureWrapper } from '@/containers/ItemGestureWrapper';
+import { NoteItemDrawer } from '@/containers/NoteItemDrawer';
+import { useDrawer } from '@/hooks/overlays/useDrawer';
+import { LocalItem } from '@/schema/items';
 
 export type ListItemAnimatedValues = {
   scale: SharedValue<number>;
@@ -27,7 +29,7 @@ type Props = {
 
 export const Item = ({
   item,
-  itemStyleOptions,
+  itemStyleOptions
 }: Props) => {
   const { updateDrawer } = useDrawer();
   const [creatingLocalised, setCreatingLocalised] = useState(false);
@@ -54,7 +56,7 @@ export const Item = ({
     scale: useSharedValue(1),
     offsetX: useSharedValue(0),
     checkScale: useSharedValue(1),
-    checkRotation: useSharedValue('0deg'),
+    checkRotation: useSharedValue('0deg')
   };
 
   return (
@@ -70,9 +72,9 @@ export const Item = ({
         animatedValues={animatedValues}
         itemStyleOptions={itemStyleOptions}
       />
-      <ListItemUnderlay 
+      <ListItemUnderlay
         drawerLoading={creatingLocalised}
-        item={item} 
+        item={item}
       />
     </ListItemGestureWrapper>
   );

@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
+
+import DropDownPicker from 'react-native-dropdown-picker';
+import Entypo from 'react-native-vector-icons/Entypo';
+
+import { ItemStatus } from '@/schema/database/items';
 import {
   StatusOptions,
   ITEM_STATUS_TO_COLOR,
   statusTextDisplay
-} from 'utils/item';
-import { ItemStatus } from 'schema/database/items';
-import { StyleSheet } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import Entypo from 'react-native-vector-icons/Entypo';
-import { ItemDrawerProps } from 'utils/item';
+} from '@/utils/item';
+import { ItemDrawerProps } from '@/utils/item';
 
 export const ItemStatusDropdown = ({ item, updateItem }: ItemDrawerProps) => {
   const [open, setOpen] = useState(false);
@@ -82,13 +84,13 @@ export const ItemStatusDropdown = ({ item, updateItem }: ItemDrawerProps) => {
 };
 
 const styles = StyleSheet.create({
-  dropdownText: {
-    fontSize: 18
-  },
   dropdown: {
     borderRadius: 15,
-    minHeight: 45,
-    borderWidth: 0
+    borderWidth: 0,
+    minHeight: 45
   },
-  dropdownArrow: { marginRight: 4 }
+  dropdownArrow: { marginRight: 4 },
+  dropdownText: {
+    fontSize: 18
+  }
 });

@@ -1,17 +1,18 @@
 import { View, StyleSheet } from 'react-native';
-import { ItemStyleOptions, Item } from 'containers/Item';
-import { LocalItem } from 'schema/items';
+
+import { ItemStyleOptions, Item } from '@/containers/Item';
+import { LocalItem } from '@/schema/items';
 
 type Props = {
   items: LocalItem[];
   itemStyleOptions: ItemStyleOptions;
-  listWrapperStyles?: Object;
+  listWrapperStyles?: object;
 };
 
 export const List = ({
   items,
   itemStyleOptions,
-  listWrapperStyles = {},
+  listWrapperStyles = {}
 }: Props) => {
   return (
     <View style={[styles.listContainer, listWrapperStyles]}>
@@ -28,9 +29,9 @@ export const List = ({
 
 const styles = StyleSheet.create({
   listContainer: {
-    flexWrap: 'wrap',
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 1,
-    width: '100%',
+    width: '100%'
   }
 });

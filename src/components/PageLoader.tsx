@@ -1,6 +1,7 @@
-import { View, StyleSheet, Text } from "react-native";
-import { Loader } from "components/Loader";
-import { deepBlue } from "utils/colours";
+import { View, StyleSheet, Text } from 'react-native';
+
+import { Loader } from '@/components/Loader';
+import { deepBlue } from '@/utils/colours';
 
 export const PageLoader = () => {
   return (
@@ -15,15 +16,15 @@ export const PageLoader = () => {
 
 const styles = StyleSheet.create({
   loadingContainer: {
-    marginTop: 50,
-    flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'column',
     gap: 10,
+    justifyContent: 'center',
+    marginTop: 50
   },
   loadingText: {
+    color: deepBlue,
     fontFamily: 'Lexend',
-    fontSize: 20,
-    color: deepBlue
-  },
+    fontSize: 20
+  }
 });

@@ -6,11 +6,13 @@ import {
   StyleSheet,
   TouchableHighlight
 } from 'react-native';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { useNotifications } from 'hooks/cloud/useNotifications';
+
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { ItemDrawerProps } from 'utils/item';
+
+import { useNotifications } from '@/hooks/cloud/useNotifications';
+import { blackWithOpacity } from '@/utils/colours';
+import { ItemDrawerProps } from '@/utils/item';
 
 type Props = ItemDrawerProps & {
   updateSheetMinHeight: (height: number) => void
@@ -34,7 +36,7 @@ export const ItemNotification = ({
       updateSheetMinHeight(100)
       return;
     }
-    
+
     let parsed = minsOverride || mins;
     if (parsed) {
       parsed = parsed.replace(/[^0-9]/g, '');
@@ -48,16 +50,20 @@ export const ItemNotification = ({
     updateItem(item, { notification_mins: parseInt(parsed) });
   };
 
+  const conditionalStyles = {
+    mainContainer: { opacity: enabled && item.time ? 1 : 0.3 }
+  }
+
   return (
     <View
       style={[
         styles.mainContainer,
-        { opacity: enabled && item.time ? 1 : 0.3 }
+        conditionalStyles.mainContainer
       ]}
     >
       <MaterialIcons name="notifications-active" size={20} />
       <Text
-        style={[styles.notifyText]}
+        style={styles.notifyText}
       >
         Notify Me
       </Text>
@@ -98,28 +104,28 @@ export const ItemNotification = ({
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    paddingRight: 10,
-    height: 35
-  },
-  notifyText: { fontSize: 20, fontFamily: 'Lexend' },
-  minutesInputWrapper: {
-    marginLeft: 'auto',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6
-  },
   closeTouchable: { borderRadius: 5 },
+  mainContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    height: 35,
+    paddingRight: 10
+  },
+  minsBeforeText: { fontSize: 18, fontWeight: '200' },
   minutesInput: {
-    backgroundColor: 'rgba(0,0,0,0.08)',
-    padding: 6,
-    width: 45,
+    backgroundColor: blackWithOpacity(0.08),
     borderRadius: 8,
     fontSize: 16,
-    textAlign: 'center'
+    padding: 6,
+    textAlign: 'center',
+    width: 45
   },
-  minsBeforeText: { fontSize: 18, fontWeight: '200' }
+  minutesInputWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 6,
+    marginLeft: 'auto'
+  },
+  notifyText: { fontFamily: 'Lexend', fontSize: 20 }
 });

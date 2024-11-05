@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from 'react';
-import { LyfElement } from 'utils/abstractTypes';
-import { RouteParams } from 'Routes';
+
+import { RouteParams } from '@/Routes';
+import { LyfElement } from '@/utils/abstractTypes';
 
 type Props = {
   children: LyfElement;
@@ -14,7 +15,7 @@ type TutorialHooks = {
 }
 
 // Component provider
-export const TutorialProvider = ({ children }: Props) => {  
+export const TutorialProvider = ({ children }: Props) => {
   const [tutorial, updateTutorial] = useState(false);
   const [tutorialRoute, updateTutorialRoute] = useState<keyof RouteParams>();
 
@@ -32,7 +33,7 @@ export const TutorialProvider = ({ children }: Props) => {
   );
 };
 
-const TutorialContext = createContext<TutorialHooks>(undefined as any);
+const TutorialContext = createContext<TutorialHooks>(undefined as never);
 
 export const useTutorial = () => {
   return useContext(TutorialContext);

@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { StyleSheet } from 'react-native';
+
 import {
   Menu,
   MenuOption,
@@ -7,8 +8,10 @@ import {
   MenuTrigger,
   renderers
 } from 'react-native-popup-menu';
-import { BouncyPressable, BouncyPressableOptions } from 'components/BouncyPressable';
-import { LyfElement } from 'utils/abstractTypes';
+
+import { BouncyPressable, BouncyPressableOptions } from '@/components/BouncyPressable';
+import { LyfElement } from '@/utils/abstractTypes';
+import { blackWithOpacity } from '@/utils/colours';
 
 export type LyfMenuProps = {
   name: string;
@@ -41,7 +44,7 @@ export const LyfPopup = ({
   children
 }: LyfMenuProps) => {
   const rendererProps = {
-    placement: placement,
+    placement,
     anchorStyle: { backgroundColor: '#bababa' }
   };
 
@@ -75,14 +78,11 @@ export const LyfPopup = ({
 
 const styles = StyleSheet.create({
   optionsContainer: {
-    flexDirection: 'column',
-    paddingLeft: 0,
+    borderColor: blackWithOpacity(0.5),
     borderRadius: 10,
     borderWidth: 0.5,
-    borderColor: 'rgba(0,0,0,0.5)'
+    flexDirection: 'column',
+    paddingLeft: 0
   },
-  optionsWrapper: { marginVertical: 4 },
-  optionWrapper: { marginVertical: 4, marginHorizontal: 8 },
-  optionText: { fontSize: 18, color: 'rgba(0,0,0,0.7)', textAlign: 'right', fontFamily: 'Lexend' },
-  optionSeperator: { marginHorizontal: 5 }
+  optionsWrapper: { marginVertical: 4 }
 });

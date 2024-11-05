@@ -1,16 +1,18 @@
 import { View, Text, StyleSheet, Platform } from 'react-native';
-import { black, eventsBadgeColor, primaryGreen, white } from 'utils/colours';
-import { useTutorial } from 'hooks/overlays/useTutorial';
-import { PageBackground } from 'containers/PageBackground';
+
 import { ScrollView } from 'react-native-gesture-handler';
-import { BouncyPressable } from 'components/BouncyPressable';
-import { TipsDropdown } from 'containers/TipsDropdown';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import env from 'envManager';
-import { LyfIcon } from 'assets/icons/LyfIcon';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+import { LyfIcon } from '@/assets/icons/LyfIcon';
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { PageBackground } from '@/containers/PageBackground';
+import { TipsDropdown } from '@/containers/TipsDropdown';
+import env from '@/envManager';
+import { useTutorial } from '@/hooks/overlays/useTutorial';
+import { black, eventsBadgeColor, primaryGreen, white } from '@/utils/colours';
 
 export const TutorialOverlay = () => {
   const { updateTutorial, updateTutorialRoute } = useTutorial();
@@ -24,51 +26,51 @@ export const TutorialOverlay = () => {
             <Text style={styles.title}>Welcome To Lyf</Text>
           </View>
 
-          <BouncyPressable 
+          <BouncyPressable
             onPress={() => null}
             style={styles.doneButton}
             withShadow
           >
             <Text style={styles.doneText}>Access these guides anytime by pressing the Lyf icon in the top left</Text>
           </BouncyPressable>
-          <TipsDropdown 
+          <TipsDropdown
             icon={<MaterialCommunityIcons name='calendar' size={26} color={eventsBadgeColor}/>}
             navigate={() => {
               updateTutorialRoute('Timetable')
-              updateTutorial(false); 
+              updateTutorial(false);
             }}
-            name="Timetable Basics" 
+            name="Timetable Basics"
             tips={[
               'The Lyf timetable is a blend of a calendar and to-do list, with a primary focus on the week at hand.',
               'Events are items you need to attend to in your day, most likely at a set time.',
               'Tasks are things you can do any time in the day! No need to micromanage.',
-              "You'll also notice a Routine section - any event or task here will recur each week.",
-              "If you want to plan something but can't find a date for it, chuck it in your Upcoming Events or To Do List :)"
+              'You\'ll also notice a Routine section - any event or task here will recur each week.',
+              'If you want to plan something but can\'t find a date for it, chuck it in your Upcoming Events or To Do List :)'
             ]}
           />
-          <TipsDropdown 
+          <TipsDropdown
             icon={<MaterialIcons name='add-task' size={25} color={eventsBadgeColor} />}
             navigate={() => {
               updateTutorialRoute('Timetable')
-              updateTutorial(false); 
+              updateTutorial(false);
             }}
-            name="Timetable Usage" 
+            name="Timetable Usage"
             tips={[
               'To add something to your timetable, enter it in the relevant day.',
               'You can also add Events or Tasks from the Creation Menu (big + button).',
               'To mark an item as Done, just press it. Hold down only if you want to delete it.',
               'To add more details or invite friends, swipe it left!',
               'To mark it as "In Progress", swipe it right.',
-              'You can also add a "?" to any title, and it will mark it as Tentative.',
+              'You can also add a "?" to any title, and it will mark it as Tentative.'
             ]}
           />
-          <TipsDropdown 
+          <TipsDropdown
             icon={<Entypo name='list' size={25} color={eventsBadgeColor} />}
             navigate={() => {
               updateTutorialRoute('Notes');
-              updateTutorial(false); 
+              updateTutorial(false);
             }}
-            name="Using Notes" 
+            name="Using Notes"
             tips={[
               'Notes are useful for jotting down ideas and keeping lists of things.',
               'In the Notes page, you can create a Note or a List.',
@@ -77,13 +79,13 @@ export const TutorialOverlay = () => {
               'These can also be created from the Creation Page.'
             ]}
           />
-          <TipsDropdown 
+          <TipsDropdown
             icon={<FontAwesome5 name="user-friends" size={22} color={eventsBadgeColor} />}
             navigate={() => {
               updateTutorialRoute('Friends')
-              updateTutorial(false); 
+              updateTutorial(false);
             }}
-            name="Adding Friends" 
+            name="Adding Friends"
             tips={[
               'Navigate to the Friends page to add your friends on Lyf.',
               'Ask your friends for their usernames and search for them - your username is found at the top of your Profile page.',
@@ -91,13 +93,13 @@ export const TutorialOverlay = () => {
               'Pressing on a user will show their profile, and show you their friends which you can add too!'
             ]}
           />
-          <TipsDropdown 
+          <TipsDropdown
             icon={<FontAwesome5 name="user-alt" size={22} color={eventsBadgeColor} />}
             navigate={() => {
               updateTutorialRoute('Profile')
-              updateTutorial(false); 
+              updateTutorial(false);
             }}
-            name="Your Profile" 
+            name="Your Profile"
             tips={[
               'In your Profile you can configure various preferences:',
               'Display Name - how your name is presented to other users',
@@ -109,7 +111,7 @@ export const TutorialOverlay = () => {
             ]}
           />
 
-          <BouncyPressable 
+          <BouncyPressable
             onPress={() => updateTutorial(false)}
             style={styles.doneButton}
             withShadow
@@ -125,67 +127,57 @@ export const TutorialOverlay = () => {
 };
 
 const styles = StyleSheet.create({
+  doneButton: {
+    backgroundColor: primaryGreen,
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10
+  },
+  doneText: {
+    color: white,
+    fontFamily: 'Lexend',
+    fontSize: 16
+  },
   main: {
-    height: '100%',
     flex: 1,
-    paddingTop: 100,
-    paddingHorizontal: 20,
     flexDirection: 'column',
     gap: 12,
+    height: '100%',
+    paddingHorizontal: 20,
+    paddingTop: 100
   },
-  scroll: { 
-    flex: 1, 
+  scroll: {
     alignSelf: 'center',
+    flex: 1,
+    height: '100%',
+    marginBottom: Platform.OS === 'web' ? 0 : 100,
     maxWidth: 500,
-    width: '100%',
-    height: '100%', 
     overflow: 'visible',
     paddingBottom: Platform.OS === 'web' ? 100 : 0,
-    marginBottom: Platform.OS === 'web' ? 0 : 100,
+    width: '100%'
   },
   title: {
     color: primaryGreen,
     fontFamily: 'Lexend',
     fontSize: 24
   },
-  topText: {
-    color: primaryGreen,
-    fontFamily: 'Lexend',
-    fontSize: 18
-  },
-  textWrapper: {
-    backgroundColor: white,
-    padding: 8,
-    borderRadius: 10
-  },
   titleWrapper: {
-    backgroundColor: 'white',
-    justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
-    flexDirection: 'row',
-    width: 'auto',
-    padding: 8,
-    borderRadius: 10
-  },
-  doneButton: {
-    backgroundColor: primaryGreen,
+    backgroundColor: white,
     borderRadius: 10,
-    padding: 10,
     flexDirection: 'row',
-    justifyContent: 'center'
-  },
-  doneText: {
-    fontFamily: 'Lexend',
-    fontSize: 16,
-    color: white
+    gap: 8,
+    justifyContent: 'center',
+    padding: 8,
+    width: 'auto'
   },
   version: {
-    marginTop: 10,
     alignSelf: 'center',
+    color: black,
     fontFamily: 'Lexend',
-    opacity: 0.3,
     fontSize: 16,
-    color: black
+    marginTop: 10,
+    opacity: 0.3
   }
 });

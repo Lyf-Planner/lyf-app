@@ -1,25 +1,27 @@
-import { View, StyleSheet } from 'react-native';
 import { useMemo } from 'react';
-import {
-  getItemPrimaryColor,
-  getItemSecondaryColor
-} from 'utils/item';
-import { Vertical } from 'components/Vertical';
-import { deepBlue } from 'utils/colours';
+import { View, StyleSheet } from 'react-native';
+
 import Animated, {
   useAnimatedStyle,
   withTiming
 } from 'react-native-reanimated';
+
+import { AnimatedCheck } from '@/components/AnimatedCheck';
+import { CollaborativeIcon } from '@/components/CollaborativeIcon';
+import { ItemTimeFormatter } from '@/components/ItemTimeFormatter';
+import { ItemTitleFormatter } from '@/components/ItemTitleFormatter';
+import { Vertical } from '@/components/Vertical';
 import {
   ItemStyleOptions,
   ListItemAnimatedValues
-} from 'containers/Item';
-import { AnimatedCheck } from 'components/AnimatedCheck';
-import { ItemTitleFormatter } from 'components/ItemTitleFormatter';
-import { CollaborativeIcon } from 'components/CollaborativeIcon';
-import { ItemTimeFormatter } from 'components/ItemTimeFormatter';
-import { ItemType } from 'schema/database/items';
-import { LocalItem } from 'schema/items';
+} from '@/containers/Item';
+import { ItemType } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
+import { deepBlue } from '@/utils/colours';
+import {
+  getItemPrimaryColor,
+  getItemSecondaryColor
+} from '@/utils/item';
 
 type Props = {
   item: LocalItem;
@@ -87,29 +89,29 @@ export const ListItemOverlay = ({
 };
 
 const styles = StyleSheet.create({
-  listItem: {
-    flexDirection: 'row',
-    width: '100%',
-    padding: 10,
-    height: 55,
-    borderWidth: 0.5,
-    gap: 4,
-    alignItems: 'center'
-  },
-  listItemTimeSection: {
-    minWidth: '30%',
-    flexDirection: 'row',
-    height: '100%',
-    alignItems: 'center',
-    marginLeft: 'auto',
-    justifyContent: 'flex-end'
-  },
   diagLines: {
     borderColor: deepBlue,
-    opacity: 0.2,
-    marginLeft: 8,
-    height: '150%',
     borderLeftWidth: 2,
+    height: '150%',
+    marginLeft: 8,
+    opacity: 0.2,
     transform: [{ rotateZ: '-20deg' }]
+  },
+  listItem: {
+    alignItems: 'center',
+    borderWidth: 0.5,
+    flexDirection: 'row',
+    gap: 4,
+    height: 55,
+    padding: 10,
+    width: '100%'
+  },
+  listItemTimeSection: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: '100%',
+    justifyContent: 'flex-end',
+    marginLeft: 'auto',
+    minWidth: '30%'
   }
 });

@@ -7,14 +7,16 @@ import {
   useRef,
   useState
 } from 'react';
-import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { Keyboard, StyleSheet } from 'react-native';
+
+import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+
 import { AuthGateway } from './useAuth';
-import { NotificationsLayer } from './useNotifications';
-import { TimetableProvider } from './useTimetable';
-import { NotesProvider } from './useNotes';
 import { FriendsProvider } from './useFriends';
 import { LocationProvider } from './useLocation';
+import { NotesProvider } from './useNotes';
+import { NotificationsLayer } from './useNotifications';
+import { TimetableProvider } from './useTimetable';
 
 type Props = {
   children: JSX.Element;
@@ -28,7 +30,7 @@ export type CloudHooks = {
 // Wrapper for backend interfacing
 // Notes
 // - This is outside the wrapper UI, so the login interface mounted by useAuth
-//   needs to be quite simple as to not call those components
+//   needs to be quite simple as to not call those @/components
 // - Should in turn consider the auth gateway being seperate to the cloud layer and come last
 
 export const CloudProvider = ({ children }: Props) => {
@@ -58,7 +60,7 @@ export const CloudProvider = ({ children }: Props) => {
   );
 };
 
-const CloudContext = createContext<CloudHooks>(undefined as any);
+const CloudContext = createContext<CloudHooks>(undefined as never);
 
 export const useCloud = () => {
   return useContext(CloudContext); // TODO: Typeguard this

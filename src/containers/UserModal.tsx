@@ -1,16 +1,19 @@
-import { StyleSheet, Text, View, TouchableHighlight, Platform } from 'react-native';
 import { useEffect, useState } from 'react';
-import { Loader } from 'components/Loader';
-import { getUser } from 'rest/user';
-import { FriendAction } from 'components/FriendActions';
-import { useModal } from 'hooks/overlays/useModal';
-import { localisedMoment } from 'utils/dates';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { ID } from 'schema/database/abstract';
-import { PublicUser, UserFriend } from 'schema/user';
-import { eventsBadgeColor, white } from 'utils/colours';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 import { UserFriendsList } from './UserFriendsList';
+
+import { FriendAction } from '@/components/FriendActions';
+import { Loader } from '@/components/Loader';
+import { useModal } from '@/hooks/overlays/useModal';
+import { getUser } from '@/rest/user';
+import { ID } from '@/schema/database/abstract';
+import { PublicUser, UserFriend } from '@/schema/user';
+import { black, blackWithOpacity, eventsBadgeColor, white } from '@/utils/colours';
+import { localisedMoment } from '@/utils/dates';
 
 type Props = {
   user_id: ID
@@ -22,7 +25,9 @@ export const UserModal = ({ user_id }: Props) => {
   const { updateModal } = useModal();
 
   useEffect(() => {
-    !user && getUser(user_id, "users").then((res) => setUser(res));
+    if (!user) {
+      getUser(user_id, 'users').then((res) => setUser(res));
+    }
   }, [user_id]);
 
   let body = (
@@ -34,7 +39,7 @@ export const UserModal = ({ user_id }: Props) => {
   if (user?.relations?.users && friendsListOpen) {
     body = (
       <View style={styles.openUserListContainer}>
-        <UserFriendsList 
+        <UserFriendsList
           open={friendsListOpen}
           setOpen={setFriendsListOpen}
           friends={user.relations.users}
@@ -65,7 +70,7 @@ export const UserModal = ({ user_id }: Props) => {
         </View>
 
         {user.relations?.users && user.relations?.users.length > 0 &&
-          <UserFriendsList 
+          <UserFriendsList
             open={friendsListOpen}
             setOpen={setFriendsListOpen}
             friends={user.relations.users}
@@ -118,85 +123,76 @@ export const UserDetailField = ({ title, value }: DetailsProps) => {
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    width: '95%',
-    maxWidth: 425,
-    backgroundColor: white,
-    paddingVertical: 25,
-    paddingHorizontal: 15,
-
-    borderColor: 'rgba(0,0,0,0.5)',
-    borderWidth: 1,
-    borderRadius: 10,
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 10
-  },
-  closeButton: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    padding: 4,
-    borderRadius: 8
-  },
-  columnContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 14,
-    paddingHorizontal: 10,
-    overflow: 'visible',
-  },
-  userDetails: {
-    flexDirection: 'row',
-    width: '100%',
-    alignItems: 'flex-start',
-    gap: 16,
-    paddingHorizontal: 8,
-  },
-  nameRow: { flexDirection: 'column', alignItems: 'center' },
-  bothNames: { flexDirection: 'column', gap: 2, alignItems: 'flex-start', justifyContent: 'center' },
-  header: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 4,
-    marginBottom: 4
-  },
-
-  openUserListContainer: {
-    paddingVertical: 18,
-    height: 300,
-  },
-
-  actionButton: { 
-    height: 50, 
-    width: '100%',
+  actionButton: {
     borderRadius: 8,
+    height: 50,
+    shadowColor: black,
 
-    shadowColor: 'black',
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.8,
-    shadowRadius: 2
+    shadowRadius: 2,
+    width: '100%'
   },
-
-  mainAliasText: { fontSize: 22, fontFamily: 'Lexend' },
-  subAliasText: { fontSize: 14, color: 'rgba(0,0,0,0.5)' },
-  fieldSectionWrapper: { gap: 4, width: '100%', paddingHorizontal: 8 },
-  fieldWrapper: { flexDirection: 'row', justifyContent: 'flex-start', width: '100%' },
+  bothNames: { alignItems: 'flex-start', flexDirection: 'column', gap: 2, justifyContent: 'center' },
+  closeButton: {
+    borderRadius: 8,
+    padding: 4,
+    position: 'absolute',
+    right: 8,
+    top: 8
+  },
+  columnContainer: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'column',
+    gap: 14,
+    justifyContent: 'center',
+    overflow: 'visible',
+    paddingHorizontal: 10
+  },
   fieldNameText: {
-    opacity: 0.6,
+    fontFamily: 'Lexend',
     fontSize: 16,
-    fontFamily: 'Lexend'
+    opacity: 0.6
   },
-  fieldValueText: { opacity: 0.4, fontSize: 16, marginLeft: 'auto', marginRight: 8, },
+  fieldSectionWrapper: { gap: 4, paddingHorizontal: 8, width: '100%' },
+  fieldValueText: { fontSize: 16, marginLeft: 'auto', marginRight: 8, opacity: 0.4 },
+
+  fieldWrapper: { flexDirection: 'row', justifyContent: 'flex-start', width: '100%' },
 
   loaderContainer: {
+    alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center'
+  },
+  mainAliasText: { fontFamily: 'Lexend', fontSize: 22 },
+  mainContainer: {
+    backgroundColor: white,
+    borderColor: blackWithOpacity(0.5),
+    borderRadius: 10,
+    borderWidth: 1,
+    maxWidth: 425,
+
+    paddingHorizontal: 15,
+    paddingVertical: 25,
+    shadowColor: black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+    width: '95%'
+  },
+  openUserListContainer: {
+    height: 300,
+    paddingVertical: 18
+  },
+  subAliasText: { color: blackWithOpacity(0.5), fontSize: 14 },
+
+  userDetails: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    gap: 16,
+    paddingHorizontal: 8,
+    width: '100%'
   }
 });

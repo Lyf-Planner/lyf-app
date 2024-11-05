@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Loader } from 'components/Loader';
-import { BouncyPressable } from 'components/BouncyPressable';
+
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { Loader } from '@/components/Loader';
 
 type Props = {
   color: string,
-  title: string, 
+  title: string,
   func: () => Promise<unknown> | unknown,
   isAsync: boolean
   textColor?: string,
@@ -55,20 +56,20 @@ export const ActionButton = ({
 
 const styles = StyleSheet.create({
   actionButtonMain: {
-    minHeight: 40,
-    alignSelf: 'center',
-    padding: 4,
-    width: '100%',
-    height: '100%',
-    flexDirection: 'row',
     alignItems: 'center',
+    alignSelf: 'center',
+    borderRadius: 8,
+    flexDirection: 'row',
+    height: '100%',
     justifyContent: 'center',
-    borderRadius: 8
+    minHeight: 40,
+    padding: 4,
+    width: '100%'
   },
-  contentWrapper: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   actionButtonText: {
+    fontFamily: 'Lexend',
     fontSize: 16,
-    fontWeight: '400',
-    fontFamily: 'Lexend'
-  }
+    fontWeight: '400'
+  },
+  contentWrapper: { alignItems: 'center', flexDirection: 'row', gap: 8 }
 });

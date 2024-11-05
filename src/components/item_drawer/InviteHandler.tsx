@@ -1,15 +1,17 @@
-import { View, Text, StyleSheet } from 'react-native';
-import { BouncyPressable } from 'components/BouncyPressable';
 import { useState } from 'react';
-import { useAuth } from 'hooks/cloud/useAuth';
-import { useTimetable } from 'hooks/cloud/useTimetable';
-import { primaryGreen } from '../../utils/colours';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { View, Text, StyleSheet } from 'react-native';
+
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { LocalItem } from 'schema/items';
-import { SocialAction } from 'schema/util/social';
-import { useModal } from 'hooks/overlays/useModal';
-import { Loader } from 'components/Loader';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { Loader } from '@/components/Loader';
+import { useAuth } from '@/hooks/cloud/useAuth';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { useModal } from '@/hooks/overlays/useModal';
+import { LocalItem } from '@/schema/items';
+import { SocialAction } from '@/schema/util/social';
+import { black, primaryGreen, white } from '@/utils/colours';
 
 type Props = {
   item: LocalItem
@@ -87,37 +89,37 @@ const InviteHandleButton = ({ func, text, color, icon }: HandleProps) => {
 };
 
 const styles = StyleSheet.create({
-  main: {
-    flexDirection: 'row',
-    height: 50,
-    width: '100%',
-    gap: 4,
-
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2
-  },
-  pressable: {
-    flex: 1,
-    borderRadius: 10,
-    padding: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  handleContainer: { 
-    flex: 1 
+  buttonText: {
+    color: white,
+    fontFamily: 'Lexend',
+    fontSize: 18
   },
   contentWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 4,
+    justifyContent: 'center'
+  },
+  handleContainer: {
+    flex: 1
+  },
+  main: {
+    flexDirection: 'row',
+    gap: 4,
+    height: 50,
+    shadowColor: black,
+
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    width: '100%'
+  },
+  pressable: {
+    alignItems: 'center',
+    borderRadius: 10,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    gap: 4
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    fontFamily: 'Lexend' 
+    padding: 8
   }
 });

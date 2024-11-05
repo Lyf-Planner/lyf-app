@@ -1,20 +1,22 @@
+import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
+
+import { useSharedValue } from 'react-native-reanimated';
+
+import { AnimatedCheck } from '@/components/AnimatedCheck';
+import { CollaborativeIcon } from '@/components/CollaborativeIcon';
+import { ItemTimeFormatter } from '@/components/ItemTimeFormatter';
+import { ItemTitleFormatter } from '@/components/ItemTitleFormatter';
+import { SortingHandle } from '@/components/SortingHandle';
+import { Vertical } from '@/components/Vertical';
+import { ItemStyleOptions } from '@/containers/Item';
+import { ItemStatus, ItemType } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
+import { deepBlue, primaryGreen } from '@/utils/colours';
 import {
   getItemPrimaryColor,
   getItemSecondaryColor
-} from 'utils/item';
-import { deepBlue, primaryGreen } from 'utils/colours';
-import { useMemo } from 'react';
-import { ItemStyleOptions } from 'containers/Item';
-import { AnimatedCheck } from 'components/AnimatedCheck';
-import { useSharedValue } from 'react-native-reanimated';
-import { ItemTitleFormatter } from 'components/ItemTitleFormatter';
-import { SortingHandle } from 'components/SortingHandle';
-import { CollaborativeIcon } from 'components/CollaborativeIcon';
-import { ItemStatus, ItemType } from 'schema/database/items';
-import { LocalItem } from 'schema/items';
-import { Vertical } from 'components/Vertical';
-import { ItemTimeFormatter } from 'components/ItemTimeFormatter';
+} from '@/utils/item';
 
 type Props = {
   item: LocalItem;
@@ -25,7 +27,7 @@ type Props = {
 export const SortableListItem = ({
   item,
   itemStyleOptions,
-  dragFunc,
+  dragFunc
 }: Props) => {
   const checkScale = useSharedValue(1);
   const checkRotation = useSharedValue('0deg');
@@ -49,7 +51,7 @@ export const SortableListItem = ({
   };
 
   return (
-    <Pressable 
+    <Pressable
       style={[styles.listItem, conditionalStyles.listItem]}
       onPressIn={() => dragFunc()}
       onLongPress={() => dragFunc()}
@@ -82,32 +84,32 @@ export const SortableListItem = ({
 };
 
 const styles = StyleSheet.create({
-  listItem: {
-    flexDirection: 'row',
-    width: '100%',
-    padding: 10,
-    flex: 1,
-    minHeight: 55,
-    height: 55,
-    maxHeight: 55,
-    borderWidth: 1,
-    gap: 4,
-    alignItems: 'center'
-  },
-  listItemTimeSection: {
-    minWidth: '30%',
-    flexDirection: 'row',
-    height: '100%',
-    alignItems: 'center',
-    marginLeft: 'auto',
-    justifyContent: 'flex-end'
-  },
   diagLines: {
     borderColor: deepBlue,
-    opacity: 0.2,
-    marginLeft: 8,
-    height: '150%',
     borderLeftWidth: 2,
+    height: '150%',
+    marginLeft: 8,
+    opacity: 0.2,
     transform: [{ rotateZ: '-20deg' }]
+  },
+  listItem: {
+    alignItems: 'center',
+    borderWidth: 1,
+    flexDirection: 'row',
+    flex: 1,
+    gap: 4,
+    height: 55,
+    maxHeight: 55,
+    minHeight: 55,
+    padding: 10,
+    width: '100%'
+  },
+  listItemTimeSection: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: '100%',
+    justifyContent: 'flex-end',
+    marginLeft: 'auto',
+    minWidth: '30%'
   }
 });

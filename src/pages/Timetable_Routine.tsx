@@ -1,12 +1,14 @@
-import * as Native from 'react-native';
-import { deepBlue, primaryGreen, white } from 'utils/colours';
-import Entypo from 'react-native-vector-icons/Entypo';
-import { DayDisplay } from 'containers/DayDisplay';
-import { WeekDays } from 'schema/util/dates';
-import { useTimetable } from 'hooks/cloud/useTimetable';
+import { View, Text, Pressable, Alert, StyleSheet } from 'react-native';
+
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { PageLoader } from 'components/PageLoader';
-import { PageBackground } from 'containers/PageBackground';
+import Entypo from 'react-native-vector-icons/Entypo';
+
+import { PageLoader } from '@/components/PageLoader';
+import { DayDisplay } from '@/containers/DayDisplay';
+import { PageBackground } from '@/containers/PageBackground';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { WeekDays } from '@/schema/util/dates';
+import { black, deepBlue, primaryGreen, white } from '@/utils/colours';
 
 export const Routine = () => {
   const { loading, items } = useTimetable();
@@ -14,23 +16,23 @@ export const Routine = () => {
   return (
     <PageBackground sunRight locations={[0,0.82,1]} noPadding>
       <KeyboardAwareScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <Native.View style={styles.scrollContainer}>
-          <Native.View style={styles.header}>
-            <Native.Text style={styles.weekDateText}>Every Week</Native.Text>
-              <Native.Pressable
-                onPress={() => {
-                  Native.Alert.alert(
-                    'Your Routine',
-                    'Everything here will be copied into your timetable each week :)'
-                  );
-                }}
-              >
-                <Entypo name="info-with-circle" color={white} size={18} />
-              </Native.Pressable>
-          </Native.View>
+        <View style={styles.scrollContainer}>
+          <View style={styles.header}>
+            <Text style={styles.weekDateText}>Every Week</Text>
+            <Pressable
+              onPress={() => {
+                Alert.alert(
+                  'Your Routine',
+                  'Everything here will be copied into your timetable each week :)'
+                );
+              }}
+            >
+              <Entypo name="info-with-circle" color={white} size={18} />
+            </Pressable>
+          </View>
 
           {!loading &&
-            <Native.View style={styles.weekDaysWrapperView}>
+            <View style={styles.weekDaysWrapperView}>
               {WeekDays.map((x) => (
                 <DayDisplay
                   key={x}
@@ -40,22 +42,32 @@ export const Routine = () => {
                   shadowOffset={{ width: -3, height: 3 }}
                 />
               ))}
-            </Native.View>
+            </View>
           }
 
           {loading && <PageLoader />}
-          
-        </Native.View>
+
+        </View>
       </KeyboardAwareScrollView>
     </PageBackground>
   )
 }
 
-const styles = Native.StyleSheet.create({
-  main: {
-    marginBottom: 125,
-    marginTop: 15,
-    paddingHorizontal: 14,
+const styles = StyleSheet.create({
+  header: {
+    alignItems: 'center',
+    backgroundColor: primaryGreen,
+    borderRadius: 10,
+    borderWidth: 1,
+    flexDirection: 'row',
+    gap: 8,
+    justifyContent: 'center',
+    padding: 12,
+
+    shadowColor: black,
+    shadowOffset: { width: -2, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 3
   },
 
   scroll: {
@@ -65,50 +77,21 @@ const styles = Native.StyleSheet.create({
 
   scrollContainer: {
     alignSelf: 'center',
-    flexDirection: "column",
-    maxWidth: 450,
-    width: '100%',
+    flexDirection: 'column',
     marginBottom: 200,
+    maxWidth: 450,
     padding: 20,
-  },
-
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    padding: 12,
-    borderWidth: 1,
-    borderRadius: 10,
-    backgroundColor: primaryGreen,
-
-    shadowOffset: { width: -2, height: 2 },
-    shadowColor: 'black',
-    shadowOpacity: 1,
-    shadowRadius: 3
+    width: '100%'
   },
 
   weekDateText: {
-    color: 'white',
-    fontSize: 20,
-    fontFamily: 'Lexend',
-  },
-
-  weekDaysWrapperView: {
-    flexDirection: 'column',
-    gap: 14,
-    marginTop: 16,
-  },
-
-  loadingContainer: {
-    marginTop: 20,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
-  },
-  loadingText: {
+    color: white,
     fontFamily: 'Lexend',
     fontSize: 20
   },
+  weekDaysWrapperView: {
+    flexDirection: 'column',
+    gap: 14,
+    marginTop: 16
+  }
 })

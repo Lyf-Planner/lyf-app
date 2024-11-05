@@ -1,12 +1,15 @@
-import { BouncyPressable } from "components/BouncyPressable"
-import { View, Text, ScrollView, StyleSheet, DimensionValue } from "react-native"
-import Entypo from "react-native-vector-icons/Entypo"
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
-import { UserList, UserListContext } from "./UserList"
-import { UserFriend } from "schema/user"
-import { eventsBadgeColor } from "utils/colours"
-import { useEffect } from "react"
+import { useEffect } from 'react'
+import { View, Text, ScrollView, StyleSheet, DimensionValue } from 'react-native'
+
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Entypo from 'react-native-vector-icons/Entypo'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+
+import { UserList, UserListContext } from './UserList'
+
+import { BouncyPressable } from '@/components/BouncyPressable'
+import { UserFriend } from '@/schema/user'
+import { black, eventsBadgeColor } from '@/utils/colours'
 
 type Props = {
   friends: UserFriend[],
@@ -36,7 +39,7 @@ export const UserFriendsList = ({ friends, open, setOpen, maxHeight }: Props) =>
 
   return (
     <View style={[styles.userFriends, conditionalStyles.userFriends]}>
-      <BouncyPressable 
+      <BouncyPressable
         style={styles.userFriendsPressable}
         onPress={() => setOpen(!open)}
       >
@@ -56,9 +59,9 @@ export const UserFriendsList = ({ friends, open, setOpen, maxHeight }: Props) =>
       {open && (
         <ScrollView style={styles.userListContainer} showsVerticalScrollIndicator={false}>
           <View style={styles.friendsListPadding}>
-            <UserList 
+            <UserList
               users={friends}
-              emptyText='' 
+              emptyText=''
               context={UserListContext.Friends}
             />
           </View>
@@ -69,38 +72,38 @@ export const UserFriendsList = ({ friends, open, setOpen, maxHeight }: Props) =>
 }
 
 const styles = StyleSheet.create({
-  userFriends: {
-    width: '100%',
-    minHeight: 50, 
-    backgroundColor: eventsBadgeColor,
-    borderRadius: 10,
-
-    shadowColor: 'black',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2
-  },
-  userFriendsPressable: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    height: 50,
-    paddingHorizontal: 12,
-  },
-  pressableLeft: {
-    marginLeft: 'auto',
-    flexDirection: 'row',
-    alignItems: 'center',
+  friendsListPadding: {
+    paddingBottom: 10
   },
   friendsText: {
     fontFamily: 'Lexend',
     fontSize: 16
   },
-  userListContainer: {
-    paddingVertical: 2,
-    paddingHorizontal: 6,
+  pressableLeft: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginLeft: 'auto'
   },
-  friendsListPadding: {
-    paddingBottom: 10
+  userFriends: {
+    backgroundColor: eventsBadgeColor,
+    borderRadius: 10,
+    minHeight: 50,
+    shadowColor: black,
+
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    width: '100%'
+  },
+  userFriendsPressable: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    height: 50,
+    paddingHorizontal: 12
+  },
+  userListContainer: {
+    paddingHorizontal: 6,
+    paddingVertical: 2
   }
 })

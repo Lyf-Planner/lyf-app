@@ -1,5 +1,6 @@
-import Constants from 'expo-constants';
 import { Platform } from 'react-native';
+
+import Constants from 'expo-constants';
 const { manifest, manifest2 } = Constants;
 
 // With expo constants, once Constants.manifest is null, Constants.manifest2 contains the env vars
@@ -7,8 +8,7 @@ const { manifest, manifest2 } = Constants;
 // This unifies them into one function call so we don't have to worry about distinguishing elsewhere
 
 function envVar(varName: string, subvar_name?: string) {
-  // Slower but more robust method of finding env var
-  // @ts-ignore
+  // @ts-expect-error our types expect manifest to not exist, though it often does
   for (const extra of [manifest?.extra, manifest2?.extra]) {
     let result;
     if (subvar_name) {
@@ -48,7 +48,7 @@ function parseBackendUrl() {
   // The IP address of the machine hosting the expo app can be found in manifest2.launchAsset or manifest.debuggerHost
   // Which one is present depends on which of manifest or manifest2 is null - which varies across environments
   const debuggerUrl = manifest
-    // @ts-ignore
+    // @ts-expect-error types expect manifest to not exist
     ? manifest.debuggerHost
     : manifest2?.launchAsset.url;
 
@@ -61,11 +61,11 @@ function parseBackendUrl() {
 
 const getVersion = () => {
   // Extract the version field
-  const appVersion = 
-    // @ts-ignore
+  const appVersion =
+    // @ts-expect-error types expect manifest to not exist
     Constants.manifest?.version ||
-    Constants.manifest2?.extra?.expoClient?.version || 
-    '0.0.0';  
+    Constants.manifest2?.extra?.expoClient?.version ||
+    '0.0.0';
 
   console.log('App Version:', appVersion);
   return appVersion;
@@ -75,7 +75,7 @@ const env = {
   APP_ENV: envVar('appEnv'),
   BACKEND_URL: parseBackendUrl(),
   PROJECT_ID: envVar('eas', 'projectId'),
-  VERSION: getVersion(),
+  VERSION: getVersion()
 }
 
 export default env;

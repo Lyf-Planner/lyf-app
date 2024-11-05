@@ -1,16 +1,18 @@
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { UserList, UserListContext } from 'containers/UserList';
 import { useEffect, useMemo, useState } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { LocalItem } from 'schema/items';
-import { useTimetable } from 'hooks/cloud/useTimetable';
-import { Loader } from 'components/Loader';
+
+import { Loader } from '@/components/Loader';
+import { UserList, UserListContext } from '@/containers/UserList';
+import { useTimetable } from '@/hooks/cloud/useTimetable';
+import { LocalItem } from '@/schema/items';
 
 type Props = {
   item: LocalItem,
   loading: boolean,
-  closeDrawer: () => void 
+  closeDrawer: () => void
 }
 
 export const ItemUsers = ({ item, loading, closeDrawer }: Props) => {
@@ -34,16 +36,16 @@ export const ItemUsers = ({ item, loading, closeDrawer }: Props) => {
           )}
           <Text style={styles.eventText}>Users</Text>
           {!loading &&
-            <Text style={[styles.subtitle, { fontSize: 16 }]}>
+            <Text style={styles.subtitle}>
               ( {users.length} )
             </Text>
           }
 
           <FontAwesome5Icon
             name={open ? 'chevron-down' : 'chevron-right'}
-            style={{ marginLeft: 'auto' }}
+            style={styles.icon}
             size={16}
-          />          
+          />
         </View>
       </TouchableOpacity>
 
@@ -64,30 +66,31 @@ export const ItemUsers = ({ item, loading, closeDrawer }: Props) => {
 };
 
 const styles = StyleSheet.create({
+  eventText: { fontSize: 20, fontWeight: '500' },
+  header: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    width: '100%'
+  },
+  icon: { marginLeft: 'auto' },
   mainContainer: {
     flexDirection: 'column',
-    width: '100%',
-    overflow: 'visible'
+    overflow: 'visible',
+    width: '100%'
   },
-  header: {
-    flexDirection: 'row',
-    width: '100%',
-    gap: 8,
-    alignItems: 'center'
-  },
-  pressable: { paddingRight: 10, paddingVertical: 6, borderRadius: 10 },
-  eventText: { fontSize: 20, fontWeight: '500' },
+  pressable: { borderRadius: 10, paddingRight: 10, paddingVertical: 6 },
   subtitle: {
-    textAlign: 'center',
-    opacity: 0.4,
+    fontSize: 16,
     fontWeight: '600',
-    fontSize: 15
+    opacity: 0.4,
+    textAlign: 'center'
   },
   userList: {
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-    overflow: 'hidden',
     maxHeight: 300,
-    width: '100%',
+    overflow: 'hidden',
+    paddingHorizontal: 4,
+    paddingVertical: 8,
+    width: '100%'
   }
 });
