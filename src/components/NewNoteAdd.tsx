@@ -14,7 +14,7 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NoteType } from 'schema/database/notes';
 import { LyfElement } from 'utils/abstractTypes';
-import { deepBlue, inProgressColor } from 'utils/colours';
+import { black, blackWithOpacity, deepBlue, inProgressColor } from 'utils/colours';
 
 type Props = {
   newNote: (type: NoteType) => void;
@@ -31,7 +31,7 @@ export const NewNoteMenu = ({ newNote }: Props) => {
     return false;
   };
 
-  const menu = useRef<any>();
+  const menu = useRef<Menu>(null);
 
   const optionsContainerStyles = {
     optionsContainer: styles.optionsContainer
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
 
   optionsContainer: {
-    borderColor: 'rgba(0,0,0,0.5)',
+    borderColor: blackWithOpacity(0.5),
     borderRadius: 10,
     borderWidth: 0.5,
     flexDirection: 'column',

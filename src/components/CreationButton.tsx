@@ -2,7 +2,7 @@ import { StyleSheet, Text, Platform } from 'react-native'
 
 import { BouncyPressable } from 'components/BouncyPressable'
 import { Loader } from 'components/Loader'
-import { deepBlueOpacity, eventsBadgeColor, white } from 'utils/colours'
+import { black, deepBlueOpacity, eventsBadgeColor, white } from 'utils/colours'
 
 interface ShadowOffset {
   height: number,

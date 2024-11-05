@@ -8,6 +8,8 @@
 
 ## Installation
 
+Make sure you're on Node 18+
+
 To run the app locally, first you need to install Expo Go from the App Store (or Android Store).
 Then git clone, and run
 

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Switch } from 'react-native';
 import { useAuth } from 'hooks/cloud/useAuth';
 import { useNotifications } from 'hooks/cloud/useNotifications';
 import { LyfElement } from 'utils/abstractTypes';
-import { primaryGreen } from 'utils/colours';
+import { primaryGreen, white } from 'utils/colours';
 
 import {
   DailyNotificationDesc,
@@ -68,6 +68,10 @@ type SettingProps = {
 }
 
 const Setting = ({ updateFunc, enabled, name, desc }: SettingProps) => {
+  const conditionalStyles = {
+    descWrapper: { opacity: enabled ? 1 : 0.5 }
+  }
+
   return (
     <View style={styles.settingMain}>
       <View style={styles.settingContainer}>
@@ -78,7 +82,7 @@ const Setting = ({ updateFunc, enabled, name, desc }: SettingProps) => {
           value={enabled}
         />
       </View>
-      <View style={{ opacity: enabled ? 1 : 0.5 }}>
+      <View style={conditionalStyles.descWrapper}>
         {desc}
       </View>
     </View>
@@ -86,12 +90,6 @@ const Setting = ({ updateFunc, enabled, name, desc }: SettingProps) => {
 };
 
 const styles = StyleSheet.create({
-  firstSeperator: {
-    borderWidth: 2,
-    marginBottom: 4,
-    marginTop: 10,
-    opacity: 0.25
-  },
   mainContainer: {
     paddingHorizontal: 6,
     paddingVertical: 14
@@ -101,7 +99,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row'
   },
-  settingDescText: { fontSize: 16, fontWeight: '300', lineHeight: 30 },
   settingMain: {
     flexDirection: 'column',
     gap: 4
@@ -112,7 +109,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend',
     fontSize: 20
   },
-  settingTitle: { fontSize: 18, fontWeight: '600', marginLeft: 8 },
   settingToggle: {
     marginLeft: 'auto'
   },

@@ -7,6 +7,7 @@ export const eventsBadgeColor = 'rgb(191 219 254)';
 export const eventsBadgeColorOpacity = (a: number) => `rgba(191, 219, 254, ${a})`;
 export const deepBlue = 'rgb(30 41 59)';
 export const deepBlueOpacity = (a: number) => `rgba(30, 41, 59, ${a})`;
+export const blue = 'blue';
 
 export const tentativeColor = 'rgb(254 240 138)';
 export const upcomingColor = 'rgb(235,235,235)';
@@ -16,6 +17,8 @@ export const doneColor = primaryGreen;
 export const cancelledColor = primaryGreen;
 
 export const sun = '#fdfbd3';
+
+export const red = 'red';
 
 export const whiteWithOpacity = (a: number) => `rgba(255,255,255,${a})`
 export const white = 'rgb(255,255,255)'
@@ -27,6 +30,8 @@ export const black = 'rgb(0,0,0)';
 export const blackWithOpacity = (a: number) => `rgba(0,0,0,${a})`
 
 export const loginFieldBackground = 'rgb(203 213 225)';
+export const listNewItemBackground = 'rgb(17 24 39)';
+export const listNewItemText = 'rgb(203 213 225)';
 
 export const darkCyan = '#158073';
 

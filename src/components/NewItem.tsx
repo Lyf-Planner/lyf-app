@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { Platform, StyleSheet, TextInput } from 'react-native';
 
 import { ItemType } from 'schema/database/items';
-import { inProgressColor } from 'utils/colours';
+import { inProgressColor, listNewItemBackground, listNewItemText, white } from 'utils/colours';
 
 export type AddItemByTitle = (title: string) => void;
 
@@ -20,7 +20,9 @@ export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, whiteShadow = t
   const placeholderText = `+ Add ${type}`;
 
   const onSubmit = () => {
-    newItem && addItemByTitle(newItem);
+    if (newItem) {
+      addItemByTitle(newItem);
+    }
     inputRef.current?.clear();
     inputRef.current?.focus();
   };
@@ -54,9 +56,9 @@ export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, whiteShadow = t
 
 const styles = StyleSheet.create({
   listNewItem: {
-    backgroundColor: 'rgb(17 24 39)',
+    backgroundColor: listNewItemBackground,
     borderRadius: 10,
-    color: 'rgb(203 213 225)',
+    color: listNewItemText,
     flex: 1,
     fontFamily: 'Lexend',
     fontSize: 16,

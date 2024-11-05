@@ -24,7 +24,7 @@ import { getItem } from 'rest/items';
 import { ID } from 'schema/database/abstract';
 import { ItemDbObject } from 'schema/database/items';
 import { LocalItem } from 'schema/items';
-import { deepBlue } from 'utils/colours';
+import { black, blackWithOpacity, deepBlue, white } from 'utils/colours';
 import { isTemplate } from 'utils/item';
 
 type Props = {
@@ -112,7 +112,7 @@ export const NoteItemDrawer = ({
           )}
           {!noDetails && (
             <Horizontal
-              style={{ borderColor: 'rgba(0,0,0,0.1)', marginVertical: 4 }}
+              style={styles.detailsSeperator}
             />
           )}
           <AddDetails
@@ -147,32 +147,14 @@ export const NoteItemDrawer = ({
 };
 
 const styles = StyleSheet.create({
-  bottomButton: {
-    alignItems: 'center',
-    borderRadius: 10,
-    borderWidth: 0.5,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 12
-  },
-  bottomButtonText: {
-    fontSize: 16,
-    textAlign: 'center'
-  },
-  bottomButtonsContainer: {
-    flexDirection: 'row',
-    gap: 5,
-    shadowColor: black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 3
-  },
   detailsContainer: {
     flexDirection: 'column',
     gap: 8
   },
-  doneText: { fontWeight: '600' },
+  detailsSeperator: {
+    borderColor: blackWithOpacity(0.1),
+    marginVertical: 4
+  },
   firstSeperator: {
     borderWidth: 2,
     marginBottom: 2,
@@ -211,7 +193,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     backgroundColor: white,
-    borderColor: 'rgba(0,0,0,0.5)',
+    borderColor: blackWithOpacity(0.5),
     borderRadius: Platform.OS === 'web' ? 20 : 0,
     gap: 10,
     maxWidth: 500,
@@ -220,8 +202,6 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'web' ? 20 : 0,
     width: Platform.OS === 'web' ? 500 : 'auto'
   },
-  removeText: { color: white },
-  secondSeperator: { borderWidth: 2, marginTop: 16, opacity: 0.2 },
   subtitle: {
     fontFamily: 'Lexend',
     fontSize: 16,

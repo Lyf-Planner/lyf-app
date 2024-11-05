@@ -4,6 +4,7 @@ import { Platform, StyleSheet, Text, TouchableHighlight, View } from 'react-nati
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { DateString } from 'schema/util/dates';
+import { blackWithOpacity } from 'utils/colours';
 import { formatDateData } from 'utils/dates';
 
 type Props = {
@@ -37,7 +38,10 @@ export const NullableDatePicker = ({ updateDate, date }: Props) => {
 export const DatePicker = ({ date, updateDate }: Props) => {
   const updateDateFromPicker = (time: DateTimePickerEvent) => {
     if (Platform.OS === 'web') {
-      // @ts-ignore the web component has a different structure - trust me bro
+      // the web html component will have this `target` property
+      // react native doesn't type that for generalisation purposes
+      //
+      // @ts-expect-error false type error
       updateDate(time.nativeEvent.target.value);
       return;
     }
@@ -81,7 +85,7 @@ export const DatePicker = ({ date, updateDate }: Props) => {
 
 const styles = StyleSheet.create({
   addDateContainer: {
-    backgroundColor: 'rgba(0,0,0,0.08)',
+    backgroundColor: blackWithOpacity(0.1),
     borderRadius: 8,
     left: 10,
     padding: 8.75,

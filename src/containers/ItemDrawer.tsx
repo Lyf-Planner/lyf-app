@@ -16,12 +16,12 @@ import { ItemTitle } from 'components/item_drawer/ItemTitle';
 import { ItemTypeBadge } from 'components/item_drawer/ItemType';
 import { ItemUsers } from 'components/item_drawer/ItemUsers';
 import { OptionsMenu } from 'components/item_drawer/OptionsMenu';
-import { UpdateItem, useTimetable } from 'hooks/cloud/useTimetable';
+import { useTimetable } from 'hooks/cloud/useTimetable';
 import { useDrawer } from 'hooks/overlays/useDrawer';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { getItem } from 'rest/items';
 import { ID } from 'schema/database/abstract';
-import { deepBlue } from 'utils/colours';
+import { black, blackWithOpacity, deepBlue, white } from 'utils/colours';
 import { isTemplate, ItemDrawerProps } from 'utils/item';
 
 type Props = {
@@ -148,7 +148,7 @@ export const ItemDrawer = ({
           )}
           {!noDetails && (
             <Horizontal
-              style={{ borderColor: 'rgba(0,0,0,0.1)', marginVertical: 4 }}
+              style={styles.detailsSeperator}
             />
           )}
           <AddDetails
@@ -183,32 +183,14 @@ export const ItemDrawer = ({
 };
 
 const styles = StyleSheet.create({
-  bottomButton: {
-    alignItems: 'center',
-    borderRadius: 10,
-    borderWidth: 0.5,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 12
-  },
-  bottomButtonText: {
-    fontSize: 16,
-    textAlign: 'center'
-  },
-  bottomButtonsContainer: {
-    flexDirection: 'row',
-    gap: 5,
-    shadowColor: black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 3
-  },
   detailsContainer: {
     flexDirection: 'column',
     gap: 8
   },
-  doneText: { fontWeight: '600' },
+  detailsSeperator: {
+    borderColor: blackWithOpacity(0.1),
+    marginVertical: 4
+  },
   firstSeperator: {
     borderWidth: 2,
     marginBottom: 2,
@@ -247,7 +229,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     backgroundColor: white,
-    borderColor: 'rgba(0,0,0,0.5)',
+    borderColor: blackWithOpacity(0.5),
     borderRadius: Platform.OS === 'web' ? 20 : 0,
     gap: 10,
     maxWidth: 500,
@@ -256,8 +238,6 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'web' ? 20 : 0,
     width: Platform.OS === 'web' ? 500 : 'auto'
   },
-  removeText: { color: white },
-  secondSeperator: { borderWidth: 2, marginTop: 16, opacity: 0.2 },
   subtitle: {
     fontFamily: 'Lexend',
     fontSize: 16,

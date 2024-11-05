@@ -10,6 +10,7 @@ import {
 import { DetailsField } from 'components/profile/DetailsField';
 import { NameField } from 'components/profile/NameField';
 import { useAuth } from 'hooks/cloud/useAuth';
+import { white } from 'utils/colours';
 
 export const AccountInfo = () => {
   const { user } = useAuth();
@@ -49,7 +50,6 @@ export const fieldPrompt = (func: (data: string) => void, name: string) => {
 
 const styles = StyleSheet.create({
   detailsColumn: { flexDirection: 'column', gap: 8 },
-  detailsFieldNameText: { color: white, fontFamily: 'InterSemi', fontSize: 16, width: 120 },
   detailsFieldValueText: {
     alignItems: 'center',
     color: white,

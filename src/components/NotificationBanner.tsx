@@ -15,7 +15,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NotificationRelatedData, NotificationType } from 'schema/database/notifications';
 import { Notification } from 'schema/notifications'
-import { deepBlueOpacity, eventsBadgeColor, eventsBadgeColorOpacity } from 'utils/colours';
+import { black, deepBlueOpacity, eventsBadgeColor, eventsBadgeColorOpacity } from 'utils/colours';
 
 const notificationTypeIcon: Record<NotificationType, JSX.Element> = Object.freeze({
   ItemReminder: <Feather name="clock" size={24} />,
@@ -59,8 +59,6 @@ export const NotificationBanner = ({ notification }: Props) => {
       case NotificationRelatedData.Note:
         navigation.navigate('Notes', { id: notification.related_id });
         break;
-      default:
-        null;
     }
   }
 

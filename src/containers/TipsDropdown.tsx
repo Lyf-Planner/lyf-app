@@ -9,7 +9,7 @@ import Animated, {
   FadeIn
 } from 'react-native-reanimated';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from 'utils/colours';
+import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from 'utils/colours';
 
 type Props = {
   tips: string[],
@@ -99,14 +99,9 @@ const styles = StyleSheet.create({
   animatedChevron: {
     marginRight: 5
   },
-  bullet: {
-    color: white,
-    fontSize: 20,
-    width: '5%'
-  },
   dropdownContainer: {
     backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.8),
-    borderColor: 'rgba(0, 0, 0, 0.3)',
+    borderColor: blackWithOpacity(0.3),
     borderRadius: 10,
     borderWidth: 2,
     flexDirection: 'column',

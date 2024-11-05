@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Pressable, TextInput, View, StyleSheet } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { appleGray, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
+import { appleGray, black, primaryGreen, white, whiteWithOpacity } from 'utils/colours';
 
 type Props = {
   search: string,
@@ -10,13 +10,17 @@ type Props = {
 }
 
 export const SimpleSearch = ({ search, setSearch }: Props) => {
-  const textRef = useRef<any>();
+  const textRef = useRef<TextInput>(null);
 
   return (
     <View style={styles.main}>
       <Pressable
         style={styles.searchBarPressable}
-        onPress={() => textRef.current.focus()}
+        onPress={() => {
+          if (textRef.current) {
+            textRef.current.focus()
+          }
+        }}
       >
         <FontAwesome name="search" color="white" size={20} />
         <TextInput
@@ -38,7 +42,6 @@ export const SimpleSearch = ({ search, setSearch }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  loaderWrapper: { marginLeft: 'auto', marginRight: 8 },
   main: { flexDirection: 'row', width: '100%' },
   searchBarPressable: {
     alignItems: 'center',

@@ -25,7 +25,7 @@ export const ModalProvider = ({ children }: Props) => {
   );
 };
 
-const ModalContext = createContext<ModalHooks>(undefined as any);
+const ModalContext = createContext<ModalHooks>(undefined as never);
 
 export const useModal = () => {
   return useContext(ModalContext);

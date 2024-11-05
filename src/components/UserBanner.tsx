@@ -36,6 +36,10 @@ export const UserBanner = ({
   [user]
   );
 
+  const isItemUser = (user: PublicUser | ItemRelatedUser): user is ItemRelatedUser => {
+    return 'permission' in user && user.permission !== undefined;
+  }
+
   return (
     <BouncyPressable
       style={styles.main}
@@ -62,13 +66,15 @@ export const UserBanner = ({
       </View>
 
       <View style={styles.actionWrapper}>
-        {context === UserListContext.Friends ? (
+        {context === UserListContext.Friends && (
           <FriendAction
             friend={user as UserFriend}
             callback={callback}
             height={45}
           />
-        ) : (
+        )}
+
+        {context === UserListContext.Item && isItemUser(user) && (
           <ItemSocialAction
             item={item!}
             item_user={user}
@@ -95,7 +101,7 @@ const styles = StyleSheet.create({
   main: {
     alignItems: 'center',
     alignSelf: 'stretch',
-    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.7),
+    backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.75),
     borderColor: blackWithOpacity(0.3),
     borderRadius: 10,
     borderWidth: 0.5,

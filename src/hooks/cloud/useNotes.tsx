@@ -163,7 +163,7 @@ export const NotesProvider = ({ children }: Props) => {
   );
 };
 
-const NotesContext = createContext<NoteHooks>(undefined as any);
+const NotesContext = createContext<NoteHooks>(undefined as never);
 
 export const useNotes = () => {
   return useContext(NotesContext);

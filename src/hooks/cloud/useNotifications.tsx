@@ -126,13 +126,13 @@ async function registerForPushNotificationsAsync() {
   }
 
   const token = await getExpoPushTokenAsync({
-    projectId: env.PROJECT_ID as any
+    projectId: env.PROJECT_ID
   });
 
   return token.data;
 }
 
-const NotificationContext = createContext<NotificationHooks>(undefined as any);
+const NotificationContext = createContext<NotificationHooks>(undefined as never);
 
 export const useNotifications = () => {
   return useContext(NotificationContext);

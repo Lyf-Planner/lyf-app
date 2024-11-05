@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { AppState } from 'react-native';
 
 import * as Haptics from 'expo-haptics';
 import { getCalendars } from 'expo-localization';
@@ -17,18 +18,16 @@ import { ID } from 'schema/database/abstract';
 import { ItemType, ItemStatus } from 'schema/database/items';
 import { Permission } from 'schema/database/items_on_users';
 import { LocalItem } from 'schema/items';
+import { UserRelatedItem } from 'schema/user';
+import { DateString, WeekDays } from 'schema/util/dates';
+import { SocialAction } from 'schema/util/social';
 import { addDayToStringDate, formatDateData, getStartOfCurrentWeek, parseDateString } from 'utils/dates';
 import { v4 as uuid } from 'uuid';
 import 'react-native-get-random-values';
-import { UserRelatedItem } from 'schema/user';
-import { SocialAction } from 'schema/util/social';
-import { DateString, WeekDays } from 'schema/util/dates';
 
 import { useCloud } from './cloudProvider';
 import { useLocation } from './useLocation';
 import { useNotes } from './useNotes';
-
-import { AppState } from 'react-native';
 
 export type TimetableHooks = {
   startDate: DateString,
@@ -379,7 +378,7 @@ export const TimetableProvider = ({ children }: Props) => {
   );
 };
 
-const TimetableContext = createContext<TimetableHooks>(undefined as any); // TODO unfuck this
+const TimetableContext = createContext<TimetableHooks>(undefined as never);
 
 export const useTimetable = () => {
   return useContext(TimetableContext);

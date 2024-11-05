@@ -47,7 +47,7 @@ export const DrawerProvider = ({ children }: Props) => {
   );
 };
 
-const DrawerContext = createContext<DrawerHooks>(undefined as any);
+const DrawerContext = createContext<DrawerHooks>(undefined as never);
 
 export const useDrawer = () => {
   return useContext(DrawerContext); // TODO: Typeguard this

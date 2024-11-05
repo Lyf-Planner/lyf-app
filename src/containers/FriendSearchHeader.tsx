@@ -6,7 +6,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { getUser } from 'rest/user';
 import { PublicUser } from 'schema/user';
-import { primaryGreen, white } from 'utils/colours';
+import { black, primaryGreen, white } from 'utils/colours';
 
 type Props = {
   searched: boolean,
@@ -22,7 +22,7 @@ export const SearchHeader = ({
   const [searching, setSearching] = useState(false);
   const [username, setUsername] = useState('');
   const [focussed, setFocussed] = useState(false);
-  const textRef = useRef<any>();
+  const textRef = useRef<TextInput>(null);
 
   const findUser = async () => {
     setSearching(true);
@@ -36,7 +36,9 @@ export const SearchHeader = ({
 
   const clearSearch = () => {
     setUsername('');
-    textRef.current.focus()
+    if (textRef.current) {
+      textRef.current.focus()
+    }
   }
 
   useEffect(() => {
@@ -55,7 +57,11 @@ export const SearchHeader = ({
   return (
     <Pressable
       style={[styles.searchBarPressable, conditionalStyles.searchBarPressable]}
-      onPress={() => textRef.current.focus()}
+      onPress={() => {
+        if (textRef.current) {
+          textRef.current.focus()
+        }
+      }}
     >
       {searching
         ? <Loader size={23} color="white" />

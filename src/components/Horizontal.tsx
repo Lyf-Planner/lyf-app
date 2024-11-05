@@ -1,14 +1,18 @@
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 export const Horizontal = ({ style = {} }) => {
   return (
     <View
       style={[
-        {
-          borderBottomWidth: 0.5
-        },
+        styles.main,
         style
       ]}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  main: {
+    borderBottomWidth: 0.5
+  }
+})

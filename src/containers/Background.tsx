@@ -56,7 +56,7 @@ export const Background = ({ children }: Props) => {
 
   return (
     <TouchableWithoutFeedback
-      style={{ flex: 1 }}
+      style={styles.main}
       onPress={() => Keyboard.dismiss()}
     >
       {background}
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     width: '80%',
     zIndex: 5
   },
+  main: { flex: 1 },
   page: {
     backgroundColor: primaryGreen,
     flex: 1,

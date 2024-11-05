@@ -35,14 +35,14 @@ export const ItemUsers = ({ item, loading, closeDrawer }: Props) => {
           )}
           <Text style={styles.eventText}>Users</Text>
           {!loading &&
-            <Text style={[styles.subtitle, { fontSize: 16 }]}>
+            <Text style={styles.subtitle}>
               ( {users.length} )
             </Text>
           }
 
           <FontAwesome5Icon
             name={open ? 'chevron-down' : 'chevron-right'}
-            style={{ marginLeft: 'auto' }}
+            style={styles.icon}
             size={16}
           />
         </View>
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     gap: 8,
     width: '100%'
   },
+  icon: { marginLeft: 'auto' },
   mainContainer: {
     flexDirection: 'column',
     overflow: 'visible',
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
   },
   pressable: { borderRadius: 10, paddingRight: 10, paddingVertical: 6 },
   subtitle: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '600',
     opacity: 0.4,
     textAlign: 'center'

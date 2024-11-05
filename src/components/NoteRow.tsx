@@ -11,12 +11,11 @@ import {
 } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
-  useSharedValue,
-  withTiming
+  useSharedValue
 } from 'react-native-reanimated';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { UserRelatedNote } from 'schema/user';
-import { deepBlueOpacity, eventsBadgeColor, white } from 'utils/colours';
+import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, white } from 'utils/colours';
 
 type Props = {
   note: UserRelatedNote,
@@ -30,7 +29,16 @@ export const NoteRow = ({
   const { removeNote } = useNotes();
   const offsetX = useSharedValue(0);
 
-  const wrapperRef = useRef<any>(null);
+  // Web Right Click detection
+  //
+  //   React Native won't recognise that we're performing this on a div,
+  //   it doesn't actually support div or any html as a built in type.
+  //   However on web, that's precisely what it transpiles to,
+  //   and is precisely what we want to manipulate on web only.
+  //   This is typed as div (despite the error) so the reader knows exactly what gets manipulated in HTML.
+  //
+  // @ts-expect-error react native does not directly support html types
+  const wrapperRef = useRef<div>(null);
 
   useEffect(() => {
     const handleContextMenu = (event: SyntheticEvent) => {
@@ -105,8 +113,8 @@ const styles = StyleSheet.create({
   },
   bannerView: {
     alignItems: 'center',
-    backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.7),
-    borderColor: 'rgba(0,0,0,0.3)',
+    backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.75),
+    borderColor: blackWithOpacity(0.3),
     borderRadius: 10,
     borderTopWidth: 1,
     flexDirection: 'row',
@@ -119,7 +127,6 @@ const styles = StyleSheet.create({
     shadowRadius: 1,
     width: '100%'
   },
-  editIcon: { marginLeft: 'auto', marginRight: 17.5 },
   titleText: {
     color: eventsBadgeColor,
     fontFamily: 'Lexend',

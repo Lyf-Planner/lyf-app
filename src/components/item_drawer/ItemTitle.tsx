@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 
+import { white } from 'utils/colours';
 import { ItemDrawerProps } from 'utils/item';
 
 interface Props extends ItemDrawerProps {

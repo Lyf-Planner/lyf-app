@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { NoteType } from 'schema/database/notes';
-import { black, deepBlue, eventsBadgeColor, primaryGreen, white } from 'utils/colours';
+import { eventsBadgeColor, primaryGreen, white } from 'utils/colours';
 
 export const TYPE_TO_DISPLAY_NAME = Object.freeze({
   Multiple: 'Multi',

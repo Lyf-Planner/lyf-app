@@ -8,7 +8,7 @@ import { useNotifications } from 'hooks/cloud/useNotifications';
 import { useModal } from 'hooks/overlays/useModal';
 import { useTutorial } from 'hooks/overlays/useTutorial';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { gentleBlack, primaryGreen, white } from 'utils/colours';
+import { gentleBlack, primaryGreen, red, white } from 'utils/colours';
 
 // This is a little different to other components.
 // What we're doing here is writing a function which provides an argument to the BottomTabNavigator header param
@@ -56,26 +56,14 @@ export function defaultTabHeader(label: string): BottomTabNavigationOptions {
 }
 
 const styles = StyleSheet.create({
-  back: {
-    alignItems: 'center',
-    borderRadius: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginLeft: 20,
-    padding: 1
-  },
   header: {
     backgroundColor: white,
     borderBottomColor: gentleBlack,
     height: Native.Platform.OS !== 'ios' ? 60 : 100
   },
-  icon: {
-    height: 40,
-    width: 30
-  },
   notificationTally: {
     alignItems: 'center',
-    backgroundColor: 'red',
+    backgroundColor: red,
     borderColor: white,
     borderRadius: 10,
     borderWidth: 1,

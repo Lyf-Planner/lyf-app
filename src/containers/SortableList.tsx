@@ -43,7 +43,7 @@ export const SortableList = ({
   return (
     <DraggableFlatlist
       containerStyle={[styles.listContainer, listWrapperStyles]}
-      contentContainerStyle={{ gap: 1 }}
+      contentContainerStyle={styles.contentContainerStyle}
       autoscrollThreshold={100}
       style={styles.flatlistInternal}
       data={sortOrder}
@@ -55,6 +55,7 @@ export const SortableList = ({
 };
 
 const styles = StyleSheet.create({
+  contentContainerStyle: { gap: 1 },
   flatlistInternal: {
     flexDirection: 'column',
     overflow: 'visible'

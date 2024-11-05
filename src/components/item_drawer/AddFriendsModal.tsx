@@ -13,6 +13,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { ID } from 'schema/database/abstract';
 import { UserFriendshipStatus } from 'schema/database/user_friendships';
+import { black, blackWithOpacity, white } from 'utils/colours';
 
 type Props = {
   item_id: ID,
@@ -72,7 +73,7 @@ export const AddFriendsModal = ({ item_id }: Props) => {
 
       <SimpleSearch search={filter} setSearch={setFilter} />
       {loading && (
-        <View style={{ height: 350, paddingTop: 50, alignItems: 'center' }}>
+        <View style={styles.loaderWrapper}>
           <Loader />
         </View>
       )}
@@ -116,10 +117,11 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     position: 'relative'
   },
+  loaderWrapper: { alignItems: 'center', height: 350, paddingTop: 50 },
   mainContainer: {
     alignContent: 'center',
     backgroundColor: white,
-    borderColor: 'rgba(0,0,0,0.5)',
+    borderColor: blackWithOpacity(0.5),
     borderRadius: 10,
     borderWidth: 1,
     flexDirection: 'column',
@@ -140,12 +142,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     paddingBottom: 10
-  },
-  subtitle: {
-    fontSize: 15,
-    fontWeight: '600',
-    opacity: 0.6,
-    textAlign: 'center'
   },
   title: { fontFamily: 'Lexend', fontSize: 22, fontWeight: '700' },
   touchable: {

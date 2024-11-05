@@ -9,7 +9,7 @@ import {
 } from 'containers/LyfMenu';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { ItemType } from 'schema/database/items';
-import { primaryGreen } from 'utils/colours';
+import { primaryGreen, white } from 'utils/colours';
 import { isTemplate } from 'utils/item';
 import { ItemDrawerProps } from 'utils/item';
 

@@ -42,8 +42,15 @@ export const ListItemGestureWrapper = ({
   let longPressTimer: NodeJS.Timeout | undefined;
 
   // Web Right Click detection
-
-  const wrapperRef = useRef<any>(null);
+  //
+  //   React Native won't recognise that we're performing this on a div,
+  //   it doesn't actually support div or any html as a built in type.
+  //   However on web, that's precisely what it transpiles to,
+  //   and is precisely what we want to manipulate on web only.
+  //   This is typed as div (despite the error) so the reader knows exactly what gets manipulated in HTML.
+  //
+  // @ts-expect-error react native does not directly support html types
+  const wrapperRef = useRef<div>(null);
 
   useEffect(() => {
     const handleContextMenu = (event: SyntheticEvent) => {
@@ -81,7 +88,9 @@ export const ListItemGestureWrapper = ({
 
     animatedValues.scale.value = markingAsDone ? 1.1 : 1;
     await sleep(SCALE_MS);
-    markingAsDone && Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    if (markingAsDone) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    }
 
     animatedValues.scale.value = 1;
     animatedValues.checkScale.value = markingAsDone ? 1.5 : 1;
@@ -124,7 +133,7 @@ export const ListItemGestureWrapper = ({
     animatedValues.scale.value = 0.75;
 
     // After the n seconds pressing, remove the item
-    longPressTimer = setInterval(() => {
+    longPressTimer = setTimeout(() => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       removeItem(item, true);
       clearTimeout(longPressTimer);
@@ -144,10 +153,10 @@ export const ListItemGestureWrapper = ({
     animatedValues.offsetX.value = -40;
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
-    const itemReadyPromise = new Promise<void>(async (resolve) => {
+    const itemReadyPromise = new Promise<void>((resolve) => {
       if (item.localised) {
         setCreatingLocalised(true);
-        await addItem(item.type, item.sorting_rank, item).then(() => resolve());
+        addItem(item.type, item.sorting_rank, item).then(() => resolve());
       } else {
         resolve();
       }
@@ -158,8 +167,8 @@ export const ListItemGestureWrapper = ({
       setCreatingLocalised(false);
     });
 
-    const closeAnimation = setInterval(() => {
-      // Close after 500ms, unless the item is still not ready
+    // Close after 500ms, unless the item is still not ready
+    const closeAnimation = setTimeout(() => {
       itemReadyPromise.then(() => animatedValues.offsetX.value = 0);
       clearTimeout(closeAnimation);
     }, 500);
@@ -173,11 +182,12 @@ export const ListItemGestureWrapper = ({
     animatedValues.offsetX.value = 40;
 
     updateItem(item, { status: ItemStatus.InProgress });
-    item.status !== ItemStatus.InProgress &&
+    if (item.status !== ItemStatus.InProgress) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
 
     // This makes the animation appear to pause for a second when slid back
-    var closeAnimation = setInterval(() => {
+    const closeAnimation = setTimeout(() => {
       animatedValues.offsetX.value = 0;
       clearTimeout(closeAnimation);
     }, 500);

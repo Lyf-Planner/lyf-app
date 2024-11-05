@@ -3,6 +3,7 @@ import * as Native from 'react-native'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { routes } from 'Routes';
 import { Tab } from 'components/Tab';
+import { black } from 'utils/colours';
 
 export const TabBar = ({ state, navigation }: BottomTabBarProps) => {
   return (

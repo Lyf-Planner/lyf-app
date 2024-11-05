@@ -65,7 +65,7 @@ export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
           updateTime={uploadTime}
           disabled={item.invite_pending}
         />
-        <Text style={{ marginLeft: 20, textAlign: 'center' }}>-</Text>
+        <Text style={styles.dashSeperatorText}>-</Text>
         <NullableTimePicker
           time={item.end_time}
           updateTime={async (end_time: TimeString | undefined) =>
@@ -81,6 +81,7 @@ export const ItemTime = ({ item, updateItem }: ItemDrawerProps) => {
 };
 
 const styles = StyleSheet.create({
+  dashSeperatorText: { marginLeft: 20, textAlign: 'center' },
   eventText: { fontFamily: 'Lexend', fontSize: 20 },
   mainContainer: {
     alignItems: 'center',

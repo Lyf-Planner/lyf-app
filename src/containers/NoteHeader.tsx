@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react';
-import * as Native from 'react-native';
+import { View, Text, TouchableWithoutFeedback, TouchableOpacity, TextInput, Keyboard, StyleSheet } from 'react-native';
 
-import { NoteTypeBadge, TYPE_TO_DISPLAY_NAME } from 'components/NoteTypeBadge';
+import { NoteTypeBadge } from 'components/NoteTypeBadge';
 import { useNotes } from 'hooks/cloud/useNotes';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { NoteType } from 'schema/database/notes';
 import { UserRelatedNote } from 'schema/user'
-import { primaryGreen, white } from 'utils/colours';
+import { black, blackWithOpacity, primaryGreen, white } from 'utils/colours';
 
 type Props = {
   note: UserRelatedNote,
@@ -25,13 +25,13 @@ export const NoteHeader = ({ note, onBack }: Props) => {
   const updateTitle = () => updateNote(note, { title });
 
   return (
-    <Native.TouchableWithoutFeedback onPress={() => Native.Keyboard.dismiss()}>
-      <Native.View style={styles.noteHeader}>
-        <Native.TouchableOpacity onPress={onBack}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.noteHeader}>
+        <TouchableOpacity onPress={onBack}>
           <Entypo name={'chevron-left'} size={30} color='white' />
-        </Native.TouchableOpacity>
+        </TouchableOpacity>
 
-        <Native.TextInput
+        <TextInput
           autoFocus={isNewNote}
           onFocus={(e) =>
           // Workaround for selectTextOnFocus={true} not working
@@ -47,60 +47,58 @@ export const NoteHeader = ({ note, onBack }: Props) => {
           returnKeyType="done"
         />
 
-        <Native.View style={styles.headerLeft}>
+        <View style={styles.headerLeft}>
           {note.type === NoteType.ListOnly && (
-            <Native.Text style={styles.subtitle}>
+            <Text style={styles.subtitle}>
               ({note.relations.items?.length || 0} Items)
-            </Native.Text>
+            </Text>
           )}
 
           <NoteTypeBadge type={note.type} />
-        </Native.View>
-      </Native.View>
-    </Native.TouchableWithoutFeedback>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
   )
 }
 
-const styles = Native.StyleSheet.create({
+const styles = StyleSheet.create({
+  headerLeft: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    marginLeft: 'auto'
+  },
+
   noteHeader: {
-    zIndex: 50,
+    alignItems: 'center',
     backgroundColor: primaryGreen,
     flexDirection: 'row',
-    paddingHorizontal: 10,
     gap: 8,
     height: 65,
-    alignItems: 'center',
-
+    paddingHorizontal: 10,
     shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
-    shadowRadius: 2
-  },
-
-  headerLeft: {
-    marginLeft: 'auto',
-    flexDirection: 'row',
-    gap: 8,
-    alignItems: 'center'
+    shadowRadius: 2,
+    zIndex: 50
   },
 
   noteTitle: {
-    fontSize: 22,
-    maxWidth: 275,
+    backgroundColor: blackWithOpacity(0.1),
+    borderRadius: 4,
     color: white,
     fontFamily: 'Lexend',
+    fontSize: 22,
     fontWeight: '400',
-
-    backgroundColor: 'rgba(0,0,0,0.1)',
-    padding: 8,
-    borderRadius: 4
+    maxWidth: 275,
+    padding: 8
   },
 
   subtitle: {
-    textAlign: 'center',
-    opacity: 0.6,
-    fontWeight: '600',
+    color: white,
     fontSize: 15,
-    color: white
+    fontWeight: '600',
+    opacity: 0.6,
+    textAlign: 'center'
   }
 })

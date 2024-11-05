@@ -13,7 +13,7 @@ import Animated, {
 import Entypo from 'react-native-vector-icons/Entypo';
 import { ItemType } from 'schema/database/items';
 import { LocalItem } from 'schema/items';
-import { deepBlue, deepBlueOpacity, eventsBadgeColor } from 'utils/colours';
+import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor } from 'utils/colours';
 
 type Props = {
   items: LocalItem[],
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   dropdownContainer: {
     backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.7),
-    borderColor: 'rgba(0, 0, 0, 0.3)',
+    borderColor: blackWithOpacity(0.3),
     borderRadius: 10,
     borderWidth: 2,
     flexDirection: 'column',

@@ -8,6 +8,7 @@ import {
 
 import { useAuth } from 'hooks/cloud/useAuth';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { red, white } from 'utils/colours';
 
 export const DeleteButton = () => {
   const { deleteMe, logout } = useAuth();
@@ -55,10 +56,6 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   deleteView: {
-    backgroundColor: 'red'
-  },
-  logoutText: {
-    fontSize: 18,
-    fontWeight: '700'
+    backgroundColor: red
   }
 });

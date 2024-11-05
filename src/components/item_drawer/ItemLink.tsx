@@ -10,6 +10,7 @@ import {
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { blackWithOpacity, blue } from 'utils/colours';
 import { ItemDrawerProps } from 'utils/item';
 
 export const HTTP_PREFIX = 'http://';
@@ -36,7 +37,8 @@ export const ItemLink = ({
 
     try {
       new URL(text);
-    } catch (_) {
+    } catch (err) {
+      console.warn({ err });
       return false;
     }
 
@@ -130,7 +132,7 @@ const styles = StyleSheet.create({
   closeTouchable: { borderRadius: 5 },
   fieldText: { fontFamily: 'Lexend', fontSize: 20 },
   input: {
-    backgroundColor: 'rgba(0,0,0,0.08)',
+    backgroundColor: blackWithOpacity(0.08),
     borderRadius: 8,
     fontSize: 16,
     paddingVertical: 8,
@@ -150,12 +152,12 @@ const styles = StyleSheet.create({
     height: 35
   },
   previewText: {
-    color: 'blue',
+    color: blue,
     textDecorationLine: 'underline'
   },
   previewTouchable: {
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.08)',
+    backgroundColor: blackWithOpacity(0.08),
     borderRadius: 10,
     flexDirection: 'row',
     fontSize: 16,

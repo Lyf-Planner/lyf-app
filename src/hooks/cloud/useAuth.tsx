@@ -171,7 +171,7 @@ export const AuthGateway = ({ children }: Props) => {
   );
 };
 
-const AuthContext = createContext<AuthExposed>(undefined as any); // TODO: Do this better
+const AuthContext = createContext<AuthExposed>(undefined as never); // TODO: Do this better
 
 export const useAuth = () => {
   return useContext(AuthContext);

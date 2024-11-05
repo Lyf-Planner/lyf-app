@@ -10,6 +10,7 @@ import {
   renderers
 } from 'react-native-popup-menu';
 import { LyfElement } from 'utils/abstractTypes';
+import { blackWithOpacity } from 'utils/colours';
 
 export type LyfMenuProps = {
   name: string;
@@ -83,11 +84,10 @@ export const LyfMenu = ({
 };
 
 const styles = StyleSheet.create({
-  optionSeperator: { marginHorizontal: 5 },
-  optionText: { color: 'rgba(0,0,0,0.7)', fontFamily: 'Lexend', fontSize: 18, textAlign: 'right' },
+  optionText: { color: blackWithOpacity(0.7), fontFamily: 'Lexend', fontSize: 18, textAlign: 'right' },
   optionWrapper: { marginHorizontal: 8, marginVertical: 4 },
   optionsContainer: {
-    borderColor: 'rgba(0,0,0,0.5)',
+    borderColor: blackWithOpacity(0.5),
     borderRadius: 10,
     borderWidth: 0.5,
     flexDirection: 'column',

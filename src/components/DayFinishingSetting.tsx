@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, Switch } from 'react-native'
 
 import { useAuth } from 'hooks/cloud/useAuth'
+import { white } from 'utils/colours';
 
 export const DayFinishingSetting = () => {
   const { user, updateUser } = useAuth();

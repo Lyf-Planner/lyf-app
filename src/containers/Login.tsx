@@ -24,7 +24,7 @@ export const Login = ({ updateUser }: Props) => {
   const [loggingIn, updateLoggingIn] = useState(false);
   const [creating, updateCreating] = useState(false);
 
-  const passRef = useRef<any>();
+  const passRef = useRef<TextInput>(null);
 
   const onSubmit = async () => {
     updateLoggingIn(true);
@@ -98,7 +98,11 @@ export const Login = ({ updateUser }: Props) => {
           placeholderTextColor='rgba(0,0,0,0.5)'
           value={uid}
           onChangeText={updateUid}
-          onSubmitEditing={() => passRef.current.focus()}
+          onSubmitEditing={() => {
+            if (passRef.current) {
+              passRef.current.focus()
+            }
+          }}
           blurOnSubmit={false}
         />
         <Horizontal style={styles.fieldSeperator} />

@@ -1,8 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native';
 
+import { LyfElement } from 'utils/abstractTypes';
+import { white } from 'utils/colours';
+
 type Props = {
   fieldName: string,
-  fieldValue: any
+  fieldValue: LyfElement
 }
 
 export const DetailsField = ({ fieldName, fieldValue }: Props) => {

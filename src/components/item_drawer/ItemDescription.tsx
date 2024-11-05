@@ -9,7 +9,7 @@ import {
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { offWhite } from 'utils/colours';
+import { blackWithOpacity, offWhite } from 'utils/colours';
 import { ItemDrawerProps } from 'utils/item';
 
 type Props = ItemDrawerProps & {
@@ -48,7 +48,7 @@ export const ItemDescription = ({
               clearField();
             }}
             underlayColor={'rgba(0,0,0,0.5)'}
-            style={{ borderRadius: 5 }}
+            style={styles.crossPressable}
           >
             <Entypo name="cross" color="rgba(0,0,0,0.2)" size={20} />
           </TouchableHighlight>
@@ -75,20 +75,7 @@ export const ItemDescription = ({
 };
 
 const styles = StyleSheet.create({
-  addDescriptionContainer: {
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.08)',
-    borderRadius: 8,
-    flexDirection: 'row',
-    left: 10,
-    marginLeft: 'auto',
-    padding: 8.75,
-    position: 'relative'
-  },
-  addDescriptionText: {
-    fontSize: 16,
-    textAlignVertical: 'center'
-  },
+  crossPressable: { borderRadius: 5 },
   headerCloseWrapper: { marginLeft: 'auto', marginRight: 10 },
   headingContainer: {
     alignItems: 'center',
@@ -99,7 +86,7 @@ const styles = StyleSheet.create({
   headingText: { fontFamily: 'Lexend', fontSize: 20 },
   itemDesc: {
     backgroundColor: offWhite,
-    borderColor: 'rgba(0,0,0,0.1)',
+    borderColor: blackWithOpacity(0.08),
     borderRadius: 10,
     borderWidth: 1,
     fontSize: 16,

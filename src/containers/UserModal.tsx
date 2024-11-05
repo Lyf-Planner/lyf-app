@@ -9,7 +9,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { getUser } from 'rest/user';
 import { ID } from 'schema/database/abstract';
 import { PublicUser, UserFriend } from 'schema/user';
-import { eventsBadgeColor, white } from 'utils/colours';
+import { black, blackWithOpacity, eventsBadgeColor, white } from 'utils/colours';
 import { localisedMoment } from 'utils/dates';
 
 import { UserFriendsList } from './UserFriendsList';
@@ -24,7 +24,9 @@ export const UserModal = ({ user_id }: Props) => {
   const { updateModal } = useModal();
 
   useEffect(() => {
-    !user && getUser(user_id, 'users').then((res) => setUser(res));
+    if (!user) {
+      getUser(user_id, 'users').then((res) => setUser(res));
+    }
   }, [user_id]);
 
   let body = (
@@ -157,14 +159,6 @@ const styles = StyleSheet.create({
 
   fieldWrapper: { flexDirection: 'row', justifyContent: 'flex-start', width: '100%' },
 
-  header: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    gap: 4,
-    justifyContent: 'center',
-    marginBottom: 4
-  },
-
   loaderContainer: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -174,7 +168,7 @@ const styles = StyleSheet.create({
   mainAliasText: { fontFamily: 'Lexend', fontSize: 22 },
   mainContainer: {
     backgroundColor: white,
-    borderColor: 'rgba(0,0,0,0.5)',
+    borderColor: blackWithOpacity(0.5),
     borderRadius: 10,
     borderWidth: 1,
     maxWidth: 425,
@@ -187,12 +181,11 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     width: '95%'
   },
-  nameRow: { alignItems: 'center', flexDirection: 'column' },
   openUserListContainer: {
     height: 300,
     paddingVertical: 18
   },
-  subAliasText: { color: 'rgba(0,0,0,0.5)', fontSize: 14 },
+  subAliasText: { color: blackWithOpacity(0.5), fontSize: 14 },
 
   userDetails: {
     alignItems: 'flex-start',

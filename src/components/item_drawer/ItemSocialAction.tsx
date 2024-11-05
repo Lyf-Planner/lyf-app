@@ -96,7 +96,7 @@ export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props
     />
   );
 
-  const menu = useRef<Menu | null>();
+  const menu = useRef<Menu>(null);
 
   const hasMenu = useMemo(() =>
     (item.permission === Permission.Owner) ||

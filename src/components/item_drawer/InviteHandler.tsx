@@ -11,7 +11,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { LocalItem } from 'schema/items';
 import { SocialAction } from 'schema/util/social';
 
-import { primaryGreen } from '../../utils/colours';
+import { black, primaryGreen, white } from '../../utils/colours';
 
 type Props = {
   item: LocalItem

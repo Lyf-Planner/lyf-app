@@ -1,4 +1,4 @@
-import * as Native from 'react-native';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 import { BouncyPressable } from 'components/BouncyPressable';
 import { useAuth } from 'hooks/cloud/useAuth';
@@ -40,33 +40,33 @@ export const CalendarRange = ({ color, textColor }: Props) => {
         )
       }}
     >
-      <Native.TouchableOpacity onPress={() => shift(ShiftDirection.BACK)} style={styles.arrowTouchable}>
+      <TouchableOpacity onPress={() => shift(ShiftDirection.BACK)} style={styles.arrowTouchable}>
         <Entypo name="chevron-left" color={textColor} size={30} />
-      </Native.TouchableOpacity>
-      <Native.Text style={[styles.weekDateText, { color: textColor }]}>
+      </TouchableOpacity>
+      <Text style={[styles.weekDateText, { color: textColor }]}>
         {formatDate(startDate, true)} - {formatDate(endDate, true)}
-      </Native.Text>
-      <Native.TouchableOpacity onPress={() => shift(ShiftDirection.FORWARD)} style={styles.arrowTouchable}>
+      </Text>
+      <TouchableOpacity onPress={() => shift(ShiftDirection.FORWARD)} style={styles.arrowTouchable}>
         <Entypo name="chevron-right" color={textColor} size={30} />
-      </Native.TouchableOpacity>
+      </TouchableOpacity>
     </BouncyPressable>
   );
 }
 
-const styles = Native.StyleSheet.create({
-  weekDateDisplayTouchable: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-    borderRadius: 10
-  },
-  weekDateText: {
-    fontSize: 20,
-    fontFamily: 'Lexend'
-  },
+const styles = StyleSheet.create({
   arrowTouchable: {
     paddingHorizontal: 4
+  },
+  weekDateDisplayTouchable: {
+    alignItems: 'center',
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 14,
+    paddingVertical: 12
+  },
+  weekDateText: {
+    fontFamily: 'Lexend',
+    fontSize: 20
   }
 })

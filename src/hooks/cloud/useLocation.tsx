@@ -58,7 +58,7 @@ export const LocationProvider = ({ children }: Props) => {
   );
 };
 
-const LocationContext = createContext<LocationHooks>(undefined as any);
+const LocationContext = createContext<LocationHooks>(undefined as never);
 
 export const useLocation = () => {
   return useContext(LocationContext);

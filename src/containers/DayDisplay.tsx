@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { View, Text, StyleSheet, Vibration, Platform, Alert } from 'react-native';
+import { View, Text, StyleSheet, Platform, Alert } from 'react-native';
 
 import { BouncyPressable } from 'components/BouncyPressable';
-import { Horizontal } from 'components/Horizontal';
 import { MultiTypeNewItem } from 'components/MultiTypeNewItem';
 import { Vertical } from 'components/Vertical';
 import { List } from 'containers/List';
@@ -21,12 +20,14 @@ import { LocalItem } from 'schema/items';
 import { DateString, DayOfWeek } from 'schema/util/dates';
 import {
   black,
+  blackWithOpacity,
   deepBlue,
   deepBlueOpacity,
   eventsBadgeColor,
   lightGreen,
   primaryGreenWithOpacity,
-  secondaryGreen
+  secondaryGreen,
+  transparent
 } from 'utils/colours';
 import {
   localisedMoment,
@@ -233,10 +234,9 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
             setSortOrder={setSortOrder}
             sortOrder={sortOrder}
             itemStyleOptions={{
-              itemColor: 'rgb(241 245 249)',
               itemTextColor: black
             }}
-            listWrapperStyles={{ backgroundColor: 'transparent' }}
+            listWrapperStyles={styles.transparentBackground}
           />
         ) : (
           <List
@@ -244,7 +244,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
             itemStyleOptions={{
               itemTextColor: black
             }}
-            listWrapperStyles={{ backgroundColor: 'transparent' }}
+            listWrapperStyles={styles.transparentBackground}
           />
         )}
 
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     zIndex: 10
   },
   diagLines: {
-    borderColor: 'rgba(0,0,0,0.2)',
+    borderColor: blackWithOpacity(0.2),
     borderLeftWidth: 2,
     height: '100%',
     marginLeft: 'auto',
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
   doneButton: {
     alignItems: 'center',
     backgroundColor: secondaryGreen,
-    borderColor: 'rgb(156 163 175)',
+    borderColor: black,
     borderRadius: 10,
     borderWidth: 1,
     flexDirection: 'row',
@@ -347,6 +347,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 2,
     marginTop: 2
-  }
+  },
 
+  transparentBackground: {
+    backgroundColor: transparent
+  }
 });

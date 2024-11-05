@@ -12,6 +12,7 @@ import Sunny from 'assets/icons/Sunny';
 import Temperature from 'assets/icons/Temperature';
 import Thunderstorm from 'assets/icons/Thunderstorm';
 import Wind from 'assets/icons/Wind';
+import { black } from 'utils/colours';
 
 export const atmosphereDescriptions = [
   'Ash',
@@ -51,7 +52,7 @@ type Props = {
   color?: string
 }
 
-export default function WeatherIcon({ main, description, timestamp, sunrise, sunset, size = 30, color = 'black' }: Props) {
+export default function WeatherIcon({ main, description, timestamp, sunrise, sunset, size = 30, color = black }: Props) {
   const dayTime =
     !(timestamp && sunrise && sunset) ||
     !(timestamp < sunrise || timestamp > sunset);

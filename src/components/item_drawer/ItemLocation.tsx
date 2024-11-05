@@ -9,7 +9,7 @@ import {
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import debouncer from 'signature-debouncer';
+import { blackWithOpacity } from 'utils/colours';
 import { ItemDrawerProps } from 'utils/item';
 
 type Props = ItemDrawerProps & {
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   input: {
-    backgroundColor: 'rgba(0,0,0,0.08)',
+    backgroundColor: blackWithOpacity(0.08),
     borderRadius: 8,
     fontSize: 16,
     height: 40,
@@ -107,17 +107,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
     height: 35
-  },
-  previewText: {
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.08)',
-    borderRadius: 10,
-    flexDirection: 'row',
-    fontSize: 16,
-    height: 35,
-    justifyContent: 'center',
-    padding: 6,
-    textAlign: 'center',
-    width: '50%'
   }
 });

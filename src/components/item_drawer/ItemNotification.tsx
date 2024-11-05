@@ -7,10 +7,10 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-import { useAuth } from 'hooks/cloud/useAuth';
 import { useNotifications } from 'hooks/cloud/useNotifications';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { blackWithOpacity } from 'utils/colours';
 import { ItemDrawerProps } from 'utils/item';
 
 type Props = ItemDrawerProps & {
@@ -49,11 +49,15 @@ export const ItemNotification = ({
     updateItem(item, { notification_mins: parseInt(parsed) });
   };
 
+  const conditionalStyles = {
+    mainContainer: { opacity: enabled && item.time ? 1 : 0.3 }
+  }
+
   return (
     <View
       style={[
         styles.mainContainer,
-        { opacity: enabled && item.time ? 1 : 0.3 }
+        conditionalStyles.mainContainer
       ]}
     >
       <MaterialIcons name="notifications-active" size={20} />
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
   },
   minsBeforeText: { fontSize: 18, fontWeight: '200' },
   minutesInput: {
-    backgroundColor: 'rgba(0,0,0,0.08)',
+    backgroundColor: blackWithOpacity(0.08),
     borderRadius: 8,
     fontSize: 16,
     padding: 6,

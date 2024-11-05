@@ -5,6 +5,7 @@ import { AddField } from 'components/profile/AddField';
 import { DetailsField } from 'components/profile/DetailsField';
 import { useAuth } from 'hooks/cloud/useAuth';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { white, whiteWithOpacity } from 'utils/colours';
 import { validateDisplayName } from 'utils/validators';
 
 export const NameField = () => {
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
   },
 
   editPressable: {
-    backgroundColor: 'rgba(255,255,255,0.5)',
+    backgroundColor: whiteWithOpacity(0.5),
     borderRadius: 4,
     padding: 4
   },

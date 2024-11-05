@@ -12,7 +12,7 @@ import { useModal } from 'hooks/overlays/useModal';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { ItemType } from 'schema/database/items';
-import { primaryGreen } from 'utils/colours';
+import { primaryGreen, white } from 'utils/colours';
 import { formatDateData } from 'utils/dates';
 import { isTemplate } from 'utils/item';
 import { ItemDrawerProps } from 'utils/item';
@@ -222,12 +222,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 4
   },
-  headingContainer: {
-    flexDirection: 'column',
-    height: 35
-  },
-
-  headingText: { fontFamily: 'InterSemi', fontSize: 20, fontWeight: '500' },
   mainContainer: {
     flexDirection: 'column',
     gap: 8,

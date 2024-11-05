@@ -8,8 +8,7 @@ const { manifest, manifest2 } = Constants;
 // This unifies them into one function call so we don't have to worry about distinguishing elsewhere
 
 function envVar(varName: string, subvar_name?: string) {
-  // Slower but more robust method of finding env var
-  // @ts-ignore
+  // @ts-expect-error our types expect manifest to not exist, though it often does
   for (const extra of [manifest?.extra, manifest2?.extra]) {
     let result;
     if (subvar_name) {
@@ -49,7 +48,7 @@ function parseBackendUrl() {
   // The IP address of the machine hosting the expo app can be found in manifest2.launchAsset or manifest.debuggerHost
   // Which one is present depends on which of manifest or manifest2 is null - which varies across environments
   const debuggerUrl = manifest
-    // @ts-ignore
+    // @ts-expect-error types expect manifest to not exist
     ? manifest.debuggerHost
     : manifest2?.launchAsset.url;
 
@@ -63,7 +62,7 @@ function parseBackendUrl() {
 const getVersion = () => {
   // Extract the version field
   const appVersion =
-    // @ts-ignore
+    // @ts-expect-error types expect manifest to not exist
     Constants.manifest?.version ||
     Constants.manifest2?.extra?.expoClient?.version ||
     '0.0.0';

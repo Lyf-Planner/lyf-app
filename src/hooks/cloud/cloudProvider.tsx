@@ -60,7 +60,7 @@ export const CloudProvider = ({ children }: Props) => {
   );
 };
 
-const CloudContext = createContext<CloudHooks>(undefined as any);
+const CloudContext = createContext<CloudHooks>(undefined as never);
 
 export const useCloud = () => {
   return useContext(CloudContext); // TODO: Typeguard this

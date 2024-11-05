@@ -33,7 +33,7 @@ export const TutorialProvider = ({ children }: Props) => {
   );
 };
 
-const TutorialContext = createContext<TutorialHooks>(undefined as any);
+const TutorialContext = createContext<TutorialHooks>(undefined as never);
 
 export const useTutorial = () => {
   return useContext(TutorialContext);

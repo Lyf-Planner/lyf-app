@@ -1,14 +1,14 @@
 import { StyleSheet, View } from 'react-native';
 
+import { Loader } from 'components/Loader';
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { ItemStatus } from 'schema/database/items';
 import { ItemType } from 'schema/database/items';
 import { LocalItem } from 'schema/items';
+import { black } from 'utils/colours';
 import { ITEM_STATUS_TO_COLOR } from 'utils/item';
-
-import { Loader } from './Loader';
 
 type Props = {
   item: LocalItem;

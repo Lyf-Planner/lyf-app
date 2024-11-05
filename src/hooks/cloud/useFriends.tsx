@@ -69,9 +69,9 @@ export const FriendsProvider = ({ children }: Props) => {
       tmp[i] = friend;
     } else if (friend) {
       tmp.push(friend);
-    } else if (localFriendExists) {
-      tmp.splice(i, 1);
     } else {
+      // friend comes from the API, it being null implies it should no longer exist
+      tmp.splice(i, 1);
     }
 
     setFriends(tmp);
@@ -91,7 +91,7 @@ export const FriendsProvider = ({ children }: Props) => {
   );
 };
 
-const FriendsContext = createContext<FriendHooks>(undefined as any); // TODO: Do this better
+const FriendsContext = createContext<FriendHooks>(undefined as never); // TODO: Do this better
 
 export const useFriends = () => {
   return useContext(FriendsContext);
