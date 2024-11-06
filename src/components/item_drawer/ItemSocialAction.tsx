@@ -8,7 +8,6 @@ import {
   MenuTrigger,
   renderers
 } from 'react-native-popup-menu';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { ActionButton } from '@/components/ActionButton';
 import { BouncyPressable } from '@/components/BouncyPressable';
@@ -37,9 +36,9 @@ type Props = {
 }
 
 export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props) => {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const { updateItemSocial } = useTimetable();
-  const { user } = useAuth();
 
   // We don't useMemo here as this primarily functions as a typeguard
   const isItemMember = (user: SocialUser): user is (ItemRelatedUser | NoteRelatedUser) =>

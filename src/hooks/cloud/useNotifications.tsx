@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { Platform } from 'react-native';
 
 import { isDevice } from 'expo-device';
 import {
@@ -8,12 +7,13 @@ import {
   getExpoPushTokenAsync
 } from 'expo-notifications';
 
+import { useAuth } from './useAuth';
+
 import env from '@/envManager';
-import { useAuth } from '@/hooks/cloud/useAuth';
 import { getNotifications, updateNotification } from '@/rest/user';
 import { ID } from '@/schema/database/abstract';
 import { Notification } from '@/schema/notifications';
-import { getAsyncData, storeAsyncData } from '@/utils/asyncStorage';
+import { useAuthStore } from '@/store/useAuthStore';
 
 type Props = {
   children: JSX.Element;
@@ -29,42 +29,9 @@ type NotificationHooks = {
 const DEFAULT_NOTIFICATION_MINS = 5;
 
 export const NotificationsLayer = ({ children }: Props) => {
+  const { user } = useAuth();
   const [enabled, setEnabled] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const { user, updateUser } = useAuth();
-
-  useEffect(() => {
-    const tokenPromise = async () => {
-      if (Platform.OS !== 'web') {
-        getAsyncData('expo_token').then((token) => {
-          if (token) {
-            setEnabled(true);
-            return;
-          }
-
-          registerForPushNotificationsAsync().then((token) => {
-            if (!token) {
-              setEnabled(false);
-              return;
-            }
-
-            setEnabled(true);
-            updateUser({
-              ...user,
-              expo_tokens: [token]
-            });
-
-            storeAsyncData('expo_token', token);
-          })
-        })
-      }
-    }
-
-    tokenPromise().then(async () => {
-      const initialNotifs = await getNotifications(10);
-      setNotifications(initialNotifs);
-    });
-  }, []);
 
   const readNotification = async (id: ID) => {
     const tmp = [...notifications];

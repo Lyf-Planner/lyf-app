@@ -54,7 +54,8 @@ The live version of the app can be seen on the App Store [here](https://apps.app
   - stateless and controlled by props
   - can be composed of smaller components, as long as it is still stateless
 - `containers`
-  - stateful compositions of components (or component wrappers)
+  - stateful compositions of components or other containers (or component wrappers)
+  - any component that wraps a container, is itself a container
 - `hooks` 
   - providers for app hooks
   - operate global state managament

@@ -8,7 +8,7 @@ import {
 import { useAuth } from '@/hooks/cloud/useAuth';
 import { useNotifications } from '@/hooks/cloud/useNotifications';
 import { LyfElement } from '@/utils/abstractTypes';
-import { primaryGreen, white } from '@/utils/colours';
+import { white } from '@/utils/colours';
 
 export const NotificationSettings = () => {
   const { user, updateUser } = useAuth();

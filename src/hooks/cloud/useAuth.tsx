@@ -45,9 +45,11 @@ export const AuthGateway = ({ children }: Props) => {
 
   useEffect(() => {
     if (Platform.OS === 'web') {
-      // Force the title to prevent Expo Router mucking around with route names
+      // force the title to prevent Expo Router mucking up route names
       document.title = 'Lyf'
     }
+
+    autologin();
   })
 
   const updateUserInternal = useCallback(
@@ -105,6 +107,7 @@ export const AuthGateway = ({ children }: Props) => {
       }
     });
 
+  // sync
   const appState = useRef(AppState.currentState);
 
   useEffect(() => {
@@ -113,17 +116,8 @@ export const AuthGateway = ({ children }: Props) => {
       (nextAppState) => {
         const isOpeningApp = appState.current.match(/background|inactive/) && nextAppState === 'active'
 
-        if (isOpeningApp) {
-          getAsyncData('token').then((token) => {
-            if (token) {
-              autologin().then((cloudUser) => {
-                console.log('Syncing User');
-                updateUserInternal(cloudUser);
-              });
-            } else {
-              updateLoggingIn(false)
-            }
-          });
+        if (isOpeningApp && user) {
+          autologin();
         }
 
         appState.current = nextAppState;
@@ -160,7 +154,7 @@ export const AuthGateway = ({ children }: Props) => {
   if (!user) {
     return (
       <Background>
-        <Login updateUser={updateUserInternal} />
+        <Login />
       </Background>
     );
   }

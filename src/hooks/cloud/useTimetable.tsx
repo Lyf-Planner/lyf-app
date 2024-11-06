@@ -4,16 +4,17 @@ import { AppState } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { getCalendars } from 'expo-localization';
 import { DailyWeather, HistoricalWeather } from 'openweather-api-node';
+import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid';
 
+import { useAuth } from './useAuth';
+
 import { useCloud } from '@/hooks/cloud/cloudProvider';
-import { useAuth } from '@/hooks/cloud/useAuth';
 import { useLocation } from '@/hooks/cloud/useLocation';
 import { useNotes } from '@/hooks/cloud/useNotes';
 import {
   createItem,
   deleteItem,
-  getItem,
   getTimetable,
   getWeather,
   updateItem as updateRemoteItem,
@@ -27,8 +28,6 @@ import { UserRelatedItem } from '@/schema/user';
 import { DateString, WeekDays } from '@/schema/util/dates';
 import { SocialAction } from '@/schema/util/social';
 import { addDayToStringDate, formatDateData, getStartOfCurrentWeek, parseDateString } from '@/utils/dates';
-
-import 'react-native-get-random-values';
 
 export type TimetableHooks = {
   startDate: DateString,
@@ -69,7 +68,8 @@ type Props = {
 export const TimetableProvider = ({ children }: Props) => {
   const [lastActive, setLastActive] = useState(new Date());
 
-  const { user } = useAuth()
+  const { user } = useAuth();
+
   const { location } = useLocation();
   const { handleNoteItemUpdate } = useNotes();
   const { setSyncing } = useCloud();

@@ -6,7 +6,6 @@ import {
   useState
 } from 'react';
 
-import { useCloud } from './cloudProvider';
 import { useAuth } from './useAuth';
 
 import { updateFriendship as updateRemoteFriendship, getUser } from '@/rest/user';
@@ -27,7 +26,6 @@ type FriendHooks = {
 
 export const FriendsProvider = ({ children }: Props) => {
   const { user } = useAuth();
-  const { setSyncing } = useCloud();
 
   const [friends, setFriends] = useState<UserFriend[]>([]);
   const [initialised, setInitialised] = useState(false);
@@ -37,17 +35,11 @@ export const FriendsProvider = ({ children }: Props) => {
       return;
     }
 
-    if (initialised) {
-      setSyncing(true);
-    }
-
     const self: ExposedUser = await getUser(user?.id, 'users');
-    setFriends(self.relations.users || []);
+    setFriends(self.relations?.users || []);
 
     if (!initialised) {
       setInitialised(true);
-    } else {
-      setSyncing(false);
     }
   }, [])
 
