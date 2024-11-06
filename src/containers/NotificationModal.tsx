@@ -140,8 +140,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontFamily: 'Lexend',
     fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 8,
-    opacity: 0.6
+    marginBottom: 16,
+    marginTop: 8,
+    opacity: 0.5
   }
 })
