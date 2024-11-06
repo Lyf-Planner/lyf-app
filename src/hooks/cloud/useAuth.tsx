@@ -13,16 +13,14 @@ import { getCalendars } from 'expo-localization';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { Background } from '@/containers/Background';
 import { Login } from '@/containers/Login';
-import { autologin } from '@/rest/auth';
+import { autologin as autologinOldRest } from '@/rest/auth';
 import {
-  deleteMe,
-  saveUser
+  deleteMe as deleteMeOld,
+  saveUser as saveUserOld
 } from '@/rest/user';
 import { ExposedUser, User } from '@/schema/user';
-import {
-  getAsyncData,
-  deleteAsyncData
-} from '@/utils/asyncStorage';
+import { useAuthStore } from '@/store/useAuthStore';
+import { deleteAsyncData, getAsyncData } from '@/utils/asyncStorage';
 
 type Props = {
   children: JSX.Element;
@@ -41,7 +39,10 @@ export const AuthGateway = ({ children }: Props) => {
   const [user, setUser] = useState<ExposedUser | null>(null);
   const [lastUpdated, setLastUpdated] = useState(new Date());
 
-  // --- User Data --- //
+  const newUser = useAuthStore().user
+  const newLoggingIn = useAuthStore().loggingIn
+  const newLastUpdated = useAuthStore().lastUpdated;
+  const { autologin, deleteMe, logout, updateUser } = useAuthStore();
 
   useEffect(() => {
     if (Platform.OS === 'web') {
@@ -50,7 +51,7 @@ export const AuthGateway = ({ children }: Props) => {
     }
 
     autologin();
-  })
+  }, [])
 
   const updateUserInternal = useCallback(
     (changes: Partial<ExposedUser>) => {
@@ -69,12 +70,12 @@ export const AuthGateway = ({ children }: Props) => {
     [user, setUser]
   );
 
-  const updateUser = useCallback(
+  const updateUserOld = useCallback(
     async (newUser: Partial<ExposedUser>) => {
       updateUserInternal(newUser);
 
       if (newUser) {
-        await saveUser(newUser);
+        await saveUserOld(newUser);
       }
     },
     [user]
@@ -82,17 +83,15 @@ export const AuthGateway = ({ children }: Props) => {
 
   const clearUser = () => setUser(null);
 
-  const logout = () => {
+  const logoutOld = () => {
     deleteAsyncData('token');
     clearUser();
   };
 
-  // --- Sync --- //
-
-  const refreshUser = () =>
+  const autologinOld = () =>
     getAsyncData('token').then((token) => {
       if (token) {
-        autologin().then((freshUser) => {
+        autologinOldRest().then((freshUser) => {
           if (freshUser) {
             // Sync up local with external
             updateUserInternal({
@@ -117,7 +116,7 @@ export const AuthGateway = ({ children }: Props) => {
         const isOpeningApp = appState.current.match(/background|inactive/) && nextAppState === 'active'
 
         if (isOpeningApp && user) {
-          autologin();
+          autologinOld();
         }
 
         appState.current = nextAppState;
@@ -127,23 +126,17 @@ export const AuthGateway = ({ children }: Props) => {
     return () => refreshOnOpen.remove();
   }, [user]);
 
-  useEffect(() => {
-    // Attempt autologin when first entering
-    updateLoggingIn(true);
-    refreshUser();
-  }, []);
-
   // --- Provider --- //
 
   const exposed = {
-    user,
-    updateUser,
-    deleteMe,
-    logout,
-    lastUpdated
+    user: newUser,
+    updateUser: updateUserOld,
+    deleteMe: deleteMeOld,
+    logout: logoutOld,
+    lastUpdated: newLastUpdated
   };
 
-  if (loggingIn) {
+  if (newLoggingIn) {
     return (
       <Background>
         <LoadingScreen text={'Signing In Securely...'} />
@@ -151,7 +144,7 @@ export const AuthGateway = ({ children }: Props) => {
     );
   }
 
-  if (!user) {
+  if (!newUser) {
     return (
       <Background>
         <Login />
