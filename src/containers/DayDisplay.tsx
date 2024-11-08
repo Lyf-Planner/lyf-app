@@ -144,8 +144,6 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
       const behindFirstDay = date.localeCompare(firstDay) < 0
       const behindCurrentDay = date.localeCompare(currentDateString()) < 0;
 
-      console.log(`${date} ${JSON.stringify({ behindCurrentDay, behindFirstDay, firstDay })}`);
-
       if (!behindFirstDay && behindCurrentDay && user?.auto_day_finishing) {
         console.log(`Automatically finishing day ${date} ${JSON.stringify({ behindCurrentDay, behindFirstDay, firstDay })}`)
         const nextDay = addDayToStringDate(date);
