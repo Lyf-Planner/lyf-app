@@ -14,8 +14,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { NoteTypeBadge } from '@/components/NoteTypeBadge';
-import { useNotes } from '@/hooks/cloud/useNotes';
 import { UserRelatedNote } from '@/schema/user';
+import { useNotes } from '@/shell/cloud/useNotes';
 import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, white } from '@/utils/colours';
 
 type Props = {

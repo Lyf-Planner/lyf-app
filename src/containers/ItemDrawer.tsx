@@ -18,10 +18,10 @@ import { ItemTitle } from '@/components/item_drawer/ItemTitle';
 import { ItemTypeBadge } from '@/components/item_drawer/ItemType';
 import { ItemUsers } from '@/components/item_drawer/ItemUsers';
 import { OptionsMenu } from '@/components/item_drawer/OptionsMenu';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
-import { useDrawer } from '@/hooks/overlays/useDrawer';
 import { getItem } from '@/rest/items';
 import { ID } from '@/schema/database/abstract';
+import { useTimetable } from '@/shell/cloud/useTimetable';
+import { useDrawer } from '@/shell/overlays/useDrawer';
 import { black, blackWithOpacity, deepBlue, white } from '@/utils/colours';
 import { isTemplate, ItemDrawerProps } from '@/utils/item';
 

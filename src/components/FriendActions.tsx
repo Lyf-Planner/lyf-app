@@ -12,10 +12,10 @@ import {
   MenuPopoverPlacement,
   PopoverMenuOption
 } from '@/containers/LyfMenu';
-import { useAuth } from '@/hooks/cloud/useAuth';
-import { useFriends } from '@/hooks/cloud/useFriends';
 import { UserFriend } from '@/schema/user';
 import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingRequest } from '@/schema/util/social';
+import { useFriends } from '@/shell/cloud/useFriends';
+import { useAuthStore } from '@/store/useAuthStore';
 import { black, inProgressColor, deepBlue, eventsBadgeColor, primaryGreen, white, red } from '@/utils/colours';
 
 type Props = {
@@ -25,7 +25,7 @@ type Props = {
 }
 
 export const FriendAction = ({ friend, callback, height }: Props) => {
-  const { user } = useAuth();
+  const { user } = useAuthStore();
   const { friends, loading, reload } = useFriends();
 
   useEffect(() => {

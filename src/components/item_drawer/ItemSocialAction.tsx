@@ -12,13 +12,13 @@ import {
 import { ActionButton } from '@/components/ActionButton';
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { Horizontal } from '@/components/Horizontal';
-import { useAuth } from '@/hooks/cloud/useAuth';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { Permission } from '@/schema/database/items_on_users';
 import { ItemRelatedUser, LocalItem } from '@/schema/items';
 import { NoteRelatedUser } from '@/schema/notes';
 import { UserFriend } from '@/schema/user';
 import { SocialAction } from '@/schema/util/social';
+import { useTimetable } from '@/shell/cloud/useTimetable';
+import { useAuthStore } from '@/store/useAuthStore';
 import {
   black,
   blackWithOpacity,
@@ -36,7 +36,7 @@ type Props = {
 }
 
 export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props) => {
-  const { user } = useAuth();
+  const { user } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const { updateItemSocial } = useTimetable();
 

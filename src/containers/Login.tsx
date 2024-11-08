@@ -8,7 +8,6 @@ import {
 
 import { Horizontal } from '@/components/Horizontal';
 import { Loader } from '@/components/Loader';
-import { useAuth } from '@/hooks/cloud/useAuth';
 import { useAuthStore } from '@/store/useAuthStore';
 import { black, blackWithOpacity, loginFieldBackground, white } from '@/utils/colours';
 

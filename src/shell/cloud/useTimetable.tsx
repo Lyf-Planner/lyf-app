@@ -7,11 +7,6 @@ import { DailyWeather, HistoricalWeather } from 'openweather-api-node';
 import 'react-native-get-random-values';
 import { v4 as uuid } from 'uuid';
 
-import { useAuth } from './useAuth';
-
-import { useCloud } from '@/hooks/cloud/cloudProvider';
-import { useLocation } from '@/hooks/cloud/useLocation';
-import { useNotes } from '@/hooks/cloud/useNotes';
 import {
   createItem,
   deleteItem,
@@ -27,6 +22,10 @@ import { LocalItem } from '@/schema/items';
 import { UserRelatedItem } from '@/schema/user';
 import { DateString, WeekDays } from '@/schema/util/dates';
 import { SocialAction } from '@/schema/util/social';
+import { useCloud } from '@/shell/cloud/cloudProvider';
+import { useLocation } from '@/shell/cloud/useLocation';
+import { useNotes } from '@/shell/cloud/useNotes';
+import { useAuthStore } from '@/store/useAuthStore';
 import { addDayToStringDate, formatDateData, getStartOfCurrentWeek, parseDateString } from '@/utils/dates';
 
 export type TimetableHooks = {
@@ -68,7 +67,7 @@ type Props = {
 export const TimetableProvider = ({ children }: Props) => {
   const [lastActive, setLastActive] = useState(new Date());
 
-  const { user } = useAuth();
+  const { user } = useAuthStore();
 
   const { location } = useLocation();
   const { handleNoteItemUpdate } = useNotes();

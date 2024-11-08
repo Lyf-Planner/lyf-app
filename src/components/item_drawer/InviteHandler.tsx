@@ -6,11 +6,11 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { Loader } from '@/components/Loader';
-import { useAuth } from '@/hooks/cloud/useAuth';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
-import { useModal } from '@/hooks/overlays/useModal';
 import { LocalItem } from '@/schema/items';
 import { SocialAction } from '@/schema/util/social';
+import { useTimetable } from '@/shell/cloud/useTimetable';
+import { useModal } from '@/shell/overlays/useModal';
+import { useAuthStore } from '@/store/useAuthStore';
 import { black, primaryGreen, white } from '@/utils/colours';
 
 type Props = {
@@ -18,7 +18,7 @@ type Props = {
 }
 
 export const InviteHandler = ({ item }: Props) => {
-  const { user } = useAuth();
+  const { user } = useAuthStore();
   const { updateItemSocial, removeItem } = useTimetable();
   const { updateModal } = useModal();
 

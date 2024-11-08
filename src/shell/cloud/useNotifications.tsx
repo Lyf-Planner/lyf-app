@@ -7,8 +7,6 @@ import {
   getExpoPushTokenAsync
 } from 'expo-notifications';
 
-import { useAuth } from './useAuth';
-
 import env from '@/envManager';
 import { getNotifications, updateNotification } from '@/rest/user';
 import { ID } from '@/schema/database/abstract';
@@ -29,7 +27,7 @@ type NotificationHooks = {
 const DEFAULT_NOTIFICATION_MINS = 5;
 
 export const NotificationsLayer = ({ children }: Props) => {
-  const { user } = useAuth();
+  const { user } = useAuthStore();
   const [enabled, setEnabled] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
 

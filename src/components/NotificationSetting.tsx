@@ -5,13 +5,13 @@ import {
   EventNotificationDesc
 } from './NotificationSettingDescriptions';
 
-import { useAuth } from '@/hooks/cloud/useAuth';
-import { useNotifications } from '@/hooks/cloud/useNotifications';
+import { useNotifications } from '@/shell/cloud/useNotifications';
+import { useAuthStore } from '@/store/useAuthStore';
 import { LyfElement } from '@/utils/abstractTypes';
 import { white } from '@/utils/colours';
 
 export const NotificationSettings = () => {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser } = useAuthStore();
   const { enabled } = useNotifications();
 
   // DAILY NOTIFICATIONS

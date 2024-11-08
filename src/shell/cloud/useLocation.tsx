@@ -8,7 +8,7 @@ import {
   getCurrentPositionAsync
 } from 'expo-location';
 
-import { useAuth } from '@/hooks/cloud/useAuth';
+import { useAuthStore } from '@/store/useAuthStore';
 
 type Props = {
   children: JSX.Element;
@@ -21,7 +21,7 @@ type LocationHooks = {
 
 export const LocationProvider = ({ children }: Props) => {
   const [location, setLocation] = useState<LocationObject | undefined>(undefined);
-  const { user, updateUser } = useAuth();
+  const { user } = useAuthStore();
 
   useEffect(() => {
     (async () => {

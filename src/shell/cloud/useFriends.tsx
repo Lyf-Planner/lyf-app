@@ -6,12 +6,11 @@ import {
   useState
 } from 'react';
 
-import { useAuth } from './useAuth';
-
 import { updateFriendship as updateRemoteFriendship, getUser } from '@/rest/user';
 import { ID } from '@/schema/database/abstract';
 import { ExposedUser, UserFriend } from '@/schema/user';
 import { FriendshipAction } from '@/schema/util/social';
+import { useAuthStore } from '@/store/useAuthStore';
 
 type Props = {
   children: JSX.Element;
@@ -25,7 +24,7 @@ type FriendHooks = {
 }
 
 export const FriendsProvider = ({ children }: Props) => {
-  const { user } = useAuth();
+  const { user } = useAuthStore();
 
   const [friends, setFriends] = useState<UserFriend[]>([]);
   const [initialised, setInitialised] = useState(false);

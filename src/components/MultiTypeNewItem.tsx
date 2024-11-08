@@ -3,9 +3,9 @@ import { StyleSheet, View } from 'react-native'
 
 import { NewItem } from './NewItem'
 
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
+import { useTimetable } from '@/shell/cloud/useTimetable';
 
 type Props = {
   newRank: number,

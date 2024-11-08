@@ -7,8 +7,8 @@ import { ListItemUnderlay } from '@/components/ItemUnderlay';
 import { ItemDrawer } from '@/containers/ItemDrawer';
 import { ListItemGestureWrapper } from '@/containers/ItemGestureWrapper';
 import { NoteItemDrawer } from '@/containers/NoteItemDrawer';
-import { useDrawer } from '@/hooks/overlays/useDrawer';
 import { LocalItem } from '@/schema/items';
+import { useDrawer } from '@/shell/overlays/useDrawer';
 
 export type ListItemAnimatedValues = {
   scale: SharedValue<number>;

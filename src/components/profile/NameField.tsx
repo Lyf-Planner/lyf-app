@@ -5,12 +5,12 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { fieldPrompt } from '@/components/profile/AccountInfo';
 import { AddField } from '@/components/profile/AddField';
 import { DetailsField } from '@/components/profile/DetailsField';
-import { useAuth } from '@/hooks/cloud/useAuth';
+import { useAuthStore } from '@/store/useAuthStore';
 import { white, whiteWithOpacity } from '@/utils/colours';
 import { validateDisplayName } from '@/utils/validators';
 
 export const NameField = () => {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser } = useAuthStore();
 
   const updateName = (name: string) => {
     if (!validateDisplayName(name)) {

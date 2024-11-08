@@ -14,9 +14,9 @@ import Animated, {
 
 import { ListItemAnimatedValues } from './Item';
 
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { ItemStatus } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
+import { useTimetable } from '@/shell/cloud/useTimetable';
 import { LyfElement } from '@/utils/abstractTypes';
 import { sleep } from '@/utils/misc';
 

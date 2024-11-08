@@ -1,6 +1,6 @@
-import { UpdateItem } from '@/hooks/cloud/useTimetable';
 import { ItemDbObject, ItemType, ItemStatus } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
+import { UpdateItem } from '@/shell/cloud/useTimetable';
 import { cancelledColor, doneColor, eventsBadgeColor, inProgressColor, tentativeColor, todoColor, white } from '@/utils/colours';
 
 export const StatusOptions = Object.values(ItemStatus);

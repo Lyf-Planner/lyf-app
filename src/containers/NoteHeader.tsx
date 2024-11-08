@@ -4,9 +4,9 @@ import { View, Text, TouchableWithoutFeedback, TouchableOpacity, TextInput, Keyb
 import Entypo from 'react-native-vector-icons/Entypo';
 
 import { NoteTypeBadge } from '@/components/NoteTypeBadge';
-import { useNotes } from '@/hooks/cloud/useNotes';
 import { NoteType } from '@/schema/database/notes';
 import { UserRelatedNote } from '@/schema/user'
+import { useNotes } from '@/shell/cloud/useNotes';
 import { black, blackWithOpacity, primaryGreen, white } from '@/utils/colours';
 
 type Props = {

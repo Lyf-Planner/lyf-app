@@ -6,10 +6,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import { Horizontal } from '@/components/Horizontal';
 import { NotificationBanner } from '@/components/NotificationBanner';
-import { useNotifications } from '@/hooks/cloud/useNotifications'
-import { useModal } from '@/hooks/overlays/useModal'
 import { Notification } from '@/schema/notifications';
 import { DateString } from '@/schema/util/dates';
+import { useNotifications } from '@/shell/cloud/useNotifications'
+import { useModal } from '@/shell/overlays/useModal'
 import { black, primaryGreen, white } from '@/utils/colours';
 import { formatDateData, localisedFormattedMoment } from '@/utils/dates';
 

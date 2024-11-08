@@ -6,8 +6,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { PageLoader } from '@/components/PageLoader';
 import { DayDisplay } from '@/containers/DayDisplay';
 import { PageBackground } from '@/containers/PageBackground';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { WeekDays } from '@/schema/util/dates';
+import { useTimetable } from '@/shell/cloud/useTimetable';
 import { black, deepBlue, primaryGreen, white } from '@/utils/colours';
 
 export const Routine = () => {

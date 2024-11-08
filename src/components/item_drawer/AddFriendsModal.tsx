@@ -9,11 +9,11 @@ import { Horizontal } from '@/components/Horizontal';
 import { Loader } from '@/components/Loader';
 import { SimpleSearch } from '@/components/SimpleSearch';
 import { UserList, UserListContext } from '@/containers/UserList';
-import { useFriends } from '@/hooks/cloud/useFriends';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
-import { useModal } from '@/hooks/overlays/useModal';
 import { ID } from '@/schema/database/abstract';
 import { UserFriendshipStatus } from '@/schema/database/user_friendships';
+import { useFriends } from '@/shell/cloud/useFriends';
+import { useTimetable } from '@/shell/cloud/useTimetable';
+import { useModal } from '@/shell/overlays/useModal';
 import { black, blackWithOpacity, white } from '@/utils/colours';
 
 type Props = {

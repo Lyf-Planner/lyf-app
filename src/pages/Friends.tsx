@@ -9,8 +9,8 @@ import { UserBanner } from '@/components/UserBanner';
 import { SearchHeader } from '@/containers/FriendSearchHeader';
 import { PageBackground } from '@/containers/PageBackground';
 import { UserList } from '@/containers/UserList'
-import { useFriends } from '@/hooks/cloud/useFriends'
 import { PublicUser } from '@/schema/user';
+import { useFriends } from '@/shell/cloud/useFriends'
 
 export const Friends = (props: BottomTabScreenProps<RouteParams>) => {
   const { friends, loading } = useFriends();

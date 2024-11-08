@@ -4,10 +4,10 @@ import { Keyboard, Platform, Pressable, StyleSheet } from 'react-native';
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
-import { useDrawer } from '@/hooks/overlays/useDrawer';
-import { useModal } from '@/hooks/overlays/useModal';
-import { useTutorial } from '@/hooks/overlays/useTutorial';
 import { TutorialOverlay } from '@/pages/Tutorial';
+import { useDrawer } from '@/shell/overlays/useDrawer';
+import { useModal } from '@/shell/overlays/useModal';
+import { useTutorial } from '@/shell/overlays/useTutorial';
 import { black, blackWithOpacity } from '@/utils/colours';
 
 type Props = {

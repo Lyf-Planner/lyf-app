@@ -14,11 +14,11 @@ import { Vertical } from '@/components/Vertical';
 import { List } from '@/containers/List';
 import { SortableList } from '@/containers/SortableList';
 import { WeatherWidget } from '@/containers/WeatherWidget';
-import { useAuth } from '@/hooks/cloud/useAuth';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { ItemStatus } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
 import { DateString, DayOfWeek } from '@/schema/util/dates';
+import { useTimetable } from '@/shell/cloud/useTimetable';
+import { useAuthStore } from '@/store/useAuthStore';
 import {
   black,
   blackWithOpacity,
@@ -54,7 +54,7 @@ type Props = {
 
 export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
   const { reload, resortItems, startDate, endDate } = useTimetable();
-  const { user, updateUser } = useAuth();
+  const { user, updateUser } = useAuthStore();
   const [sorting, setSorting] = useState<boolean | null>(null);
   const [sortOrder, setSortOrder] = useState<LocalItem[]>(items);
 

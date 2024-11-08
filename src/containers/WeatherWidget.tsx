@@ -6,9 +6,9 @@ import Sunny from '@/assets/icons/Sunny';
 import WeatherIcon from '@/components/WeatherIcon';
 import { MenuPopoverPlacement } from '@/containers/LyfMenu'
 import { LyfPopup } from '@/containers/LyfPopup';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { DateString } from '@/schema/util/dates';
 import { renderDescription } from '@/schema/util/weather';
+import { useTimetable } from '@/shell/cloud/useTimetable';
 import { black } from '@/utils/colours';
 import { formatDateData } from '@/utils/dates';
 

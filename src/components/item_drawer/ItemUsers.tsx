@@ -6,8 +6,8 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { Loader } from '@/components/Loader';
 import { UserList, UserListContext } from '@/containers/UserList';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { LocalItem } from '@/schema/items';
+import { useTimetable } from '@/shell/cloud/useTimetable';
 
 type Props = {
   item: LocalItem,

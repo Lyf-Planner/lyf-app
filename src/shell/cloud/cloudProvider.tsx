@@ -1,17 +1,9 @@
 import {
   createContext,
-  useCallback,
   useContext,
-  useEffect,
-  useMemo,
-  useRef,
   useState
 } from 'react';
-import { Keyboard, StyleSheet } from 'react-native';
 
-import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
-
-import { AuthGateway } from './useAuth';
 import { FriendsProvider } from './useFriends';
 import { LocationProvider } from './useLocation';
 import { NotesProvider } from './useNotes';
@@ -43,19 +35,17 @@ export const CloudProvider = ({ children }: Props) => {
 
   return (
     <CloudContext.Provider value={exposed}>
-      <AuthGateway>
-        <NotificationsLayer>
-          <LocationProvider>
-            <NotesProvider>
-              <TimetableProvider>
-                <FriendsProvider>
-                  {children}
-                </FriendsProvider>
-              </TimetableProvider>
-            </NotesProvider>
-          </LocationProvider>
-        </NotificationsLayer>
-      </AuthGateway>
+      <NotificationsLayer>
+        <LocationProvider>
+          <NotesProvider>
+            <TimetableProvider>
+              <FriendsProvider>
+                {children}
+              </FriendsProvider>
+            </TimetableProvider>
+          </NotesProvider>
+        </LocationProvider>
+      </NotificationsLayer>
     </CloudContext.Provider>
   );
 };

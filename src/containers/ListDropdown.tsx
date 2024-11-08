@@ -11,9 +11,9 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 import { NewItem } from '@/components/NewItem';
 import { List } from '@/containers/List';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
+import { useTimetable } from '@/shell/cloud/useTimetable';
 import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
 
 type Props = {

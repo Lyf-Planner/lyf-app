@@ -7,11 +7,20 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import env from './envManager';
 
 import Routes from '@/Routes';
-import { CloudProvider } from '@/hooks/cloud/cloudProvider';
-import { OverlayProvider } from '@/hooks/overlays/overlayProvider';
-import { RouteProvider } from '@/hooks/routes';
+import { AuthWrapper } from '@/shell/AuthWrapper';
+import { CloudProvider } from '@/shell/cloud/cloudProvider';
+import { OverlayProvider } from '@/shell/overlays/overlayProvider';
+import { RouteProvider } from '@/shell/routes';
 
 import 'expo-dev-client';
+
+// structural overview:
+//
+// components in the shell directory wrap the entire app.
+// these provide basic functions such as hooks, auth logic, native interfaces etc.
+//
+// the core of the app you know and love is contained in Routes,
+// which underpins the five key pages you see when first logged in.
 
 export default function App() {
   const [loaded] = useFonts({
@@ -33,11 +42,13 @@ export default function App() {
     <GestureHandlerRootView style={styles.main}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={styles.main}>
         <RouteProvider>
-          <CloudProvider>
-            <OverlayProvider>
-              <Routes />
-            </OverlayProvider>
-          </CloudProvider>
+          <AuthWrapper>
+            <CloudProvider>
+              <OverlayProvider>
+                <Routes />
+              </OverlayProvider>
+            </CloudProvider>
+          </AuthWrapper>
         </RouteProvider>
       </TouchableWithoutFeedback>
     </GestureHandlerRootView>

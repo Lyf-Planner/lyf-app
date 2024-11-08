@@ -7,8 +7,8 @@ import { Loader } from '@/components/Loader';
 import { NoteBody } from '@/containers/NoteBody';
 import { NoteHeader } from '@/containers/NoteHeader';
 import { PageBackground } from '@/containers/PageBackground';
-import { useNotes } from '@/hooks/cloud/useNotes';
 import { ID } from '@/schema/database/abstract';
+import { useNotes } from '@/shell/cloud/useNotes';
 
 type Props = {
   id: ID,

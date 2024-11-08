@@ -6,9 +6,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import { LyfIcon } from '@/assets/icons/LyfIcon';
 import { NotificationModal } from '@/containers/NotificationModal';
-import { useNotifications } from '@/hooks/cloud/useNotifications';
-import { useModal } from '@/hooks/overlays/useModal';
-import { useTutorial } from '@/hooks/overlays/useTutorial';
+import { useNotifications } from '@/shell/cloud/useNotifications';
+import { useModal } from '@/shell/overlays/useModal';
+import { useTutorial } from '@/shell/overlays/useTutorial';
 import { gentleBlack, primaryGreen, red, white } from '@/utils/colours';
 
 // This is a little different to other @/components.

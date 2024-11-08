@@ -11,11 +11,11 @@ import { RouteParams } from '@/Routes';
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { ItemDrawer } from '@/containers/ItemDrawer';
 import { UserModal } from '@/containers/UserModal';
-import { useNotifications } from '@/hooks/cloud/useNotifications';
-import { useDrawer } from '@/hooks/overlays/useDrawer';
-import { useModal } from '@/hooks/overlays/useModal';
 import { NotificationRelatedData, NotificationType } from '@/schema/database/notifications';
 import { Notification } from '@/schema/notifications'
+import { useNotifications } from '@/shell/cloud/useNotifications';
+import { useDrawer } from '@/shell/overlays/useDrawer';
+import { useModal } from '@/shell/overlays/useModal';
 import { black, deepBlueOpacity, eventsBadgeColorOpacity } from '@/utils/colours';
 
 const notificationTypeIcon: Record<NotificationType, JSX.Element> = Object.freeze({

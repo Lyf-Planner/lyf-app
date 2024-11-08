@@ -10,9 +10,9 @@ import { NoteRow } from '@/components/NoteRow';
 import { PageLoader } from '@/components/PageLoader';
 import { NoteView } from '@/containers/NoteView';
 import { PageBackground } from '@/containers/PageBackground';
-import { useNotes } from '@/hooks/cloud/useNotes';
 import { ID } from '@/schema/database/abstract';
 import { NoteType } from '@/schema/database/notes';
+import { useNotes } from '@/shell/cloud/useNotes';
 import { black, gentleWhite, primaryGreen, white } from '@/utils/colours';
 
 export const Notes = (props: BottomTabScreenProps<RouteParams>) => {

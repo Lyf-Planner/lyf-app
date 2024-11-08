@@ -8,11 +8,11 @@ import {
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { useAuth } from '@/hooks/cloud/useAuth';
+import { useAuthStore } from '@/store/useAuthStore';
 import { red, white } from '@/utils/colours';
 
 export const DeleteButton = () => {
-  const { deleteMe } = useAuth();
+  const { deleteMe } = useAuthStore();
 
   return (
     <TouchableHighlight

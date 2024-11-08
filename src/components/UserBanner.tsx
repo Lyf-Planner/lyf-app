@@ -8,10 +8,10 @@ import { FriendAction } from '@/components/FriendActions';
 import { ItemSocialAction } from '@/components/item_drawer/ItemSocialAction';
 import { UserListContext } from '@/containers/UserList';
 import { UserModal } from '@/containers/UserModal';
-import { useModal } from '@/hooks/overlays/useModal';
 import { ItemRelatedUser, LocalItem } from '@/schema/items';
 import { NoteRelatedUser } from '@/schema/notes';
 import { PublicUser, UserFriend } from '@/schema/user';
+import { useModal } from '@/shell/overlays/useModal';
 import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, lightGreen, primaryGreen, white, whiteWithOpacity } from '@/utils/colours';
 
 type Props = {

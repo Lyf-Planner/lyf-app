@@ -8,10 +8,10 @@ import { UserFriendsList } from './UserFriendsList';
 
 import { FriendAction } from '@/components/FriendActions';
 import { Loader } from '@/components/Loader';
-import { useModal } from '@/hooks/overlays/useModal';
 import { getUser } from '@/rest/user';
 import { ID } from '@/schema/database/abstract';
 import { PublicUser, UserFriend } from '@/schema/user';
+import { useModal } from '@/shell/overlays/useModal';
 import { black, blackWithOpacity, eventsBadgeColor, white } from '@/utils/colours';
 import { localisedMoment } from '@/utils/dates';
 

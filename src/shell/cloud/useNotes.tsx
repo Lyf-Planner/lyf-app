@@ -3,7 +3,6 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import { v4 as uuid } from 'uuid';
 import 'react-native-get-random-values';
 
-import { useCloud } from '@/hooks/cloud/cloudProvider';
 import {
   createNote,
   deleteNote,
@@ -16,6 +15,7 @@ import { ItemDbObject } from '@/schema/database/items';
 import { Permission } from '@/schema/database/items_on_users';
 import { NoteType } from '@/schema/database/notes';
 import { UserRelatedNote } from '@/schema/user';
+import { useCloud } from '@/shell/cloud/cloudProvider';
 
 export type UpdateNoteItem = (item: ItemDbObject, changes: Partial<ItemDbObject>, remove?: boolean) => Promise<void>
 
