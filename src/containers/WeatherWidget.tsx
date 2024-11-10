@@ -8,7 +8,7 @@ import { MenuPopoverPlacement } from '@/containers/LyfMenu'
 import { LyfPopup } from '@/containers/LyfPopup';
 import { DateString } from '@/schema/util/dates';
 import { renderDescription } from '@/schema/util/weather';
-import { useTimetable } from '@/shell/cloud/useTimetable';
+import { useLocation } from '@/shell/cloud/useLocation';
 import { black } from '@/utils/colours';
 import { formatDateData } from '@/utils/dates';
 
@@ -17,7 +17,7 @@ type Props = {
 }
 
 export const WeatherWidget = ({ date }: Props) => {
-  const { weather } = useTimetable();
+  const { weather } = useLocation();
   if (!weather) {
     return (
       <View style={[styles.iconPressableWrapper, styles.loadingIcon]}>

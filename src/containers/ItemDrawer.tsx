@@ -37,7 +37,7 @@ export const ItemDrawer = ({
   // Establish item from store
   const { updateDrawer, updateSheetMinHeight } = useDrawer();
   const { items, updateItem } = useTimetable();
-  const item = useMemo(() => items.find((x) => x.id === id), [items]);
+  const item = useMemo(() => Object.values(items).find((x) => x.id === id), [items]);
 
   const [descOpen, setDescOpen] = useState(!!item?.desc);
   const [linkOpen, setLinkOpen] = useState(!!item?.url);

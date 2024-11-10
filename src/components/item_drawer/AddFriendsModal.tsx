@@ -25,7 +25,7 @@ export const AddFriendsModal = ({ item_id }: Props) => {
   const { items } = useTimetable();
   const { updateModal } = useModal();
 
-  const item = useMemo(() => items.find((x) => x.id === item_id), [items]);
+  const item = useMemo(() => items[item_id], [items]);
   if (!item) {
     return null;
   }

@@ -8,7 +8,7 @@ import { ExposedUser, User } from '@/schema/user';
 import { deleteAsyncData, getAsyncData } from '@/utils/asyncStorage';
 import { validatePassword, validateUsername } from '@/utils/validators';
 
-interface AuthState {
+export interface AuthState {
   lastUpdated: Date;
   loggingIn: boolean;
   user: ExposedUser | null;

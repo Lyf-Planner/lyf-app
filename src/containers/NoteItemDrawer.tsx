@@ -23,7 +23,7 @@ import { ID } from '@/schema/database/abstract';
 import { ItemDbObject } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
 import { useNotes } from '@/shell/cloud/useNotes';
-import { UpdateItem, useTimetable } from '@/shell/cloud/useTimetable';
+import { useTimetable } from '@/shell/cloud/useTimetable';
 import { useDrawer } from '@/shell/overlays/useDrawer';
 import { black, blackWithOpacity, deepBlue, white } from '@/utils/colours';
 import { isTemplate } from '@/utils/item';
@@ -69,7 +69,7 @@ export const NoteItemDrawer = ({
   // Establish props passed to children
   const props = {
     item: item as LocalItem,
-    updateItem: updateItem as UpdateItem,
+    updateItem,
     updateDrawer,
     updateSheetMinHeight
   }

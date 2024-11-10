@@ -38,7 +38,7 @@ export const Routine = () => {
                   key={x}
                   day={x}
                   date={null}
-                  items={items.filter((y) => (y.day && x === y.day))}
+                  items={Object.values(items).filter((y) => (y.day && x === y.day))}
                   shadowOffset={{ width: -3, height: 3 }}
                 />
               ))}
