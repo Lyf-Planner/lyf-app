@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 

@@ -22,20 +22,14 @@ import { useTimetableStore } from '@/store/useTimetableStore';
 import {
   black,
   blackWithOpacity,
-  deepBlue,
   deepBlueOpacity,
-  eventsBadgeColor,
-  lightGreen,
-  primaryGreenWithOpacity,
   secondaryGreen,
   transparent
 } from '@/utils/colours';
 import {
-  localisedMoment,
   dayFromDateString,
   formatDate,
   formatDateData,
-  dateWithTime,
   addDayToStringDate,
   parseDateString,
   daysDifferenceBetween,

@@ -87,6 +87,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-native": "^4.1.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^15.4.0",
     "openweather-api-node": "^3.1.4",
     "typescript-eslint": "^7.12.0"

@@ -1,4 +1,4 @@
-import { Alert, TouchableHighlight, Text, View, StyleSheet } from 'react-native';
+import { TouchableHighlight, Text, View, StyleSheet } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 

@@ -8,10 +8,8 @@ import { AppState, Platform } from 'react-native';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { Background } from '@/containers/Background';
 import { Login } from '@/containers/Login';
-import { DateString, WeekDays } from '@/schema/util/dates';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useTimetableStore } from '@/store/useTimetableStore';
-import { addDayToStringDate, formatDateData, getStartOfCurrentWeek, parseDateString } from '@/utils/dates';
 
 type Props = {
   children: JSX.Element;

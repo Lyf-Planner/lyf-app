@@ -3,7 +3,7 @@ import { Pressable, TextInput, View, StyleSheet } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import { appleGray, black, primaryGreen, white, whiteWithOpacity } from '@/utils/colours';
+import { black, primaryGreen, white } from '@/utils/colours';
 
 type Props = {
   search: string,

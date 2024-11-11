@@ -1,5 +1,5 @@
-import { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { SyntheticEvent, useCallback, useEffect, useRef } from 'react';
+import { Platform, StyleSheet } from 'react-native';
 
 import * as Haptics from 'expo-haptics';
 import {

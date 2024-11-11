@@ -1,5 +1,3 @@
-import { AppState } from 'react-native';
-
 import * as Haptics from 'expo-haptics';
 import { getCalendars } from 'expo-localization';
 import { v4 as uuid } from 'uuid';
@@ -13,7 +11,7 @@ import { ItemStatus, ItemType } from '@/schema/database/items';
 import { Permission } from '@/schema/database/items_on_users';
 import { LocalItem } from '@/schema/items';
 import { UserRelatedItem } from '@/schema/user';
-import { DateString, WeekDays } from '@/schema/util/dates';
+import { DateString } from '@/schema/util/dates';
 import { SocialAction } from '@/schema/util/social';
 import { getEndDate, getStartDate } from '@/utils/dates';
 import { AddItem, RemoveItem, ResortItems, UpdateItem, UpdateItemSocial } from '@/utils/item';

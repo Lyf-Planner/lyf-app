@@ -1,5 +1,3 @@
-import env from '../envManager';
-
 import { get, post } from './axios';
 
 import { ID } from '@/schema/database/abstract';

@@ -10,7 +10,6 @@ import {
 } from 'react-native-popup-menu';
 
 import { BouncyPressable, BouncyPressableOptions } from '@/components/BouncyPressable';
-import { LyfElement } from '@/utils/abstractTypes';
 import { blackWithOpacity } from '@/utils/colours';
 
 export type LyfMenuProps = {

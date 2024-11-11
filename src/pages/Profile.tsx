@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
+import { View, StyleSheet, Text, ScrollView } from 'react-native';
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { RouteParams } from 'Routes';

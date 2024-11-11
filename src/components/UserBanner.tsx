@@ -12,7 +12,7 @@ import { ItemRelatedUser, LocalItem } from '@/schema/items';
 import { NoteRelatedUser } from '@/schema/notes';
 import { PublicUser, UserFriend } from '@/schema/user';
 import { useModal } from '@/shell/overlays/useModal';
-import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, lightGreen, primaryGreen, white, whiteWithOpacity } from '@/utils/colours';
+import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, whiteWithOpacity } from '@/utils/colours';
 
 type Props = {
   user: UserFriend | ItemRelatedUser | NoteRelatedUser | PublicUser,

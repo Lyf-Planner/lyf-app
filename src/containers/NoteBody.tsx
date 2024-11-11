@@ -5,7 +5,7 @@ import debouncer from 'signature-debouncer';
 
 import { MultiTypeNewItem } from '@/components/MultiTypeNewItem';
 import { List } from '@/containers/List';
-import { ItemDbObject, ItemType } from '@/schema/database/items';
+import { ItemDbObject } from '@/schema/database/items';
 import { NoteType } from '@/schema/database/notes'
 import { LocalItem } from '@/schema/items';
 import { UserRelatedNote } from '@/schema/user';

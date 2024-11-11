@@ -4,7 +4,6 @@ import { ID } from '../@/schema/database/abstract';
 import { Permission } from '../@/schema/database/items_on_users';
 import { UserRelatedItem } from '../@/schema/user';
 import { SocialAction } from '../@/schema/util/social';
-import env from '../envManager';
 
 import { get, post } from './axios';
 

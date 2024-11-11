@@ -1,15 +1,9 @@
 import {
   createContext,
-  useCallback,
   useContext,
-  useEffect,
-  useMemo,
-  useRef,
   useState
 } from 'react';
-import { Keyboard, Platform, StyleSheet } from 'react-native';
-
-import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
+import { Platform } from 'react-native';
 
 import { useModal } from './useModal';
 

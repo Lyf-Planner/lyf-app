@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';

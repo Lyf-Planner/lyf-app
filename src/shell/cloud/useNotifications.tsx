@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 import { isDevice } from 'expo-device';
 import {
@@ -8,7 +8,7 @@ import {
 } from 'expo-notifications';
 
 import env from '@/envManager';
-import { getNotifications, updateNotification } from '@/rest/user';
+import { updateNotification } from '@/rest/user';
 import { ID } from '@/schema/database/abstract';
 import { Notification } from '@/schema/notifications';
 import { useAuthStore } from '@/store/useAuthStore';

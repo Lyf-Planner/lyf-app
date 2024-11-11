@@ -1,5 +1,5 @@
 import * as Native from 'react-native'
-import { Image, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
