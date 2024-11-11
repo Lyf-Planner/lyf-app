@@ -162,11 +162,13 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
     // Use updateItem so we handle things like note items, localised items etc.
     updateItem(item, itemChanges, false)
   },
+
   addItem: async (
     type: ItemType,
     rank: number,
     initial: Partial<LocalItem>
   ) => {
+    const { items } = get();
     const newItem: LocalItem = {
       // Set defaults
       id: uuid(),
@@ -209,7 +211,7 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
       // Item lives in a different store, send it there for it's local update
       // handleNoteItemUpdate(newItem, {}) TODO: Add note stuff
     } else {
-      set({ ...get().items, [newItem.id]: newItem });
+      set({ items: { ...items, [newItem.id]: newItem } });
     }
 
     // Upload, update store with result, fallback and remove item if creation failed
@@ -222,7 +224,7 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
     return newItem.id;
   },
   removeItem: async (item: LocalItem, deleteRemote = true) => {
-    const { user } = useAuthStore();
+    const { user } = useAuthStore.getState();
     const { items, updateItem, updateItemSocial } = get();
 
     if (item.template_id) {

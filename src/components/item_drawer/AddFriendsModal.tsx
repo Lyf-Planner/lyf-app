@@ -12,8 +12,8 @@ import { UserList, UserListContext } from '@/containers/UserList';
 import { ID } from '@/schema/database/abstract';
 import { UserFriendshipStatus } from '@/schema/database/user_friendships';
 import { useFriends } from '@/shell/cloud/useFriends';
-import { useTimetable } from '@/shell/cloud/useTimetable';
 import { useModal } from '@/shell/overlays/useModal';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, white } from '@/utils/colours';
 
 type Props = {
@@ -22,7 +22,7 @@ type Props = {
 
 export const AddFriendsModal = ({ item_id }: Props) => {
   const { friends, loading, reload } = useFriends();
-  const { items } = useTimetable();
+  const { items } = useTimetableStore();
   const { updateModal } = useModal();
 
   const item = useMemo(() => items[item_id], [items]);

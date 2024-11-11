@@ -13,7 +13,7 @@ import { NewItem } from '@/components/NewItem';
 import { List } from '@/containers/List';
 import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
-import { useTimetable } from '@/shell/cloud/useTimetable';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
 
 type Props = {
@@ -26,7 +26,7 @@ type Props = {
 
 export const ListDropdown = ({ items, listType, icon, name, startOpen = false }: Props) => {
   const [hide, updateHide] = useState(!startOpen);
-  const { addItem } = useTimetable();
+  const { addItem } = useTimetableStore();
 
   const scale = useSharedValue(1);
   const chevronAngle = useSharedValue(0);

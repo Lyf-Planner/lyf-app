@@ -17,8 +17,8 @@ import { ItemRelatedUser, LocalItem } from '@/schema/items';
 import { NoteRelatedUser } from '@/schema/notes';
 import { UserFriend } from '@/schema/user';
 import { SocialAction } from '@/schema/util/social';
-import { useTimetable } from '@/shell/cloud/useTimetable';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import {
   black,
   blackWithOpacity,
@@ -38,7 +38,7 @@ type Props = {
 export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props) => {
   const { user } = useAuthStore();
   const [loading, setLoading] = useState(false);
-  const { updateItemSocial } = useTimetable();
+  const { updateItemSocial } = useTimetableStore();
 
   // We don't useMemo here as this primarily functions as a typeguard
   const isItemMember = (user: SocialUser): user is (ItemRelatedUser | NoteRelatedUser) =>

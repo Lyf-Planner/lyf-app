@@ -1,7 +1,5 @@
 import { Alert } from 'react-native';
 
-import env from 'envManager';
-
 export const validateUsername = (username: string) => {
   console.log('VALIDATING USERNAME:', username.match(/[^a-zA-Z0-9._]/gi));
   if (username.match(/[^a-zA-Z0-9._]/gi)) {

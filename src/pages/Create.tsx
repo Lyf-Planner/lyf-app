@@ -14,10 +14,10 @@ import { PageBackground } from '@/containers/PageBackground'
 import { ItemType } from '@/schema/database/items'
 import { NoteType } from '@/schema/database/notes'
 import { useNotes } from '@/shell/cloud/useNotes'
-import { useTimetable } from '@/shell/cloud/useTimetable'
 import { useDrawer } from '@/shell/overlays/useDrawer'
-import { black, deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from '@/utils/colours'
-import { formatDateData } from '@/utils/dates'
+import { useTimetableStore } from '@/store/useTimetableStore';
+import { black, eventsBadgeColor, primaryGreen, white } from '@/utils/colours'
+import { formatDateData } from '@/utils/dates';
 
 interface ButtonsLoading {
   event: boolean;
@@ -35,7 +35,7 @@ const defaultLoadingState: ButtonsLoading = {
 
 export const Create = (props: BottomTabScreenProps<RouteParams>) => {
   const { updateDrawer } = useDrawer();
-  const { addItem } = useTimetable();
+  const { addItem } = useTimetableStore();
   const { addNote } = useNotes();
   const navigation = useNavigation<BottomTabNavigationProp<RouteParams>>();
 

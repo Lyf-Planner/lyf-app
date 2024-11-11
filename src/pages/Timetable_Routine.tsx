@@ -7,11 +7,11 @@ import { PageLoader } from '@/components/PageLoader';
 import { DayDisplay } from '@/containers/DayDisplay';
 import { PageBackground } from '@/containers/PageBackground';
 import { WeekDays } from '@/schema/util/dates';
-import { useTimetable } from '@/shell/cloud/useTimetable';
-import { black, deepBlue, primaryGreen, white } from '@/utils/colours';
+import { useTimetableStore } from '@/store/useTimetableStore';
+import { black, primaryGreen, white } from '@/utils/colours';
 
 export const Routine = () => {
-  const { loading, items } = useTimetable();
+  const { loading, items } = useTimetableStore();
 
   return (
     <PageBackground sunRight locations={[0,0.82,1]} noPadding>

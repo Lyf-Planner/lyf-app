@@ -6,25 +6,19 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { Horizontal } from '@/components/Horizontal';
 import { AddDetails } from '@/components/item_drawer/AddDetails';
-import { InviteHandler } from '@/components/item_drawer/InviteHandler';
 import { ItemDate } from '@/components/item_drawer/ItemDate';
 import { ItemDescription } from '@/components/item_drawer/ItemDescription';
 import { ItemLink } from '@/components/item_drawer/ItemLink';
 import { ItemLocation } from '@/components/item_drawer/ItemLocation';
-import { ItemNotification } from '@/components/item_drawer/ItemNotification';
 import { ItemStatusDropdown } from '@/components/item_drawer/ItemStatusDropdown';
 import { ItemTime } from '@/components/item_drawer/ItemTime';
 import { ItemTitle } from '@/components/item_drawer/ItemTitle';
 import { ItemTypeBadge } from '@/components/item_drawer/ItemType';
-import { ItemUsers } from '@/components/item_drawer/ItemUsers';
-import { OptionsMenu } from '@/components/item_drawer/OptionsMenu';
-import { getItem } from '@/rest/items';
 import { ID } from '@/schema/database/abstract';
-import { ItemDbObject } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
 import { useNotes } from '@/shell/cloud/useNotes';
-import { useTimetable } from '@/shell/cloud/useTimetable';
 import { useDrawer } from '@/shell/overlays/useDrawer';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, deepBlue, white } from '@/utils/colours';
 import { isTemplate } from '@/utils/item';
 
@@ -41,7 +35,7 @@ export const NoteItemDrawer = ({
 }: Props) => {
   // Establish item from store
   const { updateDrawer, updateSheetMinHeight } = useDrawer();
-  const { updateItem } = useTimetable();
+  const { updateItem } = useTimetableStore();
   const { notes } = useNotes();
 
   const item = useMemo(() => {

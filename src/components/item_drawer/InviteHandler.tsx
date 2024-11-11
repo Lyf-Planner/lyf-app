@@ -8,9 +8,9 @@ import { BouncyPressable } from '@/components/BouncyPressable';
 import { Loader } from '@/components/Loader';
 import { LocalItem } from '@/schema/items';
 import { SocialAction } from '@/schema/util/social';
-import { useTimetable } from '@/shell/cloud/useTimetable';
 import { useModal } from '@/shell/overlays/useModal';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, primaryGreen, white } from '@/utils/colours';
 
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
 
 export const InviteHandler = ({ item }: Props) => {
   const { user } = useAuthStore();
-  const { updateItemSocial, removeItem } = useTimetable();
+  const { updateItemSocial, removeItem } = useTimetableStore();
   const { updateModal } = useModal();
 
   const acceptInvite = async () => {

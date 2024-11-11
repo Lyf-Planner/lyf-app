@@ -4,8 +4,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { WeekDays } from '@/schema/util/dates';
-import { useTimetable } from '@/shell/cloud/useTimetable';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from '@/utils/dates';
 
 enum ShiftDirection {
@@ -19,7 +19,7 @@ type Props = {
 }
 
 export const CalendarRange = ({ color, textColor }: Props) => {
-  const { reload, startDate, endDate } = useTimetable();
+  const { reload, startDate, endDate } = useTimetableStore();
   const { updateUser } = useAuthStore();
 
   const shift = (direction: ShiftDirection) => {

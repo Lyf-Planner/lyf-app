@@ -17,8 +17,8 @@ import { WeatherWidget } from '@/containers/WeatherWidget';
 import { ItemStatus } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
 import { DateString, DayOfWeek } from '@/schema/util/dates';
-import { useTimetable } from '@/shell/cloud/useTimetable';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import {
   black,
   blackWithOpacity,
@@ -53,7 +53,7 @@ type Props = {
 }
 
 export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
-  const { reload, resortItems, startDate, endDate } = useTimetable();
+  const { reload, resortItems, startDate, endDate } = useTimetableStore();
   const { user, updateUser } = useAuthStore();
   const [sorting, setSorting] = useState<boolean | null>(null);
   const [sortOrder, setSortOrder] = useState<LocalItem[]>(items);
@@ -139,7 +139,6 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
       // Automatic day finishing - only applies to when a user finishes there current first_day
       // This prevents the days from jumping forward and skipping an unfinished day.
       const firstDay = user?.first_day || formatDateData(getStartOfCurrentWeek());
-      console.log(date, firstDay, date.localeCompare(firstDay));
 
       const behindFirstDay = date.localeCompare(firstDay) < 0
       const behindCurrentDay = date.localeCompare(currentDateString()) < 0;

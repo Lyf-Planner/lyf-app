@@ -5,7 +5,7 @@ import { NewItem } from './NewItem'
 
 import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
-import { useTimetable } from '@/shell/cloud/useTimetable';
+import { useTimetableStore } from '@/store/useTimetableStore';
 
 type Props = {
   newRank: number,
@@ -14,7 +14,7 @@ type Props = {
 }
 
 export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true }: Props) => {
-  const { addItem } = useTimetable();
+  const { addItem } = useTimetableStore();
   const [newItemType, setNewItemType] = useState<ItemType | null>(null);
 
   const addItemByTitleTyped = (title: string, type: ItemType) => addItem(type, newRank, {

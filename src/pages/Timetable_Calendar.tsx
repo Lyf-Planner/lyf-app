@@ -15,13 +15,13 @@ import { PageBackground } from '@/containers/PageBackground';
 import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
 import { WeekDays } from '@/schema/util/dates';
-import { useTimetable } from '@/shell/cloud/useTimetable';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, deepBlueOpacity, eventsBadgeColor, white } from '@/utils/colours';
 import { allDatesBetween, dayFromDateString, formatDateData, localisedMoment } from '@/utils/dates';
 import { isTemplate } from '@/utils/item';
 
 export const Calendar = () => {
-  const { loading, items, reload, startDate, endDate } = useTimetable();
+  const { loading, items, reload, startDate, endDate } = useTimetableStore();
   const scrollRef = useRef<ScrollView>(null);
 
   useEffect(() => {

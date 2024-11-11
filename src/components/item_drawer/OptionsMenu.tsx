@@ -15,8 +15,8 @@ import { Loader } from '@/components/Loader';
 import { Permission } from '@/schema/database/items_on_users';
 import { LocalItem } from '@/schema/items';
 import { SocialAction } from '@/schema/util/social';
-import { useTimetable } from '@/shell/cloud/useTimetable';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { blackWithOpacity } from '@/utils/colours';
 
 type Props = {
@@ -27,7 +27,7 @@ type Props = {
 export const OptionsMenu = ({ item, closeDrawer }: Props) => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuthStore();
-  const { updateItemSocial, removeItem } = useTimetable();
+  const { updateItemSocial, removeItem } = useTimetableStore();
   const menuName = useMemo(
     () => `item-options-${item.id}-${item.show_in_upcoming}`,
     []

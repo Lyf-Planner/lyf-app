@@ -8,7 +8,6 @@ import { FriendsProvider } from './useFriends';
 import { LocationProvider } from './useLocation';
 import { NotesProvider } from './useNotes';
 import { NotificationsLayer } from './useNotifications';
-import { TimetableProvider } from './useTimetable';
 
 type Props = {
   children: JSX.Element;
@@ -38,11 +37,9 @@ export const CloudProvider = ({ children }: Props) => {
       <NotificationsLayer>
         <LocationProvider>
           <NotesProvider>
-            <TimetableProvider>
-              <FriendsProvider>
-                {children}
-              </FriendsProvider>
-            </TimetableProvider>
+            <FriendsProvider>
+              {children}
+            </FriendsProvider>
           </NotesProvider>
         </LocationProvider>
       </NotificationsLayer>

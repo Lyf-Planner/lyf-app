@@ -20,8 +20,8 @@ import { ItemUsers } from '@/components/item_drawer/ItemUsers';
 import { OptionsMenu } from '@/components/item_drawer/OptionsMenu';
 import { getItem } from '@/rest/items';
 import { ID } from '@/schema/database/abstract';
-import { useTimetable } from '@/shell/cloud/useTimetable';
 import { useDrawer } from '@/shell/overlays/useDrawer';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, deepBlue, white } from '@/utils/colours';
 import { isTemplate, ItemDrawerProps } from '@/utils/item';
 
@@ -36,7 +36,7 @@ export const ItemDrawer = ({
 }: Props) => {
   // Establish item from store
   const { updateDrawer, updateSheetMinHeight } = useDrawer();
-  const { items, updateItem } = useTimetable();
+  const { items, updateItem } = useTimetableStore();
   const item = useMemo(() => Object.values(items).find((x) => x.id === id), [items]);
 
   const [descOpen, setDescOpen] = useState(!!item?.desc);
