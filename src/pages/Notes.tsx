@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { RouteParams } from 'Routes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { RouteParams } from '@/Routes';
 import { NewNoteMenu } from '@/components/NewNoteAdd';
 import { NoteRow } from '@/components/NoteRow';
 import { PageLoader } from '@/components/PageLoader';
@@ -30,7 +30,6 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
       <NoteView
         id={selectedId}
         onBack={() => setSelectedId(null)}
-        updateSelected={(id: ID) => setSelectedId(id)}
       />
     );
   } else {
@@ -51,17 +50,15 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
             <View style={styles.scrollContainer}>
               {!loading &&
                 <View style={styles.noteRowWrapper}>
-                  {notes.length > 0 &&
-                    notes.map((x) => (
-                      <NoteRow
-                        note={x}
-                        onSelect={() => setSelectedId(x.id)}
-                        key={x.id}
-                      />
-                    ))
-                  }
+                  {Object.values(notes).map((x) => (
+                    <NoteRow
+                      note={x}
+                      onSelect={() => setSelectedId(x.id)}
+                      key={x.id}
+                    />
+                  ))}
 
-                  {notes.length === 0 &&
+                  {Object.values(notes).length === 0 &&
                     <Text style={styles.noNotesText}>No notes created yet :)</Text>
                   }
                 </View>

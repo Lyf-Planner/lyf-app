@@ -82,7 +82,7 @@ export const FriendsProvider = ({ children }: Props) => {
   );
 };
 
-const FriendsContext = createContext<FriendHooks>(undefined as never); // TODO: Do this better
+const FriendsContext = createContext<FriendHooks>(undefined as never);
 
 export const useFriends = () => {
   return useContext(FriendsContext);

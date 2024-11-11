@@ -50,5 +50,5 @@ export const CloudProvider = ({ children }: Props) => {
 const CloudContext = createContext<CloudHooks>(undefined as never);
 
 export const useCloud = () => {
-  return useContext(CloudContext); // TODO: Typeguard this
+  return useContext(CloudContext);
 };

@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { create } from 'zustand';
 
 import { AuthState, useAuthStore } from './useAuthStore';
+import { useNotesStore } from './useNotesStore';
 
 import { createItem, deleteItem, getTimetable, updateItem as updateRemoteItem, updateItemSocial as updateRemoteItemSocial } from '@/rest/items';
 import { ID } from '@/schema/database/abstract';
@@ -76,7 +77,7 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
   updateItem: async (item: LocalItem, changes: Partial<UserRelatedItem>, updateRemote = true) => {
     if (item.note_id) {
       // Item lives in a different store, send it there for it's local update
-      // handleNoteItemUpdate(item, changes) TODO: Handle this properly
+      useNotesStore.getState().handleNoteItemUpdate(item, changes)
     } else if (item.localised) {
       // Localised items need to be added to the store as something new
       const createdItem = { ...item, ...changes };
@@ -207,7 +208,7 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
 
     if (newItem.note_id) {
       // Item lives in a different store, send it there for it's local update
-      // handleNoteItemUpdate(newItem, {}) TODO: Add note stuff
+      useNotesStore.getState().handleNoteItemUpdate(newItem, {})
     } else {
       set({ items: { ...items, [newItem.id]: newItem } });
     }
@@ -244,7 +245,7 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
     const { id } = item;
 
     if (item.note_id) {
-      // handleNoteItemUpdate(item, {}, true) TODO: Integrate notes
+      useNotesStore.getState().handleNoteItemUpdate(item, {}, true)
     } else {
       // Remove from this store
       const tmp = { ...items };
@@ -293,7 +294,7 @@ useAuthStore.subscribe((state: AuthState, prevState: AuthState) => {
     useTimetableStore.setState({ startDate, endDate });
   }
 
-  // // initialise item store in response to authorisation
+  // initialise item store in response to authorisation
   if (state.user && !prevState.user) {
     useTimetableStore.getState().reload();
   }

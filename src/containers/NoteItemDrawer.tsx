@@ -39,7 +39,7 @@ export const NoteItemDrawer = ({
   const { notes } = useNotes();
 
   const item = useMemo(() => {
-    const relevantNote = notes.find((x) => x.id === noteId);
+    const relevantNote = notes[noteId];
     if (relevantNote && relevantNote.relations?.items) {
       return relevantNote.relations.items.find((x) => x.id === id);
     }

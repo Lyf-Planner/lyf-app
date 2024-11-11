@@ -8,22 +8,20 @@ import { NoteBody } from '@/containers/NoteBody';
 import { NoteHeader } from '@/containers/NoteHeader';
 import { PageBackground } from '@/containers/PageBackground';
 import { ID } from '@/schema/database/abstract';
-import { useNotes } from '@/shell/cloud/useNotes';
+import { useNotesStore } from '@/store/useNotesStore';
 
 type Props = {
   id: ID,
   onBack: () => void;
-  updateSelected: (id: ID) => void;
 }
 
 export const NoteView = ({
   id,
-  onBack,
-  updateSelected
+  onBack
 }: Props) => {
-  const { notes, loadNote } = useNotes();
+  const { notes, loadNote } = useNotesStore();
 
-  const note = useMemo(() => notes.find((x) => x.id === id), [notes]);
+  const note = useMemo(() => notes[id], [notes]);
   if (!note) {
     return null;
   }
