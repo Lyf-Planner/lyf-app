@@ -6,7 +6,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { NoteTypeBadge } from '@/components/NoteTypeBadge';
 import { NoteType } from '@/schema/database/notes';
 import { UserRelatedNote } from '@/schema/user'
-import { useNotes } from '@/shell/cloud/useNotes';
+import { useNoteStore } from '@/store/useNoteStore';
 import { black, blackWithOpacity, primaryGreen, white } from '@/utils/colours';
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
 }
 
 export const NoteHeader = ({ note, onBack }: Props) => {
-  const { updateNote } = useNotes();
+  const { updateNote } = useNoteStore();
   const [title, setTitle] = useState(note.title);
 
   const isNewNote = useMemo(() =>

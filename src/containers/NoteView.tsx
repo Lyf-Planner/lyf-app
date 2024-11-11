@@ -8,7 +8,7 @@ import { NoteBody } from '@/containers/NoteBody';
 import { NoteHeader } from '@/containers/NoteHeader';
 import { PageBackground } from '@/containers/PageBackground';
 import { ID } from '@/schema/database/abstract';
-import { useNotesStore } from '@/store/useNotesStore';
+import { useNoteStore } from '@/store/useNoteStore';
 
 type Props = {
   id: ID,
@@ -19,7 +19,7 @@ export const NoteView = ({
   id,
   onBack
 }: Props) => {
-  const { notes, loadNote } = useNotesStore();
+  const { notes, loadNote } = useNoteStore();
 
   const note = useMemo(() => notes[id], [notes]);
   if (!note) {

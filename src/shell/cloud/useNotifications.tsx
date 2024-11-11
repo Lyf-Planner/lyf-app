@@ -20,7 +20,6 @@ type Props = {
 type NotificationHooks = {
   notifications: Notification[];
   readNotification: (id: ID) => void;
-  enabled: boolean;
   getDefaultNotificationMins: () => number;
 }
 
@@ -28,7 +27,6 @@ const DEFAULT_NOTIFICATION_MINS = 5;
 
 export const NotificationsLayer = ({ children }: Props) => {
   const { user } = useAuthStore();
-  const [enabled, setEnabled] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const readNotification = async (id: ID) => {
@@ -57,7 +55,6 @@ export const NotificationsLayer = ({ children }: Props) => {
 
   const exposed: NotificationHooks = {
     notifications,
-    enabled,
     readNotification,
     getDefaultNotificationMins
   };

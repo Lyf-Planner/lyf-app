@@ -9,7 +9,7 @@ import { ItemDbObject } from '@/schema/database/items';
 import { NoteType } from '@/schema/database/notes'
 import { LocalItem } from '@/schema/items';
 import { UserRelatedNote } from '@/schema/user';
-import { useNotes } from '@/shell/cloud/useNotes';
+import { useNoteStore } from '@/store/useNoteStore';
 import { deepBlue, deepBlueOpacity, white } from '@/utils/colours';
 
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
 const debounceSignature = 'NoteContent'
 
 export const NoteBody = ({ note }: Props) => {
-  const { updateNote } = useNotes();
+  const { updateNote } = useNoteStore();
   const [content, setContent] = useState(note.content);
 
   const updateContent = () => updateNote(note, { content });

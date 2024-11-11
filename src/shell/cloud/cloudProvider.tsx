@@ -6,7 +6,6 @@ import {
 
 import { FriendsProvider } from './useFriends';
 import { LocationProvider } from './useLocation';
-import { NotesProvider } from './useNotes';
 import { NotificationsLayer } from './useNotifications';
 
 type Props = {
@@ -36,11 +35,9 @@ export const CloudProvider = ({ children }: Props) => {
     <CloudContext.Provider value={exposed}>
       <NotificationsLayer>
         <LocationProvider>
-          <NotesProvider>
-            <FriendsProvider>
-              {children}
-            </FriendsProvider>
-          </NotesProvider>
+          <FriendsProvider>
+            {children}
+          </FriendsProvider>
         </LocationProvider>
       </NotificationsLayer>
     </CloudContext.Provider>

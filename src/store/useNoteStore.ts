@@ -1,6 +1,8 @@
 import { v4 as uuid } from 'uuid';
 import { create } from 'zustand';
 
+import 'react-native-get-random-values';
+
 import { AuthState, useAuthStore } from './useAuthStore';
 
 import {
@@ -30,14 +32,14 @@ export type NotesState = {
   removeNote: RemoveNote
 }
 
-export const useNotesStore = create<NotesState>((set, get) => ({
+export const useNoteStore = create<NotesState>((set, get) => ({
   loading: true,
   notes: {},
 
   reload: async () => {
     set({ loading: true });
     const cloudNotes = await myNotes() as UserRelatedNote[];
-    let notes: Record<ID, UserRelatedNote> = {};
+    const notes: Record<ID, UserRelatedNote> = {};
 
     cloudNotes.forEach((note) => {
       notes[note.id] = note;
@@ -153,6 +155,6 @@ export const useNotesStore = create<NotesState>((set, get) => ({
 useAuthStore.subscribe((state: AuthState, prevState: AuthState) => {
   // initialise notes store in response to authorisation
   if (state.user && !prevState.user) {
-    useNotesStore.getState().reload();
+    useNoteStore.getState().reload();
   }
 });

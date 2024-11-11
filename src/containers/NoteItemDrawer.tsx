@@ -16,8 +16,8 @@ import { ItemTitle } from '@/components/item_drawer/ItemTitle';
 import { ItemTypeBadge } from '@/components/item_drawer/ItemType';
 import { ID } from '@/schema/database/abstract';
 import { LocalItem } from '@/schema/items';
-import { useNotes } from '@/shell/cloud/useNotes';
 import { useDrawer } from '@/shell/overlays/useDrawer';
+import { useNoteStore } from '@/store/useNoteStore';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, deepBlue, white } from '@/utils/colours';
 import { isTemplate } from '@/utils/item';
@@ -36,7 +36,7 @@ export const NoteItemDrawer = ({
   // Establish item from store
   const { updateDrawer, updateSheetMinHeight } = useDrawer();
   const { updateItem } = useTimetableStore();
-  const { notes } = useNotes();
+  const { notes } = useNoteStore();
 
   const item = useMemo(() => {
     const relevantNote = notes[noteId];

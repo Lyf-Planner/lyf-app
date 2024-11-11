@@ -3,8 +3,9 @@ import { getCalendars } from 'expo-localization';
 import { v4 as uuid } from 'uuid';
 import { create } from 'zustand';
 
+import 'react-native-get-random-values';
+
 import { AuthState, useAuthStore } from './useAuthStore';
-import { useNotesStore } from './useNotesStore';
 
 import { createItem, deleteItem, getTimetable, updateItem as updateRemoteItem, updateItemSocial as updateRemoteItemSocial } from '@/rest/items';
 import { ID } from '@/schema/database/abstract';
@@ -14,6 +15,7 @@ import { LocalItem } from '@/schema/items';
 import { UserRelatedItem } from '@/schema/user';
 import { DateString } from '@/schema/util/dates';
 import { SocialAction } from '@/schema/util/social';
+import { useNoteStore } from '@/store/useNoteStore';
 import { getEndDate, getStartDate } from '@/utils/dates';
 import { AddItem, RemoveItem, ResortItems, UpdateItem, UpdateItemSocial } from '@/utils/item';
 
@@ -77,7 +79,7 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
   updateItem: async (item: LocalItem, changes: Partial<UserRelatedItem>, updateRemote = true) => {
     if (item.note_id) {
       // Item lives in a different store, send it there for it's local update
-      useNotesStore.getState().handleNoteItemUpdate(item, changes)
+      useNoteStore.getState().handleNoteItemUpdate(item, changes)
     } else if (item.localised) {
       // Localised items need to be added to the store as something new
       const createdItem = { ...item, ...changes };
@@ -208,7 +210,7 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
 
     if (newItem.note_id) {
       // Item lives in a different store, send it there for it's local update
-      useNotesStore.getState().handleNoteItemUpdate(newItem, {})
+      useNoteStore.getState().handleNoteItemUpdate(newItem, {})
     } else {
       set({ items: { ...items, [newItem.id]: newItem } });
     }
@@ -245,7 +247,7 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
     const { id } = item;
 
     if (item.note_id) {
-      useNotesStore.getState().handleNoteItemUpdate(item, {}, true)
+      useNoteStore.getState().handleNoteItemUpdate(item, {}, true)
     } else {
       // Remove from this store
       const tmp = { ...items };

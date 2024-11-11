@@ -12,13 +12,13 @@ import { NoteView } from '@/containers/NoteView';
 import { PageBackground } from '@/containers/PageBackground';
 import { ID } from '@/schema/database/abstract';
 import { NoteType } from '@/schema/database/notes';
-import { useNotes } from '@/shell/cloud/useNotes';
+import { useNoteStore } from '@/store/useNoteStore';
 import { black, gentleWhite, primaryGreen, white } from '@/utils/colours';
 
 export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
   // Can be the ID of a folder or note, the manager will figure it out
   const [selectedId, setSelectedId] = useState<ID | null>(props.route.params?.id || null);
-  const { loading, notes, updateNote, addNote } = useNotes();
+  const { loading, notes, addNote } = useNoteStore();
 
   const newNote = (type: NoteType) => {
     const title = `New ${type === NoteType.ListOnly ? 'List' : 'Note'}`;
