@@ -11,8 +11,8 @@ import { SimpleSearch } from '@/components/SimpleSearch';
 import { UserList, UserListContext } from '@/containers/UserList';
 import { ID } from '@/schema/database/abstract';
 import { UserFriendshipStatus } from '@/schema/database/user_friendships';
-import { useFriends } from '@/shell/cloud/useFriends';
 import { useModal } from '@/shell/overlays/useModal';
+import { useFriendsStore } from '@/store/useFriendsStore';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, white } from '@/utils/colours';
 
@@ -21,7 +21,7 @@ type Props = {
 }
 
 export const AddFriendsModal = ({ item_id }: Props) => {
-  const { friends, loading, reload } = useFriends();
+  const { friends, loading, reload } = useFriendsStore();
   const { items } = useTimetableStore();
   const { updateModal } = useModal();
 

@@ -1,7 +1,7 @@
 import { getCalendars } from 'expo-localization';
 import { create } from 'zustand';
 
-import { autologin, login, USER_NOT_FOUND } from '@/rest/auth';
+import { autologin, login, LoginResult } from '@/rest/auth';
 import { createUser, deleteMe, saveUser } from '@/rest/user';
 import { ID } from '@/schema/database/abstract';
 import { ExposedUser, User } from '@/schema/user';
@@ -16,7 +16,7 @@ export interface AuthState {
   autologin: () => Promise<void>;
   createUser: (username: ID, password: string) => Promise<void>;
   deleteMe: (password: string) => Promise<true | undefined>;
-  login: (username: ID, password: string) => Promise<boolean>;
+  login: (username: ID, password: string) => Promise<LoginResult>;
   logout: () => Promise<void>;
   syncUser: () => Promise<void>;
   updateUser: (changes: Partial<User>) => Promise<void>;
@@ -55,15 +55,18 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   login: async (username: ID, password: string) => {
-    set({ loggingIn: true });
-    const user = await login(username, password);
-
-    if (user && user !== USER_NOT_FOUND) {
-      get().updateUser(user);
+    const loginResultIsUser = (loginResult: LoginResult): loginResult is ExposedUser => {
+      return !!(loginResult as ExposedUser).id
     }
 
-    // returns false if the user does not exist, such that we know to create instead
-    return user !== USER_NOT_FOUND;
+    const loginResult = await login(username, password);
+
+    console.log('login result is??', loginResult);
+    if (loginResultIsUser(loginResult)) {
+      get().updateUser(loginResult);
+    }
+
+    return loginResult
   },
 
   logout: async () => {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { SharedValue, useSharedValue } from 'react-native-reanimated';
 
@@ -58,6 +58,10 @@ export const Item = ({
     checkScale: useSharedValue(1),
     checkRotation: useSharedValue('0deg')
   };
+
+  useEffect(() => {
+    console.log('probe end time', new Date().getTime());
+  }, [])
 
   return (
     <ListItemGestureWrapper

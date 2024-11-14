@@ -1,51 +1,62 @@
 import { create } from 'zustand';
 
-type Friend = {
-  id: string;
-  name: string;
-};
+import { getUser, updateFriendship as updateRemoteFriendship } from '@/rest/user';
+import { ID } from '@/schema/database/abstract';
+import { ExposedUser, UserFriend } from '@/schema/user';
+import { FriendshipAction } from '@/schema/util/social';
+import { AuthState, useAuthStore } from '@/store/useAuthStore';
 
 type FriendsState = {
-  friends: Friend[];
-  addFriend: (friend: Friend) => void;
-  removeFriend: (id: string) => void;
-  updateFriend: (updatedFriend: Friend) => void;
-};
+  friends: UserFriend[];
+  loading: boolean;
+  reload: () => void;
+  updateFriendship: (user_id: ID, action: FriendshipAction) => Promise<void>
+}
 
 export const useFriendsStore = create<FriendsState>((set, get) => ({
   friends: [],
+  loading: true,
 
-  addFriend: (friend) =>
-    set((state) => ({ friends: [...state.friends, friend] })),
+  reload: async () => {
+    const { user } = useAuthStore.getState();
+    if (!user) {
+      return;
+    }
 
-  removeFriend: (id) =>
-    set((state) => ({
-      friends: state.friends.filter((friend) => friend.id !== id)
-    })),
+    const self: ExposedUser = await getUser(user?.id, 'users');
+    set({ friends: self.relations?.users || [], loading: false });
+  },
 
-  updateFriend: (updatedFriend) => {
-    const prevState = get().friends;
+  updateFriendship: async (user_id: ID, action: FriendshipAction) => {
+    const { user } = useAuthStore.getState();
+    if (!user) {
+      return;
+    }
 
-    set((state) => ({
-      friends: state.friends.map((friend) =>
-        friend.id === updatedFriend.id ? updatedFriend : friend
-      )
-    }));
+    const { friends } = get()
+    const i = friends.findIndex((x) => x.id === user_id);
+    const localFriendExists = i !== -1;
 
-    syncUpdateFriendToApi(updatedFriend).catch(() => {
-      set(() => ({ friends: prevState }));
-    });
+    const friend = await updateRemoteFriendship(user_id, action);
+    const tmp = [...friends];
+    if (localFriendExists && friend) {
+      tmp[i] = friend;
+    } else if (friend) {
+      tmp.push(friend);
+    } else {
+      // friend comes from the API, it being null implies it should no longer exist
+      tmp.splice(i, 1);
+    }
+
+    set({ friends: tmp });
   }
 }));
 
-async function syncUpdateFriendToApi(updatedFriend: Friend) {
-  const response = await fetch(`/api/friends/${updatedFriend.id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(updatedFriend)
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to update friend');
+// listeners
+useAuthStore.subscribe((state: AuthState, prevState: AuthState) => {
+  // initialise notes store in response to authorisation
+  if (state.user && !prevState.user) {
+    useFriendsStore.getState().reload();
   }
-}
+});
+

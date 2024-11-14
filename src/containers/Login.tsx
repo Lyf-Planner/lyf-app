@@ -23,9 +23,9 @@ export const Login = () => {
 
   const onSubmit = async () => {
     updateLoggingIn(true);
-    const userExists = await login(uid, pass)
+    const loginResult = await login(uid, pass)
 
-    if (!userExists) {
+    if (loginResult === 'not found') {
       updateCreating(true);
       await createUser(uid, pass);
       updateCreating(false);

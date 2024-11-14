@@ -77,15 +77,23 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
   },
 
   updateItem: async (item: LocalItem, changes: Partial<UserRelatedItem>, updateRemote = true) => {
+    const updateStart = new Date();
+    console.log('starting probe with zero time', updateStart.getTime())
+    const probe = (stage: string) => console.log(new Date().getTime() - updateStart.getTime(), stage);
+
     if (item.note_id) {
+      probe('handling note id update.');
       // Item lives in a different store, send it there for it's local update
-      useNoteStore.getState().handleNoteItemUpdate(item, changes)
+      useNoteStore.getState().handleNoteItemUpdate(probe, item, changes)
     } else if (item.localised) {
+      probe('creating localised item.')
       // Localised items need to be added to the store as something new
       const createdItem = { ...item, ...changes };
       await get().addItem(createdItem.type, createdItem.sorting_rank, createdItem);
+      probe('localised item created.')
       return;
     } else {
+      probe('getting in store item')
       const inStoreItem = get().items[item.id];
       if (!inStoreItem) {
         console.error('Cannot update item not held in store ?')
@@ -103,6 +111,7 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
           }
         }
       });
+      probe('in store item updated')
     }
 
     if (updateRemote) {
@@ -111,6 +120,7 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
         // Fallback to handle failed remote updates
         get().updateItem(item, item, false);
       }
+      probe('remote item updated');
     }
   },
   updateItemSocial: async (
@@ -208,9 +218,12 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
       newItem.status = ItemStatus.Tentative;
     }
 
+    const updateStart = new Date()
+    const probe = (stage: string) => console.log(new Date().getTime() - updateStart.getTime(), stage);
+
     if (newItem.note_id) {
       // Item lives in a different store, send it there for it's local update
-      useNoteStore.getState().handleNoteItemUpdate(newItem, {})
+      useNoteStore.getState().handleNoteItemUpdate(probe, newItem, {})
     } else {
       set({ items: { ...items, [newItem.id]: newItem } });
     }
@@ -246,8 +259,11 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
 
     const { id } = item;
 
+    const updateStart = new Date()
+    const probe = (stage: string) => console.log(new Date().getTime() - updateStart.getTime(), stage);
+
     if (item.note_id) {
-      useNoteStore.getState().handleNoteItemUpdate(item, {}, true)
+      useNoteStore.getState().handleNoteItemUpdate(probe, item, {}, true)
     } else {
       // Remove from this store
       const tmp = { ...items };

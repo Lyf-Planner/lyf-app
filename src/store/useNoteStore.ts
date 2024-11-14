@@ -121,7 +121,7 @@ export const useNoteStore = create<NotesState>((set, get) => ({
     }
   },
 
-  handleNoteItemUpdate: async (item: ItemDbObject, changes: Partial<ItemDbObject>, remove = false) => {
+  handleNoteItemUpdate: async (probe: (state: string) => void, item: ItemDbObject, changes: Partial<ItemDbObject>, remove = false) => {
     // This function is merely a store update, the item itself gets updated when passed here by the item store.
     if (!item.note_id) {
       console.warn('Escaping note item update - item has no note_id');
@@ -148,6 +148,7 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
     const noteChanges = { relations: { ...note.relations, items: noteItems } }
     get().updateNote(note, noteChanges, false);
+    probe('finished updating note item');
   }
 }));
 

@@ -12,7 +12,7 @@ export enum UserListContext {
 
 type Props = {
   users: (UserFriend | ItemRelatedUser | NoteRelatedUser)[],
-  emptyText: string,
+  emptyText: string | null,
   context?: UserListContext,
   callback?: () => void,
   item?: LocalItem,
@@ -29,7 +29,7 @@ export const UserList = ({
 }: Props) => {
   return (
     <View style={styles.main}>
-      {users.length === 0 ? (
+      {users.length === 0 && emptyText !== null ? (
         <Text style={styles.emptyText}>{emptyText}</Text>
       ) : (
         users.map((x) => (

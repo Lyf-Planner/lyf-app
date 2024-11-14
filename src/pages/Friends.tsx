@@ -1,22 +1,24 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { RouteParams } from 'Routes';
 
+import { RouteParams } from '@/Routes';
 import { PageLoader } from '@/components/PageLoader';
 import { UserBanner } from '@/components/UserBanner';
 import { SearchHeader } from '@/containers/FriendSearchHeader';
 import { PageBackground } from '@/containers/PageBackground';
 import { UserList } from '@/containers/UserList'
 import { PublicUser } from '@/schema/user';
-import { useFriends } from '@/shell/cloud/useFriends'
+import { useFriendsStore } from '@/store/useFriendsStore';
 
 export const Friends = (props: BottomTabScreenProps<RouteParams>) => {
-  const { friends, loading } = useFriends();
+  const { friends, loading } = useFriendsStore();
 
   const [searchedUser, setSearchedUser] = useState<PublicUser | null>();
   const [searched, setSearched] = useState(false);
+
+  const searchedUserIsFriend = useMemo(() => friends && friends.some((friend) => friend.id === searchedUser?.id), [friends]);
 
   return (
     <View style={styles.main}>
@@ -48,12 +50,12 @@ export const Friends = (props: BottomTabScreenProps<RouteParams>) => {
             </View>
             }
 
-            {!loading &&
-            <UserList
-              users={friends.filter((x) => x.id !== searchedUser?.id)}
-              emptyText={'No friends added yet :)'}
-              callback={() => setSearchedUser(null)}
-            />
+            {!loading && !(searchedUserIsFriend && friends.length === 1) &&
+              <UserList
+                users={friends.filter((x) => x.id !== searchedUser?.id)}
+                emptyText={searchedUserIsFriend ? null : 'No friends added yet :)'}
+                callback={() => setSearchedUser(null)}
+              />
             }
             {!loading &&
             <Text style={styles.hintText}>Ask your friends for their usernames!</Text>

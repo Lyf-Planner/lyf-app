@@ -4,7 +4,6 @@ import {
   useState
 } from 'react';
 
-import { FriendsProvider } from './useFriends';
 import { LocationProvider } from './useLocation';
 import { NotificationsLayer } from './useNotifications';
 
@@ -35,9 +34,7 @@ export const CloudProvider = ({ children }: Props) => {
     <CloudContext.Provider value={exposed}>
       <NotificationsLayer>
         <LocationProvider>
-          <FriendsProvider>
-            {children}
-          </FriendsProvider>
+          {children}
         </LocationProvider>
       </NotificationsLayer>
     </CloudContext.Provider>
