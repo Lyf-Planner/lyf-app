@@ -18,8 +18,6 @@ type Props = ItemDrawerProps & {
   updateSheetMinHeight: (height: number) => void;
 }
 
-const debounceSignature = 'UpdateLocation';
-
 export const ItemLocation = ({
   item,
   updateItem,

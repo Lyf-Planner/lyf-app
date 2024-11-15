@@ -53,10 +53,11 @@ export default {
       buildNumber: '2.0.5'
     },
     plugins: [
-      'expo-localization',
-      'expo-font',
       'expo-asset',
-      ['expo-location', { locationWhenInUsePermission: 'Allow Lyf to use your location for weather data.' }]
+      'expo-font',
+      'expo-localization',
+      ['expo-location', { locationWhenInUsePermission: 'Allow Lyf to use your location for weather data.' }],
+      'expo-router'
     ],
     extra: {
       backendUrl: process.env.BACKEND_URL,
