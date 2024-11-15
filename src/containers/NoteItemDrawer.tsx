@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
@@ -6,25 +6,19 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { Horizontal } from '@/components/Horizontal';
 import { AddDetails } from '@/components/item_drawer/AddDetails';
-import { InviteHandler } from '@/components/item_drawer/InviteHandler';
 import { ItemDate } from '@/components/item_drawer/ItemDate';
 import { ItemDescription } from '@/components/item_drawer/ItemDescription';
 import { ItemLink } from '@/components/item_drawer/ItemLink';
 import { ItemLocation } from '@/components/item_drawer/ItemLocation';
-import { ItemNotification } from '@/components/item_drawer/ItemNotification';
 import { ItemStatusDropdown } from '@/components/item_drawer/ItemStatusDropdown';
 import { ItemTime } from '@/components/item_drawer/ItemTime';
 import { ItemTitle } from '@/components/item_drawer/ItemTitle';
 import { ItemTypeBadge } from '@/components/item_drawer/ItemType';
-import { ItemUsers } from '@/components/item_drawer/ItemUsers';
-import { OptionsMenu } from '@/components/item_drawer/OptionsMenu';
-import { useNotes } from '@/hooks/cloud/useNotes';
-import { UpdateItem, useTimetable } from '@/hooks/cloud/useTimetable';
-import { useDrawer } from '@/hooks/overlays/useDrawer';
-import { getItem } from '@/rest/items';
 import { ID } from '@/schema/database/abstract';
-import { ItemDbObject } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
+import { useDrawer } from '@/shell/useDrawer';
+import { useNoteStore } from '@/store/useNoteStore';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, deepBlue, white } from '@/utils/colours';
 import { isTemplate } from '@/utils/item';
 
@@ -41,11 +35,11 @@ export const NoteItemDrawer = ({
 }: Props) => {
   // Establish item from store
   const { updateDrawer, updateSheetMinHeight } = useDrawer();
-  const { updateItem } = useTimetable();
-  const { notes } = useNotes();
+  const { updateItem } = useTimetableStore();
+  const { notes } = useNoteStore();
 
   const item = useMemo(() => {
-    const relevantNote = notes.find((x) => x.id === noteId);
+    const relevantNote = notes[noteId];
     if (relevantNote && relevantNote.relations?.items) {
       return relevantNote.relations.items.find((x) => x.id === id);
     }
@@ -69,7 +63,7 @@ export const NoteItemDrawer = ({
   // Establish props passed to children
   const props = {
     item: item as LocalItem,
-    updateItem: updateItem as UpdateItem,
+    updateItem,
     updateDrawer,
     updateSheetMinHeight
   }

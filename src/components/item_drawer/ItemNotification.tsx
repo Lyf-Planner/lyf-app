@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import { useNotifications } from '@/hooks/cloud/useNotifications';
+import { useNotifications } from '@/shell/useNotifications';
 import { blackWithOpacity } from '@/utils/colours';
 import { ItemDrawerProps } from '@/utils/item';
 

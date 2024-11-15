@@ -8,17 +8,12 @@ import {
 
 import { Horizontal } from '@/components/Horizontal';
 import { Loader } from '@/components/Loader';
-import { USER_NOT_FOUND, login } from '@/rest/auth';
-import { createUser } from '@/rest/user';
-import { ExposedUser } from '@/schema/user';
+import { useAuthStore } from '@/store/useAuthStore';
 import { black, blackWithOpacity, loginFieldBackground, white } from '@/utils/colours';
-import { validatePassword, validateUsername } from '@/utils/validators';
 
-type Props = {
-  updateUser: (changes: Partial<ExposedUser>) => void;
-}
+export const Login = () => {
+  const { login, createUser } = useAuthStore();
 
-export const Login = ({ updateUser }: Props) => {
   const [uid, updateUid] = useState('');
   const [pass, updatePass] = useState('');
   const [loggingIn, updateLoggingIn] = useState(false);
@@ -28,27 +23,15 @@ export const Login = ({ updateUser }: Props) => {
 
   const onSubmit = async () => {
     updateLoggingIn(true);
-    let user = await login(uid, pass);
+    const loginResult = await login(uid, pass)
 
-    if (user === USER_NOT_FOUND) {
-      console.log('User not found, creating account')
-      if (!validateUsername(uid) || !validatePassword(pass)) {
-        updateLoggingIn(false);
-        return;
-      }
-
-      // Create new user when valid and not found
+    if (loginResult === 'not found') {
       updateCreating(true);
-      updateLoggingIn(false);
-      user = await createUser(uid, pass);
+      await createUser(uid, pass);
       updateCreating(false);
     }
 
     updateLoggingIn(false);
-
-    if (user) {
-      updateUser(user);
-    }
   }
 
   const conditionalStyles = {
@@ -57,7 +40,7 @@ export const Login = ({ updateUser }: Props) => {
 
   const _renderHeader = () => {
     const showAuthStatus = loggingIn || creating;
-    const authStatus = loggingIn ? 'Fetching your Lyf...' : 'Creating your Lyf...'
+    const authStatus = creating ? 'Creating your Lyf...' : 'Fetching your Lyf...';
 
     return (
       <View style={styles.headerContainer}>

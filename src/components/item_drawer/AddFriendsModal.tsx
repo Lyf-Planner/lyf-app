@@ -9,11 +9,11 @@ import { Horizontal } from '@/components/Horizontal';
 import { Loader } from '@/components/Loader';
 import { SimpleSearch } from '@/components/SimpleSearch';
 import { UserList, UserListContext } from '@/containers/UserList';
-import { useFriends } from '@/hooks/cloud/useFriends';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
-import { useModal } from '@/hooks/overlays/useModal';
 import { ID } from '@/schema/database/abstract';
 import { UserFriendshipStatus } from '@/schema/database/user_friendships';
+import { useModal } from '@/shell/useModal';
+import { useFriendsStore } from '@/store/useFriendsStore';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, white } from '@/utils/colours';
 
 type Props = {
@@ -21,11 +21,11 @@ type Props = {
 }
 
 export const AddFriendsModal = ({ item_id }: Props) => {
-  const { friends, loading, reload } = useFriends();
-  const { items } = useTimetable();
+  const { friends, loading, reload } = useFriendsStore();
+  const { items } = useTimetableStore();
   const { updateModal } = useModal();
 
-  const item = useMemo(() => items.find((x) => x.id === item_id), [items]);
+  const item = useMemo(() => items[item_id], [items]);
   if (!item) {
     return null;
   }

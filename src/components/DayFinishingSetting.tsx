@@ -1,10 +1,10 @@
 import { StyleSheet, View, Text, Switch } from 'react-native'
 
-import { useAuth } from '@/hooks/cloud/useAuth'
+import { useAuthStore } from '@/store/useAuthStore';
 import { white } from '@/utils/colours';
 
 export const DayFinishingSetting = () => {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser } = useAuthStore();
 
   const updateDayFinishing = (enabled: boolean) => {
     updateUser({ auto_day_finishing: enabled })

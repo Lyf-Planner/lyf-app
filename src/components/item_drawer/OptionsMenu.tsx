@@ -12,11 +12,11 @@ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 
 import { Horizontal } from '@/components/Horizontal';
 import { Loader } from '@/components/Loader';
-import { useAuth } from '@/hooks/cloud/useAuth';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { Permission } from '@/schema/database/items_on_users';
 import { LocalItem } from '@/schema/items';
 import { SocialAction } from '@/schema/util/social';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { blackWithOpacity } from '@/utils/colours';
 
 type Props = {
@@ -26,8 +26,8 @@ type Props = {
 
 export const OptionsMenu = ({ item, closeDrawer }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
-  const { updateItemSocial, removeItem } = useTimetable();
+  const { user } = useAuthStore();
+  const { updateItemSocial, removeItem } = useTimetableStore();
   const menuName = useMemo(
     () => `item-options-${item.id}-${item.show_in_upcoming}`,
     []

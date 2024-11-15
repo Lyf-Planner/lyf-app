@@ -12,10 +12,10 @@ import {
   MenuPopoverPlacement,
   PopoverMenuOption
 } from '@/containers/LyfMenu';
-import { useAuth } from '@/hooks/cloud/useAuth';
-import { useFriends } from '@/hooks/cloud/useFriends';
 import { UserFriend } from '@/schema/user';
 import { FriendshipAction, hasBlock, hasFriendship, hasIncomingRequest, hasOutgoingRequest } from '@/schema/util/social';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useFriendsStore } from '@/store/useFriendsStore';
 import { black, inProgressColor, deepBlue, eventsBadgeColor, primaryGreen, white, red } from '@/utils/colours';
 
 type Props = {
@@ -25,8 +25,8 @@ type Props = {
 }
 
 export const FriendAction = ({ friend, callback, height }: Props) => {
-  const { user } = useAuth();
-  const { friends, loading, reload } = useFriends();
+  const { user } = useAuthStore();
+  const { friends, loading, reload } = useFriendsStore();
 
   useEffect(() => {
     if (loading) {
@@ -85,7 +85,7 @@ export const FriendAction = ({ friend, callback, height }: Props) => {
 
 export const Friend = ({ friend, callback, height }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { updateFriendship } = useFriends();
+  const { updateFriendship } = useFriendsStore();
   const removeFriend = async () => {
     setLoading(true);
     await updateFriendship(friend.id, FriendshipAction.Remove);
@@ -124,7 +124,7 @@ export const Friend = ({ friend, callback, height }: Props) => {
 
 export const Requested = ({ friend, callback, height }: Props) => {
   const [loading, setLoading] = useState(false);
-  const { updateFriendship } = useFriends();
+  const { updateFriendship } = useFriendsStore();
   const cancelRequest = async () => {
     setLoading(true);
     await updateFriendship(friend.id, FriendshipAction.Cancel);
@@ -162,7 +162,7 @@ export const Requested = ({ friend, callback, height }: Props) => {
 };
 
 export const AddFriend = ({ friend, callback, height }: Props) => {
-  const { updateFriendship } = useFriends();
+  const { updateFriendship } = useFriendsStore();
   const addFriend = async () => {
     await updateFriendship(friend.id, FriendshipAction.Request);
     if (callback) {
@@ -183,7 +183,7 @@ export const AddFriend = ({ friend, callback, height }: Props) => {
 };
 
 export const HandleRequest = ({ friend, callback, height }: Props) => {
-  const { updateFriendship } = useFriends();
+  const { updateFriendship } = useFriendsStore();
   const [accepting, setAccepting] = useState(false);
   const [declining, setDeclining] = useState(false);
   const acceptRequest = async () => {

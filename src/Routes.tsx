@@ -8,13 +8,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import { defaultTabHeader } from '@/components/Header';
 import { TabBar } from '@/containers/TabBar';
-import { useTutorial } from '@/hooks/overlays/useTutorial';
 import { Create } from '@/pages/Create';
 import { Friends } from '@/pages/Friends';
 import { Notes } from '@/pages/Notes';
 import { Profile } from '@/pages/Profile';
 import { Timetable } from '@/pages/Timetable';
 import { ID } from '@/schema/database/abstract';
+import { useTutorial } from '@/shell/useTutorial';
 
 type RouteData = {
   label: keyof RouteParams;

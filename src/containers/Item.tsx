@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { SharedValue, useSharedValue } from 'react-native-reanimated';
 
@@ -7,8 +7,8 @@ import { ListItemUnderlay } from '@/components/ItemUnderlay';
 import { ItemDrawer } from '@/containers/ItemDrawer';
 import { ListItemGestureWrapper } from '@/containers/ItemGestureWrapper';
 import { NoteItemDrawer } from '@/containers/NoteItemDrawer';
-import { useDrawer } from '@/hooks/overlays/useDrawer';
 import { LocalItem } from '@/schema/items';
+import { useDrawer } from '@/shell/useDrawer';
 
 export type ListItemAnimatedValues = {
   scale: SharedValue<number>;
@@ -58,6 +58,10 @@ export const Item = ({
     checkScale: useSharedValue(1),
     checkRotation: useSharedValue('0deg')
   };
+
+  useEffect(() => {
+    console.log('probe end time', new Date().getTime());
+  }, [])
 
   return (
     <ListItemGestureWrapper

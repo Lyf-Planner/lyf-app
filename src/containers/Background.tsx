@@ -2,7 +2,7 @@ import { View, Image, StyleSheet, Keyboard, TouchableWithoutFeedback, Platform }
 
 import { branch, roundTree, tree, world } from '@/assets/images';
 import { LyfElement } from '@/utils/abstractTypes';
-import { lightGreen, primaryGreen } from '@/utils/colours';
+import { primaryGreen } from '@/utils/colours';
 
 type Props = {
   children: LyfElement

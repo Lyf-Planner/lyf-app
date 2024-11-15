@@ -1,7 +1,23 @@
 import moment from 'moment';
 
-import { User } from '@/schema/user';
 import { DateString, DayOfWeek, TimeString, WeekDays } from '@/schema/util/dates';
+
+export const getStartDate = (first_day?: DateString) => {
+  const startOfWeek = getStartOfCurrentWeek();
+  const userFirstDay = first_day ? parseDateString(first_day) : startOfWeek;
+  console.log('checkpoint 1');
+
+  let appliedFirstDay = userFirstDay;
+  if (userFirstDay.getTime() < startOfWeek.getTime()) {
+    appliedFirstDay = startOfWeek;
+  }
+
+  return formatDateData(appliedFirstDay);
+}
+
+export const getEndDate = (start_date: DateString) => {
+  return addDayToStringDate(start_date, WeekDays.length - 1);
+}
 
 // Wrapper to configure moment function
 export const localisedMoment = (args?: moment.MomentInput) => {

@@ -12,7 +12,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { Horizontal } from '@/components/Horizontal';
-import { useNotes } from '@/hooks/cloud/useNotes';
 import { NoteType } from '@/schema/database/notes';
 import { LyfElement } from '@/utils/abstractTypes';
 import { black, blackWithOpacity, deepBlue, inProgressColor } from '@/utils/colours';

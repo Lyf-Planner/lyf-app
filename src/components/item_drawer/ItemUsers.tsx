@@ -1,12 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { Loader } from '@/components/Loader';
 import { UserList, UserListContext } from '@/containers/UserList';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { LocalItem } from '@/schema/items';
 
 type Props = {

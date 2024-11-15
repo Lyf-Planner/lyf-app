@@ -1,22 +1,13 @@
 import { SyntheticEvent, useEffect, useRef } from 'react';
 import { StyleSheet, View, Text, Platform, Alert } from 'react-native';
 
-import {
-  Directions,
-  Gesture,
-  TouchableHighlight
-} from 'react-native-gesture-handler';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue
-} from 'react-native-reanimated';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { NoteTypeBadge } from '@/components/NoteTypeBadge';
-import { useNotes } from '@/hooks/cloud/useNotes';
 import { UserRelatedNote } from '@/schema/user';
-import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, white } from '@/utils/colours';
+import { useNoteStore } from '@/store/useNoteStore';
+import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
 
 type Props = {
   note: UserRelatedNote,
@@ -27,9 +18,7 @@ export const NoteRow = ({
   note,
   onSelect
 }: Props) => {
-  const { removeNote } = useNotes();
-  const offsetX = useSharedValue(0);
-
+  const { removeNote } = useNoteStore();
   // Web Right Click detection
   //
   //   React Native won't recognise that we're performing this on a div,

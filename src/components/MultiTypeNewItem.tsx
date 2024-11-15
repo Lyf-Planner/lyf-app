@@ -3,9 +3,9 @@ import { StyleSheet, View } from 'react-native'
 
 import { NewItem } from './NewItem'
 
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
+import { useTimetableStore } from '@/store/useTimetableStore';
 
 type Props = {
   newRank: number,
@@ -14,7 +14,7 @@ type Props = {
 }
 
 export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true }: Props) => {
-  const { addItem } = useTimetable();
+  const { addItem } = useTimetableStore();
   const [newItemType, setNewItemType] = useState<ItemType | null>(null);
 
   const addItemByTitleTyped = (title: string, type: ItemType) => addItem(type, newRank, {

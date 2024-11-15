@@ -1,7 +1,6 @@
 import {
   View,
   StyleSheet,
-  TouchableHighlight,
   Text,
   Alert,
   Platform
@@ -9,11 +8,11 @@ import {
 
 import { DetailsField } from '@/components/profile/DetailsField';
 import { NameField } from '@/components/profile/NameField';
-import { useAuth } from '@/hooks/cloud/useAuth';
+import { useAuthStore } from '@/store/useAuthStore';
 import { white } from '@/utils/colours';
 
 export const AccountInfo = () => {
-  const { user } = useAuth();
+  const { user } = useAuthStore();
 
   if (!user) {
     return null;

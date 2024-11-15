@@ -6,9 +6,9 @@ import Sunny from '@/assets/icons/Sunny';
 import WeatherIcon from '@/components/WeatherIcon';
 import { MenuPopoverPlacement } from '@/containers/LyfMenu'
 import { LyfPopup } from '@/containers/LyfPopup';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { DateString } from '@/schema/util/dates';
 import { renderDescription } from '@/schema/util/weather';
+import { useLocation } from '@/shell/useLocation';
 import { black } from '@/utils/colours';
 import { formatDateData } from '@/utils/dates';
 
@@ -17,7 +17,7 @@ type Props = {
 }
 
 export const WeatherWidget = ({ date }: Props) => {
-  const { weather } = useTimetable();
+  const { weather } = useLocation();
   if (!weather) {
     return (
       <View style={[styles.iconPressableWrapper, styles.loadingIcon]}>

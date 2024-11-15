@@ -9,7 +9,7 @@ import Animated, {
 import Entypo from 'react-native-vector-icons/Entypo';
 
 import { LyfElement } from '@/utils/abstractTypes';
-import { black, deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from '@/utils/colours';
+import { black, deepBlueOpacity } from '@/utils/colours';
 
 type Props = {
   name: string,

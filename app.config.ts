@@ -11,7 +11,7 @@ export default {
     currentFullName: '@ethanhusband/lyf',
     originalFullName: '@ethanhusband/lyf',
     version: '2.0.5',
-    icon: './assets/images/inverted-icon.png',
+    icon: './src/assets/images/inverted-icon.png',
     orientation: 'portrait',
     userInterfaceStyle: 'light',
     runtimeVersion: {
@@ -19,7 +19,7 @@ export default {
     },
     jsEngine: 'hermes',
     splash: {
-      image: './assets/images/splash.png',
+      image: './src/assets/images/splash.png',
       resizeMode: 'contain',
       backgroundColor: 'white'
     },
@@ -35,14 +35,14 @@ export default {
     },
     assetBundlePatterns: ['**/*'],
     web: {
-      favicon: './assets/images/icon.png',
+      favicon: './src/assets/images/icon.png',
       title: 'Lyf',
       output: 'single',
       bundler: 'metro'
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: './assets/images/bg-icon.png',
+        foregroundImage: './src/assets/images/bg-icon.png',
         backgroundColor: '#ffffff'
       },
       package: 'com.lyfplanner',

@@ -3,13 +3,12 @@ import { StyleSheet } from 'react-native';
 
 import {
   Menu,
-  MenuOption,
   MenuOptions,
   MenuTrigger,
   renderers
 } from 'react-native-popup-menu';
 
-import { BouncyPressable, BouncyPressableOptions } from '@/components/BouncyPressable';
+import { BouncyPressable } from '@/components/BouncyPressable';
 import { LyfElement } from '@/utils/abstractTypes';
 import { blackWithOpacity } from '@/utils/colours';
 

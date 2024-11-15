@@ -1,24 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { RouteParams } from 'Routes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { RouteParams } from '@/Routes';
 import { NewNoteMenu } from '@/components/NewNoteAdd';
 import { NoteRow } from '@/components/NoteRow';
 import { PageLoader } from '@/components/PageLoader';
 import { NoteView } from '@/containers/NoteView';
 import { PageBackground } from '@/containers/PageBackground';
-import { useNotes } from '@/hooks/cloud/useNotes';
 import { ID } from '@/schema/database/abstract';
 import { NoteType } from '@/schema/database/notes';
+import { useNoteStore } from '@/store/useNoteStore';
 import { black, gentleWhite, primaryGreen, white } from '@/utils/colours';
 
 export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
   // Can be the ID of a folder or note, the manager will figure it out
   const [selectedId, setSelectedId] = useState<ID | null>(props.route.params?.id || null);
-  const { loading, notes, updateNote, addNote } = useNotes();
+  const { loading, notes, addNote } = useNoteStore();
 
   const newNote = (type: NoteType) => {
     const title = `New ${type === NoteType.ListOnly ? 'List' : 'Note'}`;
@@ -30,7 +30,6 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
       <NoteView
         id={selectedId}
         onBack={() => setSelectedId(null)}
-        updateSelected={(id: ID) => setSelectedId(id)}
       />
     );
   } else {
@@ -51,17 +50,15 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
             <View style={styles.scrollContainer}>
               {!loading &&
                 <View style={styles.noteRowWrapper}>
-                  {notes.length > 0 &&
-                    notes.map((x) => (
-                      <NoteRow
-                        note={x}
-                        onSelect={() => setSelectedId(x.id)}
-                        key={x.id}
-                      />
-                    ))
-                  }
+                  {Object.values(notes).map((x) => (
+                    <NoteRow
+                      note={x}
+                      onSelect={() => setSelectedId(x.id)}
+                      key={x.id}
+                    />
+                  ))}
 
-                  {notes.length === 0 &&
+                  {Object.values(notes).length === 0 &&
                     <Text style={styles.noNotesText}>No notes created yet :)</Text>
                   }
                 </View>

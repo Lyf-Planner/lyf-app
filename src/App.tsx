@@ -1,17 +1,21 @@
-import { StatusBar, StyleSheet } from 'react-native';
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Keyboard, StatusBar, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 
 import { useFonts } from 'expo-font';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import env from './envManager';
-
 import Routes from '@/Routes';
-import { CloudProvider } from '@/hooks/cloud/cloudProvider';
-import { OverlayProvider } from '@/hooks/overlays/overlayProvider';
-import { RouteProvider } from '@/hooks/routes';
+import Shell from '@/Shell';
+import env from '@/envManager';
 
 import 'expo-dev-client';
+
+// structural overview:
+//
+// components in the shell directory wrap the entire app.
+// these provide basic functions such as hooks, auth logic, native interfaces etc.
+//
+// the core of the app you know and love is contained in Routes,
+// which underpins the five key pages you see when first logged in.
 
 export default function App() {
   const [loaded] = useFonts({
@@ -31,14 +35,11 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={styles.main}>
+      {/* TODO How do I put these in the shell - doesn't seem to like it */}
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={styles.main}>
-        <RouteProvider>
-          <CloudProvider>
-            <OverlayProvider>
-              <Routes />
-            </OverlayProvider>
-          </CloudProvider>
-        </RouteProvider>
+        <Shell>
+          <Routes />
+        </Shell>
       </TouchableWithoutFeedback>
     </GestureHandlerRootView>
   );

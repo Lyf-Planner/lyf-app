@@ -12,16 +12,16 @@ import { PageLoader } from '@/components/PageLoader';
 import { DayDisplay } from '@/containers/DayDisplay';
 import { ListDropdown } from '@/containers/ListDropdown';
 import { PageBackground } from '@/containers/PageBackground';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
 import { WeekDays } from '@/schema/util/dates';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, deepBlueOpacity, eventsBadgeColor, white } from '@/utils/colours';
 import { allDatesBetween, dayFromDateString, formatDateData, localisedMoment } from '@/utils/dates';
 import { isTemplate } from '@/utils/item';
 
 export const Calendar = () => {
-  const { loading, items, reload, startDate, endDate } = useTimetable();
+  const { loading, items, reload, startDate, endDate } = useTimetableStore();
   const scrollRef = useRef<ScrollView>(null);
 
   useEffect(() => {
@@ -36,14 +36,14 @@ export const Calendar = () => {
     const localItems: LocalItem[] = [];
 
     for (const date of displayedDays) {
-      for (const item of items) {
+      for (const item of Object.values(items)) {
         if (item.date === date) {
           localItems.push({ ...item, localised: false });
         }
 
         // Template Match Case 1 - Matching Day
         if (isTemplate(item) && item.day === dayFromDateString(date)) {
-          const templateInstanceExists = items.some((x) => x.template_id === item.id && x.date === date);
+          const templateInstanceExists = Object.values(items).some((x) => x.template_id === item.id && x.date === date);
           const isPriorDate = date.localeCompare(formatDateData(new Date())) < 0;
 
           if (templateInstanceExists || isPriorDate) {
@@ -66,7 +66,7 @@ export const Calendar = () => {
   }, [items, displayedDays])
 
   const upcomingEvents = useMemo(() => (
-    items
+    Object.values(items)
       .filter(
         (x) =>
           x.type === ItemType.Event &&
@@ -76,7 +76,7 @@ export const Calendar = () => {
   ), [items]);
 
   const toDoList = useMemo(() => (
-    items
+    Object.values(items)
       .filter(
         (x) =>
           x.type === ItemType.Task &&

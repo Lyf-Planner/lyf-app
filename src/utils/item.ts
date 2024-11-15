@@ -1,6 +1,9 @@
-import { UpdateItem } from '@/hooks/cloud/useTimetable';
+import { ID } from '@/schema/database/abstract';
 import { ItemDbObject, ItemType, ItemStatus } from '@/schema/database/items';
+import { Permission } from '@/schema/database/items_on_users';
 import { LocalItem } from '@/schema/items';
+import { UserRelatedItem } from '@/schema/user';
+import { SocialAction } from '@/schema/util/social';
 import { cancelledColor, doneColor, eventsBadgeColor, inProgressColor, tentativeColor, todoColor, white } from '@/utils/colours';
 
 export const StatusOptions = Object.values(ItemStatus);
@@ -11,6 +14,25 @@ export type ItemDrawerProps = {
   updateDrawer: (drawer: JSX.Element | undefined) => void;
   updateSheetMinHeight: (height: number) => void;
 }
+
+export type AddItem = (
+  type: ItemType,
+  rank: number,
+  initial: Partial<LocalItem>,
+) => Promise<ID>;
+
+export type UpdateItem = (item: LocalItem, changes: Partial<UserRelatedItem>, updateRemote?: boolean) => Promise<void>;
+
+export type UpdateItemSocial = (
+  item: LocalItem,
+  user_id: string,
+  action: SocialAction,
+  permission: Permission
+) => Promise<void>;
+
+export type RemoveItem = (item: LocalItem, deleteRemote?: boolean) => Promise<void>;
+
+export type ResortItems = (priorities: LocalItem[]) => void;
 
 export const ITEM_STATUS_TO_COLOR = {
   // Values taken from the corresponding bg's in tailwind

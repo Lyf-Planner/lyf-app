@@ -14,28 +14,22 @@ import { Vertical } from '@/components/Vertical';
 import { List } from '@/containers/List';
 import { SortableList } from '@/containers/SortableList';
 import { WeatherWidget } from '@/containers/WeatherWidget';
-import { useAuth } from '@/hooks/cloud/useAuth';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { ItemStatus } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
 import { DateString, DayOfWeek } from '@/schema/util/dates';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import {
   black,
   blackWithOpacity,
-  deepBlue,
   deepBlueOpacity,
-  eventsBadgeColor,
-  lightGreen,
-  primaryGreenWithOpacity,
   secondaryGreen,
   transparent
 } from '@/utils/colours';
 import {
-  localisedMoment,
   dayFromDateString,
   formatDate,
   formatDateData,
-  dateWithTime,
   addDayToStringDate,
   parseDateString,
   daysDifferenceBetween,
@@ -53,8 +47,8 @@ type Props = {
 }
 
 export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
-  const { reload, resortItems, startDate, endDate } = useTimetable();
-  const { user, updateUser } = useAuth();
+  const { reload, resortItems, startDate, endDate } = useTimetableStore();
+  const { user, updateUser } = useAuthStore();
   const [sorting, setSorting] = useState<boolean | null>(null);
   const [sortOrder, setSortOrder] = useState<LocalItem[]>(items);
 
@@ -139,12 +133,9 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
       // Automatic day finishing - only applies to when a user finishes there current first_day
       // This prevents the days from jumping forward and skipping an unfinished day.
       const firstDay = user?.first_day || formatDateData(getStartOfCurrentWeek());
-      console.log(date, firstDay, date.localeCompare(firstDay));
 
       const behindFirstDay = date.localeCompare(firstDay) < 0
       const behindCurrentDay = date.localeCompare(currentDateString()) < 0;
-
-      console.log(`${date} ${JSON.stringify({ behindCurrentDay, behindFirstDay, firstDay })}`);
 
       if (!behindFirstDay && behindCurrentDay && user?.auto_day_finishing) {
         console.log(`Automatically finishing day ${date} ${JSON.stringify({ behindCurrentDay, behindFirstDay, firstDay })}`)

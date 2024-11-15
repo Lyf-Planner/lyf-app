@@ -1,6 +1,5 @@
 import { StyleSheet, Text } from 'react-native';
 
-import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
 
 type Props = {

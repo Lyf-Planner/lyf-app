@@ -11,7 +11,7 @@ import { BouncyPressable } from '@/components/BouncyPressable';
 import { PageBackground } from '@/containers/PageBackground';
 import { TipsDropdown } from '@/containers/TipsDropdown';
 import env from '@/envManager';
-import { useTutorial } from '@/hooks/overlays/useTutorial';
+import { useTutorial } from '@/shell/useTutorial';
 import { black, eventsBadgeColor, primaryGreen, white } from '@/utils/colours';
 
 export const TutorialOverlay = () => {

@@ -3,21 +3,21 @@ import { StyleSheet, View, Text } from 'react-native'
 
 import { BottomTabNavigationProp, BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { useNavigation } from '@react-navigation/native'
-import { RouteParams } from 'Routes'
 import Entypo from 'react-native-vector-icons/Entypo'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
+import { RouteParams } from '@/Routes'
 import { CreationButton } from '@/components/CreationButton'
 import { ItemDrawer } from '@/containers/ItemDrawer'
 import { PageBackground } from '@/containers/PageBackground'
-import { useNotes } from '@/hooks/cloud/useNotes'
-import { useTimetable } from '@/hooks/cloud/useTimetable'
-import { useDrawer } from '@/hooks/overlays/useDrawer'
 import { ItemType } from '@/schema/database/items'
 import { NoteType } from '@/schema/database/notes'
-import { black, deepBlueOpacity, eventsBadgeColor, primaryGreen, white } from '@/utils/colours'
-import { formatDateData } from '@/utils/dates'
+import { useDrawer } from '@/shell/useDrawer'
+import { useNoteStore } from '@/store/useNoteStore'
+import { useTimetableStore } from '@/store/useTimetableStore';
+import { black, eventsBadgeColor, primaryGreen, white } from '@/utils/colours'
+import { formatDateData } from '@/utils/dates';
 
 interface ButtonsLoading {
   event: boolean;
@@ -35,8 +35,8 @@ const defaultLoadingState: ButtonsLoading = {
 
 export const Create = (props: BottomTabScreenProps<RouteParams>) => {
   const { updateDrawer } = useDrawer();
-  const { addItem } = useTimetable();
-  const { addNote } = useNotes();
+  const { addItem } = useTimetableStore();
+  const { addNote } = useNoteStore();
   const navigation = useNavigation<BottomTabNavigationProp<RouteParams>>();
 
   const [loading, setLoading] = useState<ButtonsLoading>(defaultLoadingState);

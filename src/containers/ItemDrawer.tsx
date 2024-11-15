@@ -18,10 +18,10 @@ import { ItemTitle } from '@/components/item_drawer/ItemTitle';
 import { ItemTypeBadge } from '@/components/item_drawer/ItemType';
 import { ItemUsers } from '@/components/item_drawer/ItemUsers';
 import { OptionsMenu } from '@/components/item_drawer/OptionsMenu';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
-import { useDrawer } from '@/hooks/overlays/useDrawer';
 import { getItem } from '@/rest/items';
 import { ID } from '@/schema/database/abstract';
+import { useDrawer } from '@/shell/useDrawer';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, deepBlue, white } from '@/utils/colours';
 import { isTemplate, ItemDrawerProps } from '@/utils/item';
 
@@ -36,8 +36,8 @@ export const ItemDrawer = ({
 }: Props) => {
   // Establish item from store
   const { updateDrawer, updateSheetMinHeight } = useDrawer();
-  const { items, updateItem } = useTimetable();
-  const item = useMemo(() => items.find((x) => x.id === id), [items]);
+  const { items, updateItem } = useTimetableStore();
+  const item = useMemo(() => Object.values(items).find((x) => x.id === id), [items]);
 
   const [descOpen, setDescOpen] = useState(!!item?.desc);
   const [linkOpen, setLinkOpen] = useState(!!item?.url);

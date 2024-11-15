@@ -1,14 +1,14 @@
 import * as Native from 'react-native'
-import { Image, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { LyfIcon } from '@/assets/icons/LyfIcon';
 import { NotificationModal } from '@/containers/NotificationModal';
-import { useNotifications } from '@/hooks/cloud/useNotifications';
-import { useModal } from '@/hooks/overlays/useModal';
-import { useTutorial } from '@/hooks/overlays/useTutorial';
+import { useModal } from '@/shell/useModal';
+import { useNotifications } from '@/shell/useNotifications';
+import { useTutorial } from '@/shell/useTutorial';
 import { gentleBlack, primaryGreen, red, white } from '@/utils/colours';
 
 // This is a little different to other @/components.

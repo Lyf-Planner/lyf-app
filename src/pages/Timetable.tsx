@@ -2,9 +2,9 @@ import { View, StyleSheet } from 'react-native';
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { RouteParams } from 'Routes';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+import { RouteParams } from '@/Routes';
 import { Calendar } from '@/pages/Timetable_Calendar';
 import { Routine } from '@/pages/Timetable_Routine';
 import { black, deepBlue, primaryGreen, white } from '@/utils/colours';

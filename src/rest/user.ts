@@ -19,7 +19,7 @@ export async function saveUser(changes: Partial<User>) {
   } else {
     // These posts may be unsuccessful often, as when the app closes this gets called frequently,
     // and the server throttles the requests - most of the time not actually an issue!
-    console.error(`Issue saving user data, server returned ${result?.status}`);
+    console.error(`Issue saving user data, server returned ${result?.status} ${JSON.stringify({ result })}`);
     alert(JSON.stringify(result.data));
     return false;
   }

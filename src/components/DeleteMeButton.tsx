@@ -8,11 +8,11 @@ import {
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { useAuth } from '@/hooks/cloud/useAuth';
+import { useAuthStore } from '@/store/useAuthStore';
 import { red, white } from '@/utils/colours';
 
 export const DeleteButton = () => {
-  const { deleteMe, logout } = useAuth();
+  const { deleteMe } = useAuthStore();
 
   return (
     <TouchableHighlight
@@ -20,12 +20,7 @@ export const DeleteButton = () => {
         Alert.prompt(
           'Confirm Deletion',
           'Please re-enter your password to confirm account deletion',
-          async (pass) => {
-            const success = await deleteMe(pass);
-            if (success) {
-              logout();
-            }
-          }
+          deleteMe
         );
       }}
     >

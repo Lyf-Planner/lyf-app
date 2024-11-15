@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, View, TextInput, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -7,23 +7,21 @@ import { Loader } from '@/components/Loader';
 import { NoteBody } from '@/containers/NoteBody';
 import { NoteHeader } from '@/containers/NoteHeader';
 import { PageBackground } from '@/containers/PageBackground';
-import { useNotes } from '@/hooks/cloud/useNotes';
 import { ID } from '@/schema/database/abstract';
+import { useNoteStore } from '@/store/useNoteStore';
 
 type Props = {
   id: ID,
   onBack: () => void;
-  updateSelected: (id: ID) => void;
 }
 
 export const NoteView = ({
   id,
-  onBack,
-  updateSelected
+  onBack
 }: Props) => {
-  const { notes, loadNote } = useNotes();
+  const { notes, loadNote } = useNoteStore();
 
-  const note = useMemo(() => notes.find((x) => x.id === id), [notes]);
+  const note = useMemo(() => notes[id], [notes]);
   if (!note) {
     return null;
   }

@@ -26,7 +26,8 @@ const importRules = {
       pathGroupsExcludedImportTypes: []
     }
   ],
-  'import/no-relative-parent-imports': 'error'
+  'import/no-relative-parent-imports': 'error',
+  'unused-imports/no-unused-imports': 'error'
 };
 
 const reactRules = {
@@ -117,7 +118,7 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module'
   },
-  plugins: ['@typescript-eslint', 'react', 'react-native', 'import'],
+  plugins: ['@typescript-eslint', 'react', 'react-native', 'import', 'eslint-plugin-unused-imports'],
   rules: {
     ...importRules,
     ...reactRules,

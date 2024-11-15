@@ -11,10 +11,10 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import { AddFriendsModal } from './AddFriendsModal';
 
-import { useAuth } from '@/hooks/cloud/useAuth';
-import { useNotifications } from '@/hooks/cloud/useNotifications';
-import { useModal } from '@/hooks/overlays/useModal';
 import { ItemType } from '@/schema/database/items';
+import { useModal } from '@/shell/useModal';
+import { useNotifications } from '@/shell/useNotifications';
+import { useAuthStore } from '@/store/useAuthStore';
 import { primaryGreen, white } from '@/utils/colours';
 import { formatDateData } from '@/utils/dates';
 import { isTemplate } from '@/utils/item';
@@ -41,7 +41,7 @@ export const AddDetails = ({
   setLocationOpen,
   locationOpen
 }: Props) => {
-  const { user } = useAuth();
+  const { user } = useAuthStore();
   const { enabled, getDefaultNotificationMins } = useNotifications();
   const { updateModal } = useModal();
 

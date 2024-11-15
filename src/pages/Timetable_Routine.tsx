@@ -6,12 +6,12 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { PageLoader } from '@/components/PageLoader';
 import { DayDisplay } from '@/containers/DayDisplay';
 import { PageBackground } from '@/containers/PageBackground';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { WeekDays } from '@/schema/util/dates';
-import { black, deepBlue, primaryGreen, white } from '@/utils/colours';
+import { useTimetableStore } from '@/store/useTimetableStore';
+import { black, primaryGreen, white } from '@/utils/colours';
 
 export const Routine = () => {
-  const { loading, items } = useTimetable();
+  const { loading, items } = useTimetableStore();
 
   return (
     <PageBackground sunRight locations={[0,0.82,1]} noPadding>
@@ -38,7 +38,7 @@ export const Routine = () => {
                   key={x}
                   day={x}
                   date={null}
-                  items={items.filter((y) => (y.day && x === y.day))}
+                  items={Object.values(items).filter((y) => (y.day && x === y.day))}
                   shadowOffset={{ width: -3, height: 3 }}
                 />
               ))}

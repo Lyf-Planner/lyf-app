@@ -1,17 +1,11 @@
 import {
   createContext,
-  useCallback,
   useContext,
-  useEffect,
-  useMemo,
-  useRef,
   useState
 } from 'react';
-import { Keyboard, Platform, StyleSheet } from 'react-native';
+import { Platform } from 'react-native';
 
-import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
-
-import { useModal } from './useModal';
+import { useModal } from '@/shell/useModal';
 
 type Props = {
   children: JSX.Element;
@@ -50,5 +44,5 @@ export const DrawerProvider = ({ children }: Props) => {
 const DrawerContext = createContext<DrawerHooks>(undefined as never);
 
 export const useDrawer = () => {
-  return useContext(DrawerContext); // TODO: Typeguard this
+  return useContext(DrawerContext);
 };

@@ -1,10 +1,10 @@
 import { StyleSheet, View, Text, Switch } from 'react-native'
 
-import { useAuth } from '@/hooks/cloud/useAuth'
+import { useAuthStore } from '@/store/useAuthStore';
 import { white } from '@/utils/colours';
 
 export const PrivacySettings = () => {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser } = useAuthStore();
 
   const updatePrivate = (enabled: boolean) => updateUser({ private: enabled })
 

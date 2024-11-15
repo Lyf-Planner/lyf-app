@@ -7,8 +7,11 @@ import {
   LocationObject,
   getCurrentPositionAsync
 } from 'expo-location';
+import { DailyWeather, HistoricalWeather } from 'openweather-api-node';
 
-import { useAuth } from '@/hooks/cloud/useAuth';
+import { getWeather } from '@/rest/items';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useTimetableStore } from '@/store/useTimetableStore';
 
 type Props = {
   children: JSX.Element;
@@ -16,13 +19,18 @@ type Props = {
 
 type LocationHooks = {
   location?: LocationObject;
+  weather: (DailyWeather | HistoricalWeather)[] | null,
   requestLocation: () => Promise<boolean>;
 }
 
 export const LocationProvider = ({ children }: Props) => {
   const [location, setLocation] = useState<LocationObject | undefined>(undefined);
-  const { user, updateUser } = useAuth();
+  const [weather, setWeather] = useState<(HistoricalWeather | DailyWeather)[] | null>(null);
 
+  const { user } = useAuthStore();
+  const { startDate, endDate } = useTimetableStore();
+
+  // Request user location permission
   useEffect(() => {
     (async () => {
       if (user?.weather_data === false) {
@@ -34,6 +42,15 @@ export const LocationProvider = ({ children }: Props) => {
       await requestLocation();
     })();
   }, [user?.weather_data]);
+
+  // Reset weather when location or dates change
+  useEffect(() => {
+    if (location && user && user.weather_data) {
+      getWeather(startDate, endDate, location).then((data) => {
+        setWeather(data)
+      })
+    }
+  }, [startDate, endDate, location])
 
   const requestLocation = async () => {
     const { status } = await requestForegroundPermissionsAsync();
@@ -49,6 +66,7 @@ export const LocationProvider = ({ children }: Props) => {
 
   const exposed: LocationHooks = {
     location,
+    weather,
     requestLocation
   };
 

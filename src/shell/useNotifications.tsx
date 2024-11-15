@@ -9,10 +9,10 @@ import {
 } from 'expo-notifications';
 
 import env from '@/envManager';
-import { useAuth } from '@/hooks/cloud/useAuth';
 import { getNotifications, updateNotification } from '@/rest/user';
 import { ID } from '@/schema/database/abstract';
 import { Notification } from '@/schema/notifications';
+import { useAuthStore } from '@/store/useAuthStore';
 import { getAsyncData, storeAsyncData } from '@/utils/asyncStorage';
 
 type Props = {
@@ -29,9 +29,9 @@ type NotificationHooks = {
 const DEFAULT_NOTIFICATION_MINS = 5;
 
 export const NotificationsLayer = ({ children }: Props) => {
+  const { user, updateUser } = useAuthStore();
   const [enabled, setEnabled] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-  const { user, updateUser } = useAuth();
 
   useEffect(() => {
     const tokenPromise = async () => {

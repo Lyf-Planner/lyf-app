@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import {
@@ -8,18 +8,17 @@ import {
   MenuTrigger,
   renderers
 } from 'react-native-popup-menu';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { ActionButton } from '@/components/ActionButton';
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { Horizontal } from '@/components/Horizontal';
-import { useAuth } from '@/hooks/cloud/useAuth';
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { Permission } from '@/schema/database/items_on_users';
 import { ItemRelatedUser, LocalItem } from '@/schema/items';
 import { NoteRelatedUser } from '@/schema/notes';
 import { UserFriend } from '@/schema/user';
 import { SocialAction } from '@/schema/util/social';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import {
   black,
   blackWithOpacity,
@@ -37,9 +36,9 @@ type Props = {
 }
 
 export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props) => {
+  const { user } = useAuthStore();
   const [loading, setLoading] = useState(false);
-  const { updateItemSocial } = useTimetable();
-  const { user } = useAuth();
+  const { updateItemSocial } = useTimetableStore();
 
   // We don't useMemo here as this primarily functions as a typeguard
   const isItemMember = (user: SocialUser): user is (ItemRelatedUser | NoteRelatedUser) =>

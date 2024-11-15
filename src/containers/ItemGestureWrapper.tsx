@@ -1,5 +1,5 @@
-import { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { SyntheticEvent, useCallback, useEffect, useRef } from 'react';
+import { Platform, StyleSheet } from 'react-native';
 
 import * as Haptics from 'expo-haptics';
 import {
@@ -14,9 +14,9 @@ import Animated, {
 
 import { ListItemAnimatedValues } from './Item';
 
-import { useTimetable } from '@/hooks/cloud/useTimetable';
 import { ItemStatus } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { LyfElement } from '@/utils/abstractTypes';
 import { sleep } from '@/utils/misc';
 
@@ -39,7 +39,7 @@ export const ListItemGestureWrapper = ({
   openModal,
   setCreatingLocalised
 }: Props) => {
-  const { updateItem, removeItem, addItem } = useTimetable();
+  const { updateItem, removeItem, addItem } = useTimetableStore();
   let longPressTimer: NodeJS.Timeout | undefined;
 
   // Web Right Click detection
