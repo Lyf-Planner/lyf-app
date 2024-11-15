@@ -11,7 +11,7 @@ import { SimpleSearch } from '@/components/SimpleSearch';
 import { UserList, UserListContext } from '@/containers/UserList';
 import { ID } from '@/schema/database/abstract';
 import { UserFriendshipStatus } from '@/schema/database/user_friendships';
-import { useModal } from '@/shell/overlays/useModal';
+import { useModal } from '@/shell/useModal';
 import { useFriendsStore } from '@/store/useFriendsStore';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, white } from '@/utils/colours';

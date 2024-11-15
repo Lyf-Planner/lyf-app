@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Switch } from 'react-native'
 
-import { useLocation } from '@/shell/cloud/useLocation';
+import { useLocation } from '@/shell/useLocation';
 import { useAuthStore } from '@/store/useAuthStore';
 import { white } from '@/utils/colours';
 

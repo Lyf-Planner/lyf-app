@@ -12,8 +12,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { AddFriendsModal } from './AddFriendsModal';
 
 import { ItemType } from '@/schema/database/items';
-import { useNotifications } from '@/shell/cloud/useNotifications';
-import { useModal } from '@/shell/overlays/useModal';
+import { useModal } from '@/shell/useModal';
+import { useNotifications } from '@/shell/useNotifications';
 import { useAuthStore } from '@/store/useAuthStore';
 import { primaryGreen, white } from '@/utils/colours';
 import { formatDateData } from '@/utils/dates';

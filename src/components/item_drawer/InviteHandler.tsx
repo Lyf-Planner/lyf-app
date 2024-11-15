@@ -8,7 +8,7 @@ import { BouncyPressable } from '@/components/BouncyPressable';
 import { Loader } from '@/components/Loader';
 import { LocalItem } from '@/schema/items';
 import { SocialAction } from '@/schema/util/social';
-import { useModal } from '@/shell/overlays/useModal';
+import { useModal } from '@/shell/useModal';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, primaryGreen, white } from '@/utils/colours';

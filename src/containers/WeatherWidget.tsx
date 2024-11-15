@@ -8,7 +8,7 @@ import { MenuPopoverPlacement } from '@/containers/LyfMenu'
 import { LyfPopup } from '@/containers/LyfPopup';
 import { DateString } from '@/schema/util/dates';
 import { renderDescription } from '@/schema/util/weather';
-import { useLocation } from '@/shell/cloud/useLocation';
+import { useLocation } from '@/shell/useLocation';
 import { black } from '@/utils/colours';
 import { formatDateData } from '@/utils/dates';
 

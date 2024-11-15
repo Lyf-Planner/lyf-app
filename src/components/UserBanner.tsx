@@ -11,7 +11,7 @@ import { UserModal } from '@/containers/UserModal';
 import { ItemRelatedUser, LocalItem } from '@/schema/items';
 import { NoteRelatedUser } from '@/schema/notes';
 import { PublicUser, UserFriend } from '@/schema/user';
-import { useModal } from '@/shell/overlays/useModal';
+import { useModal } from '@/shell/useModal';
 import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, whiteWithOpacity } from '@/utils/colours';
 
 type Props = {

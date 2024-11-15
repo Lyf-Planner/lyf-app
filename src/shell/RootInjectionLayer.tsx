@@ -5,16 +5,24 @@ import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@go
 import Animated, { FadeIn } from 'react-native-reanimated';
 
 import { TutorialOverlay } from '@/pages/Tutorial';
-import { useDrawer } from '@/shell/overlays/useDrawer';
-import { useModal } from '@/shell/overlays/useModal';
-import { useTutorial } from '@/shell/overlays/useTutorial';
+import { useDrawer } from '@/shell/useDrawer';
+import { useModal } from '@/shell/useModal';
+import { useTutorial } from '@/shell/useTutorial';
 import { black, blackWithOpacity } from '@/utils/colours';
 
 type Props = {
   children: JSX.Element;
 }
 
-export const OverlayInjectionLayer = ({ children }: Props) => {
+// this layer enables the components providers to refer to each other
+// without concern for which one wraps the other.
+//
+// for example, if i mount a modal beside the children in the ModalProvider
+// any call inside that Modal to say, a drawer, would be calling on a hook that is not yet provided.
+// this layer ensures that hooks are always available within those root components,
+// as all providers are present.
+
+export const RootInjectionLayer = ({ children }: Props) => {
   const { drawer, minHeight } = useDrawer();
   const { modal, updateModal } = useModal();
   const { tutorial } = useTutorial();

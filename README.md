@@ -62,10 +62,12 @@ The live version of the app can be seen on the App Store [here](https://apps.app
 - `rest`
   - defines async functions that make calls to our REST API
 - `schema`
-  - common types used throughout the whole software (App, API)
+  - common types used throughout the whole software including in the app and API
 - `shell` 
   - services that wrap the entire application and are globally accessible
   - includes things like hook providers, authorisation logic, native interfaces
+- `store`
+  - contains globally accessible data stores for all API data
 - `utils`
   - helper functions, constants and types used by containers or components throughout the app
 - `App.tsx`

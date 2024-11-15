@@ -5,7 +5,7 @@ import {
   EventNotificationDesc
 } from './NotificationSettingDescriptions';
 
-import { useNotifications } from '@/shell/cloud/useNotifications';
+import { useNotifications } from '@/shell/useNotifications';
 import { useAuthStore } from '@/store/useAuthStore';
 import { LyfElement } from '@/utils/abstractTypes';
 import { white } from '@/utils/colours';

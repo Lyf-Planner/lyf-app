@@ -14,7 +14,7 @@ import { Notes } from '@/pages/Notes';
 import { Profile } from '@/pages/Profile';
 import { Timetable } from '@/pages/Timetable';
 import { ID } from '@/schema/database/abstract';
-import { useTutorial } from '@/shell/overlays/useTutorial';
+import { useTutorial } from '@/shell/useTutorial';
 
 type RouteData = {
   label: keyof RouteParams;

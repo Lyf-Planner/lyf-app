@@ -20,7 +20,7 @@ import { ItemUsers } from '@/components/item_drawer/ItemUsers';
 import { OptionsMenu } from '@/components/item_drawer/OptionsMenu';
 import { getItem } from '@/rest/items';
 import { ID } from '@/schema/database/abstract';
-import { useDrawer } from '@/shell/overlays/useDrawer';
+import { useDrawer } from '@/shell/useDrawer';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, deepBlue, white } from '@/utils/colours';
 import { isTemplate, ItemDrawerProps } from '@/utils/item';

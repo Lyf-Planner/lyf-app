@@ -8,8 +8,8 @@ import { Horizontal } from '@/components/Horizontal';
 import { NotificationBanner } from '@/components/NotificationBanner';
 import { Notification } from '@/schema/notifications';
 import { DateString } from '@/schema/util/dates';
-import { useNotifications } from '@/shell/cloud/useNotifications'
-import { useModal } from '@/shell/overlays/useModal'
+import { useModal } from '@/shell/useModal'
+import { useNotifications } from '@/shell/useNotifications'
 import { black, primaryGreen, white } from '@/utils/colours';
 import { formatDateData, localisedFormattedMoment } from '@/utils/dates';
 

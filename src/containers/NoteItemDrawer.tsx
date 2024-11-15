@@ -16,7 +16,7 @@ import { ItemTitle } from '@/components/item_drawer/ItemTitle';
 import { ItemTypeBadge } from '@/components/item_drawer/ItemType';
 import { ID } from '@/schema/database/abstract';
 import { LocalItem } from '@/schema/items';
-import { useDrawer } from '@/shell/overlays/useDrawer';
+import { useDrawer } from '@/shell/useDrawer';
 import { useNoteStore } from '@/store/useNoteStore';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, deepBlue, white } from '@/utils/colours';

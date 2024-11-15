@@ -5,7 +5,7 @@ import {
 } from 'react';
 import { Platform } from 'react-native';
 
-import { useModal } from './useModal';
+import { useModal } from '@/shell/useModal';
 
 type Props = {
   children: JSX.Element;

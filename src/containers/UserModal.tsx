@@ -11,7 +11,7 @@ import { Loader } from '@/components/Loader';
 import { getUser } from '@/rest/user';
 import { ID } from '@/schema/database/abstract';
 import { UserFriend } from '@/schema/user';
-import { useModal } from '@/shell/overlays/useModal';
+import { useModal } from '@/shell/useModal';
 import { black, blackWithOpacity, white } from '@/utils/colours';
 import { localisedMoment } from '@/utils/dates';
 

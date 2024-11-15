@@ -13,9 +13,9 @@ import { ItemDrawer } from '@/containers/ItemDrawer';
 import { UserModal } from '@/containers/UserModal';
 import { NotificationRelatedData, NotificationType } from '@/schema/database/notifications';
 import { Notification } from '@/schema/notifications'
-import { useNotifications } from '@/shell/cloud/useNotifications';
-import { useDrawer } from '@/shell/overlays/useDrawer';
-import { useModal } from '@/shell/overlays/useModal';
+import { useDrawer } from '@/shell/useDrawer';
+import { useModal } from '@/shell/useModal';
+import { useNotifications } from '@/shell/useNotifications';
 import { black, deepBlueOpacity, eventsBadgeColorOpacity } from '@/utils/colours';
 
 const notificationTypeIcon: Record<NotificationType, JSX.Element> = Object.freeze({

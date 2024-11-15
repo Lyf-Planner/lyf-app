@@ -1,16 +1,11 @@
-import { StatusBar, StyleSheet } from 'react-native';
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Keyboard, StatusBar, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 
 import { useFonts } from 'expo-font';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import env from './envManager';
-
 import Routes from '@/Routes';
-import { AuthWrapper } from '@/shell/AuthWrapper';
-import { CloudProvider } from '@/shell/cloud/cloudProvider';
-import { OverlayProvider } from '@/shell/overlays/overlayProvider';
-import { RouteProvider } from '@/shell/routes';
+import Shell from '@/Shell';
+import env from '@/envManager';
 
 import 'expo-dev-client';
 
@@ -40,16 +35,11 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={styles.main}>
+      {/* TODO How do I put these in the shell - doesn't seem to like it */}
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={styles.main}>
-        <RouteProvider>
-          <AuthWrapper>
-            <CloudProvider>
-              <OverlayProvider>
-                <Routes />
-              </OverlayProvider>
-            </CloudProvider>
-          </AuthWrapper>
-        </RouteProvider>
+        <Shell>
+          <Routes />
+        </Shell>
       </TouchableWithoutFeedback>
     </GestureHandlerRootView>
   );

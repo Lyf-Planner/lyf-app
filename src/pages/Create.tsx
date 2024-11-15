@@ -13,7 +13,7 @@ import { ItemDrawer } from '@/containers/ItemDrawer'
 import { PageBackground } from '@/containers/PageBackground'
 import { ItemType } from '@/schema/database/items'
 import { NoteType } from '@/schema/database/notes'
-import { useDrawer } from '@/shell/overlays/useDrawer'
+import { useDrawer } from '@/shell/useDrawer'
 import { useNoteStore } from '@/store/useNoteStore'
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, eventsBadgeColor, primaryGreen, white } from '@/utils/colours'
