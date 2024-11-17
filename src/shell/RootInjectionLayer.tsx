@@ -4,9 +4,11 @@ import { Keyboard, Platform, Pressable, StyleSheet } from 'react-native';
 import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from '@gorhom/bottom-sheet';
 import Animated, { FadeIn } from 'react-native-reanimated';
 
+import { Noticeboard } from '@/containers/Noticeboard';
 import { TutorialOverlay } from '@/pages/Tutorial';
 import { useDrawer } from '@/shell/useDrawer';
 import { useModal } from '@/shell/useModal';
+import { useNoticeboard } from '@/shell/useNoticeboard';
 import { useTutorial } from '@/shell/useTutorial';
 import { black, blackWithOpacity } from '@/utils/colours';
 
@@ -25,6 +27,7 @@ type Props = {
 export const RootInjectionLayer = ({ children }: Props) => {
   const { drawer, minHeight } = useDrawer();
   const { modal, updateModal } = useModal();
+  const { checkNoticeboard } = useNoticeboard();
   const { tutorial } = useTutorial();
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);

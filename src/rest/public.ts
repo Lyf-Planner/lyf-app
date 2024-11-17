@@ -1,4 +1,4 @@
-import { get } from "./_axios";
+import { get } from './_axios';
 
 const publicEndpoint = (req: string) => `/public/${req}`;
 

@@ -1,5 +1,4 @@
-import { get, post } from './axios';
-
+import { get, post } from '@/rest/_axios';
 import { ID } from '@/schema/database/abstract';
 import { NoteDbObject } from '@/schema/database/notes';
 import { Note } from '@/schema/notes';

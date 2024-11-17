@@ -74,7 +74,7 @@ export const ListDropdown = ({ items, listType, icon, name, startOpen = false }:
           <Text style={styles.listSize}>{`(${items.length})`}</Text>
         }
         <View style={styles.headerLeft}>
-          {items.length > 0 && 
+          {items.length > 0 &&
             <Text style={styles.listSize}>{`(${items.length})`}</Text>
           }
           <Animated.View style={[styles.animatedChevron, chevronRotationAnimation]}>

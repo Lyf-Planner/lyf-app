@@ -1,6 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { MenuProvider } from 'react-native-popup-menu';
 
+import { NoticeboardProvider } from './shell/useNoticeboard';
+
 import { AuthWrapper } from '@/shell/AuthWrapper';
 import { RootInjectionLayer } from '@/shell/RootInjectionLayer';
 import { DrawerProvider } from '@/shell/useDrawer';
@@ -23,18 +25,20 @@ export default function Shell({ children }: Props) {
             <TutorialProvider>
 
               {/* Auth Gateway + Associated Data */}
-              <AuthWrapper>
-                <NotificationsLayer>
-                  <LocationProvider>
+              <NoticeboardProvider>
+                <AuthWrapper>
+                  <NotificationsLayer>
+                    <LocationProvider>
 
-                    {/* Root Component Injection */}
-                    <RootInjectionLayer>
-                      {children}
-                    </RootInjectionLayer>
+                      {/* Root Component Injection */}
+                      <RootInjectionLayer>
+                        {children}
+                      </RootInjectionLayer>
 
-                  </LocationProvider>
-                </NotificationsLayer>
-              </AuthWrapper>
+                    </LocationProvider>
+                  </NotificationsLayer>
+                </AuthWrapper>
+              </NoticeboardProvider>
 
             </TutorialProvider>
           </DrawerProvider>
