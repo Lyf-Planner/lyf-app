@@ -59,10 +59,6 @@ export const Item = ({
     checkRotation: useSharedValue('0deg')
   };
 
-  useEffect(() => {
-    console.log('probe end time', new Date().getTime());
-  }, [])
-
   return (
     <ListItemGestureWrapper
       item={item}
