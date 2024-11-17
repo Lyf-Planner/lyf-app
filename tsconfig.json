@@ -5,9 +5,10 @@
     "strict": true,
     "noEmit": true,
     "jsx": "react-native",
-    "baseUrl": "src",
+    "baseUrl": ".",
+    "outDir": "build/dist",
     "paths": {
-      "react": [ "./node_modules/@types/react" ]
-    }
+      "@/*": ["src/*"],
+    },
   }
 }

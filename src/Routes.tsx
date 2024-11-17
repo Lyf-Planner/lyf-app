@@ -1,18 +1,20 @@
 import * as Native from 'react-native';
-import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { TabBar } from "components/navigation/TabBar";
-import { defaultTabHeader } from "components/navigation/Header";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+import { BottomTabScreenProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Entypo from 'react-native-vector-icons/Entypo'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Timetable } from 'pages/timetable/TimetablePage';
-import { Notes } from 'pages/notes/NotesPage';
-import { Friends } from 'pages/friends/FriendsPage';
-import { Profile } from 'pages/profile/ProfilePage';
-import { Create } from 'pages/create/Create';
-import { ID } from 'schema/database/abstract';
-import { useTutorial } from 'providers/overlays/useTutorial';
+
+import { defaultTabHeader } from '@/components/Header';
+import { TabBar } from '@/containers/TabBar';
+import { Create } from '@/pages/Create';
+import { Friends } from '@/pages/Friends';
+import { Notes } from '@/pages/Notes';
+import { Profile } from '@/pages/Profile';
+import { Timetable } from '@/pages/Timetable';
+import { ID } from '@/schema/database/abstract';
+import { useTutorial } from '@/shell/useTutorial';
 
 type RouteData = {
   label: keyof RouteParams;
@@ -21,33 +23,32 @@ type RouteData = {
 }
 
 export const routes: Record<keyof RouteParams, RouteData> = Object.freeze({
-  "Timetable": {
-    label: "Timetable",
-    icon: (color: string) => <MaterialCommunityIcons name='calendar' size={28} color={color}/>,
+  Timetable: {
+    label: 'Timetable',
+    icon: (color: string) => <MaterialCommunityIcons name='calendar' size={25} color={color}/>,
     root: Timetable
   },
-  "Notes": {
-    label: "Notes",
-    icon: (color: string) => <Entypo name='list' size={30} color={color} />,
+  Notes: {
+    label: 'Notes',
+    icon: (color: string) => <Entypo name='list' size={25} color={color} />,
     root: Notes
   },
-  "Lyf": {
-    label: "Lyf",
+  Lyf: {
+    label: 'Lyf',
     icon: (color: string) => <AntDesign name='pluscircleo' size={35} color={color}/>,
     root: Create
   },
-  "Friends": {
-    label: "Friends",
+  Friends: {
+    label: 'Friends',
     icon: (color: string) => <FontAwesome5 name="user-friends" size={25} color={color} />,
-    root:  Friends
+    root: Friends
   },
-  "Profile": {
-    label: "Profile",
+  Profile: {
+    label: 'Profile',
     icon: (color: string) => <FontAwesome5 name="user-alt" size={25} color={color} />,
     root: Profile
   }
 });
-
 
 export type RouteParams = {
   'Timetable': undefined,
@@ -68,8 +69,7 @@ export default function Routes() {
       id="BottomTab"
       backBehavior="none"
       tabBar={(props) => {
-
-      return <TabBar {...props} />
+        return <TabBar {...props} />
       }}
     >
       {Object.values(routes).map((route) => (
@@ -80,7 +80,7 @@ export default function Routes() {
           options={defaultTabHeader(route.label)}
         />
       ))}
-      </Tab.Navigator>
+    </Tab.Navigator>
   );
 }
 

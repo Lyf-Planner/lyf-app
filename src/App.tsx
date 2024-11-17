@@ -1,20 +1,28 @@
-import { StatusBar } from 'react-native';
+import { Keyboard, StatusBar, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+
 import { useFonts } from 'expo-font';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { TouchableWithoutFeedback, Keyboard } from 'react-native';
-import env from './envManager';
+
+import Routes from '@/Routes';
+import Shell from '@/Shell';
+import env from '@/envManager';
+
 import 'expo-dev-client';
-import Routes from 'Routes';
-import { CloudProvider } from 'providers/cloud/cloudProvider';
-import { OverlayProvider } from 'providers/overlays/overlayProvider';
-import { RouteProvider } from 'providers/routes';
+
+// structural overview:
+//
+// components in the shell directory wrap the entire app.
+// these provide basic functions such as hooks, auth logic, native interfaces etc.
+//
+// the core of the app you know and love is contained in Routes,
+// which underpins the five key pages you see when first logged in.
 
 export default function App() {
   const [loaded] = useFonts({
-    Lexend: require('../assets/fonts/Lexend/Lexend-VariableFont_wght.ttf'),
-    LexendThin: require('../assets/fonts/Lexend/static/Lexend-Light.ttf'),
-    LexendSemibold: require('../assets/fonts/Lexend/static/Lexend-SemiBold.ttf'),
-    LexendBold: require('../assets/fonts/Lexend/static/Lexend-ExtraBold.ttf')
+    Lexend: require('@/assets/fonts/Lexend/Lexend-VariableFont_wght.ttf'),
+    LexendThin: require('@/assets/fonts/Lexend/static/Lexend-Light.ttf'),
+    LexendSemibold: require('@/assets/fonts/Lexend/static/Lexend-SemiBold.ttf'),
+    LexendBold: require('@/assets/fonts/Lexend/static/Lexend-ExtraBold.ttf')
   });
 
   if (!loaded) {
@@ -23,19 +31,22 @@ export default function App() {
 
   StatusBar.setBarStyle('dark-content');
 
-  console.log("Starting with backend:", env.BACKEND_URL);
+  console.log('Starting with backend:', env.BACKEND_URL);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
-        <RouteProvider>
-          <CloudProvider>
-            <OverlayProvider>
-              <Routes />
-            </OverlayProvider>
-          </CloudProvider>
-        </RouteProvider>
+    <GestureHandlerRootView style={styles.main}>
+      {/* TODO How do I put these in the shell - doesn't seem to like it */}
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={styles.main}>
+        <Shell>
+          <Routes />
+        </Shell>
       </TouchableWithoutFeedback>
     </GestureHandlerRootView>
   );
 }
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1
+  }
+})

@@ -1,11 +1,13 @@
-import { get, post } from './_axios';
-import env from '../envManager';
-import { SocialAction } from '../schema/util/social';
-import { Permission } from '../schema/database/items_on_users';
-import { ID } from '../schema/database/abstract';
-import { UserRelatedItem } from '../schema/user';
-import { ItemRelatedUser } from 'schema/items';
 import { LocationObject } from 'expo-location';
+
+import { ID } from '../@/schema/database/abstract';
+import { Permission } from '../@/schema/database/items_on_users';
+import { UserRelatedItem } from '../@/schema/user';
+import { SocialAction } from '../@/schema/util/social';
+
+import { get, post } from './axios';
+
+import { ItemRelatedUser } from '@/schema/items';
 
 const itemsEndpoint = (req: string) => `/items/${req}`;
 
@@ -93,10 +95,10 @@ export async function deleteItem(id: ID) {
 export async function updateItemSocial(entity_id: ID, user_id: ID, action: SocialAction, permission?: Permission) {
   const endpoint = itemsEndpoint('updateSocial')
 
-  const result = await post(endpoint, { 
-    entity_id, 
-    user_id, 
-    action, 
+  const result = await post(endpoint, {
+    entity_id,
+    user_id,
+    action,
     permission
   });
   if (result?.status === 200) {

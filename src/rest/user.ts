@@ -1,11 +1,11 @@
-import { get, post } from './_axios';
-import { storeAsyncData } from '../utils/asyncStorage';
 import { getCalendars } from 'expo-localization';
-import env from '../envManager';
-import { User } from '../schema/user';
-import { FriendshipAction } from '../schema/util/social';
-import { ID } from 'schema/database/abstract';
-import { Notification } from 'schema/notifications';
+
+import { get, post } from '@/rest/axios';
+import { ID } from '@/schema/database/abstract';
+import { Notification } from '@/schema/notifications';
+import { User } from '@/schema/user';
+import { FriendshipAction } from '@/schema/util/social';
+import { storeAsyncData } from '@/utils/asyncStorage';
 
 export const USER_NOT_FOUND = 'Not found';
 
@@ -48,7 +48,7 @@ export async function saveUser(changes: Partial<User>) {
   } else {
     // These posts may be unsuccessful often, as when the app closes this gets called frequently,
     // and the server throttles the requests - most of the time not actually an issue!
-    console.error(`Issue saving user data, server returned ${result?.status}`);
+    console.error(`Issue saving user data, server returned ${result?.status} ${JSON.stringify({ result })}`);
     alert(JSON.stringify(result.data));
     return false;
   }
@@ -110,7 +110,7 @@ export async function getNotifications(limit: number) {
 }
 
 export async function updateNotification(id: ID, changes: Partial<Notification>) {
-  const endpoint = usersEndpoint(`updateNotification`)
+  const endpoint = usersEndpoint('updateNotification')
 
   const result = await post(endpoint, {
     id,
