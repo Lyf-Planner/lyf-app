@@ -87,14 +87,14 @@ export const ListItemGestureWrapper = ({
     animatedValues.scale.value = markingAsDone ? 0.7 : 0.9;
     await sleep(SCALE_MS);
 
-    animatedValues.scale.value = markingAsDone ? 1.05 : 1;
+    animatedValues.scale.value = markingAsDone ? 1.1 : 1;
     await sleep(SCALE_MS);
     if (markingAsDone) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     }
 
     animatedValues.scale.value = 1;
-    animatedValues.checkScale.value = markingAsDone ? 1.4 : 1;
+    animatedValues.checkScale.value = markingAsDone ? 1.5 : 1;
     await sleep(SCALE_MS);
 
     animatedValues.checkScale.value = 1;

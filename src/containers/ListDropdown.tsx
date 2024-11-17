@@ -70,9 +70,6 @@ export const ListDropdown = ({ items, listType, icon, name, startOpen = false }:
       >
         {icon}
         <Text style={styles.listTitle}>{name}</Text>
-        {items.length > 0 &&
-          <Text style={styles.listSize}>{`(${items.length})`}</Text>
-        }
         <View style={styles.headerLeft}>
           {items.length > 0 &&
             <Text style={styles.listSize}>{`(${items.length})`}</Text>
