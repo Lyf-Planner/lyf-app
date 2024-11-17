@@ -132,7 +132,8 @@ const styles = StyleSheet.create({
   },
   headerLeft: {
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginLeft: 'auto'
   },
   listSize: {
     color: eventsBadgeColor,
