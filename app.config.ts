@@ -10,7 +10,7 @@ export default {
     scheme: 'lyf',
     currentFullName: '@ethanhusband/lyf',
     originalFullName: '@ethanhusband/lyf',
-    version: '2.0.6',
+    version: '2.0.7',
     icon: './src/assets/images/inverted-icon.png',
     orientation: 'portrait',
     newArchEnabled: true,
@@ -22,7 +22,7 @@ export default {
     splash: {
       image: './src/assets/images/splash.png',
       resizeMode: 'contain',
-      backgroundColor: 'white'
+      backgroundColor: '#FFF'
     },
     packagerOpts: {
       sourceExts: ['cjs']
@@ -47,11 +47,11 @@ export default {
         backgroundColor: '#ffffff'
       },
       package: 'com.lyfplanner',
-      versionCode: 2006
+      versionCode: 2007
     },
     ios: {
       bundleIdentifier: 'com.lyfplanner',
-      buildNumber: '2.0.6'
+      buildNumber: '2.0.7'
     },
     plugins: [
       'expo-asset',
