@@ -1,27 +1,32 @@
 import { useRef, useState } from 'react';
 import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
 
-import PagerView from 'react-native-pager-view';
 import Animated, { FadeIn } from 'react-native-reanimated';
+import Carousel from 'react-native-snap-carousel';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Octicons from 'react-native-vector-icons/Octicons';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { Notice } from '@/components/Notice';
+import { NoticeDbObject } from '@/schema/database/notices';
 import { useModal } from '@/shell/useModal'
 import { useNoticeboard } from '@/shell/useNoticeboard';
 import { black, blackWithOpacity, white } from '@/utils/colours';
 
+const NOTICEBOARD_WIDTH = 325;
+const NOTICEBOARD_PADDING = 15;
+
 export const Noticeboard = () => {
   const { notices } = useNoticeboard();
   const { updateModal } = useModal();
-  const [page, updatePage] = useState(0);
-  const pagerRef = useRef<PagerView>(null);
+  const [page, setPage] = useState(0);
+  const carouselRef = useRef<Carousel<NoticeDbObject>>(null);
 
   return (
     <BouncyPressable
       onPress={() => {
-        pagerRef.current?.setPage((page + 1) % notices.length)
+        carouselRef.current?.snapToNext();
+        setPage((page + 1) % notices.length);
       }}
       onLongPress={() => updateModal(undefined)}
       containerStyle={styles.main}
@@ -45,15 +50,15 @@ export const Noticeboard = () => {
           </TouchableHighlight>
         </Animated.View>
 
-        <PagerView
-          ref={pagerRef}
-          initialPage={page}
-          onPageSelected={(event) => updatePage(event.nativeEvent.position)}
-        >
-          {notices.map((notice) => (
-            <Notice key={notice.id} notice={notice} />
-          ))}
-        </PagerView>
+        <Carousel
+          ref={carouselRef}
+          data={notices}
+          renderItem={({ item, index }) => <Notice key={index} notice={item} />}
+          vertical={false}
+          itemWidth={NOTICEBOARD_WIDTH - 2 * NOTICEBOARD_PADDING}
+          sliderWidth={NOTICEBOARD_WIDTH - 2 * NOTICEBOARD_PADDING}
+        />
+
         <View style={styles.pageIndicatorRow}>
           {notices.map((notice, index) => (
             <Octicons
@@ -81,13 +86,14 @@ const styles = StyleSheet.create({
   },
 
   main: {
+    justifyContent: 'center',
     position: 'absolute',
     shadowColor: black,
 
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 10,
-    width: 325
+    width: NOTICEBOARD_WIDTH
   },
   mainInternal: {
     backgroundColor: white,
@@ -98,7 +104,7 @@ const styles = StyleSheet.create({
     gap: 16,
 
     overflow: 'hidden',
-    padding: 16
+    padding: NOTICEBOARD_PADDING
   },
   pageIndicatorRow: {
     flexDirection: 'row',

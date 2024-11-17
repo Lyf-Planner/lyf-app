@@ -47,11 +47,9 @@ export const RootInjectionLayer = ({ children }: Props) => {
 
   // Check the noticeboard
   useEffect(() => {
-    if (Platform.OS !== 'web') {
-      checkNoticeboard({
-        openNoticeboard: () => updateModal(<Noticeboard />)
-      });
-    }
+    checkNoticeboard({
+      openNoticeboard: () => updateModal(<Noticeboard />)
+    });
   }, []);
 
   return (
