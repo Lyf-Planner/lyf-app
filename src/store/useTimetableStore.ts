@@ -307,13 +307,16 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
 useAuthStore.subscribe((state: AuthState, prevState: AuthState) => {
   // initialise dates in response to user login OR first day change
   if (state.user?.first_day !== prevState.user?.first_day) {
-    const startDate = getStartDate();
+    const firstDay = state.user?.first_day;
+
+    const startDate = getStartDate(firstDay);
     const endDate = getEndDate(startDate);
     useTimetableStore.setState({ startDate, endDate });
   }
 
   // initialise item store in response to authorisation
   if (state.user && !prevState.user) {
+    console.log('loading timetable upon authorisation')
     useTimetableStore.getState().reload();
   }
 });

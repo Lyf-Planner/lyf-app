@@ -4,7 +4,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { WeekDays } from '@/schema/util/dates';
-import { useAuthStore } from '@/store/useAuthStore';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from '@/utils/dates';
 
@@ -20,7 +19,6 @@ type Props = {
 
 export const CalendarRange = ({ color, textColor }: Props) => {
   const { reload, startDate, endDate } = useTimetableStore();
-  const { updateUser } = useAuthStore();
 
   const shift = (direction: ShiftDirection) => {
     const newStart = formatDateData(localisedMoment(startDate).add(direction * WeekDays.length, 'days').toDate())
@@ -36,8 +34,6 @@ export const CalendarRange = ({ color, textColor }: Props) => {
         reload(
           formatDateData(getStartOfCurrentWeek()),
           formatDateData(getEndOfCurrentWeek())
-        ).then(() =>
-          updateUser({ first_day: formatDateData(getStartOfCurrentWeek()) })
         )
       }}
     >

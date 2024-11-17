@@ -7,6 +7,7 @@ import Animated, {
   useSharedValue,
   withTiming
 } from 'react-native-reanimated';
+import debouncer from 'signature-debouncer';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { MultiTypeNewItem } from '@/components/MultiTypeNewItem';
@@ -45,6 +46,8 @@ type Props = {
   useRoutine?: boolean,
   shadowOffset?: { width: number, height: number }
 }
+
+const dayFinishingDebounceSignature = 'AUTO_DAY_FINISHING';
 
 export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
   const { reload, resortItems, startDate, endDate } = useTimetableStore();
@@ -130,23 +133,25 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
     if (canFinish && date) {
       bounceHandle();
 
-      // Automatic day finishing - only applies to when a user finishes there current first_day
-      // This prevents the days from jumping forward and skipping an unfinished day.
+      // Automatic day finishing
+      // If all tasks are done, we are in front of the current first_day, and behind the current day, move first_day to next day.
       const firstDay = user?.first_day || formatDateData(getStartOfCurrentWeek());
 
-      const behindFirstDay = date.localeCompare(firstDay) < 0
+      const aheadOfFirstDay = date.localeCompare(firstDay) > 0;
       const behindCurrentDay = date.localeCompare(currentDateString()) < 0;
+      console.log('dates', { behindCurrentDay, aheadOfFirstDay, firstDay });
 
-      if (!behindFirstDay && behindCurrentDay && user?.auto_day_finishing) {
-        console.log(`Automatically finishing day ${date} ${JSON.stringify({ behindCurrentDay, behindFirstDay, firstDay })}`)
+      if (aheadOfFirstDay && behindCurrentDay && user?.auto_day_finishing) {
+        console.log(`Automatically finishing day ${date} ${JSON.stringify({ behindCurrentDay, aheadOfFirstDay, firstDay })}`)
         const nextDay = addDayToStringDate(date);
-        updateUser({ first_day: nextDay });
+        // debounce in case other days are also finishing - by default the most recent day will run this last
+        debouncer.run(() => updateUser({ first_day: nextDay }), dayFinishingDebounceSignature, 500);
       }
     }
-  }, [canFinish]);
+  }, [canFinish, user]);
 
   const finishDay = () => {
-    if (!date) {
+    if (!date || user?.auto_day_finishing) {
       return;
     }
 
