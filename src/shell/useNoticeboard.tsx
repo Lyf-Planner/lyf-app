@@ -39,15 +39,15 @@ export const NoticeboardProvider = ({ children }: Props) => {
     }
 
     // Add any unseen notices we just queried to the seen pile.
-    // const parsedNotices = seenNotices ? seenNotices.split(',') : [];
-    // notices.forEach((notice) => {
-    //   if (!parsedNotices.includes(notice.id)) {
-    //     parsedNotices.push(notice.id);
-    //   }
-    // })
+    const parsedNotices = seenNotices ? seenNotices.split(',') : [];
+    notices.forEach((notice) => {
+      if (!parsedNotices.includes(notice.id)) {
+        parsedNotices.push(notice.id);
+      }
+    })
 
-    // const serialisedNotices = parsedNotices.join(',');
-    // await storeAsyncData(`${env.VERSION}-notices`, serialisedNotices);
+    const serialisedNotices = parsedNotices.join(',');
+    await storeAsyncData(`${env.VERSION}-notices`, serialisedNotices);
   });
 
   const exposed: NoticeboardHooks = {
