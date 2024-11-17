@@ -1,5 +1,3 @@
-import * as Native from 'react-native';
-
 import { BottomTabScreenProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -64,9 +62,7 @@ export default function Routes() {
 
   return (
     <Tab.Navigator
-      sceneContainerStyle={styles.aboveBackground}
       initialRouteName={tutorialRoute || 'Timetable'}
-      id="BottomTab"
       backBehavior="none"
       tabBar={(props) => {
         return <TabBar {...props} />
@@ -84,13 +80,3 @@ export default function Routes() {
   );
 }
 
-const styles = Native.StyleSheet.create({
-  aboveBackground: {
-    position: 'absolute',
-    zIndex: 100,
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0
-  }
-})

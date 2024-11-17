@@ -13,6 +13,7 @@ export default {
     version: '2.0.6',
     icon: './src/assets/images/inverted-icon.png',
     orientation: 'portrait',
+    newArchEnabled: true,
     userInterfaceStyle: 'light',
     runtimeVersion: {
       policy: 'sdkVersion'
