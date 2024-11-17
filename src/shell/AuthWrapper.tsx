@@ -9,7 +9,6 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { Background } from '@/containers/Background';
 import { Login } from '@/containers/Login';
 import { useAuthStore } from '@/store/useAuthStore';
-import { useTimetableStore } from '@/store/useTimetableStore';
 
 type Props = {
   children: JSX.Element;
@@ -25,8 +24,11 @@ export const AuthWrapper = ({ children }: Props) => {
       document.title = 'Lyf'
     }
 
-    autologin();
-  }, [])
+    if (!user) {
+      console.log('No user in state, attempting autologin');
+      autologin();
+    }
+  }, [user])
 
   // sync
   const appState = useRef(AppState.currentState);
@@ -39,17 +41,12 @@ export const AuthWrapper = ({ children }: Props) => {
 
       const appStateChangeTime = new Date();
 
-      // Refresh user if opening app
-      const isOpeningApp = appState.current.match(/background|inactive/) && nextAppState === 'active';
-      if (isOpeningApp) {
-        autologin();
-      }
-
-      // Refresh timetable if inactive for > 2 mins and entering active state
+      // Refresh user if inactive for > 2 mins and entering active state
       const inactivityPeriod = appStateChangeTime.getTime() - lastActive.getTime();
       console.log('App was last active:', inactivityPeriod / 1000, 'seconds ago')
       if (inactivityPeriod > 2 * 60 * 1000 && nextAppState === 'active') {
-        useTimetableStore.getState().reload();
+        console.log('Resyncing user after sufficient inactivity period');
+        autologin();
       }
       setLastActive(appStateChangeTime);
       console.log(`App ${nextAppState} at ${appStateChangeTime}`);
