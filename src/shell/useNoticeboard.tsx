@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from 'react';
 import env from '@/envManager';
 import { getNotices } from '@/rest/public';
 import { NoticeDbObject } from '@/schema/database/notices';
-import { getAsyncData } from '@/utils/asyncStorage';
+import { getAsyncData, storeAsyncData } from '@/utils/asyncStorage';
 
 type Props = {
   children: JSX.Element;

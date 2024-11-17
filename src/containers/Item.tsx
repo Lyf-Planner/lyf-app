@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { SharedValue, useSharedValue } from 'react-native-reanimated';
 
