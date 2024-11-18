@@ -63,8 +63,6 @@ export async function getUser(user_id: string, include: string) {
   // We use this to check result is a user and not an error object
   if (result?.status === 200) {
     return result.data;
-  } else {
-    alert(result.data);
   }
 }
 

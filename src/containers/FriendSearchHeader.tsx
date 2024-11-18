@@ -116,5 +116,11 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     zIndex: 50
   },
-  searchInput: { color: white, fontFamily: 'Lexend', fontSize: 22, padding: 4 }
+  searchInput: {
+    color: white,
+    fontFamily: 'Lexend',
+    fontSize: 22,
+    padding: 4,
+    width: '100%'
+  }
 });

@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   main: {
-    flex: 1,
     flexDirection: 'column',
     gap: 12,
     height: '100%',
@@ -148,13 +147,16 @@ const styles = StyleSheet.create({
     paddingTop: 100
   },
   scroll: {
-    alignSelf: 'center',
-    flex: 1,
+    bottom: 0,
     height: '100%',
+    left: 0,
     marginBottom: Platform.OS === 'web' ? 0 : 100,
     maxWidth: 500,
     overflow: 'visible',
     paddingBottom: Platform.OS === 'web' ? 100 : 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
     width: '100%'
   },
   title: {
