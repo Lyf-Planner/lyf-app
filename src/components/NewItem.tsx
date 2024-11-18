@@ -11,10 +11,11 @@ type Props = {
   onBlur?: () => void;
   onFocus?: () => void;
   type: ItemType;
+  flex?: boolean;
   whiteShadow?: boolean;
 };
 
-export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, whiteShadow = true }: Props) => {
+export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, flex = false, whiteShadow = true }: Props) => {
   const [newItem, updateNewItem] = useState<string>('');
   const inputRef = useRef<TextInput>(null);
   const placeholderText = `+ Add ${type}`;
@@ -34,7 +35,8 @@ export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, whiteShadow = t
       shadowOffset: { width: 0, height: 0 },
       shadowColor: white,
       shadowOpacity: 1,
-      shadowRadius: 1
+      shadowRadius: 1,
+      flex: flex ? 1 : undefined
     } : {}
   }
 
@@ -59,15 +61,12 @@ const styles = StyleSheet.create({
     backgroundColor: listNewItemBackground,
     borderRadius: 10,
     color: listNewItemText,
-    flex: 1,
     fontFamily: 'Lexend',
     fontSize: 16,
-    height: 50,
     marginTop: 2,
     minHeight: 50,
     paddingLeft: 8,
     paddingVertical: 8,
-    width: '100%',
-    zIndex: 10
+    width: '100%'
   }
 });

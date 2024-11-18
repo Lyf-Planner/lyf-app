@@ -55,7 +55,7 @@ export const ListDropdown = ({ items, listType, icon, name, startOpen = false }:
   return (
     <Animated.View style={[styles.dropdownContainer, scaleAnimation]}>
       <Pressable
-        style={styles.dropdownTextContainer}
+        style={styles.dropdownPressable}
         onPressIn={() => {
           shadowOffsetX.value = 0;
           shadowOffsetY.value = 0;
@@ -117,14 +117,13 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     flexDirection: 'column',
     justifyContent: 'flex-start',
-
     padding: 12,
 
     shadowColor: black,
     shadowOpacity: 0.75,
     shadowRadius: 2
   },
-  dropdownTextContainer: {
+  dropdownPressable: {
     alignItems: 'center',
     flexDirection: 'row',
     gap: 8,

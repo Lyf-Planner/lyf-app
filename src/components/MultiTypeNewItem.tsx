@@ -30,6 +30,7 @@ export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true }: Pr
           type={ItemType.Event}
           onBlur={() => setNewItemType(null)}
           onFocus={() => setNewItemType(ItemType.Event)}
+          flex
           whiteShadow={whiteShadow}
         />
       }
@@ -39,6 +40,7 @@ export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true }: Pr
           addItemByTitle={(title: string) => addItemByTitleTyped(title, ItemType.Task)}
           onBlur={() => setNewItemType(null)}
           onFocus={() => setNewItemType(ItemType.Task)}
+          flex
           whiteShadow={whiteShadow}
         />
       }
