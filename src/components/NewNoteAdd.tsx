@@ -55,7 +55,7 @@ export const NewNoteMenu = ({ newNote }: Props) => {
         <MenuOptions customStyles={optionsContainerStyles}>
           <MenuOption
             value={1}
-            text="🗒 New Note"
+            text="+ 🗒 Note"
             customStyles={optionStyles}
             onSelect={() => onOptionSelect(NoteType.NoteOnly)}
           />
@@ -64,7 +64,7 @@ export const NewNoteMenu = ({ newNote }: Props) => {
 
           <MenuOption
             value={1}
-            text="🖊️ New List"
+            text="+ 🖊️ List"
             customStyles={optionStyles}
             onSelect={() => onOptionSelect(NoteType.ListOnly)}
           />
@@ -105,13 +105,16 @@ const styles = StyleSheet.create({
     shadowRadius: 0.5
   },
   optionSeperator: { marginHorizontal: 5 },
-  optionText: { fontFamily: 'Lexend', fontSize: 18, fontWeight: '200' },
+  optionText: {
+    fontFamily: 'Lexend',
+    fontSize: 18,
+    textAlign: 'center'
+  },
   optionWrapper: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginHorizontal: 4,
-    marginVertical: 4,
-    width: 125
+    margin: 8,
+    width: 100
   },
 
   optionsContainer: {
