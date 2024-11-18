@@ -56,18 +56,19 @@ export const NoteBody = ({ note }: Props) => {
 
   if (note.type === NoteType.ListOnly) {
     // Need to spoof these to look like LocalItems, bit of tomfuckery here
-    const noteItems: LocalItem[] = useMemo(() => note.relations.items ?
-      note.relations.items.map((item: ItemDbObject, i) => ({
-        ...item,
-        localised: false,
-        invite_pending: false,
-        permission: note.permission,
-        sorting_rank: item.default_sorting_rank || i,
-        show_in_upcoming: undefined,
-        notification_mins: undefined,
-        relations: {}
-      })).sort((a, b) => a.sorting_rank - b.sorting_rank) : [],
-    [note]
+    const noteItems: LocalItem[] = useMemo(
+      () => note.relations.items ?
+        note.relations.items.map((item: ItemDbObject, i) => ({
+          ...item,
+          localised: false,
+          invite_pending: false,
+          permission: note.permission,
+          sorting_rank: item.default_sorting_rank || i,
+          show_in_upcoming: undefined,
+          notification_mins: undefined,
+          relations: {}
+        })).sort((a, b) => a.sorting_rank - b.sorting_rank) : [],
+      [note]
     )
 
     return (

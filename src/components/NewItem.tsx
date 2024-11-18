@@ -31,13 +31,15 @@ export const NewItem = ({ addItemByTitle, onBlur, onFocus, type, flex = false, w
   const onChangeText = (text: string) => updateNewItem(text);
 
   const conditionalStyles = {
-    listNewItem: whiteShadow && Platform.OS !== 'web' ? {
-      shadowOffset: { width: 0, height: 0 },
-      shadowColor: white,
-      shadowOpacity: 1,
-      shadowRadius: 1,
+    listNewItem: {
+      ...whiteShadow && Platform.OS !== 'web' && {
+        shadowOffset: { width: 0, height: 0 },
+        shadowColor: white,
+        shadowOpacity: 1,
+        shadowRadius: 1
+      },
       flex: flex ? 1 : undefined
-    } : {}
+    }
   }
 
   return (
