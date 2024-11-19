@@ -41,10 +41,10 @@ export const DailyNotificationDesc = ({
   return (
     <View style={dailyStyles.mainContainer}>
       <Text style={dailyStyles.firstText}>Receive reminders each day at </Text>
-      <View style={dailyStyles.dateTimeWrapper}>
-        {Platform.OS === 'web' ? (
-          <TimePicker updateTime={updateTime} time={notificationTime} closeable={false} />
-        ) : (
+      {Platform.OS === 'web' ? (
+        <TimePicker updateTime={updateTime} time={notificationTime} closeable={false} />
+      ) : (
+        <View style={dailyStyles.dateTimeWrapper}>
           <DateTimePicker
             value={datePickerValue}
             minuteInterval={5}
@@ -53,8 +53,8 @@ export const DailyNotificationDesc = ({
             onChange={updateTimeFromPicker}
             style={dailyStyles.dateTimeDimensions}
           />
-        )}
-      </View>
+        </View>
+      )}
 
       <Text style={dailyStyles.secondText}>
         about your schedule for the day.{' '}
@@ -129,13 +129,17 @@ export const EventNotificationDesc = ({
 
 const dailyStyles = StyleSheet.create({
   dateTimeDimensions: {
+    alignSelf: 'center',
+    flex: 1,
     height: 30,
-    width: 85
+    width: 75
   },
   dateTimeWrapper: {
     backgroundColor: white,
     borderRadius: 10,
-    overflow: 'hidden'
+    height: 30,
+    overflow: 'hidden',
+    width: 75
   },
   firstText: {
     color: white,

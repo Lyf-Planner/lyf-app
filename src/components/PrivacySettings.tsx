@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Switch } from 'react-native'
+import { StyleSheet, View, Text, Switch, Platform } from 'react-native'
 
 import { useAuthStore } from '@/store/useAuthStore';
 import { white } from '@/utils/colours';
@@ -10,15 +10,27 @@ export const PrivacySettings = () => {
 
   return (
     <View style={styles.main}>
-      <View style={styles.privacySettingRow}>
-        <Text style={styles.privateModeText}>Private Mode</Text>
-        <Switch
-          style={styles.privacyModeToggle}
-          onValueChange={updatePrivate}
-          value={user?.private}
-          ios_backgroundColor={'gray'}
-        />
-      </View>
+      {Platform.OS === 'web' ? (
+        <View style={styles.privacySettingRow}>
+          <Switch
+            onValueChange={updatePrivate}
+            value={user?.private}
+            ios_backgroundColor={'gray'}
+          />
+          <Text style={styles.privateModeText}>Private Mode</Text>
+        </View>
+      ) : (
+        <View style={styles.privacySettingRow}>
+          <Text style={styles.privateModeText}>Private Mode</Text>
+          <Switch
+            style={styles.privacyModeToggle}
+            onValueChange={updatePrivate}
+            value={user?.private}
+            ios_backgroundColor={'gray'}
+          />
+        </View>
+      )}
+
       <Text style={styles.hint}>Private Mode makes you undiscoverable to all users</Text>
     </View>
   )

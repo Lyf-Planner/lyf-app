@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Switch } from 'react-native'
+import { StyleSheet, View, Text, Switch, Platform } from 'react-native'
 
 import { useLocation } from '@/shell/useLocation';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -21,15 +21,27 @@ export const WeatherSetting = () => {
 
   return (
     <View style={styles.main}>
-      <View style={styles.settingRow}>
-        <Text style={styles.settingNameText}>Enable Weather Data</Text>
-        <Switch
-          style={styles.settingToggle}
-          onValueChange={updateWeather}
-          value={!!user?.weather_data}
-          ios_backgroundColor={'gray'}
-        />
-      </View>
+      {Platform.OS === 'web' ? (
+        <View style={styles.settingRow}>
+          <Switch
+            onValueChange={updateWeather}
+            value={!!user?.weather_data}
+            ios_backgroundColor={'gray'}
+          />
+          <Text style={styles.settingNameText}>Enable Weather Data</Text>
+        </View>
+      ) : (
+        <View style={styles.settingRow}>
+          <Text style={styles.settingNameText}>Enable Weather Data</Text>
+          <Switch
+            style={styles.settingToggle}
+            onValueChange={updateWeather}
+            value={!!user?.weather_data}
+            ios_backgroundColor={'gray'}
+          />
+        </View>
+      )}
+
       <Text style={styles.hint}>This requires your geolocation data. Lyf will never store any of this information.</Text>
     </View>
   )

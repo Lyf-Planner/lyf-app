@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Switch } from 'react-native'
+import { StyleSheet, View, Text, Switch, Platform } from 'react-native'
 
 import { useAuthStore } from '@/store/useAuthStore';
 import { white } from '@/utils/colours';
@@ -12,15 +12,27 @@ export const DayFinishingSetting = () => {
 
   return (
     <View style={styles.main}>
-      <View style={styles.settingRow}>
-        <Text style={styles.settingNameText}>Automatic Day Finishing</Text>
-        <Switch
-          style={styles.settingToggle}
-          onValueChange={updateDayFinishing}
-          value={!!user?.auto_day_finishing}
-          ios_backgroundColor={'gray'}
-        />
-      </View>
+      {Platform.OS === 'web' ? (
+        <View style={styles.settingRow}>
+          <Switch
+            onValueChange={updateDayFinishing}
+            value={!!user?.auto_day_finishing}
+            ios_backgroundColor={'gray'}
+          />
+          <Text style={styles.settingNameText}>Automatic Day Finishing</Text>
+        </View>
+      ) : (
+        <View style={styles.settingRow}>
+          <Text style={styles.settingNameText}>Automatic Day Finishing</Text>
+          <Switch
+            style={styles.settingToggle}
+            onValueChange={updateDayFinishing}
+            value={!!user?.auto_day_finishing}
+            ios_backgroundColor={'gray'}
+          />
+        </View>
+      )}
+
       <Text style={styles.hint}>
         Automatically finish the day when all tasks are done. To do this manually, hold down the day.
       </Text>

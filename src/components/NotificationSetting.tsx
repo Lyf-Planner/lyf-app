@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Switch } from 'react-native';
+import { View, Text, StyleSheet, Switch, Platform } from 'react-native';
 
 import {
   DailyNotificationDesc,
@@ -74,14 +74,25 @@ const Setting = ({ updateFunc, enabled, name, desc }: SettingProps) => {
 
   return (
     <View style={styles.settingMain}>
-      <View style={styles.settingContainer}>
-        <Text style={styles.settingText}>{name}</Text>
-        <Switch
-          style={styles.settingToggle}
-          onValueChange={updateFunc}
-          value={enabled}
-        />
-      </View>
+      {Platform.OS === 'web' ? (
+        <View style={styles.settingContainer}>
+          <Switch
+            onValueChange={updateFunc}
+            value={enabled}
+          />
+          <Text style={styles.settingText}>{name}</Text>
+        </View>
+      ) : (
+        <View style={styles.settingContainer}>
+          <Text style={styles.settingText}>{name}</Text>
+          <Switch
+            style={styles.settingToggle}
+            onValueChange={updateFunc}
+            value={enabled}
+          />
+        </View>
+      )}
+
       <View style={conditionalStyles.descWrapper}>
         {desc}
       </View>
@@ -97,7 +108,8 @@ const styles = StyleSheet.create({
 
   settingContainer: {
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    gap: 8
   },
   settingMain: {
     flexDirection: 'column',
