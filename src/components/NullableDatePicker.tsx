@@ -65,7 +65,6 @@ export const DatePicker = ({ date, updateDate }: Props) => {
     <DateTimePicker
       value={datePickerValue}
       mode={'date'}
-      display='calendar'
       onChange={updateDateFromPicker}
     />
   );
