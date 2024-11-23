@@ -114,14 +114,14 @@ const styles = StyleSheet.create({
     backgroundColor: deepBlueOpacity(Platform.OS !== 'ios' ? 0.9 : 0.7),
     borderColor: blackWithOpacity(0.3),
     borderRadius: 10,
-    borderWidth: 2,
+    borderWidth: 1,
     flexDirection: 'column',
     justifyContent: 'flex-start',
     padding: 12,
 
     shadowColor: black,
-    shadowOpacity: 0.75,
-    shadowRadius: 2
+    shadowOpacity: 0.5,
+    shadowRadius: 1
   },
   dropdownPressable: {
     alignItems: 'center',
