@@ -197,6 +197,13 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
   const conditionalStyles = {
     dayRootView: {
       shadowOffset: shadowOffset ?? { width: 3, height: 3 }
+    },
+    diagLines: {
+      borderColor: canFinish ? blackWithOpacity(0.4) : blackWithOpacity(0.2),
+
+      shadowColor: canFinish ? black : transparent,
+      shadowOpacity: 0.75,
+      shadowOffset: { width: -3, height: 0 }
     }
   }
 
@@ -215,8 +222,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
 
           </View>
           <View style={styles.headerEnd}>
-            <Vertical style={styles.diagLines} />
-            {canFinish && <Vertical style={styles.diagLines} />}
+            <Vertical style={[styles.diagLines, conditionalStyles.diagLines]} />
 
             {date && (
               <Text style={styles.dayDateText}>{formatDate(date, true)}</Text>
@@ -278,7 +284,7 @@ const styles = StyleSheet.create({
     backgroundColor: secondaryGreen,
     borderRadius: 10,
     flexDirection: 'row',
-    overflow: 'visible',
+    overflow: 'hidden',
     paddingHorizontal: 8
   },
   dayOfWeekPressable: {
@@ -306,10 +312,10 @@ const styles = StyleSheet.create({
     width: '100%',
     zIndex: 10
   },
+  // eslint-disable-next-line react-native/no-color-literals
   diagLines: {
-    borderColor: blackWithOpacity(0.2),
-    borderLeftWidth: 2,
-    height: '100%',
+    borderLeftWidth: 2.5,
+    height: '120%',
     marginLeft: 'auto',
     transform: [{ rotateZ: '-20deg' }]
   },
@@ -335,7 +341,7 @@ const styles = StyleSheet.create({
   headerEnd: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: 2,
+    gap: 3,
     height: '100%',
     marginLeft: 'auto',
     marginRight: 2
