@@ -14,6 +14,7 @@ import { blackWithOpacity } from '@/utils/colours';
 
 export type LyfMenuProps = {
   name: string;
+  onClose?: () => void;
   placement: MenuPopoverPlacement;
   children: JSX.Element; // The menu will display when this is pressed!
   popupContent: LyfElement
@@ -38,6 +39,7 @@ export enum MenuPopoverPlacement {
 
 export const LyfPopup = ({
   name,
+  onClose,
   placement,
   popupContent,
   children
@@ -55,6 +57,7 @@ export const LyfPopup = ({
       ref={ref}
       renderer={renderers.Popover}
       rendererProps={rendererProps}
+      onClose={onClose}
     >
       <MenuOptions
         customStyles={{

@@ -1,12 +1,12 @@
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { RouteParams } from 'Routes';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+import { RouteParams } from '@/Routes';
 import { DayFinishingSetting } from '@/components/DayFinishingSetting';
 import { DeleteButton } from '@/components/DeleteMeButton';
 import { LogoutButton } from '@/components/LogoutButton';

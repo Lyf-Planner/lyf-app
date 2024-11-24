@@ -7,8 +7,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { v4 as uuid } from 'uuid';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
-import { CalendarRange } from '@/components/CalendarRange';
 import { PageLoader } from '@/components/PageLoader';
+import { CalendarRange } from '@/containers/CalendarRange';
 import { DayDisplay } from '@/containers/DayDisplay';
 import { ListDropdown } from '@/containers/ListDropdown';
 import { PageBackground } from '@/containers/PageBackground';
