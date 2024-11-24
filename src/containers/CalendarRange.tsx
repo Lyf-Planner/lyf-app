@@ -1,7 +1,7 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 
-import { Calendar } from 'react-native-calendars';
+import { Calendar, DateData } from 'react-native-calendars';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 import { LyfPopup, MenuPopoverPlacement } from '@/containers/LyfPopup';
@@ -32,7 +32,7 @@ export const CalendarRange = ({ color, textColor }: Props) => {
     reload(newStart, newEnd);
   }
 
-  const onDatePressed = ({ dateString }) => {
+  const onDatePressed = ({ dateString }: DateData) => {
     const startDate = selectedRange[0];
     const endDate = selectedRange[1];
 
@@ -44,7 +44,9 @@ export const CalendarRange = ({ color, textColor }: Props) => {
   }
 
   const onSubmitRange = () => {
-    reload(...selectedRange);
+    if (selectedRange[0] !== startDate || selectedRange[1] !== endDate) {
+      reload(...selectedRange);
+    }
   }
 
   const markedDates = useMemo(() => {
@@ -52,14 +54,28 @@ export const CalendarRange = ({ color, textColor }: Props) => {
     const markedDates: Record<DateString, object> = {};
 
     dateRange.forEach((date, i) => {
-      const isStartOrEnd = i === 0 || i === dateRange.length - 1;
+      const isStartingDay = i === 0;
+      const isEndingDay = i === dateRange.length - 1;
+
+      const isStartOfWeek = localisedMoment(date).weekday() === 0;
+      const isEndOfWeek = localisedMoment(date).weekday() === 6;
+
+      console.log('date', date, 'has weekday',localisedMoment(date).weekday(), { isStartingDay, isEndingDay, isStartOfWeek, isEndOfWeek });
+
+      const borderRadius = 10;
 
       markedDates[date] = {
-        startingDay: i === 0,
-        endingDay: i === dateRange.length - 1,
+        startingDay: isStartingDay,
+        endingDay: isEndingDay,
         selected: true,
-        color: isStartOrEnd ? primaryGreen : primaryGreenWithOpacity(0.5),
-        customContainerStyle: { width: '100%' }
+        color: isStartingDay || isEndingDay ? primaryGreen : primaryGreenWithOpacity(0.5),
+        customContainerStyle: {
+          borderBottomLeftRadius: borderRadius,
+          borderTopLeftRadius: borderRadius,
+          borderTopRightRadius: borderRadius,
+          borderBottomRightRadius: borderRadius,
+          width: '100%'
+        }
       }
     });
 
@@ -121,9 +137,9 @@ const styles = StyleSheet.create({
 
   popupWrapper: {
     alignItems: 'center',
+    alignSelf: 'center',
     flexDirection: 'column',
-    padding: 2,
-    width: 275
+    paddingHorizontal: 8
   },
 
   weekDateDisplayTouchable: {
