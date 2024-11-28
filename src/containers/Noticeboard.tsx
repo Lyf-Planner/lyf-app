@@ -6,7 +6,6 @@ import Carousel from 'react-native-snap-carousel';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Octicons from 'react-native-vector-icons/Octicons';
 
-import { BouncyPressable } from '@/components/BouncyPressable';
 import { Notice } from '@/components/Notice';
 import { NoticeDbObject } from '@/schema/database/notices';
 import { useModal } from '@/shell/useModal'
@@ -23,15 +22,7 @@ export const Noticeboard = () => {
   const carouselRef = useRef<Carousel<NoticeDbObject>>(null);
 
   return (
-    <BouncyPressable
-      onPress={() => {
-        carouselRef.current?.snapToNext();
-        setPage((page + 1) % notices.length);
-      }}
-      onLongPress={() => updateModal(undefined)}
-      containerStyle={styles.main}
-      bounceScale={0.95}
-    >
+    <View style={styles.main}>
       <View style={styles.mainInternal}>
         <Animated.View
           style={styles.header}
@@ -52,9 +43,11 @@ export const Noticeboard = () => {
 
         <Carousel
           ref={carouselRef}
+          scrollEnabled
           data={notices}
           renderItem={({ item, index }) => <Notice key={index} notice={item} />}
           vertical={false}
+          onScrollIndexChanged={(index: number) => setPage(index)}
           itemWidth={NOTICEBOARD_WIDTH - 2 * NOTICEBOARD_PADDING}
           sliderWidth={NOTICEBOARD_WIDTH - 2 * NOTICEBOARD_PADDING}
         />
@@ -70,7 +63,7 @@ export const Noticeboard = () => {
           ))}
         </View>
       </View>
-    </BouncyPressable>
+    </View>
   )
 }
 
