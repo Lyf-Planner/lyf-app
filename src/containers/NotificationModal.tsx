@@ -1,21 +1,26 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { View, Text, ScrollView, TouchableHighlight, StyleSheet } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { BouncyPressable } from '@/components/BouncyPressable';
 import { Horizontal } from '@/components/Horizontal';
 import { NotificationBanner } from '@/components/NotificationBanner';
 import { Notification } from '@/schema/notifications';
 import { DateString } from '@/schema/util/dates';
 import { useModal } from '@/shell/useModal'
 import { useNotifications } from '@/shell/useNotifications'
-import { black, primaryGreen, white } from '@/utils/colours';
+import { black, primaryGreen, white, whiteWithOpacity } from '@/utils/colours';
 import { formatDateData, localisedFormattedMoment } from '@/utils/dates';
 
 export const NotificationModal = () => {
   const { updateModal } = useModal();
-  const { notifications } = useNotifications();
+  const { notifications, readNotification } = useNotifications();
+
+  const allRead = useMemo(() => {
+    return notifications.every((notification) => notification.seen);
+  }, [notifications])
 
   const notificationsByDay = useMemo(() => {
     const dayGroups: Record<DateString, Notification[]> = {};
@@ -33,11 +38,22 @@ export const NotificationModal = () => {
     return dayGroups;
   }, [notifications])
 
+  const markAllAsRead = useCallback(
+    () => notifications.forEach((notification) => {
+      if (!notification.seen) {
+        readNotification(notification.id);
+      }
+    }),
+    [notifications]
+  )
+
   return (
     <View style={styles.main}>
       <View style={styles.mainInternal}>
         <View style={styles.header}>
-          <MaterialCommunityIcons name="bell" size={30} color="white" />
+          <BouncyPressable onLongPress={markAllAsRead}>
+            <MaterialCommunityIcons name="bell" size={30} color={allRead ? whiteWithOpacity(0.7) : white} />
+          </BouncyPressable>
           <Text style={styles.title}>Notifications</Text>
           <TouchableHighlight
             style={styles.closeButton}
