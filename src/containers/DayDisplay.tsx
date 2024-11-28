@@ -199,9 +199,9 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
       shadowOffset: shadowOffset ?? { width: 3, height: 3 }
     },
     diagLines: {
-      borderColor: canFinish ? blackWithOpacity(0.4) : blackWithOpacity(0.2),
+      borderColor: canFinish ? blackWithOpacity(0.4) : blackWithOpacity(date === currentDateString() ? 0.3 : 0.2),
 
-      shadowColor: canFinish ? black : transparent,
+      shadowColor: black,
       shadowOpacity: 0.75,
       shadowOffset: { width: -3, height: 0 }
     }
@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: 'column',
     gap: 4,
-    padding: 10,
+    padding: 8,
     shadowColor: black,
     shadowOpacity: 0.75,
 

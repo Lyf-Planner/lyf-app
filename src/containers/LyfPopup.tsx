@@ -8,13 +8,14 @@ import {
   renderers
 } from 'react-native-popup-menu';
 
-import { BouncyPressable } from '@/components/BouncyPressable';
+import { BouncyPressable, BouncyPressableProps } from '@/components/BouncyPressable';
 import { LyfElement } from '@/utils/abstractTypes';
 import { blackWithOpacity } from '@/utils/colours';
 
 export type LyfMenuProps = {
   name: string;
   onClose?: () => void;
+  onLongPress?: () => void;
   placement: MenuPopoverPlacement;
   children: JSX.Element; // The menu will display when this is pressed!
   popupContent: LyfElement
@@ -40,6 +41,7 @@ export enum MenuPopoverPlacement {
 export const LyfPopup = ({
   name,
   onClose,
+  onLongPress,
   placement,
   popupContent,
   children
@@ -58,6 +60,7 @@ export const LyfPopup = ({
       renderer={renderers.Popover}
       rendererProps={rendererProps}
       onClose={onClose}
+      onBackdropPress={onClose}
     >
       <MenuOptions
         customStyles={{
@@ -69,7 +72,11 @@ export const LyfPopup = ({
       </MenuOptions>
       <MenuTrigger
         customStyles={{
-          TriggerTouchableComponent: BouncyPressable
+          TriggerTouchableComponent: (props: Partial<BouncyPressableProps>) => (
+            <BouncyPressable {...props} onLongPress={onLongPress}>
+              {props.children}
+            </BouncyPressable>
+          )
         }}
       >
         {children}

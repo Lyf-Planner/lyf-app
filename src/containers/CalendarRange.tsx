@@ -1,14 +1,14 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 
 import { Calendar, DateData } from 'react-native-calendars';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 import { LyfPopup, MenuPopoverPlacement } from '@/containers/LyfPopup';
-import { DateString, WeekDays } from '@/schema/util/dates';
+import { DateString } from '@/schema/util/dates';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, primaryGreen, primaryGreenWithOpacity } from '@/utils/colours';
-import { allDatesBetween, formatDate, formatDateData, localisedMoment } from '@/utils/dates';
+import { allDatesBetween, formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from '@/utils/dates';
 
 enum ShiftDirection {
   BACK = -1,
@@ -25,12 +25,20 @@ export const CalendarRange = ({ color, textColor }: Props) => {
 
   const [selectedRange, setSelectedRange] = useState([startDate, endDate]);
 
-  const shiftByWeek = (direction: ShiftDirection) => {
-    const newStart = formatDateData(localisedMoment(startDate).add(direction * WeekDays.length, 'days').toDate())
-    const newEnd = formatDateData(localisedMoment(endDate).add(direction * WeekDays.length, 'days').toDate())
+  useEffect(() => {
+    setSelectedRange([startDate, endDate]);
+  }, [startDate, endDate])
 
-    reload(newStart, newEnd);
-  }
+  const shiftByRange = useCallback(
+    (direction: ShiftDirection) => {
+      const range = allDatesBetween(startDate, endDate).length;
+      const newStart = formatDateData(localisedMoment(startDate).add(direction * range, 'days').toDate())
+      const newEnd = formatDateData(localisedMoment(endDate).add(direction * range, 'days').toDate())
+
+      reload(newStart, newEnd);
+    },
+    [startDate, endDate]
+  )
 
   const onDatePressed = ({ dateString }: DateData) => {
     const startDate = selectedRange[0];
@@ -53,6 +61,10 @@ export const CalendarRange = ({ color, textColor }: Props) => {
     const dateRange = allDatesBetween(selectedRange[0], selectedRange[1]);
     const markedDates: Record<DateString, object> = {};
 
+    markedDates[formatDateData(new Date())] = {
+      marked: true
+    }
+
     dateRange.forEach((date, i) => {
       const isStartingDay = i === 0;
       const isEndingDay = i === dateRange.length - 1;
@@ -62,18 +74,12 @@ export const CalendarRange = ({ color, textColor }: Props) => {
 
       console.log('date', date, 'has weekday',localisedMoment(date).weekday(), { isStartingDay, isEndingDay, isStartOfWeek, isEndOfWeek });
 
-      const borderRadius = 10;
-
       markedDates[date] = {
         startingDay: isStartingDay,
         endingDay: isEndingDay,
         selected: true,
         color: isStartingDay || isEndingDay ? primaryGreen : primaryGreenWithOpacity(0.5),
         customContainerStyle: {
-          borderBottomLeftRadius: borderRadius,
-          borderTopLeftRadius: borderRadius,
-          borderTopRightRadius: borderRadius,
-          borderBottomRightRadius: borderRadius,
           width: '100%'
         }
       }
@@ -86,10 +92,17 @@ export const CalendarRange = ({ color, textColor }: Props) => {
     <LyfPopup
       name="calendar"
       placement={MenuPopoverPlacement.Bottom}
+      onLongPress={() => {
+        reload(
+          formatDateData(getStartOfCurrentWeek()),
+          formatDateData(getEndOfCurrentWeek())
+        )
+      }}
       onClose={onSubmitRange}
       popupContent={(
         <View style={styles.popupWrapper}>
           <Calendar
+            current={startDate}
             firstDay={1}
             onDayPress={onDatePressed}
             enableSwipeMonths
@@ -109,20 +122,14 @@ export const CalendarRange = ({ color, textColor }: Props) => {
     >
       <View
         style={[styles.weekDateDisplayTouchable, { backgroundColor: color }]}
-        // onLongPress={() => {
-        //   reload(
-        //     formatDateData(getStartOfCurrentWeek()),
-        //     formatDateData(getEndOfCurrentWeek())
-        //   )
-        // }}
       >
-        <TouchableOpacity onPress={() => shiftByWeek(ShiftDirection.BACK)} style={styles.arrowTouchable}>
+        <TouchableOpacity onPress={() => shiftByRange(ShiftDirection.BACK)} style={styles.arrowTouchable}>
           <Entypo name="chevron-left" color={textColor} size={30} />
         </TouchableOpacity>
         <Text style={[styles.weekDateText, { color: textColor }]}>
           {formatDate(startDate, true)} - {formatDate(endDate, true)}
         </Text>
-        <TouchableOpacity onPress={() => shiftByWeek(ShiftDirection.FORWARD)} style={styles.arrowTouchable}>
+        <TouchableOpacity onPress={() => shiftByRange(ShiftDirection.FORWARD)} style={styles.arrowTouchable}>
           <Entypo name="chevron-right" color={textColor} size={30} />
         </TouchableOpacity>
       </View>

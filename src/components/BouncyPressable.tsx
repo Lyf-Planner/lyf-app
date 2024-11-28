@@ -26,7 +26,7 @@ type ShadowOptions = {
   }
 }
 
-type Props = BouncyPressableOptions & ShadowOptions & {
+export type BouncyPressableProps = BouncyPressableOptions & ShadowOptions & {
   children: LyfElement;
   style?: object;
   onPress?: () => void;
@@ -45,7 +45,7 @@ export const BouncyPressable = ({
   withShadow,
   shadowOptions,
   bounceScale
-}: Props) => {
+}: BouncyPressableProps) => {
   const WrappingPressable = useTouchableHighlight
     ? TouchableHighlight
     : Pressable;
