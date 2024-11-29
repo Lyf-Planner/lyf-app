@@ -9,13 +9,14 @@ type Props = {
   children: JSX.Element;
 }
 
-interface CheckNoticeboardArgs {
+interface OpenNoticeboardArgs {
   openNoticeboard: () => void;
 }
 
 interface NoticeboardHooks {
   notices: NoticeDbObject[];
-  checkNoticeboard: (args: CheckNoticeboardArgs) => Promise<void>;
+  currentVersionNoticeboard: (args: OpenNoticeboardArgs) => Promise<void>;
+  checkNoticeboard: (args: OpenNoticeboardArgs) => Promise<void>;
 }
 
 export const NoticeboardProvider = ({ children }: Props) => {
@@ -25,7 +26,15 @@ export const NoticeboardProvider = ({ children }: Props) => {
     return getAsyncData(`${env.VERSION}-notices`);
   }
 
-  const checkNoticeboard = ({ openNoticeboard }: CheckNoticeboardArgs) => getSeenNotices().then(async (seenNotices) => {
+  const currentVersionNoticeboard = async ({ openNoticeboard }: OpenNoticeboardArgs) => {
+    const notices = await getNotices(env.VERSION, '');
+    setNotices(notices);
+    if (notices.length) {
+      openNoticeboard();
+    }
+  }
+
+  const checkNoticeboard = ({ openNoticeboard }: OpenNoticeboardArgs) => getSeenNotices().then(async (seenNotices) => {
     // Change this to '' to see all notices for the current version.
     const excludedNotices = seenNotices || '';
     const notices: NoticeDbObject[] = await getNotices(env.VERSION, excludedNotices);
@@ -47,11 +56,12 @@ export const NoticeboardProvider = ({ children }: Props) => {
     })
 
     const serialisedNotices = parsedNotices.join(',');
-    await storeAsyncData(`${env.VERSION}-notices`, serialisedNotices);
+    await storeAsyncData(`${env.VERSION}-notices`, '');
   });
 
   const exposed: NoticeboardHooks = {
     notices,
+    currentVersionNoticeboard,
     checkNoticeboard
   };
 

@@ -12,7 +12,7 @@ import { useModal } from '@/shell/useModal'
 import { useNoticeboard } from '@/shell/useNoticeboard';
 import { black, blackWithOpacity, white } from '@/utils/colours';
 
-const NOTICEBOARD_WIDTH = 325;
+const NOTICEBOARD_WIDTH = 350;
 const NOTICEBOARD_PADDING = 15;
 
 export const Noticeboard = () => {

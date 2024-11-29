@@ -8,13 +8,18 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import { LyfIcon } from '@/assets/icons/LyfIcon';
 import { BouncyPressable } from '@/components/BouncyPressable';
+import { Noticeboard } from '@/containers/Noticeboard';
 import { PageBackground } from '@/containers/PageBackground';
 import { TipsDropdown } from '@/containers/TipsDropdown';
 import env from '@/envManager';
+import { useModal } from '@/shell/useModal';
+import { useNoticeboard } from '@/shell/useNoticeboard';
 import { useTutorial } from '@/shell/useTutorial';
 import { black, eventsBadgeColor, primaryGreen, white } from '@/utils/colours';
 
 export const TutorialOverlay = () => {
+  const { updateModal } = useModal();
+  const { currentVersionNoticeboard } = useNoticeboard()
   const { updateTutorial, updateTutorialRoute } = useTutorial();
 
   return (
@@ -119,7 +124,11 @@ export const TutorialOverlay = () => {
             <Text style={styles.doneText}>Get Started!</Text>
           </BouncyPressable>
 
-          <Text style={styles.version}>v{env.VERSION}</Text>
+          <BouncyPressable onPress={() => currentVersionNoticeboard({
+            openNoticeboard: () => updateModal(<Noticeboard />)
+          })}>
+            <Text style={styles.version}>v{env.VERSION}</Text>
+          </BouncyPressable>
         </View>
       </ScrollView>
     </PageBackground>
