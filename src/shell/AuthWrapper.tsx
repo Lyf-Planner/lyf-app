@@ -9,6 +9,7 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { Background } from '@/containers/Background';
 import { Login } from '@/containers/Login';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useTimetableStore } from '@/store/useTimetableStore';
 
 type Props = {
   children: JSX.Element;
@@ -17,6 +18,7 @@ type Props = {
 export const AuthWrapper = ({ children }: Props) => {
   const [lastActive, setLastActive] = useState(new Date());
   const { loggingIn, user, autologin } = useAuthStore();
+  const { reload } = useTimetableStore();
 
   useEffect(() => {
     if (Platform.OS === 'web') {
@@ -41,12 +43,12 @@ export const AuthWrapper = ({ children }: Props) => {
 
       const appStateChangeTime = new Date();
 
-      // Refresh user if inactive for > 2 mins and entering active state
+      // Refresh user timetable if inactive for > 2 mins and entering active state
       const inactivityPeriod = appStateChangeTime.getTime() - lastActive.getTime();
       console.log('App was last active:', inactivityPeriod / 1000, 'seconds ago')
-      if (inactivityPeriod > 2 * 60 * 1000 && nextAppState === 'active') {
+      if (inactivityPeriod > 2 * 60 * 1000 && nextAppState === 'active' && user) {
         console.log('Resyncing user after sufficient inactivity period');
-        autologin();
+        reload();
       }
       setLastActive(appStateChangeTime);
       console.log(`App ${nextAppState} at ${appStateChangeTime}`);
