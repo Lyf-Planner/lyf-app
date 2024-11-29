@@ -1,4 +1,4 @@
-import { createElement } from 'react';
+import { createElement, useEffect, useMemo, useState } from 'react';
 import { Platform, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
@@ -62,28 +62,35 @@ export const NullableTimePicker = ({
 };
 
 export const TimePicker = ({ time, updateTime, disabled = false, closeable = true }: Props) => {
+  const [localisedTime, setLocalisedTime] = useState(time);
+
+  useEffect(() => {
+    updateTime(localisedTime);
+  }, [localisedTime])
+
   const updateTimeFromPicker = (time: DateTimePickerEvent) => {
     if (Platform.OS === 'web') {
       // the web html component will have this `target` property
       // react native doesn't type that for generalisation purposes
       //
       // @ts-expect-error false type error
-      updateTime(time.nativeEvent.target.value);
+      setLocalisedTime(time.nativeEvent.target.value);
       return;
     }
 
     const dateTime = new Date(time.nativeEvent.timestamp)
     const parsedTime = localisedMoment(dateTime).format('HH:mm');
-    updateTime(parsedTime);
+    setLocalisedTime(parsedTime);
   };
 
   const today = new Date();
-  const datePickerValue =
-    time ?
-      dateWithTime(time) :
+  const datePickerValue = useMemo(() => {
+    return localisedTime ?
+      dateWithTime(localisedTime) :
       new Date(
-        `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${time}`
+        `${today.getFullYear()}-${today.getMonth()}-${today.getDate()} ${localisedTime}`
       );
+  }, [localisedTime])
 
   const timeElement = Platform.OS === 'web' ? (
     createElement('input', {
