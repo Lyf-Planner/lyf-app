@@ -277,9 +277,9 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
     set({ items: tmp });
 
     for (const i in priorities) {
-      // Fix any localised items
+      // Fix any localised items, harness the update function to handle edge cases like note items and localised item creation
       if (priorities[i].localised) {
-        updateItem(priorities[i], {})
+        updateItem(priorities[i], { sorting_rank: parseInt(i) })
       } else {
         updateRemoteItem({ id: priorities[i].id, sorting_rank: parseInt(i) });
       }
