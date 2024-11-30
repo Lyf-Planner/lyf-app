@@ -56,7 +56,7 @@ export const NoticeboardProvider = ({ children }: Props) => {
     })
 
     const serialisedNotices = parsedNotices.join(',');
-    await storeAsyncData(`${env.VERSION}-notices`, '');
+    await storeAsyncData(`${env.VERSION}-notices`, serialisedNotices);
   });
 
   const exposed: NoticeboardHooks = {
