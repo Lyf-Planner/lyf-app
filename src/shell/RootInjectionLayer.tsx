@@ -26,7 +26,7 @@ type Props = {
 
 export const RootInjectionLayer = ({ children }: Props) => {
   const { drawer, minHeight } = useDrawer();
-  const { modal, updateModal } = useModal();
+  const { closeable, modal, updateModal } = useModal();
   const { checkNoticeboard } = useNoticeboard();
   const { tutorial } = useTutorial();
 
@@ -48,7 +48,7 @@ export const RootInjectionLayer = ({ children }: Props) => {
   // Check the noticeboard
   useEffect(() => {
     checkNoticeboard({
-      openNoticeboard: () => updateModal(<Noticeboard />)
+      openNoticeboard: () => updateModal(<Noticeboard />, false)
     });
   }, []);
 
@@ -75,6 +75,11 @@ export const RootInjectionLayer = ({ children }: Props) => {
       {modal && Platform.OS === 'web' && (
         <Pressable
           style={styles.modalWebWrapper}
+          onPress={() => {
+            if (closeable) {
+              updateModal(undefined);
+            }
+          }}
         >
           <Animated.View
             style={styles.modalWebPositioning}

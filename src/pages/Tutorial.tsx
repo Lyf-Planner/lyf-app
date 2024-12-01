@@ -125,7 +125,7 @@ export const TutorialOverlay = () => {
           </BouncyPressable>
 
           <BouncyPressable onPress={() => currentVersionNoticeboard({
-            openNoticeboard: () => updateModal(<Noticeboard />)
+            openNoticeboard: () => updateModal(<Noticeboard />, false)
           })}>
             <Text style={styles.version}>v{env.VERSION}</Text>
           </BouncyPressable>
