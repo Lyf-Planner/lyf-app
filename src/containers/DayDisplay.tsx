@@ -137,7 +137,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
       // If all tasks are done, we are in front of the current first_day, and behind the current day, move first_day to next day.
       const firstDay = user?.first_day || formatDateData(getStartOfCurrentWeek());
 
-      const aheadOfFirstDay = date.localeCompare(firstDay) > 0;
+      const aheadOfFirstDay = date.localeCompare(firstDay) >= 0;
       const behindCurrentDay = date.localeCompare(currentDateString()) < 0;
       console.log('dates', { behindCurrentDay, aheadOfFirstDay, firstDay });
 
