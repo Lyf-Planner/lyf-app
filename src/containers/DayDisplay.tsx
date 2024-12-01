@@ -201,9 +201,11 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
     diagLines: {
       borderColor: canFinish ? blackWithOpacity(0.4) : blackWithOpacity(date === currentDateString() ? 0.3 : 0.2),
 
-      shadowColor: black,
-      shadowOpacity: 0.75,
-      shadowOffset: { width: -3, height: 0 }
+      ...(Platform.OS === 'ios') ? {
+        shadowColor: black,
+        shadowOpacity: 0.75,
+        shadowOffset: { width: -3, height: 0 }
+      } : {}
     }
   }
 
