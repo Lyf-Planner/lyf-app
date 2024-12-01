@@ -8,7 +8,8 @@ import { LyfPopup, MenuPopoverPlacement } from '@/containers/LyfPopup';
 import { DateString } from '@/schema/util/dates';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, primaryGreen, primaryGreenWithOpacity } from '@/utils/colours';
-import { allDatesBetween, formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from '@/utils/dates';
+import { addWeekToStringDate, allDatesBetween, currentDateString, formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from '@/utils/dates';
+import { useAuthStore } from '@/store/useAuthStore';
 
 enum ShiftDirection {
   BACK = -1,
@@ -21,6 +22,7 @@ type Props = {
 }
 
 export const CalendarRange = ({ color, textColor }: Props) => {
+  const { user } = useAuthStore();
   const { reload, startDate, endDate } = useTimetableStore();
 
   const [selectedRange, setSelectedRange] = useState([startDate, endDate]);
@@ -93,10 +95,19 @@ export const CalendarRange = ({ color, textColor }: Props) => {
       name="calendar"
       placement={MenuPopoverPlacement.Bottom}
       onLongPress={() => {
-        reload(
-          formatDateData(getStartOfCurrentWeek()),
-          formatDateData(getEndOfCurrentWeek())
-        )
+        // Move to the user's first day
+        // Shift back by 1 if already on the starting day
+        if (startDate === user?.first_day) {
+          reload(
+            formatDateData(localisedMoment(user?.first_day).add(-1, 'day').toDate()),
+            addWeekToStringDate(user?.first_day || currentDateString())
+          )
+        } else {
+          reload(
+            user?.first_day,
+            addWeekToStringDate(user?.first_day || currentDateString())
+          )
+        }
       }}
       onClose={onSubmitRange}
       popupContent={(
