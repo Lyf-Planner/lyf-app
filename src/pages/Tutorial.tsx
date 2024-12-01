@@ -24,7 +24,7 @@ export const TutorialOverlay = () => {
 
   return (
     <PageBackground locations={[0, 0.9, 1]} noPadding>
-      <ScrollView style={styles.scroll}>
+      <ScrollView style={Platform.OS === 'web' ? styles.webScroll : styles.scroll}>
         <View style={styles.main}>
           <View style={styles.titleWrapper}>
             <LyfIcon size={24} />
@@ -155,14 +155,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 100
   },
+  webScroll: {
+    flex: 1, 
+    alignSelf: 'center',
+    maxWidth: 500,
+    width: '100%',
+    height: '100%', 
+    overflow: 'visible',
+    paddingBottom: 100,
+  },
   scroll: {
     bottom: 0,
     height: '100%',
     left: 0,
-    marginBottom: Platform.OS === 'web' ? 0 : 100,
     maxWidth: 500,
     overflow: 'visible',
-    paddingBottom: Platform.OS === 'web' ? 100 : 0,
+    paddingBottom: 100,
     position: 'absolute',
     right: 0,
     top: 0,
