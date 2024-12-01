@@ -75,7 +75,6 @@ export const RootInjectionLayer = ({ children }: Props) => {
       {modal && Platform.OS === 'web' && (
         <Pressable
           style={styles.modalWebWrapper}
-          onPress={() => updateModal(undefined)}
         >
           <Animated.View
             style={styles.modalWebPositioning}

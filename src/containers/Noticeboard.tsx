@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { View, StyleSheet, Text, TouchableHighlight, Platform, Pressable } from 'react-native';
 
 import Animated, { FadeIn } from 'react-native-reanimated';
 import Carousel from 'react-native-snap-carousel';
@@ -21,8 +21,29 @@ export const Noticeboard = () => {
   const [page, setPage] = useState(0);
   const carouselRef = useRef<Carousel<NoticeDbObject>>(null);
 
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      carouselRef.current?.snapToItem(page)
+    }
+  }, [page]);
+
+  const Wrapper = Platform.OS === 'web' ? Pressable : View
+
   return (
-    <View style={styles.main}>
+    <Wrapper 
+      style={styles.main} 
+      onPress={() => {
+        if (Platform.OS !== 'web') {
+          return;
+        }
+          
+        if (page === notices.length - 1) {
+          updateModal(undefined);
+        }
+
+        setPage((page + 1) % notices.length)
+      }}
+    >
       <View style={styles.mainInternal}>
         <Animated.View
           style={styles.header}
@@ -45,7 +66,7 @@ export const Noticeboard = () => {
           ref={carouselRef}
           scrollEnabled
           data={notices}
-          renderItem={({ item, index }) => <Notice key={index} notice={item} />}
+          renderItem={({ item }) => <Notice key={item.id} notice={item} />}
           vertical={false}
           onScrollIndexChanged={(index: number) => setPage(index)}
           itemWidth={NOTICEBOARD_WIDTH - 2 * NOTICEBOARD_PADDING}
@@ -63,7 +84,7 @@ export const Noticeboard = () => {
           ))}
         </View>
       </View>
-    </View>
+    </Wrapper>
   )
 }
 
