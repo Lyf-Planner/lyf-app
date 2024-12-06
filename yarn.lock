@@ -9414,10 +9414,10 @@ signal-exit@^4.0.1:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-4.1.0.tgz#952188c1cbd546070e2dd20d0f41c0ae0530cb04"
   integrity sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==
 
-signature-debouncer@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/signature-debouncer/-/signature-debouncer-1.0.1.tgz#579529effa8be9b6aab782da9fb87534ba9289e3"
-  integrity sha512-FrrBn5jWtUaxO/zvSTOQC7h+18r3dABV20ODXOmgmbEqTPfwXRguVJuBw/4f9n6iCaqYvSn2QBiNtQ/GtdgqHA==
+signature-debouncer@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/signature-debouncer/-/signature-debouncer-1.1.1.tgz#b298780c7c64696e046891159539430b66d7ebed"
+  integrity sha512-dR1swft2Bk3xusXe5OfMvn5CfUtgdYUgKJ4Dj4PWtCMFndsXGuqk0ukBFX91RejEyHBYF94PNqcRdcjsUGs26g==
 
 simple-plist@^1.1.0:
   version "1.3.1"
