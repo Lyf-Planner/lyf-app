@@ -138,10 +138,7 @@ const styles = StyleSheet.create({
     width: Platform.OS === 'web' ? 450 : 375
   },
   scrollContainer: {
-    alignItems: 'center',
-    flexDirection: 'column',
     paddingBottom: 100,
-    paddingTop: 20
   },
   title: { fontFamily: 'Lexend', fontSize: 22, fontWeight: '700' },
   touchable: {
@@ -154,8 +151,6 @@ const styles = StyleSheet.create({
     zIndex: 50
   },
   userScroll: {
-    maxHeight: 350,
-    overflow: 'hidden',
-    paddingHorizontal: 8
+    padding: 8
   }
 });
