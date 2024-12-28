@@ -139,10 +139,8 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
 
       const aheadOfFirstDay = date.localeCompare(firstDay) >= 0;
       const behindCurrentDay = date.localeCompare(currentDateString()) < 0;
-      console.log('dates', { behindCurrentDay, aheadOfFirstDay, firstDay });
 
       if (aheadOfFirstDay && behindCurrentDay && user?.auto_day_finishing) {
-        console.log(`Automatically finishing day ${date} ${JSON.stringify({ behindCurrentDay, aheadOfFirstDay, firstDay })}`)
         const nextDay = addDayToStringDate(date);
         // debounce in case other days are also finishing - by default the most recent day will run this last
         debouncer.run(() => updateUser({ first_day: nextDay }), dayFinishingDebounceSignature, 500);

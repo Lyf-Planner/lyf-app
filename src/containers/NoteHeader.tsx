@@ -3,9 +3,13 @@ import { View, Text, TouchableWithoutFeedback, TouchableOpacity, TextInput, Keyb
 
 import Entypo from 'react-native-vector-icons/Entypo';
 
-import { NoteTypeBadge } from '@/components/NoteTypeBadge';
+import { NoteUsersModal } from './NoteUsersModal';
+
+import { BouncyPressable } from '@/components/BouncyPressable';
+import { CollaborativeIcon } from '@/components/CollaborativeIcon';
 import { NoteType } from '@/schema/database/notes';
 import { UserRelatedNote } from '@/schema/user'
+import { useModal } from '@/shell/useModal';
 import { useNoteStore } from '@/store/useNoteStore';
 import { black, blackWithOpacity, primaryGreen, white } from '@/utils/colours';
 
@@ -15,6 +19,7 @@ type Props = {
 }
 
 export const NoteHeader = ({ note, onBack }: Props) => {
+  const { updateModal } = useModal();
   const { updateNote } = useNoteStore();
   const [title, setTitle] = useState(note.title);
 
@@ -24,6 +29,15 @@ export const NoteHeader = ({ note, onBack }: Props) => {
   [note.title]);
 
   const updateTitle = () => updateNote(note, { title });
+
+  const openUserModal = () => {
+    if (!note.relations?.users) {
+      console.error('Users should be loaded with notes');
+      return;
+    }
+
+    updateModal(<NoteUsersModal note={note} users={note.relations.users} />)
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -55,7 +69,9 @@ export const NoteHeader = ({ note, onBack }: Props) => {
             </Text>
           )}
 
-          <NoteTypeBadge type={note.type} />
+          <BouncyPressable onPress={() => openUserModal()}>
+            <CollaborativeIcon entity={note} type='note' />
+          </BouncyPressable>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -66,8 +82,9 @@ const styles = StyleSheet.create({
   headerLeft: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: 8,
-    marginLeft: 'auto'
+    gap: 10,
+    marginLeft: 'auto',
+    marginRight: 8
   },
 
   noteHeader: {

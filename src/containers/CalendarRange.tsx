@@ -6,10 +6,10 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 import { LyfPopup, MenuPopoverPlacement } from '@/containers/LyfPopup';
 import { DateString } from '@/schema/util/dates';
+import { useAuthStore } from '@/store/useAuthStore';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, primaryGreen, primaryGreenWithOpacity } from '@/utils/colours';
-import { addWeekToStringDate, allDatesBetween, currentDateString, formatDate, formatDateData, getEndOfCurrentWeek, getStartOfCurrentWeek, localisedMoment } from '@/utils/dates';
-import { useAuthStore } from '@/store/useAuthStore';
+import { addWeekToStringDate, allDatesBetween, currentDateString, formatDate, formatDateData, localisedMoment } from '@/utils/dates';
 
 enum ShiftDirection {
   BACK = -1,
@@ -70,11 +70,6 @@ export const CalendarRange = ({ color, textColor }: Props) => {
     dateRange.forEach((date, i) => {
       const isStartingDay = i === 0;
       const isEndingDay = i === dateRange.length - 1;
-
-      const isStartOfWeek = localisedMoment(date).weekday() === 0;
-      const isEndOfWeek = localisedMoment(date).weekday() === 6;
-
-      console.log('date', date, 'has weekday',localisedMoment(date).weekday(), { isStartingDay, isEndingDay, isStartOfWeek, isEndOfWeek });
 
       markedDates[date] = {
         startingDay: isStartingDay,

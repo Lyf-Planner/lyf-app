@@ -119,7 +119,7 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
     action: SocialAction,
     permission: Permission
   ) => {
-    const { user } = useAuthStore();
+    const { user } = useAuthStore.getState();
     const { items, removeItem, updateItem } = get();
 
     const result = await updateRemoteItemSocial(item.id, user_id, action, permission);
@@ -300,7 +300,6 @@ useAuthStore.subscribe((state: AuthState, prevState: AuthState) => {
 
   // initialise item store in response to authorisation
   if (state.user && !prevState.user) {
-    console.log('loading timetable upon authorisation')
     useTimetableStore.getState().reload();
   }
 });

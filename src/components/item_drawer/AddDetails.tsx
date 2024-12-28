@@ -9,8 +9,7 @@ import {
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import { AddFriendsModal } from './AddFriendsModal';
-
+import { AddFriendsModal } from '@/containers/AddFriendsModal';
 import { ItemType } from '@/schema/database/items';
 import { useModal } from '@/shell/useModal';
 import { useNotifications } from '@/shell/useNotifications';
@@ -53,7 +52,7 @@ export const AddDetails = ({
             style={styles.addFieldContainer}
             underlayColor={'rgba(0,0,0,0.5)'}
             disabled={item.invite_pending}
-            onPress={() => updateModal(<AddFriendsModal item_id={item.id} />)}
+            onPress={() => updateModal(<AddFriendsModal entity_id={item.id} type='item' />)}
           >
             <View style={styles.addFieldContent}>
               <Text style={styles.addFieldText}>+</Text>

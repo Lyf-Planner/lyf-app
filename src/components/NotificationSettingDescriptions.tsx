@@ -48,8 +48,8 @@ export const DailyNotificationDesc = ({
           <DateTimePicker
             value={datePickerValue}
             minuteInterval={5}
-            mode={'time'}
-            is24Hour={true}
+            mode='time'
+            is24Hour
             onChange={updateTimeFromPicker}
             style={dailyStyles.dateTimeDimensions}
           />

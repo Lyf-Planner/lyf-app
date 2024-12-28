@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: 'row',
     gap: 4,
-    marginHorizontal: 4,
     paddingHorizontal: 12,
     paddingVertical: 6,
     shadowColor: black,
@@ -61,5 +60,5 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     width: '100%'
   },
-  searchInput: { color: white, fontSize: 22, padding: 4 }
+  searchInput: { color: white, fontSize: 20, padding: 4 }
 });

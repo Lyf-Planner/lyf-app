@@ -155,15 +155,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 100
   },
-  webScroll: {
-    flex: 1, 
-    alignSelf: 'center',
-    maxWidth: 500,
-    width: '100%',
-    height: '100%', 
-    overflow: 'visible',
-    paddingBottom: 100,
-  },
   scroll: {
     bottom: 0,
     height: '100%',
@@ -198,5 +189,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
     opacity: 0.3
+  },
+  webScroll: {
+    alignSelf: 'center',
+    flex: 1,
+    height: '100%',
+    maxWidth: 500,
+    overflow: 'visible',
+    paddingBottom: 100,
+    width: '100%'
   }
 });

@@ -82,7 +82,7 @@ export const ListItemOverlay = ({
           </View>
         )}
 
-        {item.collaborative && <CollaborativeIcon item={item} />}
+        {item.collaborative && <CollaborativeIcon entity={item} type='item' />}
       </View>
     </Animated.View>
   );

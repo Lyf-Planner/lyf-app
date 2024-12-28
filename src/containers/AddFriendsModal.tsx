@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Platform } from 'react-native';
 
 import { ScrollView } from 'react-native-gesture-handler';
@@ -11,31 +11,48 @@ import { SimpleSearch } from '@/components/SimpleSearch';
 import { UserList, UserListContext } from '@/containers/UserList';
 import { ID } from '@/schema/database/abstract';
 import { UserFriendshipStatus } from '@/schema/database/user_friendships';
+import { LocalItem } from '@/schema/items';
+import { UserRelatedNote } from '@/schema/user';
 import { useModal } from '@/shell/useModal';
 import { useFriendsStore } from '@/store/useFriendsStore';
+import { useNoteStore } from '@/store/useNoteStore';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, white } from '@/utils/colours';
+import { SocialEntityType } from '@/utils/misc';
 
 type Props = {
-  item_id: ID,
+  entity_id: ID,
+  type: SocialEntityType
 }
 
-export const AddFriendsModal = ({ item_id }: Props) => {
-  const { friends, loading, reload } = useFriendsStore();
+export const AddFriendsModal = ({ entity_id, type }: Props) => {
+  const { friends, loading } = useFriendsStore();
   const { items } = useTimetableStore();
+  const { notes } = useNoteStore();
   const { updateModal } = useModal();
 
-  const item = useMemo(() => items[item_id], [items]);
-  if (!item) {
+  const [filter, setFilter] = useState('');
+
+  const entity = useMemo(() => {
+    if (type === 'item') {
+      return items[entity_id];
+    }
+
+    if (type === 'note') {
+      return notes[entity_id];
+    }
+  }, [items, notes]);
+
+  if (!entity) {
     return null;
   }
 
-  const friendsOnItem = useMemo(() => friends
+  const friendsOnEntity = useMemo(() => friends
     .filter((otherUser) => otherUser.status === UserFriendshipStatus.Friends)
     .map((friend) => {
       // Return the item version of the user if possible, to reflect their relation to it.
-      if (item.relations?.users) {
-        const itemRelatedFriend = item.relations.users.find((itemUser) => itemUser.id === friend.id);
+      if (entity.relations?.users) {
+        const itemRelatedFriend = entity.relations.users.find((entityUser) => entityUser.id === friend.id);
         if (itemRelatedFriend) {
           // We add this fromModal so we can change the menu name we technically display twice
           // Really annoying package
@@ -45,15 +62,7 @@ export const AddFriendsModal = ({ item_id }: Props) => {
 
       return friend;
     }),
-  [item, friends]);
-
-  const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    if (loading) {
-      reload();
-    }
-  })
+  [entity, friends]);
 
   const closeModal = () => updateModal(undefined);
 
@@ -70,7 +79,6 @@ export const AddFriendsModal = ({ item_id }: Props) => {
         <FontAwesome5Icon name="user-plus" size={40} />
         <Text style={styles.title}>Invite Friends</Text>
       </View>
-      <Horizontal style={styles.firstSeperator} />
 
       <SimpleSearch search={filter} setSearch={setFilter} />
       {loading && (
@@ -86,14 +94,11 @@ export const AddFriendsModal = ({ item_id }: Props) => {
           showsVerticalScrollIndicator={false}
         >
           <UserList
-            users={friendsOnItem.filter((x) =>
-              !filter ||
-              (x.display_name && x.display_name.includes(filter)) ||
-              (x.id.includes(filter))
-            )}
+            users={friendsOnEntity}
             emptyText={'No friends added yet'}
-            context={UserListContext.Item}
-            item={item}
+            context={type === 'item' ? UserListContext.Item : UserListContext.Note}
+            item={type === 'item' ? entity as LocalItem : undefined}
+            note={type === 'note' ? entity as UserRelatedNote : undefined}
             menuContext={'in-modal'}
           />
         </ScrollView>
@@ -103,12 +108,6 @@ export const AddFriendsModal = ({ item_id }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  firstSeperator: {
-    borderWidth: 2,
-    marginBottom: 4,
-    marginTop: 10,
-    opacity: 0.25
-  },
   header: {
     alignItems: 'center',
     flexDirection: 'column',
@@ -126,23 +125,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     flexDirection: 'column',
-    gap: 10,
-    height: Platform.OS === 'web' ? 450 : 'auto',
-    marginHorizontal: 20,
-    maxHeight: 500,
+    gap: 6,
+    height: 450,
+    maxHeight: 600,
     paddingBottom: Platform.OS === 'web' ? 30 : 0,
-    paddingHorizontal: 10,
-    paddingTop: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 30,
     shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 10,
-    width: Platform.OS === 'web' ? 450 : 'auto'
+    width: Platform.OS === 'web' ? 450 : 375
   },
   scrollContainer: {
     alignItems: 'center',
     flexDirection: 'column',
-    paddingBottom: 10
+    paddingBottom: 100,
+    paddingTop: 20
   },
   title: { fontFamily: 'Lexend', fontSize: 22, fontWeight: '700' },
   touchable: {
@@ -157,6 +156,6 @@ const styles = StyleSheet.create({
   userScroll: {
     maxHeight: 350,
     overflow: 'hidden',
-    paddingHorizontal: 10
+    paddingHorizontal: 8
   }
 });

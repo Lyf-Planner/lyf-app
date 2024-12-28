@@ -5,8 +5,8 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { Horizontal } from '@/components/Horizontal';
+import { InviteHandler } from '@/components/InviteHandler';
 import { AddDetails } from '@/components/item_drawer/AddDetails';
-import { InviteHandler } from '@/components/item_drawer/InviteHandler';
 import { ItemDate } from '@/components/item_drawer/ItemDate';
 import { ItemDescription } from '@/components/item_drawer/ItemDescription';
 import { ItemLink } from '@/components/item_drawer/ItemLink';
@@ -107,7 +107,7 @@ export const ItemDrawer = ({
           </View>
 
           {item.invite_pending ? (
-            <InviteHandler item={item} />
+            <InviteHandler entity={item} type='item' />
           ) : (
             <ItemStatusDropdown {...props} />
           )}

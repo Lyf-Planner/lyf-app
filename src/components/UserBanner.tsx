@@ -5,12 +5,12 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { FriendAction } from '@/components/FriendActions';
-import { ItemSocialAction } from '@/components/item_drawer/ItemSocialAction';
+import { SocialActionButton } from '@/components/SocialActionButton';
 import { UserListContext } from '@/containers/UserList';
 import { UserModal } from '@/containers/UserModal';
 import { ItemRelatedUser, LocalItem } from '@/schema/items';
 import { NoteRelatedUser } from '@/schema/notes';
-import { PublicUser, UserFriend } from '@/schema/user';
+import { PublicUser, UserFriend, UserRelatedNote } from '@/schema/user';
 import { useModal } from '@/shell/useModal';
 import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, whiteWithOpacity } from '@/utils/colours';
 
@@ -19,6 +19,7 @@ type Props = {
   callback?: () => void,
   context?: UserListContext,
   item?: LocalItem,
+  note?: UserRelatedNote,
   menuContext?: string,
 }
 
@@ -27,6 +28,7 @@ export const UserBanner = ({
   callback,
   context = UserListContext.Friends,
   item,
+  note,
   menuContext
 }: Props) => {
   const { updateModal } = useModal();
@@ -38,7 +40,11 @@ export const UserBanner = ({
   );
 
   const isItemUser = (user: PublicUser | ItemRelatedUser): user is ItemRelatedUser => {
-    return 'permission' in user && user.permission !== undefined;
+    return 'permission' in user && user.permission !== undefined && !!item;
+  }
+
+  const isNoteUser = (user: PublicUser | NoteRelatedUser): user is NoteRelatedUser => {
+    return 'permission' in user && user.permission !== undefined && !!note;
   }
 
   return (
@@ -75,10 +81,21 @@ export const UserBanner = ({
           />
         )}
 
-        {context === UserListContext.Item && isItemUser(user) && (
-          <ItemSocialAction
-            item={item!}
-            item_user={user}
+        {context === UserListContext.Item && item && (
+          <SocialActionButton
+            entity={item}
+            type='item'
+            user={isItemUser(user) ? user as ItemRelatedUser : user as UserFriend}
+            menuContext={menuContext}
+            height={45}
+          />
+        )}
+
+        {context === UserListContext.Note && note && (
+          <SocialActionButton
+            entity={note}
+            type='note'
+            user={isNoteUser(user) ? user as NoteRelatedUser : user as UserFriend}
             menuContext={menuContext}
             height={45}
           />

@@ -30,13 +30,13 @@ export const Noticeboard = () => {
   const Wrapper = Platform.OS === 'web' ? Pressable : View
 
   return (
-    <Wrapper 
-      style={styles.main} 
+    <Wrapper
+      style={styles.main}
       onPress={() => {
         if (Platform.OS !== 'web') {
           return;
         }
-          
+
         if (page === notices.length - 1) {
           updateModal(undefined);
         }

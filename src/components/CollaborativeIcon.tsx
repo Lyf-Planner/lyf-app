@@ -5,18 +5,31 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { ItemStatus } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
+import { UserRelatedNote } from '@/schema/user';
 import { primaryGreen } from '@/utils/colours';
+import { SocialEntityType } from '@/utils/misc';
 
 type Props = {
-  item: LocalItem;
+  entity: LocalItem | UserRelatedNote;
+  type: SocialEntityType;
 };
 
-export const CollaborativeIcon = ({ item }: Props) => {
+export const CollaborativeIcon = ({ entity, type }: Props) => {
+  const backgroundColor = () => {
+    if (type === 'item') {
+      return (entity as LocalItem).status === ItemStatus.Done ? 'white' : primaryGreen;
+    }
+
+    if (type === 'note') {
+      return 'white';
+    }
+  }
+
   const conditionalStyles = {
     collaborativeIndicator: {
-      backgroundColor: item.status === ItemStatus.Done ? 'white' : primaryGreen
+      backgroundColor: backgroundColor()
     },
-    iconColor: item.status === ItemStatus.Done ? primaryGreen : 'white'
+    iconColor: backgroundColor() === 'white' ? primaryGreen : 'white' // alternate
   };
 
   return (

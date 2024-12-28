@@ -72,7 +72,7 @@ export const SortableListItem = ({
         </View>
       )}
 
-      {item.collaborative && <CollaborativeIcon item={item} />}
+      {item.collaborative && <CollaborativeIcon entity={item} type='item' />}
 
       <SortingHandle
         disabled

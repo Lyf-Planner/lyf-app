@@ -3,11 +3,12 @@ import { StyleSheet, View, Text } from 'react-native';
 import { UserBanner } from '@/components/UserBanner';
 import { ItemRelatedUser, LocalItem } from '@/schema/items';
 import { NoteRelatedUser } from '@/schema/notes';
-import { UserFriend } from '@/schema/user';
+import { UserFriend, UserRelatedNote } from '@/schema/user';
 
 export enum UserListContext {
   Friends = 'Friends',
   Item = 'Item',
+  Note = 'Note'
 }
 
 type Props = {
@@ -16,6 +17,7 @@ type Props = {
   context?: UserListContext,
   callback?: () => void,
   item?: LocalItem,
+  note?: UserRelatedNote,
   menuContext?: string,
 }
 
@@ -25,6 +27,7 @@ export const UserList = ({
   context = UserListContext.Friends,
   callback,
   item,
+  note,
   menuContext
 }: Props) => {
   return (
@@ -38,6 +41,7 @@ export const UserList = ({
             context={context}
             callback={callback}
             item={item}
+            note={note}
             key={x.id}
             menuContext={menuContext}
           />

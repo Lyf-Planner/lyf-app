@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, Platform, Alert } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
+import { CollaborativeIcon } from '@/components/CollaborativeIcon';
 import { NoteTypeBadge } from '@/components/NoteTypeBadge';
 import { UserRelatedNote } from '@/schema/user';
 import { useNoteStore } from '@/store/useNoteStore';
@@ -86,7 +87,8 @@ export const NoteRow = ({
         >
           {note.title}
         </Text>
-        <View style={styles.animatedChevron}>
+        <View style={styles.rowLeft}>
+          {note.collaborative && <CollaborativeIcon entity={note} type='note' />}
           <Entypo name={'chevron-right'} size={25} color='white' />
         </View>
       </View>
@@ -95,12 +97,6 @@ export const NoteRow = ({
 };
 
 const styles = StyleSheet.create({
-  animatedChevron: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 4,
-    marginLeft: 'auto'
-  },
   bannerView: {
     alignItems: 'center',
     backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.75),
@@ -116,6 +112,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 1,
     width: '100%'
+  },
+  rowLeft: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 4,
+    marginLeft: 'auto'
   },
   titleText: {
     color: eventsBadgeColor,

@@ -7,31 +7,50 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { Loader } from '@/components/Loader';
 import { LocalItem } from '@/schema/items';
+import { UserRelatedNote } from '@/schema/user';
 import { SocialAction } from '@/schema/util/social';
 import { useModal } from '@/shell/useModal';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useNoteStore } from '@/store/useNoteStore';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, primaryGreen, white } from '@/utils/colours';
+import { SocialEntityType } from '@/utils/misc';
 
 type Props = {
-  item: LocalItem
+  entity: LocalItem | UserRelatedNote;
+  type: SocialEntityType;
 }
 
-export const InviteHandler = ({ item }: Props) => {
+export const InviteHandler = ({ entity, type }: Props) => {
   const { user } = useAuthStore();
   const { updateItemSocial, removeItem } = useTimetableStore();
+  const { updateNoteSocial, removeNote } = useNoteStore();
   const { updateModal } = useModal();
 
   const acceptInvite = async () => {
     if (user) {
-      await updateItemSocial(item, user.id, SocialAction.Accept, item.permission);
+      if (type === 'item') {
+        await updateItemSocial(entity as LocalItem, user.id, SocialAction.Accept, entity.permission);
+      }
+
+      if (type === 'note') {
+        await updateNoteSocial(entity as UserRelatedNote, user.id, SocialAction.Accept, entity.permission);
+      }
     }
   };
 
   const rejectInvite = async () => {
     if (user) {
-      await updateItemSocial(item, user.id, SocialAction.Decline, item.permission);
-      await removeItem(item, false);
+      if (type === 'item') {
+        await updateItemSocial(entity as LocalItem, user.id, SocialAction.Decline, entity.permission);
+        await removeItem(entity as LocalItem, false);
+      }
+
+      if (type === 'note') {
+        await updateNoteSocial(entity as UserRelatedNote, user.id, SocialAction.Decline, entity.permission);
+        await removeNote(entity.id, false);
+      }
+
       updateModal(undefined);
     }
   };
@@ -47,7 +66,7 @@ export const InviteHandler = ({ item }: Props) => {
       <InviteHandleButton
         color={'red'}
         text="Decline"
-        icon={<AntDesign name="close" size={18} color="white" />}
+        icon={<AntDesign name="close" size={20} color="white" />}
         func={rejectInvite}
       />
     </View>
@@ -80,8 +99,8 @@ const InviteHandleButton = ({ func, text, color, icon }: HandleProps) => {
         <Loader size={20} color="white" />
       ) : (
         <View style={styles.contentWrapper}>
-          <Text style={styles.buttonText}>{text}</Text>
           {icon}
+          <Text style={styles.buttonText}>{text}</Text>
         </View>
       )}
     </BouncyPressable>

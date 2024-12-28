@@ -1,7 +1,9 @@
 import { get, post } from '@/rest/_axios';
 import { ID } from '@/schema/database/abstract';
+import { Permission } from '@/schema/database/items_on_users';
 import { NoteDbObject } from '@/schema/database/notes';
-import { Note } from '@/schema/notes';
+import { Note, NoteRelatedUser } from '@/schema/notes';
+import { SocialAction } from '@/schema/util/social';
 
 const notesEndpoint = (req: string) => `/notes/${req}`;
 
@@ -18,7 +20,7 @@ export async function myNotes() {
 }
 
 export async function getNote(id: string) {
-  const endpoint = notesEndpoint(`get?id=${id}`)
+  const endpoint = notesEndpoint(`get?id=${id}&include=users`)
 
   const result = await get(endpoint);
   const note = result.data;
@@ -60,5 +62,22 @@ export async function deleteNote(id: ID) {
     return;
   } else {
     alert(result.data);
+  }
+}
+
+export async function updateNoteSocial(entity_id: ID, user_id: ID, action: SocialAction, permission?: Permission) {
+  const endpoint = notesEndpoint('updateSocial')
+
+  const result = await post(endpoint, {
+    entity_id,
+    user_id,
+    action,
+    permission
+  });
+  if (result?.status === 200) {
+    return result.data as NoteRelatedUser;
+  } else {
+    alert(JSON.stringify(result.data));
+    return false;
   }
 }

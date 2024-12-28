@@ -10,14 +10,16 @@ import {
   deleteNote,
   getNote,
   myNotes,
-  updateNote as updateRemoteNote
+  updateNote as updateRemoteNote,
+  updateNoteSocial as updateRemoteNoteSocial
 } from '@/rest/notes';
 import { ID } from '@/schema/database/abstract';
 import { ItemDbObject } from '@/schema/database/items';
 import { Permission } from '@/schema/database/items_on_users';
 import { NoteType } from '@/schema/database/notes';
 import { UserRelatedNote } from '@/schema/user';
-import { AddNote, RemoveNote, UpdateNote, UpdateNoteItem } from '@/utils/note';
+import { SocialAction } from '@/schema/util/social';
+import { AddNote, RemoveNote, UpdateNote, UpdateNoteItem, UpdateNoteSocial } from '@/utils/note';
 
 export type NotesState = {
   loading: boolean,
@@ -26,8 +28,9 @@ export type NotesState = {
   reload: () => Promise<void>,
   loadNote: (id: ID) => Promise<void>,
 
-  handleNoteItemUpdate: UpdateNoteItem,
   updateNote: UpdateNote,
+  handleNoteItemUpdate: UpdateNoteItem,
+  updateNoteSocial: UpdateNoteSocial,
   addNote: AddNote,
   removeNote: RemoveNote
 }
@@ -119,6 +122,56 @@ export const useNoteStore = create<NotesState>((set, get) => ({
         } });
       }
     }
+  },
+
+  updateNoteSocial: async (
+    note: UserRelatedNote,
+    user_id: string,
+    action: SocialAction,
+    permission: Permission
+  ) => {
+    const { user } = useAuthStore.getState();
+    const { notes, removeNote, updateNote } = get();
+
+    const result = await updateRemoteNoteSocial(note.id, user_id, action, permission);
+    if (result === false) {
+      return;
+    }
+
+    const leavingItem = user_id === user?.id && action === SocialAction.Remove;
+    if (leavingItem) {
+      await removeNote(note.id, false);
+      return;
+    }
+
+    const destructiveAction =
+      action === SocialAction.Remove ||
+      action === SocialAction.Decline ||
+      action === SocialAction.Cancel;
+
+    const storeItem = notes[note.id];
+    const noteUsers = storeItem.relations.users || [];
+    const j = noteUsers.findIndex((x) => x.id === user_id);
+
+    if (j === -1 && !destructiveAction) {
+      // Create
+      noteUsers.push(result);
+    } else if (destructiveAction) {
+      // Delete
+      noteUsers.splice(j, 1);
+    } else {
+      // Update
+      noteUsers[j] = { ...noteUsers[j], ...result };
+    }
+
+    const noteChanges: Partial<UserRelatedNote> = {
+      relations: { ...note.relations, users: noteUsers },
+      // Some manual sneakys for local state
+      collaborative: noteUsers.length > 1,
+      invite_pending: false
+    }
+
+    updateNote(note, noteChanges, false)
   },
 
   handleNoteItemUpdate: async (item: ItemDbObject, changes: Partial<ItemDbObject>, remove = false) => {

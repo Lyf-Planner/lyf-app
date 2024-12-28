@@ -5,7 +5,6 @@ import { DateString, DayOfWeek, TimeString, WeekDays } from '@/schema/util/dates
 export const getStartDate = (first_day?: DateString) => {
   const startOfWeek = getStartOfCurrentWeek();
   const userFirstDay = first_day ? parseDateString(first_day) : startOfWeek;
-  console.log('checkpoint 1');
 
   let appliedFirstDay = userFirstDay;
   if (userFirstDay.getTime() < startOfWeek.getTime()) {

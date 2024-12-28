@@ -11,101 +11,119 @@ import {
 
 import { ActionButton } from '@/components/ActionButton';
 import { BouncyPressable } from '@/components/BouncyPressable';
-import { Horizontal } from '@/components/Horizontal';
 import { Permission } from '@/schema/database/items_on_users';
 import { ItemRelatedUser, LocalItem } from '@/schema/items';
 import { NoteRelatedUser } from '@/schema/notes';
-import { UserFriend } from '@/schema/user';
+import { UserFriend, UserRelatedNote } from '@/schema/user';
 import { SocialAction } from '@/schema/util/social';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useNoteStore } from '@/store/useNoteStore';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import {
   black,
   blackWithOpacity,
+  eventsBadgeColor,
   primaryGreen,
   white
 } from '@/utils/colours';
+import { SocialEntityType } from '@/utils/misc';
 
 type SocialUser = ItemRelatedUser | UserFriend | NoteRelatedUser
 
 type Props = {
-  item: LocalItem,
-  item_user: SocialUser,
+  entity: LocalItem | UserRelatedNote,
+  type: SocialEntityType;
+  user: SocialUser,
   menuContext?: string,
   height?: number
 }
 
-export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props) => {
-  const { user } = useAuthStore();
+export const SocialActionButton = ({ entity, type, user, menuContext, height }: Props) => {
+  const { user: currentUser } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const { updateItemSocial } = useTimetableStore();
+  const { updateNoteSocial } = useNoteStore();
 
   // We don't useMemo here as this primarily functions as a typeguard
-  const isItemMember = (user: SocialUser): user is (ItemRelatedUser | NoteRelatedUser) =>
+  const isEntityMember = (user: SocialUser): user is (ItemRelatedUser | NoteRelatedUser) =>
     (user as ItemRelatedUser).permission !== undefined
 
+  const applyAction = async (action: SocialAction, permission: Permission) => {
+    setLoading(true);
+
+    switch (type) {
+      case 'item':
+        console.log('updating user social on item', action, user.id)
+        await updateItemSocial(entity as LocalItem, user.id, action, permission);
+        break;
+      case 'note':
+        console.log('updating user social on note', action, user.id)
+        await updateNoteSocial(entity as UserRelatedNote, user.id, action, permission);
+        break;
+      default:
+        console.error('Invalid social entity type', { type })
+    }
+
+    setLoading(false);
+  }
+
   const removeUser = async () => {
-    if (!isItemMember(item_user)) {
+    if (!isEntityMember(user)) {
       return;
     }
 
-    setLoading(true);
-    await updateItemSocial(item, item_user.id, SocialAction.Remove, item_user.permission);
-    setLoading(false);
+    applyAction(SocialAction.Remove, user.permission);
   };
 
   const cancelInvite = async () => {
-    if (!isItemMember(item_user)) {
+    if (!isEntityMember(user)) {
       return;
     }
 
-    setLoading(true);
-    await updateItemSocial(item, item_user.id, SocialAction.Cancel, item_user.permission);
-    setLoading(false);
+    applyAction(SocialAction.Cancel, user.permission);
   };
 
-  const inviteUser = async () => {
-    setLoading(true);
-    await updateItemSocial(item, item_user.id, SocialAction.Invite, Permission.Editor);
-    setLoading(false);
-  };
+  const inviteUser = () => applyAction(SocialAction.Invite, Permission.Editor);
 
   const buttonTitle = useMemo(() => {
-    if (isItemMember(item_user)) {
-      if (item_user.invite_pending) {
+    if (isEntityMember(user)) {
+      if (user.invite_pending) {
         return 'Invited'
       }
 
-      return item_user.permission
+      return user.permission
     }
 
     return 'Invite'
-  }, [item_user])
+  }, [user])
 
   const button = (
     <ActionButton
       title={buttonTitle}
-      func={isItemMember(item_user) ? () => null : inviteUser}
-      color={isItemMember(item_user) && item_user.invite_pending ? white : primaryGreen}
-      notPressable={isItemMember(item_user)}
+      func={isEntityMember(user) ? () => null : inviteUser}
+      color={isEntityMember(user) && user.invite_pending ? eventsBadgeColor : primaryGreen}
+      notPressable={isEntityMember(user)}
       isAsync={true}
       loadingOverride={loading}
       height={height}
-      textColor={isItemMember(item_user) && item_user.invite_pending ? black : white}
+      textColor={isEntityMember(user) && user.invite_pending ? black : white}
     />
   );
 
   const menu = useRef<Menu>(null);
 
-  const hasMenu = useMemo(() =>
-    (item.permission === Permission.Owner) ||
-    (item_user.id === user?.id),
-  [item, item_user])
+  const hasMenu = false; // TODO LYF-637: Ditch the react-native-popup-menu package (awful stuff lads)
+  // useMemo(() =>
+  //   (entity.permission === Permission.Owner) ||
+  //   (currentUser?.id === user?.id),
+  // [entity, user])
 
-  if (isItemMember(item_user) && hasMenu) {
+  if (isEntityMember(user) && hasMenu) {
+    console.log('rendering menu', entity.permission === Permission.Owner && currentUser?.id !== user?.id);
+
     return (
       <Menu
-        name={`item-user-${item_user.id}-menu-${menuContext}`}
+        name={`item-user-${user.id}-menu-${menuContext}`}
         ref={menu}
         renderer={renderers.Popover}
         rendererProps={{
@@ -116,23 +134,18 @@ export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props
         <MenuOptions
           customStyles={{ optionsContainer: styles.optionsContainer }}
         >
-          {(item.permission === Permission.Owner && item_user.id !== user?.id) &&
+          {(entity.permission === Permission.Owner && currentUser?.id !== user?.id) && (
             <MenuOption
-              value={1}
-              text={item_user.invite_pending ? 'Cancel' : 'Remove'}
+              text={user.invite_pending ? 'Cancel' : 'Remove'}
               customStyles={{
                 optionWrapper: styles.optionWrapper,
                 optionText: styles.optionText
               }}
-              onSelect={item_user.invite_pending ? cancelInvite : removeUser}
+              onSelect={user.invite_pending ? cancelInvite : removeUser}
             />
-          }
-          {(item_user.id === user?.id) &&
-            <Horizontal style={styles.optionSeperator} />
-          }
-          {(item_user.id === user?.id) &&
+          )}
+          {(currentUser?.id === user?.id) &&
             <MenuOption
-              value={2}
               text={'Leave'}
               customStyles={{
                 optionWrapper: styles.optionWrapper,
@@ -159,7 +172,6 @@ export const ItemSocialAction = ({ item, item_user, menuContext, height }: Props
 };
 
 const styles = StyleSheet.create({
-  optionSeperator: { marginHorizontal: 5 },
   optionText: {
     color: blackWithOpacity(0.7),
     fontFamily: 'Lexend',

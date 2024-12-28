@@ -3,6 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+import { InviteHandler } from '@/components/InviteHandler';
 import { Loader } from '@/components/Loader';
 import { NoteBody } from '@/containers/NoteBody';
 import { NoteHeader } from '@/containers/NoteHeader';
@@ -48,11 +49,12 @@ export const NoteView = ({
             </View>
           }
 
-          {!initialising &&
-            <KeyboardAwareScrollView style={styles.scrollView}>
+          {!initialising && (
+            <KeyboardAwareScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContainer}>
+              {note.invite_pending && <InviteHandler entity={note} type='note' />}
               <NoteBody note={note}/>
             </KeyboardAwareScrollView>
-          }
+          )}
         </View>
       </PageBackground>
     </View>
@@ -77,11 +79,11 @@ const styles = StyleSheet.create({
   notePageWrapper: {
     overflow: 'visible'
   },
+  scrollContainer: { flexDirection: 'column', gap: 10 },
   scrollView: {
-    height: '100%',
+    marginVertical: 6,
     paddingHorizontal: 20,
     paddingVertical: 10,
     width: '100%'
   }
-
 });
