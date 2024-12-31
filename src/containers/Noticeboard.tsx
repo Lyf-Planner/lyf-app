@@ -8,8 +8,8 @@ import Octicons from 'react-native-vector-icons/Octicons';
 
 import { Notice } from '@/components/Notice';
 import { NoticeDbObject } from '@/schema/database/notices';
-import { useModal } from '@/shell/useModal'
 import { useNoticeboard } from '@/shell/useNoticeboard';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { black, blackWithOpacity, white } from '@/utils/colours';
 
 const NOTICEBOARD_WIDTH = 350;
@@ -17,7 +17,7 @@ const NOTICEBOARD_PADDING = 15;
 
 export const Noticeboard = () => {
   const { notices } = useNoticeboard();
-  const { updateModal } = useModal();
+  const { updateModal } = useRootComponentStore();
   const [page, setPage] = useState(0);
   const carouselRef = useRef<Carousel<NoticeDbObject>>(null);
 
@@ -38,7 +38,7 @@ export const Noticeboard = () => {
         }
 
         if (page === notices.length - 1) {
-          updateModal(undefined);
+          updateModal(null);
         }
 
         setPage((page + 1) % notices.length)
@@ -55,7 +55,7 @@ export const Noticeboard = () => {
           </Text>
           <TouchableHighlight
             style={styles.closeButton}
-            onPress={() => updateModal(undefined)}
+            onPress={() => updateModal(null)}
             underlayColor={'rgba(0,0,0,0.5)'}
           >
             <AntDesign name="close" color="black" size={20} />

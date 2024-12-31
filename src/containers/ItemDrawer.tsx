@@ -6,6 +6,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { Horizontal } from '@/components/Horizontal';
 import { InviteHandler } from '@/components/InviteHandler';
+import { Loader } from '@/components/Loader';
 import { AddDetails } from '@/components/item_drawer/AddDetails';
 import { ItemDate } from '@/components/item_drawer/ItemDate';
 import { ItemDescription } from '@/components/item_drawer/ItemDescription';
@@ -20,7 +21,7 @@ import { ItemUsers } from '@/components/item_drawer/ItemUsers';
 import { OptionsMenu } from '@/components/item_drawer/OptionsMenu';
 import { getItem } from '@/rest/items';
 import { ID } from '@/schema/database/abstract';
-import { useDrawer } from '@/shell/useDrawer';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, deepBlue, white } from '@/utils/colours';
 import { isTemplate, ItemDrawerProps } from '@/utils/item';
@@ -35,8 +36,8 @@ export const ItemDrawer = ({
   isNew = false
 }: Props) => {
   // Establish item from store
-  const { updateDrawer, updateSheetMinHeight } = useDrawer();
-  const { items, updateItem } = useTimetableStore();
+  const { updateDrawer, updateSheetMinHeight } = useRootComponentStore();
+  const { items, addToStore, updateItem } = useTimetableStore();
   const item = useMemo(() => Object.values(items).find((x) => x.id === id), [items]);
 
   const [descOpen, setDescOpen] = useState(!!item?.desc);
@@ -49,24 +50,25 @@ export const ItemDrawer = ({
   );
 
   useEffect(() => {
-    if (item && !item.localised) {
-      getItem(item.id, 'users').then((updatedItem) => {
-        if (updatedItem) {
-          // We do this to keep the item as a UserRelatedItem
-          const mergedData = {
-            ...item,
-            ...updatedItem
-          }
-          updateItem(item, mergedData, false)
-        }
-      })
-    }
+    getItem(id, 'users').then((updatedItem) => {
+      if (item) {
+        updateItem(updatedItem, updatedItem, false)
+      } else {
+        addToStore(updatedItem);
+        // reload
+        updateDrawer(<ItemDrawer id={updatedItem.id} />);
+      }
+    })
   }, [item?.localised])
 
   if (!item) {
-    // Close this
-    updateDrawer(undefined);
-    return null;
+    return (
+      <View style={styles.mainContainer}>
+        <View style={styles.loaderContainer}>
+          <Loader />
+        </View>
+      </View>
+    );
   }
 
   // Establish props passed to children
@@ -87,7 +89,6 @@ export const ItemDrawer = ({
   return (
     <TouchableWithoutFeedback onPress={() => Platform.OS === 'web' ? null : Keyboard.dismiss()}>
       <View style={styles.mainContainer}>
-
         {item.invite_pending && (
           <Text style={styles.subtitle}>You've been invited to...</Text>
         )}
@@ -101,7 +102,7 @@ export const ItemDrawer = ({
             {!item.invite_pending &&
               <OptionsMenu
                 item={item}
-                closeDrawer={() => updateDrawer(undefined)}
+                closeDrawer={() => updateDrawer(null)}
               />
             }
           </View>
@@ -120,7 +121,7 @@ export const ItemDrawer = ({
             <ItemUsers
               item={item}
               loading={!item.relations?.users}
-              closeDrawer={() => updateDrawer(undefined)}
+              closeDrawer={() => updateDrawer(null)}
             />
           }
 
@@ -227,6 +228,11 @@ const styles = StyleSheet.create({
   itemType: {
     marginLeft: 'auto',
     marginRight: 8
+  },
+  loaderContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%'
   },
   mainContainer: {
     backgroundColor: white,

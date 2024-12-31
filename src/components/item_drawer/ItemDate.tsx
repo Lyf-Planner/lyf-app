@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -6,7 +6,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { NullableDatePicker } from '@/components/NullableDatePicker';
 import {
   LyfMenu,
-  MenuPopoverPlacement,
   PopoverMenuOption
 } from '@/containers/LyfMenu';
 import { ItemType } from '@/schema/database/items';
@@ -16,9 +15,6 @@ import { ItemDrawerProps } from '@/utils/item';
 
 export const ItemDate = ({ item, updateItem }: ItemDrawerProps) => {
   const routineDay: string | undefined = isTemplate(item) ? item.day : undefined;
-  const menuName = useMemo(
-    () => `show-in-upcoming-${item.id}-${item.show_in_upcoming}`, []
-  );
 
   const getOptionText = useCallback(() => {
     const start = item.show_in_upcoming ? 'Remove from' : 'Add to';
@@ -38,8 +34,6 @@ export const ItemDate = ({ item, updateItem }: ItemDrawerProps) => {
   return (
     <View style={styles.mainContainer}>
       <LyfMenu
-        name={menuName}
-        placement={MenuPopoverPlacement.Top}
         options={menuOptions}
       >
         <View style={styles.fieldNameContainer}>

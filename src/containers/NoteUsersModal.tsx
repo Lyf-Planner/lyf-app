@@ -11,7 +11,7 @@ import { Horizontal } from '@/components/Horizontal';
 import { AddFriendsModal } from '@/containers/AddFriendsModal';
 import { NoteRelatedUser } from '@/schema/notes';
 import { UserRelatedNote } from '@/schema/user';
-import { useModal } from '@/shell/useModal';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { black, blackWithOpacity, primaryGreen, white } from '@/utils/colours';
 
 interface Props {
@@ -20,9 +20,9 @@ interface Props {
 }
 
 export const NoteUsersModal = ({ note, users }: Props) => {
-  const { updateModal } = useModal();
+  const { updateModal } = useRootComponentStore();
 
-  const closeModal = () => updateModal(undefined);
+  const closeModal = () => updateModal(null);
 
   const addFriends = () => updateModal(<AddFriendsModal entity_id={note.id} type='note' />)
 

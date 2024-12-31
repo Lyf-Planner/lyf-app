@@ -8,7 +8,7 @@ import { ItemDrawer } from '@/containers/ItemDrawer';
 import { ListItemGestureWrapper } from '@/containers/ItemGestureWrapper';
 import { NoteItemDrawer } from '@/containers/NoteItemDrawer';
 import { LocalItem } from '@/schema/items';
-import { useDrawer } from '@/shell/useDrawer';
+import { useRootComponentStore } from '@/store/useRootComponent';
 
 export type ListItemAnimatedValues = {
   scale: SharedValue<number>;
@@ -31,13 +31,13 @@ export const Item = ({
   item,
   itemStyleOptions
 }: Props) => {
-  const { updateDrawer } = useDrawer();
+  const { updateDrawer } = useRootComponentStore();
   const [creatingLocalised, setCreatingLocalised] = useState(false);
 
   // UTILS
 
   const openModal = async () => {
-    updateDrawer(undefined);
+    updateDrawer(null);
     updateDrawer(item.note_id ? (
       <NoteItemDrawer
         id={item.id}

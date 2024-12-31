@@ -11,7 +11,7 @@ export const StatusOptions = Object.values(ItemStatus);
 export type ItemDrawerProps = {
   item: LocalItem,
   updateItem: UpdateItem,
-  updateDrawer: (drawer: JSX.Element | undefined) => void;
+  updateDrawer: (drawer: JSX.Element | null) => void;
   updateSheetMinHeight: (height: number) => void;
 }
 
@@ -20,6 +20,11 @@ export type AddItem = (
   rank: number,
   initial: Partial<LocalItem>,
 ) => Promise<ID>;
+
+export type AddToStore = (
+  item: UserRelatedItem,
+  localised?: boolean
+) => void;
 
 export type UpdateItem = (item: LocalItem, changes: Partial<UserRelatedItem>, updateRemote?: boolean) => Promise<void>;
 

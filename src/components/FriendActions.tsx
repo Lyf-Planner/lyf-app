@@ -9,7 +9,6 @@ import { BouncyPressable } from '@/components/BouncyPressable';
 import { Loader } from '@/components/Loader';
 import {
   LyfMenu,
-  MenuPopoverPlacement,
   PopoverMenuOption
 } from '@/containers/LyfMenu';
 import { UserFriend } from '@/schema/user';
@@ -105,8 +104,6 @@ export const Friend = ({ friend, callback, height }: Props) => {
   return (
     <LyfMenu
       options={menuOptions}
-      placement={MenuPopoverPlacement.Top}
-      name={`requested-menu-${friend.id}`}
     >
       <ActionButton
         title="Friends"
@@ -144,8 +141,6 @@ export const Requested = ({ friend, callback, height }: Props) => {
   return (
     <LyfMenu
       options={menuOptions}
-      placement={MenuPopoverPlacement.Top}
-      name={`requested-menu-${friend.id}`}
     >
       <ActionButton
         title="Pending"

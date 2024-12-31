@@ -13,9 +13,8 @@ import { ItemDrawer } from '@/containers/ItemDrawer';
 import { UserModal } from '@/containers/UserModal';
 import { NotificationRelatedData, NotificationType } from '@/schema/database/notifications';
 import { Notification } from '@/schema/notifications'
-import { useDrawer } from '@/shell/useDrawer';
-import { useModal } from '@/shell/useModal';
 import { useNotifications } from '@/shell/useNotifications';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { black, deepBlueOpacity, eventsBadgeColorOpacity } from '@/utils/colours';
 
 const notificationTypeIcon: Record<NotificationType, JSX.Element> = Object.freeze({
@@ -31,8 +30,7 @@ type Props = {
 
 export const NotificationBanner = ({ notification }: Props) => {
   const { readNotification } = useNotifications();
-  const { updateDrawer } = useDrawer();
-  const { updateModal } = useModal();
+  const { updateDrawer, updateModal } = useRootComponentStore();
   const navigation = useNavigation<BottomTabNavigationProp<RouteParams>>();
 
   const actionNotification = () => {
@@ -41,7 +39,7 @@ export const NotificationBanner = ({ notification }: Props) => {
     switch (notification.related_data) {
       case NotificationRelatedData.User:
         navigation.navigate('Friends');
-        updateDrawer(undefined);
+        updateDrawer(null);
         if (notification.related_id) {
           updateModal(
             <UserModal user_id={notification.related_id} />
@@ -50,7 +48,7 @@ export const NotificationBanner = ({ notification }: Props) => {
         break;
       case NotificationRelatedData.Item:
         navigation.navigate('Timetable');
-        updateModal(undefined);
+        updateModal(null);
         if (notification.related_id) {
           updateDrawer(
             <ItemDrawer id={notification.related_id} />
@@ -59,6 +57,7 @@ export const NotificationBanner = ({ notification }: Props) => {
         break;
       case NotificationRelatedData.Note:
         navigation.navigate('Notes', { id: notification.related_id });
+        updateModal(null);
         break;
     }
   }

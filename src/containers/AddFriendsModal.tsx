@@ -5,7 +5,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
-import { Horizontal } from '@/components/Horizontal';
 import { Loader } from '@/components/Loader';
 import { SimpleSearch } from '@/components/SimpleSearch';
 import { UserList, UserListContext } from '@/containers/UserList';
@@ -13,9 +12,9 @@ import { ID } from '@/schema/database/abstract';
 import { UserFriendshipStatus } from '@/schema/database/user_friendships';
 import { LocalItem } from '@/schema/items';
 import { UserRelatedNote } from '@/schema/user';
-import { useModal } from '@/shell/useModal';
 import { useFriendsStore } from '@/store/useFriendsStore';
 import { useNoteStore } from '@/store/useNoteStore';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, white } from '@/utils/colours';
 import { SocialEntityType } from '@/utils/misc';
@@ -29,7 +28,7 @@ export const AddFriendsModal = ({ entity_id, type }: Props) => {
   const { friends, loading } = useFriendsStore();
   const { items } = useTimetableStore();
   const { notes } = useNoteStore();
-  const { updateModal } = useModal();
+  const { updateModal } = useRootComponentStore();
 
   const [filter, setFilter] = useState('');
 
@@ -64,7 +63,7 @@ export const AddFriendsModal = ({ entity_id, type }: Props) => {
     }),
   [entity, friends]);
 
-  const closeModal = () => updateModal(undefined);
+  const closeModal = () => updateModal(null);
 
   return (
     <View style={styles.mainContainer}>
@@ -138,7 +137,7 @@ const styles = StyleSheet.create({
     width: Platform.OS === 'web' ? 450 : 375
   },
   scrollContainer: {
-    paddingBottom: 100,
+    paddingBottom: 100
   },
   title: { fontFamily: 'Lexend', fontSize: 22, fontWeight: '700' },
   touchable: {

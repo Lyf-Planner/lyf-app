@@ -11,7 +11,7 @@ import { Loader } from '@/components/Loader';
 import { getUser } from '@/rest/user';
 import { ID } from '@/schema/database/abstract';
 import { UserFriend } from '@/schema/user';
-import { useModal } from '@/shell/useModal';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { black, blackWithOpacity, white } from '@/utils/colours';
 import { localisedMoment } from '@/utils/dates';
 
@@ -22,7 +22,7 @@ type Props = {
 export const UserModal = ({ user_id }: Props) => {
   const [user, setUser] = useState<UserFriend>();
   const [friendsListOpen, setFriendsListOpen] = useState(false);
-  const { updateModal } = useModal();
+  const { updateModal } = useRootComponentStore();
 
   useEffect(() => {
     if (!user) {
@@ -95,7 +95,7 @@ export const UserModal = ({ user_id }: Props) => {
     <View style={[styles.mainContainer, conditionalStyles.mainContainer]} key={user_id}>
       <TouchableHighlight
         style={styles.closeButton}
-        onPress={() => updateModal(undefined)}
+        onPress={() => updateModal(null)}
         underlayColor={'rgba(0,0,0,0.5)'}
       >
         <AntDesign name="close" color="rgba(0,0,0,0.5)" size={18} />

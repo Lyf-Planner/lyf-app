@@ -6,9 +6,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import { LyfIcon } from '@/assets/icons/LyfIcon';
 import { NotificationModal } from '@/containers/NotificationModal';
-import { useModal } from '@/shell/useModal';
 import { useNotifications } from '@/shell/useNotifications';
 import { useTutorial } from '@/shell/useTutorial';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { gentleBlack, primaryGreen, red, white } from '@/utils/colours';
 
 // This is a little different to other @/components.
@@ -18,7 +18,7 @@ import { gentleBlack, primaryGreen, red, white } from '@/utils/colours';
 export function defaultTabHeader(label: string): BottomTabNavigationOptions {
   const { updateTutorial } = useTutorial();
   const { notifications } = useNotifications();
-  const { updateModal } = useModal();
+  const { updateModal } = useRootComponentStore();
 
   return {
     headerShown: true,

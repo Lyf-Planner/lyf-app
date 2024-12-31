@@ -16,8 +16,8 @@ import { ItemTitle } from '@/components/item_drawer/ItemTitle';
 import { ItemTypeBadge } from '@/components/item_drawer/ItemType';
 import { ID } from '@/schema/database/abstract';
 import { LocalItem } from '@/schema/items';
-import { useDrawer } from '@/shell/useDrawer';
 import { useNoteStore } from '@/store/useNoteStore';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, deepBlue, white } from '@/utils/colours';
 import { isTemplate } from '@/utils/item';
@@ -34,7 +34,7 @@ export const NoteItemDrawer = ({
   isNew = false
 }: Props) => {
   // Establish item from store
-  const { updateDrawer, updateSheetMinHeight } = useDrawer();
+  const { updateDrawer, updateSheetMinHeight } = useRootComponentStore();
   const { updateItem } = useTimetableStore();
   const { notes } = useNoteStore();
 
@@ -56,7 +56,7 @@ export const NoteItemDrawer = ({
 
   if (!item) {
     // Close this
-    updateDrawer(undefined);
+    updateDrawer(null);
     return null;
   }
 

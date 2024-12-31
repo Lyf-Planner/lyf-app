@@ -16,6 +16,7 @@ export type BouncyPressableOptions = {
   disabled?: boolean;
   containerStyle?: object;
   conditionalStyles?: object;
+  longPressDuration?: number;
 }
 
 type ShadowOptions = {
@@ -39,6 +40,7 @@ export const BouncyPressable = ({
   disabled,
   containerStyle,
   conditionalStyles,
+  longPressDuration,
   onPress,
   onLongPress,
   useTouchableHighlight = false,
@@ -86,6 +88,7 @@ export const BouncyPressable = ({
         onPress={onPress}
         disabled={disabled}
         onLongPress={onLongPress}
+        delayLongPress={longPressDuration}
         onPressIn={() => {
           scale.value = bounceScale || 0.9
           shadowOffsetX.value = 0.5;

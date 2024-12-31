@@ -9,13 +9,13 @@ import { Horizontal } from '@/components/Horizontal';
 import { NotificationBanner } from '@/components/NotificationBanner';
 import { Notification } from '@/schema/notifications';
 import { DateString } from '@/schema/util/dates';
-import { useModal } from '@/shell/useModal'
 import { useNotifications } from '@/shell/useNotifications'
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { black, primaryGreen, white, whiteWithOpacity } from '@/utils/colours';
 import { formatDateData, localisedFormattedMoment } from '@/utils/dates';
 
 export const NotificationModal = () => {
-  const { updateModal } = useModal();
+  const { updateModal } = useRootComponentStore();
   const { notifications, readNotification } = useNotifications();
 
   const allRead = useMemo(() => {
@@ -57,7 +57,7 @@ export const NotificationModal = () => {
           <Text style={styles.title}>Notifications</Text>
           <TouchableHighlight
             style={styles.closeButton}
-            onPress={() => updateModal(undefined)}
+            onPress={() => updateModal(null)}
             underlayColor={'rgba(0,0,0,0.5)'}
           >
             <AntDesign name="close" color="white" size={18} />

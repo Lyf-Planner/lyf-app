@@ -1,16 +1,8 @@
-import { useMemo, useRef, useState } from 'react';
-import { StyleSheet } from 'react-native';
-
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuTrigger,
-  renderers
-} from 'react-native-popup-menu';
+import { useMemo, useState } from 'react';
 
 import { ActionButton } from '@/components/ActionButton';
 import { BouncyPressable } from '@/components/BouncyPressable';
+import { LyfMenu } from '@/containers/LyfMenu';
 import { Permission } from '@/schema/database/items_on_users';
 import { ItemRelatedUser, LocalItem } from '@/schema/items';
 import { NoteRelatedUser } from '@/schema/notes';
@@ -21,11 +13,11 @@ import { useNoteStore } from '@/store/useNoteStore';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import {
   black,
-  blackWithOpacity,
   eventsBadgeColor,
   primaryGreen,
   white
 } from '@/utils/colours';
+import { isTemplate } from '@/utils/item';
 import { SocialEntityType } from '@/utils/misc';
 
 type SocialUser = ItemRelatedUser | UserFriend | NoteRelatedUser
@@ -34,11 +26,10 @@ type Props = {
   entity: LocalItem | UserRelatedNote,
   type: SocialEntityType;
   user: SocialUser,
-  menuContext?: string,
   height?: number
 }
 
-export const SocialActionButton = ({ entity, type, user, menuContext, height }: Props) => {
+export const SocialActionButton = ({ entity, type, user, height }: Props) => {
   const { user: currentUser } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const { updateItemSocial } = useTimetableStore();
@@ -110,57 +101,35 @@ export const SocialActionButton = ({ entity, type, user, menuContext, height }: 
     />
   );
 
-  const menu = useRef<Menu>(null);
-
-  const hasMenu = false; // TODO LYF-637: Ditch the react-native-popup-menu package (awful stuff lads)
-  // useMemo(() =>
-  //   (entity.permission === Permission.Owner) ||
-  //   (currentUser?.id === user?.id),
-  // [entity, user])
+  const hasMenu = useMemo(() =>
+    (entity.permission === Permission.Owner) ||
+    (currentUser?.id === user?.id),
+  [entity, user])
 
   if (isEntityMember(user) && hasMenu) {
-    console.log('rendering menu', entity.permission === Permission.Owner && currentUser?.id !== user?.id);
+    const menuOptions = [];
+
+    if (entity.permission === Permission.Owner && currentUser?.id !== user?.id) {
+      menuOptions.push({
+        text: user.invite_pending ? 'Cancel' : 'Remove',
+        onSelect: user.invite_pending ? cancelInvite : removeUser
+      })
+    }
+
+    // If this is me, ensure the statement item => !template is also true so I don't leave a template instance
+    if (currentUser?.id === user?.id && (type !== 'item' || !isTemplate(entity as LocalItem))) {
+      menuOptions.push({
+        text: 'Leave',
+        onSelect: removeUser
+      })
+    }
 
     return (
-      <Menu
-        name={`item-user-${user.id}-menu-${menuContext}`}
-        ref={menu}
-        renderer={renderers.Popover}
-        rendererProps={{
-          placement: 'top',
-          anchorStyle: { backgroundColor: '#bababa' }
-        }}
+      <LyfMenu
+        options={menuOptions}
       >
-        <MenuOptions
-          customStyles={{ optionsContainer: styles.optionsContainer }}
-        >
-          {(entity.permission === Permission.Owner && currentUser?.id !== user?.id) && (
-            <MenuOption
-              text={user.invite_pending ? 'Cancel' : 'Remove'}
-              customStyles={{
-                optionWrapper: styles.optionWrapper,
-                optionText: styles.optionText
-              }}
-              onSelect={user.invite_pending ? cancelInvite : removeUser}
-            />
-          )}
-          {(currentUser?.id === user?.id) &&
-            <MenuOption
-              text={'Leave'}
-              customStyles={{
-                optionWrapper: styles.optionWrapper,
-                optionText: styles.optionText
-              }}
-              onSelect={removeUser}
-            />
-          }
-        </MenuOptions>
-        <MenuTrigger customStyles={{
-          TriggerTouchableComponent: BouncyPressable
-        }}>
-          {button}
-        </MenuTrigger>
-      </Menu>
+        {button}
+      </LyfMenu>
     );
   } else {
     return (
@@ -170,20 +139,3 @@ export const SocialActionButton = ({ entity, type, user, menuContext, height }: 
     )
   }
 };
-
-const styles = StyleSheet.create({
-  optionText: {
-    color: blackWithOpacity(0.7),
-    fontFamily: 'Lexend',
-    fontSize: 18
-  },
-  optionWrapper: { flexDirection: 'row', justifyContent: 'center', marginHorizontal: 8, marginVertical: 4 },
-  optionsContainer: {
-    borderColor: blackWithOpacity(0.5),
-    borderRadius: 10,
-    borderWidth: 0.5,
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    paddingLeft: 0
-  }
-});

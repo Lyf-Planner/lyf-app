@@ -11,7 +11,7 @@ import { UserModal } from '@/containers/UserModal';
 import { ItemRelatedUser, LocalItem } from '@/schema/items';
 import { NoteRelatedUser } from '@/schema/notes';
 import { PublicUser, UserFriend, UserRelatedNote } from '@/schema/user';
-import { useModal } from '@/shell/useModal';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor, whiteWithOpacity } from '@/utils/colours';
 
 type Props = {
@@ -31,7 +31,7 @@ export const UserBanner = ({
   note,
   menuContext
 }: Props) => {
-  const { updateModal } = useModal();
+  const { updateModal } = useRootComponentStore();
 
   const userHasDisplayName = useMemo(() =>
     user.display_name &&
@@ -86,7 +86,6 @@ export const UserBanner = ({
             entity={item}
             type='item'
             user={isItemUser(user) ? user as ItemRelatedUser : user as UserFriend}
-            menuContext={menuContext}
             height={45}
           />
         )}
@@ -96,7 +95,6 @@ export const UserBanner = ({
             entity={note}
             type='note'
             user={isNoteUser(user) ? user as NoteRelatedUser : user as UserFriend}
-            menuContext={menuContext}
             height={45}
           />
         )}

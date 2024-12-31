@@ -9,9 +9,9 @@ import { Loader } from '@/components/Loader';
 import { LocalItem } from '@/schema/items';
 import { UserRelatedNote } from '@/schema/user';
 import { SocialAction } from '@/schema/util/social';
-import { useModal } from '@/shell/useModal';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useNoteStore } from '@/store/useNoteStore';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, primaryGreen, white } from '@/utils/colours';
 import { SocialEntityType } from '@/utils/misc';
@@ -25,7 +25,7 @@ export const InviteHandler = ({ entity, type }: Props) => {
   const { user } = useAuthStore();
   const { updateItemSocial, removeItem } = useTimetableStore();
   const { updateNoteSocial, removeNote } = useNoteStore();
-  const { updateModal } = useModal();
+  const { updateModal } = useRootComponentStore();
 
   const acceptInvite = async () => {
     if (user) {
@@ -51,7 +51,7 @@ export const InviteHandler = ({ entity, type }: Props) => {
         await removeNote(entity.id, false);
       }
 
-      updateModal(undefined);
+      updateModal(null);
     }
   };
 

@@ -12,13 +12,13 @@ import { Noticeboard } from '@/containers/Noticeboard';
 import { PageBackground } from '@/containers/PageBackground';
 import { TipsDropdown } from '@/containers/TipsDropdown';
 import env from '@/envManager';
-import { useModal } from '@/shell/useModal';
 import { useNoticeboard } from '@/shell/useNoticeboard';
 import { useTutorial } from '@/shell/useTutorial';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { black, eventsBadgeColor, primaryGreen, white } from '@/utils/colours';
 
 export const TutorialOverlay = () => {
-  const { updateModal } = useModal();
+  const { updateModal } = useRootComponentStore();
   const { currentVersionNoticeboard } = useNoticeboard()
   const { updateTutorial, updateTutorialRoute } = useTutorial();
 

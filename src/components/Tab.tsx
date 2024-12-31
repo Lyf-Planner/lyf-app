@@ -34,7 +34,9 @@ export const Tab = ({ isFocused, index, onPress, route }: Props) => {
 
   const gradientStart = { x: 0, y: 1 };
   const gradientEnd = { x: 0, y: 0 };
-  const gradientColors = isFocused ? [secondaryGreen, primaryGreen, primaryGreen] : [white, white]
+  const gradientColors = isFocused
+    ? [secondaryGreen, primaryGreen, primaryGreen] as const
+    : [white, white] as const;
 
   const conditionalStyles = Native.StyleSheet.create({
     linearGradient: {

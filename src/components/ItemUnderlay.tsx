@@ -19,7 +19,7 @@ type Props = {
 export const ListItemUnderlay = ({ item, drawerLoading }: Props) => {
   const gradientStart = { x: 0, y: 0 };
   const gradientEnd = { x: 1, y: 0 };
-  const gradientColors = [ITEM_STATUS_TO_COLOR[ItemStatus.InProgress], 'white'];
+  const gradientColors = [ITEM_STATUS_TO_COLOR[ItemStatus.InProgress], 'white'] as const;
 
   const conditionalStyles = {
     listHiddenBackground: {

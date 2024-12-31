@@ -17,7 +17,7 @@ import { DateString } from '@/schema/util/dates';
 import { SocialAction } from '@/schema/util/social';
 import { useNoteStore } from '@/store/useNoteStore';
 import { getEndDate, getStartDate } from '@/utils/dates';
-import { AddItem, RemoveItem, ResortItems, UpdateItem, UpdateItemSocial } from '@/utils/item';
+import { AddItem, AddToStore, RemoveItem, ResortItems, UpdateItem, UpdateItemSocial } from '@/utils/item';
 
 export type TimetableState = {
   items: Record<ID, LocalItem>,
@@ -32,6 +32,7 @@ export type TimetableState = {
   updateItem: UpdateItem,
   updateItemSocial: UpdateItemSocial,
   addItem: AddItem,
+  addToStore: AddToStore,
   removeItem: RemoveItem,
   resortItems: ResortItems
 }
@@ -223,6 +224,10 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
     }
 
     return newItem.id;
+  },
+  addToStore: (item: UserRelatedItem, localised = false) => {
+    const { items } = get();
+    set({ items: { ...items, [item.id]: { ...item, localised } } });
   },
   removeItem: async (item: LocalItem, deleteRemote = true) => {
     const { user } = useAuthStore.getState();

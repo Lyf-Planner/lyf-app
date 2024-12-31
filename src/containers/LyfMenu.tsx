@@ -1,23 +1,16 @@
-import { useRef } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuTrigger,
-  renderers
-} from 'react-native-popup-menu';
+import Popover from 'react-native-popover-view';
 
 import { BouncyPressable, BouncyPressableOptions } from '@/components/BouncyPressable';
+import { Horizontal } from '@/components/Horizontal';
 import { blackWithOpacity } from '@/utils/colours';
 
 export type LyfMenuProps = {
-  name: string;
-  placement: MenuPopoverPlacement;
   children: JSX.Element; // The menu will display when this is pressed!
-  pressableOptions?: BouncyPressableOptions
+  pressableOptions?: BouncyPressableOptions;
   options: PopoverMenuOption[];
+  textAlignment?: 'center' | 'auto' | 'left' | 'right' | 'justify' | undefined;
 };
 
 export type PopoverMenuOption = {
@@ -34,58 +27,49 @@ export enum MenuPopoverPlacement {
 }
 
 export const LyfMenu = ({
-  name,
-  placement,
+  pressableOptions = {},
+  textAlignment = 'center',
   options,
   children
 }: LyfMenuProps) => {
-  const rendererProps = {
-    placement,
-    anchorStyle: { backgroundColor: '#bababa' }
+  const conditionalStyles = {
+    optionText: {
+      textAlign: textAlignment
+    }
   };
 
-  const ref = useRef<Menu | null>(null)
-
   return (
-    <Menu
-      name={name}
-      ref={ref}
-      renderer={renderers.Popover}
-      rendererProps={rendererProps}
-    >
-      <MenuOptions
-        customStyles={{
-          optionsContainer: styles.optionsContainer,
-          optionsWrapper: styles.optionsWrapper
-        }}
-      >
-        {options.map((option, i) => (
-          <MenuOption
-            value={i}
-            key={i}
-            text={option.text}
-            customStyles={{
-              optionWrapper: styles.optionWrapper,
-              optionText: styles.optionText
-            }}
-            onSelect={option.onSelect}
-          />
+    <Popover
+      popoverStyle={styles.optionsContainer}
+      from={(_sourceRef, showPopover) => (
+        <View>
+          <BouncyPressable
+            onPress={showPopover}
+            {...pressableOptions}
+          >
+            {children}
+          </BouncyPressable>
+        </View>
+      )}>
+      <View style={styles.optionsWrapper}>
+        {options.map(({ text, onSelect }, i) => (
+          <View key={text}>
+            <TouchableOpacity onPress={onSelect} style={styles.optionWrapper}>
+              <Text style={[styles.optionText, conditionalStyles.optionText]}>
+                {text}
+              </Text>
+            </TouchableOpacity>
+            {i !== (options.length - 1) && <Horizontal />}
+          </View>
         ))}
-      </MenuOptions>
-      <MenuTrigger
-        customStyles={{
-          TriggerTouchableComponent: BouncyPressable
-        }}
-      >
-        {children}
-      </MenuTrigger>
-    </Menu>
+      </View>
+    </Popover>
   );
 };
 
 const styles = StyleSheet.create({
-  optionText: { color: blackWithOpacity(0.7), fontFamily: 'Lexend', fontSize: 18, textAlign: 'right' },
-  optionWrapper: { marginHorizontal: 8, marginVertical: 4 },
+  optionText: { color: blackWithOpacity(0.7), fontFamily: 'Lexend', fontSize: 18 },
+  optionWrapper: { marginHorizontal: 8, marginVertical: 8 },
   optionsContainer: {
     borderColor: blackWithOpacity(0.5),
     borderRadius: 10,

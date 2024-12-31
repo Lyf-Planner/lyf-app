@@ -8,7 +8,7 @@ import { eventsBadgeColor, sun, white, inProgressColor } from '@/utils/colours'
 
 type Props = {
   children: LyfElement;
-  locations?: number[]
+  locations?: [number, number, number];
   sunRight?: boolean;
   noPadding?: boolean;
 }
@@ -19,7 +19,7 @@ export const PageBackground = ({
   sunRight = false,
   noPadding = false
 }: Props) => {
-  const gradientColors = [eventsBadgeColor, inProgressColor, 'blue'];
+  const gradientColors = [eventsBadgeColor, inProgressColor, 'blue'] as const;
 
   const conditionalStyles = {
     main: {

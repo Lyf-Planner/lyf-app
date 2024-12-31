@@ -11,9 +11,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import { AddFriendsModal } from '@/containers/AddFriendsModal';
 import { ItemType } from '@/schema/database/items';
-import { useModal } from '@/shell/useModal';
 import { useNotifications } from '@/shell/useNotifications';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { primaryGreen, white } from '@/utils/colours';
 import { formatDateData } from '@/utils/dates';
 import { isTemplate } from '@/utils/item';
@@ -42,7 +42,7 @@ export const AddDetails = ({
 }: Props) => {
   const { user } = useAuthStore();
   const { enabled, getDefaultNotificationMins } = useNotifications();
-  const { updateModal } = useModal();
+  const { updateModal } = useRootComponentStore();
 
   return (
     <View style={styles.mainContainer}>

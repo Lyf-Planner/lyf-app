@@ -9,8 +9,8 @@ import { BouncyPressable } from '@/components/BouncyPressable';
 import { CollaborativeIcon } from '@/components/CollaborativeIcon';
 import { NoteType } from '@/schema/database/notes';
 import { UserRelatedNote } from '@/schema/user'
-import { useModal } from '@/shell/useModal';
 import { useNoteStore } from '@/store/useNoteStore';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { black, blackWithOpacity, primaryGreen, white } from '@/utils/colours';
 
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
 }
 
 export const NoteHeader = ({ note, onBack }: Props) => {
-  const { updateModal } = useModal();
+  const { updateModal } = useRootComponentStore();
   const { updateNote } = useNoteStore();
   const [title, setTitle] = useState(note.title);
 

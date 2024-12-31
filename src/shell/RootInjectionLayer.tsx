@@ -6,10 +6,9 @@ import Animated, { FadeIn } from 'react-native-reanimated';
 
 import { Noticeboard } from '@/containers/Noticeboard';
 import { TutorialOverlay } from '@/pages/Tutorial';
-import { useDrawer } from '@/shell/useDrawer';
-import { useModal } from '@/shell/useModal';
 import { useNoticeboard } from '@/shell/useNoticeboard';
 import { useTutorial } from '@/shell/useTutorial';
+import { useRootComponentStore } from '@/store/useRootComponent';
 import { black, blackWithOpacity } from '@/utils/colours';
 
 type Props = {
@@ -25,8 +24,7 @@ type Props = {
 // as all providers are present.
 
 export const RootInjectionLayer = ({ children }: Props) => {
-  const { drawer, minHeight } = useDrawer();
-  const { closeable, modal, updateModal } = useModal();
+  const { drawer, minHeight, closeable, modal, updateModal } = useRootComponentStore();
   const { checkNoticeboard } = useNoticeboard();
   const { tutorial } = useTutorial();
 
@@ -77,7 +75,7 @@ export const RootInjectionLayer = ({ children }: Props) => {
           style={styles.modalWebWrapper}
           onPress={() => {
             if (closeable) {
-              updateModal(undefined);
+              updateModal(null);
             }
           }}
         >

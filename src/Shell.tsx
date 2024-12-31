@@ -5,9 +5,7 @@ import { NoticeboardProvider } from './shell/useNoticeboard';
 
 import { AuthWrapper } from '@/shell/AuthWrapper';
 import { RootInjectionLayer } from '@/shell/RootInjectionLayer';
-import { DrawerProvider } from '@/shell/useDrawer';
 import { LocationProvider } from '@/shell/useLocation';
-import { ModalProvider } from '@/shell/useModal';
 import { NotificationsLayer } from '@/shell/useNotifications';
 import { TutorialProvider } from '@/shell/useTutorial';
 
@@ -20,29 +18,25 @@ export default function Shell({ children }: Props) {
     // Root Components
     <NavigationContainer>
       <MenuProvider>
-        <ModalProvider>
-          <DrawerProvider>
-            <TutorialProvider>
+        <TutorialProvider>
 
-              {/* Auth Gateway + Associated Data */}
-              <NoticeboardProvider>
-                <AuthWrapper>
-                  <NotificationsLayer>
-                    <LocationProvider>
+          {/* Auth Gateway + Associated Data */}
+          <NoticeboardProvider>
+            <AuthWrapper>
+              <NotificationsLayer>
+                <LocationProvider>
 
-                      {/* Root Component Injection */}
-                      <RootInjectionLayer>
-                        {children}
-                      </RootInjectionLayer>
+                  {/* Root Component Injection */}
+                  <RootInjectionLayer>
+                    {children}
+                  </RootInjectionLayer>
 
-                    </LocationProvider>
-                  </NotificationsLayer>
-                </AuthWrapper>
-              </NoticeboardProvider>
+                </LocationProvider>
+              </NotificationsLayer>
+            </AuthWrapper>
+          </NoticeboardProvider>
 
-            </TutorialProvider>
-          </DrawerProvider>
-        </ModalProvider>
+        </TutorialProvider>
       </MenuProvider>
     </NavigationContainer>
   )
