@@ -3,8 +3,8 @@ import * as Native from 'react-native';
 
 import debouncer from 'signature-debouncer';
 
-import { MultiTypeNewItem } from '@/components/MultiTypeNewItem';
 import { List } from '@/containers/List';
+import { MultiTypeNewItem } from '@/containers/MultiTypeNewItem';
 import { ItemDbObject } from '@/schema/database/items';
 import { NoteType } from '@/schema/database/notes'
 import { LocalItem } from '@/schema/items';

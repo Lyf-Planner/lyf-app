@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native'
 
-import { NewItem } from './NewItem'
-
+import { NewItem } from '@/components/NewItem';
 import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
 import { useTimetableStore } from '@/store/useTimetableStore';

@@ -10,9 +10,9 @@ import Animated, {
 import debouncer from 'signature-debouncer';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
-import { MultiTypeNewItem } from '@/components/MultiTypeNewItem';
 import { Vertical } from '@/components/Vertical';
 import { List } from '@/containers/List';
+import { MultiTypeNewItem } from '@/containers/MultiTypeNewItem';
 import { SortableList } from '@/containers/SortableList';
 import { WeatherWidget } from '@/containers/WeatherWidget';
 import { ItemStatus } from '@/schema/database/items';
