@@ -11,8 +11,8 @@ import debouncer from 'signature-debouncer';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { Vertical } from '@/components/Vertical';
+import { DayMultiAction } from '@/containers/DayMultiAction';
 import { List } from '@/containers/List';
-import { MultiTypeNewItem } from '@/containers/MultiTypeNewItem';
 import { SortableList } from '@/containers/SortableList';
 import { WeatherWidget } from '@/containers/WeatherWidget';
 import { ItemStatus } from '@/schema/database/items';
@@ -47,13 +47,17 @@ type Props = {
   shadowOffset?: { width: number, height: number }
 }
 
+type DayAction = 'add' | 'edit';
+
 const dayFinishingDebounceSignature = 'AUTO_DAY_FINISHING';
 
 export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
   const { reload, resortItems, startDate, endDate } = useTimetableStore();
   const { user, updateUser } = useAuthStore();
+
   const [sorting, setSorting] = useState<boolean | null>(null);
   const [sortOrder, setSortOrder] = useState<LocalItem[]>(items);
+  const [dayAction, setDayAction] = useState<DayAction | null>(null); // TODO LYF-648: Hook this up to action based UI
 
   const submitSortOrder = useCallback(() => {
     resortItems(sortOrder);
@@ -207,6 +211,10 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
     }
   }
 
+  useEffect(() => {
+    console.log("Day action is", dayAction); // TODO LYF-648: Remove this, just for testing
+  }, [dayAction])
+
   return (
     <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
       <BouncyPressable
@@ -259,12 +267,9 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
             <Text style={styles.doneText}>Done</Text>
           </BouncyPressable>
         ) : (
-          <MultiTypeNewItem
-            commonData={{
-              date: date || undefined,
-              day: day || undefined
-            }}
-            newRank={items.length}
+          <DayMultiAction 
+            addAction={() => setDayAction('add')}
+            editAction={() => setDayAction('edit')}
           />
         )}
       </View>
