@@ -6,9 +6,9 @@ type Props = {
   backgroundColor: string;
   color: string;
   containerStyle: object; // TODO LYF-648: Style this properly
+  icon: JSX.Element;
   text: string;
 
-  icon: (color?: string) => JSX.Element;
   onPress: () => void;
 }
 
@@ -36,7 +36,7 @@ export const DayAction = ({
       containerStyle={containerStyle}
     >
       <View style={styles.content}>
-        {icon(color)}
+        {icon}
         <Text style={[styles.title, conditionalStyles.title]}>{text}</Text>
       </View>
     </BouncyPressable>
