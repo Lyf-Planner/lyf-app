@@ -212,7 +212,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
   }
 
   useEffect(() => {
-    console.log("Day action is", dayAction); // TODO LYF-648: Remove this, just for testing
+    console.log('Day action is', dayAction); // TODO LYF-648: Remove this, just for testing
   }, [dayAction])
 
   return (
@@ -267,7 +267,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
             <Text style={styles.doneText}>Done</Text>
           </BouncyPressable>
         ) : (
-          <DayMultiAction 
+          <DayMultiAction
             addAction={() => setDayAction('add')}
             editAction={() => setDayAction('edit')}
           />

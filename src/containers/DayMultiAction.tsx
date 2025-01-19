@@ -1,9 +1,12 @@
-import { DayAction } from "@/components/DayAction";
-import { black, deepBlue, eventsBadgeColor, primaryGreen, secondaryGreen } from "@/utils/colours";
-import { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+import { DayAction } from '@/components/DayAction';
+import { black, deepBlue, eventsBadgeColor, secondaryGreen } from '@/utils/colours';
 
 type Props = {
   addAction: () => void;
@@ -29,15 +32,15 @@ export const DayMultiAction = ({
 
   const stepElementMap: Record<Steps, JSX.Element> = {
     [Steps.ADD_OR_EDIT]: (
-      <View style={styles.addOrEditWrapper}>
-        <DayAction 
+      <View style={[styles.wrapper, styles.addOrEditWrapper]}>
+        <DayAction
           text="Add"
           backgroundColor={deepBlue}
-          containerStyle={{ width: '49%' }} // TODO LYF-648: Get this styling to work properly
+          containerStyle={styles.addOrEditActionContainer} // TODO LYF-648: Get this styling to work properly
           color={actionContentColor}
           icon={(
-            <FontAwesome6 
-              name="plus" 
+            <FontAwesome6
+              name="plus"
               color={actionContentColor}
               size={18}
             />
@@ -46,14 +49,14 @@ export const DayMultiAction = ({
         />
         <DayAction
           text="Edit"
-          containerStyle={{ width: '49%' }} // TODO LYF-648: Get this styling to work properly
+          containerStyle={styles.addOrEditActionContainer} // TODO LYF-648: Get this styling to work properly
           backgroundColor={deepBlue}
           color={actionContentColor}
           icon={(
-            <MaterialIcons 
-              color={actionContentColor} 
-              name="edit" 
-              size={18} 
+            <MaterialIcons
+              color={actionContentColor}
+              name="edit"
+              size={18}
             />
           )}
           onPress={() => setStep(Steps.EDIT)}
@@ -61,15 +64,14 @@ export const DayMultiAction = ({
       </View>
     ),
     [Steps.ADD]: ( // TODO LYF-648: Hook this up to item adding
-      <View>
-        <DayAction 
+      <View style={styles.wrapper}>
+        <DayAction
           text="Add"
           backgroundColor={deepBlue}
-          containerStyle={{ width: '100%' }} // TODO LYF-648: Get this styling to work properly
           color={actionContentColor}
           icon={(
-            <FontAwesome6 
-              name="plus" 
+            <FontAwesome6
+              name="plus"
               color={actionContentColor}
               size={18}
             />
@@ -79,17 +81,16 @@ export const DayMultiAction = ({
       </View>
     ),
     [Steps.EDIT]: ( // TODO LYF-648: Hook this up to sorting mode
-      <View>
+      <View style={styles.wrapper}>
         <DayAction
           text="Edit"
-          containerStyle={{ width: '100%' }} // TODO LYF-648: Get this styling to work properly
           backgroundColor={deepBlue}
           color={actionContentColor}
           icon={(
-            <MaterialIcons 
-              color={actionContentColor} 
-              name="edit" 
-              size={18} 
+            <MaterialIcons
+              color={actionContentColor}
+              name="edit"
+              size={18}
             />
           )}
           onPress={() => setStep(Steps.DONE)}
@@ -97,18 +98,13 @@ export const DayMultiAction = ({
       </View>
     ),
     [Steps.DONE]: (
-      <View>
+      <View style={styles.wrapper}>
         <DayAction
           text="Done"
-          containerStyle={{ width: '100%' }} // TODO LYF-648: Get this styling to work properly
           backgroundColor={secondaryGreen}
           color={black}
           icon={(
-            <MaterialIcons 
-              color={black} 
-              name="edit" 
-              size={18} 
-            />
+            <AntDesign name="checkcircle" color="black" size={18} />
           )}
           onPress={() => setStep(Steps.ADD_OR_EDIT)}
         />
@@ -124,8 +120,15 @@ export const DayMultiAction = ({
 }
 
 const styles = StyleSheet.create({
+  addOrEditActionContainer: {
+    width: '49%'
+  },
   addOrEditWrapper: {
     flexDirection: 'row',
-    gap: '2%',
+    gap: '2%'
+  },
+
+  wrapper: {
+    width: '100%'
   }
 })

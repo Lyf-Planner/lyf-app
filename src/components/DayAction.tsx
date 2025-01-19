@@ -1,11 +1,11 @@
-import { StyleSheet, View, Text, StyleSheetProperties } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 
 type Props = {
   backgroundColor: string;
   color: string;
-  containerStyle: object; // TODO LYF-648: Style this properly
+  containerStyle?: object; // TODO LYF-648: Style this properly
   icon: JSX.Element;
   text: string;
 
@@ -22,7 +22,7 @@ export const DayAction = ({
 }: Props) => {
   const conditionalStyles = {
     wrapper: {
-      backgroundColor,
+      backgroundColor
     },
     title: {
       color
@@ -30,7 +30,7 @@ export const DayAction = ({
   }
 
   return (
-    <BouncyPressable 
+    <BouncyPressable
       style={[styles.wrapper, conditionalStyles.wrapper]}
       onPress={onPress}
       containerStyle={containerStyle}
@@ -45,14 +45,14 @@ export const DayAction = ({
 
 const styles = StyleSheet.create({
   wrapper: {
-    borderRadius: 10,
+    borderRadius: 10
   },
   content: {
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     gap: 4,
-    height: 40,
+    height: 40
   },
   title: {
     fontFamily: 'Lexend',
