@@ -39,7 +39,7 @@ import {
 } from '@/utils/dates';
 import { sleep } from '@/utils/misc';
 
-type Props = {
+export type DayProps = {
   items: LocalItem[],
   date: DateString | null,
   day: DayOfWeek | null,
@@ -47,17 +47,16 @@ type Props = {
   shadowOffset?: { width: number, height: number }
 }
 
-type DayAction = 'add' | 'edit';
-
 const dayFinishingDebounceSignature = 'AUTO_DAY_FINISHING';
 
-export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
+export const DayDisplay = (props: DayProps) => {
+  const { items, date, day, useRoutine = false, shadowOffset } = props;
+
   const { reload, resortItems, startDate, endDate } = useTimetableStore();
   const { user, updateUser } = useAuthStore();
 
   const [sorting, setSorting] = useState<boolean | null>(null);
   const [sortOrder, setSortOrder] = useState<LocalItem[]>(items);
-  const [dayAction, setDayAction] = useState<DayAction | null>(null); // TODO LYF-648: Hook this up to action based UI
 
   const submitSortOrder = useCallback(() => {
     resortItems(sortOrder);
@@ -211,14 +210,9 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
     }
   }
 
-  useEffect(() => {
-    console.log('Day action is', dayAction); // TODO LYF-648: Remove this, just for testing
-  }, [dayAction])
-
   return (
     <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
       <BouncyPressable
-        onPress={() => setSorting(!sorting)}
         onLongPress={() => finishDay()}
       >
         <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
@@ -239,40 +233,38 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
         </Animated.View>
       </BouncyPressable>
 
-      <View style={styles.listWrapperView}>
-        {sorting ? (
-          <SortableList
-            setSortOrder={setSortOrder}
-            sortOrder={sortOrder}
-            itemStyleOptions={{
-              itemTextColor: black
-            }}
-            listWrapperStyles={styles.transparentBackground}
-          />
-        ) : (
-          <List
-            items={items}
-            itemStyleOptions={{
-              itemTextColor: black
-            }}
-            listWrapperStyles={styles.transparentBackground}
-          />
-        )}
+      {items.length > 0 && (
+        <View style={styles.listWrapperView}>
+          {sorting ? (
+            <SortableList
+              setSortOrder={setSortOrder}
+              sortOrder={sortOrder}
+              itemStyleOptions={{
+                itemTextColor: black
+              }}
+              listWrapperStyles={styles.transparentBackground}
+            />
+          ) : (
+            <List
+              items={items}
+              itemStyleOptions={{
+                itemTextColor: black
+              }}
+              listWrapperStyles={styles.transparentBackground}
+            />
+          )}
+        </View>
+      )}
 
-        {sorting ? (
-          <BouncyPressable style={styles.doneButton} onPress={() => {
-            submitSortOrder();
+      <DayMultiAction
+        dayProps={props}
+        editCallback={() => setSorting(true)}
+        doneCallback={() => {
+          if (sorting) {
             setSorting(false)
-          }}>
-            <Text style={styles.doneText}>Done</Text>
-          </BouncyPressable>
-        ) : (
-          <DayMultiAction
-            addAction={() => setDayAction('add')}
-            editAction={() => setDayAction('edit')}
-          />
-        )}
-      </View>
+          }
+        }}
+      />
     </Animated.View>
   );
 };
@@ -308,7 +300,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     flexDirection: 'column',
-    gap: 4,
+    gap: 8,
     padding: 8,
     shadowColor: black,
     shadowOpacity: 0.75,
@@ -324,24 +316,6 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     transform: [{ rotateZ: '-20deg' }]
   },
-  doneButton: {
-    alignItems: 'center',
-    backgroundColor: secondaryGreen,
-    borderColor: black,
-    borderRadius: 10,
-    borderWidth: 1,
-    flexDirection: 'row',
-    height: 55,
-    justifyContent: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 8,
-    width: '100%'
-  },
-  doneText: {
-    color: black,
-    fontFamily: 'Lexend',
-    fontSize: 17
-  },
 
   headerEnd: {
     alignItems: 'center',
@@ -352,9 +326,7 @@ const styles = StyleSheet.create({
     marginRight: 2
   },
   listWrapperView: {
-    flexDirection: 'column',
-    gap: 2,
-    marginTop: 2
+    flexDirection: 'column'
   },
 
   transparentBackground: {

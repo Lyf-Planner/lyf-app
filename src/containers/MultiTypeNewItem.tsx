@@ -9,17 +9,24 @@ import { useTimetableStore } from '@/store/useTimetableStore';
 type Props = {
   newRank: number,
   commonData: Partial<LocalItem>,
-  whiteShadow?: boolean
+  whiteShadow?: boolean,
+  onEnter?: () => void;
 }
 
-export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true }: Props) => {
+export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true, onEnter }: Props) => {
   const { addItem } = useTimetableStore();
   const [newItemType, setNewItemType] = useState<ItemType | null>(null);
 
-  const addItemByTitleTyped = (title: string, type: ItemType) => addItem(type, newRank, {
-    title,
-    ...commonData
-  })
+  const addItemByTitleTyped = (title: string, type: ItemType) => {
+    if (onEnter) {
+      onEnter();
+    }
+
+    addItem(type, newRank, {
+      title,
+      ...commonData
+    })
+  }
 
   return (
     <View style={styles.addItemSection}>

@@ -6,37 +6,58 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import { DayAction } from '@/components/DayAction';
+import { DayProps } from '@/containers/DayDisplay';
+import { MultiTypeNewItem } from '@/containers/MultiTypeNewItem';
 import { black, deepBlue, eventsBadgeColor, secondaryGreen } from '@/utils/colours';
 
 type Props = {
-  addAction: () => void;
-  editAction: () => void;
+  dayProps: DayProps; // TODO LYF-648: I should associate this with a list instead of a day to be more abstract.
+  addCallback?: () => void;
+  doneCallback?: () => void;
+  editCallback?: () => void;
 }
 
-enum Steps {
+enum States {
   ADD_OR_EDIT,
   ADD,
-  EDIT,
-  DONE
+  EDIT
 }
 
 export const DayMultiAction = ({
-  addAction,
-  editAction
+  dayProps,
+  addCallback,
+  doneCallback,
+  editCallback
 }: Props) => {
-  const [step, setStep] = useState(Steps.ADD_OR_EDIT);
+  const [state, setState] = useState(States.ADD_OR_EDIT);
 
   const actionContentColor = eventsBadgeColor;
 
-  // TODO LYF-648: Extract step onPress handlers to stepActionMap
+  const doneButton = (
+    <DayAction
+      text="Done"
+      backgroundColor={secondaryGreen}
+      color={black}
+      icon={(
+        <AntDesign name="checkcircle" color="black" size={18} />
+      )}
+      onPress={() => {
+        if (doneCallback) {
+          doneCallback();
+        }
+        setState(States.ADD_OR_EDIT)
+      }}
+    />
+  )
 
-  const stepElementMap: Record<Steps, JSX.Element> = {
-    [Steps.ADD_OR_EDIT]: (
+  // TODO LYF-648: Fix weird flickering of opposite button when going back to ADD_OR_EDIT
+  const stateMap: Record<States, JSX.Element> = {
+    [States.ADD_OR_EDIT]: (
       <View style={[styles.wrapper, styles.addOrEditWrapper]}>
         <DayAction
           text="Add"
           backgroundColor={deepBlue}
-          containerStyle={styles.addOrEditActionContainer} // TODO LYF-648: Get this styling to work properly
+          containerStyle={styles.addOrEditActionContainer}
           color={actionContentColor}
           icon={(
             <FontAwesome6
@@ -45,11 +66,16 @@ export const DayMultiAction = ({
               size={18}
             />
           )}
-          onPress={() => setStep(Steps.ADD)}
+          onPress={() => {
+            if (addCallback) {
+              addCallback();
+            }
+            setState(States.ADD)
+          }}
         />
         <DayAction
           text="Edit"
-          containerStyle={styles.addOrEditActionContainer} // TODO LYF-648: Get this styling to work properly
+          containerStyle={styles.addOrEditActionContainer}
           backgroundColor={deepBlue}
           color={actionContentColor}
           icon={(
@@ -59,62 +85,42 @@ export const DayMultiAction = ({
               size={18}
             />
           )}
-          onPress={() => setStep(Steps.EDIT)}
+          onPress={() => {
+            if (editCallback) {
+              editCallback();
+            }
+            if (dayProps.items.length > 0) {
+              setState(States.EDIT)
+            }
+          }}
         />
       </View>
     ),
-    [Steps.ADD]: ( // TODO LYF-648: Hook this up to item adding
+    [States.ADD]: (
+      // TODO LYF-648: Improve this to match the height of other states
       <View style={styles.wrapper}>
-        <DayAction
-          text="Add"
-          backgroundColor={deepBlue}
-          color={actionContentColor}
-          icon={(
-            <FontAwesome6
-              name="plus"
-              color={actionContentColor}
-              size={18}
-            />
-          )}
-          onPress={() => setStep(Steps.DONE)}
+        <MultiTypeNewItem
+          commonData={{
+            date: dayProps.date || undefined,
+            day: dayProps.day || undefined
+          }}
+          newRank={dayProps.items.length}
+          onEnter={() => setState(States.ADD_OR_EDIT)}
         />
+        {doneButton}
       </View>
     ),
-    [Steps.EDIT]: ( // TODO LYF-648: Hook this up to sorting mode
+    [States.EDIT]: (
+      // TODO LYF-648: Verify new sort process does not cause items to flicker around
       <View style={styles.wrapper}>
-        <DayAction
-          text="Edit"
-          backgroundColor={deepBlue}
-          color={actionContentColor}
-          icon={(
-            <MaterialIcons
-              color={actionContentColor}
-              name="edit"
-              size={18}
-            />
-          )}
-          onPress={() => setStep(Steps.DONE)}
-        />
-      </View>
-    ),
-    [Steps.DONE]: (
-      <View style={styles.wrapper}>
-        <DayAction
-          text="Done"
-          backgroundColor={secondaryGreen}
-          color={black}
-          icon={(
-            <AntDesign name="checkcircle" color="black" size={18} />
-          )}
-          onPress={() => setStep(Steps.ADD_OR_EDIT)}
-        />
+        {doneButton}
       </View>
     )
   }
 
   return (
     <View>
-      {stepElementMap[step]}
+      {stateMap[state]}
     </View>
   )
 }
@@ -129,6 +135,8 @@ const styles = StyleSheet.create({
   },
 
   wrapper: {
-    width: '100%'
+    width: '100%',
+    flexDirection: 'column',
+    gap: 8
   }
 })
