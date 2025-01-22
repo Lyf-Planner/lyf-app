@@ -1,10 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { Horizontal } from '@/components/Horizontal';
+import { ItemTypeBadge } from '@/components/ItemTypeBadge';
 import { AddDetails } from '@/components/item_drawer/AddDetails';
 import { ItemDate } from '@/components/item_drawer/ItemDate';
 import { ItemDescription } from '@/components/item_drawer/ItemDescription';
@@ -13,8 +14,8 @@ import { ItemLocation } from '@/components/item_drawer/ItemLocation';
 import { ItemStatusDropdown } from '@/components/item_drawer/ItemStatusDropdown';
 import { ItemTime } from '@/components/item_drawer/ItemTime';
 import { ItemTitle } from '@/components/item_drawer/ItemTitle';
-import { ItemTypeBadge } from '@/components/item_drawer/ItemType';
 import { ID } from '@/schema/database/abstract';
+import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
 import { useNoteStore } from '@/store/useNoteStore';
 import { useRootComponentStore } from '@/store/useRootComponent';
@@ -60,6 +61,17 @@ export const NoteItemDrawer = ({
     return null;
   }
 
+  const switchType = useCallback(() => {
+    let type;
+    if (item.type === ItemType.Task) {
+      type = ItemType.Event;
+    } else {
+      type = ItemType.Task;
+    }
+
+    updateItem(item as LocalItem, { type });
+  }, [item]);
+
   // Establish props passed to children
   const props = {
     item: item as LocalItem,
@@ -74,9 +86,7 @@ export const NoteItemDrawer = ({
       <View style={styles.mainContainer}>
         <View style={styles.header}>
           <View style={styles.headerBackground}>
-            <View style={styles.itemType}>{/** TODO: Review whether this wrapping View is needed */}
-              <ItemTypeBadge {...props} />
-            </View>
+            <ItemTypeBadge type={item.type} onPress={switchType} style={styles.itemType} />
             <ItemTitle {...props} autoFocus={isNew} />
           </View>
 
@@ -184,7 +194,9 @@ const styles = StyleSheet.create({
   },
   itemType: {
     marginLeft: 'auto',
-    marginRight: 8
+    marginRight: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 6
   },
   mainContainer: {
     backgroundColor: white,

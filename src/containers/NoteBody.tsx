@@ -83,7 +83,6 @@ export const NoteBody = ({ note }: Props) => {
             default_sorting_rank: noteItems.length
           }}
           newRank={noteItems.length}
-          whiteShadow={false}
         />
       </Native.View>
     )

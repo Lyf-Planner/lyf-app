@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     gap: 4,
-    height: 40
+    height: 45
   },
   title: {
     fontFamily: 'Lexend',

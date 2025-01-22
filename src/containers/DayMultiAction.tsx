@@ -6,12 +6,14 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import { DayAction } from '@/components/DayAction';
+import { NewItemV2 } from '@/components/NewItemV2';
 import { DayProps } from '@/containers/DayDisplay';
-import { MultiTypeNewItem } from '@/containers/MultiTypeNewItem';
+import { ItemType } from '@/schema/database/items';
+import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, deepBlue, eventsBadgeColor, secondaryGreen } from '@/utils/colours';
 
 type Props = {
-  dayProps: DayProps; // TODO LYF-648: I should associate this with a list instead of a day to be more abstract.
+  dayProps: DayProps; // TODO LYF-651: I should associate this with a list instead of a day to be more abstract.
   addCallback?: () => void;
   doneCallback?: () => void;
   editCallback?: () => void;
@@ -29,9 +31,20 @@ export const DayMultiAction = ({
   doneCallback,
   editCallback
 }: Props) => {
+  const { addItem } = useTimetableStore();
+
   const [state, setState] = useState(States.ADD_OR_EDIT);
 
+  const [newItemType, setNewItemType] = useState<ItemType>(ItemType.Event)
   const actionContentColor = eventsBadgeColor;
+
+  const addItemByTitle = (title: string) => {
+    addItem(newItemType, dayProps.items.length, {
+      title,
+      date: dayProps.date || undefined,
+      day: dayProps.day || undefined
+    });
+  }
 
   const doneButton = (
     <DayAction
@@ -97,15 +110,11 @@ export const DayMultiAction = ({
       </View>
     ),
     [States.ADD]: (
-      // TODO LYF-648: Improve this to match the height of other states
       <View style={styles.wrapper}>
-        <MultiTypeNewItem
-          commonData={{
-            date: dayProps.date || undefined,
-            day: dayProps.day || undefined
-          }}
-          newRank={dayProps.items.length}
-          onEnter={() => setState(States.ADD_OR_EDIT)}
+        <NewItemV2
+          addItemByTitle={addItemByTitle}
+          setType={setNewItemType}
+          type={newItemType}
         />
         {doneButton}
       </View>
