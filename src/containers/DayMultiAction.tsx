@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -10,13 +9,13 @@ import { NewItemV2 } from '@/components/NewItemV2';
 import { DayProps } from '@/containers/DayDisplay';
 import { ItemType } from '@/schema/database/items';
 import { useTimetableStore } from '@/store/useTimetableStore';
-import { black, deepBlue, eventsBadgeColor, secondaryGreen } from '@/utils/colours';
+import { deepBlue, eventsBadgeColor } from '@/utils/colours';
 
 type Props = {
   dayProps: DayProps; // TODO LYF-651: I should associate this with a list instead of a day to be more abstract.
   addCallback?: () => void;
-  doneCallback?: () => void;
   editCallback?: () => void;
+  editDoneCallback?: () => void;
 }
 
 enum States {
@@ -28,15 +27,35 @@ enum States {
 export const DayMultiAction = ({
   dayProps,
   addCallback,
-  doneCallback,
-  editCallback
+  editCallback,
+  editDoneCallback
 }: Props) => {
   const { addItem } = useTimetableStore();
 
-  const [state, setState] = useState(States.ADD_OR_EDIT);
+  const [addActive, setAddActive] = useState(false);
+  const [editActive, setEditActive] = useState(false);
 
   const [newItemType, setNewItemType] = useState<ItemType>(ItemType.Event)
   const actionContentColor = eventsBadgeColor;
+
+  const toggleAddActive = () => {
+    if (!addActive && addCallback) {
+      addCallback();
+    }
+
+    setAddActive(!addActive);
+  }
+
+  const toggleEditActive = () => {
+    if (!editActive && editCallback) {
+      editCallback();
+    }
+    if (editActive && editDoneCallback) {
+      editDoneCallback()
+    }
+
+    setEditActive(!editActive);
+  }
 
   const addItemByTitle = (title: string) => {
     addItem(newItemType, dayProps.items.length, {
@@ -46,31 +65,24 @@ export const DayMultiAction = ({
     });
   }
 
-  const doneButton = (
-    <DayAction
-      text="Done"
-      backgroundColor={secondaryGreen}
-      color={black}
-      icon={(
-        <AntDesign name="checkcircle" color="black" size={18} />
+  return ( // TODO LYF-648: Fix the shadows on iOS of the action buttons
+    <View style={styles.wrapper}>
+      {addActive && (
+        <NewItemV2
+          addItemByTitle={addItemByTitle}
+          setType={setNewItemType}
+          type={newItemType}
+        />
       )}
-      onPress={() => {
-        if (doneCallback) {
-          doneCallback();
-        }
-        setState(States.ADD_OR_EDIT)
-      }}
-    />
-  )
 
-  // TODO LYF-648: Fix weird flickering of opposite button when going back to ADD_OR_EDIT
-  const stateMap: Record<States, JSX.Element> = {
-    [States.ADD_OR_EDIT]: (
-      <View style={[styles.wrapper, styles.addOrEditWrapper]}>
+      <View style={styles.addOrEditWrapper}>
         <DayAction
           text="Add"
           backgroundColor={deepBlue}
-          containerStyle={styles.addOrEditActionContainer}
+          containerStyle={[
+            styles.addOrEditActionContainer,
+            addActive ? styles.activatedButton : {}
+          ]}
           color={actionContentColor}
           icon={(
             <FontAwesome6
@@ -79,16 +91,14 @@ export const DayMultiAction = ({
               size={18}
             />
           )}
-          onPress={() => {
-            if (addCallback) {
-              addCallback();
-            }
-            setState(States.ADD)
-          }}
+          onPress={toggleAddActive}
         />
         <DayAction
           text="Edit"
-          containerStyle={styles.addOrEditActionContainer}
+          containerStyle={[
+            styles.addOrEditActionContainer,
+            editActive ? styles.activatedButton : {}
+          ]}
           backgroundColor={deepBlue}
           color={actionContentColor}
           icon={(
@@ -98,49 +108,26 @@ export const DayMultiAction = ({
               size={18}
             />
           )}
-          onPress={() => {
-            if (editCallback) {
-              editCallback();
-            }
-            if (dayProps.items.length > 0) {
-              setState(States.EDIT)
-            }
-          }}
+          onPress={toggleEditActive}
         />
       </View>
-    ),
-    [States.ADD]: (
-      <View style={styles.wrapper}>
-        <NewItemV2
-          addItemByTitle={addItemByTitle}
-          setType={setNewItemType}
-          type={newItemType}
-        />
-        {doneButton}
-      </View>
-    ),
-    [States.EDIT]: (
-      // TODO LYF-648: Verify new sort process does not cause items to flicker around
-      <View style={styles.wrapper}>
-        {doneButton}
-      </View>
-    )
-  }
-
-  return (
-    <View>
-      {stateMap[state]}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
+  activatedButton: {
+    borderWidth: 0.5,
+    borderColor: eventsBadgeColor,
+    borderRadius: 10
+  },
+
   addOrEditActionContainer: {
-    width: '49%'
+    flex: 1
   },
   addOrEditWrapper: {
     flexDirection: 'row',
-    gap: '2%'
+    gap: 4
   },
 
   wrapper: {

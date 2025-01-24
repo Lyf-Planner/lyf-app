@@ -12,11 +12,12 @@ type Props = {
   type: ItemType;
   addItemByTitle: AddItemByTitle;
   onBlur?: () => void;
+  onCancel?: () => void;
   onFocus?: () => void;
   setType: (type: ItemType) => void;
 };
 
-export const NewItemV2 = ({ addItemByTitle, onBlur, onFocus, setType, type }: Props) => {
+export const NewItemV2 = ({ addItemByTitle, onBlur, onCancel, onFocus, setType, type }: Props) => {
   const [newItem, updateNewItem] = useState<string>('');
   const inputRef = useRef<TextInput>(null);
 
@@ -42,7 +43,7 @@ export const NewItemV2 = ({ addItemByTitle, onBlur, onFocus, setType, type }: Pr
 
   return (
     <View style={styles.listNewItem}>
-      <TextInput // TODO LYF-648 Hide text input highlight border on web
+      <TextInput
         ref={inputRef}
         autoFocus
         returnKeyType="done"
@@ -52,11 +53,15 @@ export const NewItemV2 = ({ addItemByTitle, onBlur, onFocus, setType, type }: Pr
         blurOnSubmit={false}
         onBlur={onBlur}
         onFocus={onFocus}
+        onKeyPress={(e) => {
+          if (e.nativeEvent.key === 'Escape' && onCancel) {
+            onCancel();
+          }
+        }}
         onSubmitEditing={onSubmit}
         onChangeText={onChangeText}
       />
       <ItemTypeBadge
-        flex
         style={styles.typeSwitcher}
         type={type}
         onPress={() => switchType()}
@@ -70,6 +75,7 @@ const styles = StyleSheet.create({
     backgroundColor: listNewItemBackground,
     borderRadius: 10,
     flexDirection: 'row',
+    gap: 4,
 
     minHeight: 45,
     padding: 4,
@@ -78,12 +84,16 @@ const styles = StyleSheet.create({
   titleInput: {
     borderRadius: 10,
     color: listNewItemText,
+    flex: 1,
     fontFamily: 'Lexend',
     fontSize: 16,
+    height: '100%',
     paddingHorizontal: 4,
-    width: '80%'
+    // @ts-expect-error this disables the input border on web, but isn't recognised by RN
+    outlineStyle: 'none'
   },
   typeSwitcher: {
-    width: '20%'
+    marginLeft: 'auto',
+    width: 60
   }
 });

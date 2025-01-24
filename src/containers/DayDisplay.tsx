@@ -259,11 +259,7 @@ export const DayDisplay = (props: DayProps) => {
       <DayMultiAction
         dayProps={props}
         editCallback={() => setSorting(true)}
-        doneCallback={() => {
-          if (sorting) {
-            setSorting(false)
-          }
-        }}
+        editDoneCallback={() => setSorting(false)}
       />
     </Animated.View>
   );

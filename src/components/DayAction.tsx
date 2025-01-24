@@ -5,7 +5,7 @@ import { BouncyPressable } from '@/components/BouncyPressable';
 type Props = {
   backgroundColor: string;
   color: string;
-  containerStyle?: object; // TODO LYF-648: Style this properly
+  containerStyle?: object;
   icon: JSX.Element;
   text: string;
 
@@ -45,7 +45,8 @@ export const DayAction = ({
 
 const styles = StyleSheet.create({
   wrapper: {
-    borderRadius: 10
+    borderRadius: 10,
+    margin: 1
   },
   content: {
     alignItems: 'center',
