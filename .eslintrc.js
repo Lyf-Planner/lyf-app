@@ -45,7 +45,8 @@ const reactNativeRules = {
   'react-native/no-inline-styles': 2,
   'react-native/no-color-literals': 2,
   'react-native/no-raw-text': 2,
-  'react-native/no-single-element-style-arrays': 2
+  'react-native/no-single-element-style-arrays': 2,
+  'react-native/sort-styles': 'off'
 }
 
 const typescriptRules = {
@@ -73,7 +74,7 @@ const typescriptRules = {
   'no-case-declarations': 'off',
   'no-constant-condition': ['error', { checkLoops: false }],
   'no-multi-spaces': ['error', { ignoreEOLComments: true }],
-  'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0, maxEOF: 1 }],
+  'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 1, maxEOF: 1 }],
   'no-trailing-spaces': ['error'],
   'no-unexpected-multiline': 'error',
   'no-unused-vars': 'off',
