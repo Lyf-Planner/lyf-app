@@ -12,7 +12,7 @@ import { Vertical } from '@/components/Vertical';
 import { ItemStyleOptions } from '@/containers/Item';
 import { ItemStatus, ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
-import { deepBlue, primaryGreen } from '@/utils/colours';
+import { deepBlue } from '@/utils/colours';
 import {
   getItemPrimaryColor,
   getItemSecondaryColor
@@ -31,8 +31,9 @@ export const SortableListItem = ({
 }: Props) => {
   const checkScale = useSharedValue(1);
   const checkRotation = useSharedValue('0deg');
+
   const primaryColor = useMemo(
-    () => getItemPrimaryColor(item),
+    () => getItemPrimaryColor(item, itemStyleOptions.itemColor),
     [item, itemStyleOptions]
   );
   const secondaryColor = useMemo(
@@ -46,8 +47,7 @@ export const SortableListItem = ({
       borderRadius: item.type === ItemType.Event ? 5 : 15,
       opacity: item.status === ItemStatus.Cancelled || item.invite_pending ? 0.7 : 1
     },
-    sortHandleIconColor:
-      item.status === ItemStatus.Done ? primaryGreen : 'white'
+    sortHandleIconColor: primaryColor
   };
 
   return (

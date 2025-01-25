@@ -4,7 +4,6 @@ import * as Native from 'react-native';
 import debouncer from 'signature-debouncer';
 
 import { List } from '@/containers/List';
-import { MultiTypeNewItem } from '@/containers/MultiTypeNewItem';
 import { ItemDbObject } from '@/schema/database/items';
 import { NoteType } from '@/schema/database/notes'
 import { LocalItem } from '@/schema/items';
@@ -71,18 +70,15 @@ export const NoteBody = ({ note }: Props) => {
       [note]
     )
 
-    return (
+    return ( // TODO LYF-651: Note lists do not add items properly now
       <Native.View style={styles.listWrapper}>
         <List
           items={noteItems}
           itemStyleOptions={itemStyle}
-        />
-        <MultiTypeNewItem
-          commonData={{
+          newItemContext={{
             note_id: note.id,
             default_sorting_rank: noteItems.length
           }}
-          newRank={noteItems.length}
         />
       </Native.View>
     )

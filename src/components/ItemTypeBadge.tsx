@@ -5,6 +5,7 @@ import { ItemType } from '@/schema/database/items';
 import { eventsBadgeColor } from '@/utils/colours';
 
 type Props = {
+  fixType?: boolean;
   flex?: boolean;
   fontSize?: number;
   style: object;
@@ -12,7 +13,7 @@ type Props = {
   onPress: () => void;
 }
 
-export const ItemTypeBadge = ({ flex = false, fontSize = 16, style, type, onPress }: Props) => {
+export const ItemTypeBadge = ({ fixType = false, flex = false, fontSize = 16, style, type, onPress }: Props) => {
   const conditionalStyles = {
     typeBadge: {
       backgroundColor: type === ItemType.Event ? eventsBadgeColor : 'white',
@@ -33,6 +34,7 @@ export const ItemTypeBadge = ({ flex = false, fontSize = 16, style, type, onPres
         styles.typeBadge,
         conditionalStyles.typeBadge
       ]}
+      disabled={fixType}
       style={[
         styles.typeBadgePressable,
         conditionalStyles.typeBadgePressable
