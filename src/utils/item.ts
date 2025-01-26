@@ -37,7 +37,7 @@ export type UpdateItemSocial = (
 
 export type RemoveItem = (item: LocalItem, deleteRemote?: boolean) => Promise<void>;
 
-export type ResortItems = (priorities: LocalItem[]) => void;
+export type ResortItems = (priorities: LocalItem[], change_default?: boolean) => void;
 
 export const ITEM_STATUS_TO_COLOR = {
   // Values taken from the corresponding bg's in tailwind

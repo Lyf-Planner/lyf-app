@@ -1,12 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
+
+import DraggableFlatlist, { RenderItemParams } from 'react-native-draggable-flatlist';
 
 import { ItemStyleOptions, Item } from '@/containers/Item';
 import { ListMultiAction } from '@/containers/ListMultiAction';
-import { SortableList } from '@/containers/SortableList';
+import { SortableListItem } from '@/containers/SortableListItem';
 import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
 import { useTimetableStore } from '@/store/useTimetableStore';
+import { LyfElement } from '@/utils/abstractTypes';
 
 type Props = {
   fixedType?: ItemType;
@@ -15,6 +18,17 @@ type Props = {
   listWrapperStyles?: object;
   newItemContext: Partial<LocalItem>;
 };
+
+type DragEndProps = {
+  data: LocalItem[],
+  from: number,
+  to: number,
+}
+
+enum States {
+  DEFAULT,
+  EDIT
+}
 
 export const List = ({
   fixedType,
@@ -25,64 +39,74 @@ export const List = ({
 }: Props) => {
   const { resortItems } = useTimetableStore();
 
-  // TODO LYF-651:
-  // Need to localise "sorted" behaviour to the list
-  // At the moment this is handled upstream, and only DayDisplay does it properly.
-  // ListDropdown and Note Lists do not sort properly
-  const [sorting, setSorting] = useState(false);
-  const [sortOrder, setSortOrder] = useState<LocalItem[]>(items);
-
-  const submitSortOrder = useCallback(() => {
-    resortItems(sortOrder);
-  }, [sortOrder]);
-
-  useEffect(() => {
-    if (!sorting && sorting !== null) {
-      // If a timeout is not set, this runs before the bounce animation finishes
-      // Due to threading (I think) the animation gets stuck halfway through
-      setTimeout(() => submitSortOrder(), 100);
+  const isNoteList = useMemo(() => items.some((item) => !!item.note_id), [items]);
+  const listItems = useMemo(() => items.sort((a, b) => {
+    // Note items use the default sorting rank
+    if (isNoteList) {
+      return (a.default_sorting_rank ?? 0) - (b.default_sorting_rank ?? 0)
+    } else {
+      return a.sorting_rank - b.sorting_rank
     }
-  }, [sorting]);
+  }), [items]);
 
-  useEffect(() => {
-    setSortOrder(items);
-  }, [items]);
+  const [state, setState] = useState<States>(States.DEFAULT);
+
+  const onDragEnd = ({ data: items }: DragEndProps) => {
+    resortItems(items, isNoteList);
+  };
 
   const conditionalStyles = {
     main: {
-      gap: items.length === 0 ? 0 : 8
+      gap: listItems.length > 0 ? 8 : 0
     }
+  }
+
+  const stateMap: Record<States, LyfElement> = {
+    [States.DEFAULT]: (
+      <View style={[styles.listContainer, listWrapperStyles]}>
+        {listItems.map((x) => (
+          <Item
+            key={x.id}
+            itemStyleOptions={itemStyleOptions}
+            item={x}
+          />
+        ))}
+      </View>
+    ),
+    [States.EDIT]: (
+      <DraggableFlatlist
+        containerStyle={[styles.listContainer, listWrapperStyles]}
+        contentContainerStyle={styles.contentContainerStyle}
+        autoscrollThreshold={100}
+        style={styles.flatlistInternal}
+        data={listItems}
+        onDragEnd={onDragEnd}
+        keyExtractor={(item: LocalItem) => item.id + item.sorting_rank + item.default_sorting_rank}
+        renderItem={(x: RenderItemParams<LocalItem>) => {
+          return (
+            <SortableListItem
+              key={(x.item.template_id || x.item.id) + x.item.sorting_rank + x.item.default_sorting_rank}
+              itemStyleOptions={itemStyleOptions}
+              item={x.item}
+              dragFunc={x.drag}
+            />
+          );
+        }}
+      />
+    )
   }
 
   return (
     <View style={[styles.main, conditionalStyles.main]}>
-      {sorting ? (
-        <SortableList
-          setSortOrder={setSortOrder}
-          sortOrder={sortOrder}
-          itemStyleOptions={itemStyleOptions}
-          listWrapperStyles={listWrapperStyles}
-        />
-      ) : (
-        <View style={[styles.listContainer, listWrapperStyles]} key={items.map((x) => x.id).join()}>
-          {sortOrder.map((x) => (
-            <Item
-              key={x.id}
-              itemStyleOptions={itemStyleOptions}
-              item={x}
-            />
-          ))}
-        </View>
-      )}
-
+      {stateMap[state]}
       <ListMultiAction
         fixedType={fixedType}
         newItemContext={{
           ...newItemContext,
-          sorting_rank: items.length
+          sorting_rank: listItems.length
         }}
-        editCallback={() => setSorting(true)}
-        editDoneCallback={() => setSorting(false)}
+        editCallback={() => setState(States.EDIT)}
+        editDoneCallback={() => setState(States.DEFAULT)}
       />
     </View>
   );
@@ -92,6 +116,11 @@ const styles = StyleSheet.create({
   main: {
     flexDirection: 'column',
     width: '100%'
+  },
+  contentContainerStyle: { gap: 1 },
+  flatlistInternal: {
+    flexDirection: 'column',
+    overflow: 'visible'
   },
   listContainer: {
     flexDirection: 'row',
