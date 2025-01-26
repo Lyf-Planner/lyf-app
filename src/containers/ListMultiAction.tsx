@@ -6,26 +6,27 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import { DayAction } from '@/components/DayAction';
 import { NewItemV2 } from '@/components/NewItemV2';
-import { DayProps } from '@/containers/DayDisplay';
 import { ItemType } from '@/schema/database/items';
+import { LocalItem } from '@/schema/items';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { deepBlue, eventsBadgeColor } from '@/utils/colours';
 
+export type ItemContext = Partial<LocalItem> & {
+  // required data for new item creation
+  sorting_rank: number
+}
+
 type Props = {
-  dayProps: DayProps; // TODO LYF-651: I should associate this with a list instead of a day to be more abstract.
+  fixedType?: ItemType;
+  newItemContext: ItemContext;
   addCallback?: () => void;
   editCallback?: () => void;
   editDoneCallback?: () => void;
 }
 
-enum States {
-  ADD_OR_EDIT,
-  ADD,
-  EDIT
-}
-
-export const DayMultiAction = ({
-  dayProps,
+export const ListMultiAction = ({
+  fixedType,
+  newItemContext,
   addCallback,
   editCallback,
   editDoneCallback
@@ -35,7 +36,7 @@ export const DayMultiAction = ({
   const [addActive, setAddActive] = useState(false);
   const [editActive, setEditActive] = useState(false);
 
-  const [newItemType, setNewItemType] = useState<ItemType>(ItemType.Event)
+  const [newItemType, setNewItemType] = useState<ItemType>(fixedType ?? ItemType.Event);
   const actionContentColor = eventsBadgeColor;
 
   const toggleAddActive = () => {
@@ -58,20 +59,21 @@ export const DayMultiAction = ({
   }
 
   const addItemByTitle = (title: string) => {
-    addItem(newItemType, dayProps.items.length, {
+    addItem(newItemType, newItemContext.sorting_rank, {
       title,
-      date: dayProps.date || undefined,
-      day: dayProps.day || undefined
+      date: newItemContext.date || undefined,
+      day: newItemContext.day || undefined
     });
   }
 
-  return ( // TODO LYF-648: Fix the shadows on iOS of the action buttons
+  return (
     <View style={styles.wrapper}>
       {addActive && (
         <NewItemV2
           addItemByTitle={addItemByTitle}
+          fixType={!!fixedType}
           setType={setNewItemType}
-          type={newItemType}
+          type={fixedType ?? newItemType}
         />
       )}
 

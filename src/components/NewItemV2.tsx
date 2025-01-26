@@ -8,6 +8,7 @@ import { inProgressColor, listNewItemBackground, listNewItemText } from '@/utils
 export type AddItemByTitle = (title: string) => void;
 
 type Props = {
+  fixType?: boolean;
   flex?: boolean;
   type: ItemType;
   addItemByTitle: AddItemByTitle;
@@ -17,7 +18,7 @@ type Props = {
   setType: (type: ItemType) => void;
 };
 
-export const NewItemV2 = ({ addItemByTitle, onBlur, onCancel, onFocus, setType, type }: Props) => {
+export const NewItemV2 = ({ fixType = false, type, addItemByTitle, onBlur, onCancel, onFocus, setType }: Props) => {
   const [newItem, updateNewItem] = useState<string>('');
   const inputRef = useRef<TextInput>(null);
 
@@ -62,6 +63,7 @@ export const NewItemV2 = ({ addItemByTitle, onBlur, onCancel, onFocus, setType, 
         onChangeText={onChangeText}
       />
       <ItemTypeBadge
+        fixType={fixType}
         style={styles.typeSwitcher}
         type={type}
         onPress={() => switchType()}

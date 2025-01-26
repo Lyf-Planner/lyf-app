@@ -264,30 +264,20 @@ export const useTimetableStore = create<TimetableState>((set, get) => ({
       await deleteItem(id);
     }
   },
-  resortItems: async (priorities: LocalItem[]) => {
-    const { items, updateItem } = get();
-
+  resortItems: async (priorities: LocalItem[], change_default = false) => {
     if (priorities.length === 0) {
       return;
     }
 
-    const tmp = { ...items };
-    for (const item of Object.values(items)) {
-      const prioritiesIndex = priorities.findIndex((x) => x.id === item.id)
-
-      if (prioritiesIndex !== -1) {
-        item.sorting_rank = prioritiesIndex
-      }
-    }
-    set({ items: tmp });
+    const { items, updateItem } = get();
 
     for (const i in priorities) {
-      // Fix any localised items, harness the update function to handle edge cases like note items and localised item creation
-      if (priorities[i].localised) {
-        updateItem(priorities[i], { sorting_rank: parseInt(i) })
-      } else {
-        updateRemoteItem({ id: priorities[i].id, sorting_rank: parseInt(i) });
+      const changes = change_default ? {
+        default_sorting_rank: parseInt(i)
+      } : {
+        sorting_rank: parseInt(i)
       }
+      updateItem(priorities[i], changes);
     }
   }
 }));

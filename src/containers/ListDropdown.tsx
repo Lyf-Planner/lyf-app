@@ -9,24 +9,21 @@ import Animated, {
 } from 'react-native-reanimated';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-import { NewItem } from '@/components/NewItem';
 import { List } from '@/containers/List';
 import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
-import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
 
 type Props = {
   items: LocalItem[],
-  listType: ItemType,
   icon: JSX.Element,
   name: string,
-  startOpen?: boolean
+  startOpen?: boolean,
+  type: ItemType,
 }
 
-export const ListDropdown = ({ items, listType, icon, name, startOpen = false }: Props) => {
+export const ListDropdown = ({ items, icon, name, startOpen = false, type }: Props) => {
   const [hide, updateHide] = useState(!startOpen);
-  const { addItem } = useTimetableStore();
 
   const scale = useSharedValue(1);
   const chevronAngle = useSharedValue(0);
@@ -86,19 +83,13 @@ export const ListDropdown = ({ items, listType, icon, name, startOpen = false }:
           entering={FadeIn.duration(200)}
         >
           <List
+            fixedType={type}
             items={items}
             itemStyleOptions={{
               itemColor: eventsBadgeColor,
               itemTextColor: deepBlue
             }}
-          />
-          <NewItem
-            addItemByTitle={(title: string) => addItem(
-              listType,
-              items.length,
-              { title }
-            )}
-            type={listType}
+            newItemContext={{ /* none required */ }}
           />
         </Animated.View>
       )}

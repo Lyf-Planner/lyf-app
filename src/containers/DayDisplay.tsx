@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { View, Text, StyleSheet, Platform, Alert } from 'react-native';
 
 import * as Haptics from 'expo-haptics';
@@ -11,9 +11,7 @@ import debouncer from 'signature-debouncer';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { Vertical } from '@/components/Vertical';
-import { DayMultiAction } from '@/containers/DayMultiAction';
 import { List } from '@/containers/List';
-import { SortableList } from '@/containers/SortableList';
 import { WeatherWidget } from '@/containers/WeatherWidget';
 import { ItemStatus } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
@@ -39,7 +37,7 @@ import {
 } from '@/utils/dates';
 import { sleep } from '@/utils/misc';
 
-export type DayProps = {
+type DayProps = {
   items: LocalItem[],
   date: DateString | null,
   day: DayOfWeek | null,
@@ -49,30 +47,15 @@ export type DayProps = {
 
 const dayFinishingDebounceSignature = 'AUTO_DAY_FINISHING';
 
-export const DayDisplay = (props: DayProps) => {
-  const { items, date, day, useRoutine = false, shadowOffset } = props;
-
+export const DayDisplay = ({
+  items,
+  date,
+  day,
+  useRoutine = false,
+  shadowOffset
+}: DayProps) => {
   const { reload, resortItems, startDate, endDate } = useTimetableStore();
   const { user, updateUser } = useAuthStore();
-
-  const [sorting, setSorting] = useState<boolean | null>(null);
-  const [sortOrder, setSortOrder] = useState<LocalItem[]>(items);
-
-  const submitSortOrder = useCallback(() => {
-    resortItems(sortOrder);
-  }, [sortOrder]);
-
-  useEffect(() => {
-    if (!sorting && sorting !== null) {
-      // If a timeout is not set, this runs before the bounce animation finishes
-      // Due to threading (I think) the animation gets stuck halfway through
-      setTimeout(() => submitSortOrder(), 100);
-    }
-  }, [sorting]);
-
-  useEffect(() => {
-    setSortOrder(items);
-  }, [items]);
 
   const allDone = useMemo(
     () =>
@@ -210,6 +193,10 @@ export const DayDisplay = (props: DayProps) => {
     }
   }
 
+  // TODO LYF-654:
+  // Pressing the day handle does nothing now
+  // Should make it provide info about the day, like weather and public holidays
+
   return (
     <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
       <BouncyPressable
@@ -233,34 +220,19 @@ export const DayDisplay = (props: DayProps) => {
         </Animated.View>
       </BouncyPressable>
 
-      {items.length > 0 && (
-        <View style={styles.listWrapperView}>
-          {sorting ? (
-            <SortableList
-              setSortOrder={setSortOrder}
-              sortOrder={sortOrder}
-              itemStyleOptions={{
-                itemTextColor: black
-              }}
-              listWrapperStyles={styles.transparentBackground}
-            />
-          ) : (
-            <List
-              items={items}
-              itemStyleOptions={{
-                itemTextColor: black
-              }}
-              listWrapperStyles={styles.transparentBackground}
-            />
-          )}
-        </View>
-      )}
-
-      <DayMultiAction
-        dayProps={props}
-        editCallback={() => setSorting(true)}
-        editDoneCallback={() => setSorting(false)}
-      />
+      <View style={styles.listWrapperView}>
+        <List
+          items={items}
+          itemStyleOptions={{
+            itemTextColor: black
+          }}
+          listWrapperStyles={styles.transparentBackground}
+          newItemContext={{
+            date: date || undefined,
+            day: date || undefined
+          }}
+        />
+      </View>
     </Animated.View>
   );
 };
