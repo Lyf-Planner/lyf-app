@@ -1,7 +1,6 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 
 import { NoteRow } from '@/components/NoteRow';
-import { PageLoader } from '@/components/PageLoader';
 import { ID } from '@/schema/database/abstract';
 import { NoteType } from '@/schema/database/notes';
 import { UserRelatedNote } from '@/schema/user'
@@ -31,8 +30,6 @@ export const NoteCollection = ({ notes, loading, setNoteId }: Props) => {
             }
           </View>
         }
-
-        {loading && <PageLoader />}
       </View>
     </ScrollView>
   );

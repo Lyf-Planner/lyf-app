@@ -23,6 +23,7 @@ import { AddNote, RemoveNote, UpdateNote, UpdateNoteItem, UpdateNoteSocial } fro
 
 export type NotesState = {
   loading: boolean,
+  rootNotes: ID[],
   notes: Record<ID, UserRelatedNote>,
 
   reload: () => Promise<void>,
@@ -37,18 +38,25 @@ export type NotesState = {
 
 export const useNoteStore = create<NotesState>((set, get) => ({
   loading: true,
+  rootNotes: [],
   notes: {},
 
   reload: async () => {
+    const { notes } = get();
+
     set({ loading: true });
     const cloudNotes = await myNotes() as UserRelatedNote[];
-    const notes: Record<ID, UserRelatedNote> = {};
+    const newRootNotes: Record<ID, UserRelatedNote> = {};
 
     cloudNotes.forEach((note) => {
-      notes[note.id] = note;
+      newRootNotes[note.id] = note;
     })
 
-    set({ notes, loading: false });
+    set({
+      notes: { ...notes, ...newRootNotes },
+      rootNotes: Object.keys(newRootNotes),
+      loading: false
+    });
   },
 
   loadNote: async (id: ID) => {
@@ -58,10 +66,11 @@ export const useNoteStore = create<NotesState>((set, get) => ({
     set({ notes: { ...notes, [id]: note }, loading: false });
   },
 
-  addNote: async (title: string, type: NoteType) => {
-    const { notes } = get();
-    const newNote: UserRelatedNote = {
+  addNote: async (title: string, type: NoteType, parent_id?: ID) => {
+    const { notes, rootNotes } = get();
+    const newNote: UserRelatedNote & { parent_id?: ID } = {
       id: uuid(),
+      parent_id,
       created: new Date(),
       last_updated: new Date(),
       title,
@@ -74,6 +83,9 @@ export const useNoteStore = create<NotesState>((set, get) => ({
     };
 
     set({ notes: { ...notes, [newNote.id]: newNote } });
+    if (!parent_id) {
+      set({ rootNotes: rootNotes.concat([newNote.id]) })
+    }
 
     // Upload in background, remove from store on failure
     try {
@@ -88,9 +100,16 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
   removeNote: async (id: ID, deleteRemote = true) => {
     // Remove from this store
-    const { notes } = get();
+    const { notes, rootNotes } = get();
     delete notes[id];
-    set({ notes });
+
+    let newRootNotes = [...rootNotes];
+    const rootIndex = rootNotes.indexOf(id);
+    if (rootIndex !== -1) {
+      newRootNotes = newRootNotes.splice(rootIndex, 1)
+    }
+
+    set({ notes, rootNotes: newRootNotes });
 
     if (deleteRemote) {
       await deleteNote(id);

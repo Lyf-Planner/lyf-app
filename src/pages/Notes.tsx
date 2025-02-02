@@ -15,69 +15,74 @@ import { useNoteStore } from '@/store/useNoteStore';
 type NoteLocation = ID | 'root';
 
 export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
-  const { loading, notes, loadNote } = useNoteStore();
+  const { loading, notes, rootNotes, loadNote } = useNoteStore();
 
   // this only pertains to the first navigation to notes, not note-to-note navigation
-  const requestedNote = props.route.params?.id ?? 'root';
+  const requestedNote = props.route.params?.id;
 
-  // TODO LYF-146: Turn this into a "path" state
-  const [prevId, setPrevId] = useState<NoteLocation>('root');
-  const [selectedId, setSelectedId] = useState<NoteLocation>(requestedNote);
+  const [path, setPath] = useState<string>(requestedNote ?? 'root');
+  const selectedId = useMemo(() => {
+    const pathArray = path.split('/');
+    return pathArray[pathArray.length - 1];
+  }, [path])
 
   useEffect(() => {
-    if (selectedId !== 'root') {
-      loadNote(selectedId);
-    }
     // if root, the note store initialises with root notes, just wait
+    if (selectedId === 'root') {
+      return
+    }
+    loadNote(selectedId); // TODO LYF-146: Can't load a note of depth 2 where I don't have a User permission
   }, [selectedId]);
 
   const loadedNote = useMemo(() => selectedId === 'root' ? null : notes[selectedId], [selectedId, notes]);
   const noteCollection = useMemo(() => {
-    const rootCollection = selectedId === 'root' && notes;
+    const rootCollection = selectedId === 'root';
     const folderCollection = loadedNote && loadedNote.type === NoteType.Folder;
-    const waiting = (selectedId !== 'root' && !loadedNote) || (selectedId === 'root' && !notes);
 
-    if (waiting) {
-      return null;
+    // use undefined if waiting, null if not yet applicable
+    if (folderCollection) {
+      return loadedNote.relations.notes ?? null;
     } else if (rootCollection) {
-      console.debug('returning root collection');
-      return Object.values(notes); // TODO LYF-146, this will have bugs when we load in a folders notes
-    } else if (folderCollection) {
-      return loadedNote.relations.notes || [];
-    } else {
-      console.debug('note should not have collection')
-      return null;
+      return notes ? rootNotes.map((id) => notes[id]) : null;
     }
+
+    return undefined;
   }, [selectedId, notes, loadedNote, loading]);
 
   const visitNote = (id: ID) => {
-    setPrevId(selectedId);
-    setSelectedId(id);
+    setPath(`${path}/${id}`);
+  }
+
+  const backtrack = () => {
+    let pathArray = path.split('/');
+    pathArray.pop()
+
+    if (pathArray.length === 1 && pathArray[0] !== 'root') {
+      // this happens when we go directly to a note from something like a notification, just go back to root.
+      pathArray = ['root'];
+    }
+
+    setPath(pathArray.join('/'));
   }
 
   let body: JSX.Element;
-  if (!loadedNote && selectedId !== 'root') {
-    console.warn('loading note for the first time');
-    body = <></>;
-  } else if ((loadedNote || selectedId === 'root') && noteCollection) {
-    console.debug('showing note as collection');
+  if (noteCollection) {
     body = (
       <NoteCollection
-        notes={noteCollection}
+        notes={noteCollection || []}
         loading={!noteCollection}
-        setNoteId={visitNote} // TODO LYF-146: Append to path
+        setNoteId={visitNote}
       >
 
       </NoteCollection>
     );
-  } else if (loadedNote && !noteCollection) {
-    console.debug('showing note as single note');
+  } else if (loadedNote) {
     body = (
       <NoteView
         note={loadedNote}
         loading={!loadedNote}
-        onBack={() => setSelectedId(prevId)} // TODO LYF-146: Go back in the path
-        setNoteId={visitNote} // TODO LYF-146: Append to path
+        onBack={backtrack}
+        setNoteId={visitNote}
       />
     );
   } else {
@@ -91,8 +96,8 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
         initialTitle={loadedNote?.title || 'All Notes'}
         note={loadedNote}
         loading={loading || !loadedNote}
-        onBack={() => setSelectedId(prevId)} // TODO LYF-146: Go back in the path
-        setNoteId={visitNote} // TODO LYF-146: Append to path
+        onBack={backtrack}
+        setNoteId={visitNote}
       />
       <PageBackground noPadding>
         {body}

@@ -25,13 +25,18 @@ type Props = {
   setNoteId: (id: ID) => void;
 }
 
+const defaultTitleMap: Record<NoteType, string> = {
+  [NoteType.ListOnly]: 'New List',
+  [NoteType.NoteOnly]: 'New Note',
+  [NoteType.Folder]: 'New Folder'
+}
+
 export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: Props) => {
   const { updateModal } = useRootComponentStore();
   const { updateNote, addNote } = useNoteStore();
 
-  const newNote = (type: NoteType) => {
-    const title = `New ${type === NoteType.ListOnly ? 'List' : 'Note'}`;
-    addNote(title, type).then((id: ID) => setNoteId(id));
+  const newNote = (type: NoteType, parent_id?: ID) => {
+    addNote(defaultTitleMap[type], type, parent_id).then((id: ID) => setNoteId(id));
   };
 
   const [title, setTitle] = useState(initialTitle);
@@ -70,20 +75,6 @@ export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: P
     updateModal(<NoteUsersModal note={note} users={note.relations.users} />)
   }
 
-  if (note.type === NoteType.Folder) { // TODO LYF-146: Make this use the template below instead (as to be editable)
-    return (
-      <View style={styles.noteHeader}>
-        <MaterialCommunityIcons name='note-multiple' size={28} color={white} />
-        <Text style={styles.myNotesTitle}>{note.title}</Text>
-        <View
-          style={styles.newNoteContainer}
-        >
-          <NewNoteMenu newNote={newNote} />
-        </View>
-      </View>
-    )
-  }
-
   return ( // TODO LYF-146: Editing the title has shit UX
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.noteHeader}>
@@ -114,12 +105,16 @@ export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: P
             </Text>
           )}
 
-          {loading ? (
+          {loading && (
             <Loader size={28} color={white} />
-          ) : (
+          )}
+          {!loading && note.type !== NoteType.Folder && (
             <BouncyPressable onPress={() => openUserModal()}>
               <CollaborativeIcon entity={note} type='note' />
             </BouncyPressable>
+          )}
+          {!loading && note.type === NoteType.Folder && (
+            <NewNoteMenu newNote={(type: NoteType) => newNote(type, note.id)}/>
           )}
         </View>
       </View>
@@ -162,27 +157,12 @@ const styles = StyleSheet.create({
     marginRight: 8
   },
 
-  // noteHeader: {
-  //   alignItems: 'center',
-  //   backgroundColor: primaryGreen,
-  //   flexDirection: 'row',
-  //   gap: 8,
-  //   height: 65,
-  //   overflow: 'hidden',
-  //   paddingHorizontal: 10,
-  //   shadowColor: black,
-  //   shadowOffset: { width: 0, height: 2 },
-  //   shadowOpacity: 0.5,
-  //   shadowRadius: 2,
-  //   zIndex: 50
-  // },
-
   noteTitle: {
     backgroundColor: blackWithOpacity(0.1),
     borderRadius: 4,
     color: white,
     fontFamily: 'Lexend',
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '400',
     maxWidth: 275,
     padding: 8
