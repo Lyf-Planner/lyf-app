@@ -53,8 +53,9 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
   loadNote: async (id: ID) => {
     const { notes } = get();
+    set({ loading: true });
     const note = await getNote(id);
-    set({ notes: { ...notes, [id]: note } });
+    set({ notes: { ...notes, [id]: note }, loading: false });
   },
 
   addNote: async (title: string, type: NoteType) => {
@@ -175,7 +176,7 @@ export const useNoteStore = create<NotesState>((set, get) => ({
   },
 
   handleNoteItemUpdate: async (item: ItemDbObject, changes: Partial<ItemDbObject>, remove = false) => {
-    // This function is merely a store update, the item itself gets updated when passed here by the item store.
+    // This function is merely a store update, the remote item gets updated before being passed here by the item store.
     if (!item.note_id) {
       console.warn('Escaping note item update - item has no note_id');
       return;

@@ -20,7 +20,7 @@ export async function myNotes() {
 }
 
 export async function getNote(id: string) {
-  const endpoint = notesEndpoint(`get?id=${id}&include=users`)
+  const endpoint = notesEndpoint(`get?id=${id}&include=users,notes,items`);
 
   const result = await get(endpoint);
   const note = result.data;

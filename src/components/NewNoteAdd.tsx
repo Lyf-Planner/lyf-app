@@ -25,6 +25,9 @@ export const NewNoteMenu = ({ newNote }: Props) => {
         }, {
           text: '+ 🖊️ List',
           onSelect: () => onOptionSelect(NoteType.ListOnly)
+        }, {
+          text: '+ 📁 Folder',
+          onSelect: () => onOptionSelect(NoteType.Folder)
         }]}
         textAlignment='left'
       >
