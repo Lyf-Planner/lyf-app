@@ -21,6 +21,12 @@ export const NoteView = ({
   onBack,
   setNoteId
 }: Props) => {
+  const conditionalStyles = {
+    scrollView: {
+      paddingVertical: note.invite_pending ? 10 : 20
+    }
+  }
+
   return (
     <View style={styles.main}>
       <View style={styles.notePageWrapper}>
@@ -34,7 +40,10 @@ export const NoteView = ({
         }
 
         {!loading && (
-          <KeyboardAwareScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContainer}>
+          <KeyboardAwareScrollView
+            style={[styles.scrollView, conditionalStyles.scrollView]}
+            contentContainerStyle={styles.scrollContainer}
+          >
             {note.invite_pending && <InviteHandler entity={note} type='note' />}
             <NoteBody note={note} setNoteId={setNoteId} />
           </KeyboardAwareScrollView>
@@ -64,9 +73,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: { flexDirection: 'column', gap: 10 },
   scrollView: {
-    marginVertical: 6,
     paddingHorizontal: 20,
-    paddingVertical: 10,
     width: '100%'
   }
 });

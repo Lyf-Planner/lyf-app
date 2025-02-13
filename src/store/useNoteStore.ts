@@ -62,8 +62,18 @@ export const useNoteStore = create<NotesState>((set, get) => ({
   loadNote: async (id: ID) => {
     const { notes } = get();
     set({ loading: true });
-    const note = await getNote(id);
-    set({ notes: { ...notes, [id]: note }, loading: false });
+
+    const loadedNote = await getNote(id);
+    if (!loadedNote) {
+      return;
+    }
+
+    const loadedNoteChildren = loadedNote?.relations.notes ?? [];
+    const noteChildrenObject: Record<ID, UserRelatedNote> = {};
+    loadedNoteChildren.forEach((note) => noteChildrenObject[note.id] = note);
+
+    // add the loaded note, and also all it's children for a smarter cache
+    set({ notes: { ...notes, [id]: loadedNote, ...noteChildrenObject }, loading: false });
   },
 
   addNote: async (title: string, type: NoteType, parent_id?: ID) => {
@@ -101,7 +111,8 @@ export const useNoteStore = create<NotesState>((set, get) => ({
   removeNote: async (id: ID, deleteRemote = true) => {
     // Remove from this store
     const { notes, rootNotes } = get();
-    delete notes[id];
+    const newNotes = { ...notes };
+    delete newNotes[id];
 
     let newRootNotes = [...rootNotes];
     const rootIndex = rootNotes.indexOf(id);
@@ -109,7 +120,7 @@ export const useNoteStore = create<NotesState>((set, get) => ({
       newRootNotes = newRootNotes.splice(rootIndex, 1)
     }
 
-    set({ notes, rootNotes: newRootNotes });
+    set({ notes: newNotes, rootNotes: newRootNotes });
 
     if (deleteRemote) {
       await deleteNote(id);

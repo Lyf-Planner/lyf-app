@@ -75,14 +75,14 @@ export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: P
     updateModal(<NoteUsersModal note={note} users={note.relations.users} />)
   }
 
-  return ( // TODO LYF-146: Editing the title has shit UX
+  return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.noteHeader}>
         <TouchableOpacity onPress={onBack}>
           <Entypo name={'chevron-left'} size={30} color='white' />
         </TouchableOpacity>
 
-        <TextInput
+        <TextInput // TODO LYF-146: wtf happened here
           autoFocus={isNewNote}
           onFocus={(e) =>
           // Workaround for selectTextOnFocus={true} not working
@@ -108,7 +108,7 @@ export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: P
           {loading && (
             <Loader size={28} color={white} />
           )}
-          {!loading && note.type !== NoteType.Folder && (
+          {!loading && (
             <BouncyPressable onPress={() => openUserModal()}>
               <CollaborativeIcon entity={note} type='note' />
             </BouncyPressable>

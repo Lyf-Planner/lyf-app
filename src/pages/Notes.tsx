@@ -12,27 +12,37 @@ import { ID } from '@/schema/database/abstract';
 import { NoteType } from '@/schema/database/notes';
 import { useNoteStore } from '@/store/useNoteStore';
 
-type NoteLocation = ID | 'root';
-
 export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
   const { loading, notes, rootNotes, loadNote } = useNoteStore();
 
   // this only pertains to the first navigation to notes, not note-to-note navigation
-  const requestedNote = props.route.params?.id;
-
-  const [path, setPath] = useState<string>(requestedNote ?? 'root');
+  const [path, setPath] = useState<string>('root');
   const selectedId = useMemo(() => {
     const pathArray = path.split('/');
     return pathArray[pathArray.length - 1];
   }, [path])
+
+  console.log('path is', path);
 
   useEffect(() => {
     // if root, the note store initialises with root notes, just wait
     if (selectedId === 'root') {
       return
     }
-    loadNote(selectedId); // TODO LYF-146: Can't load a note of depth 2 where I don't have a User permission
+    loadNote(selectedId);
   }, [selectedId]);
+
+  useEffect(() => {
+    if (props.route.params?.id) {
+      // prevent appending if already the main view
+      const pathArray = path.split('/');
+      if (pathArray[pathArray.length - 1] === props.route.params?.id) {
+        return;
+      }
+
+      setPath(`${path}/${props.route.params?.id}`)
+    }
+  }, [props.route.params?.id])
 
   const loadedNote = useMemo(() => selectedId === 'root' ? null : notes[selectedId], [selectedId, notes]);
   const noteCollection = useMemo(() => {
@@ -47,7 +57,9 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
     }
 
     return undefined;
-  }, [selectedId, notes, loadedNote, loading]);
+  }, [notes, loadedNote, loading]);
+
+  console.log(noteCollection?.map((x) => x.id))
 
   const visitNote = (id: ID) => {
     setPath(`${path}/${id}`);
@@ -66,9 +78,10 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
   }
 
   let body: JSX.Element;
-  if (noteCollection) {
+  if (noteCollection && (loadedNote || selectedId === 'root')) {
     body = (
       <NoteCollection
+        parent={loadedNote}
         notes={noteCollection || []}
         loading={!noteCollection}
         setNoteId={visitNote}

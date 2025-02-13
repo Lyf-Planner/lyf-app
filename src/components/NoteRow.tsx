@@ -52,6 +52,7 @@ export const NoteRow = ({
   }, []);
 
   const handleDeletion = () => {
+    // TODO LYF-146: Deleting some notes doesn't work, they don't get removed from state
     if (Platform.OS === 'web') {
       if (confirm(`Are you sure you want to delete ${note.title}`)) {
         removeNote(note.id)
