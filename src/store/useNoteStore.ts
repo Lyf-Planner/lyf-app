@@ -114,10 +114,12 @@ export const useNoteStore = create<NotesState>((set, get) => ({
     const newNotes = { ...notes };
     delete newNotes[id];
 
-    let newRootNotes = [...rootNotes];
+    // TODO LYF-146: Delete reference of this note in it's parent as well
+
+    const newRootNotes = [...rootNotes];
     const rootIndex = rootNotes.indexOf(id);
     if (rootIndex !== -1) {
-      newRootNotes = newRootNotes.splice(rootIndex, 1)
+      newRootNotes.splice(rootIndex, 1)
     }
 
     set({ notes: newNotes, rootNotes: newRootNotes });

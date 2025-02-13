@@ -59,8 +59,6 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
     return undefined;
   }, [notes, loadedNote, loading]);
 
-  console.log(noteCollection?.map((x) => x.id))
-
   const visitNote = (id: ID) => {
     setPath(`${path}/${id}`);
   }
