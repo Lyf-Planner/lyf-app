@@ -22,8 +22,6 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
     return pathArray[pathArray.length - 1];
   }, [path])
 
-  console.log('path is', path);
-
   useEffect(() => {
     // if root, the note store initialises with root notes, just wait
     if (selectedId === 'root') {
@@ -104,7 +102,7 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
   return (
     <View style={styles.main}>
       <NoteHeader
-        initialTitle={loadedNote?.title || 'All Notes'}
+        initialTitle={loadedNote ? loadedNote.title : 'All Notes'}
         note={loadedNote}
         loading={loading || !loadedNote}
         onBack={backtrack}

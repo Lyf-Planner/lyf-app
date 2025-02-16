@@ -114,8 +114,23 @@ export const useNoteStore = create<NotesState>((set, get) => ({
     const newNotes = { ...notes };
     delete newNotes[id];
 
-    // TODO LYF-146: Delete reference of this note in it's parent as well
+    // Remove the note from it's parent
+    Object.values(newNotes).forEach((note) => {
+      // Return early if the note has no parents
+      if (!note.relations?.notes?.some((childNote) => childNote.id === id)) {
+        return;
+      }
 
+      if (note.relations?.notes) {
+        const index = note.relations.notes.findIndex((childOfAParent) => childOfAParent.id === id);
+
+        if (index !== -1) {
+          note.relations.notes.splice(index, 1);
+        }
+      }
+    })
+
+    // Remove from root layer
     const newRootNotes = [...rootNotes];
     const rootIndex = rootNotes.indexOf(id);
     if (rootIndex !== -1) {

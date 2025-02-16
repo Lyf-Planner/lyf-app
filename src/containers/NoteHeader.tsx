@@ -50,7 +50,7 @@ export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: P
     setTitle(initialTitle);
   }, [initialTitle])
 
-  if (!note) { // must be root
+  if (note === null) { // must be root
     return (
       <View style={styles.noteHeader}>
         <MaterialCommunityIcons name='note-multiple' size={28} color={white} />
@@ -84,18 +84,13 @@ export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: P
 
         <TextInput // TODO LYF-146: wtf happened here
           autoFocus={isNewNote}
-          onFocus={(e) =>
-          // Workaround for selectTextOnFocus={true} not working
-            e.currentTarget.setNativeProps({
-              selection: { start: 0, end: note.title.length }
-            })
-          }
           value={title}
           style={styles.noteTitle}
           onChangeText={(text) => setTitle(text)}
           onSubmitEditing={updateTitle}
           onEndEditing={updateTitle}
           returnKeyType="done"
+          spellCheck={false}
         />
 
         <View style={styles.headerLeft}>
@@ -129,7 +124,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
     height: 60,
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
 
     shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
@@ -153,8 +148,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     gap: 10,
-    marginLeft: 'auto',
-    marginRight: 8
+    marginLeft: 'auto'
   },
 
   noteTitle: {
@@ -164,7 +158,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Lexend',
     fontSize: 20,
     fontWeight: '400',
-    maxWidth: 275,
+    minWidth: '50%',
+    maxWidth: '50%',
     padding: 8
   },
 
