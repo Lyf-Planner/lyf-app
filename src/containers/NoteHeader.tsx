@@ -1,12 +1,16 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { View, Text, TouchableWithoutFeedback, TouchableOpacity, TextInput, Keyboard, StyleSheet } from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { NoteUsersModal } from './NoteUsersModal';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { CollaborativeIcon } from '@/components/CollaborativeIcon';
+import { Loader } from '@/components/Loader';
+import { NewNoteMenu } from '@/components/NewNoteAdd';
+import { ID } from '@/schema/database/abstract';
 import { NoteType } from '@/schema/database/notes';
 import { UserRelatedNote } from '@/schema/user'
 import { useNoteStore } from '@/store/useNoteStore';
@@ -14,19 +18,51 @@ import { useRootComponentStore } from '@/store/useRootComponent';
 import { black, blackWithOpacity, primaryGreen, white } from '@/utils/colours';
 
 type Props = {
-  note: UserRelatedNote,
+  initialTitle: string;
+  loading: boolean;
+  note: UserRelatedNote | null,
   onBack: () => void;
+  setNoteId: (id: ID) => void;
 }
 
-export const NoteHeader = ({ note, onBack }: Props) => {
+const defaultTitleMap: Record<NoteType, string> = {
+  [NoteType.ListOnly]: 'New List',
+  [NoteType.NoteOnly]: 'New Note',
+  [NoteType.Folder]: 'New Folder'
+}
+
+export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: Props) => {
   const { updateModal } = useRootComponentStore();
-  const { updateNote } = useNoteStore();
-  const [title, setTitle] = useState(note.title);
+  const { updateNote, addNote } = useNoteStore();
+
+  const newNote = (type: NoteType, parent_id?: ID) => {
+    addNote(defaultTitleMap[type], type, parent_id).then((id: ID) => setNoteId(id));
+  };
+
+  const [title, setTitle] = useState(initialTitle);
 
   const isNewNote = useMemo(() =>
-    note.title === 'New List' ||
-    note.title === 'New Note',
-  [note.title]);
+    initialTitle === 'New List' ||
+    initialTitle === 'New Note',
+  [initialTitle]);
+
+  useEffect(() => {
+    setTitle(initialTitle);
+  }, [initialTitle])
+
+  if (note === null) { // must be root
+    return (
+      <View style={styles.noteHeader}>
+        <MaterialCommunityIcons name='note-multiple' size={28} color={white} />
+        <Text style={styles.myNotesTitle}>{title}</Text>
+        <View
+          style={styles.newNoteContainer}
+        >
+          <NewNoteMenu newNote={newNote} />
+        </View>
+      </View>
+    )
+  }
 
   const updateTitle = () => updateNote(note, { title });
 
@@ -46,20 +82,15 @@ export const NoteHeader = ({ note, onBack }: Props) => {
           <Entypo name={'chevron-left'} size={30} color='white' />
         </TouchableOpacity>
 
-        <TextInput
+        <TextInput // TODO LYF-146: wtf happened here
           autoFocus={isNewNote}
-          onFocus={(e) =>
-          // Workaround for selectTextOnFocus={true} not working
-            e.currentTarget.setNativeProps({
-              selection: { start: 0, end: note.title.length }
-            })
-          }
           value={title}
           style={styles.noteTitle}
           onChangeText={(text) => setTitle(text)}
           onSubmitEditing={updateTitle}
           onEndEditing={updateTitle}
           returnKeyType="done"
+          spellCheck={false}
         />
 
         <View style={styles.headerLeft}>
@@ -69,9 +100,17 @@ export const NoteHeader = ({ note, onBack }: Props) => {
             </Text>
           )}
 
-          <BouncyPressable onPress={() => openUserModal()}>
-            <CollaborativeIcon entity={note} type='note' />
-          </BouncyPressable>
+          {loading && (
+            <Loader size={28} color={white} />
+          )}
+          {!loading && (
+            <BouncyPressable onPress={() => openUserModal()}>
+              <CollaborativeIcon entity={note} type='note' />
+            </BouncyPressable>
+          )}
+          {!loading && note.type === NoteType.Folder && (
+            <NewNoteMenu newNote={(type: NoteType) => newNote(type, note.id)}/>
+          )}
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -79,26 +118,37 @@ export const NoteHeader = ({ note, onBack }: Props) => {
 }
 
 const styles = StyleSheet.create({
-  headerLeft: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 10,
-    marginLeft: 'auto',
-    marginRight: 8
-  },
-
   noteHeader: {
     alignItems: 'center',
     backgroundColor: primaryGreen,
     flexDirection: 'row',
-    gap: 8,
-    height: 65,
+    gap: 12,
+    height: 60,
     paddingHorizontal: 10,
+
     shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 2,
     zIndex: 50
+  },
+  myNotesTitle: {
+    color: white,
+    fontFamily: 'Lexend',
+    fontSize: 20,
+    fontWeight: '400'
+  },
+
+  newNoteContainer: {
+    marginLeft: 'auto',
+    marginRight: 5
+  },
+
+  headerLeft: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 10,
+    marginLeft: 'auto'
   },
 
   noteTitle: {
@@ -106,9 +156,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     color: white,
     fontFamily: 'Lexend',
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '400',
-    maxWidth: 275,
+    minWidth: '50%',
+    maxWidth: '50%',
     padding: 8
   },
 

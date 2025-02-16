@@ -25,6 +25,9 @@ export const NewNoteMenu = ({ newNote }: Props) => {
         }, {
           text: '+ 🖊️ List',
           onSelect: () => onOptionSelect(NoteType.ListOnly)
+        }, {
+          text: '+ 📁 Folder',
+          onSelect: () => onOptionSelect(NoteType.Folder)
         }]}
         textAlignment='left'
       >
@@ -45,8 +48,8 @@ const NewNoteButton = () => {
 const styles = StyleSheet.create({
   newNoteContainer: {
     backgroundColor: deepBlue,
-    borderRadius: 5,
-    padding: 4,
+    borderRadius: 10,
+    padding: 6,
 
     shadowColor: black,
     shadowOffset: { width: 2, height: 2 },

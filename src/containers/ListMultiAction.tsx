@@ -61,8 +61,7 @@ export const ListMultiAction = ({
   const addItemByTitle = (title: string) => {
     addItem(newItemType, newItemContext.sorting_rank, {
       title,
-      date: newItemContext.date || undefined,
-      day: newItemContext.day || undefined
+      ...newItemContext
     });
   }
 

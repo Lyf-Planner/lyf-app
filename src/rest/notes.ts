@@ -3,6 +3,7 @@ import { ID } from '@/schema/database/abstract';
 import { Permission } from '@/schema/database/items_on_users';
 import { NoteDbObject } from '@/schema/database/notes';
 import { Note, NoteRelatedUser } from '@/schema/notes';
+import { UserRelatedNote } from '@/schema/user';
 import { SocialAction } from '@/schema/util/social';
 
 const notesEndpoint = (req: string) => `/notes/${req}`;
@@ -19,8 +20,8 @@ export async function myNotes() {
   }
 }
 
-export async function getNote(id: string) {
-  const endpoint = notesEndpoint(`get?id=${id}&include=users`)
+export async function getNote(id: string): Promise<UserRelatedNote | undefined> {
+  const endpoint = notesEndpoint(`get?id=${id}&include=users,notes,items`);
 
   const result = await get(endpoint);
   const note = result.data;

@@ -196,6 +196,7 @@ export const DayDisplay = ({
   // TODO LYF-654:
   // Pressing the day handle does nothing now
   // Should make it provide info about the day, like weather and public holidays
+  // Either way there's room for a feature here :)
 
   return (
     <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>

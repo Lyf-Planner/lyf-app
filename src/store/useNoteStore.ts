@@ -23,6 +23,7 @@ import { AddNote, RemoveNote, UpdateNote, UpdateNoteItem, UpdateNoteSocial } fro
 
 export type NotesState = {
   loading: boolean,
+  rootNotes: ID[],
   notes: Record<ID, UserRelatedNote>,
 
   reload: () => Promise<void>,
@@ -37,30 +38,49 @@ export type NotesState = {
 
 export const useNoteStore = create<NotesState>((set, get) => ({
   loading: true,
+  rootNotes: [],
   notes: {},
 
   reload: async () => {
+    const { notes } = get();
+
     set({ loading: true });
     const cloudNotes = await myNotes() as UserRelatedNote[];
-    const notes: Record<ID, UserRelatedNote> = {};
+    const newRootNotes: Record<ID, UserRelatedNote> = {};
 
     cloudNotes.forEach((note) => {
-      notes[note.id] = note;
+      newRootNotes[note.id] = note;
     })
 
-    set({ notes, loading: false });
+    set({
+      notes: { ...notes, ...newRootNotes },
+      rootNotes: Object.keys(newRootNotes),
+      loading: false
+    });
   },
 
   loadNote: async (id: ID) => {
     const { notes } = get();
-    const note = await getNote(id);
-    set({ notes: { ...notes, [id]: note } });
+    set({ loading: true });
+
+    const loadedNote = await getNote(id);
+    if (!loadedNote) {
+      return;
+    }
+
+    const loadedNoteChildren = loadedNote?.relations.notes ?? [];
+    const noteChildrenObject: Record<ID, UserRelatedNote> = {};
+    loadedNoteChildren.forEach((note) => noteChildrenObject[note.id] = note);
+
+    // add the loaded note, and also all it's children for a smarter cache
+    set({ notes: { ...notes, [id]: loadedNote, ...noteChildrenObject }, loading: false });
   },
 
-  addNote: async (title: string, type: NoteType) => {
-    const { notes } = get();
-    const newNote: UserRelatedNote = {
+  addNote: async (title: string, type: NoteType, parent_id?: ID) => {
+    const { notes, rootNotes } = get();
+    const newNote: UserRelatedNote & { parent_id?: ID } = {
       id: uuid(),
+      parent_id,
       created: new Date(),
       last_updated: new Date(),
       title,
@@ -73,6 +93,9 @@ export const useNoteStore = create<NotesState>((set, get) => ({
     };
 
     set({ notes: { ...notes, [newNote.id]: newNote } });
+    if (!parent_id) {
+      set({ rootNotes: rootNotes.concat([newNote.id]) })
+    }
 
     // Upload in background, remove from store on failure
     try {
@@ -87,9 +110,34 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
   removeNote: async (id: ID, deleteRemote = true) => {
     // Remove from this store
-    const { notes } = get();
-    delete notes[id];
-    set({ notes });
+    const { notes, rootNotes } = get();
+    const newNotes = { ...notes };
+    delete newNotes[id];
+
+    // Remove the note from it's parent
+    Object.values(newNotes).forEach((note) => {
+      // Return early if the note has no parents
+      if (!note.relations?.notes?.some((childNote) => childNote.id === id)) {
+        return;
+      }
+
+      if (note.relations?.notes) {
+        const index = note.relations.notes.findIndex((childOfAParent) => childOfAParent.id === id);
+
+        if (index !== -1) {
+          note.relations.notes.splice(index, 1);
+        }
+      }
+    })
+
+    // Remove from root layer
+    const newRootNotes = [...rootNotes];
+    const rootIndex = rootNotes.indexOf(id);
+    if (rootIndex !== -1) {
+      newRootNotes.splice(rootIndex, 1)
+    }
+
+    set({ notes: newNotes, rootNotes: newRootNotes });
 
     if (deleteRemote) {
       await deleteNote(id);
@@ -175,7 +223,7 @@ export const useNoteStore = create<NotesState>((set, get) => ({
   },
 
   handleNoteItemUpdate: async (item: ItemDbObject, changes: Partial<ItemDbObject>, remove = false) => {
-    // This function is merely a store update, the item itself gets updated when passed here by the item store.
+    // This function is merely a store update, the remote item gets updated before being passed here by the item store.
     if (!item.note_id) {
       console.warn('Escaping note item update - item has no note_id');
       return;
