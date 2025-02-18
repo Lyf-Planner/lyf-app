@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, Platform, Alert } from 'react-native';
 
 import * as Haptics from 'expo-haptics';
@@ -8,6 +8,7 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated';
 import debouncer from 'signature-debouncer';
+import { v4 as uuid } from 'uuid';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { Vertical } from '@/components/Vertical';
@@ -54,8 +55,10 @@ export const DayDisplay = ({
   useRoutine = false,
   shadowOffset
 }: DayProps) => {
-  const { reload, resortItems, startDate, endDate } = useTimetableStore();
+  const { reload, startDate, endDate } = useTimetableStore();
   const { user, updateUser } = useAuthStore();
+
+  const [sortingTrigger, setSortingTrigger] = useState({ activate: false, id: uuid() });
 
   const allDone = useMemo(
     () =>
@@ -193,14 +196,10 @@ export const DayDisplay = ({
     }
   }
 
-  // TODO LYF-654:
-  // Pressing the day handle does nothing now
-  // Should make it provide info about the day, like weather and public holidays
-  // Either way there's room for a feature here :)
-
   return (
     <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
       <BouncyPressable
+        onPress={() => setSortingTrigger({ activate: !sortingTrigger.activate, id: uuid() })}
         onLongPress={() => finishDay()}
       >
         <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
@@ -232,6 +231,7 @@ export const DayDisplay = ({
             date: date || undefined,
             day: date || undefined
           }}
+          sortingTrigger={sortingTrigger}
         />
       </View>
     </Animated.View>

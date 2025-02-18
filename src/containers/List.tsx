@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import DraggableFlatlist, { RenderItemParams } from 'react-native-draggable-flatlist';
@@ -11,13 +11,14 @@ import { LocalItem } from '@/schema/items';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { LyfElement } from '@/utils/abstractTypes';
 
-type Props = {
+interface Props {
   fixedType?: ItemType;
   items: LocalItem[];
   itemStyleOptions: ItemStyleOptions;
   listWrapperStyles?: object;
   newItemContext: Partial<LocalItem>;
-};
+  sortingTrigger?: { activate: boolean };
+}
 
 type DragEndProps = {
   data: LocalItem[],
@@ -35,7 +36,8 @@ export const List = ({
   items,
   itemStyleOptions,
   listWrapperStyles = {},
-  newItemContext
+  newItemContext,
+  sortingTrigger
 }: Props) => {
   const { resortItems } = useTimetableStore();
 
@@ -50,6 +52,18 @@ export const List = ({
   }), [items]);
 
   const [state, setState] = useState<States>(States.DEFAULT);
+
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    if (sortingTrigger) {
+      setState(sortingTrigger.activate ? States.EDIT : States.DEFAULT);
+    }
+  }, [sortingTrigger])
 
   const onDragEnd = ({ data: items }: DragEndProps) => {
     resortItems(items, isNoteList);
@@ -105,6 +119,7 @@ export const List = ({
           ...newItemContext,
           sorting_rank: listItems.length
         }}
+        editActiveTrigger={sortingTrigger}
         editCallback={() => setState(States.EDIT)}
         editDoneCallback={() => setState(States.DEFAULT)}
       />
