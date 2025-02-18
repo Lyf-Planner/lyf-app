@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -17,6 +17,7 @@ export type ItemContext = Partial<LocalItem> & {
 }
 
 type Props = {
+  editActiveTrigger?: { activate: boolean }
   fixedType?: ItemType;
   newItemContext: ItemContext;
   addCallback?: () => void;
@@ -25,6 +26,7 @@ type Props = {
 }
 
 export const ListMultiAction = ({
+  editActiveTrigger,
   fixedType,
   newItemContext,
   addCallback,
@@ -38,6 +40,18 @@ export const ListMultiAction = ({
 
   const [newItemType, setNewItemType] = useState<ItemType>(fixedType ?? ItemType.Event);
   const actionContentColor = eventsBadgeColor;
+
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    if (editActiveTrigger) {
+      setEditActive(editActiveTrigger.activate)
+    }
+  }, [editActiveTrigger])
 
   const toggleAddActive = () => {
     if (!addActive && addCallback) {
