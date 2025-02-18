@@ -113,20 +113,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: 'column',
     gap: 6,
-    height: 450,
-    maxHeight: 600,
+    height: Platform.OS === 'web' ? 600 : 450,
+    maxHeight: Platform.OS === 'web' ? 600 : 450,
     paddingBottom: Platform.OS === 'web' ? 30 : 15,
     paddingHorizontal: 15,
     paddingTop: 30,
+
     shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 10,
     width: Platform.OS === 'web' ? 450 : 375
-  },
-  scrollContainer: {
-    alignItems: 'center',
-    flexDirection: 'column'
   },
   title: { fontFamily: 'Lexend', fontSize: 22, fontWeight: '700' },
   touchable: {
@@ -138,10 +135,17 @@ const styles = StyleSheet.create({
     top: 20,
     zIndex: 50
   },
+  scrollContainer: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    paddingBottom: 50
+  },
   userScroll: {
+    height: 350,
     maxHeight: 350,
     overflow: 'hidden',
-    paddingHorizontal: 8
+    paddingHorizontal: 8,
+    paddingVertical: 16
   }
 });
 
