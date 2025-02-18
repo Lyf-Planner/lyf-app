@@ -12,7 +12,7 @@ type Props = {
   onPress: () => void;
 }
 
-export const DayAction = ({
+export const ListAction = ({
   backgroundColor,
   color,
   containerStyle,

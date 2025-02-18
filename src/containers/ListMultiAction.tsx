@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import { DayAction } from '@/components/DayAction';
+import { ListAction } from '@/components/ListAction';
 import { NewItemV2 } from '@/components/NewItemV2';
 import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
@@ -77,7 +77,7 @@ export const ListMultiAction = ({
       )}
 
       <View style={styles.addOrEditWrapper}>
-        <DayAction
+        <ListAction
           text="Add"
           backgroundColor={deepBlue}
           containerStyle={[
@@ -94,7 +94,7 @@ export const ListMultiAction = ({
           )}
           onPress={toggleAddActive}
         />
-        <DayAction
+        <ListAction
           text="Edit"
           containerStyle={[
             styles.addOrEditActionContainer,

@@ -82,7 +82,7 @@ export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: P
           <Entypo name={'chevron-left'} size={30} color='white' />
         </TouchableOpacity>
 
-        <TextInput // TODO LYF-146: wtf happened here
+        <TextInput
           autoFocus={isNewNote}
           value={title}
           style={styles.noteTitle}
