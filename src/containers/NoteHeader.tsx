@@ -75,6 +75,10 @@ export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: P
     updateModal(<NoteUsersModal note={note} users={note.relations.users} />)
   }
 
+  const conditionalStyles = {
+    collaborative: { opacity: note.collaborative ? 1 : 0.5 }
+  }
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.noteHeader}>
@@ -104,7 +108,7 @@ export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: P
             <Loader size={28} color={white} />
           )}
           {!loading && (
-            <BouncyPressable onPress={() => openUserModal()}>
+            <BouncyPressable onPress={() => openUserModal()} containerStyle={conditionalStyles.collaborative}>
               <CollaborativeIcon entity={note} type='note' />
             </BouncyPressable>
           )}
