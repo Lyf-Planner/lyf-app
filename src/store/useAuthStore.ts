@@ -74,17 +74,21 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ user: null });
   },
 
-  syncUser: () => getAsyncData('token').then((token) => {
+  syncUser: () => getAsyncData('token').then(async (token) => {
     if (token) {
-      autologin().then((user) => {
-        if (user) {
-          const tz = getCalendars()[0].timeZone || undefined;
-          get().updateUser({
-            ...user,
-            tz
-          });
-        }
-      });
+      const user = await autologin();
+      if (user) {
+        const tz = getCalendars()[0].timeZone || undefined;
+        get().updateUser({
+          ...user,
+          tz
+        });
+      } else {
+        // autologin failed, token must be no good
+        console.debug('autologin failed');
+        deleteAsyncData('token');
+        set({ loggingIn: false });
+      }
     } else {
       console.warn('No token found for autologin');
       set({ loggingIn: false });
