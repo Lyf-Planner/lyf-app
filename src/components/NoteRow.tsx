@@ -2,10 +2,12 @@ import { SyntheticEvent, useEffect, useRef } from 'react';
 import { StyleSheet, View, Text, Platform, Alert } from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { BouncyPressable } from '@/components/BouncyPressable';
 import { CollaborativeIcon } from '@/components/CollaborativeIcon';
 import { NoteTypeBadge } from '@/components/NoteTypeBadge';
+import { LyfMenu } from '@/containers/LyfMenu';
 import { UserRelatedNote } from '@/schema/user';
 import { useNoteStore } from '@/store/useNoteStore';
 import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
@@ -70,10 +72,21 @@ export const NoteRow = ({
   }
 
   return (
-    <BouncyPressable
+    <LyfMenu
       onPress={onSelect}
-      onLongPress={() => handleDeletion()}
-      style={styles.bannerView}
+      options={[{
+        icon: <FontAwesome5Icon name="sort" size={22} />,
+        text: 'Sort',
+        onSelect: () => null // TODO LYF-666 Make this enter sorting mode
+      }, {
+        icon: <MaterialCommunityIcons name="folder-move" size={22} />,
+        text: 'Move',
+        onSelect: () => null // TODO LYF-667 Make this enter moving mode
+      }]}
+      pressableOptions={{
+        containerStyle: styles.bannerView
+      }}
+      useLongPress
     >
       <View
         style={styles.touchableHighlight}
@@ -92,7 +105,7 @@ export const NoteRow = ({
           <Entypo name={'chevron-right'} size={25} color='white' />
         </View>
       </View>
-    </BouncyPressable>
+    </LyfMenu>
   );
 };
 

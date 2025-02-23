@@ -8,12 +8,15 @@ import { blackWithOpacity } from '@/utils/colours';
 
 export type LyfMenuProps = {
   children: JSX.Element; // The menu will display when this is pressed!
-  pressableOptions?: BouncyPressableOptions;
+  onPress?: () => void; // used as a default fallback for pressing if useLongPress is provided
   options: PopoverMenuOption[];
+  pressableOptions?: BouncyPressableOptions;
   textAlignment?: 'center' | 'auto' | 'left' | 'right' | 'justify' | undefined;
+  useLongPress?: boolean;
 };
 
 export type PopoverMenuOption = {
+  icon?: JSX.Element;
   text: string;
   onSelect: () => void;
 };
@@ -27,10 +30,12 @@ export enum MenuPopoverPlacement {
 }
 
 export const LyfMenu = ({
+  children,
+  onPress = () => null,
+  options,
   pressableOptions = {},
   textAlignment = 'center',
-  options,
-  children
+  useLongPress = false
 }: LyfMenuProps) => {
   const conditionalStyles = {
     optionText: {
@@ -44,7 +49,9 @@ export const LyfMenu = ({
       from={(_sourceRef, showPopover) => (
         <View>
           <BouncyPressable
-            onPress={showPopover}
+            onPress={useLongPress ? onPress : showPopover}
+            onLongPress={useLongPress ? showPopover : undefined}
+            longPressDuration={100}
             {...pressableOptions}
           >
             {children}
@@ -52,10 +59,11 @@ export const LyfMenu = ({
         </View>
       )}>
       <View style={styles.optionsWrapper}>
-        {options.map(({ text, onSelect }, i) => (
+        {options.map(({ icon, text, onSelect }, i) => (
           <View key={text}>
             <TouchableOpacity onPress={onSelect} style={styles.optionWrapper}>
-              <Text style={[styles.optionText, conditionalStyles.optionText]}>
+              {icon}
+              <Text numberOfLines={1} style={[styles.optionText, conditionalStyles.optionText]}>
                 {text}
               </Text>
             </TouchableOpacity>
@@ -69,7 +77,14 @@ export const LyfMenu = ({
 
 const styles = StyleSheet.create({
   optionText: { color: blackWithOpacity(0.7), fontFamily: 'Lexend', fontSize: 18 },
-  optionWrapper: { marginHorizontal: 8, marginVertical: 8 },
+  optionWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 4,
+    justifyContent: 'space-evenly',
+    marginHorizontal: 8,
+    marginVertical: 8
+  },
   optionsContainer: {
     borderColor: blackWithOpacity(0.5),
     borderRadius: 10,
