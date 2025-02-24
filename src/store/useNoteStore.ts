@@ -23,12 +23,16 @@ import { AddNote, RemoveNote, UpdateNote, UpdateNoteItem, UpdateNoteSocial } fro
 
 export type NotesState = {
   loading: boolean,
-  rootNotes: ID[],
+  moving: boolean;
   notes: Record<ID, UserRelatedNote>,
+  rootNotes: ID[],
+  sorting: boolean;
 
   reload: () => Promise<void>,
   loadNote: (id: ID) => Promise<void>,
 
+  setMoving: (moving: boolean) => void,
+  setSorting: (sorting: boolean) => void,
   updateNote: UpdateNote,
   handleNoteItemUpdate: UpdateNoteItem,
   updateNoteSocial: UpdateNoteSocial,
@@ -38,8 +42,10 @@ export type NotesState = {
 
 export const useNoteStore = create<NotesState>((set, get) => ({
   loading: true,
-  rootNotes: [],
+  moving: false,
   notes: {},
+  rootNotes: [],
+  sorting: false,
 
   reload: async () => {
     const { notes } = get();
@@ -142,6 +148,14 @@ export const useNoteStore = create<NotesState>((set, get) => ({
     if (deleteRemote) {
       await deleteNote(id);
     }
+  },
+
+  setMoving: (moving: boolean) => {
+    set({ moving })
+  },
+
+  setSorting: (sorting: boolean) => {
+    set({ sorting })
   },
 
   updateNote: async (note: UserRelatedNote, changes: Partial<UserRelatedNote>, updateRemote = true) => {

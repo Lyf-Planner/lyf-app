@@ -7,10 +7,12 @@ import { NoteType } from '@/schema/database/notes';
 import { UserRelatedNote } from '@/schema/user'
 
 type Props = {
+  moving: boolean;
   notes: UserRelatedNote[],
   loading: boolean,
   parent: UserRelatedNote | null,
   setNoteId: (id: ID, isFolder?: boolean) => void;
+  sorting: boolean;
 }
 
 export const NoteCollection = ({ notes, loading, parent, setNoteId }: Props) => {
@@ -28,9 +30,9 @@ export const NoteCollection = ({ notes, loading, parent, setNoteId }: Props) => 
           <View style={styles.noteRowWrapper}>
             {notes.map((x) => (
               <NoteRow
+                key={x.id}
                 note={x}
                 onSelect={() => setNoteId(x.id, x.type === NoteType.Folder)}
-                key={x.id}
               />
             ))}
 

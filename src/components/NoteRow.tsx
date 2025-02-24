@@ -7,10 +7,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import { CollaborativeIcon } from '@/components/CollaborativeIcon';
 import { NoteTypeBadge } from '@/components/NoteTypeBadge';
+import { SortingHandle } from '@/components/SortingHandle';
 import { LyfMenu } from '@/containers/LyfMenu';
+import { NoteType } from '@/schema/database/notes';
 import { UserRelatedNote } from '@/schema/user';
 import { useNoteStore } from '@/store/useNoteStore';
-import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
+import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
 
 type Props = {
   note: UserRelatedNote,
@@ -21,7 +23,7 @@ export const NoteRow = ({
   note,
   onSelect
 }: Props) => {
-  const { removeNote } = useNoteStore();
+  const { moving, sorting, removeNote, setSorting, setMoving } = useNoteStore();
   // Web Right Click detection
   //
   //   React Native won't recognise that we're performing this on a div,
@@ -71,20 +73,28 @@ export const NoteRow = ({
     )
   }
 
+  const conditionalStyles = {
+    bannerView: {
+      opacity: note.type !== NoteType.Folder && moving ? 0.75 : 1
+    }
+  }
+
   return (
     <LyfMenu
+      // TODO LYF-667: Disable presses on non-folder notes when moving
+      // TODO LYF-667: Holding this down when moving should give an option to finish move
       onPress={onSelect}
       options={[{
         icon: <FontAwesome5Icon name="sort" size={22} />,
         text: 'Sort',
-        onSelect: () => null // TODO LYF-666 Make this enter sorting mode
+        onSelect: () => setSorting(!sorting)
       }, {
         icon: <MaterialCommunityIcons name="folder-move" size={22} />,
         text: 'Move',
-        onSelect: () => null // TODO LYF-667 Make this enter moving mode
+        onSelect: () => setMoving(!moving)
       }]}
       pressableOptions={{
-        containerStyle: styles.bannerView
+        containerStyle: [styles.bannerView, conditionalStyles.bannerView]
       }}
       useLongPress
     >
@@ -100,10 +110,22 @@ export const NoteRow = ({
         >
           {note.title}
         </Text>
-        <View style={styles.rowLeft}>
-          {note.collaborative && <CollaborativeIcon entity={note} type='note' />}
-          <Entypo name={'chevron-right'} size={25} color='white' />
-        </View>
+        {sorting && ( // TODO LYF-666 Fix this style and make sorting functional
+          <View style={{ height: '100%', width: '100%' }}>
+            <SortingHandle
+              disabled
+              backgroundColor={eventsBadgeColor}
+              iconColor={deepBlue}
+            />
+          </View>
+        )}
+
+        {!sorting && (
+          <View style={styles.rowLeft}>
+            {note.collaborative && <CollaborativeIcon entity={note} type='note' />}
+            <Entypo name={'chevron-right'} size={25} color='white' />
+          </View>
+        )}
       </View>
     </LyfMenu>
   );

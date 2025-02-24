@@ -13,10 +13,10 @@ import { NoteType } from '@/schema/database/notes';
 import { useNoteStore } from '@/store/useNoteStore';
 
 export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
-  const { loading, notes, rootNotes, loadNote } = useNoteStore();
+  const { loading, moving, notes, rootNotes, sorting, setMoving, setSorting, loadNote } = useNoteStore();
 
-  // this only pertains to the first navigation to notes, not note-to-note navigation
   const [path, setPath] = useState<string>('root');
+
   const selectedId = useMemo(() => {
     const pathArray = path.split('/');
     return pathArray[pathArray.length - 1];
@@ -77,13 +77,11 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
   if (noteCollection && (loadedNote || selectedId === 'root')) {
     body = (
       <NoteCollection
-        parent={loadedNote}
-        notes={noteCollection || []}
         loading={!noteCollection}
+        notes={noteCollection || []}
+        parent={loadedNote}
         setNoteId={visitNote}
-      >
-
-      </NoteCollection>
+      />
     );
   } else if (loadedNote) {
     body = (
