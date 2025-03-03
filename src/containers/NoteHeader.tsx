@@ -21,6 +21,7 @@ type Props = {
   initialTitle: string;
   loading: boolean;
   note: UserRelatedNote | null,
+  totalNotes: number,
   onBack: () => void;
   setNoteId: (id: ID) => void;
 }
@@ -31,12 +32,12 @@ const defaultTitleMap: Record<NoteType, string> = {
   [NoteType.Folder]: 'New Folder'
 }
 
-export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: Props) => {
+export const NoteHeader = ({ initialTitle, loading, note, totalNotes, onBack, setNoteId }: Props) => {
   const { updateModal } = useRootComponentStore();
   const { updateNote, addNote } = useNoteStore();
 
   const newNote = (type: NoteType, parent_id?: ID) => {
-    addNote(defaultTitleMap[type], type, parent_id).then((id: ID) => setNoteId(id));
+    addNote(defaultTitleMap[type], type, totalNotes, parent_id).then((id: ID) => setNoteId(id));
   };
 
   const [title, setTitle] = useState(initialTitle);

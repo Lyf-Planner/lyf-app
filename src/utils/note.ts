@@ -14,5 +14,6 @@ export type UpdateNoteSocial = (
   permission: Permission
 ) => Promise<void>;
 
-export type AddNote = (title: string, type: NoteType, parent_id?: ID) => Promise<ID>;
+export type AddNote = (title: string, type: NoteType, rank: number, parent_id?: ID) => Promise<ID>;
 export type RemoveNote = (id: string, deleteRemote?: boolean) => Promise<void>;
+export type SortNotes = (parent_id: ID, priorities: ID[]) => Promise<void>;

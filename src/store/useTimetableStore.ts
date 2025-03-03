@@ -34,7 +34,7 @@ export type TimetableState = {
   addItem: AddItem,
   addToStore: AddToStore,
   removeItem: RemoveItem,
-  resortItems: ResortItems
+  resortItems: ResortItems // TODO LYF-666 While you're at it change this to just 'sortItems'
 }
 
 export const useTimetableStore = create<TimetableState>((set, get) => ({

@@ -13,6 +13,7 @@ export type LyfMenuProps = {
   pressableOptions?: BouncyPressableOptions;
   textAlignment?: 'center' | 'auto' | 'left' | 'right' | 'justify' | undefined;
   useLongPress?: boolean;
+  useHold?: boolean;
 };
 
 export type PopoverMenuOption = {
@@ -35,7 +36,8 @@ export const LyfMenu = ({
   options,
   pressableOptions = {},
   textAlignment = 'center',
-  useLongPress = false
+  useLongPress = false,
+  useHold = false
 }: LyfMenuProps) => {
   const conditionalStyles = {
     optionText: {
@@ -49,9 +51,10 @@ export const LyfMenu = ({
       from={(_sourceRef, showPopover) => (
         <View>
           <BouncyPressable
-            onPress={useLongPress ? onPress : showPopover}
-            onLongPress={useLongPress ? showPopover : undefined}
-            longPressDuration={100}
+            onPress={!useLongPress && !useHold ? showPopover : onPress} // TODO improve this hard to read logic
+            onLongPress={useLongPress && !useHold ? showPopover : undefined}
+            onPressIn={useHold ? onPress : undefined}
+            longPressDuration={150}
             {...pressableOptions}
           >
             {children}

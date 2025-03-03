@@ -10,6 +10,7 @@ import {
   deleteNote,
   getNote,
   myNotes,
+  sortNotes,
   updateNote as updateRemoteNote,
   updateNoteSocial as updateRemoteNoteSocial
 } from '@/rest/notes';
@@ -19,7 +20,7 @@ import { Permission } from '@/schema/database/items_on_users';
 import { NoteType } from '@/schema/database/notes';
 import { UserRelatedNote } from '@/schema/user';
 import { SocialAction } from '@/schema/util/social';
-import { AddNote, RemoveNote, UpdateNote, UpdateNoteItem, UpdateNoteSocial } from '@/utils/note';
+import { AddNote, RemoveNote, SortNotes, UpdateNote, UpdateNoteItem, UpdateNoteSocial } from '@/utils/note';
 
 export type NotesState = {
   loading: boolean,
@@ -38,6 +39,7 @@ export type NotesState = {
   updateNoteSocial: UpdateNoteSocial,
   addNote: AddNote,
   removeNote: RemoveNote
+  sortNotes: SortNotes
 }
 
 export const useNoteStore = create<NotesState>((set, get) => ({
@@ -74,15 +76,13 @@ export const useNoteStore = create<NotesState>((set, get) => ({
       return;
     }
 
-    const loadedNoteChildren = loadedNote?.relations.notes ?? [];
     const noteChildrenObject: Record<ID, UserRelatedNote> = {};
-    loadedNoteChildren.forEach((note) => noteChildrenObject[note.id] = note);
 
     // add the loaded note, and also all it's children for a smarter cache
     set({ notes: { ...notes, [id]: loadedNote, ...noteChildrenObject }, loading: false });
   },
 
-  addNote: async (title: string, type: NoteType, parent_id?: ID) => {
+  addNote: async (title: string, type: NoteType, rank: number, parent_id?: ID) => {
     const { notes, rootNotes } = get();
     const newNote: UserRelatedNote & { parent_id?: ID } = {
       id: uuid(),
@@ -95,7 +95,8 @@ export const useNoteStore = create<NotesState>((set, get) => ({
       collaborative: false,
       invite_pending: false,
       permission: Permission.Owner,
-      relations: {}
+      relations: {},
+      default_sorting_rank: rank
     };
 
     set({ notes: { ...notes, [newNote.id]: newNote } });
@@ -263,6 +264,53 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
     const noteChanges = { relations: { ...note.relations, items: noteItems } }
     get().updateNote(note, noteChanges, false);
+  },
+
+  sortNotes: async (parent_id: ID, priorities: ID[]) => {
+    if (priorities.length === 0) {
+      return;
+    }
+
+    const { notes, updateNote } = get();
+
+    // for root we can't sort via the relation on the children
+    // instead we update each notes default_sorting_rank
+    if (parent_id === 'root') {
+      for (const i in priorities) {
+        const id = priorities[i];
+        if (!notes[id]) {
+          console.error('note', id, 'should have been loaded before sorting, as a root note');
+          return;
+        }
+
+        updateNote(notes[id], { default_sorting_rank: parseInt(i, 10) });
+      }
+      return;
+    }
+
+    if (!notes[parent_id].relations.notes) {
+      console.error('parent note or parent note children could not be found');
+      return;
+    }
+
+    const newNoteChildren = [];
+    for (const childNote of notes[parent_id].relations.notes) {
+      newNoteChildren.push({
+        ...childNote,
+        sorting_rank: priorities.indexOf(childNote.id)
+      })
+    }
+
+    const newParentNote = {
+      ...notes[parent_id],
+      relations: {
+        ...notes[parent_id].relations,
+        notes: newNoteChildren
+      }
+    }
+
+    updateNote(notes[parent_id], newParentNote, false);
+    sortNotes(parent_id, priorities); // tell the backend
   }
 }));
 

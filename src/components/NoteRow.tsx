@@ -9,18 +9,19 @@ import { CollaborativeIcon } from '@/components/CollaborativeIcon';
 import { NoteTypeBadge } from '@/components/NoteTypeBadge';
 import { SortingHandle } from '@/components/SortingHandle';
 import { LyfMenu } from '@/containers/LyfMenu';
-import { NoteType } from '@/schema/database/notes';
-import { UserRelatedNote } from '@/schema/user';
+import { NoteDbObject, NoteType } from '@/schema/database/notes';
 import { useNoteStore } from '@/store/useNoteStore';
 import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
 
 type Props = {
-  note: UserRelatedNote,
+  note: NoteDbObject,
+  onDrag?: () => void;
   onSelect: () => void;
 }
 
 export const NoteRow = ({
   note,
+  onDrag,
   onSelect
 }: Props) => {
   const { moving, sorting, removeNote, setSorting, setMoving } = useNoteStore();
@@ -83,15 +84,20 @@ export const NoteRow = ({
     <LyfMenu
       // TODO LYF-667: Disable presses on non-folder notes when moving
       // TODO LYF-667: Holding this down when moving should give an option to finish move
-      onPress={onSelect}
+      onPress={onDrag || onSelect}
+      useHold={!!onDrag}
       options={[{
-        icon: <FontAwesome5Icon name="sort" size={22} />,
-        text: 'Sort',
-        onSelect: () => setSorting(!sorting)
+        icon: <MaterialCommunityIcons name="delete" size={22} />,
+        text: 'Delete',
+        onSelect: () => handleDeletion()
       }, {
         icon: <MaterialCommunityIcons name="folder-move" size={22} />,
         text: 'Move',
         onSelect: () => setMoving(!moving)
+      }, {
+        icon: <FontAwesome5Icon name="sort" size={22} />,
+        text: 'Sort',
+        onSelect: () => setSorting(!sorting)
       }]}
       pressableOptions={{
         containerStyle: [styles.bannerView, conditionalStyles.bannerView]
@@ -111,7 +117,7 @@ export const NoteRow = ({
           {note.title}
         </Text>
         {sorting && ( // TODO LYF-666 Fix this style and make sorting functional
-          <View style={{ height: '100%', width: '100%' }}>
+          <View style={styles.rowLeft}>
             <SortingHandle
               disabled
               backgroundColor={eventsBadgeColor}

@@ -128,7 +128,6 @@ export const Calendar = () => {
                     <BouncyPressable
                       onPress={() => addWeek()}
                       style={styles.addWeekTouchable}
-                      useTouchableHighlight
                     >
                       <View style={styles.addWeekView}>
                         <Entypo name="chevron-down" size={20} />
@@ -198,7 +197,6 @@ export const Calendar = () => {
                 <BouncyPressable
                   onPress={() => addWeek()}
                   style={styles.addWeekTouchable}
-                  useTouchableHighlight
                 >
                   <View style={styles.addWeekView}>
                     <Entypo name="chevron-down" size={20} />
