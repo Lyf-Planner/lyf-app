@@ -26,6 +26,10 @@ const isChildNote = (note: UserRelatedNote | ChildNote): note is ChildNote => {
   return note && 'sorting_rank' in note;
 }
 
+const isUserRelatedNote = (note: UserRelatedNote | ChildNote): note is UserRelatedNote => {
+  return note && 'sorting_rank_preference' in note;
+}
+
 export const NoteCollection = ({ notes, loading, parent, setNoteId }: Props) => {
   const { sorting, setSorting, sortNotes } = useNoteStore();
 
@@ -34,7 +38,11 @@ export const NoteCollection = ({ notes, loading, parent, setNoteId }: Props) => 
       return a.sorting_rank - b.sorting_rank;
     }
 
-    return a.default_sorting_rank - b.default_sorting_rank;
+    if (isUserRelatedNote(a) && isUserRelatedNote(b)) {
+      return a.sorting_rank_preference - b.sorting_rank_preference;
+    }
+
+    return 0;
   }), [notes]);
 
   const onDragEnd = ({ data: notes }: DragEndParams<UserRelatedNote | ChildNote>) => {
@@ -50,7 +58,7 @@ export const NoteCollection = ({ notes, loading, parent, setNoteId }: Props) => 
       return note.id + note.sorting_rank;
     }
 
-    return note.id + note.default_sorting_rank;
+    return note.id + note.sorting_rank_preference;
   }, [sortedNotes]);
 
   const conditionalStyles = {

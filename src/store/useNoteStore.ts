@@ -96,7 +96,7 @@ export const useNoteStore = create<NotesState>((set, get) => ({
       invite_pending: false,
       permission: Permission.Owner,
       relations: {},
-      default_sorting_rank: rank
+      sorting_rank_preference: rank
     };
 
     set({ notes: { ...notes, [newNote.id]: newNote } });
@@ -283,7 +283,7 @@ export const useNoteStore = create<NotesState>((set, get) => ({
           return;
         }
 
-        updateNote(notes[id], { default_sorting_rank: parseInt(i, 10) });
+        updateNote(notes[id], { sorting_rank_preference: parseInt(i, 10) });
       }
       return;
     }
