@@ -9,6 +9,7 @@ import {
   createNote,
   deleteNote,
   getNote,
+  moveNote,
   myNotes,
   sortNotes,
   updateNote as updateRemoteNote,
@@ -24,7 +25,8 @@ import { AddNote, RemoveNote, SortNotes, UpdateNote, UpdateNoteItem, UpdateNoteS
 
 export type NotesState = {
   loading: boolean,
-  moving: boolean;
+  moving: string | null;
+  movingFrom: string | null;
   notes: Record<ID, UserRelatedNote>,
   rootNotes: ID[],
   sorting: boolean;
@@ -32,19 +34,21 @@ export type NotesState = {
   reload: () => Promise<void>,
   loadNote: (id: ID) => Promise<void>,
 
-  setMoving: (moving: boolean) => void,
-  setSorting: (sorting: boolean) => void,
-  updateNote: UpdateNote,
-  handleNoteItemUpdate: UpdateNoteItem,
-  updateNoteSocial: UpdateNoteSocial,
   addNote: AddNote,
-  removeNote: RemoveNote
-  sortNotes: SortNotes
+  handleNoteItemUpdate: UpdateNoteItem,
+  moveNote: (id: ID, target: ID) => Promise<void>,
+  removeNote: RemoveNote,
+  setMoving: (id: ID | null, from: ID | null) => void,
+  setSorting: (sorting: boolean) => void,
+  sortNotes: SortNotes,
+  updateNote: UpdateNote,
+  updateNoteSocial: UpdateNoteSocial,
 }
 
 export const useNoteStore = create<NotesState>((set, get) => ({
   loading: true,
-  moving: false,
+  moving: null,
+  movingFrom: null,
   notes: {},
   rootNotes: [],
   sorting: false,
@@ -115,6 +119,33 @@ export const useNoteStore = create<NotesState>((set, get) => ({
     return newNote.id;
   },
 
+  moveNote: async (id: ID, target: ID) => {
+    const { movingFrom, notes, rootNotes, loadNote } = get();
+    set({ loading: true });
+
+    await moveNote(id, target);
+
+    await Promise.all([
+      loadNote(target),
+      async () => {
+        if (movingFrom && notes[movingFrom]) {
+          await loadNote(movingFrom);
+        }
+      }
+    ]);
+
+    if (rootNotes.includes(id) && target !== 'root') {
+      const newRootNotes = [...rootNotes];
+      const rootIndex = rootNotes.indexOf(id);
+      if (rootIndex !== -1) {
+        newRootNotes.splice(rootIndex, 1)
+      }
+      set({ rootNotes: newRootNotes });
+    }
+
+    set({ loading: false, moving: null, movingFrom: null });
+  },
+
   removeNote: async (id: ID, deleteRemote = true) => {
     // Remove from this store
     const { notes, rootNotes } = get();
@@ -151,8 +182,8 @@ export const useNoteStore = create<NotesState>((set, get) => ({
     }
   },
 
-  setMoving: (moving: boolean) => {
-    set({ moving })
+  setMoving: (moving: ID | null, from: ID | null) => {
+    set({ moving, movingFrom: from })
   },
 
   setSorting: (sorting: boolean) => {

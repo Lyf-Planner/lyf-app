@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useRef } from 'react';
+import { SyntheticEvent, useEffect, useMemo, useRef } from 'react';
 import { StyleSheet, View, Text, Platform, Alert } from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -10,21 +10,24 @@ import { NoteTypeBadge } from '@/components/NoteTypeBadge';
 import { SortingHandle } from '@/components/SortingHandle';
 import { LyfMenu } from '@/containers/LyfMenu';
 import { NoteDbObject, NoteType } from '@/schema/database/notes';
+import { UserRelatedNote } from '@/schema/user';
 import { useNoteStore } from '@/store/useNoteStore';
 import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
 
 type Props = {
   note: NoteDbObject,
+  parent: UserRelatedNote | null,
   onDrag?: () => void;
   onSelect: () => void;
 }
 
 export const NoteRow = ({
   note,
+  parent,
   onDrag,
   onSelect
 }: Props) => {
-  const { moving, sorting, removeNote, setSorting, setMoving } = useNoteStore();
+  const { moving, sorting, moveNote, removeNote, setSorting, setMoving } = useNoteStore();
   // Web Right Click detection
   //
   //   React Native won't recognise that we're performing this on a div,
@@ -35,6 +38,10 @@ export const NoteRow = ({
   //
   // @ts-expect-error react native does not directly support html types
   const wrapperRef = useRef<div>(null);
+
+  const canBeMovedTo = useMemo(() => {
+    return note.type === NoteType.Folder && moving !== note.id;
+  }, [note.type])
 
   useEffect(() => {
     const handleContextMenu = (event: SyntheticEvent) => {
@@ -75,8 +82,19 @@ export const NoteRow = ({
   }
 
   const conditionalStyles = {
-    bannerView: {
-      opacity: note.type !== NoteType.Folder && moving ? 0.75 : 1
+    main: {
+      ...(!canBeMovedTo && moving ? {
+        opacity: 0.5
+      } : {}),
+
+      ...(canBeMovedTo && moving ? {
+        backgroundColor: deepBlueOpacity(0.9),
+        borderWidth: 0.5,
+        borderColor: eventsBadgeColor,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 3,
+        shadowOpacity: 1
+      } : {})
     }
   }
 
@@ -89,18 +107,22 @@ export const NoteRow = ({
       options={[{
         icon: <MaterialCommunityIcons name="delete" size={22} />,
         text: 'Delete',
-        onSelect: () => handleDeletion()
+        onSelect: !moving ? () => handleDeletion() : () => null,
+        style: moving ? { opacity: 0.5 } : {}
       }, {
         icon: <MaterialCommunityIcons name="folder-move" size={22} />,
         text: 'Move',
-        onSelect: () => setMoving(!moving)
+        onSelect: moving
+          ? () => moveNote(moving, note.id)
+          : () => setMoving(note.id, parent ? parent.id : 'root')
       }, {
         icon: <FontAwesome5Icon name="sort" size={22} />,
         text: 'Sort',
-        onSelect: () => setSorting(!sorting)
+        onSelect: !moving ? () => setSorting(!sorting) : () => null,
+        style: moving ? { opacity: 0.5 } : {}
       }]}
       pressableOptions={{
-        containerStyle: [styles.bannerView, conditionalStyles.bannerView]
+        containerStyle: [styles.main, conditionalStyles.main]
       }}
       useLongPress
     >
@@ -138,7 +160,7 @@ export const NoteRow = ({
 };
 
 const styles = StyleSheet.create({
-  bannerView: {
+  main: {
     alignItems: 'center',
     backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.75),
     borderColor: blackWithOpacity(0.3),

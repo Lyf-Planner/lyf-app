@@ -66,6 +66,21 @@ export async function deleteNote(id: ID) {
   }
 }
 
+export async function moveNote(id: ID, target: ID) {
+  const endpoint = notesEndpoint('move');
+  const changes = {
+    id,
+    target
+  };
+
+  const result = await post(endpoint, changes);
+  if (result?.status === 200) {
+    return result.data;
+  } else {
+    alert(result.data);
+  }
+}
+
 export async function sortNotes(parent_id: ID, preferences: ID[]) {
   const endpoint = notesEndpoint('sort');
   const changes = {

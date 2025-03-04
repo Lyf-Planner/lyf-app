@@ -20,6 +20,7 @@ export type PopoverMenuOption = {
   icon?: JSX.Element;
   text: string;
   onSelect: () => void;
+  style?: object;
 };
 
 export enum MenuPopoverPlacement {
@@ -62,8 +63,8 @@ export const LyfMenu = ({
         </View>
       )}>
       <View style={styles.optionsWrapper}>
-        {options.map(({ icon, text, onSelect }, i) => (
-          <View key={text}>
+        {options.map(({ icon, text, onSelect, style }, i) => (
+          <View key={text} style={style}>
             <TouchableOpacity onPress={onSelect} style={styles.optionWrapper}>
               {icon}
               <Text numberOfLines={1} style={[styles.optionText, conditionalStyles.optionText]}>
