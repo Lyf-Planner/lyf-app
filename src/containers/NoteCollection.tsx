@@ -16,12 +16,10 @@ import { useNoteStore } from '@/store/useNoteStore';
 import { black, deepBlue, eventsBadgeColor, primaryGreen, white } from '@/utils/colours';
 
 type Props = {
-  moving: boolean;
   notes: UserRelatedNote[] | ChildNote[],
   loading: boolean,
   parent: UserRelatedNote | null,
   setNoteId: (id: ID, isFolder?: boolean) => void;
-  sorting: boolean;
 }
 
 const isChildNote = (note: UserRelatedNote | ChildNote): note is ChildNote => {
@@ -124,7 +122,7 @@ export const NoteCollection = ({ notes, loading, parent, setNoteId }: Props) => 
               <BouncyPressable // TODO LYF-666: I can't press the entire thing
                 style={styles.sortingButtonInternal}
                 onPress={() => {
-                  moveNote(parent ? parent.id : 'root', moving)
+                  moveNote(moving, parent ? parent.id : 'root')
                 }}
                 containerStyle={styles.moveButton}
               >

@@ -80,7 +80,16 @@ export const useNoteStore = create<NotesState>((set, get) => ({
       return;
     }
 
+    const loadedNoteChildren = loadedNote?.relations.notes ?? [];
     const noteChildrenObject: Record<ID, UserRelatedNote> = {};
+    loadedNoteChildren.forEach((note) => noteChildrenObject[note.id] = {
+      ...note,
+      // take the relation from the parent, it will get updated to something more correct when we navigate to it
+      relations: {},
+      invite_pending: loadedNote.invite_pending,
+      permission: loadedNote.permission,
+      sorting_rank_preference: loadedNote.sorting_rank_preference
+    });
 
     // add the loaded note, and also all it's children for a smarter cache
     set({ notes: { ...notes, [id]: loadedNote, ...noteChildrenObject }, loading: false });
@@ -123,24 +132,26 @@ export const useNoteStore = create<NotesState>((set, get) => ({
     const { movingFrom, notes, rootNotes, loadNote } = get();
     set({ loading: true });
 
-    await moveNote(id, target);
+    const success = await moveNote(id, target);
 
-    await Promise.all([
-      loadNote(target),
-      async () => {
-        if (movingFrom && notes[movingFrom]) {
-          await loadNote(movingFrom);
+    if (success) {
+      await Promise.all([
+        loadNote(target),
+        async () => {
+          if (movingFrom && notes[movingFrom]) {
+            await loadNote(movingFrom);
+          }
         }
-      }
-    ]);
+      ]);
 
-    if (rootNotes.includes(id) && target !== 'root') {
-      const newRootNotes = [...rootNotes];
-      const rootIndex = rootNotes.indexOf(id);
-      if (rootIndex !== -1) {
-        newRootNotes.splice(rootIndex, 1)
+      if (rootNotes.includes(id) && target !== 'root') {
+        const newRootNotes = [...rootNotes];
+        const rootIndex = rootNotes.indexOf(id);
+        if (rootIndex !== -1) {
+          newRootNotes.splice(rootIndex, 1)
+        }
+        set({ rootNotes: newRootNotes });
       }
-      set({ rootNotes: newRootNotes });
     }
 
     set({ loading: false, moving: null, movingFrom: null });

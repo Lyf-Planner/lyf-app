@@ -13,7 +13,7 @@ import { NoteType } from '@/schema/database/notes';
 import { useNoteStore } from '@/store/useNoteStore';
 
 export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
-  const { loading, moving, notes, rootNotes, sorting, setMoving, setSorting, loadNote } = useNoteStore();
+  const { loading, notes, rootNotes, loadNote } = useNoteStore();
 
   const [path, setPath] = useState<string>('root');
 
@@ -55,7 +55,7 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
     }
 
     return undefined;
-  }, [notes, loadedNote, loading]);
+  }, [notes, loadedNote, loading, rootNotes]);
 
   const visitNote = (id: ID) => {
     setPath(`${path}/${id}`);
@@ -103,6 +103,7 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
         initialTitle={loadedNote ? loadedNote.title : 'All Notes'}
         note={loadedNote}
         loading={loading || !loadedNote}
+        totalNotes={noteCollection ? noteCollection.length : 0}
         onBack={backtrack}
         setNoteId={visitNote}
       />
