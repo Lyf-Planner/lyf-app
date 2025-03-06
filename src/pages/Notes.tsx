@@ -102,7 +102,7 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
       <NoteHeader
         initialTitle={loadedNote ? loadedNote.title : 'All Notes'}
         note={loadedNote}
-        loading={loading || !loadedNote}
+        loading={loading || (!loadedNote && path !== 'root')}
         totalNotes={noteCollection ? noteCollection.length : 0}
         onBack={backtrack}
         setNoteId={visitNote}

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { StyleSheet, TouchableHighlight, View, Text, ScrollView, Platform } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -25,6 +26,11 @@ export const NoteUsersModal = ({ note, users }: Props) => {
   const closeModal = () => updateModal(null);
 
   const addFriends = () => updateModal(<AddFriendsModal entity_id={note.id} type='note' />)
+
+  const inheritedPermissions = useMemo(() => {
+    return users.filter((userPermission) => userPermission.inherited_from !== note.id)
+  }, [users]);
+  console.log('inherited permissions are', inheritedPermissions.map((x) => x.id));
 
   return (
     <View style={styles.mainContainer}>

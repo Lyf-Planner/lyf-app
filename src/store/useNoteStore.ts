@@ -80,15 +80,20 @@ export const useNoteStore = create<NotesState>((set, get) => ({
       return;
     }
 
+    // also load in this notes children, for a slightly better cache - only if they're not in store already
     const loadedNoteChildren = loadedNote?.relations.notes ?? [];
     const noteChildrenObject: Record<ID, UserRelatedNote> = {};
-    loadedNoteChildren.forEach((note) => noteChildrenObject[note.id] = {
-      ...note,
-      // take the relation from the parent, it will get updated to something more correct when we navigate to it
-      relations: {},
-      invite_pending: loadedNote.invite_pending,
-      permission: loadedNote.permission,
-      sorting_rank_preference: loadedNote.sorting_rank_preference
+    loadedNoteChildren.forEach((note) => {
+      if (!notes[note.id]) {
+        noteChildrenObject[note.id] = {
+          ...note,
+          // take the relation from the parent, it will get updated to something more correct when we navigate to it
+          relations: {},
+          invite_pending: loadedNote.invite_pending,
+          permission: loadedNote.permission,
+          sorting_rank_preference: loadedNote.sorting_rank_preference
+        }
+      }
     });
 
     // add the loaded note, and also all it's children for a smarter cache
@@ -135,16 +140,25 @@ export const useNoteStore = create<NotesState>((set, get) => ({
     const success = await moveNote(id, target);
 
     if (success) {
-      await Promise.all([
-        loadNote(target),
-        async () => {
-          if (movingFrom && notes[movingFrom]) {
-            await loadNote(movingFrom);
-          }
-        }
-      ]);
+      // reload source
+      if (movingFrom && movingFrom !== 'root' && notes[movingFrom]) {
+        await loadNote(movingFrom);
+      }
 
-      if (rootNotes.includes(id) && target !== 'root') {
+      // reload target
+      if (target !== 'root') {
+        await loadNote(target);
+      }
+
+      // handle any root changes
+      const isAddingToRoot = !rootNotes.includes(id) && movingFrom !== 'root' && target === 'root';
+      const isLeavingRoot = rootNotes.includes(id) && movingFrom === 'root' && target !== 'root';
+
+      if (isAddingToRoot) {
+        const newRootNotes = [...rootNotes];
+        newRootNotes.push(id);
+        set({ rootNotes: newRootNotes });
+      } else if (isLeavingRoot) {
         const newRootNotes = [...rootNotes];
         const rootIndex = rootNotes.indexOf(id);
         if (rootIndex !== -1) {

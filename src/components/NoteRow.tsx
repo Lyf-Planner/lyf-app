@@ -83,7 +83,7 @@ export const NoteRow = ({
 
   const conditionalStyles = {
     main: {
-      ...(!canBeMovedTo && moving ? {
+      ...(!canBeMovedTo && moving !== note.id && moving ? {
         opacity: 0.5
       } : {}),
 
@@ -124,6 +124,7 @@ export const NoteRow = ({
       pressableOptions={{
         containerStyle: [styles.main, conditionalStyles.main]
       }}
+      disabled={!!moving && !canBeMovedTo}
       useLongPress
     >
       <View

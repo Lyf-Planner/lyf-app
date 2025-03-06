@@ -59,7 +59,12 @@ export const NoteHeader = ({ initialTitle, loading, note, totalNotes, onBack, se
         <View
           style={styles.newNoteContainer}
         >
-          <NewNoteMenu newNote={newNote} />
+          {loading && (
+            <Loader size={28} color={white} />
+          )}
+          {!loading && (
+            <NewNoteMenu newNote={(type: NoteType) => newNote(type)}/>
+          )}
         </View>
       </View>
     )

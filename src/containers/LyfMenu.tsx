@@ -8,6 +8,7 @@ import { blackWithOpacity } from '@/utils/colours';
 
 export type LyfMenuProps = {
   children: JSX.Element; // The menu will display when this is pressed!
+  disabled?: boolean;
   onPress?: () => void; // used as a default fallback for pressing if useLongPress is provided
   options: PopoverMenuOption[];
   pressableOptions?: BouncyPressableOptions;
@@ -33,6 +34,7 @@ export enum MenuPopoverPlacement {
 
 export const LyfMenu = ({
   children,
+  disabled = false,
   onPress = () => null,
   options,
   pressableOptions = {},
@@ -52,6 +54,7 @@ export const LyfMenu = ({
       from={(_sourceRef, showPopover) => (
         <View>
           <BouncyPressable
+            disabled={disabled}
             onPress={!useLongPress && !useHold ? showPopover : onPress} // TODO improve this hard to read logic
             onLongPress={useLongPress && !useHold ? showPopover : undefined}
             onPressIn={useHold ? onPress : undefined}

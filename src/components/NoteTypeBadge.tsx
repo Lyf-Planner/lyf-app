@@ -2,14 +2,15 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { NoteType } from '@/schema/database/notes';
 import { deepBlue, eventsBadgeColor } from '@/utils/colours';
 
 export const TYPE_TO_DISPLAY_NAME: Record<NoteType, JSX.Element> = Object.freeze({
-  [NoteType.NoteOnly]: <FontAwesome5 name='sticky-note' size={20} />,
+  [NoteType.NoteOnly]: <MaterialCommunityIcons name='note' size={24} />,
   [NoteType.ListOnly]: <FontAwesome5 name='list-ul' size={18} />,
-  [NoteType.Folder]: <Entypo name="folder" size={18} />
+  [NoteType.Folder]: <Entypo name="folder" size={20} />
 })
 
 type Props = {
