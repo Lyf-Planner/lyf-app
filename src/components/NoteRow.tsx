@@ -41,7 +41,7 @@ export const NoteRow = ({
 
   const canBeMovedTo = useMemo(() => {
     return note.type === NoteType.Folder && moving !== note.id;
-  }, [note.type])
+  }, [note.type, moving])
 
   useEffect(() => {
     const handleContextMenu = (event: SyntheticEvent) => {
