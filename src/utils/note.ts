@@ -9,7 +9,7 @@ export type UpdateNote = (note: UserRelatedNote, changes: Partial<UserRelatedNot
 export type UpdateNoteItem = (item: ItemDbObject, changes: Partial<ItemDbObject>, remove?: boolean) => Promise<void>;
 export type UpdateNoteSocial = (
   note: UserRelatedNote,
-  user_id: string,
+  user_id: ID,
   action: SocialAction,
   permission: Permission
 ) => Promise<void>;

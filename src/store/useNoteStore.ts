@@ -245,19 +245,19 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
   updateNoteSocial: async (
     note: UserRelatedNote,
-    user_id: string,
+    targetUser: ID,
     action: SocialAction,
     permission: Permission
   ) => {
     const { user } = useAuthStore.getState();
     const { notes, removeNote, updateNote } = get();
 
-    const result = await updateRemoteNoteSocial(note.id, user_id, action, permission);
+    const result = await updateRemoteNoteSocial(note.id, targetUser, action, permission);
     if (result === false) {
       return;
     }
 
-    const leavingItem = user_id === user?.id && action === SocialAction.Remove;
+    const leavingItem = targetUser === user?.id && action === SocialAction.Remove;
     if (leavingItem) {
       await removeNote(note.id, false);
       return;
@@ -270,7 +270,7 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
     const storeItem = notes[note.id];
     const noteUsers = storeItem.relations.users || [];
-    const j = noteUsers.findIndex((x) => x.id === user_id);
+    const j = noteUsers.findIndex((x) => x.id === targetUser);
 
     if (j === -1 && !destructiveAction) {
       // Create
@@ -285,9 +285,8 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
     const noteChanges: Partial<UserRelatedNote> = {
       relations: { ...note.relations, users: noteUsers },
-      // Some manual sneakys for local state
       collaborative: noteUsers.length > 1,
-      invite_pending: false
+      invite_pending: false // if i'm updating a note's social, i either have access or am accepting access, or it's already gone
     }
 
     updateNote(note, noteChanges, false)

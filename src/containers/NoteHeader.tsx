@@ -78,7 +78,7 @@ export const NoteHeader = ({ initialTitle, loading, note, totalNotes, onBack, se
       return;
     }
 
-    updateModal(<NoteUsersModal note={note} users={note.relations.users} />)
+    updateModal(<NoteUsersModal note_id={note.id} />)
   }
 
   const conditionalStyles = {

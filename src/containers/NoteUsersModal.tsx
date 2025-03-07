@@ -10,27 +10,29 @@ import { UserList, UserListContext } from './UserList';
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { Horizontal } from '@/components/Horizontal';
 import { AddFriendsModal } from '@/containers/AddFriendsModal';
-import { NoteRelatedUser } from '@/schema/notes';
-import { UserRelatedNote } from '@/schema/user';
+import { ID } from '@/schema/database/abstract';
+import { useNoteStore } from '@/store/useNoteStore';
 import { useRootComponentStore } from '@/store/useRootComponent';
 import { black, blackWithOpacity, primaryGreen, white } from '@/utils/colours';
 
 interface Props {
-  note: UserRelatedNote;
-  users: NoteRelatedUser[];
+  note_id: ID;
 }
 
-export const NoteUsersModal = ({ note, users }: Props) => {
+export const NoteUsersModal = ({ note_id }: Props) => {
+  const { notes } = useNoteStore();
   const { updateModal } = useRootComponentStore();
+
+  const note = useMemo(() => notes[note_id], [notes]);
+  const users = useMemo(() => note?.relations.users ?? [], [note]);
 
   const closeModal = () => updateModal(null);
 
   const addFriends = () => updateModal(<AddFriendsModal entity_id={note.id} type='note' />)
 
-  const inheritedPermissions = useMemo(() => {
-    return users.filter((userPermission) => userPermission.inherited_from !== note.id)
-  }, [users]);
-  console.log('inherited permissions are', inheritedPermissions.map((x) => x.id));
+  // const inheritedPermissions = useMemo(() => {
+  //   return users.filter((userPermission) => userPermission.inherited_from !== note.id)
+  // }, [users]);
 
   return (
     <View style={styles.mainContainer}>
