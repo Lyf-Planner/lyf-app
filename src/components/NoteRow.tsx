@@ -100,8 +100,6 @@ export const NoteRow = ({
 
   return (
     <LyfMenu
-      // TODO LYF-667: Disable presses on non-folder notes when moving
-      // TODO LYF-667: Holding this down when moving should give an option to finish move
       onPress={onDrag || onSelect}
       useHold={!!onDrag}
       options={[{
@@ -139,7 +137,7 @@ export const NoteRow = ({
         >
           {note.title}
         </Text>
-        {sorting && ( // TODO LYF-666 Fix this style and make sorting functional
+        {sorting && (
           <View style={styles.rowLeft}>
             <SortingHandle
               disabled
