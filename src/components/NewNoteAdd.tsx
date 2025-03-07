@@ -33,7 +33,6 @@ export const NewNoteMenu = ({ newNote }: Props) => {
           text: 'Folder',
           onSelect: () => onOptionSelect(NoteType.Folder)
         }]}
-        textAlignment='left'
       >
         <NewNoteButton />
       </LyfMenu>

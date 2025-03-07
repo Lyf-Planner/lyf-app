@@ -102,7 +102,6 @@ export const AddFriendsModal = ({ entity_id, type }: Props) => {
             context={type === 'item' ? UserListContext.Item : UserListContext.Note}
             item={type === 'item' ? entity as LocalItem : undefined}
             note={type === 'note' ? entity as UserRelatedNote : undefined}
-            menuContext={'in-modal'}
           />
         </ScrollView>
       )}
