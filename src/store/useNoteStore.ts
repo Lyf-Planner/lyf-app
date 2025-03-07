@@ -9,7 +9,9 @@ import {
   createNote,
   deleteNote,
   getNote,
+  moveNote,
   myNotes,
+  sortNotes,
   updateNote as updateRemoteNote,
   updateNoteSocial as updateRemoteNoteSocial
 } from '@/rest/notes';
@@ -19,27 +21,37 @@ import { Permission } from '@/schema/database/items_on_users';
 import { NoteType } from '@/schema/database/notes';
 import { UserRelatedNote } from '@/schema/user';
 import { SocialAction } from '@/schema/util/social';
-import { AddNote, RemoveNote, UpdateNote, UpdateNoteItem, UpdateNoteSocial } from '@/utils/note';
+import { AddNote, RemoveNote, SortNotes, UpdateNote, UpdateNoteItem, UpdateNoteSocial } from '@/utils/note';
 
 export type NotesState = {
   loading: boolean,
-  rootNotes: ID[],
+  moving: string | null;
+  movingFrom: string | null;
   notes: Record<ID, UserRelatedNote>,
+  rootNotes: ID[],
+  sorting: boolean;
 
   reload: () => Promise<void>,
   loadNote: (id: ID) => Promise<void>,
 
-  updateNote: UpdateNote,
-  handleNoteItemUpdate: UpdateNoteItem,
-  updateNoteSocial: UpdateNoteSocial,
   addNote: AddNote,
-  removeNote: RemoveNote
+  handleNoteItemUpdate: UpdateNoteItem,
+  moveNote: (id: ID, target: ID) => Promise<void>,
+  removeNote: RemoveNote,
+  setMoving: (id: ID | null, from: ID | null) => void,
+  setSorting: (sorting: boolean) => void,
+  sortNotes: SortNotes,
+  updateNote: UpdateNote,
+  updateNoteSocial: UpdateNoteSocial,
 }
 
 export const useNoteStore = create<NotesState>((set, get) => ({
   loading: true,
-  rootNotes: [],
+  moving: null,
+  movingFrom: null,
   notes: {},
+  rootNotes: [],
+  sorting: false,
 
   reload: async () => {
     const { notes } = get();
@@ -68,15 +80,27 @@ export const useNoteStore = create<NotesState>((set, get) => ({
       return;
     }
 
+    // also load in this notes children, for a slightly better cache - only if they're not in store already
     const loadedNoteChildren = loadedNote?.relations.notes ?? [];
     const noteChildrenObject: Record<ID, UserRelatedNote> = {};
-    loadedNoteChildren.forEach((note) => noteChildrenObject[note.id] = note);
+    loadedNoteChildren.forEach((note) => {
+      if (!notes[note.id]) {
+        noteChildrenObject[note.id] = {
+          ...note,
+          // take the relation from the parent, it will get updated to something more correct when we navigate to it
+          relations: {},
+          invite_pending: loadedNote.invite_pending,
+          permission: loadedNote.permission,
+          sorting_rank_preference: loadedNote.sorting_rank_preference
+        }
+      }
+    });
 
     // add the loaded note, and also all it's children for a smarter cache
     set({ notes: { ...notes, [id]: loadedNote, ...noteChildrenObject }, loading: false });
   },
 
-  addNote: async (title: string, type: NoteType, parent_id?: ID) => {
+  addNote: async (title: string, type: NoteType, rank: number, parent_id?: ID) => {
     const { notes, rootNotes } = get();
     const newNote: UserRelatedNote & { parent_id?: ID } = {
       id: uuid(),
@@ -89,7 +113,8 @@ export const useNoteStore = create<NotesState>((set, get) => ({
       collaborative: false,
       invite_pending: false,
       permission: Permission.Owner,
-      relations: {}
+      relations: {},
+      sorting_rank_preference: rank
     };
 
     set({ notes: { ...notes, [newNote.id]: newNote } });
@@ -106,6 +131,44 @@ export const useNoteStore = create<NotesState>((set, get) => ({
     }
 
     return newNote.id;
+  },
+
+  moveNote: async (id: ID, target: ID) => {
+    const { movingFrom, notes, rootNotes, loadNote } = get();
+    set({ loading: true });
+
+    const success = await moveNote(id, target);
+
+    if (success) {
+      // reload source
+      if (movingFrom && movingFrom !== 'root' && notes[movingFrom]) {
+        await loadNote(movingFrom);
+      }
+
+      // reload target
+      if (target !== 'root') {
+        await loadNote(target);
+      }
+
+      // handle any root changes
+      const isAddingToRoot = !rootNotes.includes(id) && movingFrom !== 'root' && target === 'root';
+      const isLeavingRoot = rootNotes.includes(id) && movingFrom === 'root' && target !== 'root';
+
+      if (isAddingToRoot) {
+        const newRootNotes = [...rootNotes];
+        newRootNotes.push(id);
+        set({ rootNotes: newRootNotes });
+      } else if (isLeavingRoot) {
+        const newRootNotes = [...rootNotes];
+        const rootIndex = rootNotes.indexOf(id);
+        if (rootIndex !== -1) {
+          newRootNotes.splice(rootIndex, 1)
+        }
+        set({ rootNotes: newRootNotes });
+      }
+    }
+
+    set({ loading: false, moving: null, movingFrom: null });
   },
 
   removeNote: async (id: ID, deleteRemote = true) => {
@@ -144,6 +207,14 @@ export const useNoteStore = create<NotesState>((set, get) => ({
     }
   },
 
+  setMoving: (moving: ID | null, from: ID | null) => {
+    set({ moving, movingFrom: from })
+  },
+
+  setSorting: (sorting: boolean) => {
+    set({ sorting })
+  },
+
   updateNote: async (note: UserRelatedNote, changes: Partial<UserRelatedNote>, updateRemote = true) => {
     // Update store
     const { notes } = get()
@@ -174,19 +245,19 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
   updateNoteSocial: async (
     note: UserRelatedNote,
-    user_id: string,
+    targetUser: ID,
     action: SocialAction,
     permission: Permission
   ) => {
     const { user } = useAuthStore.getState();
     const { notes, removeNote, updateNote } = get();
 
-    const result = await updateRemoteNoteSocial(note.id, user_id, action, permission);
+    const result = await updateRemoteNoteSocial(note.id, targetUser, action, permission);
     if (result === false) {
       return;
     }
 
-    const leavingItem = user_id === user?.id && action === SocialAction.Remove;
+    const leavingItem = targetUser === user?.id && action === SocialAction.Remove;
     if (leavingItem) {
       await removeNote(note.id, false);
       return;
@@ -199,7 +270,7 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
     const storeItem = notes[note.id];
     const noteUsers = storeItem.relations.users || [];
-    const j = noteUsers.findIndex((x) => x.id === user_id);
+    const j = noteUsers.findIndex((x) => x.id === targetUser);
 
     if (j === -1 && !destructiveAction) {
       // Create
@@ -214,9 +285,8 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
     const noteChanges: Partial<UserRelatedNote> = {
       relations: { ...note.relations, users: noteUsers },
-      // Some manual sneakys for local state
       collaborative: noteUsers.length > 1,
-      invite_pending: false
+      invite_pending: false // if i'm updating a note's social, i either have access or am accepting access, or it's already gone
     }
 
     updateNote(note, noteChanges, false)
@@ -249,6 +319,53 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
     const noteChanges = { relations: { ...note.relations, items: noteItems } }
     get().updateNote(note, noteChanges, false);
+  },
+
+  sortNotes: async (parent_id: ID, priorities: ID[]) => {
+    if (priorities.length === 0) {
+      return;
+    }
+
+    const { notes, updateNote } = get();
+
+    // for root we can't sort via the relation on the children
+    // instead we update each notes default_sorting_rank
+    if (parent_id === 'root') {
+      for (const i in priorities) {
+        const id = priorities[i];
+        if (!notes[id]) {
+          console.error('note', id, 'should have been loaded before sorting, as a root note');
+          return;
+        }
+
+        updateNote(notes[id], { sorting_rank_preference: parseInt(i, 10) });
+      }
+      return;
+    }
+
+    if (!notes[parent_id].relations.notes) {
+      console.error('parent note or parent note children could not be found');
+      return;
+    }
+
+    const newNoteChildren = [];
+    for (const childNote of notes[parent_id].relations.notes) {
+      newNoteChildren.push({
+        ...childNote,
+        sorting_rank: priorities.indexOf(childNote.id)
+      })
+    }
+
+    const newParentNote = {
+      ...notes[parent_id],
+      relations: {
+        ...notes[parent_id].relations,
+        notes: newNoteChildren
+      }
+    }
+
+    updateNote(notes[parent_id], newParentNote, false);
+    sortNotes(parent_id, priorities); // tell the backend
   }
 }));
 

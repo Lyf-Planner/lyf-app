@@ -18,7 +18,6 @@ type Props = {
   callback?: () => void,
   item?: LocalItem,
   note?: UserRelatedNote,
-  menuContext?: string,
 }
 
 export const UserList = ({
@@ -27,8 +26,7 @@ export const UserList = ({
   context = UserListContext.Friends,
   callback,
   item,
-  note,
-  menuContext
+  note
 }: Props) => {
   return (
     <View style={styles.main}>
@@ -43,7 +41,6 @@ export const UserList = ({
             item={item}
             note={note}
             key={x.id}
-            menuContext={menuContext}
           />
         ))
       )}

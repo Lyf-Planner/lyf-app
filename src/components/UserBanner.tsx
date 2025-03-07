@@ -19,8 +19,7 @@ type Props = {
   callback?: () => void,
   context?: UserListContext,
   item?: LocalItem,
-  note?: UserRelatedNote,
-  menuContext?: string,
+  note?: UserRelatedNote
 }
 
 export const UserBanner = ({
@@ -28,8 +27,7 @@ export const UserBanner = ({
   callback,
   context = UserListContext.Friends,
   item,
-  note,
-  menuContext
+  note
 }: Props) => {
   const { updateModal } = useRootComponentStore();
 

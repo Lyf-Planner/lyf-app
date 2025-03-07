@@ -1,4 +1,4 @@
-import { Pressable, TouchableHighlight } from 'react-native';
+import { Pressable } from 'react-native';
 
 import Animated, {
   useAnimatedStyle,
@@ -10,7 +10,6 @@ import { LyfElement } from '@/utils/abstractTypes';
 import { black } from '@/utils/colours';
 
 export type BouncyPressableOptions = {
-  useTouchableHighlight?: boolean,
   withShadow?: boolean,
   bounceScale?: number,
   disabled?: boolean;
@@ -31,6 +30,7 @@ export type BouncyPressableProps = BouncyPressableOptions & ShadowOptions & {
   children: LyfElement;
   style?: object;
   onPress?: () => void;
+  onPressIn?: () => void;
   onLongPress?: () => void;
 }
 
@@ -42,16 +42,12 @@ export const BouncyPressable = ({
   conditionalStyles,
   longPressDuration,
   onPress,
+  onPressIn,
   onLongPress,
-  useTouchableHighlight = false,
   withShadow,
   shadowOptions,
   bounceScale
 }: BouncyPressableProps) => {
-  const WrappingPressable = useTouchableHighlight
-    ? TouchableHighlight
-    : Pressable;
-
   const scale = useSharedValue(1);
   const scaleAnimation = useAnimatedStyle(() => ({
     transform: [{
@@ -84,12 +80,16 @@ export const BouncyPressable = ({
 
   return (
     <Animated.View style={animatedStyle}>
-      <WrappingPressable
+      <Pressable
         onPress={onPress}
         disabled={disabled}
         onLongPress={onLongPress}
         delayLongPress={longPressDuration}
         onPressIn={() => {
+          if (onPressIn) {
+            onPressIn();
+          }
+
           scale.value = bounceScale || 0.9
           shadowOffsetX.value = 0.5;
           shadowOffsetY.value = 0.5;
@@ -99,11 +99,10 @@ export const BouncyPressable = ({
           shadowOffsetY.value = shadowOptions?.shadowOffset?.height || 3;
           scale.value = 1;
         }}
-        underlayColor={'rgba(0,0,0,0.5)'}
         style={[style, conditionalStyles]}
       >
         {children}
-      </WrappingPressable>
+      </Pressable>
     </Animated.View>
   );
 };

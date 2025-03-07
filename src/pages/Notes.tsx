@@ -15,8 +15,8 @@ import { useNoteStore } from '@/store/useNoteStore';
 export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
   const { loading, notes, rootNotes, loadNote } = useNoteStore();
 
-  // this only pertains to the first navigation to notes, not note-to-note navigation
   const [path, setPath] = useState<string>('root');
+
   const selectedId = useMemo(() => {
     const pathArray = path.split('/');
     return pathArray[pathArray.length - 1];
@@ -55,7 +55,7 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
     }
 
     return undefined;
-  }, [notes, loadedNote, loading]);
+  }, [notes, loadedNote, loading, rootNotes]);
 
   const visitNote = (id: ID) => {
     setPath(`${path}/${id}`);
@@ -77,13 +77,11 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
   if (noteCollection && (loadedNote || selectedId === 'root')) {
     body = (
       <NoteCollection
-        parent={loadedNote}
-        notes={noteCollection || []}
         loading={!noteCollection}
+        notes={noteCollection || []}
+        parent={loadedNote}
         setNoteId={visitNote}
-      >
-
-      </NoteCollection>
+      />
     );
   } else if (loadedNote) {
     body = (
@@ -104,7 +102,8 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
       <NoteHeader
         initialTitle={loadedNote ? loadedNote.title : 'All Notes'}
         note={loadedNote}
-        loading={loading || !loadedNote}
+        loading={loading || (!loadedNote && path !== 'root')}
+        totalNotes={noteCollection ? noteCollection.length : 0}
         onBack={backtrack}
         setNoteId={visitNote}
       />

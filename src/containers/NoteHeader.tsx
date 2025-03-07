@@ -21,6 +21,7 @@ type Props = {
   initialTitle: string;
   loading: boolean;
   note: UserRelatedNote | null,
+  totalNotes: number,
   onBack: () => void;
   setNoteId: (id: ID) => void;
 }
@@ -31,12 +32,12 @@ const defaultTitleMap: Record<NoteType, string> = {
   [NoteType.Folder]: 'New Folder'
 }
 
-export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: Props) => {
+export const NoteHeader = ({ initialTitle, loading, note, totalNotes, onBack, setNoteId }: Props) => {
   const { updateModal } = useRootComponentStore();
   const { updateNote, addNote } = useNoteStore();
 
   const newNote = (type: NoteType, parent_id?: ID) => {
-    addNote(defaultTitleMap[type], type, parent_id).then((id: ID) => setNoteId(id));
+    addNote(defaultTitleMap[type], type, totalNotes, parent_id).then((id: ID) => setNoteId(id));
   };
 
   const [title, setTitle] = useState(initialTitle);
@@ -58,7 +59,12 @@ export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: P
         <View
           style={styles.newNoteContainer}
         >
-          <NewNoteMenu newNote={newNote} />
+          {loading && (
+            <Loader size={28} color={white} />
+          )}
+          {!loading && (
+            <NewNoteMenu newNote={(type: NoteType) => newNote(type)}/>
+          )}
         </View>
       </View>
     )
@@ -72,7 +78,7 @@ export const NoteHeader = ({ initialTitle, loading, note, onBack, setNoteId }: P
       return;
     }
 
-    updateModal(<NoteUsersModal note={note} users={note.relations.users} />)
+    updateModal(<NoteUsersModal note_id={note.id} />)
   }
 
   const conditionalStyles = {

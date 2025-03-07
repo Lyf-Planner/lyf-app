@@ -9,15 +9,15 @@ import { ID } from '@/schema/database/abstract';
 import { UserRelatedNote } from '@/schema/user';
 
 type Props = {
-  note: UserRelatedNote,
   loading: boolean,
+  note: UserRelatedNote,
   onBack: () => void;
   setNoteId: (note_id: ID) => void;
 }
 
 export const NoteView = ({
-  note,
   loading,
+  note,
   onBack,
   setNoteId
 }: Props) => {

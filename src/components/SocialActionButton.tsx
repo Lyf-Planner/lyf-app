@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Alert } from 'react-native';
 
 import { ActionButton } from '@/components/ActionButton';
 import { BouncyPressable } from '@/components/BouncyPressable';
@@ -39,6 +40,9 @@ export const SocialActionButton = ({ entity, type, user, height }: Props) => {
   const isEntityMember = (user: SocialUser): user is (ItemRelatedUser | NoteRelatedUser) =>
     (user as ItemRelatedUser).permission !== undefined
 
+  const isNoteUser = (user: SocialUser): user is NoteRelatedUser =>
+    !!(user as NoteRelatedUser).sorting_rank_preference
+
   const applyAction = async (action: SocialAction, permission: Permission) => {
     setLoading(true);
 
@@ -63,7 +67,27 @@ export const SocialActionButton = ({ entity, type, user, height }: Props) => {
       return;
     }
 
-    applyAction(SocialAction.Remove, user.permission);
+    if (isNoteUser(user) && user.inherited_from !== entity.id) {
+      Alert.alert(
+        'Are you sure?',
+        `This will remove access for ${user.display_name} to the entire folder`,
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('User Removal Cancelled'),
+            isPreferred: false
+          },
+          {
+            text: 'Confirm',
+            onPress: () => applyAction(SocialAction.Remove, user.permission),
+            isPreferred: true
+          }
+        ],
+        { cancelable: true }
+      );
+    } else {
+      applyAction(SocialAction.Remove, user.permission);
+    }
   };
 
   const cancelInvite = async () => {

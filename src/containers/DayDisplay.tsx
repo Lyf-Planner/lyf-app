@@ -229,7 +229,7 @@ export const DayDisplay = ({
           listWrapperStyles={styles.transparentBackground}
           newItemContext={{
             date: date || undefined,
-            day: date || undefined
+            day: day || undefined
           }}
           sortingTrigger={sortingTrigger}
         />

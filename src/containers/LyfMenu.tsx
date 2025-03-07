@@ -8,17 +8,20 @@ import { blackWithOpacity } from '@/utils/colours';
 
 export type LyfMenuProps = {
   children: JSX.Element; // The menu will display when this is pressed!
+  disabled?: boolean;
   onPress?: () => void; // used as a default fallback for pressing if useLongPress is provided
   options: PopoverMenuOption[];
   pressableOptions?: BouncyPressableOptions;
   textAlignment?: 'center' | 'auto' | 'left' | 'right' | 'justify' | undefined;
   useLongPress?: boolean;
+  useHold?: boolean;
 };
 
 export type PopoverMenuOption = {
   icon?: JSX.Element;
   text: string;
   onSelect: () => void;
+  style?: object;
 };
 
 export enum MenuPopoverPlacement {
@@ -31,11 +34,13 @@ export enum MenuPopoverPlacement {
 
 export const LyfMenu = ({
   children,
+  disabled = false,
   onPress = () => null,
   options,
   pressableOptions = {},
   textAlignment = 'center',
-  useLongPress = false
+  useLongPress = false,
+  useHold = false
 }: LyfMenuProps) => {
   const conditionalStyles = {
     optionText: {
@@ -49,9 +54,11 @@ export const LyfMenu = ({
       from={(_sourceRef, showPopover) => (
         <View>
           <BouncyPressable
-            onPress={useLongPress ? onPress : showPopover}
-            onLongPress={useLongPress ? showPopover : undefined}
-            longPressDuration={100}
+            disabled={disabled}
+            onPress={!useLongPress && !useHold ? showPopover : onPress} // TODO improve this hard to read logic
+            onLongPress={useLongPress && !useHold ? showPopover : undefined}
+            onPressIn={useHold ? onPress : undefined}
+            longPressDuration={150}
             {...pressableOptions}
           >
             {children}
@@ -59,8 +66,8 @@ export const LyfMenu = ({
         </View>
       )}>
       <View style={styles.optionsWrapper}>
-        {options.map(({ icon, text, onSelect }, i) => (
-          <View key={text}>
+        {options.map(({ icon, text, onSelect, style }, i) => (
+          <View key={text} style={style}>
             <TouchableOpacity onPress={onSelect} style={styles.optionWrapper}>
               {icon}
               <Text numberOfLines={1} style={[styles.optionText, conditionalStyles.optionText]}>

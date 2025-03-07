@@ -27,7 +27,6 @@ export const CreationButton = ({
   return (
     <BouncyPressable
       style={[styles.creationButton, { shadowOffset }]}
-      useTouchableHighlight
       onPress={onPress}
     >
       <>

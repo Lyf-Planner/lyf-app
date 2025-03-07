@@ -66,6 +66,37 @@ export async function deleteNote(id: ID) {
   }
 }
 
+export async function moveNote(id: ID, target: ID) {
+  const endpoint = notesEndpoint('move');
+  const changes = {
+    note_id: id,
+    new_parent_id: target
+  };
+
+  const result = await post(endpoint, changes);
+  if (result?.status === 200) {
+    return true;
+  } else {
+    alert(result.data);
+    return false;
+  }
+}
+
+export async function sortNotes(parent_id: ID, preferences: ID[]) {
+  const endpoint = notesEndpoint('sort');
+  const changes = {
+    parent_id,
+    preferences
+  };
+
+  const result = await post(endpoint, changes);
+  if (result?.status === 200) {
+    return result.data;
+  } else {
+    alert(result.data);
+  }
+}
+
 export async function updateNoteSocial(entity_id: ID, user_id: ID, action: SocialAction, permission?: Permission) {
   const endpoint = notesEndpoint('updateSocial')
 

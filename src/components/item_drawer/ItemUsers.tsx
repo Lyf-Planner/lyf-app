@@ -56,7 +56,6 @@ export const ItemUsers = ({ item, loading, closeDrawer }: Props) => {
             context={UserListContext.Item}
             item={item}
             callback={closeDrawer}
-            menuContext='in-item'
           />
         </ScrollView>
       )}
