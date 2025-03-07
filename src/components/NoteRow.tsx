@@ -71,14 +71,24 @@ export const NoteRow = ({
       return;
     }
 
+    const noteIsFolder = note.type === NoteType.Folder;
     Alert.alert(
-      `Are you sure you want to delete ${note.title}`,
-      undefined,
+      'Are you sure?',
+      noteIsFolder ? `This will also delete all contents of '${note.title}'` : 'This operation cannot be reversed',
       [
-        { text: 'Cancel', onPress: () => null },
-        { text: 'Delete', onPress: () => removeNote(note.id), isPreferred: true }
-      ]
-    )
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          isPreferred: false
+        },
+        {
+          text: 'Confirm',
+          onPress: () => removeNote(note.id),
+          isPreferred: true
+        }
+      ],
+      { cancelable: true }
+    );
   }
 
   const conditionalStyles = {
