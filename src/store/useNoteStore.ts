@@ -77,6 +77,7 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
     const loadedNote = await getNote(id);
     if (!loadedNote) {
+      set({ loading: false });
       return;
     }
 

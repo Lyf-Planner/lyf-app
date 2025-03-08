@@ -82,7 +82,7 @@ export const NoteHeader = ({ initialTitle, loading, note, totalNotes, onBack, se
   }
 
   const conditionalStyles = {
-    collaborative: { opacity: note.collaborative ? 1 : 0.5 }
+    collaborative: { opacity: note?.collaborative ? 1 : 0.5 }
   }
 
   return (
@@ -103,25 +103,27 @@ export const NoteHeader = ({ initialTitle, loading, note, totalNotes, onBack, se
           spellCheck={false}
         />
 
-        <View style={styles.headerLeft}>
-          {note.type === NoteType.ListOnly && (
-            <Text style={styles.subtitle}>
-              ({note.relations.items?.length || 0} Items)
-            </Text>
-          )}
+        {note &&
+          <View style={styles.headerLeft}>
+            {note.type === NoteType.ListOnly && (
+              <Text style={styles.subtitle}>
+                ({note.relations.items?.length || 0} Items)
+              </Text>
+            )}
 
-          {loading && (
-            <Loader size={28} color={white} />
-          )}
-          {!loading && (
-            <BouncyPressable onPress={() => openUserModal()} containerStyle={conditionalStyles.collaborative}>
-              <CollaborativeIcon entity={note} type='note' />
-            </BouncyPressable>
-          )}
-          {!loading && note.type === NoteType.Folder && (
-            <NewNoteMenu newNote={(type: NoteType) => newNote(type, note.id)}/>
-          )}
-        </View>
+            {loading && (
+              <Loader size={28} color={white} />
+            )}
+            {!loading && (
+              <BouncyPressable onPress={() => openUserModal()} containerStyle={conditionalStyles.collaborative}>
+                <CollaborativeIcon entity={note} type='note' />
+              </BouncyPressable>
+            )}
+            {!loading && note.type === NoteType.Folder && (
+              <NewNoteMenu newNote={(type: NoteType) => newNote(type, note.id)}/>
+            )}
+          </View>
+        }
       </View>
     </TouchableWithoutFeedback>
   )

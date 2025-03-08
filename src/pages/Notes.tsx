@@ -38,6 +38,7 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
         return;
       }
 
+      console.log('setting path to navigated note')
       setPath(`${path}/${props.route.params?.id}`)
     }
   }, [props.route.params?.id])
@@ -100,7 +101,7 @@ export const Notes = (props: BottomTabScreenProps<RouteParams>) => {
   return (
     <View style={styles.main}>
       <NoteHeader
-        initialTitle={loadedNote ? loadedNote.title : 'All Notes'}
+        initialTitle={loadedNote ? loadedNote.title : (path === 'root' ? 'All Notes' : 'Unknown')}
         note={loadedNote}
         loading={loading || (!loadedNote && path !== 'root')}
         totalNotes={noteCollection ? noteCollection.length : 0}
