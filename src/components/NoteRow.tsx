@@ -133,6 +133,7 @@ export const NoteRow = ({
         containerStyle: [styles.main, conditionalStyles.main]
       }}
       disabled={!!moving && !canBeMovedTo}
+      key={note.id + moving + sorting}
       useLongPress
     >
       <View
