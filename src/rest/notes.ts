@@ -28,7 +28,7 @@ export async function getNote(id: string): Promise<UserRelatedNote | undefined> 
   if (result?.status === 200) {
     return note;
   } else {
-    alert(result.data);
+    alert('This note is no longer available');
   }
 }
 
