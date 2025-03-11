@@ -14,20 +14,13 @@ import { ChildNote } from '@/schema/notes';
 import { UserRelatedNote } from '@/schema/user'
 import { useNoteStore } from '@/store/useNoteStore';
 import { black, deepBlue, eventsBadgeColor, primaryGreen, white } from '@/utils/colours';
+import { isChildNote, isUserRelatedNote } from '@/utils/note';
 
 type Props = {
   notes: UserRelatedNote[] | ChildNote[],
   loading: boolean,
   parent: UserRelatedNote | null,
   setNoteId: (id: ID, isFolder?: boolean) => void;
-}
-
-const isChildNote = (note: UserRelatedNote | ChildNote): note is ChildNote => {
-  return note && 'sorting_rank' in note;
-}
-
-const isUserRelatedNote = (note: UserRelatedNote | ChildNote): note is UserRelatedNote => {
-  return note && 'sorting_rank_preference' in note;
 }
 
 export const NoteCollection = ({ notes, loading, parent, setNoteId }: Props) => {
@@ -201,7 +194,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 10,
     marginBottom: 300,
-    maxWidth: 450,
+    maxWidth: 500,
     overflow: 'visible',
     paddingHorizontal: 20,
     width: '100%'

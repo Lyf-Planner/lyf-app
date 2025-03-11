@@ -126,11 +126,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 4,
     height: 50,
-    shadowColor: black,
-
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 2,
     width: '100%'
   },
   pressable: {
@@ -139,6 +134,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    padding: 8
+    padding: 8,
+
+    shadowColor: black,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2
   }
 });

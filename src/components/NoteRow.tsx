@@ -9,13 +9,14 @@ import { CollaborativeIcon } from '@/components/CollaborativeIcon';
 import { NoteTypeBadge } from '@/components/NoteTypeBadge';
 import { SortingHandle } from '@/components/SortingHandle';
 import { LyfMenu } from '@/containers/LyfMenu';
-import { NoteDbObject, NoteType } from '@/schema/database/notes';
+import { NoteType } from '@/schema/database/notes';
+import { ChildNote } from '@/schema/notes';
 import { UserRelatedNote } from '@/schema/user';
 import { useNoteStore } from '@/store/useNoteStore';
 import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
 
 type Props = {
-  note: NoteDbObject,
+  note: UserRelatedNote | ChildNote,
   parent: UserRelatedNote | null,
   onDrag?: () => void;
   onSelect: () => void;
@@ -93,7 +94,7 @@ export const NoteRow = ({
 
   const conditionalStyles = {
     main: {
-      ...(!canBeMovedTo && moving !== note.id && moving ? {
+      ...(!canBeMovedTo && moving ? {
         opacity: 0.5
       } : {}),
 

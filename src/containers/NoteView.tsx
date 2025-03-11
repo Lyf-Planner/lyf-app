@@ -44,7 +44,9 @@ export const NoteView = ({
             style={[styles.scrollView, conditionalStyles.scrollView]}
             contentContainerStyle={styles.scrollContainer}
           >
-            {note.invite_pending && <InviteHandler entity={note} type='note' />}
+            <View style={styles.inviteHandleWrapper}>
+              {note.invite_pending && <InviteHandler entity={note} type='note' />}
+            </View>
             <NoteBody note={note} setNoteId={setNoteId} />
           </KeyboardAwareScrollView>
         )}
@@ -68,10 +70,18 @@ const styles = StyleSheet.create({
   },
 
   main: { flex: 1 },
+  inviteHandleWrapper: {
+    width: '100%',
+    maxWidth: 500,
+    alignSelf: 'center'
+  },
   notePageWrapper: {
     overflow: 'visible'
   },
-  scrollContainer: { flexDirection: 'column', gap: 10 },
+  scrollContainer: {
+    flexDirection: 'column',
+    gap: 10
+  },
   scrollView: {
     paddingHorizontal: 20,
     width: '100%'
