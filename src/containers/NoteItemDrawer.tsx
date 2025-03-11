@@ -82,7 +82,7 @@ export const NoteItemDrawer = ({
 
   // Pass "invited" to block any input component with a localised value
   return (
-    <TouchableWithoutFeedback onPress={() => Platform.OS === 'web' ? null : Keyboard.dismiss()}>
+    <TouchableWithoutFeedback onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()}>
       <View style={styles.mainContainer}>
         <View style={styles.header}>
           <View style={styles.headerBackground}>

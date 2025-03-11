@@ -103,7 +103,7 @@ export const ItemDrawer = ({
 
   // Pass "invited" to block any input component with a localised value
   return (
-    <TouchableWithoutFeedback onPress={() => Platform.OS === 'web' ? null : Keyboard.dismiss()}>
+    <TouchableWithoutFeedback onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()}>
       <View style={styles.mainContainer}>
         {item.invite_pending && (
           <Text style={styles.subtitle}>You've been invited to...</Text>

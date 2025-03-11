@@ -57,7 +57,7 @@ export const Background = ({ children }: Props) => {
   return (
     <TouchableWithoutFeedback
       style={styles.main}
-      onPress={() => Keyboard.dismiss()}
+      onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()}
     >
       {background}
     </TouchableWithoutFeedback>

@@ -30,7 +30,9 @@ export async function post(endpoint: string, body: unknown) {
   try {
     const token = await getAsyncData('token');
     const requestUrl = backendUrl + endpoint;
-    console.log('hitting', requestUrl);
+    if (env.APP_ENV !== 'production') {
+      console.log('hitting', requestUrl);
+    }
 
     return await Axios.post(requestUrl, body, {
       headers: {

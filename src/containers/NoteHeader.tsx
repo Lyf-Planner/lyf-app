@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { View, Text, TouchableWithoutFeedback, TouchableOpacity, TextInput, Keyboard, StyleSheet } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, TouchableOpacity, TextInput, Keyboard, StyleSheet, Platform } from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -86,7 +86,7 @@ export const NoteHeader = ({ initialTitle, loading, note, totalNotes, onBack, se
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()}>
       <View style={styles.noteHeader}>
         <TouchableOpacity onPress={onBack}>
           <Entypo name={'chevron-left'} size={30} color='white' />
