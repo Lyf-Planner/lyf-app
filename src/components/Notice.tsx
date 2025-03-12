@@ -20,8 +20,9 @@ export const Notice = ({ notice }: Props) => {
 const styles = StyleSheet.create({
   content: {
     fontFamily: 'Lexend',
-    fontSize: 16,
-    paddingHorizontal: 8
+    fontSize: 18,
+    paddingHorizontal: 8,
+    height: 80
   },
 
   image: {
@@ -33,6 +34,6 @@ const styles = StyleSheet.create({
 
   main: {
     flexDirection: 'column',
-    gap: 16
+    gap: 12
   }
 })

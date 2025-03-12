@@ -96,7 +96,8 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    paddingLeft: 4
+    paddingLeft: 4,
+    paddingBottom: 12
   },
 
   main: {
@@ -116,7 +117,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     flexDirection: 'column',
-    gap: 16,
 
     overflow: 'hidden',
     padding: NOTICEBOARD_PADDING
