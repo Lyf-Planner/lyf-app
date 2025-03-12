@@ -52,17 +52,18 @@ export const LyfMenu = ({
     <Popover
       popoverStyle={styles.optionsContainer}
       from={(_sourceRef, showPopover) => (
-        <BouncyPressable
-          disabled={disabled}
-          onPress={!useLongPress && !useHold ? showPopover : onPress} // TODO improve this hard to read logic
-          onLongPress={useLongPress && !useHold ? showPopover : undefined}
-          onPressIn={useHold ? onPress : undefined}
-          longPressDuration={150}
-          style={styles.pressableFlex}
-          {...pressableOptions}
-        >
-          {children}
-        </BouncyPressable>
+        <View>
+          <BouncyPressable
+            disabled={disabled}
+            onPress={!useLongPress && !useHold ? showPopover : onPress} // TODO improve this hard to read logic
+            onLongPress={useLongPress && !useHold ? showPopover : undefined}
+            onPressIn={useHold ? onPress : undefined}
+            longPressDuration={150}
+            {...pressableOptions}
+          >
+            {children}
+          </BouncyPressable>
+        </View>
       )}>
       <View style={styles.optionsWrapper}>
         {options.map(({ icon, text, onSelect, style }, i) => (
@@ -98,6 +99,5 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingLeft: 0
   },
-  optionsWrapper: { marginVertical: 4 },
-  pressableFlex: { width: '100%', height: '100%' }
+  optionsWrapper: { marginVertical: 4 }
 });
