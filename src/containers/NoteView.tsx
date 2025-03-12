@@ -29,30 +29,28 @@ export const NoteView = ({
 
   return (
     <View style={styles.main}>
-      <View style={styles.notePageWrapper}>
-        {loading &&
-          <View style={styles.loadingContainer}>
-            <Loader />
-            <Text style={styles.loadingText}>
-              Organizing...
-            </Text>
-          </View>
-        }
+      {loading &&
+        <View style={styles.loadingContainer}>
+          <Loader />
+          <Text style={styles.loadingText}>
+            Organizing...
+          </Text>
+        </View>
+      }
 
-        {!loading && (
-          <KeyboardAwareScrollView
-            style={[styles.scrollView, conditionalStyles.scrollView]}
-            contentContainerStyle={styles.scrollContainer}
-          >
-            {note.invite_pending && (
-              <View style={styles.inviteHandleWrapper}>
-                <InviteHandler entity={note} type='note' />
-              </View>
-            )}
-            <NoteBody note={note} setNoteId={setNoteId} />
-          </KeyboardAwareScrollView>
-        )}
-      </View>
+      {!loading && (
+        <KeyboardAwareScrollView
+          style={[styles.scrollView, conditionalStyles.scrollView]}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          {note.invite_pending && (
+            <View style={styles.inviteHandleWrapper}>
+              <InviteHandler entity={note} type='note' />
+            </View>
+          )}
+          <NoteBody note={note} setNoteId={setNoteId} />
+        </KeyboardAwareScrollView>
+      )}
     </View>
   );
 };
@@ -76,9 +74,6 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 500,
     alignSelf: 'center'
-  },
-  notePageWrapper: {
-    overflow: 'visible'
   },
   scrollContainer: {
     flexDirection: 'column',
