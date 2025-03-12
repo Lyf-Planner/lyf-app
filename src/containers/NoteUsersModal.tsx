@@ -82,10 +82,14 @@ const styles = StyleSheet.create({
   addFriends: {
     alignItems: 'center',
     flexDirection: 'row',
+    justifyContent: 'center',
     gap: 8,
-    height: 45
+    height: 45,
+    width: '100%',
+    marginTop: 'auto'
   },
   addFriendsContainer: {
+    width: '100%',
     backgroundColor: primaryGreen,
     borderRadius: 10,
     flexDirection: 'row',
@@ -110,7 +114,8 @@ const styles = StyleSheet.create({
     gap: 4,
     justifyContent: 'center',
     left: 5, // accounts for offset caused by close button
-    position: 'relative'
+    position: 'relative',
+    height: 50
   },
   mainContainer: {
     alignContent: 'center',
@@ -144,17 +149,15 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     alignItems: 'center',
-    flexDirection: 'column',
-    paddingBottom: 50
+    flexDirection: 'column'
   },
   userList: {
-    overflow: 'hidden'
+    overflow: 'hidden',
+    flex: 1
   },
   userScroll: {
     paddingVertical: 12,
-    paddingHorizontal: 8,
-    height: 280,
-    maxHeight: 280
+    paddingHorizontal: 8
   }
 });
 
