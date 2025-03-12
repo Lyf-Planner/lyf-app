@@ -44,9 +44,11 @@ export const NoteView = ({
             style={[styles.scrollView, conditionalStyles.scrollView]}
             contentContainerStyle={styles.scrollContainer}
           >
-            <View style={styles.inviteHandleWrapper}>
-              {note.invite_pending && <InviteHandler entity={note} type='note' />}
-            </View>
+            {note.invite_pending && (
+              <View style={styles.inviteHandleWrapper}>
+                <InviteHandler entity={note} type='note' />
+              </View>
+            )}
             <NoteBody note={note} setNoteId={setNoteId} />
           </KeyboardAwareScrollView>
         )}
