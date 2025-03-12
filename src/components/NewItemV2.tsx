@@ -46,7 +46,6 @@ export const NewItemV2 = ({ fixType = false, type, addItemByTitle, onBlur, onCan
     <View style={styles.listNewItem}>
       <TextInput
         ref={inputRef}
-        autoFocus
         returnKeyType="done"
         placeholder="Enter Title"
         placeholderTextColor={inProgressColor}
