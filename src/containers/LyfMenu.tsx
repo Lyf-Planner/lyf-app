@@ -52,7 +52,7 @@ export const LyfMenu = ({
     <Popover
       popoverStyle={styles.optionsContainer}
       from={(_sourceRef, showPopover) => (
-        <View>
+        <View style={pressableOptions.style}>
           <BouncyPressable
             disabled={disabled}
             onPress={!useLongPress && !useHold ? showPopover : onPress} // TODO improve this hard to read logic

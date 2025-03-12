@@ -13,6 +13,7 @@ export type BouncyPressableOptions = {
   withShadow?: boolean,
   bounceScale?: number,
   disabled?: boolean;
+  style?: object;
   containerStyle?: object;
   conditionalStyles?: object;
   longPressDuration?: number;
@@ -28,7 +29,6 @@ type ShadowOptions = {
 
 export type BouncyPressableProps = BouncyPressableOptions & ShadowOptions & {
   children: LyfElement;
-  style?: object;
   onPress?: () => void;
   onPressIn?: () => void;
   onLongPress?: () => void;

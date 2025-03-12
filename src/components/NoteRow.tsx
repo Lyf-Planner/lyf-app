@@ -131,6 +131,7 @@ export const NoteRow = ({
         style: moving ? { opacity: 0.5 } : {}
       }]}
       pressableOptions={{
+        style: { width: '100%' },
         containerStyle: [styles.main, conditionalStyles.main]
       }}
       disabled={!!moving && !canBeMovedTo}
