@@ -10,7 +10,7 @@ export default {
     scheme: 'lyf',
     currentFullName: '@ethanhusband/lyf',
     originalFullName: '@ethanhusband/lyf',
-    version: '2.1.6',
+    version: '2.1.7',
     icon: './src/assets/images/inverted-icon.png',
     orientation: 'portrait',
     newArchEnabled: true,
@@ -47,11 +47,11 @@ export default {
         backgroundColor: '#ffffff'
       },
       package: 'com.lyfplanner',
-      versionCode: 2106
+      versionCode: 2107
     },
     ios: {
       bundleIdentifier: 'com.lyfplanner',
-      buildNumber: '2.1.6'
+      buildNumber: '2.1.7'
     },
     plugins: [
       'expo-asset',
