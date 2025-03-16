@@ -51,7 +51,10 @@ export default {
     },
     ios: {
       bundleIdentifier: 'com.lyfplanner',
-      buildNumber: '2.2.0'
+      buildNumber: '2.2.0',
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false
+      }
     },
     plugins: [
       'expo-asset',
