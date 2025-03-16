@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { View, StyleSheet, Text, TouchableHighlight, Platform, Pressable } from 'react-native';
 
 import Animated, { FadeIn } from 'react-native-reanimated';
@@ -20,6 +20,16 @@ export const Noticeboard = () => {
   const { updateModal } = useRootComponentStore();
   const [page, setPage] = useState(0);
   const carouselRef = useRef<Carousel<NoticeDbObject>>(null);
+
+  const sortedNotices = useMemo(() => {
+    return [...notices.sort((a, b) => {
+      if (a.rank && b.rank) {
+        return a.rank - b.rank;
+      }
+
+      return 0;
+    })]
+  }, [notices]);
 
   useEffect(() => {
     if (Platform.OS === 'web') {
@@ -65,13 +75,7 @@ export const Noticeboard = () => {
         <Carousel
           ref={carouselRef}
           scrollEnabled
-          data={notices.sort((a, b) => {
-            if (a.rank && b.rank) {
-              return a.rank - b.rank;
-            }
-
-            return 0;
-          })}
+          data={sortedNotices}
           renderItem={({ item }) => <Notice key={item.id} notice={item} />}
           vertical={false}
           onScrollIndexChanged={(index: number) => setPage(index)}
