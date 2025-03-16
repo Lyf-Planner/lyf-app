@@ -58,7 +58,7 @@ export const DayDisplay = ({
   const { reload, startDate, endDate } = useTimetableStore();
   const { user, updateUser } = useAuthStore();
 
-  const [sortingTrigger, setSortingTrigger] = useState({ activate: false, id: uuid() });
+  const [sortingTrigger, setSortingTrigger] = useState({ id: uuid() });
 
   const allDone = useMemo(
     () =>
@@ -199,7 +199,7 @@ export const DayDisplay = ({
   return (
     <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
       <BouncyPressable
-        onPress={() => setSortingTrigger({ activate: !sortingTrigger.activate, id: uuid() })}
+        onPress={() => setSortingTrigger({ id: uuid() })}
         onLongPress={() => finishDay()}
       >
         <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>

@@ -10,6 +10,7 @@ import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { LyfElement } from '@/utils/abstractTypes';
+import { unreachable } from '@/utils/misc';
 
 interface Props {
   fixedType?: ItemType;
@@ -17,7 +18,7 @@ interface Props {
   itemStyleOptions: ItemStyleOptions;
   listWrapperStyles?: object;
   newItemContext: Partial<LocalItem>;
-  sortingTrigger?: { activate: boolean };
+  sortingTrigger?: { id: string };
 }
 
 type DragEndProps = {
@@ -53,6 +54,19 @@ export const List = ({
 
   const [state, setState] = useState<States>(States.DEFAULT);
 
+  const switchState = () => {
+    switch (state) {
+      case States.DEFAULT:
+        setState(States.EDIT);
+        break;
+      case States.EDIT:
+        setState(States.DEFAULT);
+        break;
+      default:
+        unreachable();
+    }
+  }
+
   const isFirstRender = useRef(true);
   useEffect(() => {
     if (isFirstRender.current) {
@@ -61,7 +75,8 @@ export const List = ({
     }
 
     if (sortingTrigger) {
-      setState(sortingTrigger.activate ? States.EDIT : States.DEFAULT);
+      console.log('got sorting trigger', { sortingTrigger });
+      switchState();
     }
   }, [sortingTrigger])
 

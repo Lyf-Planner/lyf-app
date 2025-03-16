@@ -17,7 +17,7 @@ export type ItemContext = Partial<LocalItem> & {
 }
 
 type Props = {
-  editActiveTrigger?: { activate: boolean }
+  editActiveTrigger?: { id: string }
   fixedType?: ItemType;
   newItemContext: ItemContext;
   addCallback?: () => void;
@@ -49,7 +49,7 @@ export const ListMultiAction = ({
     }
 
     if (editActiveTrigger) {
-      setEditActive(editActiveTrigger.activate)
+      setEditActive(!editActive);
     }
   }, [editActiveTrigger])
 
