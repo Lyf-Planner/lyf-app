@@ -65,7 +65,13 @@ export const Noticeboard = () => {
         <Carousel
           ref={carouselRef}
           scrollEnabled
-          data={notices}
+          data={notices.sort((a, b) => {
+            if (a.rank && b.rank) {
+              return a.rank - b.rank;
+            }
+
+            return 0;
+          })}
           renderItem={({ item }) => <Notice key={item.id} notice={item} />}
           vertical={false}
           onScrollIndexChanged={(index: number) => setPage(index)}
