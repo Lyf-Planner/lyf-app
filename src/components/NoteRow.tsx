@@ -1,25 +1,34 @@
-import { SyntheticEvent, useEffect, useRef } from 'react';
+import { SyntheticEvent, useEffect, useMemo, useRef } from 'react';
 import { StyleSheet, View, Text, Platform, Alert } from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { BouncyPressable } from '@/components/BouncyPressable';
 import { CollaborativeIcon } from '@/components/CollaborativeIcon';
 import { NoteTypeBadge } from '@/components/NoteTypeBadge';
+import { SortingHandle } from '@/components/SortingHandle';
+import { LyfMenu } from '@/containers/LyfMenu';
+import { NoteType } from '@/schema/database/notes';
+import { ChildNote } from '@/schema/notes';
 import { UserRelatedNote } from '@/schema/user';
 import { useNoteStore } from '@/store/useNoteStore';
-import { black, blackWithOpacity, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
+import { black, blackWithOpacity, deepBlue, deepBlueOpacity, eventsBadgeColor } from '@/utils/colours';
 
 type Props = {
-  note: UserRelatedNote,
+  note: UserRelatedNote | ChildNote,
+  parent: UserRelatedNote | null,
+  onDrag?: () => void;
   onSelect: () => void;
 }
 
 export const NoteRow = ({
   note,
+  parent,
+  onDrag,
   onSelect
 }: Props) => {
-  const { removeNote } = useNoteStore();
+  const { moving, sorting, moveNote, removeNote, setSorting, setMoving } = useNoteStore();
   // Web Right Click detection
   //
   //   React Native won't recognise that we're performing this on a div,
@@ -30,6 +39,10 @@ export const NoteRow = ({
   //
   // @ts-expect-error react native does not directly support html types
   const wrapperRef = useRef<div>(null);
+
+  const canBeMovedTo = useMemo(() => {
+    return note.type === NoteType.Folder && moving !== note.id;
+  }, [note.type, moving])
 
   useEffect(() => {
     const handleContextMenu = (event: SyntheticEvent) => {
@@ -59,21 +72,71 @@ export const NoteRow = ({
       return;
     }
 
+    const noteIsFolder = note.type === NoteType.Folder;
     Alert.alert(
-      `Are you sure you want to delete ${note.title}`,
-      undefined,
+      'Are you sure?',
+      noteIsFolder ? `This will also delete all contents of '${note.title}'` : 'This operation cannot be reversed',
       [
-        { text: 'Cancel', onPress: () => null },
-        { text: 'Delete', onPress: () => removeNote(note.id), isPreferred: true }
-      ]
-    )
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          isPreferred: false
+        },
+        {
+          text: 'Confirm',
+          onPress: () => removeNote(note.id),
+          isPreferred: true
+        }
+      ],
+      { cancelable: true }
+    );
+  }
+
+  const conditionalStyles = {
+    main: {
+      ...(!canBeMovedTo && moving ? {
+        opacity: 0.5
+      } : {}),
+
+      ...(canBeMovedTo && moving ? {
+        backgroundColor: deepBlueOpacity(0.9),
+        borderWidth: 0.5,
+        borderColor: eventsBadgeColor,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 3,
+        shadowOpacity: 1
+      } : {})
+    }
   }
 
   return (
-    <BouncyPressable
-      onPress={onSelect}
-      onLongPress={() => handleDeletion()}
-      style={styles.bannerView}
+    <LyfMenu
+      onPress={onDrag || onSelect}
+      useHold={!!onDrag}
+      options={[{
+        icon: <MaterialCommunityIcons name="delete" size={22} />,
+        text: 'Delete',
+        onSelect: !moving ? () => handleDeletion() : () => null,
+        style: moving ? { opacity: 0.5 } : {}
+      }, {
+        icon: <MaterialCommunityIcons name="folder-move" size={22} />,
+        text: 'Move',
+        onSelect: moving
+          ? () => moveNote(moving, note.id)
+          : () => setMoving(note.id, parent ? parent.id : 'root')
+      }, {
+        icon: <FontAwesome5Icon name="sort" size={22} />,
+        text: 'Sort',
+        onSelect: !moving ? () => setSorting(!sorting) : () => null,
+        style: moving ? { opacity: 0.5 } : {}
+      }]}
+      pressableOptions={{
+        style: { width: '100%' },
+        containerStyle: [styles.main, conditionalStyles.main]
+      }}
+      disabled={!!moving && !canBeMovedTo}
+      key={note.id + moving + sorting}
+      useLongPress
     >
       <View
         style={styles.touchableHighlight}
@@ -87,17 +150,29 @@ export const NoteRow = ({
         >
           {note.title}
         </Text>
-        <View style={styles.rowLeft}>
-          {note.collaborative && <CollaborativeIcon entity={note} type='note' />}
-          <Entypo name={'chevron-right'} size={25} color='white' />
-        </View>
+        {sorting && (
+          <View style={styles.rowLeft}>
+            <SortingHandle
+              disabled
+              backgroundColor={eventsBadgeColor}
+              iconColor={deepBlue}
+            />
+          </View>
+        )}
+
+        {!sorting && (
+          <View style={styles.rowLeft}>
+            {note.collaborative && <CollaborativeIcon entity={note} type='note' />}
+            <Entypo name={'chevron-right'} size={25} color='white' />
+          </View>
+        )}
       </View>
-    </BouncyPressable>
+    </LyfMenu>
   );
 };
 
 const styles = StyleSheet.create({
-  bannerView: {
+  main: {
     alignItems: 'center',
     backgroundColor: deepBlueOpacity(Platform.OS === 'web' ? 0.9 : 0.75),
     borderColor: blackWithOpacity(0.3),

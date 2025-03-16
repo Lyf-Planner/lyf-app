@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { StyleSheet, TouchableHighlight, View, Text, ScrollView, Platform } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -9,22 +10,29 @@ import { UserList, UserListContext } from './UserList';
 import { BouncyPressable } from '@/components/BouncyPressable';
 import { Horizontal } from '@/components/Horizontal';
 import { AddFriendsModal } from '@/containers/AddFriendsModal';
-import { NoteRelatedUser } from '@/schema/notes';
-import { UserRelatedNote } from '@/schema/user';
+import { ID } from '@/schema/database/abstract';
+import { useNoteStore } from '@/store/useNoteStore';
 import { useRootComponentStore } from '@/store/useRootComponent';
 import { black, blackWithOpacity, primaryGreen, white } from '@/utils/colours';
 
 interface Props {
-  note: UserRelatedNote;
-  users: NoteRelatedUser[];
+  note_id: ID;
 }
 
-export const NoteUsersModal = ({ note, users }: Props) => {
+export const NoteUsersModal = ({ note_id }: Props) => {
+  const { notes } = useNoteStore();
   const { updateModal } = useRootComponentStore();
+
+  const note = useMemo(() => notes[note_id], [notes]);
+  const users = useMemo(() => note?.relations.users ?? [], [note]);
 
   const closeModal = () => updateModal(null);
 
   const addFriends = () => updateModal(<AddFriendsModal entity_id={note.id} type='note' />)
+
+  // const inheritedPermissions = useMemo(() => {
+  //   return users.filter((userPermission) => userPermission.inherited_from !== note.id)
+  // }, [users]);
 
   return (
     <View style={styles.mainContainer}>
@@ -39,23 +47,24 @@ export const NoteUsersModal = ({ note, users }: Props) => {
         <MaterialCommunityIcons name='note-multiple' size={28} color={black} />
         <Text style={styles.title}>Note Users</Text>
       </View>
-      <Horizontal style={styles.firstSeperator} />
+      <View style={styles.userList}>
+        <Horizontal style={styles.firstSeperator} />
 
-      <ScrollView
-        style={styles.userScroll}
-        contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
-        <UserList
-          users={users}
-          emptyText={'No friends added yet'}
-          context={UserListContext.Note}
-          note={note}
-          menuContext='note-users-modal'
-        />
-      </ScrollView>
+        <ScrollView
+          style={styles.userScroll}
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <UserList
+            users={users}
+            emptyText={'No friends added yet'}
+            context={UserListContext.Note}
+            note={note}
+          />
+        </ScrollView>
 
-      <Horizontal style={styles.firstSeperator} />
+        <Horizontal style={styles.firstSeperator} />
+      </View>
 
       <BouncyPressable
         containerStyle={styles.addFriendsContainer}
@@ -73,10 +82,14 @@ const styles = StyleSheet.create({
   addFriends: {
     alignItems: 'center',
     flexDirection: 'row',
+    justifyContent: 'center',
     gap: 8,
-    height: 45
+    height: 45,
+    width: '100%',
+    marginTop: 'auto'
   },
   addFriendsContainer: {
+    width: '100%',
     backgroundColor: primaryGreen,
     borderRadius: 10,
     flexDirection: 'row',
@@ -93,7 +106,6 @@ const styles = StyleSheet.create({
   },
   firstSeperator: {
     borderWidth: 2,
-    marginBottom: 4,
     opacity: 0.25
   },
   header: {
@@ -101,9 +113,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 4,
     justifyContent: 'center',
-    left: 5,
-    marginBottom: 4,
-    position: 'relative'
+    left: 5, // accounts for offset caused by close button
+    position: 'relative',
+    height: 50
   },
   mainContainer: {
     alignContent: 'center',
@@ -112,21 +124,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     flexDirection: 'column',
-    gap: 6,
-    height: 450,
-    maxHeight: 600,
+    gap: 10,
+    height: Platform.OS === 'web' ? 600 : 450,
+    maxHeight: Platform.OS === 'web' ? 600 : 450,
     paddingBottom: Platform.OS === 'web' ? 30 : 15,
     paddingHorizontal: 15,
-    paddingTop: 30,
+    paddingTop: 25,
+
     shadowColor: black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 10,
     width: Platform.OS === 'web' ? 450 : 375
-  },
-  scrollContainer: {
-    alignItems: 'center',
-    flexDirection: 'column'
   },
   title: { fontFamily: 'Lexend', fontSize: 22, fontWeight: '700' },
   touchable: {
@@ -138,9 +147,16 @@ const styles = StyleSheet.create({
     top: 20,
     zIndex: 50
   },
-  userScroll: {
-    maxHeight: 350,
+  scrollContainer: {
+    alignItems: 'center',
+    flexDirection: 'column'
+  },
+  userList: {
     overflow: 'hidden',
+    flex: 1
+  },
+  userScroll: {
+    paddingVertical: 12,
     paddingHorizontal: 8
   }
 });

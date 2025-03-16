@@ -8,14 +8,20 @@ import { blackWithOpacity } from '@/utils/colours';
 
 export type LyfMenuProps = {
   children: JSX.Element; // The menu will display when this is pressed!
-  pressableOptions?: BouncyPressableOptions;
+  disabled?: boolean;
+  onPress?: () => void; // used as a default fallback for pressing if useLongPress is provided
   options: PopoverMenuOption[];
+  pressableOptions?: BouncyPressableOptions;
   textAlignment?: 'center' | 'auto' | 'left' | 'right' | 'justify' | undefined;
+  useLongPress?: boolean;
+  useHold?: boolean;
 };
 
 export type PopoverMenuOption = {
+  icon?: JSX.Element;
   text: string;
   onSelect: () => void;
+  style?: object;
 };
 
 export enum MenuPopoverPlacement {
@@ -27,10 +33,14 @@ export enum MenuPopoverPlacement {
 }
 
 export const LyfMenu = ({
+  children,
+  disabled = false,
+  onPress = () => null,
+  options,
   pressableOptions = {},
   textAlignment = 'center',
-  options,
-  children
+  useLongPress = false,
+  useHold = false
 }: LyfMenuProps) => {
   const conditionalStyles = {
     optionText: {
@@ -42,9 +52,13 @@ export const LyfMenu = ({
     <Popover
       popoverStyle={styles.optionsContainer}
       from={(_sourceRef, showPopover) => (
-        <View>
+        <View style={pressableOptions.style}>
           <BouncyPressable
-            onPress={showPopover}
+            disabled={disabled}
+            onPress={!useLongPress && !useHold ? showPopover : onPress} // TODO improve this hard to read logic
+            onLongPress={useLongPress && !useHold ? showPopover : undefined}
+            onPressIn={useHold ? onPress : undefined}
+            longPressDuration={150}
             {...pressableOptions}
           >
             {children}
@@ -52,10 +66,11 @@ export const LyfMenu = ({
         </View>
       )}>
       <View style={styles.optionsWrapper}>
-        {options.map(({ text, onSelect }, i) => (
-          <View key={text}>
+        {options.map(({ icon, text, onSelect, style }, i) => (
+          <View key={text} style={style}>
             <TouchableOpacity onPress={onSelect} style={styles.optionWrapper}>
-              <Text style={[styles.optionText, conditionalStyles.optionText]}>
+              {icon}
+              <Text numberOfLines={1} style={[styles.optionText, conditionalStyles.optionText]}>
                 {text}
               </Text>
             </TouchableOpacity>
@@ -69,7 +84,14 @@ export const LyfMenu = ({
 
 const styles = StyleSheet.create({
   optionText: { color: blackWithOpacity(0.7), fontFamily: 'Lexend', fontSize: 18 },
-  optionWrapper: { marginHorizontal: 8, marginVertical: 8 },
+  optionWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 4,
+    justifyContent: 'space-evenly',
+    marginHorizontal: 8,
+    marginVertical: 8
+  },
   optionsContainer: {
     borderColor: blackWithOpacity(0.5),
     borderRadius: 10,

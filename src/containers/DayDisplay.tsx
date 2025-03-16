@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, Platform, Alert } from 'react-native';
 
 import * as Haptics from 'expo-haptics';
@@ -8,12 +8,11 @@ import Animated, {
   withTiming
 } from 'react-native-reanimated';
 import debouncer from 'signature-debouncer';
+import { v4 as uuid } from 'uuid';
 
 import { BouncyPressable } from '@/components/BouncyPressable';
-import { MultiTypeNewItem } from '@/components/MultiTypeNewItem';
 import { Vertical } from '@/components/Vertical';
 import { List } from '@/containers/List';
-import { SortableList } from '@/containers/SortableList';
 import { WeatherWidget } from '@/containers/WeatherWidget';
 import { ItemStatus } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
@@ -39,7 +38,7 @@ import {
 } from '@/utils/dates';
 import { sleep } from '@/utils/misc';
 
-type Props = {
+type DayProps = {
   items: LocalItem[],
   date: DateString | null,
   day: DayOfWeek | null,
@@ -49,27 +48,17 @@ type Props = {
 
 const dayFinishingDebounceSignature = 'AUTO_DAY_FINISHING';
 
-export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset }: Props) => {
-  const { reload, resortItems, startDate, endDate } = useTimetableStore();
+export const DayDisplay = ({
+  items,
+  date,
+  day,
+  useRoutine = false,
+  shadowOffset
+}: DayProps) => {
+  const { reload, startDate, endDate } = useTimetableStore();
   const { user, updateUser } = useAuthStore();
-  const [sorting, setSorting] = useState<boolean | null>(null);
-  const [sortOrder, setSortOrder] = useState<LocalItem[]>(items);
 
-  const submitSortOrder = useCallback(() => {
-    resortItems(sortOrder);
-  }, [sortOrder]);
-
-  useEffect(() => {
-    if (!sorting && sorting !== null) {
-      // If a timeout is not set, this runs before the bounce animation finishes
-      // Due to threading (I think) the animation gets stuck halfway through
-      setTimeout(() => submitSortOrder(), 100);
-    }
-  }, [sorting]);
-
-  useEffect(() => {
-    setSortOrder(items);
-  }, [items]);
+  const [sortingTrigger, setSortingTrigger] = useState({ id: uuid() });
 
   const allDone = useMemo(
     () =>
@@ -210,7 +199,7 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
   return (
     <Animated.View style={[styles.dayRootView, conditionalStyles.dayRootView, exitingAnimation]}>
       <BouncyPressable
-        onPress={() => setSorting(!sorting)}
+        onPress={() => setSortingTrigger({ id: uuid() })}
         onLongPress={() => finishDay()}
       >
         <Animated.View style={[styles.dayHeaderView, smallScaleAnimation]}>
@@ -232,41 +221,18 @@ export const DayDisplay = ({ items, date, day, useRoutine = false, shadowOffset 
       </BouncyPressable>
 
       <View style={styles.listWrapperView}>
-        {sorting ? (
-          <SortableList
-            setSortOrder={setSortOrder}
-            sortOrder={sortOrder}
-            itemStyleOptions={{
-              itemTextColor: black
-            }}
-            listWrapperStyles={styles.transparentBackground}
-          />
-        ) : (
-          <List
-            items={items}
-            itemStyleOptions={{
-              itemTextColor: black
-            }}
-            listWrapperStyles={styles.transparentBackground}
-          />
-        )}
-
-        {sorting ? (
-          <BouncyPressable style={styles.doneButton} onPress={() => {
-            submitSortOrder();
-            setSorting(false)
-          }}>
-            <Text style={styles.doneText}>Done</Text>
-          </BouncyPressable>
-        ) : (
-          <MultiTypeNewItem
-            commonData={{
-              date: date || undefined,
-              day: day || undefined
-            }}
-            newRank={items.length}
-          />
-        )}
+        <List
+          items={items}
+          itemStyleOptions={{
+            itemTextColor: black
+          }}
+          listWrapperStyles={styles.transparentBackground}
+          newItemContext={{
+            date: date || undefined,
+            day: day || undefined
+          }}
+          sortingTrigger={sortingTrigger}
+        />
       </View>
     </Animated.View>
   );
@@ -303,7 +269,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     flexDirection: 'column',
-    gap: 4,
+    gap: 8,
     padding: 8,
     shadowColor: black,
     shadowOpacity: 0.75,
@@ -319,24 +285,6 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     transform: [{ rotateZ: '-20deg' }]
   },
-  doneButton: {
-    alignItems: 'center',
-    backgroundColor: secondaryGreen,
-    borderColor: black,
-    borderRadius: 10,
-    borderWidth: 1,
-    flexDirection: 'row',
-    height: 55,
-    justifyContent: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 8,
-    width: '100%'
-  },
-  doneText: {
-    color: black,
-    fontFamily: 'Lexend',
-    fontSize: 17
-  },
 
   headerEnd: {
     alignItems: 'center',
@@ -347,9 +295,7 @@ const styles = StyleSheet.create({
     marginRight: 2
   },
   listWrapperView: {
-    flexDirection: 'column',
-    gap: 2,
-    marginTop: 2
+    flexDirection: 'column'
   },
 
   transparentBackground: {

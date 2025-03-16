@@ -90,6 +90,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ loggingIn: false });
       }
     } else {
+      console.warn('No token found for autologin');
       set({ loggingIn: false });
     }
   }),

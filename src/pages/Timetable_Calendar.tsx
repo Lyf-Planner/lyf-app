@@ -103,8 +103,8 @@ export const Calendar = () => {
                 items={upcomingEvents}
                 name="Upcoming Events"
                 icon={<Entypo name="calendar" color={eventsBadgeColor} size={22} />}
-                listType={ItemType.Event}
-                startOpen={Platform.OS === 'web'}
+                startOpen
+                type={ItemType.Event}
               />
             </View>
 
@@ -128,7 +128,6 @@ export const Calendar = () => {
                     <BouncyPressable
                       onPress={() => addWeek()}
                       style={styles.addWeekTouchable}
-                      useTouchableHighlight
                     >
                       <View style={styles.addWeekView}>
                         <Entypo name="chevron-down" size={20} />
@@ -146,8 +145,8 @@ export const Calendar = () => {
                 items={toDoList}
                 name="To Do List"
                 icon={<Entypo name="list" color={eventsBadgeColor} size={22} />}
-                listType={ItemType.Task}
-                startOpen={Platform.OS === 'web'}
+                startOpen
+                type={ItemType.Task}
               />
             </View>
           </View>
@@ -169,13 +168,13 @@ export const Calendar = () => {
               items={upcomingEvents}
               name="Upcoming Events"
               icon={<Entypo name="calendar" color={eventsBadgeColor} size={22} />}
-              listType={ItemType.Event}
+              type={ItemType.Event}
             />
             <ListDropdown
               items={toDoList}
               name="To Do List"
               icon={<Entypo name="list" color={eventsBadgeColor} size={22} />}
-              listType={ItemType.Task}
+              type={ItemType.Task}
             />
           </View>
 
@@ -198,7 +197,6 @@ export const Calendar = () => {
                 <BouncyPressable
                   onPress={() => addWeek()}
                   style={styles.addWeekTouchable}
-                  useTouchableHighlight
                 >
                   <View style={styles.addWeekView}>
                     <Entypo name="chevron-down" size={20} />

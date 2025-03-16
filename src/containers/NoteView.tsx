@@ -1,4 +1,3 @@
-import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -6,57 +5,52 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { InviteHandler } from '@/components/InviteHandler';
 import { Loader } from '@/components/Loader';
 import { NoteBody } from '@/containers/NoteBody';
-import { NoteHeader } from '@/containers/NoteHeader';
-import { PageBackground } from '@/containers/PageBackground';
 import { ID } from '@/schema/database/abstract';
-import { useNoteStore } from '@/store/useNoteStore';
+import { UserRelatedNote } from '@/schema/user';
 
 type Props = {
-  id: ID,
+  loading: boolean,
+  note: UserRelatedNote,
   onBack: () => void;
+  setNoteId: (note_id: ID) => void;
 }
 
 export const NoteView = ({
-  id,
-  onBack
+  loading,
+  note,
+  onBack,
+  setNoteId
 }: Props) => {
-  const { notes, loadNote } = useNoteStore();
-
-  const note = useMemo(() => notes[id], [notes]);
-  if (!note) {
-    return null;
-  }
-
-  const [initialising, setInitialising] = useState(!note.relations?.users)
-
-  useEffect(() => {
-    if (initialising) {
-      loadNote(id).then(() => setInitialising(false));
+  const conditionalStyles = {
+    scrollView: {
+      paddingVertical: note.invite_pending ? 10 : 20
     }
-  }, [])
+  }
 
   return (
     <View style={styles.main}>
-      <NoteHeader note={note} onBack={onBack}/>
-      <PageBackground noPadding>
-        <View style={styles.notePageWrapper}>
-          {initialising &&
-            <View style={styles.loadingContainer}>
-              <Loader />
-              <Text style={styles.loadingText}>
-                Organizing...
-              </Text>
-            </View>
-          }
-
-          {!initialising && (
-            <KeyboardAwareScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContainer}>
-              {note.invite_pending && <InviteHandler entity={note} type='note' />}
-              <NoteBody note={note}/>
-            </KeyboardAwareScrollView>
-          )}
+      {loading &&
+        <View style={styles.loadingContainer}>
+          <Loader />
+          <Text style={styles.loadingText}>
+            Organizing...
+          </Text>
         </View>
-      </PageBackground>
+      }
+
+      {!loading && (
+        <KeyboardAwareScrollView
+          style={[styles.scrollView, conditionalStyles.scrollView]}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          {note.invite_pending && (
+            <View style={styles.inviteHandleWrapper}>
+              <InviteHandler entity={note} type='note' />
+            </View>
+          )}
+          <NoteBody note={note} setNoteId={setNoteId} />
+        </KeyboardAwareScrollView>
+      )}
     </View>
   );
 };
@@ -76,14 +70,17 @@ const styles = StyleSheet.create({
   },
 
   main: { flex: 1 },
-  notePageWrapper: {
-    overflow: 'visible'
+  inviteHandleWrapper: {
+    width: '100%',
+    maxWidth: 500,
+    alignSelf: 'center'
   },
-  scrollContainer: { flexDirection: 'column', gap: 10 },
+  scrollContainer: {
+    flexDirection: 'column',
+    gap: 10
+  },
   scrollView: {
-    marginVertical: 6,
     paddingHorizontal: 20,
-    paddingVertical: 10,
     width: '100%'
   }
 });

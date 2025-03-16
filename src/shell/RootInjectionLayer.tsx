@@ -40,7 +40,9 @@ export const RootInjectionLayer = ({ children }: Props) => {
     if (drawer) {
       handlePresentModalPress();
     }
-    Keyboard.dismiss();
+    if (Platform.OS !== 'web') {
+      Keyboard.dismiss();
+    }
   }, [drawer]);
 
   // Check the noticeboard

@@ -3,8 +3,8 @@ import * as Native from 'react-native';
 
 import debouncer from 'signature-debouncer';
 
-import { MultiTypeNewItem } from '@/components/MultiTypeNewItem';
 import { List } from '@/containers/List';
+import { ID } from '@/schema/database/abstract';
 import { ItemDbObject } from '@/schema/database/items';
 import { NoteType } from '@/schema/database/notes'
 import { LocalItem } from '@/schema/items';
@@ -13,12 +13,13 @@ import { useNoteStore } from '@/store/useNoteStore';
 import { deepBlue, deepBlueOpacity, white } from '@/utils/colours';
 
 type Props = {
-  note: UserRelatedNote
+  note: UserRelatedNote,
+  setNoteId: (note_id: ID) => void;
 }
 
 const debounceSignature = 'NoteContent'
 
-export const NoteBody = ({ note }: Props) => {
+export const NoteBody = ({ note, setNoteId }: Props) => {
   const { updateNote } = useNoteStore();
   const [content, setContent] = useState(note.content);
 
@@ -76,19 +77,16 @@ export const NoteBody = ({ note }: Props) => {
         <List
           items={noteItems}
           itemStyleOptions={itemStyle}
-        />
-        <MultiTypeNewItem
-          commonData={{
+          newItemContext={{
             note_id: note.id,
             default_sorting_rank: noteItems.length
           }}
-          newRank={noteItems.length}
-          whiteShadow={false}
         />
       </Native.View>
     )
   }
 
+  // folders get rendered by the Notes page as a NoteCollection
   return <></>
 }
 

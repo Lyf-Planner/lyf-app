@@ -1,4 +1,4 @@
-import { Keyboard, StatusBar, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import { Keyboard, StatusBar, TouchableWithoutFeedback, StyleSheet, Platform } from 'react-native';
 
 import { useFonts } from 'expo-font';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -36,7 +36,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={styles.main}>
       {/* TODO How do I put these in the shell - doesn't seem to like it */}
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={styles.main}>
+      <TouchableWithoutFeedback onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()} style={styles.main}>
         <Shell>
           <Routes />
         </Shell>

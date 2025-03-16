@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
@@ -6,6 +6,7 @@ import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { Horizontal } from '@/components/Horizontal';
 import { InviteHandler } from '@/components/InviteHandler';
+import { ItemTypeBadge } from '@/components/ItemTypeBadge';
 import { Loader } from '@/components/Loader';
 import { AddDetails } from '@/components/item_drawer/AddDetails';
 import { ItemDate } from '@/components/item_drawer/ItemDate';
@@ -16,11 +17,11 @@ import { ItemNotification } from '@/components/item_drawer/ItemNotification';
 import { ItemStatusDropdown } from '@/components/item_drawer/ItemStatusDropdown';
 import { ItemTime } from '@/components/item_drawer/ItemTime';
 import { ItemTitle } from '@/components/item_drawer/ItemTitle';
-import { ItemTypeBadge } from '@/components/item_drawer/ItemType';
 import { ItemUsers } from '@/components/item_drawer/ItemUsers';
 import { OptionsMenu } from '@/components/item_drawer/OptionsMenu';
 import { getItem } from '@/rest/items';
 import { ID } from '@/schema/database/abstract';
+import { ItemType } from '@/schema/database/items';
 import { useRootComponentStore } from '@/store/useRootComponent';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, blackWithOpacity, deepBlue, white } from '@/utils/colours';
@@ -71,6 +72,21 @@ export const ItemDrawer = ({
     );
   }
 
+  const switchType = useCallback(() => {
+    if (item.invite_pending) {
+      return;
+    }
+
+    let type;
+    if (item.type === ItemType.Task) {
+      type = ItemType.Event;
+    } else {
+      type = ItemType.Task;
+    }
+
+    updateItem(item, { type });
+  }, [item]);
+
   // Establish props passed to children
   const props: ItemDrawerProps = {
     item,
@@ -87,7 +103,7 @@ export const ItemDrawer = ({
 
   // Pass "invited" to block any input component with a localised value
   return (
-    <TouchableWithoutFeedback onPress={() => Platform.OS === 'web' ? null : Keyboard.dismiss()}>
+    <TouchableWithoutFeedback onPress={() => Platform.OS !== 'web' && Keyboard.dismiss()}>
       <View style={styles.mainContainer}>
         {item.invite_pending && (
           <Text style={styles.subtitle}>You've been invited to...</Text>
@@ -95,9 +111,11 @@ export const ItemDrawer = ({
 
         <View style={styles.header}>
           <View style={styles.headerBackground}>
-            <View style={styles.itemType}>{/** TODO: Review whether this wrapping View is needed */}
-              <ItemTypeBadge {...props} />
-            </View>
+            <ItemTypeBadge
+              style={styles.itemType}
+              type={item.type}
+              onPress={switchType}
+            />
             <ItemTitle {...props} autoFocus={isNew} />
             {!item.invite_pending &&
               <OptionsMenu
@@ -227,7 +245,9 @@ const styles = StyleSheet.create({
   },
   itemType: {
     marginLeft: 'auto',
-    marginRight: 8
+    marginRight: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 6
   },
   loaderContainer: {
     flexDirection: 'row',

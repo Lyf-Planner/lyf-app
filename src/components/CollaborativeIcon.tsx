@@ -4,13 +4,13 @@ import { StyleSheet } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import { ItemStatus } from '@/schema/database/items';
+import { NoteDbObject } from '@/schema/database/notes';
 import { LocalItem } from '@/schema/items';
-import { UserRelatedNote } from '@/schema/user';
 import { primaryGreen } from '@/utils/colours';
 import { SocialEntityType } from '@/utils/misc';
 
 type Props = {
-  entity: LocalItem | UserRelatedNote;
+  entity: LocalItem | NoteDbObject;
   type: SocialEntityType;
 };
 

@@ -1,14 +1,16 @@
 import { View, Text, StyleSheet } from 'react-native';
 
+import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { NoteType } from '@/schema/database/notes';
-import { eventsBadgeColor } from '@/utils/colours';
+import { deepBlue, eventsBadgeColor } from '@/utils/colours';
 
-export const TYPE_TO_DISPLAY_NAME = Object.freeze({
-  Multiple: 'Multi',
-  'Note Only': <FontAwesome5 name='sticky-note' size={20} />,
-  'List Only': <FontAwesome5 name='list-ul' size={18} />
+export const TYPE_TO_DISPLAY_NAME: Record<NoteType, JSX.Element> = Object.freeze({
+  [NoteType.NoteOnly]: <MaterialCommunityIcons name='note' size={24} />,
+  [NoteType.ListOnly]: <FontAwesome5 name='list-ul' size={18} />,
+  [NoteType.Folder]: <Entypo name="folder" size={20} />
 })
 
 type Props = {
@@ -16,8 +18,16 @@ type Props = {
 }
 
 export const NoteTypeBadge = ({ type }: Props) => {
+  const isFolder = type === NoteType.Folder;
+
+  const conditionalStyles = {
+    main: {
+      borderWidth: isFolder ? 0.5 : 0
+    }
+  }
+
   return (
-    <View style={styles.main}>
+    <View style={[styles.main, conditionalStyles.main]}>
       <Text style={styles.text}>
         {TYPE_TO_DISPLAY_NAME[type]}
       </Text>
@@ -28,14 +38,17 @@ export const NoteTypeBadge = ({ type }: Props) => {
 const styles = StyleSheet.create({
   main: {
     alignItems: 'center',
-    backgroundColor: eventsBadgeColor,
+    backgroundColor: deepBlue,
+    borderColor: eventsBadgeColor,
     borderRadius: 25,
+
     flexDirection: 'row',
-    height: 35,
+    height: 40,
     justifyContent: 'center',
-    width: 35
+    width: 40
   },
   text: {
+    color: eventsBadgeColor,
     fontFamily: 'Lexend',
     fontSize: 18,
     textAlign: 'center'

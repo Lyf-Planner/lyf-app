@@ -34,7 +34,7 @@ export async function login(username: string, password: string): Promise<LoginRe
 export async function autologin() {
   const endpoint = usersEndpoint('autologin');
 
-  const result = (await get(endpoint));
+  const result = await get(endpoint);
   if (result?.status === 200) {
     return result.data;
   } else {

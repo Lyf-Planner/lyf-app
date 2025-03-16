@@ -1,6 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import { LyfMenu } from '@/containers/LyfMenu';
 import { NoteType } from '@/schema/database/notes';
@@ -19,14 +20,19 @@ export const NewNoteMenu = ({ newNote }: Props) => {
   return (
     <View>
       <LyfMenu
-        options={[{
-          text: '+ 🗒 Note',
+        options={[ {
+          icon: <MaterialIcons name='format-list-bulleted-add' size={24} />,
+          text: 'List',
+          onSelect: () => onOptionSelect(NoteType.ListOnly)
+        }, {
+          icon: <MaterialCommunityIcons name='note-plus' size={22} />,
+          text: 'Note',
           onSelect: () => onOptionSelect(NoteType.NoteOnly)
         }, {
-          text: '+ 🖊️ List',
-          onSelect: () => onOptionSelect(NoteType.ListOnly)
+          icon: <MaterialCommunityIcons name='folder-plus' size={22} />,
+          text: 'Folder',
+          onSelect: () => onOptionSelect(NoteType.Folder)
         }]}
-        textAlignment='left'
       >
         <NewNoteButton />
       </LyfMenu>
@@ -45,8 +51,8 @@ const NewNoteButton = () => {
 const styles = StyleSheet.create({
   newNoteContainer: {
     backgroundColor: deepBlue,
-    borderRadius: 5,
-    padding: 4,
+    borderRadius: 10,
+    padding: 6,
 
     shadowColor: black,
     shadowOffset: { width: 2, height: 2 },

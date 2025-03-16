@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native'
 
-import { NewItem } from './NewItem'
-
+import { NewItem } from '@/components/NewItem';
 import { ItemType } from '@/schema/database/items';
 import { LocalItem } from '@/schema/items';
 import { useTimetableStore } from '@/store/useTimetableStore';
@@ -10,17 +9,18 @@ import { useTimetableStore } from '@/store/useTimetableStore';
 type Props = {
   newRank: number,
   commonData: Partial<LocalItem>,
-  whiteShadow?: boolean
 }
 
-export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true }: Props) => {
+export const MultiTypeNewItem = ({ newRank, commonData }: Props) => {
   const { addItem } = useTimetableStore();
   const [newItemType, setNewItemType] = useState<ItemType | null>(null);
 
-  const addItemByTitleTyped = (title: string, type: ItemType) => addItem(type, newRank, {
-    title,
-    ...commonData
-  })
+  const addItemByTitleTyped = (title: string, type: ItemType) => {
+    addItem(type, newRank, {
+      title,
+      ...commonData
+    })
+  }
 
   return (
     <View style={styles.addItemSection}>
@@ -31,7 +31,7 @@ export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true }: Pr
           onBlur={() => setNewItemType(null)}
           onFocus={() => setNewItemType(ItemType.Event)}
           flex
-          whiteShadow={whiteShadow}
+          whiteShadow={false}
         />
       }
       {newItemType !== ItemType.Event &&
@@ -41,7 +41,7 @@ export const MultiTypeNewItem = ({ newRank, commonData, whiteShadow = true }: Pr
           onBlur={() => setNewItemType(null)}
           onFocus={() => setNewItemType(ItemType.Task)}
           flex
-          whiteShadow={whiteShadow}
+          whiteShadow={false}
         />
       }
     </View>

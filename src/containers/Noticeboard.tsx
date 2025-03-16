@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { View, StyleSheet, Text, TouchableHighlight, Platform, Pressable } from 'react-native';
 
 import Animated, { FadeIn } from 'react-native-reanimated';
@@ -20,6 +20,16 @@ export const Noticeboard = () => {
   const { updateModal } = useRootComponentStore();
   const [page, setPage] = useState(0);
   const carouselRef = useRef<Carousel<NoticeDbObject>>(null);
+
+  const sortedNotices = useMemo(() => {
+    return [...notices.sort((a, b) => {
+      if (a.rank && b.rank) {
+        return a.rank - b.rank;
+      }
+
+      return 0;
+    })]
+  }, [notices]);
 
   useEffect(() => {
     if (Platform.OS === 'web') {
@@ -65,7 +75,7 @@ export const Noticeboard = () => {
         <Carousel
           ref={carouselRef}
           scrollEnabled
-          data={notices}
+          data={sortedNotices}
           renderItem={({ item }) => <Notice key={item.id} notice={item} />}
           vertical={false}
           onScrollIndexChanged={(index: number) => setPage(index)}
@@ -96,7 +106,8 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    paddingLeft: 4
+    paddingLeft: 4,
+    paddingBottom: 12
   },
 
   main: {
@@ -116,7 +127,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     flexDirection: 'column',
-    gap: 16,
 
     overflow: 'hidden',
     padding: NOTICEBOARD_PADDING

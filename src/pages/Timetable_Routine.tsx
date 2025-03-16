@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { View, Text, Pressable, Alert, StyleSheet } from 'react-native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -6,12 +7,16 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { PageLoader } from '@/components/PageLoader';
 import { DayDisplay } from '@/containers/DayDisplay';
 import { PageBackground } from '@/containers/PageBackground';
-import { WeekDays } from '@/schema/util/dates';
+import { DayOfWeek, WeekDays } from '@/schema/util/dates';
 import { useTimetableStore } from '@/store/useTimetableStore';
 import { black, primaryGreen, white } from '@/utils/colours';
 
 export const Routine = () => {
   const { loading, items } = useTimetableStore();
+
+  const routineItems = useCallback(
+    (day: DayOfWeek) => Object.values(items).filter((item) => item.day && day === item.day),
+    [items]);
 
   return (
     <PageBackground sunRight locations={[0,0.82,1]} noPadding>
@@ -33,12 +38,12 @@ export const Routine = () => {
 
           {!loading &&
             <View style={styles.weekDaysWrapperView}>
-              {WeekDays.map((x) => (
+              {WeekDays.map((day) => (
                 <DayDisplay
-                  key={x}
-                  day={x}
+                  key={day}
+                  day={day}
                   date={null}
-                  items={Object.values(items).filter((y) => (y.day && x === y.day))}
+                  items={routineItems(day)}
                   shadowOffset={{ width: -3, height: 3 }}
                 />
               ))}

@@ -93,12 +93,15 @@ export const AddFriendsModal = ({ entity_id, type }: Props) => {
           showsVerticalScrollIndicator={false}
         >
           <UserList
-            users={friendsOnEntity}
+            users={friendsOnEntity.filter((x) =>
+              !filter ||
+              (x.display_name && x.display_name.includes(filter)) ||
+              (x.id.includes(filter))
+            )}
             emptyText={'No friends added yet'}
             context={type === 'item' ? UserListContext.Item : UserListContext.Note}
             item={type === 'item' ? entity as LocalItem : undefined}
             note={type === 'note' ? entity as UserRelatedNote : undefined}
-            menuContext={'in-modal'}
           />
         </ScrollView>
       )}
