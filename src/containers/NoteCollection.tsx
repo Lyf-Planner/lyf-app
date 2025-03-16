@@ -36,7 +36,9 @@ export const NoteCollection = ({ notes, loading, parent, setNoteId }: Props) => 
     }
 
     return 0;
-  }), [notes]);
+  // it might seem weird that we specifically check parent?.relations.notes
+  // we do this as only that object gets modified when a child note is deleted
+  }), [notes, parent?.relations.notes]);
 
   const onDragEnd = ({ data: notes }: DragEndParams<UserRelatedNote | ChildNote>) => {
     sortNotes(parent ? parent.id : 'root', notes.map((note) => note.id));

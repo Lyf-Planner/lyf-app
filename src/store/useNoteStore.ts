@@ -180,16 +180,13 @@ export const useNoteStore = create<NotesState>((set, get) => ({
 
     // Remove the note from it's parent
     Object.values(newNotes).forEach((note) => {
-      // Return early if the note has no parents
-      if (!note.relations?.notes?.some((childNote) => childNote.id === id)) {
-        return;
-      }
-
       if (note.relations?.notes) {
-        const index = note.relations.notes.findIndex((childOfAParent) => childOfAParent.id === id);
+        const newChildNotes = [...note.relations.notes];
+        const index = note.relations.notes.findIndex((childNote) => childNote.id === id)
 
         if (index !== -1) {
-          note.relations.notes.splice(index, 1);
+          newChildNotes.splice(index, 1);
+          note.relations.notes = newChildNotes;
         }
       }
     })
