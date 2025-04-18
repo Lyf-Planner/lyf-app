@@ -126,5 +126,5 @@ module.exports = {
     ...reactNativeRules,
     ...typescriptRules
   },
-  ignorePatterns: ['node_modules/']
+  ignorePatterns: ['node_modules/', '.eslintrc.js']
 };
