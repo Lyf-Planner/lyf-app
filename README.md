@@ -37,7 +37,8 @@ If the app uses native modules, which would not be supported by Expo Go, then th
 
 ## Contributions
 
-Tasks to contribute to Lyf App are defined in the [Lyf App Jira](https://lyf-planner.atlassian.net/jira/software/projects/LM/boards/8/backlog?versions=visible). If you wish to make a contribution, you can
+Tasks to contribute to Lyf App are defined in the [Lyf App Jira](https://lyf-planner.atlassian.net/jira/software/projects/LM/boards/8/backlog?versions=visible) that anyone can request access to.
+Once granted access, if you wish to make a contribution:
 
 - Select a task from the Kanban board
 - Set yourself as the Assignee
