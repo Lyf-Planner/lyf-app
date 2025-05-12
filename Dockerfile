@@ -17,9 +17,7 @@ COPY index.ts ./index.ts
 COPY tsconfig.json ./tsconfig.json
 COPY app.config.ts ./app.config.ts
 
-# Clone submodules - couldn't figure out `git submodule update --init --recursive` so we made a bot account.
-# Not ideal really should move
-RUN git config --global url."https://178695055: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@github.com/".insteadOf "https://github.com/"
+# Clone submodules (the ol' fashioned way)
 RUN rm -rf ./src/schema && git clone https://github.com/Lyf-Planner/lyf-schema.git ./src/schema
 
 RUN npx expo export --platform web

@@ -68,7 +68,7 @@ export default {
       localBackendPort: process.env.LOCAL_BACKEND_PORT,
       appEnv: process.env.APP_ENV,
       eas: {
-        projectId: '2c533ba0-983e-4ef8-abc4-e938b5768a79'
+        projectId: process.env.EAS_PROJECT_ID
       }
     }
   }
